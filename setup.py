@@ -21,5 +21,7 @@ setuptools.setup(
         "Operating System :: OS Independent",
         "Development Status :: 1 - Planning"
     ],
-    python_requires=">=3.6"
+    python_requires=">=3.6",
+    setup_requires=['setuptools-git-versioning'],
+    version_config=True
 )
