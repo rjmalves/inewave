@@ -1,0 +1,32 @@
+name: Upload para o Índice de pacotes PyPI e TestPyPI
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Configura o Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+    - name: Instala dependências
+      run: |
+        python -m pip install --upgrade pip
+        pip install setuptools wheel twine
+    - name: Publica o pacote no Test PyPI
+      uses: pypa/gh-action-pypi-publish@master
+      with:
+        user: __token__
+        password: ${{ secrets.TEST_PYPI_API_TOKEN }}
+        repository_url: https://test.pypi.org/legacy/
+    - name: Publica o pacote no PyPI
+      if: startsWith(github.ref, 'refs/tags')
+      uses: pypa/gh-action-pypi-publish@master
+      with:
+        user: __token__
+        password: ${{ secrets.PYPI_API_TOKEN }}
