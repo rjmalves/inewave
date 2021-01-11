@@ -53,7 +53,7 @@ class LeituraCmarg00(Leitura):
                 return cmarg
         except Exception:
             print_exc()
-            return Cmarg00(0, 0, "", "", {})
+            # return Cmarg00(0, 0, "", "", {})
 
     def _infere_informacoes_execucao(self, linha: str) -> Tuple[int,
                                                                 int,

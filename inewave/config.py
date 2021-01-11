@@ -14,4 +14,3 @@ MESES = ["JANEIRO",
          "OUTUBRO",
          "NOVEMBRO",
          "DEZEMBRO"]
-
