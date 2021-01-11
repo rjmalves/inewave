@@ -131,6 +131,7 @@ class LeituraCmarg00(Leitura):
             li = NUM_PATAMARES * c
             lf = li + NUM_PATAMARES
             cmargs_ano[li:lf, :] = self._le_cmarg00_cenario(arq)
+        return cmargs_ano
 
     def _le_cmarg00_cenario(self, arq: IO) -> np.ndarray:
         """
@@ -147,4 +148,5 @@ class LeituraCmarg00(Leitura):
             for m in range(n_meses):
                 col_f = col_i + cols
                 cmargs_cenario[p, m] = float(linha[col_i:col_f])
+                col_i = col_f + 1
         return cmargs_cenario
