@@ -50,8 +50,5 @@ class Cmarg00:
                     for m in range(1, n_meses + 1):
                         lin = NUM_PATAMARES * c + p - 1
                         col = m - 1
-                        if p == 1 and c == 0 and a == 1995:
-                            print(f" m = {m} lin = {lin} col = {col}")
-                            print(f"tabela = {tabela[lin, :]}")
                         custos[p][a][m][c] = tabela[lin, col]
         return custos

@@ -150,3 +150,6 @@ class LeituraCmarg00(Leitura):
                 cmargs_cenario[p, m] = float(linha[col_i:col_f])
                 col_i = col_f + 1
         return cmargs_cenario
+
+    def _fim_arquivo(self, linha: str) -> bool:
+        return False
