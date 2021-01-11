@@ -55,4 +55,3 @@ class Cmarg00:
                             print(f"tabela = {tabela[lin, :]}")
                         custos[p][a][m][c] = tabela[lin, col]
         return custos
-        
