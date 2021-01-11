@@ -1,5 +1,5 @@
 from typing import Dict
-import numpy as np
+import numpy as np  # type: ignore
 
 
 class Cmarg00:
@@ -20,4 +20,3 @@ class Cmarg00:
         self.versao_newave = versao_newave
         self.submercado = submercado
         self.custos_patamares = custos_patamares
-

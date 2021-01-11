@@ -1,11 +1,10 @@
 # Imports do próprio módulo
-from numpy.lib.shape_base import take_along_axis
 from inewave._utils.leitura import Leitura
 from inewave.config import NUM_ANOS_ESTUDO, NUM_CENARIOS, NUM_PATAMARES, MESES
 from ._modelos.cmarg00 import Cmarg00
 # Imports de módulos externos
 import os
-import numpy as np
+import numpy as np  # type: ignore
 from traceback import print_exc
 from typing import IO, Dict, Tuple
 
@@ -17,6 +16,7 @@ class LeituraCmarg00(Leitura):
     """
     str_inicio_cmargs_ano = "     ANO: "
     str_fim_cmargs_ano = "  MAX         "
+
     def __init__(self,
                  diretorio: str) -> None:
         super().__init__()
@@ -53,6 +53,7 @@ class LeituraCmarg00(Leitura):
                 return cmarg
         except Exception:
             print_exc()
+            return Cmarg00(0, 0, "", "", {})
 
     def _infere_informacoes_execucao(self, linha: str) -> Tuple[int,
                                                                 int,
@@ -147,4 +148,3 @@ class LeituraCmarg00(Leitura):
                 col_f = col_i + cols
                 cmargs_cenario[p, m] = float(linha[col_i:col_f])
         return cmargs_cenario
-        
