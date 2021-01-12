@@ -2,7 +2,7 @@ name: Upload de versão atualizada para o PyPI
 
 on:
   release:
-    types: [created, published]
+    types: [created]
 
 jobs:
   build-and-publish:
