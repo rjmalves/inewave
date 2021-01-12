@@ -1,6 +1,7 @@
 # Rotinas de testes associadas ao arquivo cmarg00x.out do NWLISTOP
+from inewave.newave.patamar import LeituraPatamar
 from inewave.nwlistop.cmarg import LeituraCmarg00
-from inewave.config import MESES, NUM_ANOS_ESTUDO
+from inewave.config import MESES, NUM_ANOS_ESTUDO, NUM_CENARIOS
 import numpy as np
 
 
@@ -42,3 +43,36 @@ def test_cmarg_por_patamar():
     for a in [ano + i for i in range(1, NUM_ANOS_ESTUDO)]:
         for m in range(mes, len(MESES) + 1):
             assert np.mean(por_patamar[1][a][m]) > 0.0
+
+
+def test_cmarg_medio_por_ano():
+    cmarg = leitor.cmargs[arquivo_teste]
+    le_patamar = LeituraPatamar("tests/_arquivos")
+    patamar = le_patamar.le_arquivo()
+    medios = cmarg.custos_medios_por_ano(patamar)
+    n_meses = len(MESES)
+    mes_pmo = cmarg.mes_pmo
+    # Confere se os valores médios segundo os patamares
+    # são nulos até o mês anterior ao PMO
+    anos = patamar.anos_estudo
+    assert np.all(medios[anos[0]][:, :mes_pmo-1] == 0)
+    for a in anos:
+        assert medios[a].shape == (NUM_CENARIOS, n_meses)
+
+
+def test_cmarg_medio_por_ano_e_mes():
+    cmarg = leitor.cmargs[arquivo_teste]
+    le_patamar = LeituraPatamar("tests/_arquivos")
+    patamar = le_patamar.le_arquivo()
+    medios = cmarg.custos_medios_por_ano_e_mes(patamar)
+    n_meses = len(MESES)
+    mes_pmo = cmarg.mes_pmo
+    # Confere se os valores médios segundo os patamares
+    # são nulos até o mês anterior ao PMO
+    anos = patamar.anos_estudo
+    for m in range(1, mes_pmo):
+        assert np.all(medios[anos[0]][m] == 0)
+    for a in anos:
+        for m in range(1, n_meses + 1):
+            custos: np.ndarray = medios[a][m]
+            assert custos.shape == (NUM_CENARIOS,)

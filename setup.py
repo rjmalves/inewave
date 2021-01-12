@@ -10,8 +10,7 @@ with open('requirements.txt', 'r') as fh:
 
 setup(
     name="inewave",
-    version_config=True,
-    setup_requires=['setuptools-git-versioning'],
+    version="0.0.3",
     author="Rogerio Alves",
     author_email="rogerioalves.ee@gmail.com",
     description="Interface para arquivos do NEWAVE",
@@ -23,7 +22,7 @@ setup(
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: GNU Affero General Public License v3",
         "Operating System :: OS Independent",
-        "Development Status :: 1 - Planning"
+        "Development Status :: 2 - Pre-Alpha"
     ],
     python_requires=">=3.6",
     install_requires=requirements

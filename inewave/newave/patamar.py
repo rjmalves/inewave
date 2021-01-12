@@ -18,13 +18,12 @@ class LeituraPatamar(Leitura):
                  diretorio: str) -> None:
         super().__init__()
         self.diretorio = diretorio
-        self.arquivo = "patamar.dat"
         # Patamar default, depois é substituído
         self.patamar = Patamar(0, [], np.array([]))
 
     def le_arquivo(self):
         try:
-            caminho = os.path.join(self.diretorio, self.arquivo)
+            caminho = os.path.join(self.diretorio, "patamar.dat")
             with open(caminho, "r") as arq:
                 # Pula inicialmente duas linhas
                 # de número de patamares

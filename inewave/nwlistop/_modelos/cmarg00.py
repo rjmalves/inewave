@@ -1,5 +1,6 @@
 from typing import Dict
 import numpy as np  # type: ignore
+from inewave.newave._modelos.patamar import Patamar
 from inewave.config import NUM_PATAMARES, NUM_CENARIOS, MESES
 
 
@@ -21,6 +22,78 @@ class Cmarg00:
         self.versao_newave = versao_newave
         self.submercado = submercado
         self.custos_patamares = custos_patamares
+
+    def custos_medios_por_ano(self,
+                              patamar: Patamar) -> Dict[int,
+                                                        np.ndarray]:
+        """
+        Retorna os custos médios para cada ano de estudo e mês.
+        Recebe um objeto Patamar para realizar a ponderação de
+        cada cenários pelos devidos valores. O acesso é feito com
+        [ano] e a saída é uma array 2-D do numpy com os valores
+        médios de cada cenário e mês.
+        """
+        patamares_anos = patamar.patamares_por_ano
+        # Confere se os anos de estudo do objeto Patamar fornecido
+        # são os mesmos do cmarg00
+        if patamar.anos_estudo != list(self.custos_patamares.keys()):
+            raise Exception("Objeto Patamar incompatível com Cmarg00")
+        # Inicializa a variável que irá conter os custos médios
+        n_meses = len(MESES)
+        custos: Dict[int, np.ndarray] = {a: np.zeros((NUM_CENARIOS,
+                                                      n_meses))
+                                         for a in patamar.anos_estudo}
+        # Para cada cenário, calcula o custo médio em relação aos
+        # patamares
+        for a in patamar.anos_estudo:
+            for i in range(NUM_CENARIOS):
+                li = i * NUM_PATAMARES
+                lf = li + NUM_PATAMARES
+                janela: np.ndarray = self.custos_patamares[a][li:lf, :]
+                custos[a][i, :] = np.inner(janela.T,
+                                           patamares_anos[a].T)[:, 0]
+        return custos
+
+    def custos_medios_por_ano_e_mes(self,
+                                    patamar: Patamar) -> Dict[int,
+                                                              np.ndarray]:
+        """
+        Retorna os custos médios para cada ano de estudo e mês.
+        Recebe um objeto Patamar para realizar a ponderação de
+        cada cenários pelos devidos valores. O acesso é feito com
+        [ano][mes] e a saída é uma array do numpy com os valores
+        médios de cada cenário.
+        """
+        patamares_anos = patamar.patamares_por_ano
+        # Confere se os anos de estudo do objeto Patamar fornecido
+        # são os mesmos do cmarg00
+        if patamar.anos_estudo != list(self.custos_patamares.keys()):
+            raise Exception("Objeto Patamar incompatível com Cmarg00")
+
+        n_meses = len(MESES)
+        # Variável auxiliar para cálculo mais rápido
+        custos_ano: Dict[int, np.ndarray] = {a: np.zeros((NUM_CENARIOS,
+                                                          n_meses))
+                                             for a in patamar.anos_estudo}
+        # Para cada cenário, calcula o custo médio em relação aos
+        # patamares
+        for a in patamar.anos_estudo:
+            for i in range(NUM_CENARIOS):
+                li = i * NUM_PATAMARES
+                lf = li + NUM_PATAMARES
+                janela: np.ndarray = self.custos_patamares[a][li:lf, :]
+                custos_ano[a][i, :] = np.inner(janela.T,
+                                               patamares_anos[a].T)[:, 0]
+        # Inicializa a variável que irá conter os custos médios
+        custos: Dict[int,
+                     Dict[int,
+                          np.ndarray]] = {a: {}
+                                          for a in patamar.anos_estudo}
+        # Separa os custos em cada mês e retorna
+        for a in patamar.anos_estudo:
+            for m in range(1, n_meses + 1):
+                custos[a][m] = custos_ano[a][:, m - 1]
+        return custos
 
     @property
     def custos_por_patamar(self) -> Dict[int,
