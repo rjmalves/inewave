@@ -1,0 +1,659 @@
+
+ CEPEL                         MODELO ESTRATEGICO DE GERACAO HIDROTERMICA A SUBSISTEMAS              VERSAO  27.4_L                                  
+                                                                                                         PAG.   1
+                                                                                                                                                   
+
+ -----------------------------------------------------------------------------------------------------------------------------------
+ DATA : 05-01-2021 HORA :  20:05:47 CASO : PMO MAIO - 1995  23/04/1995 14:42:20  Niveis para 25/04 NW Versao 27.4          
+ -----------------------------------------------------------------------------------------------------------------------------------
+ ***DADOS GERAIS***
+ -----------------------------------------------------------------------------------------------------------------------------------
+     DADOS GERAIS
+    --------------------------------------------------------------------
+
+     DURACAO DE CADA PERIODO DE OPERACAO                        1
+
+     NUMERO DE ANOS DO HORIZONTE DE ESTUDO                      5
+
+     MES INICIAL DO PERIODO DE PRE-ESTUDO                       1
+
+     MES INICIAL DO PERIODO DE ESTUDO                           5
+
+     ANO INICIAL DO PERIODO DE ESTUDO                        1995
+
+     NUMERO DE ANOS QUE PRECEDEM O HORIZONTE DE ESTUDO          0
+
+     NUMERO DE ANOS QUE SUCEDEM O HORIZONTE DE ESTUDO           5
+
+     NUMERO DE ANOS DO POS NA SIMULACAO FINAL                   0
+
+     IMPRIME DADOS DAS USINAS                                 SIM
+
+     IMPRIME DADOS DE MERCADO                                 SIM
+
+     IMPRIME DADOS DE ENERGIAS                                SIM
+
+     IMPRIME PARAMETROS DO MODELO DE ENERGIA                  SIM
+
+     IMPRIME PARAMETROS DO RESERVATORIO EQUIVALENTE           SIM
+
+     IMPRIME DETALHAMENTO DA OPERACAO                         SIM
+
+     IMPRIME DETALHAMENTO DO CALCULO DA POLITICA              NAO
+
+     IMPRIME RESULTADOS DA CONVERGENCIA                       SIM
+
+     NUMERO MAXIMO DE ITERACOES                                45
+
+     NUMERO DE SIMULACOES                                     200
+
+     NUMERO DE ABERTURAS                                       20
+
+     ORDEM MAXIMA DO MODELO DE ENERGIAS AFLUENTES PAR(P)        6
+
+     ANO INICIAL DO HISTORICO DE VAZOES                      1931
+
+     CALCULA VOLUME INICIAL                                   SIM
+
+ 
+     TOLERANCIA PARA CONVERGENCIA                             95.0000
+
+     TAXA DE DESCONTO ANUAL (%)                                12.0000
+
+     SIMULACAO FINAL APOS CONVERGENCIA DO ALGORITMO COM SERIES SINTETICAS
+     TOTAL DE SERIES SIMULADAS GRAVADAS                       2000
+
+
+     NUMERO MINIMO DE ITERACOES PARA CONVERGENCIA              30
+
+     ADOCAO DE RACIONAMENTO PREVENTIVO (SIM.FINAL)            SIM
+
+     NUMERO DE ANOS COM MANUTENCAO PROGRAMADA DE USINAS TERMICAS 
+     LIDA DO ARQUIVO DE MANUTENCOES                             1
+
+     ADOCAO DE TENDENCIA HIDROLOGICA (SIMULACAO FINAL)        SIM
+
+     CONSIDERA OUTROS USOS DA AGUA                            SIM
+
+     OUTROS USOS DA AGUA VARIAVEL COM A ENERGIA ARMAZENADA    SIM
+
+     CONSIDERA CURVA GUIA DE SEGURANCA/VMINP                  SIM
+
+     UTILIZA AMOSTRAGEM SELETIVA.
+     TAMANHO DA AMOSTRA PARA PROCESSO DE AGREGACAO: 100000
+
+     REPRESENTANTE NO PROCESSO DE AGREGACAO: CENTROIDE
+
+     MATRIZ DE CORRELACAO ESPACIAL CONSIDERADA: MENSAL
+
+     DESCONSIDERA CRITERIO DE CONV. ESTATISTICO               SIM 
+
+     VOLUME MINIMO COM DATA SAZONAL NOS PERIODOS ESTATICOS    NAO 
+
+     VOLUME MAXIMO COM DATA SAZONAL NOS PERIODOS ESTATICOS    NAO 
+
+     VOLUME MAXIMO PENAL. SAZONAL NOS PERIODOS ESTATICOS      NAO 
+
+     CFUGA E CMONT SAZONAIS NOS PERIODOS ESTATICOS    NAO 
+ 
+     IMPRESSOES AUXILIARES
+      - CENARIOS DE ENERGIA:          NAO
+      - CORTES ATIVOS:                NAO
+
+     MANTEM OS ARQUIVOS DE ENERGIAS APOS EXECUCAO: NAO
+
+     MOMENTO DE REAMOSTRAGEM: FORWARD DA ITERACAO CORRESPONDENTE AO PASSO DE REAMOSTRAGEM
+
+     CONSIDERA VERIFICACAO AUTOMATICA DA ORDEM DO MODELO PARP: SIM
+
+     ITERACAO DE INICIO DO TESTE DE CONVERGENCIA               30
+
+     PROF. DE MERCADO PARA CALCULO DO RISCO DE DEFICIT        1.01% ,   2.51% ,  5.01% E  10.01%
+
+     CONSIDERA AGRUPAMENTO DE INTERCAMBIOS                    SIM
+
+     CONSIDERA EQUALIZACAO DE PENALIDADES DE INTERCAMBIOS     SIM
+
+     CONSIDERA SUBMOTORIZACAO SAZONAL                         SIM - USINA
+
+     CONSIDERA ORDENACAO AUTOMATICA REEs, SUBSISTEMAS E TERMICAS    NAO
+
+     CONSIDERA CARGAS ADICIONAIS                              SIM
+
+     CRITERIO ESTATISTICO DE CONVERGENCIA
+       - DELTA DE ZSUP                                    10.000%
+
+     CRITERIO NAO ESTATISTICO DE CONVERGENCIA
+       - DELTA DE ZINF                                     0.200%
+       - NUMERO DE DELTAS DE ZINF CONSECUTIVOS                  3
+       - MINIMO ZSUP                                          NAO 
+
+     CONSIDERA ANTECIPACAO DE GERACAO TERMOELETRICA           SIM
+
+     MODIFICACAO AUTOMATICA DO MONTANTE DE 
+     ANTECIPACAO DE GERACAO TERMOELETRICA                     SIM
+
+     CONSIDERA GERACAO HIDRAULICA MINIMA                      SIM
+
+     CONSIDERA GERENCIAMENTO EXTERNO DE PROCESSOS             NAO
+
+     CONSIDERA COMUNICACAO EM DOIS NIVEIS                     NAO
+
+     CONSIDERA ARMAZENAMENTO LOCAL DE ARQUIVOS                NAO
+
+     CONSIDERA ALOCACAO DE ENERGIA EM MEMORIA                 NAO
+
+     CONSIDERA ALOCACAO DE CORTES EM MEMORIA                  NAO
+
+     CONSIDERA SUPERFICIE DE AVERSAO A RISCO (SAR)            NAO
+
+     CONSIDERA MECANISMO DE AVERSAO AO RISCO (CVAR)           SIM - CONSTANTE NO TEMPO
+
+     DESCONSIDERA VAZAO MINIMA                                NAO 
+
+     CONSIDERA RESTRICOES ELETRICAS NO REE                    SIM 
+
+     CONSIDERA PERDAS NA REDE DE TRANSMISSAO                  NAO 
+
+     CONSIDERA SELECAO DE CORTES DE BENDERS                   SIM
+
+     CONSIDERA JANELA DE CORTES DE BENDERS                    NAO
+
+     IMPRIME ESTADOS QUE GERARAM OS CORTES                    SIM 
+
+     CONSIDERA REAMOSTRAGEM DE CENARIOS                       SIM
+
+          PASSO DA REAMOSTRAGEM:    1 ITERACAO(OES)
+
+          TIPO DA REAMOSTRAGEM : SORTEIA NOVOS RUIDOS - AAS
+
+     CONSIDERA ZINF CALCULADO NO NO ZERO                      NAO
+
+     REALIZA ACESSO A FCF PARA CONVERGENCIA                   NAO
+
+     CONSIDERA AFLUENCIA ANUAL NOS MODELOS                    SIM
+
+     CONSIDERA RESTRICOES DE LIMITES DE EMISSAO DE GEE        NAO 
+
+     CONSIDERA RESTRICOES DE FORNECIMENTO DE GAS              NAO 
+
+     CONSIDERACAO DA INCERTEZA NA GERACAO EOLICA              NAO
+
+     CONSIDERACAO DA INCERTEZA NA GERACAO SOLAR               NAO
+
+     CONSIDERA DEPENDENCIA TEMPORAL DAS AFLUENCIAS NA PDDE    SIM
+
+ CEPEL                         MODELO ESTRATEGICO DE GERACAO HIDROTERMICA A SUBSISTEMAS              VERSAO  27.4_L                                  
+                                                                                                         PAG.   2
+                                                                                                                                                    
+
+ -----------------------------------------------------------------------------------------------------------------------------------
+ DATA : 05-01-2021 HORA :  20:05:47 CASO : PMO MAIO - 1995  23/04/1995 14:42:20  Niveis para 25/04 NW Versao 27.4          
+ -----------------------------------------------------------------------------------------------------------------------------------
+ ***DADOS SELECAO DE CORTES***
+ -----------------------------------------------------------------------------------------------------------------------------------
+
+     PARAMETROS UTILIZADOS NO PROCEDIMENTO:
+
+     ITERACAO INICIAL PARA SELECAO DE CORTES                           2
+
+     JANELA DE CORTES ATIVOS PARA SELECAO DE CORTES                    3
+
+     NUMERO DE CORTES PARA INCREMENTO DO PROCESSO DE SELECAO           8
+
+     CONSIDERA CORTES DA PROPRIA ITERACAO                            SIM
+
+     IMPRESSAO DE RELATORIO DA SELECAO DE CORTES                     NAO
+
+ CEPEL                         MODELO ESTRATEGICO DE GERACAO HIDROTERMICA A SUBSISTEMAS              VERSAO  27.4_L                                  
+                                                                                                         PAG.   3
+                                                                                                                                                    
+
+ -----------------------------------------------------------------------------------------------------------------------------------
+ DATA : 05-01-2021 HORA :  20:05:47 CASO : PMO MAIO - 1995  23/04/1995 14:42:20  Niveis para 25/04 NW Versao 27.4          
+ -----------------------------------------------------------------------------------------------------------------------------------
+
+         ENERGIAS AFLUENTES PASSADAS PARA A TENDENCIA HIDROLOGICA (MWmes) UTILIZADAS NO CALCULO DA POLITICA DE OPERACAO
+
+ X----------------------------------------------------------------------------------------------------------------------------------X
+ SISTEMA         1         2         3         4         5         6         7         8         9        10        11        12
+ X----------------------------------------------------------------------------------------------------------------------------------X
+ SUDESTE        7196.96   9745.33  11888.06   7816.76   3802.20   2529.96   2179.84   1706.68   1596.92   1617.27   2508.40   4237.85
+ MADEIRA        9439.59  10905.40  10851.22   9993.78   8954.82   6418.04   3410.19   1929.21   1207.51   1753.03   2652.08   5993.74
+ TPIRES         2209.46   3148.16   4402.83   3551.93   2154.20   1217.02    837.59    643.76    518.05    760.16   1086.04   1939.57
+ ITAIPU         3650.07   3126.87   4065.34   2839.06   4660.50   4902.06   3303.67   2597.50   2424.82   2157.56   2231.57   4598.82
+ PARANA        24055.73  44189.65  37301.64  22234.61  16731.05  12065.26  10167.75   8229.30   6651.81   6526.00   9458.91  19956.23
+ PRNPANEMA      1753.18   2207.97   1316.42    912.17   1706.54   3418.19   1786.54   1173.74   1289.60    863.52   1399.61   2326.72
+ SUL            1654.69   1253.54    696.36    462.46   8514.84   5981.31   4419.76   1619.76   1581.35   3687.06   7074.14   1840.49
+ IGUACU         1727.38   1478.44   1151.62    586.54   5493.20  10359.06   2603.67   1260.92   1728.95   1673.28   2190.45   2654.90
+ NORDESTE       5769.45  11740.79  14158.40  12200.00   3913.38   2611.01   1805.31   1563.27   1243.60    969.46   1138.51   4164.76
+ NORTE          4440.93   9569.34  16392.04  15568.96   7067.72   3011.93   1692.82   1095.63    833.13   1106.32   1393.88   2106.84
+ BMONTE         4271.65   6618.03  11734.71  12151.20   9047.86   4515.02   1618.81    562.85    217.77    279.15    808.07   1666.09
+ MAN-AP          534.84    524.74    566.74   1361.40   2353.51   1625.06   1096.95    790.71    457.38    335.36    327.85    544.91
+ X----------------------------------------------------------------------------------------------------------------------------------X
+
+
+ CEPEL                         MODELO ESTRATEGICO DE GERACAO HIDROTERMICA A SUBSISTEMAS              VERSAO  27.4_L                                  
+                                                                                                         PAG.   4
+                                                                                                                                                    
+
+ -----------------------------------------------------------------------------------------------------------------------------------
+ DATA : 05-01-2021 HORA :  20:05:47 CASO : PMO MAIO - 1995  23/04/1995 14:42:20  Niveis para 25/04 NW Versao 27.4          
+ -----------------------------------------------------------------------------------------------------------------------------------
+
+
+         ENERGIAS AFLUENTES PASSADAS PARA A TENDENCIA HIDROLOGICA EM REFERENCIA A PRIMEIRA CONFIGURACAO DO SISTEMA (MWmes)
+ X--------------------------------------------------------------------------------------------------------------------------------------------X
+ SISTEMA           1          2          3          4          5          6          7          8          9         10         11         12
+ X--------------------------------------------------------------------------------------------------------------------------------------------X
+ SUDESTE       7196.96    9745.33   11888.06    7816.76    3802.20    2529.96    2179.84    1706.68    1596.92    1617.27    2508.40    4237.85
+ MADEIRA       9439.59   10905.40   10851.22    9993.78    8954.82    6418.04    3410.19    1929.21    1207.51    1753.03    2652.08    5993.74
+ TPIRES        2209.46    3148.16    4402.83    3551.93    2154.20    1217.02     837.59     643.76     518.05     760.16    1086.04    1939.57
+ ITAIPU        3650.07    3126.87    4065.34    2839.06    4660.50    4902.06    3303.67    2597.50    2424.82    2157.56    2231.57    4598.82
+ PARANA       24055.73   44189.65   37301.64   22234.61   16731.05   12065.26   10167.75    8229.30    6651.81    6526.00    9458.91   19956.23
+ PRNPANEMA     1753.18    2207.97    1316.42     912.17    1706.54    3418.19    1786.54    1173.74    1289.60     863.52    1399.61    2326.72
+ SUL           1654.69    1253.54     696.36     462.46    8514.84    5981.31    4419.76    1619.76    1581.35    3687.06    7074.14    1840.49
+ IGUACU        1727.38    1478.44    1151.62     586.54    5493.20   10359.06    2603.67    1260.92    1728.95    1673.28    2190.45    2654.90
+ NORDESTE      5769.45   11740.79   14158.40   12200.00    3913.38    2611.01    1805.31    1563.27    1243.60     969.46    1138.51    4164.76
+ NORTE         4440.93    9569.34   16392.04   15568.96    7067.72    3011.93    1692.82    1095.63     833.13    1106.32    1393.88    2106.84
+ BMONTE        4271.65    6618.03   11734.71   12151.20    9047.86    4515.02    1618.81     562.85     217.77     279.15     808.07    1666.09
+ MAN-AP         534.84     524.74     566.74    1361.40    2353.51    1625.06    1096.95     790.71     457.38     335.36     327.85     544.91
+ X--------------------------------------------------------------------------------------------------------------------------------------------X
+ 
+
+
+         ENERGIAS AFLUENTES PASSADAS EM REFERENCIA A PRIMEIRA CONFIGURACAO DO SISTEMA CONSIDERANDO CANAL DE FUGA MEDIO (MWmes)
+ X--------------------------------------------------------------------------------------------------------------------------------------------X
+ SISTEMA           1          2          3          4          5          6          7          8          9         10         11         12
+ X--------------------------------------------------------------------------------------------------------------------------------------------X
+ SUDESTE       7196.96    9745.33   11888.06    7816.76    3802.20    2529.96    2179.84    1706.68    1596.92    1617.27    2508.40    4237.85
+ MADEIRA      10336.16   11930.35   11844.40   10936.84    9834.64    7059.40    3748.29    2116.34    1320.44    1915.54    2899.56    6553.13
+ TPIRES        2209.46    3148.16    4402.83    3551.93    2154.20    1217.02     837.59     643.76     518.05     760.16    1086.04    1939.57
+ ITAIPU        3650.07    3126.87    4065.34    2839.06    4660.50    4902.06    3303.67    2597.50    2424.82    2157.56    2231.57    4598.82
+ PARANA       24055.73   44189.65   37301.64   22234.61   16731.05   12065.26   10167.75    8229.30    6651.81    6526.00    9458.91   19956.23
+ PRNPANEMA     1753.18    2207.97    1316.42     912.17    1706.54    3418.19    1786.54    1173.74    1289.60     863.52    1399.61    2326.72
+ SUL           1654.69    1253.54     696.36     462.46    8514.84    5981.31    4419.76    1619.76    1581.35    3687.06    7074.14    1840.49
+ IGUACU        1727.38    1478.44    1151.62     586.54    5493.20   10359.06    2603.67    1260.92    1728.95    1673.28    2190.45    2654.90
+ NORDESTE      5769.45   11740.79   14158.40   12200.00    3913.38    2611.01    1805.31    1563.27    1243.60     969.46    1138.51    4164.76
+ NORTE         4651.35   10030.94   17198.05   16341.34    7428.31    3162.27    1774.97    1147.23     871.44    1156.95    1458.11    2206.70
+ BMONTE        4271.65    6618.03   11734.71   12151.20    9047.86    4515.02    1618.81     562.85     217.77     279.15     808.07    1666.09
+ MAN-AP         534.84     524.74     566.74    1361.40    2353.51    1625.06    1096.95     790.71     457.38     335.36     327.85     544.91
+ X--------------------------------------------------------------------------------------------------------------------------------------------X
+ 
+
+  DADOS DE DEMANDA LIQUIDA DE ENERGIA (MWmedio)
+ X-------------------------------------------------------------------------------------------------------X
+
+  SUBSISTEMA: SUDESTE   
+  ANO\MES 
+ X-------------------------------------------------------------------------------------------------------X
+  1995        0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0
+  1996        0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0
+  1997        0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0
+  1998        0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0
+  1999        0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0
+   POS        0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0
+ X-------------------------------------------------------------------------------------------------------X
+
+  SUBSISTEMA: SUL       
+  ANO\MES 
+ X-------------------------------------------------------------------------------------------------------X
+  1995        0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0
+  1996        0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0
+  1997        0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0
+  1998        0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0
+  1999        0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0
+   POS        0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0
+ X-------------------------------------------------------------------------------------------------------X
+
+  SUBSISTEMA: NORDESTE  
+  ANO\MES 
+ X-------------------------------------------------------------------------------------------------------X
+  1995        0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0
+  1996        0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0
+  1997        0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0
+  1998        0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0
+  1999        0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0
+   POS        0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0
+ X-------------------------------------------------------------------------------------------------------X
+
+  SUBSISTEMA: NORTE     
+  ANO\MES 
+ X-------------------------------------------------------------------------------------------------------X
+  1995        0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0
+  1996        0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0
+  1997        0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0
+  1998        0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0
+  1999        0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0
+   POS        0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0
+ X-------------------------------------------------------------------------------------------------------X
+ 
+
+
+
+    -------------- NENHUM ERRO FOI DETECTADO NO CALCULO DO RESERVATORIO EQUIVALENTE --------------
+
+
+
+
+
+
+    -------------- NENHUM ERRO FOI DETECTADO NA GERACAO DE CENARIOS --------------
+
+
+
+
+
+
+    -------------- NENHUM ERRO FOI DETECTADO NO CALCULO DA POLITICA --------------
+
+
+
+
+ CEPEL                         MODELO ESTRATEGICO DE GERACAO HIDROTERMICA A SUBSISTEMAS              VERSAO  27.4_L                                  
+                                                                                                         PAG.   5
+                                                                                                                                                    
+
+ -----------------------------------------------------------------------------------------------------------------------------------
+ DATA : 05-01-2021 HORA :  20:13:13 CASO : PMO MAIO - 1995  23/04/1995 14:42:20  Niveis para 25/04 NW Versao 27.4          
+ -----------------------------------------------------------------------------------------------------------------------------------
+ ***SIMULACAO FINAL***
+ -----------------------------------------------------------------------------------------------------------------------------------
+                    SIMULACAO FINAL (2000 SERIES)
+
+           CUSTO DE OPERACAO DAS SERIES SIMULADAS ($10^6)
+                            VALOR ESPERADO TOTAL:                 20867.82
+                 DESVIO PADRAO DO VALOR ESPERADO:                   351.25
+
+
+
+             VALOR ESPERADO P/ PERIODO DE ESTUDO:                 20867.82
+                 DESVIO PADRAO DO VALOR ESPERADO:                   351.25
+
+
+
+               CUSTO DE OPERACAO REFERENCIADO AO
+               PRIMEIRO MES DO PERIODO DE ESTUDO:                 20867.82
+                 DESVIO PADRAO DO VALOR ESPERADO:                   351.25
+
+
+X---------------------------------------------------------------X
+
+                        RISCO ANUAL DE DEFICIT E E(ENS) (%)
+                                   SUBSISTEMA
+
+      SUDESTE       SUL           NORDESTE      NORTE     
+ ANO  RISCO   EENS  RISCO   EENS  RISCO   EENS  RISCO   EENS  
+        %    MWMES    %    MWMES    %    MWMES    %    MWMES    
+X----X-----X-------X-----X-------X-----X-------X-----X-------X
+ 1995   0.00     0.0  0.00     0.0  0.00     0.0  0.00     0.0
+ 1996   0.00     0.0  0.00     0.0  0.00     0.0  0.00     0.0
+ 1997   0.00     0.0  0.00     0.0  0.00     0.0  0.00     0.0
+ 1998   0.00     0.0  0.00     0.0  0.00     0.0  0.00     0.0
+ 1999   0.05     0.4  0.05     0.3  0.00     0.0  0.05     0.0
+
+     MEDIA DOS RISCOS ANUAIS DE DEFICIT (%) E E(ENS) - PERIODO DE PLANEJAMENTO
+        0.01     0.1  0.01     0.1  0.00     0.0  0.01     0.0
+
+                        RISCO ANUAL DE DEFICIT POR FALTA DE MAQUINA (%)
+ 1995   0.00         0.00         0.00         0.00
+ 1996   0.00         0.00         0.00         0.00
+ 1997   0.00         0.00         0.00         0.00
+ 1998   0.00         0.00         0.00         0.00
+ 1999   0.00         0.00         0.00         0.00
+
+                        RISCO ANUAL DE DEFICIT POR FALTA DE AGUA (%)
+ 1995   0.00         0.00         0.00         0.00
+ 1996   0.00         0.00         0.00         0.00
+ 1997   0.00         0.00         0.00         0.00
+ 1998   0.00         0.00         0.00         0.00
+ 1999   0.05         0.05         0.00         0.05
+
+
+
+                    EENS POR PATAMAR DE MERCADO E DEFICIT (MWmes)
+
+
+
+ANO  1995
+            SISTEMA  SUDESTE                  SISTEMA  SUL                      SISTEMA  NORDESTE                 SISTEMA  NORTE     
+  P.MERC    PDEF1   PDEF2   PDEF3   PDEF4     PDEF1   PDEF2   PDEF3   PDEF4     PDEF1   PDEF2   PDEF3   PDEF4     PDEF1   PDEF2   PDEF3   PDEF4
+     1       0.0     0.0     0.0     0.0       0.0     0.0     0.0     0.0       0.0     0.0     0.0     0.0       0.0     0.0     0.0     0.0
+     2       0.0     0.0     0.0     0.0       0.0     0.0     0.0     0.0       0.0     0.0     0.0     0.0       0.0     0.0     0.0     0.0
+     3       0.0     0.0     0.0     0.0       0.0     0.0     0.0     0.0       0.0     0.0     0.0     0.0       0.0     0.0     0.0     0.0
+
+ANO  1996
+            SISTEMA  SUDESTE                  SISTEMA  SUL                      SISTEMA  NORDESTE                 SISTEMA  NORTE     
+  P.MERC    PDEF1   PDEF2   PDEF3   PDEF4     PDEF1   PDEF2   PDEF3   PDEF4     PDEF1   PDEF2   PDEF3   PDEF4     PDEF1   PDEF2   PDEF3   PDEF4
+     1       0.0     0.0     0.0     0.0       0.0     0.0     0.0     0.0       0.0     0.0     0.0     0.0       0.0     0.0     0.0     0.0
+     2       0.0     0.0     0.0     0.0       0.0     0.0     0.0     0.0       0.0     0.0     0.0     0.0       0.0     0.0     0.0     0.0
+     3       0.0     0.0     0.0     0.0       0.0     0.0     0.0     0.0       0.0     0.0     0.0     0.0       0.0     0.0     0.0     0.0
+
+ANO  1997
+            SISTEMA  SUDESTE                  SISTEMA  SUL                      SISTEMA  NORDESTE                 SISTEMA  NORTE     
+  P.MERC    PDEF1   PDEF2   PDEF3   PDEF4     PDEF1   PDEF2   PDEF3   PDEF4     PDEF1   PDEF2   PDEF3   PDEF4     PDEF1   PDEF2   PDEF3   PDEF4
+     1       0.0     0.0     0.0     0.0       0.0     0.0     0.0     0.0       0.0     0.0     0.0     0.0       0.0     0.0     0.0     0.0
+     2       0.0     0.0     0.0     0.0       0.0     0.0     0.0     0.0       0.0     0.0     0.0     0.0       0.0     0.0     0.0     0.0
+     3       0.0     0.0     0.0     0.0       0.0     0.0     0.0     0.0       0.0     0.0     0.0     0.0       0.0     0.0     0.0     0.0
+
+ANO  1998
+            SISTEMA  SUDESTE                  SISTEMA  SUL                      SISTEMA  NORDESTE                 SISTEMA  NORTE     
+  P.MERC    PDEF1   PDEF2   PDEF3   PDEF4     PDEF1   PDEF2   PDEF3   PDEF4     PDEF1   PDEF2   PDEF3   PDEF4     PDEF1   PDEF2   PDEF3   PDEF4
+     1       0.0     0.0     0.0     0.0       0.0     0.0     0.0     0.0       0.0     0.0     0.0     0.0       0.0     0.0     0.0     0.0
+     2       0.0     0.0     0.0     0.0       0.0     0.0     0.0     0.0       0.0     0.0     0.0     0.0       0.0     0.0     0.0     0.0
+     3       0.0     0.0     0.0     0.0       0.0     0.0     0.0     0.0       0.0     0.0     0.0     0.0       0.0     0.0     0.0     0.0
+
+ANO  1999
+            SISTEMA  SUDESTE                  SISTEMA  SUL                      SISTEMA  NORDESTE                 SISTEMA  NORTE     
+  P.MERC    PDEF1   PDEF2   PDEF3   PDEF4     PDEF1   PDEF2   PDEF3   PDEF4     PDEF1   PDEF2   PDEF3   PDEF4     PDEF1   PDEF2   PDEF3   PDEF4
+     1       0.2     0.0     0.0     0.0       0.2     0.0     0.0     0.0       0.0     0.0     0.0     0.0       0.0     0.0     0.0     0.0
+     2       0.2     0.0     0.0     0.0       0.1     0.0     0.0     0.0       0.0     0.0     0.0     0.0       0.0     0.0     0.0     0.0
+     3       0.1     0.0     0.0     0.0       0.0     0.0     0.0     0.0       0.0     0.0     0.0     0.0       0.0     0.0     0.0     0.0
+
+
+
+                    RISCO DE DEFICIT >   5.01% E  10.01% DO MERCADO (%)
+
+
+
+             SISTEMA SUDESTE   SISTEMA SUL       SISTEMA NORDESTE  SISTEMA NORTE     
+ANO 1995        0.00    0.00        0.00    0.00        0.00    0.00        0.00    0.00
+
+             SISTEMA SUDESTE   SISTEMA SUL       SISTEMA NORDESTE  SISTEMA NORTE     
+ANO 1996        0.00    0.00        0.00    0.00        0.00    0.00        0.00    0.00
+
+             SISTEMA SUDESTE   SISTEMA SUL       SISTEMA NORDESTE  SISTEMA NORTE     
+ANO 1997        0.00    0.00        0.00    0.00        0.00    0.00        0.00    0.00
+
+             SISTEMA SUDESTE   SISTEMA SUL       SISTEMA NORDESTE  SISTEMA NORTE     
+ANO 1998        0.00    0.00        0.00    0.00        0.00    0.00        0.00    0.00
+
+             SISTEMA SUDESTE   SISTEMA SUL       SISTEMA NORDESTE  SISTEMA NORTE     
+ANO 1999        0.05    0.05        0.05    0.05        0.00    0.00        0.05    0.00
+
+
+
+                    RISCO DE DEFICIT MEDIO ANUAL >   5.01% E  10.01% DO MERCADO (%)
+
+
+
+             SISTEMA SUDESTE   SISTEMA SUL       SISTEMA NORDESTE  SISTEMA NORTE     
+ANO 1995        0.00    0.00        0.00    0.00        0.00    0.00        0.00    0.00
+
+             SISTEMA SUDESTE   SISTEMA SUL       SISTEMA NORDESTE  SISTEMA NORTE     
+ANO 1996        0.00    0.00        0.00    0.00        0.00    0.00        0.00    0.00
+
+             SISTEMA SUDESTE   SISTEMA SUL       SISTEMA NORDESTE  SISTEMA NORTE     
+ANO 1997        0.00    0.00        0.00    0.00        0.00    0.00        0.00    0.00
+
+             SISTEMA SUDESTE   SISTEMA SUL       SISTEMA NORDESTE  SISTEMA NORTE     
+ANO 1998        0.00    0.00        0.00    0.00        0.00    0.00        0.00    0.00
+
+             SISTEMA SUDESTE   SISTEMA SUL       SISTEMA NORDESTE  SISTEMA NORTE     
+ANO 1999        0.00    0.00        0.00    0.00        0.00    0.00        0.00    0.00
+ 
+ 
+ 
+ 
+X--------------------------------------------------------------------------------------------------------------------------------------------------------X
+
+                    RISCO DE DEFICIT >   1.01%,   2.51%,   5.01% E  10.01% DO MERCADO (%)
+                                                              SISTEMA
+                            SUDESTE                             SUL                                 NORDESTE                            NORTE     
+                1.01%   2.51%   5.01%  10.01%       1.01%   2.51%   5.01%  10.01%       1.01%   2.51%   5.01%  10.01%       1.01%   2.51%   5.01%  10.01%
+X--------------------------------------------------------------------------------------------------------------------------------------------------------X
+ANO 1995        0.00    0.00    0.00    0.00        0.00    0.00    0.00    0.00        0.00    0.00    0.00    0.00        0.00    0.00    0.00    0.00
+ANO 1996        0.00    0.00    0.00    0.00        0.00    0.00    0.00    0.00        0.00    0.00    0.00    0.00        0.00    0.00    0.00    0.00
+ANO 1997        0.00    0.00    0.00    0.00        0.00    0.00    0.00    0.00        0.00    0.00    0.00    0.00        0.00    0.00    0.00    0.00
+ANO 1998        0.00    0.00    0.00    0.00        0.00    0.00    0.00    0.00        0.00    0.00    0.00    0.00        0.00    0.00    0.00    0.00
+ANO 1999        0.05    0.05    0.05    0.05        0.05    0.05    0.05    0.05        0.00    0.00    0.00    0.00        0.05    0.05    0.05    0.00
+ 
+ 
+ 
+ 
+X--------------------------------------------------------------------------------------------------------------------------------------------------------X
+
+                    RISCO DE DEFICIT MEDIO ANUAL >   1.01% ,   2.51%,  5.01% E , 10.01% DO MERCADO (%)
+                                                              SISTEMA
+                            SUDESTE                             SUL                                 NORDESTE                            NORTE     
+                1.01%   2.51%   5.01%  10.01%       1.01%   2.51%   5.01%  10.01%       1.01%   2.51%   5.01%  10.01%       1.01%   2.51%   5.01%  10.01%
+X--------------------------------------------------------------------------------------------------------------------------------------------------------X
+ANO 1995        0.00    0.00    0.00    0.00        0.00    0.00    0.00    0.00        0.00    0.00    0.00    0.00        0.00    0.00    0.00    0.00
+ANO 1996        0.00    0.00    0.00    0.00        0.00    0.00    0.00    0.00        0.00    0.00    0.00    0.00        0.00    0.00    0.00    0.00
+ANO 1997        0.00    0.00    0.00    0.00        0.00    0.00    0.00    0.00        0.00    0.00    0.00    0.00        0.00    0.00    0.00    0.00
+ANO 1998        0.00    0.00    0.00    0.00        0.00    0.00    0.00    0.00        0.00    0.00    0.00    0.00        0.00    0.00    0.00    0.00
+ANO 1999        0.05    0.00    0.00    0.00        0.05    0.05    0.00    0.00        0.00    0.00    0.00    0.00        0.00    0.00    0.00    0.00
+
+X------------------------------------------------------------X
+
+                       CUSTOS MARGINAIS DE OPERACAO ($/MWh)
+                                   SUBSISTEMA
+ ANO           SUDESTE                      SUL                          NORDESTE                     NORTE     
+          MEDIA     D.P. DA MEDIA      MEDIA     D.P. DA MEDIA      MEDIA     D.P. DA MEDIA      MEDIA     D.P. DA MEDIA
+X----X-------------X-------------X-------------X-------------X-------------X-------------X-------------X-------------X
+ 1995      117.53          1.31        116.33          1.32         91.19          0.93         94.86          1.00
+ 1996       53.06          1.96         52.32          1.93         51.27          1.94         48.69          1.86
+ 1997       41.36          2.21         41.18          2.18         41.14          2.20         39.58          2.13
+ 1998       51.04          2.30         51.14          2.29         50.84          2.28         50.45          2.22
+ 1999       54.44          2.55         54.74          2.55         54.36          2.55         54.17          2.54
+
+                 MEDIA E D.PADRAO DO VALOR ESPERADO DOS CUSTOS MARGINAIS DE OPERACAO - TODO O HORIZONTE
+
+            63.49          1.05         63.14          1.04         57.76          0.98         57.55          0.96
+
+                 MEDIA E D.PADRAO DO VALOR ESPERADO DOS CUSTOS MARGINAIS DE OPERACAO - PERIODO DE PLANEJAMENTO
+
+            63.49          0.98         63.14          0.98         57.76          0.94         57.55          0.92
+
+
+            X------------------------------------------------------X
+                 CUSTO DE OPERACAO DAS SERIES SIMULADAS ($10^6)
+
+                PARCELA           V.ESPERADO  D.P. DO V.E.     %
+            X------------------X-------------X-------------X-------X
+             GERACAO TERMICA        18951.33        129.21   90.82
+             DEFICIT                   22.28         22.28    0.11
+             VERTIMENTO                 0.88          0.01    0.00
+             EXCESSO ENERGIA            0.00          0.00    0.00
+             VIOLACAO CAR            1010.49         99.99    4.84
+             VIOLACAO SAR               0.00          0.00    0.00
+             VIOL. OUTROS USOS         70.61         14.86    0.34
+             VIOLACAO EVMIN           183.76         22.26    0.88
+             VIOLACAO VZMIN             0.00          0.00    0.00
+             INTERCAMBIO                1.53          0.01    0.01
+             VIOL. INTERC. MIN.         0.00          0.00    0.00
+             VERT. FIO N. TURB.         1.15          0.01    0.01
+             VIOLACAO GHMIN           625.77        138.72    3.00
+             VIOLACAO GHMINU            0.00          0.00    0.00
+             VIOLACAO RETIRADA          0.00          0.00    0.00
+             VIOLACAO EMIS. GEE         0.00          0.00    0.00
+            X------------------X-------------X-------------X-------X
+
+
+            X------------------------------------------------------X
+                 VALOR ESPERADO PARA PERIODO DE ESTUDO ($10^6)
+
+                PARCELA           V.ESPERADO  D.P. DO V.E.     %
+            X------------------X-------------X-------------X-------X
+             GERACAO TERMICA        18951.33        129.21   90.82
+             DEFICIT                   22.28         22.28    0.11
+             VERTIMENTO                 0.88          0.01    0.00
+             EXCESSO ENERGIA            0.00          0.00    0.00
+             VIOLACAO CAR            1010.49         99.99    4.84
+             VIOLACAO SAR               0.00          0.00    0.00
+             VIOL. OUTROS USOS         70.61         14.86    0.34
+             VIOLACAO EVMIN           183.76         22.26    0.88
+             VIOLACAO VZMIN             0.00          0.00    0.00
+             INTERCAMBIO                1.53          0.01    0.01
+             VIOL. INTERC. MIN.         0.00          0.00    0.00
+             VERT. FIO N. TURB.         1.15          0.01    0.01
+             VIOLACAO GHMIN           625.77        138.72    3.00
+             VIOLACAO GHMINU            0.00          0.00    0.00
+             VIOLACAO RETIRADA          0.00          0.00    0.00
+             VIOLACAO EMIS. GEE         0.00          0.00    0.00
+            X------------------X-------------X-------------X-------X
+
+
+            X------------------------------------------------------X
+                     CUSTO OPERACAO REFERENCIADO AO PRIMEIRO
+                          MES DO PERIODO ESTUDO ($10^6)
+
+                PARCELA           V.ESPERADO  D.P. DO V.E.     %
+            X------------------X-------------X-------------X-------X
+             GERACAO TERMICA        18951.33        129.21   90.82
+             DEFICIT                   22.28         22.28    0.11
+             VERTIMENTO                 0.88          0.01    0.00
+             EXCESSO ENERGIA            0.00          0.00    0.00
+             VIOLACAO CAR            1010.49         99.99    4.84
+             VIOLACAO SAR               0.00          0.00    0.00
+             VIOL. OUTROS USOS         70.61         14.86    0.34
+             VIOLACAO EVMIN           183.76         22.26    0.88
+             VIOLACAO VZMIN             0.00          0.00    0.00
+             INTERCAMBIO                1.53          0.01    0.01
+             VIOL. INTERC. MIN.         0.00          0.00    0.00
+             VERT. FIO N. TURB.         1.15          0.01    0.01
+             VIOLACAO GHMIN           625.77        138.72    3.00
+             VIOLACAO GHMINU            0.00          0.00    0.00
+             VIOLACAO RETIRADA          0.00          0.00    0.00
+             VIOLACAO EMIS. GEE         0.00          0.00    0.00
+            X------------------X-------------X-------------X-------X
+
+
+   X------------------------------------------------------------------------------------------X
+        CUSTOS CALCULADOS CONSIDERANDO A MAXIMA VIOLACAO DO VOLUME MINIMO OPERATIVO  (*)
+                                                ($10^6)
+   X------------------------------------------------------------------------------------------X
+   CUSTO DE OPERACAO DAS SERIES SIMULADAS
+       CUSTO DE OPERACAO:      26923.61
+   CUSTO MAXIMA VIOLACAO:       7066.29
+ 
+   VALOR ESPERADO PARA PERIODO DE ESTUDO
+       CUSTO DE OPERACAO:      26923.61
+   CUSTO MAXIMA VIOLACAO:       7066.29
+ 
+   VALOR ESPERADO PARA PERIODO DE ESTUDO REFERENCIADO AO PRIMEIRO MES DO PERIODO DE ESTUDO
+       CUSTO DE OPERACAO:      26923.61
+   CUSTO MAXIMA VIOLACAO:       7066.29
+
+
+   X------------------------------------------------------------------------------------------X
+        CUSTOS CONSIDERANDO A VIOLACAO DO VOLUME MINIMO OPERATIVO EM TODOS OS ESTAGIOS (*)
+                                                ($10^6)
+   X------------------------------------------------------------------------------------------X
+   CUSTO DE OPERACAO DAS SERIES SIMULADAS
+       CUSTO DE OPERACAO:      33612.49
+ 
+   VALOR ESPERADO PARA PERIODO DE ESTUDO
+       CUSTO DE OPERACAO:      33612.49
+ 
+   VALOR ESPERADO PARA PERIODO DE ESTUDO REFERENCIADO AO PRIMEIRO MES DO PERIODO DE ESTUDO
+       CUSTO DE OPERACAO:      33612.49
+   X------------------------------------------------------------------------------------------X
+   (*) VALORES CALCULADOS A POSTERIORI
+
+
+
+    -------------- NENHUM ERRO FOI DETECTADO NO CALCULO DA SIMULACAO FINAL --------------
+
+
+
