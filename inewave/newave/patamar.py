@@ -1,7 +1,7 @@
 # Imports do próprio módulo
 from inewave._utils.leitura import Leitura
 from inewave.config import NUM_ANOS_ESTUDO, NUM_PATAMARES, MESES
-from ._modelos.patamar import Patamar
+from .modelos.patamar import Patamar
 # Imports de módulos externos
 import os
 import numpy as np  # type: ignore

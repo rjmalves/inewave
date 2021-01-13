@@ -1,4 +1,4 @@
-# Rotinas de testes associadas ao arquivo cmarg00x.out do NWLISTOP
+# Rotinas de testes associadas ao arquivo patamar.dat do NEWAVE
 from inewave.newave.patamar import LeituraPatamar
 from inewave.config import MESES
 import numpy as np  # type: ignore

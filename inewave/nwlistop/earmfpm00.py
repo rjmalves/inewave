@@ -1,8 +1,8 @@
 # Imports do próprio módulo
 from inewave._utils.leitura import Leitura
 from inewave.config import NUM_ANOS_ESTUDO, NUM_CENARIOS
-from inewave.config import NUM_PATAMARES, MESES, SUBMERCADOS
-from ._modelos.cmarg00 import Cmarg00
+from inewave.config import MESES, SUBMERCADOS
+from .modelos.earmfpm00 import Earmfpm00
 # Imports de módulos externos
 import os
 import numpy as np  # type: ignore
@@ -10,36 +10,36 @@ from traceback import print_exc
 from typing import IO, Dict, Tuple
 
 
-class LeituraCmarg00(Leitura):
+class LeituraEarmfpm00(Leitura):
     """
-    Classe para realizar a leitura dos arquivos cmarg00x.out
+    Classe para realizar a leitura dos arquivos earmfpm00x.out
     existentes em um diretório de saídas do NEWAVE.
     """
-    str_inicio_cmargs_ano = "     ANO: "
-    str_fim_cmargs_ano = "  MAX         "
+    str_inicio_earmfpms_ano = "     ANO: "
+    str_fim_earmfpms_ano = "  MAX         "
 
     def __init__(self,
                  diretorio: str) -> None:
         super().__init__()
         self.diretorio = diretorio
-        self.arquivos = self._lista_arquivos_por_chave("cmarg00")
-        self.cmargs: Dict[str, Cmarg00] = {}
+        self.arquivos = self._lista_arquivos_por_chave("earmfpm00")
+        self.earmfpms: Dict[str, Earmfpm00] = {}
 
-    def le_arquivos(self) -> Dict[str, Cmarg00]:
+    def le_arquivos(self) -> Dict[str, Earmfpm00]:
         """
-        Lê os arquivos cmarg00x.out em um diretório.
+        Lê os arquivos earmfpm00x.out em um diretório.
         """
         caminhos = [os.path.join(self.diretorio, f)
                     for f in self.arquivos]
         for a, c in zip(self.arquivos, caminhos):
-            cmarg = self._le_arquivo(c)
-            self.cmargs[cmarg.submercado] = cmarg
+            earmfpm = self._le_arquivo(c)
+            self.earmfpms[earmfpm.submercado] = earmfpm
 
-        return self.cmargs
+        return self.earmfpms
 
-    def _le_arquivo(self, caminho: str) -> Cmarg00:
+    def _le_arquivo(self, caminho: str) -> Earmfpm00:
         """
-        Lê um arquivo cmarg00x.out.
+        Lê um arquivo earmfpm00x.out.
         """
         try:
             with open(caminho, "r") as arq:
@@ -52,12 +52,12 @@ class LeituraCmarg00(Leitura):
                 linha = self._le_linha_com_backup(arq)
                 sub = self._infere_submercado(linha)
                 # Lê a tabela de valores
-                tabelas = self._le_cmarg00(arq)
-                cmarg = Cmarg00(mes, ano, ver, sub, tabelas)
-                return cmarg
+                tabelas = self._le_earmfpm00(arq)
+                earmfpm = Earmfpm00(mes, ano, ver, sub, tabelas)
+                return earmfpm
         except Exception:
             print_exc()
-            return Cmarg00(0, 0, "", "", {})
+            return Earmfpm00(0, 0, "", "", {})
 
     def _infere_informacoes_execucao(self, linha: str) -> Tuple[int,
                                                                 int,
@@ -99,9 +99,9 @@ class LeituraCmarg00(Leitura):
         # Se não encontrou o submercado, lança exceção
         raise Exception("Submercado não encontrado")
 
-    def _le_cmarg00(self, arq: IO) -> Dict[int, np.ndarray]:
+    def _le_earmfpm00(self, arq: IO) -> Dict[int, np.ndarray]:
         """
-        Realiza a leitura das tabelas de valores de um arquivo CMarg00.
+        Realiza a leitura das tabelas de valores de um arquivo Earmfpm00.
         """
         iniciou = False
         linha = ""
@@ -113,7 +113,7 @@ class LeituraCmarg00(Leitura):
             # Procura pelo início da tabela de CMarg do ano
             linha = self._le_linha_com_backup(arq)
             if not iniciou:
-                iniciou = LeituraCmarg00.str_inicio_cmargs_ano in linha
+                iniciou = LeituraEarmfpm00.str_inicio_earmfpms_ano in linha
                 if iniciou:
                     self._configura_backup()
                 continue
@@ -121,40 +121,36 @@ class LeituraCmarg00(Leitura):
             ano = int(linha[10:14])
             # Salta uma linha e lê os valores da tabela
             self._le_linha_com_backup(arq)
-            tabelas_anos[ano] = self._le_cmarg00_ano(arq)
+            tabelas_anos[ano] = self._le_earmfpm00_ano(arq)
             # Reseta a flag de início de tabela
             iniciou = False
         return tabelas_anos
 
-    def _le_cmarg00_ano(self, arq: IO) -> np.ndarray:
+    def _le_earmfpm00_ano(self, arq: IO) -> np.ndarray:
         """
-        Lê os dados da tabela de um ano do arquivo cmarg00x.out.
+        Lê os dados da tabela de um ano do arquivo earmfpm00x.out.
         """
         n_meses = len(MESES)
-        cmargs_ano = np.zeros((NUM_PATAMARES * NUM_CENARIOS, n_meses))
+        earmfpms_ano = np.zeros((NUM_CENARIOS, n_meses))
         for c in range(NUM_CENARIOS):
-            li = NUM_PATAMARES * c
-            lf = li + NUM_PATAMARES
-            cmargs_ano[li:lf, :] = self._le_cmarg00_cenario(arq)
-        return cmargs_ano
+            earmfpms_ano[c, :] = self._le_earmfpm00_cenario(arq)
+        return earmfpms_ano
 
-    def _le_cmarg00_cenario(self, arq: IO) -> np.ndarray:
+    def _le_earmfpm00_cenario(self, arq: IO) -> np.ndarray:
         """
-        Lê os dados de um cenário de uma tabela do arquivo cmarg00x.out.
-        Retorna um array P x M, onde P é o número de patamares e M é o
-        número de meses. O acesso é feito com [p, m].
+        Lê os dados de um cenário de uma tabela do arquivo earmfpm00x.out.
+        Retorna um array M x 1, onde M é o número de meses.
         """
         n_meses = len(MESES)
-        cmargs_cenario = np.zeros((NUM_PATAMARES, n_meses))
+        earmfpms_cenario = np.zeros((n_meses,))
         cols = 8
-        for p in range(NUM_PATAMARES):
-            linha = self._le_linha_com_backup(arq)
-            col_i = 15
-            for m in range(n_meses):
-                col_f = col_i + cols
-                cmargs_cenario[p, m] = float(linha[col_i:col_f])
-                col_i = col_f + 1
-        return cmargs_cenario
+        linha = self._le_linha_com_backup(arq)
+        col_i = 7
+        for m in range(n_meses):
+            col_f = col_i + cols
+            earmfpms_cenario[m] = float(linha[col_i:col_f])
+            col_i = col_f + 2
+        return earmfpms_cenario
 
     def _fim_arquivo(self, linha: str) -> bool:
         return False

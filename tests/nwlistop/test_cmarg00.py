@@ -1,6 +1,6 @@
 # Rotinas de testes associadas ao arquivo cmarg00x.out do NWLISTOP
 from inewave.newave.patamar import LeituraPatamar
-from inewave.nwlistop.cmarg import LeituraCmarg00
+from inewave.nwlistop.cmarg00 import LeituraCmarg00
 from inewave.config import MESES, NUM_ANOS_ESTUDO, NUM_CENARIOS
 import numpy as np
 
