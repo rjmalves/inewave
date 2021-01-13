@@ -1,6 +1,7 @@
 # Imports do próprio módulo
 from inewave._utils.leitura import Leitura
-from inewave.config import NUM_ANOS_ESTUDO, NUM_CENARIOS, NUM_PATAMARES, MESES
+from inewave.config import NUM_ANOS_ESTUDO, NUM_CENARIOS
+from inewave.config import NUM_PATAMARES, MESES, SUBMERCADOS
 from ._modelos.cmarg00 import Cmarg00
 # Imports de módulos externos
 import os
@@ -24,14 +25,17 @@ class LeituraCmarg00(Leitura):
         self.arquivos = self._lista_arquivos_por_chave("cmarg00")
         self.cmargs: Dict[str, Cmarg00] = {}
 
-    def le_arquivos(self):
+    def le_arquivos(self) -> Dict[str, Cmarg00]:
         """
         Lê os arquivos cmarg00x.out em um diretório.
         """
         caminhos = [os.path.join(self.diretorio, f)
                     for f in self.arquivos]
         for a, c in zip(self.arquivos, caminhos):
-            self.cmargs[a] = self._le_arquivo(c)
+            cmarg = self._le_arquivo(c)
+            self.cmargs[cmarg.submercado] = cmarg
+
+        return self.cmargs
 
     def _le_arquivo(self, caminho: str) -> Cmarg00:
         """
@@ -83,16 +87,17 @@ class LeituraCmarg00(Leitura):
     def _infere_submercado(self, linha: str) -> str:
         """
         """
-        if "SUDESTE" in linha:
-            return "SE"
-        elif "SUL" in linha:
-            return "S"
-        elif "NORDESTE" in linha:
-            return "NE"
-        elif "NORTE" in linha:
-            return "N"
-        else:
-            raise Exception("Submercado não encontrado")
+        encontrou = False
+        submercado = ""
+        for sub in SUBMERCADOS:
+            if sub in linha:
+                encontrou = True
+                submercado = sub
+                break
+        if encontrou:
+            return submercado
+        # Se não encontrou o submercado, lança exceção
+        raise Exception("Submercado não encontrado")
 
     def _le_cmarg00(self, arq: IO) -> Dict[int, np.ndarray]:
         """

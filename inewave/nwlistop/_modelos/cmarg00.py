@@ -55,8 +55,9 @@ class Cmarg00:
         return custos
 
     def custos_medios_por_ano_e_mes(self,
-                                    patamar: Patamar) -> Dict[int,
-                                                              np.ndarray]:
+                                    p: Patamar) -> Dict[int,
+                                                        Dict[int,
+                                                             np.ndarray]]:
         """
         Retorna os custos médios para cada ano de estudo e mês.
         Recebe um objeto Patamar para realizar a ponderação de
@@ -64,33 +65,15 @@ class Cmarg00:
         [ano][mes] e a saída é uma array do numpy com os valores
         médios de cada cenário.
         """
-        patamares_anos = patamar.patamares_por_ano
-        # Confere se os anos de estudo do objeto Patamar fornecido
-        # são os mesmos do cmarg00
-        if patamar.anos_estudo != list(self.custos_patamares.keys()):
-            raise Exception("Objeto Patamar incompatível com Cmarg00")
-
+        custos_ano = self.custos_medios_por_ano(p)
         n_meses = len(MESES)
-        # Variável auxiliar para cálculo mais rápido
-        custos_ano: Dict[int, np.ndarray] = {a: np.zeros((NUM_CENARIOS,
-                                                          n_meses))
-                                             for a in patamar.anos_estudo}
-        # Para cada cenário, calcula o custo médio em relação aos
-        # patamares
-        for a in patamar.anos_estudo:
-            for i in range(NUM_CENARIOS):
-                li = i * NUM_PATAMARES
-                lf = li + NUM_PATAMARES
-                janela: np.ndarray = self.custos_patamares[a][li:lf, :]
-                custos_ano[a][i, :] = np.inner(janela.T,
-                                               patamares_anos[a].T)[:, 0]
-        # Inicializa a variável que irá conter os custos médios
+        # Inicializa a variável que irá conter os custos médios por mês
         custos: Dict[int,
                      Dict[int,
                           np.ndarray]] = {a: {}
-                                          for a in patamar.anos_estudo}
+                                          for a in p.anos_estudo}
         # Separa os custos em cada mês e retorna
-        for a in patamar.anos_estudo:
+        for a in p.anos_estudo:
             for m in range(1, n_meses + 1):
                 custos[a][m] = custos_ano[a][:, m - 1]
         return custos
@@ -103,6 +86,65 @@ class Cmarg00:
         Retorna os custos obtidos para cada ano, mês e em cada cenário,
         organizados primeiramente por patamar. O acesso é feito
         com [patamar][ano][mes] e retorna um np.ndarray.
+        """
+        custos: Dict[int,
+                     Dict[int,
+                          Dict[int, np.ndarray]]] = {}
+        patamares = list(range(1, NUM_PATAMARES + 1))
+        anos_estudo = list(self.custos_patamares.keys())
+        n_meses = len(MESES)
+        # Cria e inicializa os objetos a serem retornados
+        for p in patamares:
+            if p not in custos:
+                custos[p] = {a: {m: np.zeros(NUM_CENARIOS,)
+                                 for m in range(1, n_meses + 1)}
+                             for a in anos_estudo}
+        # Preenche com os valores
+        for a, tabela in self.custos_patamares.items():
+            for p in patamares:
+                for c in range(NUM_CENARIOS):
+                    for m in range(1, n_meses + 1):
+                        lin = NUM_PATAMARES * c + p - 1
+                        col = m - 1
+                        custos[p][a][m][c] = tabela[lin, col]
+        return custos
+
+    @property
+    def custos_por_ano(self) -> Dict[int,
+                                     Dict[int, np.ndarray]]:
+        """
+        Retorna os custos obtidos para cada ano e em cada cenário, para
+        todos os meses, organizados primeiramente por ano. O acesso é feito
+        com [patamar][ano] e retorna um np.ndarray com os valores de
+        custos para todos os cenários e meses, naquele patamar e ano.
+        """
+        custos: Dict[int,
+                     Dict[int, np.ndarray]] = {}
+        patamares = list(range(1, NUM_PATAMARES + 1))
+        anos_estudo = list(self.custos_patamares.keys())
+        n_meses = len(MESES)
+        # Cria e inicializa os objetos a serem retornados
+        for p in patamares:
+            if p not in custos:
+                custos[p] = {a:  np.zeros((NUM_CENARIOS, n_meses))
+                             for a in anos_estudo}
+        # Preenche com os valores
+        for a, tabela in self.custos_patamares.items():
+            for p in patamares:
+                for c in range(NUM_CENARIOS):
+                    lin = NUM_PATAMARES * c + p - 1
+                    custos[p][a][c, :] = tabela[lin, :]
+        return custos
+
+    @property
+    def custos_por_ano_e_mes(self) -> Dict[int,
+                                           Dict[int,
+                                                Dict[int, np.ndarray]]]:
+        """
+        Retorna os custos obtidos para cada ano, mês e em cada cenário,
+        organizados primeiramente por ano e mês. O acesso é feito com
+        [patamar][ano][mes] e retorna um np.ndarray com os valores de
+        custos para todos os cenários, naquele patamar.
         """
         custos: Dict[int,
                      Dict[int,

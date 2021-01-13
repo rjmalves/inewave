@@ -5,31 +5,31 @@ from inewave.config import MESES, NUM_ANOS_ESTUDO, NUM_CENARIOS
 import numpy as np
 
 
-arquivo_teste = "cmarg00test.out"
+sub_teste = "SUDESTE"
 leitor = LeituraCmarg00("tests/_arquivos")
 leitor.le_arquivos()
 
 
 def test_leitura():
-    assert arquivo_teste in leitor.cmargs
+    assert sub_teste in leitor.cmargs
 
 
 def test_extrai_dados_execucao():
-    cmarg = leitor.cmargs[arquivo_teste]
+    cmarg = leitor.cmargs[sub_teste]
     assert cmarg.mes_pmo == 5
     assert cmarg.ano_pmo == 1995
-    assert cmarg.submercado == "SE"
+    assert cmarg.submercado == sub_teste
 
 
 def test_anos_estudo():
-    cmarg = leitor.cmargs[arquivo_teste]
+    cmarg = leitor.cmargs[sub_teste]
     anos_estudo_teste = [1995, 1996, 1997, 1998, 1999]
     anos_lidos = list(cmarg.custos_patamares.keys())
     assert anos_estudo_teste == anos_lidos
 
 
 def test_cmarg_por_patamar():
-    cmarg = leitor.cmargs[arquivo_teste]
+    cmarg = leitor.cmargs[sub_teste]
     por_patamar = cmarg.custos_por_patamar
     assert [1, 2, 3] == list(por_patamar.keys())
     mes = cmarg.mes_pmo
@@ -45,8 +45,39 @@ def test_cmarg_por_patamar():
             assert np.mean(por_patamar[1][a][m]) > 0.0
 
 
+def test_cmarg_por_ano():
+    cmarg = leitor.cmargs[sub_teste]
+    por_ano = cmarg.custos_por_ano
+    assert [1, 2, 3] == list(por_ano.keys())
+    mes = cmarg.mes_pmo
+    ano = cmarg.ano_pmo
+    # Confere se os valores médios de custos nos meses anteriores
+    # ao estudo são nulos, e todos os posteriores são > 0
+    assert np.mean(por_ano[1][ano][:, :mes-1]) == 0.0
+    assert np.mean(por_ano[1][ano][:, mes-1:]) > 0.0
+    for a in [ano + i for i in range(1, NUM_ANOS_ESTUDO)]:
+        assert np.mean(por_ano[1][a]) > 0.0
+
+
+def test_cmarg_por_ano_e_mes():
+    cmarg = leitor.cmargs[sub_teste]
+    por_ano_e_mes = cmarg.custos_por_ano_e_mes
+    assert [1, 2, 3] == list(por_ano_e_mes.keys())
+    mes = cmarg.mes_pmo
+    ano = cmarg.ano_pmo
+    # Confere se os valores médios de custos nos meses anteriores
+    # ao estudo são nulos, e todos os posteriores são > 0
+    for m in range(1, mes):
+        assert np.mean(por_ano_e_mes[1][ano][m]) == 0.0
+    for m in range(mes, len(MESES) + 1):
+        assert np.mean(por_ano_e_mes[1][ano][m]) > 0.0
+    for a in [ano + i for i in range(1, NUM_ANOS_ESTUDO)]:
+        for m in range(mes, len(MESES) + 1):
+            assert np.mean(por_ano_e_mes[1][a][m]) > 0.0
+
+
 def test_cmarg_medio_por_ano():
-    cmarg = leitor.cmargs[arquivo_teste]
+    cmarg = leitor.cmargs[sub_teste]
     le_patamar = LeituraPatamar("tests/_arquivos")
     patamar = le_patamar.le_arquivo()
     medios = cmarg.custos_medios_por_ano(patamar)
@@ -61,7 +92,7 @@ def test_cmarg_medio_por_ano():
 
 
 def test_cmarg_medio_por_ano_e_mes():
-    cmarg = leitor.cmargs[arquivo_teste]
+    cmarg = leitor.cmargs[sub_teste]
     le_patamar = LeituraPatamar("tests/_arquivos")
     patamar = le_patamar.le_arquivo()
     medios = cmarg.custos_medios_por_ano_e_mes(patamar)
