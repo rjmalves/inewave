@@ -41,9 +41,8 @@ class LeituraPatamar(Leitura):
                 self._le_linha_com_backup(arq)
                 # Lê a tabela de valores
                 anos, tabela = self._le_patamares(arq)
-                pat = Patamar(NUM_PATAMARES, anos, tabela)
-                self.patamar = pat
-                return pat
+                self.patamar = Patamar(NUM_PATAMARES, anos, tabela)
+                return self.patamar
         except Exception:
             print_exc()
             return Patamar(0, [], np.array([]))
