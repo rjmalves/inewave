@@ -1,4 +1,3 @@
-from typing import Dict
 import numpy as np  # type: ignore
 
 
@@ -294,7 +293,7 @@ class MediasSIN:
     @property
     def custo_deficit(self) -> np.ndarray:
         """
-        Retorna os custos de déficit (MMR$). A série histórica retornada 
+        Retorna os custos de déficit (MMR$). A série histórica retornada
         é dividida mensalmente, para todo o período de estudo.
         """
         return self.extrai_variavel_tabela(46)
