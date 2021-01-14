@@ -10,7 +10,7 @@ with open('requirements.txt', 'r') as fh:
 
 setup(
     name="inewave",
-    version="0.0.7",
+    version="0.0.8",
     author="Rogerio Alves",
     author_email="rogerioalves.ee@gmail.com",
     description="Interface para arquivos do NEWAVE",
