@@ -1,14 +1,9 @@
 Referência
 ===========
 
+.. toctree::
+   :maxdepth: 2
 
-NEWAVE
--------
-
-
-NWLISTCF
----------
-
-
-NWLISTOP
----------
+   reference/newave
+   reference/nwlistcf
+   reference/nwlistop
