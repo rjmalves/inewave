@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 requirements = []
-with open('deploy-requirements.txt', 'r') as fh:
+with open('requirements.txt', 'r') as fh:
     requirements = fh.readlines()
 
 setup(
