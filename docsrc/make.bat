@@ -25,6 +25,12 @@ if errorlevel 9009 (
 	exit /b 1
 )
 
+if "%1" == "github" (
+	%SPHINXBUILD% -M html %SOURCEDIR% %BUILDDIR% %SPHINXOPTS% %O%
+	XCOPY "build\html\*" "..\docs" /E 
+	goto end
+)
+
 %SPHINXBUILD% -M %1 %SOURCEDIR% %BUILDDIR% %SPHINXOPTS% %O%
 goto end
 
