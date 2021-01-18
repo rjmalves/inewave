@@ -52,4 +52,10 @@ Para a leitura dos arquivos `cmarg00x.out`::
     'NORDESTE': <inewave.nwlistop.modelos.cmarg00.Cmarg00 object at 0x000001BC76692910>,
     'NORTE': <inewave.nwlistop.modelos.cmarg00.Cmarg00 object at 0x000001BC76692970>}
 
-    
+Arquivos
+---------
+
+.. toctree::
+   :maxdepth: 2
+
+   arquivos/dger

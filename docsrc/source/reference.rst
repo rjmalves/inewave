@@ -4,6 +4,6 @@ Referência
 .. toctree::
    :maxdepth: 2
 
-   reference/newave
-   reference/nwlistcf
-   reference/nwlistop
+   reference/newave/index
+   reference/nwlistcf/index
+   reference/nwlistop/index

@@ -1,0 +1,1 @@
+.. autoclass:: inewave.newave.modelos.dger.DGER
