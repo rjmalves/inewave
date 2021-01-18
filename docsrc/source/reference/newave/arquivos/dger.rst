@@ -1,8 +1,10 @@
 Dados gerais (dger.dat)
 ========================
 
-Visão geral
-------------
+.. currentmodule:: inewave
+
+Visão geral do modelo
+----------------------
 
 Os dados gerais de execução do NEWAVE, localizados no arquivo geralmente denominado
 dger.dat, são armazenados na classe:
@@ -13,7 +15,7 @@ dger.dat, são armazenados na classe:
 Enumeradores auxiliares
 ------------------------
 
-Para armazenar completamente o conteúdo especificado no arquivo ``dget.dat``
+Para armazenar completamente o conteúdo especificado no arquivo ``dger.dat``
 são definidos enumeradores auxiliares:
 
 .. autoclass:: inewave.newave.modelos.dger.EnumTipoExecucao
@@ -47,3 +49,11 @@ são definidos enumeradores auxiliares:
 .. autoclass:: inewave.newave.modelos.dger.EnumMomentoReamostragem
 
 .. autoclass:: inewave.newave.modelos.dger.EnumInicioTesteConvergencia
+
+
+Leitura
+--------
+
+
+Escrita
+--------

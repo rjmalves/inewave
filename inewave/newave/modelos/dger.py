@@ -260,7 +260,7 @@ class DGer:
 
     **Exemplos**
 
-    >>> dger = Dger.dger_padrao()
+    >>> dger = DGer.dger_padrao()
     >>> dger.ano_inicio_estudo
     2021
 
