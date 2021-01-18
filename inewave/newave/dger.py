@@ -3,9 +3,7 @@ from inewave._utils.leitura import Leitura
 from .modelos.dger import DGer, EnumTipoExecucao
 # Imports de módulos externos
 import os
-import numpy as np  # type: ignore
 from traceback import print_exc
-from typing import IO, List, Tuple
 
 
 class LeituraDGer(Leitura):
@@ -30,8 +28,10 @@ class LeituraDGer(Leitura):
                 # Lê os demais parâmetros
                 ci = 21
                 cf = 25
+
                 def le_parametro():
                     return self._le_linha_com_backup(arq)[ci:cf].strip()
+
                 # Tipo de execução
                 p = le_parametro()
                 tipo_exec = (EnumTipoExecucao.COMPLETA if p == "1"

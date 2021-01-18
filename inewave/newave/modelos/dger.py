@@ -7,8 +7,8 @@ class EnumTipoExecucao(Enum):
     - COMPLETA:
     - SIMULACAO_FINAL
     """
-    COMPLETA=0
-    SIMULACAO_FINAL=1
+    COMPLETA = 0
+    SIMULACAO_FINAL = 1
 
 
 class EnumTipoSimulacaoFinal(Enum):
@@ -18,10 +18,10 @@ class EnumTipoSimulacaoFinal(Enum):
     - SERIE_HISTORICA
     - CONSISTENCIA_DADOS
     """
-    NAO_SIMULA=0
-    SERIES_SINTETICAS=1
-    SERIE_HISTORICA=2
-    CONSISTENCIA_DADOS=3
+    NAO_SIMULA = 0
+    SERIES_SINTETICAS = 1
+    SERIE_HISTORICA = 2
+    CONSISTENCIA_DADOS = 3
 
 
 class EnumImpressaoOperacao(Enum):
@@ -29,8 +29,8 @@ class EnumImpressaoOperacao(Enum):
     - SINOPSE
     - OPERACAO_DETALHADA
     """
-    SINOPSE=0
-    OPERACAO_DETALHADA=1
+    SINOPSE = 0
+    OPERACAO_DETALHADA = 1
 
 
 class EnumImpressaoConvergencia(Enum):
@@ -38,8 +38,8 @@ class EnumImpressaoConvergencia(Enum):
     - CONVERGENCIA_FINAL
     - CONVERGENCIA_TOTAL
     """
-    CONVERGENCIA_FINAL=0
-    CONVERGENCIA_TOTAL=1
+    CONVERGENCIA_FINAL = 0
+    CONVERGENCIA_TOTAL = 1
 
 
 class EnumTamanhoArquivoVazoes(Enum):
@@ -47,8 +47,8 @@ class EnumTamanhoArquivoVazoes(Enum):
     - PALAVRAS_320
     - PALAVRAS_600
     """
-    PALAVRAS_320=0
-    PALAVRAS_600=1
+    PALAVRAS_320 = 0
+    PALAVRAS_600 = 1
 
 
 class EnumTendenciaHidrologica(Enum):
@@ -57,9 +57,9 @@ class EnumTendenciaHidrologica(Enum):
     - LER_POR_REE
     - LER_POR_POSTO
     """
-    NAO_LER=0
-    LER_POR_REE=1
-    LER_POR_POSTO=2
+    NAO_LER = 0
+    LER_POR_REE = 1
+    LER_POR_POSTO = 2
 
 
 class EnumDuracaoPatamar(Enum):
@@ -67,8 +67,8 @@ class EnumDuracaoPatamar(Enum):
     - SAZONAL
     - VARIAVEL_POR_ANO
     """
-    SAZONAL=0
-    VARIAVEL_POR_ANO=1
+    SAZONAL = 0
+    VARIAVEL_POR_ANO = 1
 
 
 class EnumCorrecaoEnergiaDesvio(Enum):
@@ -76,8 +76,8 @@ class EnumCorrecaoEnergiaDesvio(Enum):
     - CONSTANTE
     - VARIAVEL_COM_ARMAZENAMENTO
     """
-    CONSTANTE=0
-    VARIAVEL_COM_ARMAZENAMENTO=1
+    CONSTANTE = 0
+    VARIAVEL_COM_ARMAZENAMENTO = 1
 
 
 class EnumTipoGeracaoENAs(Enum):
@@ -86,9 +86,9 @@ class EnumTipoGeracaoENAs(Enum):
     - COMPENSACAO_CORR_CRUZADA_BW
     - COMPENSACAO_CORR_CRUZADA_FW_BW
     """
-    RESIDUOS_IGUAIS_FW_BW=0
-    COMPENSACAO_CORR_CRUZADA_BW=1
-    COMPENSACAO_CORR_CRUZADA_FW_BW=2
+    RESIDUOS_IGUAIS_FW_BW = 0
+    COMPENSACAO_CORR_CRUZADA_BW = 1
+    COMPENSACAO_CORR_CRUZADA_FW_BW = 2
 
 
 class EnumRepresentacaoSubmotorizacao(Enum):
@@ -97,9 +97,9 @@ class EnumRepresentacaoSubmotorizacao(Enum):
     - SUBSISTEMA
     - USINA
     """
-    NAO_CONSIDERA=0
-    SUBSISTEMA=1
-    USINA=2
+    NAO_CONSIDERA = 0
+    SUBSISTEMA = 1
+    USINA = 2
 
 
 class EnumCVAR(Enum):
@@ -108,9 +108,9 @@ class EnumCVAR(Enum):
     - CONSTANTE_NO_TEMPO
     - VARIAVEL_NO_TEMPO
     """
-    NAO_CONSIDERA=0
-    CONSTANTE_NO_TEMPO=1
-    VARIAVEL_NO_TEMPO=2
+    NAO_CONSIDERA = 0
+    CONSTANTE_NO_TEMPO = 1
+    VARIAVEL_NO_TEMPO = 2
 
 
 class EnumTipoReamostragem(Enum):
@@ -118,8 +118,8 @@ class EnumTipoReamostragem(Enum):
     - RECOMBINACAO
     - PLENA
     """
-    RECOMBINACAO=0
-    PLENA=1
+    RECOMBINACAO = 0
+    PLENA = 1
 
 
 class EnumRepresentanteAgregacao(Enum):
@@ -127,8 +127,8 @@ class EnumRepresentanteAgregacao(Enum):
     - MAIS_PROXIMO
     - CENTROIDE
     """
-    MAIS_PROXIMO=0
-    CENTROIDE=1
+    MAIS_PROXIMO = 0
+    CENTROIDE = 1
 
 
 class EnumMatrizCorrelacaoEspacial(Enum):
@@ -136,8 +136,8 @@ class EnumMatrizCorrelacaoEspacial(Enum):
     - ANUAL
     - MENSAL
     """
-    ANUAL=0
-    MENSAL=1
+    ANUAL = 0
+    MENSAL = 1
 
 
 class EnumMomentoReamostragem(Enum):
@@ -145,8 +145,8 @@ class EnumMomentoReamostragem(Enum):
     - BW_ITER_CORRESPONDENTE
     - FW_ITER_CORRESPONDENTE
     """
-    BW_ITER_CORRESPONDENTE=0
-    FW_ITER_CORRESPONDENTE=1
+    BW_ITER_CORRESPONDENTE = 0
+    FW_ITER_CORRESPONDENTE = 1
 
 
 class EnumInicioTesteConvergencia(Enum):
@@ -154,8 +154,8 @@ class EnumInicioTesteConvergencia(Enum):
     - PRIMEIRA_ITERACAO
     - ITERACAO_MINIMA
     """
-    PRIMEIRA_ITERACAO=0
-    ITERACAO_MINIMA=1
+    PRIMEIRA_ITERACAO = 0
+    ITERACAO_MINIMA = 1
 
 
 class DGer:
@@ -163,8 +163,8 @@ class DGer:
     Classe para armazenar dados gerais de uma execução do NEWAVE.
 
     Os parâmetros são fornecidos ao construtor na mesma ordem em
-    que são definidos no arquivo ``dger.dat``. 
-    
+    que são definidos no arquivo ``dger.dat``.
+
     Apesar disso, não é recomendado criar um arquivo com o construtor
     desta classe, e sim utilizar o método ``DGer.dger_padrao()``,
     que fornece um objeto com valores em todos os campos,
@@ -172,8 +172,8 @@ class DGer:
 
     **Parâmetros**
 
-        - nome_estudo : ``str``  
-        - tipo_execucao: ``EnumTipoExecucao``  
+        - nome_estudo : ``str``
+        - tipo_execucao: ``EnumTipoExecucao``
         - duracao_estagio_op: ``int``
         - num_anos_estudo: ``int``,
         - mes_inicio_pre_estudo: ``int``,
