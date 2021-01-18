@@ -26,6 +26,9 @@ Documentação
    :maxdepth: 1
 
    ./install.rst
+   ./tutorial.rst
+   ./reference.rst
+
 
 Índices e Tabelas
 ==================
