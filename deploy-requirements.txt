@@ -1,0 +1,6 @@
+pytest
+numpy
+flake8
+mypy
+sphinx
+sphinx-rtd-theme

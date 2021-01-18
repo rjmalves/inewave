@@ -1,4 +1,1 @@
-pytest
 numpy
-flake8
-mypy
