@@ -39,7 +39,7 @@ class Patamar:
         """
         Valores contidos na tabela de patamares, organizados
         por ano.
-        
+
         **Retorna**
 
         `Dict[int, np.ndarray]`
@@ -62,7 +62,7 @@ class Patamar:
     def patamares_por_ano_e_mes(self) -> Dict[int, Dict[int, np.ndarray]]:
         """
         Valores contidos na tabela de patamares, organizados por ano e mês.
-        
+
         **Retorna**
 
         `Dict[int, Dict[int, np.ndarray]]`

@@ -68,7 +68,7 @@ class RiscoDeficitENSPMO:
         """
         Riscos de déficit agrupados por
         subsistema e ano de estudo.
-        
+
         **Retorna**
 
         `Dict[str, Dict[int, float]]`
@@ -93,7 +93,7 @@ class RiscoDeficitENSPMO:
         """
         Energias não supridas agrupadas por
         subsistema e ano de estudo.
-        
+
         **Retorna**
 
         `Dict[str, Dict[int, float]]`
@@ -223,7 +223,7 @@ class CustoOperacaoPMO:
     def custo_total(self) -> float:
         """
         Custo total de operação, em MMR$.
-        
+
         **Retorna**
 
         `float`
