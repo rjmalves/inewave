@@ -16,8 +16,28 @@ from typing import IO, List, Tuple
 
 class LeituraPMO(Leitura):
     """
-    Classe para realizar a leitura do arquivo pmo.dat
-    existente em um diretório de saídas do NEWAVE.
+    Realiza a leitura do arquivo pmo.dat
+    existente em um diretório de entradas do NEWAVE.
+
+    Esta classe contém o conjunto de utilidades para ler
+    e interpretar os campos de um arquivo pmo.dat, construindo
+    um objeto `PMO` cujas informações são as mesmas do pmo.dat.
+
+    Este objeto existe para retirar do modelo de dados a complexidade
+    de iterar pelas linhas do arquivo, recortar colunas, converter
+    tipos de dados, dentre outras tarefas necessárias para a leitura.
+
+    Uma vez realizada a leitura do arquivo, as informações são guardadas
+    internamente no atributo `pmo`.
+
+    **Exemplos**
+
+    >>> diretorio = "~/documentos/.../deck"
+    >>> leitor = LeituraPMO(diretorio)
+    >>> leitor.le_arquivo()
+    # Ops, esqueci de pegar o objeto
+    >>> pmo = leitor.pmo
+
     """
     str_dados_pmo = " DATA : "
     str_inicio_risco = " ANO  RISCO   EENS  RISCO"
@@ -44,7 +64,10 @@ class LeituraPMO(Leitura):
                        CustoOperacaoPMO(np.array([])),
                        CustoOperacaoPMO(np.array([])))
 
-    def le_arquivo(self):
+    def le_arquivo(self) -> PMO:
+        """
+        Faz a leitura do arquivo `pmo.dat`.
+        """
         try:
             caminho = os.path.join(self.diretorio, "pmo.dat")
             with open(caminho, "r") as arq:

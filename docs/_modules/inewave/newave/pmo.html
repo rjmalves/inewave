@@ -1,0 +1,436 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="pt-BR" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>inewave.newave.pmo &mdash; documentação inewave 0.0.8</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/gallery-binder.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/gallery-dataframe.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/gallery-rendered-html.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/translations.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Índice" href="../../../genindex.html" />
+    <link rel="search" title="Buscar" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> inewave
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Pesquisar documentos" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Instalação</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reference.html">Referência</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">inewave</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Código do módulo</a> &raquo;</li>
+        
+      <li>inewave.newave.pmo</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Código fonte para inewave.newave.pmo</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Imports do próprio módulo</span>
+<span class="kn">from</span> <span class="nn">inewave._utils.leitura</span> <span class="kn">import</span> <span class="n">Leitura</span>
+<span class="kn">from</span> <span class="nn">inewave.config</span> <span class="kn">import</span> <span class="n">NUM_ANOS_ESTUDO</span><span class="p">,</span> <span class="n">NUM_VARIAVEIS_CUSTO_PMO</span>
+<span class="kn">from</span> <span class="nn">inewave.config</span> <span class="kn">import</span> <span class="n">MESES</span><span class="p">,</span> <span class="n">SUBMERCADOS</span>
+<span class="kn">from</span> <span class="nn">.modelos.pmo</span> <span class="kn">import</span> <span class="n">DadosGeraisPMO</span>
+<span class="kn">from</span> <span class="nn">.modelos.pmo</span> <span class="kn">import</span> <span class="n">EnergiasAfluentesPMO</span>
+<span class="kn">from</span> <span class="nn">.modelos.pmo</span> <span class="kn">import</span> <span class="n">RiscoDeficitENSPMO</span>
+<span class="kn">from</span> <span class="nn">.modelos.pmo</span> <span class="kn">import</span> <span class="n">CustoOperacaoPMO</span>
+<span class="kn">from</span> <span class="nn">.modelos.pmo</span> <span class="kn">import</span> <span class="n">PMO</span>
+<span class="c1"># Imports de módulos externos</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>  <span class="c1"># type: ignore</span>
+<span class="kn">from</span> <span class="nn">traceback</span> <span class="kn">import</span> <span class="n">print_exc</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">IO</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span>
+
+
+<div class="viewcode-block" id="LeituraPMO"><a class="viewcode-back" href="../../../reference/newave/arquivos/pmo.html#inewave.newave.pmo.LeituraPMO">[documentos]</a><span class="k">class</span> <span class="nc">LeituraPMO</span><span class="p">(</span><span class="n">Leitura</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Realiza a leitura do arquivo pmo.dat</span>
+<span class="sd">    existente em um diretório de entradas do NEWAVE.</span>
+
+<span class="sd">    Esta classe contém o conjunto de utilidades para ler</span>
+<span class="sd">    e interpretar os campos de um arquivo pmo.dat, construindo</span>
+<span class="sd">    um objeto `PMO` cujas informações são as mesmas do pmo.dat.</span>
+
+<span class="sd">    Este objeto existe para retirar do modelo de dados a complexidade</span>
+<span class="sd">    de iterar pelas linhas do arquivo, recortar colunas, converter</span>
+<span class="sd">    tipos de dados, dentre outras tarefas necessárias para a leitura.</span>
+
+<span class="sd">    Uma vez realizada a leitura do arquivo, as informações são guardadas</span>
+<span class="sd">    internamente no atributo `pmo`.</span>
+
+<span class="sd">    **Exemplos**</span>
+
+<span class="sd">    &gt;&gt;&gt; diretorio = &quot;~/documentos/.../deck&quot;</span>
+<span class="sd">    &gt;&gt;&gt; leitor = LeituraPMO(diretorio)</span>
+<span class="sd">    &gt;&gt;&gt; leitor.le_arquivo()</span>
+<span class="sd">    # Ops, esqueci de pegar o objeto</span>
+<span class="sd">    &gt;&gt;&gt; pmo = leitor.pmo</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">str_dados_pmo</span> <span class="o">=</span> <span class="s2">&quot; DATA : &quot;</span>
+    <span class="n">str_inicio_risco</span> <span class="o">=</span> <span class="s2">&quot; ANO  RISCO   EENS  RISCO&quot;</span>
+    <span class="n">str_inicio_custo_series</span> <span class="o">=</span> <span class="s2">&quot;                 CUSTO DE OPERACAO DAS&quot;</span>
+    <span class="n">str_inicio_valor_esperado</span> <span class="o">=</span> <span class="s2">&quot;                 VALOR ESPERADO PARA PERI&quot;</span>
+    <span class="n">str_inicio_custo_referenciado</span> <span class="o">=</span> <span class="s2">&quot;                     CUSTO OPERACAO R&quot;</span>
+    <span class="n">str_fim_pmo</span> <span class="o">=</span> <span class="s2">&quot;DETECTADO NO CALCULO DA SIMULACAO FINAL&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">diretorio</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">diretorio</span> <span class="o">=</span> <span class="n">diretorio</span>
+        <span class="c1"># PMO default, depois é substituído</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pmo</span> <span class="o">=</span> <span class="n">PMO</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span>
+                       <span class="mi">0</span><span class="p">,</span>
+                       <span class="s2">&quot;&quot;</span><span class="p">,</span>
+                       <span class="n">DadosGeraisPMO</span><span class="p">(),</span>
+                       <span class="n">EnergiasAfluentesPMO</span><span class="p">(),</span>
+                       <span class="n">EnergiasAfluentesPMO</span><span class="p">(),</span>
+                       <span class="n">EnergiasAfluentesPMO</span><span class="p">(),</span>
+                       <span class="p">{},</span>
+                       <span class="n">RiscoDeficitENSPMO</span><span class="p">([],</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])),</span>
+                       <span class="n">CustoOperacaoPMO</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])),</span>
+                       <span class="n">CustoOperacaoPMO</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])),</span>
+                       <span class="n">CustoOperacaoPMO</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])))</span>
+
+<div class="viewcode-block" id="LeituraPMO.le_arquivo"><a class="viewcode-back" href="../../../reference/newave/arquivos/pmo.html#inewave.newave.pmo.LeituraPMO.le_arquivo">[documentos]</a>    <span class="k">def</span> <span class="nf">le_arquivo</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PMO</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Faz a leitura do arquivo `pmo.dat`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">caminho</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">diretorio</span><span class="p">,</span> <span class="s2">&quot;pmo.dat&quot;</span><span class="p">)</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">caminho</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">arq</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">pmo</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_pmo</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">pmo</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="n">print_exc</span><span class="p">()</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">pmo</span></div>
+
+    <span class="k">def</span> <span class="nf">_le_pmo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arq</span><span class="p">:</span> <span class="n">IO</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PMO</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Faz a leitura do arquivo pmo.dat.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">achou_dados_pmo</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">leu_dados_pmo</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">achou_risco_ens</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">achou_custo_series</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">achou_valor_esperado</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">achou_custo_refer</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">linha</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="c1"># Variáveis para armazenar os componentes do PMO, que será</span>
+        <span class="c1"># construído quando acabar a leitura</span>
+        <span class="n">ano_pmo</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">mes_pmo</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">versao_newave</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="n">risco_ens</span> <span class="o">=</span> <span class="n">RiscoDeficitENSPMO</span><span class="p">([],</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([]))</span>
+        <span class="n">custo_series</span> <span class="o">=</span> <span class="n">CustoOperacaoPMO</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([]))</span>
+        <span class="n">valor_esp</span> <span class="o">=</span> <span class="n">CustoOperacaoPMO</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([]))</span>
+        <span class="n">custo_ref</span> <span class="o">=</span> <span class="n">CustoOperacaoPMO</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([]))</span>
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="c1"># Decide se lê uma linha nova ou usa a última lida</span>
+            <span class="n">linha</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">linha</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">break</span>
+            <span class="c1"># Condição para finalizar a leitura de um arquivo</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fim_arquivo</span><span class="p">(</span><span class="n">linha</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">pmo</span> <span class="o">=</span> <span class="n">PMO</span><span class="p">(</span><span class="n">ano_pmo</span><span class="p">,</span>
+                               <span class="n">mes_pmo</span><span class="p">,</span>
+                               <span class="n">versao_newave</span><span class="p">,</span>
+                               <span class="n">DadosGeraisPMO</span><span class="p">(),</span>
+                               <span class="n">EnergiasAfluentesPMO</span><span class="p">(),</span>
+                               <span class="n">EnergiasAfluentesPMO</span><span class="p">(),</span>
+                               <span class="n">EnergiasAfluentesPMO</span><span class="p">(),</span>
+                               <span class="p">{},</span>
+                               <span class="n">risco_ens</span><span class="p">,</span>
+                               <span class="n">custo_series</span><span class="p">,</span>
+                               <span class="n">valor_esp</span><span class="p">,</span>
+                               <span class="n">custo_ref</span><span class="p">)</span>
+                <span class="k">break</span>
+            <span class="c1"># Condição para iniciar uma leitura de dados</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">achou_dados_pmo</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">leu_dados_pmo</span><span class="p">:</span>
+                <span class="n">achou</span> <span class="o">=</span> <span class="n">LeituraPMO</span><span class="o">.</span><span class="n">str_dados_pmo</span> <span class="ow">in</span> <span class="n">linha</span>
+                <span class="n">achou_dados_pmo</span> <span class="o">=</span> <span class="n">achou</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">achou_risco_ens</span><span class="p">:</span>
+                <span class="n">achou</span> <span class="o">=</span> <span class="n">LeituraPMO</span><span class="o">.</span><span class="n">str_inicio_risco</span> <span class="ow">in</span> <span class="n">linha</span>
+                <span class="n">achou_risco_ens</span> <span class="o">=</span> <span class="n">achou</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">achou_custo_series</span><span class="p">:</span>
+                <span class="n">achou</span> <span class="o">=</span> <span class="n">LeituraPMO</span><span class="o">.</span><span class="n">str_inicio_custo_series</span> <span class="ow">in</span> <span class="n">linha</span>
+                <span class="n">achou_custo_series</span> <span class="o">=</span> <span class="n">achou</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">achou_valor_esperado</span><span class="p">:</span>
+                <span class="n">achou</span> <span class="o">=</span> <span class="n">LeituraPMO</span><span class="o">.</span><span class="n">str_inicio_valor_esperado</span> <span class="ow">in</span> <span class="n">linha</span>
+                <span class="n">achou_valor_esperado</span> <span class="o">=</span> <span class="n">achou</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">achou_custo_refer</span><span class="p">:</span>
+                <span class="n">achou</span> <span class="o">=</span> <span class="n">LeituraPMO</span><span class="o">.</span><span class="n">str_inicio_custo_referenciado</span> <span class="ow">in</span> <span class="n">linha</span>
+                <span class="n">achou_custo_refer</span> <span class="o">=</span> <span class="n">achou</span>
+            <span class="c1"># Quando achar, le cada parte adequadamente</span>
+            <span class="k">if</span> <span class="n">achou_dados_pmo</span><span class="p">:</span>
+                <span class="n">ano_pmo</span><span class="p">,</span> <span class="n">mes_pmo</span><span class="p">,</span> <span class="n">versao_newave</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_dados_pmo</span><span class="p">(</span><span class="n">linha</span><span class="p">)</span>
+                <span class="n">achou_dados_pmo</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="n">leu_dados_pmo</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">if</span> <span class="n">achou_risco_ens</span><span class="p">:</span>
+                <span class="n">risco_ens</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_risco_ens</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
+                <span class="n">achou_risco_ens</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">if</span> <span class="n">achou_custo_series</span><span class="p">:</span>
+                <span class="n">custo_series</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_tabela_custo</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
+                <span class="n">achou_custo_series</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">if</span> <span class="n">achou_valor_esperado</span><span class="p">:</span>
+                <span class="n">valor_esp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_tabela_custo</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
+                <span class="n">achou_valor_esperado</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">if</span> <span class="n">achou_custo_refer</span><span class="p">:</span>
+                <span class="n">custo_ref</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_tabela_custo</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
+                <span class="n">achou_custo_refer</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">pmo</span>
+
+    <span class="k">def</span> <span class="nf">_le_dados_pmo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">linha</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Lê a linha com dados do PMO em questão e retorna dados</span>
+<span class="sd">        sobre o mês e ano de estudo e a versão do NEWAVE usada.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Procura o mês do PMO</span>
+        <span class="n">mes_pmo</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">m</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">MESES</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">linha</span><span class="p">:</span>
+                <span class="n">mes_pmo</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
+                <span class="k">break</span>
+        <span class="c1"># Quebra a linha no nome do mês</span>
+        <span class="n">ano_pmo</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">linha</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">MESES</span><span class="p">[</span><span class="n">mes_pmo</span><span class="o">-</span><span class="mi">1</span><span class="p">])[</span><span class="mi">1</span><span class="p">][</span><span class="mi">3</span><span class="p">:</span><span class="mi">7</span><span class="p">])</span>
+        <span class="c1"># Encontra a versao do NW</span>
+        <span class="n">versao_newave</span> <span class="o">=</span> <span class="n">linha</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;Versao&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">ano_pmo</span><span class="p">,</span> <span class="n">mes_pmo</span><span class="p">,</span> <span class="n">versao_newave</span>
+
+    <span class="k">def</span> <span class="nf">_le_risco_ens</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arq</span><span class="p">:</span> <span class="n">IO</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RiscoDeficitENSPMO</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Lê as linhas que formam a tabela de RISCO e ENS por ano</span>
+<span class="sd">        de estudo e subsistema.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Salta duas linhas após a string de início ser identificada</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
+        <span class="c1"># Inicializa as variáveis de interesse</span>
+        <span class="n">anos_estudo</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">linhas_tabela</span> <span class="o">=</span> <span class="n">NUM_ANOS_ESTUDO</span>
+        <span class="n">colunas_tabela</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">SUBMERCADOS</span><span class="p">)</span>
+        <span class="n">tabela</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">linhas_tabela</span><span class="p">,</span> <span class="n">colunas_tabela</span><span class="p">))</span>
+        <span class="n">campos_colunas</span> <span class="o">=</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">SUBMERCADOS</span><span class="p">)</span>
+        <span class="c1"># Lê a tabela</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">linhas_tabela</span><span class="p">):</span>
+            <span class="n">linha</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
+            <span class="n">anos_estudo</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">linha</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">5</span><span class="p">]))</span>
+            <span class="n">ci</span> <span class="o">=</span> <span class="mi">7</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">colunas_tabela</span><span class="p">):</span>
+                <span class="n">cf</span> <span class="o">=</span> <span class="n">ci</span> <span class="o">+</span> <span class="n">campos_colunas</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+                <span class="n">tabela</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">linha</span><span class="p">[</span><span class="n">ci</span><span class="p">:</span><span class="n">cf</span><span class="p">])</span>
+                <span class="n">ci</span> <span class="o">=</span> <span class="n">cf</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="c1"># Constroi o objeto e retorna</span>
+        <span class="k">return</span> <span class="n">RiscoDeficitENSPMO</span><span class="p">(</span><span class="n">anos_estudo</span><span class="p">,</span> <span class="n">tabela</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_le_tabela_custo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arq</span><span class="p">:</span> <span class="n">IO</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Lê as linhas que formam uma das tabelas de composição</span>
+<span class="sd">        do valor total de operação do pmo.dat.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">inicio_tabela</span> <span class="o">=</span> <span class="s2">&quot;PARCELA           V.ESPERADO&quot;</span>
+        <span class="n">iniciou</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="c1"># Procura o cabeçalho da tabela</span>
+        <span class="n">linha</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">while</span> <span class="ow">not</span> <span class="n">iniciou</span><span class="p">:</span>
+            <span class="n">linha</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
+            <span class="n">iniciou</span> <span class="o">=</span> <span class="n">inicio_tabela</span> <span class="ow">in</span> <span class="n">linha</span>
+        <span class="c1"># Pula uma linha</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
+        <span class="c1"># Cria a variável para armazenar a tabela</span>
+        <span class="n">tabela</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">NUM_VARIAVEIS_CUSTO_PMO</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+        <span class="c1"># Lê cada uma das variáveis</span>
+        <span class="n">abs_i</span> <span class="o">=</span> <span class="mi">32</span>
+        <span class="n">abs_f</span> <span class="o">=</span> <span class="mi">45</span>
+        <span class="n">perc_i</span> <span class="o">=</span> <span class="mi">46</span>
+        <span class="n">dp_i</span> <span class="o">=</span> <span class="mi">47</span>
+        <span class="n">dp_f</span> <span class="o">=</span> <span class="mi">59</span>
+        <span class="n">perc_i</span> <span class="o">=</span> <span class="mi">60</span>
+        <span class="n">perc_f</span> <span class="o">=</span> <span class="mi">67</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">NUM_VARIAVEIS_CUSTO_PMO</span><span class="p">):</span>
+            <span class="n">linha</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
+            <span class="n">tabela</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">linha</span><span class="p">[</span><span class="n">abs_i</span><span class="p">:</span><span class="n">abs_f</span><span class="p">])</span>
+            <span class="n">tabela</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">linha</span><span class="p">[</span><span class="n">dp_i</span><span class="p">:</span><span class="n">dp_f</span><span class="p">])</span>
+            <span class="n">tabela</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">linha</span><span class="p">[</span><span class="n">perc_i</span><span class="p">:</span><span class="n">perc_f</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">CustoOperacaoPMO</span><span class="p">(</span><span class="n">tabela</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_fim_arquivo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">linha</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">LeituraPMO</span><span class="o">.</span><span class="n">str_fim_pmo</span> <span class="ow">in</span> <span class="n">linha</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Rogerio Alves.
+
+    </p>
+  </div>
+    
+    
+    
+    Compilado com <a href="https://www.sphinx-doc.org/">Sphinx</a> usando um
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">tema</a>
+    
+    fornecido por <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

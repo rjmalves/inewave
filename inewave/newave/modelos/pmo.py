@@ -4,8 +4,10 @@ import numpy as np  # type: ignore
 
 class DadosGeraisPMO:
     """
-    Classe responsável por armazenar as informações de dados
-    gerais contidas no arquivo pmo.dat.
+    Armazena as informações de dados
+    gerais contidas no arquivo `pmo.dat`.
+
+    **Parâmetros**
     """
     def __init__(self):
         # TODO - estruturar as propriedades
@@ -15,8 +17,10 @@ class DadosGeraisPMO:
 
 class EnergiasAfluentesPMO:
     """
-    Classe responsável por armazenar as informações de energias
-    afluentes anteriores ao estudo contidas no arquivo pmo.dat.
+    Armazena as informações de energias
+    afluentes anteriores ao estudo contidas no arquivo `pmo.dat`.
+
+    **Parâmetros**
     """
     def __init__(self):
         # TODO - estruturar as propriedades
@@ -25,8 +29,10 @@ class EnergiasAfluentesPMO:
 
 class DemandaLiquidaEnergiaPMO:
     """
-    Classe responsável por armazenar as informações de demandas
-    líquidas de energia contidas no arquivo pmo.dat.
+    Armazena as informações de demandas
+    líquidas de energia contidas no arquivo `pmo.dat`.
+
+    **Parâmetros**
     """
     def __init__(self):
         # TODO - estruturar as propriedades
@@ -35,8 +41,13 @@ class DemandaLiquidaEnergiaPMO:
 
 class RiscoDeficitENSPMO:
     """
-    Classe responsável por armazenar as informações risco de déficit
-    e valores esperados de energia não supridacontidas no arquivo pmo.dat.
+    Armazena as informações risco de déficit e valores esperados
+    de energia não supridacontidas no arquivo `pmo.dat`.
+
+    **Parâmetros**
+
+    - anos_estudo: `List[int]`
+    - tabela: `np.ndarray`
     """
     def __init__(self,
                  anos_estudo: List[int],
@@ -55,8 +66,16 @@ class RiscoDeficitENSPMO:
                                                   Dict[int,
                                                        float]]:
         """
-        Representação dos riscos de déficit agrupados por
-        subsistema e ano de estudo. O acesso é feito com
+        Riscos de déficit agrupados por
+        subsistema e ano de estudo.
+        
+        **Retorna**
+
+        `Dict[str, Dict[int, float]]`
+
+        **Sobre**
+
+        O acesso é feito com
         [sub][ano] e o valor fornecido é em percentual, de 0 a 100.
         """
         riscos: Dict[str, Dict[int, float]] = {}
@@ -72,8 +91,16 @@ class RiscoDeficitENSPMO:
                                                Dict[int,
                                                     float]]:
         """
-        Representação das energias não supridas agrupadas por
-        subsistema e ano de estudo. O acesso é feito com
+        Energias não supridas agrupadas por
+        subsistema e ano de estudo.
+        
+        **Retorna**
+
+        `Dict[str, Dict[int, float]]`
+
+        **Sobre**
+
+        O acesso é feito com
         [sub][ano] e o valor fornecido é em MWmes.
         """
         energias: Dict[str, Dict[int, float]] = {}
@@ -87,8 +114,23 @@ class RiscoDeficitENSPMO:
 
 class CustoOperacaoPMO:
     """
-    Classe responsável por armazenar as informações do relatório
-    de custo de operação, disponível no arquivo pmo.dat.
+    Armazena as informações do relatório
+    de custo de operação, disponível no arquivo `pmo.dat`.
+
+    Esta classe armazena uma das tabelas existentes ao final do arquivo
+    `pmo.dat`, contendo os custos, os desvios-padrão e a participação
+    em percentual de cada componente de custo.
+
+    A tabela de custos é armazenada através de uma array
+    em `NumPy`, para otimizar cálculos futuros e espaço ocupado
+    em memória. A tabela interna é transformada em dicionários
+    e outras estruturas de dados mais palpáveis através das propriedades
+    da própria classe.
+
+    **Parâmetros**
+
+    - custos: `np.ndarray`
+
     """
     def __init__(self,
                  custos: np.ndarray):
@@ -117,6 +159,10 @@ class CustoOperacaoPMO:
         """
         Parcela do custo de operação devido à geração térmica,
         em MMR$.
+
+        **Retorna**
+
+        `float`
         """
         return float(self.custos[0, 0])
 
@@ -124,6 +170,10 @@ class CustoOperacaoPMO:
     def deficit(self) -> float:
         """
         Parcela do custo de operação devido ao déficit, em MMR$.
+
+        **Retorna**
+
+        `float`
         """
         return float(self.custos[1, 0])
 
@@ -132,6 +182,10 @@ class CustoOperacaoPMO:
         """
         Parcela do custo de operação devido a violações de segurança,
         CAR e SAR, em MMR$.
+
+        **Retorna**
+
+        `float`
         """
         return np.sum(self.custos[4:6, 0])
 
@@ -141,6 +195,10 @@ class CustoOperacaoPMO:
         Parcela do custo de operação devido a violações de restrições
         hídricas, EVmin, VZmin, GHmin, GHmin Usina e outros usos
         da água, em MMR$.
+
+        **Retorna**
+
+        `float`
         """
         return (np.sum(self.custos[6:9, 0]) +
                 np.sum(self.custos[12:14, 0]))
@@ -152,6 +210,10 @@ class CustoOperacaoPMO:
         de intercâmbio, intercâmbio mínimo, vertimento, vertimento
         fio d'água não turbinável, excesso de energia, emissão de GEE
         e retirada, em MMR$.
+
+        **Retorna**
+
+        `float`
         """
         return (np.sum(self.custos[2:4, 0]) +
                 np.sum(self.custos[9:12, 0]) +
@@ -161,14 +223,41 @@ class CustoOperacaoPMO:
     def custo_total(self) -> float:
         """
         Custo total de operação, em MMR$.
+        
+        **Retorna**
+
+        `float`
         """
         return np.sum(self.custos[:, 0])
 
 
 class PMO:
     """
-    Classe que armazena as informações estruturadas armazenadas no
-    arquivo de saída do NEWAVE pmo.dat.
+    Armazena os dados de entrada do NEWAVE referentes ao
+    acompanhamento do programa.
+
+    Esta classe lida com as informações de entrada fornecidas ao
+    NEWAVE e reproduzidas no `pmo.dat`, bem como as saídas finais
+    da execução: custos de operação, energias, déficit, etc.
+
+    Em versões futuras, esta classe pode passar a ler os dados
+    de execução intermediárias do programa.
+
+    **Parâmetros**
+
+    - ano_pmo: `int`
+    - mes_pmo: `int`
+    - versao_newave: `str`
+    - dados_gerais: `DadosGeraisPMO`
+    - energias_passadas_politica: `EnergiasAfluentesPMO`
+    - energias_passadas_primeira_conf: `EnergiasAfluentesPMO`
+    - energias_passadas_canal_fuga: `EnergiasAfluentesPMO`
+    - demanda_liquida_energia : `Dict[str, DemandaLiquidaEnergiaPMO]`
+    - risco_ens: `RiscoDeficitENSPMO`
+    - custo_series_simuladas: `CustoOperacaoPMO`
+    - valor_esperado_periodo: `CustoOperacaoPMO`
+    - custo_referenciado: `CustoOperacaoPMO`
+
     """
     def __init__(self,
                  ano_pmo: int,

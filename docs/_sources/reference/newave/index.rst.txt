@@ -62,3 +62,5 @@ Arquivos
    :maxdepth: 2
 
    arquivos/dger
+   arquivos/patamar
+   arquivos/pmo

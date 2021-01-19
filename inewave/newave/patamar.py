@@ -11,8 +11,28 @@ from typing import IO, List, Tuple
 
 class LeituraPatamar(Leitura):
     """
-    Classe para realizar a leitura do arquivo patamar.dat
+    Realiza a leitura do arquivo patamar.dat
     existente em um diretório de entradas do NEWAVE.
+
+    Esta classe contém o conjunto de utilidades para ler
+    e interpretar os campos de um arquivo patamar.dat, construindo
+    um objeto `Patamar` cujas informações são as mesmas do patamar.dat.
+
+    Este objeto existe para retirar do modelo de dados a complexidade
+    de iterar pelas linhas do arquivo, recortar colunas, converter
+    tipos de dados, dentre outras tarefas necessárias para a leitura.
+
+    Uma vez realizada a leitura do arquivo, as informações são guardadas
+    internamente no atributo `patamar`.
+
+    **Exemplos**
+
+    >>> diretorio = "~/documentos/.../deck"
+    >>> leitor = LeituraPatamar(diretorio)
+    >>> leitor.le_arquivo()
+    # Ops, esqueci de pegar o objeto
+    >>> patamar = leitor.patamar
+
     """
     def __init__(self,
                  diretorio: str) -> None:
@@ -21,7 +41,10 @@ class LeituraPatamar(Leitura):
         # Patamar default, depois é substituído
         self.patamar = Patamar(0, [], np.array([]))
 
-    def le_arquivo(self):
+    def le_arquivo(self) -> Patamar:
+        """
+        Realiza a leitura do arquivo `patamar.dat`.
+        """
         try:
             caminho = os.path.join(self.diretorio, "patamar.dat")
             with open(caminho, "r") as arq:

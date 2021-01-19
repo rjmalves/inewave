@@ -5,9 +5,26 @@ from inewave.config import MESES
 
 class Patamar:
     """
-    Classe responsável por lidar com o armazenamento dos dados de
-    entrada do NEWAVE referentes aos patamares de carga por submercado,
-    localizados no arquivo patamar.dat.
+    Armazena os dados de entrada do NEWAVE referentes aos
+    patamares de carga por submercado.
+
+    Esta classe pode lidar com um número qualquer de patamares
+    de carga, desde que as informações fornecidas a ela por meio
+    da tabela de valores seja compatível com o parâmetro `num_patamares`
+    da mesma.
+
+    A tabela de patamares de carga é armazenada através de uma array
+    em `NumPy`, para otimizar cálculos futuros e espaço ocupado
+    em memória. A tabela interna é transformada em dicionários
+    e outras estruturas de dados mais palpáveis através das propriedades
+    da própria classe.
+
+    **Parâmetros**
+
+    - num_patamares: `int`
+    - anos_estudo: `List[int]`
+    - paramares: `np.ndarray`
+
     """
     def __init__(self,
                  num_patamares: int,
@@ -20,10 +37,18 @@ class Patamar:
     @property
     def patamares_por_ano(self) -> Dict[int, np.ndarray]:
         """
-        Fornece os valores contidos na tabela de patamares, organizados
-        por ano. O acesso é feito com [ano] e o valor fornecido
-        é uma array 2-D do numpy com os valores dos patamares para todo
-        os meses de um ano, semelhante ao formato do arquivo patamar.dat.
+        Valores contidos na tabela de patamares, organizados
+        por ano.
+        
+        **Retorna**
+
+        `Dict[int, np.ndarray]`
+
+        **Sobre**
+
+        O acesso é feito com [ano] e o valor fornecido
+        é uma array 2-D do `NumPy` com os valores dos patamares para todo
+        os meses de um ano, semelhante a uma linha do arquivo patamar.dat.
         """
         patamares_ano: Dict[int, np.ndarray] = {}
         # Preenche com os valores
@@ -36,8 +61,15 @@ class Patamar:
     @property
     def patamares_por_ano_e_mes(self) -> Dict[int, Dict[int, np.ndarray]]:
         """
-        Fornece os valores contidos na tabela de patamares, organizados
-        por ano e mês. O acesso é feito com [ano][mes] e o valor fornecido
+        Valores contidos na tabela de patamares, organizados por ano e mês.
+        
+        **Retorna**
+
+        `Dict[int, Dict[int, np.ndarray]]`
+
+        **Sobre**
+
+        O acesso é feito com [ano][mes] e o valor fornecido
         é uma array do numpy com os valores para os patamares 1, 2, ... .
         """
         patamares_ano: Dict[int, Dict[int, np.ndarray]] = {}

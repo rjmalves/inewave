@@ -1,7 +1,7 @@
 .. _dger:
 
 ========================
-Dados gerais (dger.dat)
+Dados Gerais (dger.dat)
 ========================
 
 .. currentmodule:: inewave.newave.modelos.dger

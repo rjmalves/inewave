@@ -1,0 +1,437 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="pt-BR" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Acompanhamento do Programa (pmo.dat) &mdash; documentação inewave 0.0.8</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/gallery-binder.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/gallery-dataframe.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/gallery-rendered-html.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/translations.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Índice" href="../../../genindex.html" />
+    <link rel="search" title="Buscar" href="../../../search.html" />
+    <link rel="next" title="NWLISTCF" href="../../nwlistcf/index.html" />
+    <link rel="prev" title="Patamares de Carga (patamar.dat)" href="patamar.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> inewave
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Pesquisar documentos" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Instalação</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../../reference.html">Referência</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">NEWAVE</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../index.html#basico-da-interface-newave">Básico da interface NEWAVE</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../index.html#arquivos">Arquivos</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="dger.html">Dados Gerais (dger.dat)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="patamar.html">Patamares de Carga (patamar.dat)</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Acompanhamento do Programa (pmo.dat)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../nwlistcf/index.html">NWLISTCF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../nwlistop/index.html">NWLISTOP</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">inewave</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../../reference.html">Referência</a> &raquo;</li>
+        
+          <li><a href="../index.html">NEWAVE</a> &raquo;</li>
+        
+      <li>Acompanhamento do Programa (pmo.dat)</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../../_sources/reference/newave/arquivos/pmo.rst.txt" rel="nofollow"> Ver código-fonte da página</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="acompanhamento-do-programa-pmo-dat">
+<span id="pmo"></span><h1>Acompanhamento do Programa (pmo.dat)<a class="headerlink" href="#acompanhamento-do-programa-pmo-dat" title="Link permanente para este título">¶</a></h1>
+<div class="section" id="visao-geral-do-modelo">
+<h2>Visão geral do modelo<a class="headerlink" href="#visao-geral-do-modelo" title="Link permanente para este título">¶</a></h2>
+<p>O relatório de acompanhamento do NEWAVE, localizado no arquivo geralmente denominado
+pmo.dat, é armazenado na classe:</p>
+<dl class="py class">
+<dt id="inewave.newave.modelos.pmo.PMO">
+<em class="property">class </em><code class="sig-name descname">PMO</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ano_pmo</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">mes_pmo</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">versao_newave</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">dados_gerais</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#inewave.newave.modelos.pmo.DadosGeraisPMO" title="inewave.newave.modelos.pmo.DadosGeraisPMO">inewave.newave.modelos.pmo.DadosGeraisPMO</a></span></em>, <em class="sig-param"><span class="n">energias_passadas_politica</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#inewave.newave.modelos.pmo.EnergiasAfluentesPMO" title="inewave.newave.modelos.pmo.EnergiasAfluentesPMO">inewave.newave.modelos.pmo.EnergiasAfluentesPMO</a></span></em>, <em class="sig-param"><span class="n">energias_passadas_primeira_conf</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#inewave.newave.modelos.pmo.EnergiasAfluentesPMO" title="inewave.newave.modelos.pmo.EnergiasAfluentesPMO">inewave.newave.modelos.pmo.EnergiasAfluentesPMO</a></span></em>, <em class="sig-param"><span class="n">energias_passadas_canal_fuga</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#inewave.newave.modelos.pmo.EnergiasAfluentesPMO" title="inewave.newave.modelos.pmo.EnergiasAfluentesPMO">inewave.newave.modelos.pmo.EnergiasAfluentesPMO</a></span></em>, <em class="sig-param"><span class="n">demanda_liquida_energia</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>str<span class="p">, </span><a class="reference internal" href="#inewave.newave.modelos.pmo.DemandaLiquidaEnergiaPMO" title="inewave.newave.modelos.pmo.DemandaLiquidaEnergiaPMO">inewave.newave.modelos.pmo.DemandaLiquidaEnergiaPMO</a><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">risco_ens</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#inewave.newave.modelos.pmo.RiscoDeficitENSPMO" title="inewave.newave.modelos.pmo.RiscoDeficitENSPMO">inewave.newave.modelos.pmo.RiscoDeficitENSPMO</a></span></em>, <em class="sig-param"><span class="n">custo_series_simuladas</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#inewave.newave.modelos.pmo.CustoOperacaoPMO" title="inewave.newave.modelos.pmo.CustoOperacaoPMO">inewave.newave.modelos.pmo.CustoOperacaoPMO</a></span></em>, <em class="sig-param"><span class="n">valor_esperado_periodo</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#inewave.newave.modelos.pmo.CustoOperacaoPMO" title="inewave.newave.modelos.pmo.CustoOperacaoPMO">inewave.newave.modelos.pmo.CustoOperacaoPMO</a></span></em>, <em class="sig-param"><span class="n">custo_referenciado</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#inewave.newave.modelos.pmo.CustoOperacaoPMO" title="inewave.newave.modelos.pmo.CustoOperacaoPMO">inewave.newave.modelos.pmo.CustoOperacaoPMO</a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/newave/modelos/pmo.html#PMO"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#inewave.newave.modelos.pmo.PMO" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Armazena os dados de entrada do NEWAVE referentes ao
+acompanhamento do programa.</p>
+<p>Esta classe lida com as informações de entrada fornecidas ao
+NEWAVE e reproduzidas no <code class="xref py py-obj docutils literal notranslate"><span class="pre">pmo.dat</span></code>, bem como as saídas finais
+da execução: custos de operação, energias, déficit, etc.</p>
+<p>Em versões futuras, esta classe pode passar a ler os dados
+de execução intermediárias do programa.</p>
+<p><strong>Parâmetros</strong></p>
+<ul class="simple">
+<li><p>ano_pmo: <code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></p></li>
+<li><p>mes_pmo: <code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></p></li>
+<li><p>versao_newave: <code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></p></li>
+<li><p>dados_gerais: <a class="reference internal" href="#inewave.newave.modelos.pmo.DadosGeraisPMO" title="inewave.newave.modelos.pmo.DadosGeraisPMO"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DadosGeraisPMO</span></code></a></p></li>
+<li><p>energias_passadas_politica: <a class="reference internal" href="#inewave.newave.modelos.pmo.EnergiasAfluentesPMO" title="inewave.newave.modelos.pmo.EnergiasAfluentesPMO"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EnergiasAfluentesPMO</span></code></a></p></li>
+<li><p>energias_passadas_primeira_conf: <a class="reference internal" href="#inewave.newave.modelos.pmo.EnergiasAfluentesPMO" title="inewave.newave.modelos.pmo.EnergiasAfluentesPMO"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EnergiasAfluentesPMO</span></code></a></p></li>
+<li><p>energias_passadas_canal_fuga: <a class="reference internal" href="#inewave.newave.modelos.pmo.EnergiasAfluentesPMO" title="inewave.newave.modelos.pmo.EnergiasAfluentesPMO"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EnergiasAfluentesPMO</span></code></a></p></li>
+<li><p>demanda_liquida_energia : <code class="xref py py-obj docutils literal notranslate"><span class="pre">Dict[str,</span> <span class="pre">DemandaLiquidaEnergiaPMO]</span></code></p></li>
+<li><p>risco_ens: <a class="reference internal" href="#inewave.newave.modelos.pmo.RiscoDeficitENSPMO" title="inewave.newave.modelos.pmo.RiscoDeficitENSPMO"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RiscoDeficitENSPMO</span></code></a></p></li>
+<li><p>custo_series_simuladas: <a class="reference internal" href="#inewave.newave.modelos.pmo.CustoOperacaoPMO" title="inewave.newave.modelos.pmo.CustoOperacaoPMO"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CustoOperacaoPMO</span></code></a></p></li>
+<li><p>valor_esperado_periodo: <a class="reference internal" href="#inewave.newave.modelos.pmo.CustoOperacaoPMO" title="inewave.newave.modelos.pmo.CustoOperacaoPMO"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CustoOperacaoPMO</span></code></a></p></li>
+<li><p>custo_referenciado: <a class="reference internal" href="#inewave.newave.modelos.pmo.CustoOperacaoPMO" title="inewave.newave.modelos.pmo.CustoOperacaoPMO"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CustoOperacaoPMO</span></code></a></p></li>
+</ul>
+</dd></dl>
+
+</div>
+<div class="section" id="modelos-auxiliares">
+<h2>Modelos auxiliares<a class="headerlink" href="#modelos-auxiliares" title="Link permanente para este título">¶</a></h2>
+<p>Devido ao grande número de informações existentes no <code class="xref py py-obj docutils literal notranslate"><span class="pre">pmo.dat</span></code>, foram definidos modelos
+auxiliares para armazenar todas as informações disponíveis.</p>
+<dl class="py class">
+<dt id="inewave.newave.modelos.pmo.DadosGeraisPMO">
+<em class="property">class </em><code class="sig-name descname">DadosGeraisPMO</code><a class="reference internal" href="../../../_modules/inewave/newave/modelos/pmo.html#DadosGeraisPMO"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#inewave.newave.modelos.pmo.DadosGeraisPMO" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Armazena as informações de dados
+gerais contidas no arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">pmo.dat</span></code>.</p>
+<p><strong>Parâmetros</strong></p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="inewave.newave.modelos.pmo.EnergiasAfluentesPMO">
+<em class="property">class </em><code class="sig-name descname">EnergiasAfluentesPMO</code><a class="reference internal" href="../../../_modules/inewave/newave/modelos/pmo.html#EnergiasAfluentesPMO"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#inewave.newave.modelos.pmo.EnergiasAfluentesPMO" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Armazena as informações de energias
+afluentes anteriores ao estudo contidas no arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">pmo.dat</span></code>.</p>
+<p><strong>Parâmetros</strong></p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="inewave.newave.modelos.pmo.DemandaLiquidaEnergiaPMO">
+<em class="property">class </em><code class="sig-name descname">DemandaLiquidaEnergiaPMO</code><a class="reference internal" href="../../../_modules/inewave/newave/modelos/pmo.html#DemandaLiquidaEnergiaPMO"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#inewave.newave.modelos.pmo.DemandaLiquidaEnergiaPMO" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Armazena as informações de demandas
+líquidas de energia contidas no arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">pmo.dat</span></code>.</p>
+<p><strong>Parâmetros</strong></p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="inewave.newave.modelos.pmo.RiscoDeficitENSPMO">
+<em class="property">class </em><code class="sig-name descname">RiscoDeficitENSPMO</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">anos_estudo</span><span class="p">:</span> <span class="n">List<span class="p">[</span>int<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">tabela</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/newave/modelos/pmo.html#RiscoDeficitENSPMO"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#inewave.newave.modelos.pmo.RiscoDeficitENSPMO" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Armazena as informações risco de déficit e valores esperados
+de energia não supridacontidas no arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">pmo.dat</span></code>.</p>
+<p><strong>Parâmetros</strong></p>
+<ul class="simple">
+<li><p>anos_estudo: <code class="xref py py-obj docutils literal notranslate"><span class="pre">List[int]</span></code></p></li>
+<li><p>tabela: <code class="xref py py-obj docutils literal notranslate"><span class="pre">np.ndarray</span></code></p></li>
+</ul>
+<dl class="py method">
+<dt id="inewave.newave.modelos.pmo.RiscoDeficitENSPMO.ens_por_subsistema_e_ano">
+<em class="property">property </em><code class="sig-name descname">ens_por_subsistema_e_ano</code><a class="headerlink" href="#inewave.newave.modelos.pmo.RiscoDeficitENSPMO.ens_por_subsistema_e_ano" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Energias não supridas agrupadas por
+subsistema e ano de estudo.</p>
+<p><strong>Retorna</strong></p>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dict[str,</span> <span class="pre">Dict[int,</span> <span class="pre">float]]</span></code></p>
+<p><strong>Sobre</strong></p>
+<p>O acesso é feito com
+[sub][ano] e o valor fornecido é em MWmes.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="inewave.newave.modelos.pmo.RiscoDeficitENSPMO.riscos_por_subsistema_e_ano">
+<em class="property">property </em><code class="sig-name descname">riscos_por_subsistema_e_ano</code><a class="headerlink" href="#inewave.newave.modelos.pmo.RiscoDeficitENSPMO.riscos_por_subsistema_e_ano" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Riscos de déficit agrupados por
+subsistema e ano de estudo.</p>
+<p><strong>Retorna</strong></p>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dict[str,</span> <span class="pre">Dict[int,</span> <span class="pre">float]]</span></code></p>
+<p><strong>Sobre</strong></p>
+<p>O acesso é feito com
+[sub][ano] e o valor fornecido é em percentual, de 0 a 100.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="inewave.newave.modelos.pmo.CustoOperacaoPMO">
+<em class="property">class </em><code class="sig-name descname">CustoOperacaoPMO</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">custos</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/newave/modelos/pmo.html#CustoOperacaoPMO"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#inewave.newave.modelos.pmo.CustoOperacaoPMO" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Armazena as informações do relatório
+de custo de operação, disponível no arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">pmo.dat</span></code>.</p>
+<p>Esta classe armazena uma das tabelas existentes ao final do arquivo
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">pmo.dat</span></code>, contendo os custos, os desvios-padrão e a participação
+em percentual de cada componente de custo.</p>
+<p>A tabela de custos é armazenada através de uma array
+em <code class="xref py py-obj docutils literal notranslate"><span class="pre">NumPy</span></code>, para otimizar cálculos futuros e espaço ocupado
+em memória. A tabela interna é transformada em dicionários
+e outras estruturas de dados mais palpáveis através das propriedades
+da própria classe.</p>
+<p><strong>Parâmetros</strong></p>
+<ul class="simple">
+<li><p>custos: <code class="xref py py-obj docutils literal notranslate"><span class="pre">np.ndarray</span></code></p></li>
+</ul>
+<dl class="py method">
+<dt id="inewave.newave.modelos.pmo.CustoOperacaoPMO.custo_total">
+<em class="property">property </em><code class="sig-name descname">custo_total</code><a class="headerlink" href="#inewave.newave.modelos.pmo.CustoOperacaoPMO.custo_total" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Custo total de operação, em MMR$.</p>
+<p><strong>Retorna</strong></p>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code></p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="inewave.newave.modelos.pmo.CustoOperacaoPMO.custos_hidricos">
+<em class="property">property </em><code class="sig-name descname">custos_hidricos</code><a class="headerlink" href="#inewave.newave.modelos.pmo.CustoOperacaoPMO.custos_hidricos" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Parcela do custo de operação devido a violações de restrições
+hídricas, EVmin, VZmin, GHmin, GHmin Usina e outros usos
+da água, em MMR$.</p>
+<p><strong>Retorna</strong></p>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code></p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="inewave.newave.modelos.pmo.CustoOperacaoPMO.custos_seguranca">
+<em class="property">property </em><code class="sig-name descname">custos_seguranca</code><a class="headerlink" href="#inewave.newave.modelos.pmo.CustoOperacaoPMO.custos_seguranca" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Parcela do custo de operação devido a violações de segurança,
+CAR e SAR, em MMR$.</p>
+<p><strong>Retorna</strong></p>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code></p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="inewave.newave.modelos.pmo.CustoOperacaoPMO.deficit">
+<em class="property">property </em><code class="sig-name descname">deficit</code><a class="headerlink" href="#inewave.newave.modelos.pmo.CustoOperacaoPMO.deficit" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Parcela do custo de operação devido ao déficit, em MMR$.</p>
+<p><strong>Retorna</strong></p>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code></p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="inewave.newave.modelos.pmo.CustoOperacaoPMO.geracao_termica">
+<em class="property">property </em><code class="sig-name descname">geracao_termica</code><a class="headerlink" href="#inewave.newave.modelos.pmo.CustoOperacaoPMO.geracao_termica" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Parcela do custo de operação devido à geração térmica,
+em MMR$.</p>
+<p><strong>Retorna</strong></p>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code></p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="inewave.newave.modelos.pmo.CustoOperacaoPMO.outros_custos">
+<em class="property">property </em><code class="sig-name descname">outros_custos</code><a class="headerlink" href="#inewave.newave.modelos.pmo.CustoOperacaoPMO.outros_custos" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Parcela do custo de operação devido a violações e penalidades
+de intercâmbio, intercâmbio mínimo, vertimento, vertimento
+fio d’água não turbinável, excesso de energia, emissão de GEE
+e retirada, em MMR$.</p>
+<p><strong>Retorna</strong></p>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="leitura">
+<h2>Leitura<a class="headerlink" href="#leitura" title="Link permanente para este título">¶</a></h2>
+<p>A leitura do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">pmo.dat</span></code> é feita através da classe <a class="reference internal" href="#inewave.newave.pmo.LeituraPMO" title="inewave.newave.pmo.LeituraPMO"><code class="xref py py-class docutils literal notranslate"><span class="pre">LeituraPMO</span></code></a>.</p>
+<dl class="py class">
+<dt id="inewave.newave.pmo.LeituraPMO">
+<em class="property">class </em><code class="sig-name descname">LeituraPMO</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">diretorio</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/newave/pmo.html#LeituraPMO"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#inewave.newave.pmo.LeituraPMO" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Realiza a leitura do arquivo pmo.dat
+existente em um diretório de entradas do NEWAVE.</p>
+<p>Esta classe contém o conjunto de utilidades para ler
+e interpretar os campos de um arquivo pmo.dat, construindo
+um objeto <code class="xref py py-obj docutils literal notranslate"><span class="pre">PMO</span></code> cujas informações são as mesmas do pmo.dat.</p>
+<p>Este objeto existe para retirar do modelo de dados a complexidade
+de iterar pelas linhas do arquivo, recortar colunas, converter
+tipos de dados, dentre outras tarefas necessárias para a leitura.</p>
+<p>Uma vez realizada a leitura do arquivo, as informações são guardadas
+internamente no atributo <code class="xref py py-obj docutils literal notranslate"><span class="pre">pmo</span></code>.</p>
+<p><strong>Exemplos</strong></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">diretorio</span> <span class="o">=</span> <span class="s2">&quot;~/documentos/.../deck&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">leitor</span> <span class="o">=</span> <span class="n">LeituraPMO</span><span class="p">(</span><span class="n">diretorio</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">leitor</span><span class="o">.</span><span class="n">le_arquivo</span><span class="p">()</span>
+<span class="go"># Ops, esqueci de pegar o objeto</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pmo</span> <span class="o">=</span> <span class="n">leitor</span><span class="o">.</span><span class="n">pmo</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt id="inewave.newave.pmo.LeituraPMO.le_arquivo">
+<code class="sig-name descname">le_arquivo</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#inewave.newave.modelos.pmo.PMO" title="inewave.newave.modelos.pmo.PMO">inewave.newave.modelos.pmo.PMO</a><a class="reference internal" href="../../../_modules/inewave/newave/pmo.html#LeituraPMO.le_arquivo"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#inewave.newave.pmo.LeituraPMO.le_arquivo" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Faz a leitura do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">pmo.dat</span></code>.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="../../nwlistcf/index.html" class="btn btn-neutral float-right" title="NWLISTCF" accesskey="n" rel="next">Próximo <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="patamar.html" class="btn btn-neutral float-left" title="Patamares de Carga (patamar.dat)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Anterior</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Rogerio Alves.
+
+    </p>
+  </div>
+    
+    
+    
+    Compilado com <a href="https://www.sphinx-doc.org/">Sphinx</a> usando um
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">tema</a>
+    
+    fornecido por <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
