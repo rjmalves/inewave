@@ -443,6 +443,24 @@ class DGer:
         self.mantem_arquivos_ena = mantem_arquivos_ena
         self.inicio_teste_convergencia = inicio_teste_convergencia
 
+    def __eq__(self, o: object) -> bool:
+        """
+        A igualdade entre DGer avalia todos os campos,
+        menos o nome do estudo.
+        """
+        if not isinstance(o, DGer):
+            return False
+        dger: DGer = o
+        dif = False
+        for (k, u), (_, v) in zip(self.__dict__.items(),
+                                  dger.__dict__.items()):
+            if k == "nome_estudo":
+                continue
+            if u != v:
+                dif = True
+                break
+        return not dif
+
     @classmethod
     def dger_padrao(cls):
         """
@@ -511,7 +529,7 @@ class DGer:
                     EnumCorrecaoEnergiaDesvio.VARIAVEL_COM_ARMAZENAMENTO,
                     True,
                     EnumTipoGeracaoENAs.RESIDUOS_IGUAIS_FW_BW,
-                    [1.0, 2.5],
+                    (1.0, 2.5),
                     0,
                     True,
                     True,
@@ -544,19 +562,10 @@ class DGer:
                     False,
                     False,
                     False,
-                    [EnumRepresentanteAgregacao.MAIS_PROXIMO,
-                     EnumRepresentanteAgregacao.MAIS_PROXIMO,
-                     EnumRepresentanteAgregacao.MAIS_PROXIMO,
-                     EnumRepresentanteAgregacao.CENTROIDE],
-                    [EnumMatrizCorrelacaoEspacial.ANUAL,
-                     EnumMatrizCorrelacaoEspacial.ANUAL,
-                     EnumMatrizCorrelacaoEspacial.ANUAL,
-                     EnumMatrizCorrelacaoEspacial.MENSAL],
-                    [False, False, False, True],
-                    [EnumMomentoReamostragem.BW_ITER_CORRESPONDENTE,
-                     EnumMomentoReamostragem.BW_ITER_CORRESPONDENTE,
-                     EnumMomentoReamostragem.BW_ITER_CORRESPONDENTE,
-                     EnumMomentoReamostragem.FW_ITER_CORRESPONDENTE],
-                    [False, False, False, False],
+                    EnumRepresentanteAgregacao.CENTROIDE,
+                    EnumMatrizCorrelacaoEspacial.MENSAL,
+                    True,
+                    EnumMomentoReamostragem.FW_ITER_CORRESPONDENTE,
+                    False,
                     EnumInicioTesteConvergencia.ITERACAO_MINIMA
                     )

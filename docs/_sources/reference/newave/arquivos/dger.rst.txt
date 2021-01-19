@@ -1,59 +1,73 @@
+.. _dger:
+
+========================
 Dados gerais (dger.dat)
 ========================
 
-.. currentmodule:: inewave
+.. currentmodule:: inewave.newave.modelos.dger
 
 Visão geral do modelo
-----------------------
+======================
 
 Os dados gerais de execução do NEWAVE, localizados no arquivo geralmente denominado
 dger.dat, são armazenados na classe:
 
-.. autoclass:: inewave.newave.modelos.dger.DGer
+.. autoclass:: DGer
    :members:
 
 Enumeradores auxiliares
-------------------------
+========================
 
 Para armazenar completamente o conteúdo especificado no arquivo ``dger.dat``
 são definidos enumeradores auxiliares:
 
-.. autoclass:: inewave.newave.modelos.dger.EnumTipoExecucao
+.. autoclass:: EnumTipoExecucao
 
-.. autoclass:: inewave.newave.modelos.dger.EnumTipoSimulacaoFinal
+.. autoclass:: EnumTipoSimulacaoFinal
 
-.. autoclass:: inewave.newave.modelos.dger.EnumImpressaoOperacao
+.. autoclass:: EnumImpressaoOperacao
 
-.. autoclass:: inewave.newave.modelos.dger.EnumImpressaoConvergencia
+.. autoclass:: EnumImpressaoConvergencia
 
-.. autoclass:: inewave.newave.modelos.dger.EnumTamanhoArquivoVazoes
+.. autoclass:: EnumTamanhoArquivoVazoes
 
-.. autoclass:: inewave.newave.modelos.dger.EnumTendenciaHidrologica
+.. autoclass:: EnumTendenciaHidrologica
 
-.. autoclass:: inewave.newave.modelos.dger.EnumDuracaoPatamar
+.. autoclass:: EnumDuracaoPatamar
 
-.. autoclass:: inewave.newave.modelos.dger.EnumCorrecaoEnergiaDesvio
+.. autoclass:: EnumCorrecaoEnergiaDesvio
 
-.. autoclass:: inewave.newave.modelos.dger.EnumTipoGeracaoENAs
+.. autoclass:: EnumTipoGeracaoENAs
 
-.. autoclass:: inewave.newave.modelos.dger.EnumRepresentacaoSubmotorizacao
+.. autoclass:: EnumRepresentacaoSubmotorizacao
 
-.. autoclass:: inewave.newave.modelos.dger.EnumCVAR
+.. autoclass:: EnumCVAR
 
-.. autoclass:: inewave.newave.modelos.dger.EnumTipoReamostragem
+.. autoclass:: EnumTipoReamostragem
 
-.. autoclass:: inewave.newave.modelos.dger.EnumRepresentanteAgregacao
+.. autoclass:: EnumRepresentanteAgregacao
 
-.. autoclass:: inewave.newave.modelos.dger.EnumMatrizCorrelacaoEspacial
+.. autoclass:: EnumMatrizCorrelacaoEspacial
 
-.. autoclass:: inewave.newave.modelos.dger.EnumMomentoReamostragem
+.. autoclass:: EnumMomentoReamostragem
 
-.. autoclass:: inewave.newave.modelos.dger.EnumInicioTesteConvergencia
+.. autoclass:: EnumInicioTesteConvergencia
 
 
 Leitura
---------
+========
+.. currentmodule:: inewave.newave.dger
+
+A leitura do arquivo `dger.dat` é feita através da classe :class:`LeituraDGer`.
+
+.. autoclass:: LeituraDGer
+   :members:
 
 
 Escrita
---------
+========
+
+A escrita do arquivo `dger.dat` é feita através da classe :class:`EscritaDGer`.
+
+.. autoclass:: EscritaDGer
+   :members:

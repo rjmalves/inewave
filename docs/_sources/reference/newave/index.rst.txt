@@ -1,5 +1,8 @@
+.. _newave:
+
 NEWAVE
 =======
+
 
 A estrutura do *inewave* padroniza os objetos de interface existentes para cada um dos três módulos desenvolvidos. 
 A interface com o NEWAVE segue o padrão de implementar modelos para armazenar cada uma das informações existentes

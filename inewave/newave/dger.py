@@ -372,8 +372,8 @@ class EscritaDGer(Escrita):
     **Exemplos**
 
     >>> diretorio = "~/documentos/.../deck"
-    >>> leitor = LeituraDGer(diretorio)
-    >>> leitor.le_arquivo()
+    >>> dger = DGer.dger_padrao()
+    >>> escritor = EscritaDGer(diretorio)
     # Ops, esqueci de pegar o objeto
     >>> dger = leitor.dger
     """

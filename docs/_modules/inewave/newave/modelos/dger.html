@@ -1,0 +1,767 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="pt-BR" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>inewave.newave.modelos.dger &mdash; documentação inewave 0.0.8</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/gallery-binder.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/gallery-dataframe.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/gallery-rendered-html.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/translations.js"></script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Índice" href="../../../../genindex.html" />
+    <link rel="search" title="Buscar" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> inewave
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Pesquisar documentos" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../install.html">Instalação</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../reference.html">Referência</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">inewave</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../../index.html">Código do módulo</a> &raquo;</li>
+        
+      <li>inewave.newave.modelos.dger</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Código fonte para inewave.newave.modelos.dger</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span>
+
+
+<span class="k">class</span> <span class="nc">EnumComInferencia</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Classe base para os enums com inferência</span>
+<span class="sd">    do enum a partir do valor dado</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">infere_valor</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Construtor do enum a partir do valor</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="bp">cls</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="n">v</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">e</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+
+<div class="viewcode-block" id="EnumTipoExecucao"><a class="viewcode-back" href="../../../../reference/newave/arquivos/dger.html#inewave.newave.modelos.dger.EnumTipoExecucao">[documentos]</a><span class="k">class</span> <span class="nc">EnumTipoExecucao</span><span class="p">(</span><span class="n">EnumComInferencia</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    - COMPLETA:</span>
+<span class="sd">    - SIMULACAO_FINAL</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">COMPLETA</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">SIMULACAO_FINAL</span> <span class="o">=</span> <span class="mi">1</span></div>
+
+
+<div class="viewcode-block" id="EnumTipoSimulacaoFinal"><a class="viewcode-back" href="../../../../reference/newave/arquivos/dger.html#inewave.newave.modelos.dger.EnumTipoSimulacaoFinal">[documentos]</a><span class="k">class</span> <span class="nc">EnumTipoSimulacaoFinal</span><span class="p">(</span><span class="n">EnumComInferencia</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    - NAO_SIMULA</span>
+<span class="sd">    - SERIES_SINTETICAS</span>
+<span class="sd">    - SERIE_HISTORICA</span>
+<span class="sd">    - CONSISTENCIA_DADOS</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">NAO_SIMULA</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">SERIES_SINTETICAS</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">SERIE_HISTORICA</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">CONSISTENCIA_DADOS</span> <span class="o">=</span> <span class="mi">3</span></div>
+
+
+<div class="viewcode-block" id="EnumImpressaoOperacao"><a class="viewcode-back" href="../../../../reference/newave/arquivos/dger.html#inewave.newave.modelos.dger.EnumImpressaoOperacao">[documentos]</a><span class="k">class</span> <span class="nc">EnumImpressaoOperacao</span><span class="p">(</span><span class="n">EnumComInferencia</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    - SINOPSE</span>
+<span class="sd">    - OPERACAO_DETALHADA</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">SINOPSE</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">OPERACAO_DETALHADA</span> <span class="o">=</span> <span class="mi">1</span></div>
+
+
+<div class="viewcode-block" id="EnumImpressaoConvergencia"><a class="viewcode-back" href="../../../../reference/newave/arquivos/dger.html#inewave.newave.modelos.dger.EnumImpressaoConvergencia">[documentos]</a><span class="k">class</span> <span class="nc">EnumImpressaoConvergencia</span><span class="p">(</span><span class="n">EnumComInferencia</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    - CONVERGENCIA_FINAL</span>
+<span class="sd">    - CONVERGENCIA_TOTAL</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">CONVERGENCIA_FINAL</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">CONVERGENCIA_TOTAL</span> <span class="o">=</span> <span class="mi">1</span></div>
+
+
+<div class="viewcode-block" id="EnumTamanhoArquivoVazoes"><a class="viewcode-back" href="../../../../reference/newave/arquivos/dger.html#inewave.newave.modelos.dger.EnumTamanhoArquivoVazoes">[documentos]</a><span class="k">class</span> <span class="nc">EnumTamanhoArquivoVazoes</span><span class="p">(</span><span class="n">EnumComInferencia</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    - PALAVRAS_320</span>
+<span class="sd">    - PALAVRAS_600</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">PALAVRAS_320</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">PALAVRAS_600</span> <span class="o">=</span> <span class="mi">1</span></div>
+
+
+<div class="viewcode-block" id="EnumTendenciaHidrologica"><a class="viewcode-back" href="../../../../reference/newave/arquivos/dger.html#inewave.newave.modelos.dger.EnumTendenciaHidrologica">[documentos]</a><span class="k">class</span> <span class="nc">EnumTendenciaHidrologica</span><span class="p">(</span><span class="n">EnumComInferencia</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    - NAO_LER</span>
+<span class="sd">    - LER_POR_REE</span>
+<span class="sd">    - LER_POR_POSTO</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">NAO_LER</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">LER_POR_REE</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">LER_POR_POSTO</span> <span class="o">=</span> <span class="mi">2</span></div>
+
+
+<div class="viewcode-block" id="EnumDuracaoPatamar"><a class="viewcode-back" href="../../../../reference/newave/arquivos/dger.html#inewave.newave.modelos.dger.EnumDuracaoPatamar">[documentos]</a><span class="k">class</span> <span class="nc">EnumDuracaoPatamar</span><span class="p">(</span><span class="n">EnumComInferencia</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    - SAZONAL</span>
+<span class="sd">    - VARIAVEL_POR_ANO</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">SAZONAL</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">VARIAVEL_POR_ANO</span> <span class="o">=</span> <span class="mi">1</span></div>
+
+
+<div class="viewcode-block" id="EnumCorrecaoEnergiaDesvio"><a class="viewcode-back" href="../../../../reference/newave/arquivos/dger.html#inewave.newave.modelos.dger.EnumCorrecaoEnergiaDesvio">[documentos]</a><span class="k">class</span> <span class="nc">EnumCorrecaoEnergiaDesvio</span><span class="p">(</span><span class="n">EnumComInferencia</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    - CONSTANTE</span>
+<span class="sd">    - VARIAVEL_COM_ARMAZENAMENTO</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">CONSTANTE</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">VARIAVEL_COM_ARMAZENAMENTO</span> <span class="o">=</span> <span class="mi">1</span></div>
+
+
+<div class="viewcode-block" id="EnumTipoGeracaoENAs"><a class="viewcode-back" href="../../../../reference/newave/arquivos/dger.html#inewave.newave.modelos.dger.EnumTipoGeracaoENAs">[documentos]</a><span class="k">class</span> <span class="nc">EnumTipoGeracaoENAs</span><span class="p">(</span><span class="n">EnumComInferencia</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    - RESIDUOS_IGUAIS_FW_BW</span>
+<span class="sd">    - COMPENSACAO_CORR_CRUZADA_BW</span>
+<span class="sd">    - COMPENSACAO_CORR_CRUZADA_FW_BW</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">RESIDUOS_IGUAIS_FW_BW</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">COMPENSACAO_CORR_CRUZADA_BW</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">COMPENSACAO_CORR_CRUZADA_FW_BW</span> <span class="o">=</span> <span class="mi">2</span></div>
+
+
+<div class="viewcode-block" id="EnumRepresentacaoSubmotorizacao"><a class="viewcode-back" href="../../../../reference/newave/arquivos/dger.html#inewave.newave.modelos.dger.EnumRepresentacaoSubmotorizacao">[documentos]</a><span class="k">class</span> <span class="nc">EnumRepresentacaoSubmotorizacao</span><span class="p">(</span><span class="n">EnumComInferencia</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    - NAO_CONSIDERA</span>
+<span class="sd">    - SUBSISTEMA</span>
+<span class="sd">    - USINA</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">NAO_CONSIDERA</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">SUBSISTEMA</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">USINA</span> <span class="o">=</span> <span class="mi">2</span></div>
+
+
+<div class="viewcode-block" id="EnumCVAR"><a class="viewcode-back" href="../../../../reference/newave/arquivos/dger.html#inewave.newave.modelos.dger.EnumCVAR">[documentos]</a><span class="k">class</span> <span class="nc">EnumCVAR</span><span class="p">(</span><span class="n">EnumComInferencia</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    - NAO_CONSIDERA</span>
+<span class="sd">    - CONSTANTE_NO_TEMPO</span>
+<span class="sd">    - VARIAVEL_NO_TEMPO</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">NAO_CONSIDERA</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">CONSTANTE_NO_TEMPO</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">VARIAVEL_NO_TEMPO</span> <span class="o">=</span> <span class="mi">2</span></div>
+
+
+<div class="viewcode-block" id="EnumTipoReamostragem"><a class="viewcode-back" href="../../../../reference/newave/arquivos/dger.html#inewave.newave.modelos.dger.EnumTipoReamostragem">[documentos]</a><span class="k">class</span> <span class="nc">EnumTipoReamostragem</span><span class="p">(</span><span class="n">EnumComInferencia</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    - RECOMBINACAO</span>
+<span class="sd">    - PLENA</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">RECOMBINACAO</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">PLENA</span> <span class="o">=</span> <span class="mi">1</span></div>
+
+
+<div class="viewcode-block" id="EnumRepresentanteAgregacao"><a class="viewcode-back" href="../../../../reference/newave/arquivos/dger.html#inewave.newave.modelos.dger.EnumRepresentanteAgregacao">[documentos]</a><span class="k">class</span> <span class="nc">EnumRepresentanteAgregacao</span><span class="p">(</span><span class="n">EnumComInferencia</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    - MAIS_PROXIMO</span>
+<span class="sd">    - CENTROIDE</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">MAIS_PROXIMO</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">CENTROIDE</span> <span class="o">=</span> <span class="mi">1</span></div>
+
+
+<div class="viewcode-block" id="EnumMatrizCorrelacaoEspacial"><a class="viewcode-back" href="../../../../reference/newave/arquivos/dger.html#inewave.newave.modelos.dger.EnumMatrizCorrelacaoEspacial">[documentos]</a><span class="k">class</span> <span class="nc">EnumMatrizCorrelacaoEspacial</span><span class="p">(</span><span class="n">EnumComInferencia</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    - ANUAL</span>
+<span class="sd">    - MENSAL</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ANUAL</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">MENSAL</span> <span class="o">=</span> <span class="mi">1</span></div>
+
+
+<div class="viewcode-block" id="EnumMomentoReamostragem"><a class="viewcode-back" href="../../../../reference/newave/arquivos/dger.html#inewave.newave.modelos.dger.EnumMomentoReamostragem">[documentos]</a><span class="k">class</span> <span class="nc">EnumMomentoReamostragem</span><span class="p">(</span><span class="n">EnumComInferencia</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    - BW_ITER_CORRESPONDENTE</span>
+<span class="sd">    - FW_ITER_CORRESPONDENTE</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">BW_ITER_CORRESPONDENTE</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">FW_ITER_CORRESPONDENTE</span> <span class="o">=</span> <span class="mi">1</span></div>
+
+
+<div class="viewcode-block" id="EnumInicioTesteConvergencia"><a class="viewcode-back" href="../../../../reference/newave/arquivos/dger.html#inewave.newave.modelos.dger.EnumInicioTesteConvergencia">[documentos]</a><span class="k">class</span> <span class="nc">EnumInicioTesteConvergencia</span><span class="p">(</span><span class="n">EnumComInferencia</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    - PRIMEIRA_ITERACAO</span>
+<span class="sd">    - ITERACAO_MINIMA</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">PRIMEIRA_ITERACAO</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">ITERACAO_MINIMA</span> <span class="o">=</span> <span class="mi">1</span></div>
+
+
+<div class="viewcode-block" id="DGer"><a class="viewcode-back" href="../../../../reference/newave/arquivos/dger.html#inewave.newave.modelos.dger.DGer">[documentos]</a><span class="k">class</span> <span class="nc">DGer</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Classe para armazenar dados gerais de uma execução do NEWAVE.</span>
+
+<span class="sd">    Os parâmetros são fornecidos ao construtor na mesma ordem em</span>
+<span class="sd">    que são definidos no arquivo ``dger.dat``.</span>
+
+<span class="sd">    Apesar disso, não é recomendado criar um arquivo com o construtor</span>
+<span class="sd">    desta classe, e sim utilizar o método ``DGer.dger_padrao()``,</span>
+<span class="sd">    que fornece um objeto com valores em todos os campos,</span>
+<span class="sd">    que podem ser modificados.</span>
+
+<span class="sd">    **Parâmetros**</span>
+
+<span class="sd">    - nome_estudo : ``str``</span>
+<span class="sd">    - tipo_execucao: ``EnumTipoExecucao``</span>
+<span class="sd">    - duracao_estagio_op: ``int``</span>
+<span class="sd">    - num_anos_estudo: ``int``,</span>
+<span class="sd">    - mes_inicio_pre_estudo: ``int``,</span>
+<span class="sd">    - mes_inicio_estudo: ``int``,</span>
+<span class="sd">    - ano_inicio_estudo: ``int``,</span>
+<span class="sd">    - num_anos_pre_estudo: ``int``,</span>
+<span class="sd">    - num_anos_pos_estudo: ``int``,</span>
+<span class="sd">    - num_anos_pos_sim_final: ``int``,</span>
+<span class="sd">    - imprime_dados_usinas: ``bool``,</span>
+<span class="sd">    - imprime_dados_mercados: ``bool``,</span>
+<span class="sd">    - imprime_dados_energias: ``bool``,</span>
+<span class="sd">    - imprime_dados_modelo: ``bool``,</span>
+<span class="sd">    - imprime_dados_rees: ``bool``,</span>
+<span class="sd">    - max_iteracoes: ``int``,</span>
+<span class="sd">    - num_sim_forward: ``int``,</span>
+<span class="sd">    - num_aberturas: ``int``,</span>
+<span class="sd">    - num_series_sinteticas: ``int``,</span>
+<span class="sd">    - ordem_maxima_parp: ``int``,</span>
+<span class="sd">    - ano_inicial_vaz_historicas: ``int``,</span>
+<span class="sd">    - tamanho_arq_vaz_historicas: ``EnumTamanhoArquivoVazoes``,</span>
+<span class="sd">    - calcula_vol_inicial: ``bool``,</span>
+<span class="sd">    - vol_inicial_subsistema: ``List[float]``,</span>
+<span class="sd">    - tolerancia: ``float``,</span>
+<span class="sd">    - taxa_de_desconto: ``float``,</span>
+<span class="sd">    - tipo_simulacao_final: ``EnumTipoSimulacaoFinal``,</span>
+<span class="sd">    - impressao_operacao: ``EnumImpressaoOperacao``,</span>
+<span class="sd">    - impressao_convergencia: ``EnumImpressaoConvergencia``,</span>
+<span class="sd">    - intervalo_gravacao_relatorio: ``int``,</span>
+<span class="sd">    - min_interacoes: ``int``,</span>
+<span class="sd">    - racionamento_preventivo: ``bool``,</span>
+<span class="sd">    - numero_anos_manutencao_UTEs: ``int``,</span>
+<span class="sd">    - tendencia_hidrologica: ``EnumTendenciaHidrologica``,</span>
+<span class="sd">    - restricoes_itaipu: ``bool``,</span>
+<span class="sd">    - bidding_demanda: ``bool``,</span>
+<span class="sd">    - perdas_transmissao: ``bool``,</span>
+<span class="sd">    - el_nino: ``bool``,</span>
+<span class="sd">    - enso: ``bool``,</span>
+<span class="sd">    - duracao_patamar: ``EnumDuracaoPatamar``,</span>
+<span class="sd">    - considera_desvio_dagua: ``bool``,</span>
+<span class="sd">    - correcao_energia_desvio: ``EnumCorrecaoEnergiaDesvio``,</span>
+<span class="sd">    - considera_curva_aversao: ``bool``,</span>
+<span class="sd">    - tipo_geracao_afluencias: ``EnumTipoGeracaoENAs``,</span>
+<span class="sd">    - profundidade_risco_deficit: ``Tuple[float, float]``,</span>
+<span class="sd">    - iteracao_sim_final: ``int``,</span>
+<span class="sd">    - agrupamento_livre_interc: ``bool``,</span>
+<span class="sd">    - equaliza_penalidades_interc: ``bool``,</span>
+<span class="sd">    - representa_submotor: ``EnumRepresentacaoSubmotorizacao``,</span>
+<span class="sd">    - ordenacao_automatica_subsist: ``bool``,</span>
+<span class="sd">    - considera_cargas_adicionais: ``bool``,</span>
+<span class="sd">    - delta_zsup: ``float``,</span>
+<span class="sd">    - delta_zinf: ``float``,</span>
+<span class="sd">    - deltas_consecutivos: ``int``,</span>
+<span class="sd">    - considera_despacho_gnl: ``bool``,</span>
+<span class="sd">    - modifica_auto_despacho_gnl: ``bool``,</span>
+<span class="sd">    - considera_ghmin: ``bool``,</span>
+<span class="sd">    - sim_final_com_data: ``bool``,</span>
+<span class="sd">    - gerenciador_externo: ``bool``,</span>
+<span class="sd">    - comunicacao_dois_niveis: ``bool``,</span>
+<span class="sd">    - armazenamento_local_temp: ``bool``,</span>
+<span class="sd">    - aloca_memoria_enas: ``bool``,</span>
+<span class="sd">    - aloca_memoria_cortes: ``bool``,</span>
+<span class="sd">    - sar: ``bool``,</span>
+<span class="sd">    - cvar: ``EnumCVAR``,</span>
+<span class="sd">    - convergencia_minimo_zsup: ``bool``,</span>
+<span class="sd">    - desconsidera_vazao_minima: ``bool``,</span>
+<span class="sd">    - considera_restricoes_elet: ``bool``,</span>
+<span class="sd">    - selecao_cortes_benders: ``bool``,</span>
+<span class="sd">    - janela_selecao_cortes: ``bool``,</span>
+<span class="sd">    - reamostragem: ``bool``,</span>
+<span class="sd">    - tipo_reamostragem: ``EnumTipoReamostragem``,</span>
+<span class="sd">    - passo_reamostragem: ``int``,</span>
+<span class="sd">    - considera_convergencia_no0: ``bool``,</span>
+<span class="sd">    - consulta_fcf: ``bool``,</span>
+<span class="sd">    - impressao_ena: ``bool``,</span>
+<span class="sd">    - impressao_cortes_ativos: ``bool``,</span>
+<span class="sd">    - representante_agregacao: ``EnumRepresentanteAgregacao``,</span>
+<span class="sd">    - matriz_corr_espacial: ``EnumMatrizCorrelacaoEspacial``,</span>
+<span class="sd">    - desconsidera_converg_estatist: ``bool``,</span>
+<span class="sd">    - momento_reamostragem: ``EnumMomentoReamostragem``,</span>
+<span class="sd">    - mantem_arquivos_ena: ``bool``,</span>
+<span class="sd">    - inicio_teste_convergencia: ``EnumInicioTesteConvergencia``</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">nome_estudo</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                 <span class="n">tipo_execucao</span><span class="p">:</span> <span class="n">EnumTipoExecucao</span><span class="p">,</span>
+                 <span class="n">duracao_estagio_op</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+                 <span class="n">num_anos_estudo</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+                 <span class="n">mes_inicio_pre_estudo</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+                 <span class="n">mes_inicio_estudo</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+                 <span class="n">ano_inicio_estudo</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+                 <span class="n">num_anos_pre_estudo</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+                 <span class="n">num_anos_pos_estudo</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+                 <span class="n">num_anos_pos_sim_final</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+                 <span class="n">imprime_dados_usinas</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+                 <span class="n">imprime_dados_mercados</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+                 <span class="n">imprime_dados_energias</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+                 <span class="n">imprime_dados_modelo</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+                 <span class="n">imprime_dados_rees</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+                 <span class="n">max_iteracoes</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+                 <span class="n">num_sim_forward</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+                 <span class="n">num_aberturas</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+                 <span class="n">num_series_sinteticas</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+                 <span class="n">ordem_maxima_parp</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+                 <span class="n">ano_inicial_vaz_historicas</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+                 <span class="n">tamanho_arq_vaz_historicas</span><span class="p">:</span> <span class="n">EnumTamanhoArquivoVazoes</span><span class="p">,</span>
+                 <span class="n">calcula_vol_inicial</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+                 <span class="n">vol_inicial_subsistema</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
+                 <span class="n">tolerancia</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                 <span class="n">taxa_de_desconto</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                 <span class="n">tipo_simulacao_final</span><span class="p">:</span> <span class="n">EnumTipoSimulacaoFinal</span><span class="p">,</span>
+                 <span class="n">impressao_operacao</span><span class="p">:</span> <span class="n">EnumImpressaoOperacao</span><span class="p">,</span>
+                 <span class="n">impressao_convergencia</span><span class="p">:</span> <span class="n">EnumImpressaoConvergencia</span><span class="p">,</span>
+                 <span class="n">intervalo_gravacao_relatorio</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+                 <span class="n">min_interacoes</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+                 <span class="n">racionamento_preventivo</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+                 <span class="n">numero_anos_manutencao_UTEs</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+                 <span class="n">tendencia_hidrologica</span><span class="p">:</span> <span class="n">EnumTendenciaHidrologica</span><span class="p">,</span>
+                 <span class="n">restricoes_itaipu</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+                 <span class="n">bidding_demanda</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+                 <span class="n">perdas_transmissao</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+                 <span class="n">el_nino</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+                 <span class="n">enso</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+                 <span class="n">duracao_patamar</span><span class="p">:</span> <span class="n">EnumDuracaoPatamar</span><span class="p">,</span>
+                 <span class="n">considera_desvio_dagua</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+                 <span class="n">correcao_energia_desvio</span><span class="p">:</span> <span class="n">EnumCorrecaoEnergiaDesvio</span><span class="p">,</span>
+                 <span class="n">considera_curva_aversao</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+                 <span class="n">tipo_geracao_afluencias</span><span class="p">:</span> <span class="n">EnumTipoGeracaoENAs</span><span class="p">,</span>
+                 <span class="n">profundidade_risco_deficit</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
+                 <span class="n">iteracao_sim_final</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+                 <span class="n">agrupamento_livre_interc</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+                 <span class="n">equaliza_penalidades_interc</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+                 <span class="n">representa_submotor</span><span class="p">:</span> <span class="n">EnumRepresentacaoSubmotorizacao</span><span class="p">,</span>
+                 <span class="n">ordenacao_automatica_subsist</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+                 <span class="n">considera_cargas_adicionais</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+                 <span class="n">delta_zsup</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                 <span class="n">delta_zinf</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                 <span class="n">deltas_consecutivos</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+                 <span class="n">considera_despacho_gnl</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+                 <span class="n">modifica_auto_despacho_gnl</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+                 <span class="n">considera_ghmin</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+                 <span class="n">sim_final_com_data</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+                 <span class="n">gerenciador_externo</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+                 <span class="n">comunicacao_dois_niveis</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+                 <span class="n">armazenamento_local_temp</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+                 <span class="n">aloca_memoria_enas</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+                 <span class="n">aloca_memoria_cortes</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+                 <span class="n">sar</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+                 <span class="n">cvar</span><span class="p">:</span> <span class="n">EnumCVAR</span><span class="p">,</span>
+                 <span class="n">convergencia_minimo_zsup</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+                 <span class="n">desconsidera_vazao_minima</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+                 <span class="n">considera_restricoes_elet</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+                 <span class="n">selecao_cortes_benders</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+                 <span class="n">janela_selecao_cortes</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+                 <span class="n">reamostragem</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+                 <span class="n">tipo_reamostragem</span><span class="p">:</span> <span class="n">EnumTipoReamostragem</span><span class="p">,</span>
+                 <span class="n">passo_reamostragem</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+                 <span class="n">considera_convergencia_no0</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+                 <span class="n">consulta_fcf</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+                 <span class="n">impressao_ena</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+                 <span class="n">impressao_cortes_ativos</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+                 <span class="n">representante_agregacao</span><span class="p">:</span> <span class="n">EnumRepresentanteAgregacao</span><span class="p">,</span>
+                 <span class="n">matriz_corr_espacial</span><span class="p">:</span> <span class="n">EnumMatrizCorrelacaoEspacial</span><span class="p">,</span>
+                 <span class="n">desconsidera_converg_estatist</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+                 <span class="n">momento_reamostragem</span><span class="p">:</span> <span class="n">EnumMomentoReamostragem</span><span class="p">,</span>
+                 <span class="n">mantem_arquivos_ena</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+                 <span class="n">inicio_teste_convergencia</span><span class="p">:</span> <span class="n">EnumInicioTesteConvergencia</span>
+                 <span class="p">):</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">nome_estudo</span> <span class="o">=</span> <span class="n">nome_estudo</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tipo_execucao</span> <span class="o">=</span> <span class="n">tipo_execucao</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">duracao_estagio_op</span> <span class="o">=</span> <span class="n">duracao_estagio_op</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_anos_estudo</span> <span class="o">=</span> <span class="n">num_anos_estudo</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mes_inicio_pre_estudo</span> <span class="o">=</span> <span class="n">mes_inicio_pre_estudo</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mes_inicio_estudo</span> <span class="o">=</span> <span class="n">mes_inicio_estudo</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ano_inicio_estudo</span> <span class="o">=</span> <span class="n">ano_inicio_estudo</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_anos_pre_estudo</span> <span class="o">=</span> <span class="n">num_anos_pre_estudo</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_anos_pos_estudo</span> <span class="o">=</span> <span class="n">num_anos_pos_estudo</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_anos_pos_sim_final</span> <span class="o">=</span> <span class="n">num_anos_pos_sim_final</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">imprime_dados_usinas</span> <span class="o">=</span> <span class="n">imprime_dados_usinas</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">imprime_dados_mercados</span> <span class="o">=</span> <span class="n">imprime_dados_mercados</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">imprime_dados_energias</span> <span class="o">=</span> <span class="n">imprime_dados_energias</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">imprime_dados_modelo</span> <span class="o">=</span> <span class="n">imprime_dados_modelo</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">imprime_dados_rees</span> <span class="o">=</span> <span class="n">imprime_dados_rees</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_iteracoes</span> <span class="o">=</span> <span class="n">max_iteracoes</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_sim_forward</span> <span class="o">=</span> <span class="n">num_sim_forward</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_aberturas</span> <span class="o">=</span> <span class="n">num_aberturas</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_series_sinteticas</span> <span class="o">=</span> <span class="n">num_series_sinteticas</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ordem_maxima_parp</span> <span class="o">=</span> <span class="n">ordem_maxima_parp</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ano_inicial_vaz_historicas</span> <span class="o">=</span> <span class="n">ano_inicial_vaz_historicas</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tamanho_arq_vaz_historicas</span> <span class="o">=</span> <span class="n">tamanho_arq_vaz_historicas</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">calcula_vol_inicial</span> <span class="o">=</span> <span class="n">calcula_vol_inicial</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vol_inicial_subsistema</span> <span class="o">=</span> <span class="n">vol_inicial_subsistema</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tolerancia</span> <span class="o">=</span> <span class="n">tolerancia</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">taxa_de_desconto</span> <span class="o">=</span> <span class="n">taxa_de_desconto</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tipo_simulacao_final</span> <span class="o">=</span> <span class="n">tipo_simulacao_final</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">impressao_operacao</span> <span class="o">=</span> <span class="n">impressao_operacao</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">impressao_convergencia</span> <span class="o">=</span> <span class="n">impressao_convergencia</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">intervalo_gravacao_relatorio</span> <span class="o">=</span> <span class="n">intervalo_gravacao_relatorio</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">min_interacoes</span> <span class="o">=</span> <span class="n">min_interacoes</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">racionamento_preventivo</span> <span class="o">=</span> <span class="n">racionamento_preventivo</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">numero_anos_manutencao_UTEs</span> <span class="o">=</span> <span class="n">numero_anos_manutencao_UTEs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tendencia_hidrologica</span> <span class="o">=</span> <span class="n">tendencia_hidrologica</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">restricoes_itaipu</span> <span class="o">=</span> <span class="n">restricoes_itaipu</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bidding_demanda</span> <span class="o">=</span> <span class="n">bidding_demanda</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">perdas_transmissao</span> <span class="o">=</span> <span class="n">perdas_transmissao</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">el_nino</span> <span class="o">=</span> <span class="n">el_nino</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">enso</span> <span class="o">=</span> <span class="n">enso</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">duracao_patamar</span> <span class="o">=</span> <span class="n">duracao_patamar</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">considera_desvio_dagua</span> <span class="o">=</span> <span class="n">considera_desvio_dagua</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">correcao_energia_desvio</span> <span class="o">=</span> <span class="n">correcao_energia_desvio</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">considera_curva_aversao</span> <span class="o">=</span> <span class="n">considera_curva_aversao</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tipo_geracao_afluencias</span> <span class="o">=</span> <span class="n">tipo_geracao_afluencias</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">profundidade_risco_deficit</span> <span class="o">=</span> <span class="n">profundidade_risco_deficit</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">iteracao_sim_final</span> <span class="o">=</span> <span class="n">iteracao_sim_final</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">agrupamento_livre_interc</span> <span class="o">=</span> <span class="n">agrupamento_livre_interc</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">equaliza_penalidades_interc</span> <span class="o">=</span> <span class="n">equaliza_penalidades_interc</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">representa_submotor</span> <span class="o">=</span> <span class="n">representa_submotor</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ordenacao_automatica_subsist</span> <span class="o">=</span> <span class="n">ordenacao_automatica_subsist</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">considera_cargas_adicionais</span> <span class="o">=</span> <span class="n">considera_cargas_adicionais</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">delta_zsup</span> <span class="o">=</span> <span class="n">delta_zsup</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">delta_zinf</span> <span class="o">=</span> <span class="n">delta_zinf</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">deltas_consecutivos</span> <span class="o">=</span> <span class="n">deltas_consecutivos</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">considera_despacho_gnl</span> <span class="o">=</span> <span class="n">considera_despacho_gnl</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">modifica_auto_despacho_gnl</span> <span class="o">=</span> <span class="n">modifica_auto_despacho_gnl</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">considera_ghmin</span> <span class="o">=</span> <span class="n">considera_ghmin</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sim_final_com_data</span> <span class="o">=</span> <span class="n">sim_final_com_data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gerenciador_externo</span> <span class="o">=</span> <span class="n">gerenciador_externo</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">comunicacao_dois_niveis</span> <span class="o">=</span> <span class="n">comunicacao_dois_niveis</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">armazenamento_local_temp</span> <span class="o">=</span> <span class="n">armazenamento_local_temp</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">aloca_memoria_enas</span> <span class="o">=</span> <span class="n">aloca_memoria_enas</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">aloca_memoria_cortes</span> <span class="o">=</span> <span class="n">aloca_memoria_cortes</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sar</span> <span class="o">=</span> <span class="n">sar</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cvar</span> <span class="o">=</span> <span class="n">cvar</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">convergencia_minimo_zsup</span> <span class="o">=</span> <span class="n">convergencia_minimo_zsup</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">desconsidera_vazao_minima</span> <span class="o">=</span> <span class="n">desconsidera_vazao_minima</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">considera_restricoes_elet</span> <span class="o">=</span> <span class="n">considera_restricoes_elet</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">selecao_cortes_benders</span> <span class="o">=</span> <span class="n">selecao_cortes_benders</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">janela_selecao_cortes</span> <span class="o">=</span> <span class="n">janela_selecao_cortes</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reamostragem</span> <span class="o">=</span> <span class="n">reamostragem</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tipo_reamostragem</span> <span class="o">=</span> <span class="n">tipo_reamostragem</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">passo_reamostragem</span> <span class="o">=</span> <span class="n">passo_reamostragem</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">considera_convergencia_no0</span> <span class="o">=</span> <span class="n">considera_convergencia_no0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">consulta_fcf</span> <span class="o">=</span> <span class="n">consulta_fcf</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">impressao_ena</span> <span class="o">=</span> <span class="n">impressao_ena</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">impressao_cortes_ativos</span> <span class="o">=</span> <span class="n">impressao_cortes_ativos</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">representante_agregacao</span> <span class="o">=</span> <span class="n">representante_agregacao</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">matriz_corr_espacial</span> <span class="o">=</span> <span class="n">matriz_corr_espacial</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">desconsidera_converg_estatist</span> <span class="o">=</span> <span class="n">desconsidera_converg_estatist</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">momento_reamostragem</span> <span class="o">=</span> <span class="n">momento_reamostragem</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mantem_arquivos_ena</span> <span class="o">=</span> <span class="n">mantem_arquivos_ena</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inicio_teste_convergencia</span> <span class="o">=</span> <span class="n">inicio_teste_convergencia</span>
+
+<div class="viewcode-block" id="DGer.dger_padrao"><a class="viewcode-back" href="../../../../reference/newave/arquivos/dger.html#inewave.newave.modelos.dger.DGer.dger_padrao">[documentos]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">dger_padrao</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retorna um DGer padrão, com valores em todos os campos.</span>
+
+<span class="sd">        Devido ao grande número de parâmetros do objeto DGer, este</span>
+<span class="sd">        método se fez necessário para possibilitar a geração de objetos</span>
+<span class="sd">        de dados gerais em larga escala sem precisar configurar cada um</span>
+<span class="sd">        dos parâmetros necessários no construtor.</span>
+
+<span class="sd">        Desta forma, um objeto DGer pode ser instanciado e ter apenas</span>
+<span class="sd">        os parâmetros que forem de interesse do usuário modificados,</span>
+<span class="sd">        facilitando a realização de estudos.</span>
+
+<span class="sd">        **Exemplos**</span>
+
+<span class="sd">        &gt;&gt;&gt; dger_com_sar = DGer.dger_padrao()</span>
+<span class="sd">        &gt;&gt;&gt; print(dger_padrao.sar)</span>
+<span class="sd">        False</span>
+<span class="sd">        &gt;&gt;&gt; dger_com_sar.sar = True</span>
+<span class="sd">        &gt;&gt;&gt; print(dger_padrao.sar)</span>
+<span class="sd">        True</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">DGer</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+                    <span class="n">EnumTipoExecucao</span><span class="o">.</span><span class="n">COMPLETA</span><span class="p">,</span>
+                    <span class="mi">1</span><span class="p">,</span>
+                    <span class="mi">5</span><span class="p">,</span>
+                    <span class="mi">1</span><span class="p">,</span>
+                    <span class="mi">1</span><span class="p">,</span>
+                    <span class="mi">2021</span><span class="p">,</span>
+                    <span class="mi">0</span><span class="p">,</span>
+                    <span class="mi">5</span><span class="p">,</span>
+                    <span class="mi">0</span><span class="p">,</span>
+                    <span class="kc">True</span><span class="p">,</span>
+                    <span class="kc">True</span><span class="p">,</span>
+                    <span class="kc">True</span><span class="p">,</span>
+                    <span class="kc">True</span><span class="p">,</span>
+                    <span class="kc">True</span><span class="p">,</span>
+                    <span class="mi">45</span><span class="p">,</span>
+                    <span class="mi">200</span><span class="p">,</span>
+                    <span class="mi">20</span><span class="p">,</span>
+                    <span class="mi">2000</span><span class="p">,</span>
+                    <span class="mi">6</span><span class="p">,</span>
+                    <span class="mi">1931</span><span class="p">,</span>
+                    <span class="n">EnumTamanhoArquivoVazoes</span><span class="o">.</span><span class="n">PALAVRAS_320</span><span class="p">,</span>
+                    <span class="kc">True</span><span class="p">,</span>
+                    <span class="p">[</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">],</span>
+                    <span class="mf">95.0</span><span class="p">,</span>
+                    <span class="mf">12.0</span><span class="p">,</span>
+                    <span class="n">EnumTipoSimulacaoFinal</span><span class="o">.</span><span class="n">SERIES_SINTETICAS</span><span class="p">,</span>
+                    <span class="n">EnumImpressaoOperacao</span><span class="o">.</span><span class="n">OPERACAO_DETALHADA</span><span class="p">,</span>
+                    <span class="n">EnumImpressaoConvergencia</span><span class="o">.</span><span class="n">CONVERGENCIA_TOTAL</span><span class="p">,</span>
+                    <span class="mi">1</span><span class="p">,</span>
+                    <span class="mi">30</span><span class="p">,</span>
+                    <span class="kc">False</span><span class="p">,</span>
+                    <span class="mi">1</span><span class="p">,</span>
+                    <span class="n">EnumTendenciaHidrologica</span><span class="o">.</span><span class="n">LER_POR_POSTO</span><span class="p">,</span>
+                    <span class="kc">False</span><span class="p">,</span>
+                    <span class="kc">False</span><span class="p">,</span>
+                    <span class="kc">False</span><span class="p">,</span>
+                    <span class="kc">False</span><span class="p">,</span>
+                    <span class="kc">False</span><span class="p">,</span>
+                    <span class="n">EnumDuracaoPatamar</span><span class="o">.</span><span class="n">VARIAVEL_POR_ANO</span><span class="p">,</span>
+                    <span class="kc">True</span><span class="p">,</span>
+                    <span class="n">EnumCorrecaoEnergiaDesvio</span><span class="o">.</span><span class="n">VARIAVEL_COM_ARMAZENAMENTO</span><span class="p">,</span>
+                    <span class="kc">True</span><span class="p">,</span>
+                    <span class="n">EnumTipoGeracaoENAs</span><span class="o">.</span><span class="n">RESIDUOS_IGUAIS_FW_BW</span><span class="p">,</span>
+                    <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">],</span>
+                    <span class="mi">0</span><span class="p">,</span>
+                    <span class="kc">True</span><span class="p">,</span>
+                    <span class="kc">True</span><span class="p">,</span>
+                    <span class="n">EnumRepresentacaoSubmotorizacao</span><span class="o">.</span><span class="n">USINA</span><span class="p">,</span>
+                    <span class="kc">False</span><span class="p">,</span>
+                    <span class="kc">True</span><span class="p">,</span>
+                    <span class="mf">10.0</span><span class="p">,</span>
+                    <span class="mf">0.2</span><span class="p">,</span>
+                    <span class="mi">3</span><span class="p">,</span>
+                    <span class="kc">True</span><span class="p">,</span>
+                    <span class="kc">True</span><span class="p">,</span>
+                    <span class="kc">True</span><span class="p">,</span>
+                    <span class="kc">False</span><span class="p">,</span>
+                    <span class="kc">False</span><span class="p">,</span>
+                    <span class="kc">False</span><span class="p">,</span>
+                    <span class="kc">False</span><span class="p">,</span>
+                    <span class="kc">False</span><span class="p">,</span>
+                    <span class="kc">False</span><span class="p">,</span>
+                    <span class="kc">False</span><span class="p">,</span>
+                    <span class="kc">True</span><span class="p">,</span>
+                    <span class="kc">False</span><span class="p">,</span>
+                    <span class="kc">False</span><span class="p">,</span>
+                    <span class="kc">True</span><span class="p">,</span>
+                    <span class="kc">True</span><span class="p">,</span>
+                    <span class="kc">False</span><span class="p">,</span>
+                    <span class="kc">True</span><span class="p">,</span>
+                    <span class="n">EnumTipoReamostragem</span><span class="o">.</span><span class="n">PLENA</span><span class="p">,</span>
+                    <span class="mi">0</span><span class="p">,</span>
+                    <span class="kc">False</span><span class="p">,</span>
+                    <span class="kc">False</span><span class="p">,</span>
+                    <span class="kc">False</span><span class="p">,</span>
+                    <span class="kc">False</span><span class="p">,</span>
+                    <span class="p">[</span><span class="n">EnumRepresentanteAgregacao</span><span class="o">.</span><span class="n">MAIS_PROXIMO</span><span class="p">,</span>
+                     <span class="n">EnumRepresentanteAgregacao</span><span class="o">.</span><span class="n">MAIS_PROXIMO</span><span class="p">,</span>
+                     <span class="n">EnumRepresentanteAgregacao</span><span class="o">.</span><span class="n">MAIS_PROXIMO</span><span class="p">,</span>
+                     <span class="n">EnumRepresentanteAgregacao</span><span class="o">.</span><span class="n">CENTROIDE</span><span class="p">],</span>
+                    <span class="p">[</span><span class="n">EnumMatrizCorrelacaoEspacial</span><span class="o">.</span><span class="n">ANUAL</span><span class="p">,</span>
+                     <span class="n">EnumMatrizCorrelacaoEspacial</span><span class="o">.</span><span class="n">ANUAL</span><span class="p">,</span>
+                     <span class="n">EnumMatrizCorrelacaoEspacial</span><span class="o">.</span><span class="n">ANUAL</span><span class="p">,</span>
+                     <span class="n">EnumMatrizCorrelacaoEspacial</span><span class="o">.</span><span class="n">MENSAL</span><span class="p">],</span>
+                    <span class="p">[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">],</span>
+                    <span class="p">[</span><span class="n">EnumMomentoReamostragem</span><span class="o">.</span><span class="n">BW_ITER_CORRESPONDENTE</span><span class="p">,</span>
+                     <span class="n">EnumMomentoReamostragem</span><span class="o">.</span><span class="n">BW_ITER_CORRESPONDENTE</span><span class="p">,</span>
+                     <span class="n">EnumMomentoReamostragem</span><span class="o">.</span><span class="n">BW_ITER_CORRESPONDENTE</span><span class="p">,</span>
+                     <span class="n">EnumMomentoReamostragem</span><span class="o">.</span><span class="n">FW_ITER_CORRESPONDENTE</span><span class="p">],</span>
+                    <span class="p">[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">],</span>
+                    <span class="n">EnumInicioTesteConvergencia</span><span class="o">.</span><span class="n">ITERACAO_MINIMA</span>
+                    <span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Rogerio Alves.
+
+    </p>
+  </div>
+    
+    
+    
+    Compilado com <a href="https://www.sphinx-doc.org/">Sphinx</a> usando um
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">tema</a>
+    
+    fornecido por <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

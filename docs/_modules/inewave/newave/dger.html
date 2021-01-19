@@ -1,0 +1,875 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="pt-BR" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>inewave.newave.dger &mdash; documentação inewave 0.0.8</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/gallery-binder.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/gallery-dataframe.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/gallery-rendered-html.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/translations.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Índice" href="../../../genindex.html" />
+    <link rel="search" title="Buscar" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> inewave
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Pesquisar documentos" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Instalação</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reference.html">Referência</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">inewave</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Código do módulo</a> &raquo;</li>
+        
+      <li>inewave.newave.dger</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Código fonte para inewave.newave.dger</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Imports do próprio módulo</span>
+<span class="kn">from</span> <span class="nn">inewave._utils.escrita</span> <span class="kn">import</span> <span class="n">Escrita</span>
+<span class="kn">from</span> <span class="nn">inewave._utils.leitura</span> <span class="kn">import</span> <span class="n">Leitura</span>
+<span class="kn">from</span> <span class="nn">.modelos.dger</span> <span class="kn">import</span> <span class="n">DGer</span>
+<span class="kn">from</span> <span class="nn">.modelos.dger</span> <span class="kn">import</span> <span class="n">EnumImpressaoConvergencia</span>
+<span class="kn">from</span> <span class="nn">.modelos.dger</span> <span class="kn">import</span> <span class="n">EnumImpressaoOperacao</span>
+<span class="kn">from</span> <span class="nn">.modelos.dger</span> <span class="kn">import</span> <span class="n">EnumTamanhoArquivoVazoes</span>
+<span class="kn">from</span> <span class="nn">.modelos.dger</span> <span class="kn">import</span> <span class="n">EnumDuracaoPatamar</span>
+<span class="kn">from</span> <span class="nn">.modelos.dger</span> <span class="kn">import</span> <span class="n">EnumCorrecaoEnergiaDesvio</span>
+<span class="kn">from</span> <span class="nn">.modelos.dger</span> <span class="kn">import</span> <span class="n">EnumInicioTesteConvergencia</span>
+<span class="kn">from</span> <span class="nn">.modelos.dger</span> <span class="kn">import</span> <span class="n">EnumMatrizCorrelacaoEspacial</span>
+<span class="kn">from</span> <span class="nn">.modelos.dger</span> <span class="kn">import</span> <span class="n">EnumMomentoReamostragem</span>
+<span class="kn">from</span> <span class="nn">.modelos.dger</span> <span class="kn">import</span> <span class="n">EnumRepresentacaoSubmotorizacao</span>
+<span class="kn">from</span> <span class="nn">.modelos.dger</span> <span class="kn">import</span> <span class="n">EnumRepresentanteAgregacao</span>
+<span class="kn">from</span> <span class="nn">.modelos.dger</span> <span class="kn">import</span> <span class="n">EnumTendenciaHidrologica</span>
+<span class="kn">from</span> <span class="nn">.modelos.dger</span> <span class="kn">import</span> <span class="n">EnumTipoExecucao</span>
+<span class="kn">from</span> <span class="nn">.modelos.dger</span> <span class="kn">import</span> <span class="n">EnumTipoGeracaoENAs</span>
+<span class="kn">from</span> <span class="nn">.modelos.dger</span> <span class="kn">import</span> <span class="n">EnumTipoReamostragem</span>
+<span class="kn">from</span> <span class="nn">.modelos.dger</span> <span class="kn">import</span> <span class="n">EnumTipoSimulacaoFinal</span>
+<span class="c1"># Imports de módulos externos</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">traceback</span> <span class="kn">import</span> <span class="n">print_exc</span>
+
+
+<div class="viewcode-block" id="LeituraDGer"><a class="viewcode-back" href="../../../reference/newave/arquivos/dger.html#inewave.newave.dger.LeituraDGer">[documentos]</a><span class="k">class</span> <span class="nc">LeituraDGer</span><span class="p">(</span><span class="n">Leitura</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Realiza a leitura do arquivo dger.dat</span>
+<span class="sd">    existente em um diretório de entradas do NEWAVE.</span>
+
+<span class="sd">    Esta classe contém o conjunto de utilidades para ler</span>
+<span class="sd">    e interpretar os campos de um arquivo dger.dat, construindo</span>
+<span class="sd">    um objeto `DGer` cujas informações são as mesmas do dger.dat.</span>
+
+<span class="sd">    Este objeto existe para retirar do modelo de dados a complexidade</span>
+<span class="sd">    de iterar pelas linhas do arquivo, recortar colunas, converter</span>
+<span class="sd">    tipos de dados, dentre outras tarefas necessárias para a leitura.</span>
+
+<span class="sd">    Uma vez realizada a leitura do arquivo, as informações são guardadas</span>
+<span class="sd">    internamente no atributo `dger`.</span>
+
+<span class="sd">    **Exemplos**</span>
+
+<span class="sd">    &gt;&gt;&gt; diretorio = &quot;~/documentos/.../deck&quot;</span>
+<span class="sd">    &gt;&gt;&gt; leitor = LeituraDGer(diretorio)</span>
+<span class="sd">    &gt;&gt;&gt; leitor.le_arquivo()</span>
+<span class="sd">    # Ops, esqueci de pegar o objeto</span>
+<span class="sd">    &gt;&gt;&gt; dger = leitor.dger</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">diretorio</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">diretorio</span> <span class="o">=</span> <span class="n">diretorio</span>
+        <span class="c1"># DGer default, depois é substituído</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dger</span> <span class="o">=</span> <span class="n">DGer</span><span class="o">.</span><span class="n">dger_padrao</span><span class="p">()</span>
+
+<div class="viewcode-block" id="LeituraDGer.le_arquivo"><a class="viewcode-back" href="../../../reference/newave/arquivos/dger.html#inewave.newave.dger.LeituraDGer.le_arquivo">[documentos]</a>    <span class="k">def</span> <span class="nf">le_arquivo</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DGer</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Realiza a leitura do arquivo `dger.dat`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">caminho</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">diretorio</span><span class="p">,</span> <span class="s2">&quot;dger.dat&quot;</span><span class="p">)</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">caminho</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">arq</span><span class="p">:</span>
+                <span class="c1"># Lê o nome do estudo e restringe até a coluna 80</span>
+                <span class="n">nome</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dger</span><span class="o">.</span><span class="n">nome_estudo</span> <span class="o">=</span> <span class="n">nome</span><span class="p">[:</span><span class="nb">min</span><span class="p">([</span><span class="mi">79</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">nome</span><span class="p">)])]</span>
+                <span class="c1"># Lê os demais parâmetros</span>
+                <span class="n">ci</span> <span class="o">=</span> <span class="mi">21</span>
+                <span class="n">cf</span> <span class="o">=</span> <span class="mi">25</span>
+
+                <span class="k">def</span> <span class="nf">le_parametro</span><span class="p">():</span>
+                    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)[</span><span class="n">ci</span><span class="p">:</span><span class="n">cf</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+
+                <span class="c1"># Tipo de execução</span>
+                <span class="n">t</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">le_parametro</span><span class="p">())</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dger</span><span class="o">.</span><span class="n">tipo_execucao</span> <span class="o">=</span> <span class="n">EnumTipoExecucao</span><span class="o">.</span><span class="n">infere_valor</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+                <span class="c1"># Duração do período</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dger</span><span class="o">.</span><span class="n">duracao_estagio_op</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">le_parametro</span><span class="p">())</span>
+                <span class="c1"># Num. anos do estudo</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dger</span><span class="o">.</span><span class="n">num_anos_estudo</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">le_parametro</span><span class="p">())</span>
+                <span class="c1"># Mês início do pré-estudo</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dger</span><span class="o">.</span><span class="n">mes_inicio_pre_estudo</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">le_parametro</span><span class="p">())</span>
+                <span class="c1"># Mês início do estudo</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dger</span><span class="o">.</span><span class="n">mes_inicio_estudo</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">le_parametro</span><span class="p">())</span>
+                <span class="c1"># Ano de início do estudo</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dger</span><span class="o">.</span><span class="n">ano_inicio_estudo</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">le_parametro</span><span class="p">())</span>
+                <span class="c1"># Num. anos pré-estudo</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dger</span><span class="o">.</span><span class="n">num_anos_pre_estudo</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">le_parametro</span><span class="p">())</span>
+                <span class="c1"># Num. anos pós estudo</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dger</span><span class="o">.</span><span class="n">num_anos_pos_estudo</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">le_parametro</span><span class="p">())</span>
+                <span class="c1"># Num. anos pós estudo na sim final</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dger</span><span class="o">.</span><span class="n">num_anos_pos_sim_final</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">le_parametro</span><span class="p">())</span>
+                <span class="c1"># Impressão de dados das usinas</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">le_parametro</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dger</span><span class="o">.</span><span class="n">imprime_dados_usinas</span> <span class="o">=</span> <span class="p">(</span><span class="kc">True</span> <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="s2">&quot;1&quot;</span>
+                                                  <span class="k">else</span> <span class="kc">False</span><span class="p">)</span>
+                <span class="c1"># Impressão de dados dos mercados</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">le_parametro</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dger</span><span class="o">.</span><span class="n">imprime_dados_mercados</span> <span class="o">=</span> <span class="p">(</span><span class="kc">True</span> <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="s2">&quot;1&quot;</span>
+                                                    <span class="k">else</span> <span class="kc">False</span><span class="p">)</span>
+                <span class="c1"># Impressão de dados de energias</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">le_parametro</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dger</span><span class="o">.</span><span class="n">imprime_dados_energias</span> <span class="o">=</span> <span class="p">(</span><span class="kc">True</span> <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="s2">&quot;1&quot;</span>
+                                                    <span class="k">else</span> <span class="kc">False</span><span class="p">)</span>
+                <span class="c1"># Impressão de dados do modelo estocástico</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">le_parametro</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dger</span><span class="o">.</span><span class="n">imprime_dados_modelo</span> <span class="o">=</span> <span class="p">(</span><span class="kc">True</span> <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="s2">&quot;1&quot;</span>
+                                                  <span class="k">else</span> <span class="kc">False</span><span class="p">)</span>
+                <span class="c1"># Impressão de dados das REEs</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">le_parametro</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dger</span><span class="o">.</span><span class="n">imprime_dados_rees</span> <span class="o">=</span> <span class="p">(</span><span class="kc">True</span> <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="s2">&quot;1&quot;</span>
+                                                <span class="k">else</span> <span class="kc">False</span><span class="p">)</span>
+                <span class="c1"># Máximo de iterações</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dger</span><span class="o">.</span><span class="n">max_iteracoes</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">le_parametro</span><span class="p">())</span>
+                <span class="c1"># Num. de forwards</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dger</span><span class="o">.</span><span class="n">num_sim_forward</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">le_parametro</span><span class="p">())</span>
+                <span class="c1"># Num. de aberturas</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dger</span><span class="o">.</span><span class="n">num_aberturas</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">le_parametro</span><span class="p">())</span>
+                <span class="c1"># Num. de séries sintéticas</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dger</span><span class="o">.</span><span class="n">num_series_sinteticas</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">le_parametro</span><span class="p">())</span>
+                <span class="c1"># Ordem máxima do Par(P)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dger</span><span class="o">.</span><span class="n">ordem_maxima_parp</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">le_parametro</span><span class="p">())</span>
+                <span class="c1"># Ano inicial do histórico de afluências e tamanho</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dger</span><span class="o">.</span><span class="n">ano_inicial_vaz_historicas</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="n">ci</span><span class="p">:</span><span class="n">cf</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+                <span class="n">tam</span> <span class="o">=</span> <span class="n">EnumTamanhoArquivoVazoes</span><span class="o">.</span><span class="n">infere_valor</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">28</span><span class="p">]))</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dger</span><span class="o">.</span><span class="n">tamanho_arq_vaz_historicas</span> <span class="o">=</span> <span class="n">tam</span>
+                <span class="c1"># Cálculo da energia armazenada dos volumes iniciais</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">le_parametro</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dger</span><span class="o">.</span><span class="n">calcula_vol_inicial</span> <span class="o">=</span> <span class="p">(</span><span class="kc">True</span> <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="s2">&quot;1&quot;</span>
+                                                 <span class="k">else</span> <span class="kc">False</span><span class="p">)</span>
+                <span class="c1"># Ignora a linha de cabeçalho dos volumes iniciais</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
+                <span class="c1"># Lê os volumes de cada subsistema</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
+                <span class="n">cisub</span> <span class="o">=</span> <span class="mi">22</span>
+                <span class="n">n_col_sub</span> <span class="o">=</span> <span class="mi">5</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span>
+                    <span class="n">cfsub</span> <span class="o">=</span> <span class="n">cisub</span> <span class="o">+</span> <span class="n">n_col_sub</span>
+                    <span class="n">v</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="n">cisub</span><span class="p">:</span><span class="n">cfsub</span><span class="p">])</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">dger</span><span class="o">.</span><span class="n">vol_inicial_subsistema</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
+                    <span class="n">cisub</span> <span class="o">=</span> <span class="n">cfsub</span> <span class="o">+</span> <span class="mi">2</span>
+                <span class="c1"># Tolerância</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dger</span><span class="o">.</span><span class="n">tolerancia</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">le_parametro</span><span class="p">())</span>
+                <span class="c1"># Taxa de desconto</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dger</span><span class="o">.</span><span class="n">taxa_de_desconto</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">le_parametro</span><span class="p">())</span>
+                <span class="c1"># Tipo de simulação final</span>
+                <span class="n">t</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">le_parametro</span><span class="p">())</span>
+                <span class="n">tipo</span> <span class="o">=</span> <span class="n">EnumTipoSimulacaoFinal</span><span class="o">.</span><span class="n">infere_valor</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dger</span><span class="o">.</span><span class="n">tipo_simulacao_final</span> <span class="o">=</span> <span class="n">tipo</span>
+                <span class="c1"># Opções de impressão</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">le_parametro</span><span class="p">()</span>
+                <span class="n">impr_op</span> <span class="o">=</span> <span class="n">EnumImpressaoOperacao</span><span class="o">.</span><span class="n">infere_valor</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">p</span><span class="p">))</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dger</span><span class="o">.</span><span class="n">impressao_operacao</span> <span class="o">=</span> <span class="n">impr_op</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">le_parametro</span><span class="p">()</span>
+                <span class="n">impr_conv</span> <span class="o">=</span> <span class="n">EnumImpressaoConvergencia</span><span class="o">.</span><span class="n">infere_valor</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">p</span><span class="p">))</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dger</span><span class="o">.</span><span class="n">impressao_convergencia</span> <span class="o">=</span> <span class="n">impr_conv</span>
+                <span class="c1"># Intervalo de gravação</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dger</span><span class="o">.</span><span class="n">intervalo_gravacao_relatorio</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">le_parametro</span><span class="p">())</span>
+                <span class="c1"># Mínimo de iterações</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dger</span><span class="o">.</span><span class="n">min_interacoes</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">le_parametro</span><span class="p">())</span>
+                <span class="c1"># Racionamento preventivo</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">le_parametro</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dger</span><span class="o">.</span><span class="n">racionamento_preventivo</span> <span class="o">=</span> <span class="p">(</span><span class="kc">True</span> <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="s2">&quot;1&quot;</span>
+                                                     <span class="k">else</span> <span class="kc">False</span><span class="p">)</span>
+                <span class="c1"># Número de anos de manutenção da UTEs</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dger</span><span class="o">.</span><span class="n">numero_anos_manutencao_UTEs</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">le_parametro</span><span class="p">())</span>
+                <span class="c1"># Tendência hidrológica</span>
+                <span class="n">t</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">le_parametro</span><span class="p">())</span>
+                <span class="n">tendencia</span> <span class="o">=</span> <span class="n">EnumTendenciaHidrologica</span><span class="o">.</span><span class="n">infere_valor</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dger</span><span class="o">.</span><span class="n">tendencia_hidrologica</span> <span class="o">=</span> <span class="n">tendencia</span>
+                <span class="c1"># Itaipu</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">le_parametro</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dger</span><span class="o">.</span><span class="n">restricoes_itaipu</span> <span class="o">=</span> <span class="p">(</span><span class="kc">True</span> <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="s2">&quot;1&quot;</span>
+                                               <span class="k">else</span> <span class="kc">False</span><span class="p">)</span>
+                <span class="c1"># Bidding</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">le_parametro</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dger</span><span class="o">.</span><span class="n">bidding_demanda</span> <span class="o">=</span> <span class="p">(</span><span class="kc">True</span> <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="s2">&quot;1&quot;</span>
+                                             <span class="k">else</span> <span class="kc">False</span><span class="p">)</span>
+                <span class="c1"># Perdas da transmissão</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">le_parametro</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dger</span><span class="o">.</span><span class="n">perdas_transmissao</span> <span class="o">=</span> <span class="p">(</span><span class="kc">True</span> <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="s2">&quot;1&quot;</span>
+                                                <span class="k">else</span> <span class="kc">False</span><span class="p">)</span>
+                <span class="c1"># El Niño</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">le_parametro</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dger</span><span class="o">.</span><span class="n">el_nino</span> <span class="o">=</span> <span class="p">(</span><span class="kc">True</span> <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="s2">&quot;1&quot;</span>
+                                     <span class="k">else</span> <span class="kc">False</span><span class="p">)</span>
+                <span class="c1"># ENSO</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">le_parametro</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dger</span><span class="o">.</span><span class="n">enso</span> <span class="o">=</span> <span class="p">(</span><span class="kc">True</span> <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="s2">&quot;1&quot;</span>
+                                  <span class="k">else</span> <span class="kc">False</span><span class="p">)</span>
+                <span class="c1"># Duração por patamar</span>
+                <span class="n">t</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">le_parametro</span><span class="p">())</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dger</span><span class="o">.</span><span class="n">duracao_patamar</span> <span class="o">=</span> <span class="n">EnumDuracaoPatamar</span><span class="o">.</span><span class="n">infere_valor</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+                <span class="c1"># Outros usos da água</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">le_parametro</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dger</span><span class="o">.</span><span class="n">considera_desvio_dagua</span> <span class="o">=</span> <span class="p">(</span><span class="kc">True</span> <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="s2">&quot;1&quot;</span>
+                                                    <span class="k">else</span> <span class="kc">False</span><span class="p">)</span>
+                <span class="c1"># Correção da energia de desvio</span>
+                <span class="n">t</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">le_parametro</span><span class="p">())</span>
+                <span class="n">correcao</span> <span class="o">=</span> <span class="n">EnumCorrecaoEnergiaDesvio</span><span class="o">.</span><span class="n">infere_valor</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dger</span><span class="o">.</span><span class="n">correcao_energia_desvio</span> <span class="o">=</span> <span class="n">correcao</span>
+                <span class="c1"># Curva de aversão (VminP)</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">le_parametro</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dger</span><span class="o">.</span><span class="n">considera_curva_aversao</span> <span class="o">=</span> <span class="p">(</span><span class="kc">True</span> <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="s2">&quot;1&quot;</span>
+                                                     <span class="k">else</span> <span class="kc">False</span><span class="p">)</span>
+                <span class="c1"># Tipos de geração das ENAs</span>
+                <span class="n">t</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">le_parametro</span><span class="p">())</span>
+                <span class="n">tipo_geracao</span> <span class="o">=</span> <span class="n">EnumTipoGeracaoENAs</span><span class="o">.</span><span class="n">infere_valor</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dger</span><span class="o">.</span><span class="n">tipo_geracao_afluencias</span> <span class="o">=</span> <span class="n">tipo_geracao</span>
+                <span class="c1"># Risco de déficit</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
+                <span class="n">p1</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">21</span><span class="p">:</span><span class="mi">25</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+                <span class="n">p2</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">27</span><span class="p">:</span><span class="mi">31</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dger</span><span class="o">.</span><span class="n">profundidade_risco_deficit</span> <span class="o">=</span> <span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">)</span>
+                <span class="c1"># Iteração para simulação final</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dger</span><span class="o">.</span><span class="n">iteracao_sim_final</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">le_parametro</span><span class="p">())</span>
+                <span class="c1"># Agrupamento de intercâmbios</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">le_parametro</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dger</span><span class="o">.</span><span class="n">agrupamento_livre_interc</span> <span class="o">=</span> <span class="p">(</span><span class="kc">True</span> <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="s2">&quot;1&quot;</span>
+                                                      <span class="k">else</span> <span class="kc">False</span><span class="p">)</span>
+                <span class="c1"># Equalização de penalidades de intercâmbio</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">le_parametro</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dger</span><span class="o">.</span><span class="n">equaliza_penalidades_interc</span> <span class="o">=</span> <span class="p">(</span><span class="kc">True</span> <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="s2">&quot;1&quot;</span>
+                                                         <span class="k">else</span> <span class="kc">False</span><span class="p">)</span>
+                <span class="c1"># Representação da submotorização</span>
+                <span class="n">t</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">le_parametro</span><span class="p">())</span>
+                <span class="n">submot</span> <span class="o">=</span> <span class="n">EnumRepresentacaoSubmotorizacao</span><span class="o">.</span><span class="n">infere_valor</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dger</span><span class="o">.</span><span class="n">representa_submotor</span> <span class="o">=</span> <span class="n">submot</span>
+                <span class="c1"># Ordenação automática</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">le_parametro</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dger</span><span class="o">.</span><span class="n">ordenacao_automatica_subsist</span> <span class="o">=</span> <span class="p">(</span><span class="kc">True</span> <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="s2">&quot;1&quot;</span>
+                                                          <span class="k">else</span> <span class="kc">False</span><span class="p">)</span>
+                <span class="c1"># Considera cargas adicionais</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">le_parametro</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dger</span><span class="o">.</span><span class="n">considera_cargas_adicionais</span> <span class="o">=</span> <span class="p">(</span><span class="kc">True</span> <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="s2">&quot;1&quot;</span>
+                                                         <span class="k">else</span> <span class="kc">False</span><span class="p">)</span>
+                <span class="c1"># Variação do Zsup e Zinf</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dger</span><span class="o">.</span><span class="n">delta_zsup</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">le_parametro</span><span class="p">())</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dger</span><span class="o">.</span><span class="n">delta_zinf</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">le_parametro</span><span class="p">())</span>
+                <span class="c1"># Núm. de deltas para convergência</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dger</span><span class="o">.</span><span class="n">deltas_consecutivos</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">le_parametro</span><span class="p">())</span>
+                <span class="c1"># Despacho antecipado GNL</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">le_parametro</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dger</span><span class="o">.</span><span class="n">considera_despacho_gnl</span> <span class="o">=</span> <span class="p">(</span><span class="kc">True</span> <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="s2">&quot;1&quot;</span>
+                                                    <span class="k">else</span> <span class="kc">False</span><span class="p">)</span>
+                <span class="c1"># Modificação automática da Ad. Term.</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">le_parametro</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dger</span><span class="o">.</span><span class="n">modifica_auto_despacho_gnl</span> <span class="o">=</span> <span class="p">(</span><span class="kc">True</span> <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="s2">&quot;1&quot;</span>
+                                                        <span class="k">else</span> <span class="kc">False</span><span class="p">)</span>
+                <span class="c1"># Considera GHmin</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">le_parametro</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dger</span><span class="o">.</span><span class="n">considera_ghmin</span> <span class="o">=</span> <span class="p">(</span><span class="kc">True</span> <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="s2">&quot;1&quot;</span>
+                                             <span class="k">else</span> <span class="kc">False</span><span class="p">)</span>
+                <span class="c1"># Simulação final com data</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">le_parametro</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dger</span><span class="o">.</span><span class="n">sim_final_com_data</span> <span class="o">=</span> <span class="p">(</span><span class="kc">True</span> <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="s2">&quot;1&quot;</span>
+                                                <span class="k">else</span> <span class="kc">False</span><span class="p">)</span>
+                <span class="c1"># Gerenciador externo, comunicação em 2 níveis, ...</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
+                <span class="n">p1</span> <span class="o">=</span> <span class="n">p</span><span class="p">[</span><span class="mi">21</span><span class="p">:</span><span class="mi">25</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+                <span class="n">p2</span> <span class="o">=</span> <span class="n">p</span><span class="p">[</span><span class="mi">26</span><span class="p">:</span><span class="mi">30</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+                <span class="n">p3</span> <span class="o">=</span> <span class="n">p</span><span class="p">[</span><span class="mi">31</span><span class="p">:</span><span class="mi">35</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+                <span class="n">p4</span> <span class="o">=</span> <span class="n">p</span><span class="p">[</span><span class="mi">36</span><span class="p">:</span><span class="mi">40</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+                <span class="n">p5</span> <span class="o">=</span> <span class="n">p</span><span class="p">[</span><span class="mi">41</span><span class="p">:</span><span class="mi">45</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dger</span><span class="o">.</span><span class="n">gerenciador_externo</span> <span class="o">=</span> <span class="p">(</span><span class="kc">True</span> <span class="k">if</span> <span class="n">p1</span> <span class="o">==</span> <span class="s2">&quot;1&quot;</span>
+                                                 <span class="k">else</span> <span class="kc">False</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dger</span><span class="o">.</span><span class="n">comunicacao_dois_niveis</span> <span class="o">=</span> <span class="p">(</span><span class="kc">True</span> <span class="k">if</span> <span class="n">p2</span> <span class="o">==</span> <span class="s2">&quot;1&quot;</span>
+                                                     <span class="k">else</span> <span class="kc">False</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dger</span><span class="o">.</span><span class="n">armazenamento_local_temp</span> <span class="o">=</span> <span class="p">(</span><span class="kc">True</span> <span class="k">if</span> <span class="n">p3</span> <span class="o">==</span> <span class="s2">&quot;1&quot;</span>
+                                                      <span class="k">else</span> <span class="kc">False</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dger</span><span class="o">.</span><span class="n">aloca_memoria_enas</span> <span class="o">=</span> <span class="p">(</span><span class="kc">True</span> <span class="k">if</span> <span class="n">p4</span> <span class="o">==</span> <span class="s2">&quot;1&quot;</span>
+                                                <span class="k">else</span> <span class="kc">False</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dger</span><span class="o">.</span><span class="n">aloca_memoria_cortes</span> <span class="o">=</span> <span class="p">(</span><span class="kc">True</span> <span class="k">if</span> <span class="n">p5</span> <span class="o">==</span> <span class="s2">&quot;1&quot;</span>
+                                                  <span class="k">else</span> <span class="kc">False</span><span class="p">)</span>
+                <span class="c1"># SAR e CVaR</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">le_parametro</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dger</span><span class="o">.</span><span class="n">sar</span> <span class="o">=</span> <span class="p">(</span><span class="kc">True</span> <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="s2">&quot;1&quot;</span>
+                                 <span class="k">else</span> <span class="kc">False</span><span class="p">)</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">le_parametro</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dger</span><span class="o">.</span><span class="n">cvar</span> <span class="o">=</span> <span class="p">(</span><span class="kc">True</span> <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="s2">&quot;1&quot;</span>
+                                  <span class="k">else</span> <span class="kc">False</span><span class="p">)</span>
+                <span class="c1"># Critério de mínimo Zsup para convergência</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">le_parametro</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dger</span><span class="o">.</span><span class="n">convergencia_minimo_zsup</span> <span class="o">=</span> <span class="p">(</span><span class="kc">True</span> <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="s2">&quot;1&quot;</span>
+                                                      <span class="k">else</span> <span class="kc">False</span><span class="p">)</span>
+                <span class="c1"># Vazmin</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">le_parametro</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dger</span><span class="o">.</span><span class="n">desconsidera_vazao_minima</span> <span class="o">=</span> <span class="p">(</span><span class="kc">True</span> <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="s2">&quot;1&quot;</span>
+                                                       <span class="k">else</span> <span class="kc">False</span><span class="p">)</span>
+                <span class="c1"># Restrições elétricas</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">le_parametro</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dger</span><span class="o">.</span><span class="n">considera_restricoes_elet</span> <span class="o">=</span> <span class="p">(</span><span class="kc">True</span> <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="s2">&quot;1&quot;</span>
+                                                       <span class="k">else</span> <span class="kc">False</span><span class="p">)</span>
+                <span class="c1"># Seleção de cortes</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">le_parametro</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dger</span><span class="o">.</span><span class="n">selecao_cortes_benders</span> <span class="o">=</span> <span class="p">(</span><span class="kc">True</span> <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="s2">&quot;1&quot;</span>
+                                                    <span class="k">else</span> <span class="kc">False</span><span class="p">)</span>
+                <span class="c1"># Janela de cortes</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">le_parametro</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dger</span><span class="o">.</span><span class="n">janela_selecao_cortes</span> <span class="o">=</span> <span class="p">(</span><span class="kc">True</span> <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="s2">&quot;1&quot;</span>
+                                                   <span class="k">else</span> <span class="kc">False</span><span class="p">)</span>
+                <span class="c1"># Reamostragem de cenários</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
+                <span class="n">reamos</span> <span class="o">=</span> <span class="n">p</span><span class="p">[</span><span class="mi">21</span><span class="p">:</span><span class="mi">25</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dger</span><span class="o">.</span><span class="n">reamostragem</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">reamos</span><span class="p">))</span>
+                <span class="c1"># Tipo de reamostragem</span>
+                <span class="n">reamos</span> <span class="o">=</span> <span class="n">p</span><span class="p">[</span><span class="mi">26</span><span class="p">:</span><span class="mi">30</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+                <span class="n">tipo_reamos</span> <span class="o">=</span> <span class="n">EnumTipoReamostragem</span><span class="o">.</span><span class="n">infere_valor</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">reamos</span><span class="p">))</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dger</span><span class="o">.</span><span class="n">tipo_reamostragem</span> <span class="o">=</span> <span class="n">tipo_reamos</span>
+                <span class="c1"># Passo para reamostragem</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dger</span><span class="o">.</span><span class="n">passo_reamostragem</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">31</span><span class="p">:</span><span class="mi">35</span><span class="p">])</span>
+                <span class="c1"># Considera convergência do nó 0</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">le_parametro</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dger</span><span class="o">.</span><span class="n">considera_convergencia_no0</span> <span class="o">=</span> <span class="p">(</span><span class="kc">True</span> <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="s2">&quot;1&quot;</span>
+                                                        <span class="k">else</span> <span class="kc">False</span><span class="p">)</span>
+                <span class="c1"># Consulta FCF</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">le_parametro</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dger</span><span class="o">.</span><span class="n">consulta_fcf</span> <span class="o">=</span> <span class="p">(</span><span class="kc">True</span> <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="s2">&quot;1&quot;</span>
+                                          <span class="k">else</span> <span class="kc">False</span><span class="p">)</span>
+                <span class="c1"># Impressão ENA</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">le_parametro</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dger</span><span class="o">.</span><span class="n">impressao_ena</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">p</span><span class="p">))</span>
+                <span class="c1"># Impressão cortes ativos</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">le_parametro</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dger</span><span class="o">.</span><span class="n">impressao_cortes_ativos</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">p</span><span class="p">))</span>
+                <span class="c1"># Representante da agregação</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">le_parametro</span><span class="p">()</span>
+                <span class="n">repres</span> <span class="o">=</span> <span class="n">EnumRepresentanteAgregacao</span><span class="o">.</span><span class="n">infere_valor</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">p</span><span class="p">))</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dger</span><span class="o">.</span><span class="n">representante_agregacao</span> <span class="o">=</span> <span class="n">repres</span>
+                <span class="c1"># Matriz de correlação espacial</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">le_parametro</span><span class="p">()</span>
+                <span class="n">matriz</span> <span class="o">=</span> <span class="n">EnumMatrizCorrelacaoEspacial</span><span class="o">.</span><span class="n">infere_valor</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">p</span><span class="p">))</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dger</span><span class="o">.</span><span class="n">matriz_corr_espacial</span> <span class="o">=</span> <span class="n">matriz</span>
+                <span class="c1"># Desconsidera convergência estatística</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">le_parametro</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dger</span><span class="o">.</span><span class="n">desconsidera_converg_estatist</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">p</span><span class="p">))</span>
+                <span class="c1"># Momento da reamostragem</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">le_parametro</span><span class="p">()</span>
+                <span class="n">momento</span> <span class="o">=</span> <span class="n">EnumMomentoReamostragem</span><span class="o">.</span><span class="n">infere_valor</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">p</span><span class="p">))</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dger</span><span class="o">.</span><span class="n">momento_reamostragem</span> <span class="o">=</span> <span class="n">momento</span>
+                <span class="c1"># Manter arquivos ENA</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">le_parametro</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dger</span><span class="o">.</span><span class="n">mantem_arquivos_ena</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">p</span><span class="p">))</span>
+                <span class="c1"># Início do teste de convergência</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">le_parametro</span><span class="p">()</span>
+                <span class="n">inicio</span> <span class="o">=</span> <span class="n">EnumInicioTesteConvergencia</span><span class="o">.</span><span class="n">infere_valor</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">p</span><span class="p">))</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dger</span><span class="o">.</span><span class="n">inicio_teste_convergencia</span> <span class="o">=</span> <span class="n">inicio</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dger</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="n">print_exc</span><span class="p">()</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dger</span></div>
+
+    <span class="k">def</span> <span class="nf">_fim_arquivo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">linha</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+
+<div class="viewcode-block" id="EscritaDGer"><a class="viewcode-back" href="../../../reference/newave/arquivos/dger.html#inewave.newave.dger.EscritaDGer">[documentos]</a><span class="k">class</span> <span class="nc">EscritaDGer</span><span class="p">(</span><span class="n">Escrita</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Realiza a escrita do arquivo dger.dat</span>
+<span class="sd">    em um diretório de entradas do NEWAVE.</span>
+
+<span class="sd">    Esta classe contém o conjunto de utilidades para escrever os campos</span>
+<span class="sd">    de um arquivo dger.dat, a partir de um objeto `DGer`.</span>
+
+<span class="sd">    Este objeto existe para retirar do modelo de dados a complexidade</span>
+<span class="sd">    de armazenar as strings auxiliares do arquivo, desenhar tabelas, dentre</span>
+<span class="sd">    outras tarefas associadas à escrita.</span>
+
+<span class="sd">    Se o diretório de escrita não existir, ele será criado.</span>
+
+<span class="sd">    **Exemplos**</span>
+
+<span class="sd">    &gt;&gt;&gt; diretorio = &quot;~/documentos/.../deck&quot;</span>
+<span class="sd">    &gt;&gt;&gt; leitor = LeituraDGer(diretorio)</span>
+<span class="sd">    &gt;&gt;&gt; leitor.le_arquivo()</span>
+<span class="sd">    # Ops, esqueci de pegar o objeto</span>
+<span class="sd">    &gt;&gt;&gt; dger = leitor.dger</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">diretorio</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">diretorio</span> <span class="o">=</span> <span class="n">diretorio</span>
+
+<div class="viewcode-block" id="EscritaDGer.escreve_arquivo"><a class="viewcode-back" href="../../../reference/newave/arquivos/dger.html#inewave.newave.dger.EscritaDGer.escreve_arquivo">[documentos]</a>    <span class="k">def</span> <span class="nf">escreve_arquivo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dger</span><span class="p">:</span> <span class="n">DGer</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Realiza a escrita de um arquivo `dger.dat`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Confere se o diretório existe. Senão, cria.</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">diretorio</span><span class="p">):</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">diretorio</span><span class="p">)</span>
+        <span class="c1"># Inicia a escrita</span>
+        <span class="n">caminho</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">diretorio</span><span class="p">,</span> <span class="s2">&quot;dger.dat&quot;</span><span class="p">)</span>
+        <span class="n">len_aux</span> <span class="o">=</span> <span class="mi">21</span>
+        <span class="n">len_dado</span> <span class="o">=</span> <span class="mi">4</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">caminho</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">arq</span><span class="p">:</span>
+
+            <span class="k">def</span> <span class="nf">escreve_alinhado</span><span class="p">(</span><span class="n">aux</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                                 <span class="n">dado</span><span class="p">):</span>
+                <span class="n">str_aux</span> <span class="o">=</span> <span class="n">aux</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="n">len_aux</span><span class="p">)</span>
+                <span class="n">str_dado</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">dado</span><span class="p">))</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="n">len_dado</span><span class="p">)</span>
+                <span class="n">arq</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">str_aux</span> <span class="o">+</span> <span class="n">str_dado</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+            <span class="k">def</span> <span class="nf">escreve_alinhado_f</span><span class="p">(</span><span class="n">aux</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                                   <span class="n">dado</span><span class="p">):</span>
+                <span class="n">str_aux</span> <span class="o">=</span> <span class="n">aux</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="n">len_aux</span><span class="p">)</span>
+                <span class="n">alinhado</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{:.1f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">dado</span><span class="p">))</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+                <span class="n">str_dado</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">alinhado</span><span class="p">)</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="n">len_dado</span><span class="p">)</span>
+                <span class="n">arq</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">str_aux</span> <span class="o">+</span> <span class="n">str_dado</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+            <span class="c1"># Nome do estudo</span>
+            <span class="k">if</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="ow">in</span> <span class="n">dger</span><span class="o">.</span><span class="n">nome_estudo</span><span class="p">:</span>
+                <span class="n">arq</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">dger</span><span class="o">.</span><span class="n">nome_estudo</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">arq</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">dger</span><span class="o">.</span><span class="n">nome_estudo</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="c1"># Tipo de execução</span>
+            <span class="n">escreve_alinhado</span><span class="p">(</span><span class="s2">&quot;TIPO DE EXECUCAO&quot;</span><span class="p">,</span>
+                             <span class="n">dger</span><span class="o">.</span><span class="n">tipo_execucao</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+            <span class="c1"># Duração do período</span>
+            <span class="n">escreve_alinhado</span><span class="p">(</span><span class="s2">&quot;DURACAO DO PERIODO&quot;</span><span class="p">,</span>
+                             <span class="n">dger</span><span class="o">.</span><span class="n">duracao_estagio_op</span><span class="p">)</span>
+            <span class="c1"># Número de anos do estudo</span>
+            <span class="n">escreve_alinhado</span><span class="p">(</span><span class="s2">&quot;No. DE ANOS DO EST&quot;</span><span class="p">,</span>
+                             <span class="n">dger</span><span class="o">.</span><span class="n">num_anos_estudo</span><span class="p">)</span>
+            <span class="c1"># Mês de início do pré-estudo</span>
+            <span class="n">escreve_alinhado</span><span class="p">(</span><span class="s2">&quot;MES INICIO PRE-EST&quot;</span><span class="p">,</span>
+                             <span class="n">dger</span><span class="o">.</span><span class="n">mes_inicio_pre_estudo</span><span class="p">)</span>
+            <span class="c1"># Mês de início do estudo</span>
+            <span class="n">escreve_alinhado</span><span class="p">(</span><span class="s2">&quot;MES INICIO DO ESTUDO&quot;</span><span class="p">,</span>
+                             <span class="n">dger</span><span class="o">.</span><span class="n">mes_inicio_estudo</span><span class="p">)</span>
+            <span class="c1"># Ano de início do estudo</span>
+            <span class="n">escreve_alinhado</span><span class="p">(</span><span class="s2">&quot;ANO INICIO DO ESTUDO&quot;</span><span class="p">,</span>
+                             <span class="n">dger</span><span class="o">.</span><span class="n">ano_inicio_estudo</span><span class="p">)</span>
+            <span class="c1"># Número de anos pré estudo</span>
+            <span class="n">escreve_alinhado</span><span class="p">(</span><span class="s2">&quot;No. DE ANOS PRE&quot;</span><span class="p">,</span>
+                             <span class="n">dger</span><span class="o">.</span><span class="n">num_anos_pre_estudo</span><span class="p">)</span>
+            <span class="c1"># Número de anos pós-estudo</span>
+            <span class="n">escreve_alinhado</span><span class="p">(</span><span class="s2">&quot;No. DE ANOS POS&quot;</span><span class="p">,</span>
+                             <span class="n">dger</span><span class="o">.</span><span class="n">num_anos_pos_estudo</span><span class="p">)</span>
+            <span class="c1"># Número de anos pós na sim. final</span>
+            <span class="n">escreve_alinhado</span><span class="p">(</span><span class="s2">&quot;No. DE ANOS POS FINAL&quot;</span><span class="p">,</span>
+                             <span class="n">dger</span><span class="o">.</span><span class="n">num_anos_pos_sim_final</span><span class="p">)</span>
+            <span class="c1"># Imprime dados de usinas</span>
+            <span class="n">escreve_alinhado</span><span class="p">(</span><span class="s2">&quot;IMPRIME DADOS&quot;</span><span class="p">,</span>
+                             <span class="n">dger</span><span class="o">.</span><span class="n">imprime_dados_usinas</span><span class="p">)</span>
+            <span class="c1"># Imprime dados de mercados</span>
+            <span class="n">escreve_alinhado</span><span class="p">(</span><span class="s2">&quot;IMPRIME MERCADOS&quot;</span><span class="p">,</span>
+                             <span class="n">dger</span><span class="o">.</span><span class="n">imprime_dados_mercados</span><span class="p">)</span>
+            <span class="c1"># Imprime energias</span>
+            <span class="n">escreve_alinhado</span><span class="p">(</span><span class="s2">&quot;IMPRIME ENERGIAS&quot;</span><span class="p">,</span>
+                             <span class="n">dger</span><span class="o">.</span><span class="n">imprime_dados_energias</span><span class="p">)</span>
+            <span class="c1"># Imprime dados do modelo</span>
+            <span class="n">escreve_alinhado</span><span class="p">(</span><span class="s2">&quot;IMPRIME M. ESTOCAS&quot;</span><span class="p">,</span>
+                             <span class="n">dger</span><span class="o">.</span><span class="n">imprime_dados_modelo</span><span class="p">)</span>
+            <span class="c1"># Imprime dados REEs</span>
+            <span class="n">escreve_alinhado</span><span class="p">(</span><span class="s2">&quot;IMPRIME SUBSISTEMA&quot;</span><span class="p">,</span>
+                             <span class="n">dger</span><span class="o">.</span><span class="n">imprime_dados_rees</span><span class="p">)</span>
+            <span class="c1"># Máximo de iterações</span>
+            <span class="n">escreve_alinhado</span><span class="p">(</span><span class="s2">&quot;No MAX. DE ITER.&quot;</span><span class="p">,</span>
+                             <span class="n">dger</span><span class="o">.</span><span class="n">max_iteracoes</span><span class="p">)</span>
+            <span class="c1"># Número de forwards</span>
+            <span class="n">escreve_alinhado</span><span class="p">(</span><span class="s2">&quot;No DE SIM. FORWARD&quot;</span><span class="p">,</span>
+                             <span class="n">dger</span><span class="o">.</span><span class="n">num_sim_forward</span><span class="p">)</span>
+            <span class="c1"># Número de aberturas</span>
+            <span class="n">escreve_alinhado</span><span class="p">(</span><span class="s2">&quot;No DE ABERTURAS&quot;</span><span class="p">,</span>
+                             <span class="n">dger</span><span class="o">.</span><span class="n">num_aberturas</span><span class="p">)</span>
+            <span class="c1"># Número de séries sintéticas</span>
+            <span class="n">escreve_alinhado</span><span class="p">(</span><span class="s2">&quot;No DE SERIES SINT.&quot;</span><span class="p">,</span>
+                             <span class="n">dger</span><span class="o">.</span><span class="n">num_series_sinteticas</span><span class="p">)</span>
+            <span class="c1"># Ordem máxima PAR(p)</span>
+            <span class="n">escreve_alinhado</span><span class="p">(</span><span class="s2">&quot;ORDEM MAX. PAR(P)&quot;</span><span class="p">,</span>
+                             <span class="n">dger</span><span class="o">.</span><span class="n">ordem_maxima_parp</span><span class="p">)</span>
+            <span class="c1"># Ano inicial do histórico</span>
+            <span class="n">str_aux</span> <span class="o">=</span> <span class="s2">&quot;ANO INICIAL HIST.&quot;</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="n">len_aux</span><span class="p">)</span>
+            <span class="n">ano</span> <span class="o">=</span> <span class="n">dger</span><span class="o">.</span><span class="n">ano_inicial_vaz_historicas</span>
+            <span class="n">str_dado1</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">ano</span><span class="p">))</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="n">len_dado</span><span class="p">)</span>
+            <span class="n">tam</span> <span class="o">=</span> <span class="n">dger</span><span class="o">.</span><span class="n">tamanho_arq_vaz_historicas</span><span class="o">.</span><span class="n">value</span>
+            <span class="n">str_dado2</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">tam</span><span class="p">))</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="n">len_dado</span><span class="p">)</span>
+            <span class="n">arq</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">str_aux</span> <span class="o">+</span> <span class="n">str_dado1</span> <span class="o">+</span> <span class="n">str_dado2</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="c1"># Calcula volume inicial</span>
+            <span class="n">escreve_alinhado</span><span class="p">(</span><span class="s2">&quot;CALCULA VOL.INICIAL&quot;</span><span class="p">,</span>
+                             <span class="n">dger</span><span class="o">.</span><span class="n">calcula_vol_inicial</span><span class="p">)</span>
+            <span class="c1"># Linha de cabeçalho</span>
+            <span class="n">lin</span> <span class="o">=</span> <span class="s2">&quot;VOLUME INICIAL  -</span><span class="si">%   X</span><span class="s2">XX.X  XXX.X  XXX.X  XXX.X  XXX.X&quot;</span>
+            <span class="n">arq</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">lin</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="c1"># Volumes por subsistema</span>
+            <span class="n">str_aux</span> <span class="o">=</span> <span class="s2">&quot; POR SUBSISTEMA&quot;</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="n">len_aux</span><span class="p">)</span>
+            <span class="n">str_dados</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+            <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">dger</span><span class="o">.</span><span class="n">vol_inicial_subsistema</span><span class="p">:</span>
+                <span class="n">str_dados</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="si">{:.1f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;  &quot;</span>
+            <span class="n">arq</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">str_aux</span> <span class="o">+</span> <span class="n">str_dados</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="c1"># Tolerância</span>
+            <span class="n">escreve_alinhado_f</span><span class="p">(</span><span class="s2">&quot;TOLERANCIA      -%&quot;</span><span class="p">,</span>
+                               <span class="n">dger</span><span class="o">.</span><span class="n">tolerancia</span><span class="p">)</span>
+            <span class="c1"># Taxa de desconto</span>
+            <span class="n">escreve_alinhado_f</span><span class="p">(</span><span class="s2">&quot;TAXA DE DESCONTO-%&quot;</span><span class="p">,</span>
+                               <span class="n">dger</span><span class="o">.</span><span class="n">taxa_de_desconto</span><span class="p">)</span>
+            <span class="c1"># Tipo de sim final</span>
+            <span class="n">escreve_alinhado</span><span class="p">(</span><span class="s2">&quot;TIPO SIMUL. FINAL&quot;</span><span class="p">,</span>
+                             <span class="n">dger</span><span class="o">.</span><span class="n">tipo_simulacao_final</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+            <span class="c1"># Imprime operação</span>
+            <span class="n">escreve_alinhado</span><span class="p">(</span><span class="s2">&quot;IMPRESSAO DA OPER&quot;</span><span class="p">,</span>
+                             <span class="n">dger</span><span class="o">.</span><span class="n">impressao_operacao</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+            <span class="c1"># Imprime convergência</span>
+            <span class="n">escreve_alinhado</span><span class="p">(</span><span class="s2">&quot;IMPRESSAO DA CONVERG.&quot;</span><span class="p">,</span>
+                             <span class="n">dger</span><span class="o">.</span><span class="n">impressao_convergencia</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+            <span class="c1"># Intervalo gravação</span>
+            <span class="n">escreve_alinhado</span><span class="p">(</span><span class="s2">&quot;INTERVALO P/ GRAVAR&quot;</span><span class="p">,</span>
+                             <span class="n">dger</span><span class="o">.</span><span class="n">intervalo_gravacao_relatorio</span><span class="p">)</span>
+            <span class="c1"># Min. iterações</span>
+            <span class="n">escreve_alinhado</span><span class="p">(</span><span class="s2">&quot;No. MIN. ITER.&quot;</span><span class="p">,</span>
+                             <span class="n">dger</span><span class="o">.</span><span class="n">min_interacoes</span><span class="p">)</span>
+            <span class="c1"># Racionamento preventivo</span>
+            <span class="n">escreve_alinhado</span><span class="p">(</span><span class="s2">&quot;RACIONAMENTO PREVENT.&quot;</span><span class="p">,</span>
+                             <span class="n">dger</span><span class="o">.</span><span class="n">racionamento_preventivo</span><span class="p">)</span>
+            <span class="c1"># Num. anos manutenção UTEs</span>
+            <span class="n">escreve_alinhado</span><span class="p">(</span><span class="s2">&quot;No. ANOS MANUT.UTE&#39;S&quot;</span><span class="p">,</span>
+                             <span class="n">dger</span><span class="o">.</span><span class="n">numero_anos_manutencao_UTEs</span><span class="p">)</span>
+            <span class="c1"># Tendência hidrológica</span>
+            <span class="n">escreve_alinhado</span><span class="p">(</span><span class="s2">&quot;TENDENCIA HIDROLOGICA&quot;</span><span class="p">,</span>
+                             <span class="n">dger</span><span class="o">.</span><span class="n">tendencia_hidrologica</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+            <span class="c1"># Restrição de Itaipu</span>
+            <span class="n">escreve_alinhado</span><span class="p">(</span><span class="s2">&quot;RESTRICA0 DE ITAIPU&quot;</span><span class="p">,</span>
+                             <span class="n">dger</span><span class="o">.</span><span class="n">restricoes_itaipu</span><span class="p">)</span>
+            <span class="c1"># Bidding</span>
+            <span class="n">escreve_alinhado</span><span class="p">(</span><span class="s2">&quot;BID&quot;</span><span class="p">,</span>
+                             <span class="n">dger</span><span class="o">.</span><span class="n">bidding_demanda</span><span class="p">)</span>
+            <span class="c1"># Perdas na transmissão</span>
+            <span class="n">escreve_alinhado</span><span class="p">(</span><span class="s2">&quot;PERDAS P/ TRANSMISSAO&quot;</span><span class="p">,</span>
+                             <span class="n">dger</span><span class="o">.</span><span class="n">perdas_transmissao</span><span class="p">)</span>
+            <span class="c1"># El Niño</span>
+            <span class="n">escreve_alinhado</span><span class="p">(</span><span class="s2">&quot;EL NINO&quot;</span><span class="p">,</span>
+                             <span class="n">dger</span><span class="o">.</span><span class="n">el_nino</span><span class="p">)</span>
+            <span class="c1"># ENSO</span>
+            <span class="n">escreve_alinhado</span><span class="p">(</span><span class="s2">&quot;ENSO INDEX&quot;</span><span class="p">,</span>
+                             <span class="n">dger</span><span class="o">.</span><span class="n">enso</span><span class="p">)</span>
+            <span class="c1"># Duração por patamar</span>
+            <span class="n">escreve_alinhado</span><span class="p">(</span><span class="s2">&quot;DURACAO POR PATAMAR&quot;</span><span class="p">,</span>
+                             <span class="n">dger</span><span class="o">.</span><span class="n">duracao_patamar</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+            <span class="c1"># Considera desvio d&#39;água</span>
+            <span class="n">escreve_alinhado</span><span class="p">(</span><span class="s2">&quot;OUTROS USOS DA AGUA&quot;</span><span class="p">,</span>
+                             <span class="n">dger</span><span class="o">.</span><span class="n">considera_desvio_dagua</span><span class="p">)</span>
+            <span class="c1"># Correção do desvio</span>
+            <span class="n">escreve_alinhado</span><span class="p">(</span><span class="s2">&quot;CORRECAO DESVIO&quot;</span><span class="p">,</span>
+                             <span class="n">dger</span><span class="o">.</span><span class="n">correcao_energia_desvio</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+            <span class="c1"># Considera curva VminP</span>
+            <span class="n">escreve_alinhado</span><span class="p">(</span><span class="s2">&quot;C.AVERSAO/PENAL.VMINP&quot;</span><span class="p">,</span>
+                             <span class="n">dger</span><span class="o">.</span><span class="n">considera_curva_aversao</span><span class="p">)</span>
+            <span class="c1"># Tipo de geração de ENAs</span>
+            <span class="n">escreve_alinhado</span><span class="p">(</span><span class="s2">&quot;TIPO DE GERACAO ENAS&quot;</span><span class="p">,</span>
+                             <span class="n">dger</span><span class="o">.</span><span class="n">tipo_geracao_afluencias</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+            <span class="c1"># Profundidade do risco de déficit</span>
+            <span class="n">str_aux</span> <span class="o">=</span> <span class="s2">&quot;RISCO DE DEFICIT&quot;</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="n">len_aux</span><span class="p">)</span>
+            <span class="n">str_dados</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+            <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">dger</span><span class="o">.</span><span class="n">profundidade_risco_deficit</span><span class="p">:</span>
+                <span class="n">str_dados</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="si">{:.1f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;  &quot;</span>
+            <span class="n">arq</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">str_aux</span> <span class="o">+</span> <span class="n">str_dados</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="c1"># Iteração para simulação final</span>
+            <span class="n">escreve_alinhado</span><span class="p">(</span><span class="s2">&quot;ITERACAO P/SIM.FINAL&quot;</span><span class="p">,</span>
+                             <span class="n">dger</span><span class="o">.</span><span class="n">iteracao_sim_final</span><span class="p">)</span>
+            <span class="c1"># Agrupamento livre de intercâmbios</span>
+            <span class="n">escreve_alinhado</span><span class="p">(</span><span class="s2">&quot;AGRUPAMENTO LIVRE&quot;</span><span class="p">,</span>
+                             <span class="n">dger</span><span class="o">.</span><span class="n">agrupamento_livre_interc</span><span class="p">)</span>
+            <span class="c1"># Equalização da penalização de intercâmbios</span>
+            <span class="n">escreve_alinhado</span><span class="p">(</span><span class="s2">&quot;EQUALIZACAO PEN.INT.&quot;</span><span class="p">,</span>
+                             <span class="n">dger</span><span class="o">.</span><span class="n">equaliza_penalidades_interc</span><span class="p">)</span>
+            <span class="c1"># Representação da submotorização</span>
+            <span class="n">escreve_alinhado</span><span class="p">(</span><span class="s2">&quot;REPRESENT.SUBMOT.&quot;</span><span class="p">,</span>
+                             <span class="n">dger</span><span class="o">.</span><span class="n">representa_submotor</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+            <span class="c1"># Ordenação automática de subsistemas</span>
+            <span class="n">escreve_alinhado</span><span class="p">(</span><span class="s2">&quot;ORDENACAO AUTOMATICA&quot;</span><span class="p">,</span>
+                             <span class="n">dger</span><span class="o">.</span><span class="n">ordenacao_automatica_subsist</span><span class="p">)</span>
+            <span class="c1"># Considera cargas adicionais</span>
+            <span class="n">escreve_alinhado</span><span class="p">(</span><span class="s2">&quot;CONS. CARGA ADICIONAL&quot;</span><span class="p">,</span>
+                             <span class="n">dger</span><span class="o">.</span><span class="n">considera_cargas_adicionais</span><span class="p">)</span>
+            <span class="c1"># Delta Zsup</span>
+            <span class="n">escreve_alinhado_f</span><span class="p">(</span><span class="s2">&quot;DELTA ZSUP&quot;</span><span class="p">,</span>
+                               <span class="n">dger</span><span class="o">.</span><span class="n">delta_zsup</span><span class="p">)</span>
+            <span class="c1"># Delta Zinf</span>
+            <span class="n">escreve_alinhado_f</span><span class="p">(</span><span class="s2">&quot;DELTA ZINF&quot;</span><span class="p">,</span>
+                               <span class="n">dger</span><span class="o">.</span><span class="n">delta_zinf</span><span class="p">)</span>
+            <span class="c1"># Deltas consecutivos</span>
+            <span class="n">escreve_alinhado</span><span class="p">(</span><span class="s2">&quot;DELTAS CONSECUT.&quot;</span><span class="p">,</span>
+                             <span class="n">dger</span><span class="o">.</span><span class="n">deltas_consecutivos</span><span class="p">)</span>
+            <span class="c1"># Despacho antecipado GNL</span>
+            <span class="n">escreve_alinhado</span><span class="p">(</span><span class="s2">&quot;DESP. ANTEC.  GNL&quot;</span><span class="p">,</span>
+                             <span class="n">dger</span><span class="o">.</span><span class="n">considera_despacho_gnl</span><span class="p">)</span>
+            <span class="c1"># Modifica automaticamente AdTerm</span>
+            <span class="n">escreve_alinhado</span><span class="p">(</span><span class="s2">&quot;MODIF.AUTOM.ADTERM&quot;</span><span class="p">,</span>
+                             <span class="n">dger</span><span class="o">.</span><span class="n">modifica_auto_despacho_gnl</span><span class="p">)</span>
+            <span class="c1"># Considera GHmin</span>
+            <span class="n">escreve_alinhado</span><span class="p">(</span><span class="s2">&quot;CONSIDERA GHMIN&quot;</span><span class="p">,</span>
+                             <span class="n">dger</span><span class="o">.</span><span class="n">considera_ghmin</span><span class="p">)</span>
+            <span class="c1"># Simulação final com data</span>
+            <span class="n">escreve_alinhado</span><span class="p">(</span><span class="s2">&quot;S.F. COM DATA&quot;</span><span class="p">,</span>
+                             <span class="n">dger</span><span class="o">.</span><span class="n">sim_final_com_data</span><span class="p">)</span>
+            <span class="c1"># Gerenciados externo, etc...</span>
+            <span class="n">str_aux</span> <span class="o">=</span> <span class="s2">&quot;GER.PLs E NV1 E NV2&quot;</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="n">len_aux</span><span class="p">)</span>
+            <span class="n">str_dados</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+            <span class="n">d</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">dger</span><span class="o">.</span><span class="n">gerenciador_externo</span><span class="p">)</span>
+            <span class="n">str_dados</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">d</span><span class="p">)</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span>
+            <span class="n">d</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">dger</span><span class="o">.</span><span class="n">comunicacao_dois_niveis</span><span class="p">)</span>
+            <span class="n">str_dados</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">d</span><span class="p">)</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span>
+            <span class="n">d</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">dger</span><span class="o">.</span><span class="n">armazenamento_local_temp</span><span class="p">)</span>
+            <span class="n">str_dados</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">d</span><span class="p">)</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span>
+            <span class="n">d</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">dger</span><span class="o">.</span><span class="n">aloca_memoria_enas</span><span class="p">)</span>
+            <span class="n">str_dados</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">d</span><span class="p">)</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span>
+            <span class="n">d</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">dger</span><span class="o">.</span><span class="n">aloca_memoria_cortes</span><span class="p">)</span>
+            <span class="n">str_dados</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">d</span><span class="p">)</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span>
+            <span class="n">arq</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">str_aux</span> <span class="o">+</span> <span class="n">str_dados</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="c1"># SAR</span>
+            <span class="n">escreve_alinhado</span><span class="p">(</span><span class="s2">&quot;SAR&quot;</span><span class="p">,</span>
+                             <span class="n">dger</span><span class="o">.</span><span class="n">sar</span><span class="p">)</span>
+            <span class="c1"># CVaR</span>
+            <span class="n">escreve_alinhado</span><span class="p">(</span><span class="s2">&quot;CVAR&quot;</span><span class="p">,</span>
+                             <span class="n">dger</span><span class="o">.</span><span class="n">cvar</span><span class="p">)</span>
+            <span class="c1"># Critério de min Zsup p/ convergência</span>
+            <span class="n">escreve_alinhado</span><span class="p">(</span><span class="s2">&quot;CONS. ZSUP MIN. CONV.&quot;</span><span class="p">,</span>
+                             <span class="n">dger</span><span class="o">.</span><span class="n">convergencia_minimo_zsup</span><span class="p">)</span>
+            <span class="c1"># Desconsidera vazão mínima</span>
+            <span class="n">escreve_alinhado</span><span class="p">(</span><span class="s2">&quot;DESCONSIDERA VAZMIN&quot;</span><span class="p">,</span>
+                             <span class="n">dger</span><span class="o">.</span><span class="n">desconsidera_vazao_minima</span><span class="p">)</span>
+            <span class="c1"># Considera restrições elétricas</span>
+            <span class="n">escreve_alinhado</span><span class="p">(</span><span class="s2">&quot;RESTRICOES ELETRICAS&quot;</span><span class="p">,</span>
+                             <span class="n">dger</span><span class="o">.</span><span class="n">considera_restricoes_elet</span><span class="p">)</span>
+            <span class="c1"># Seleção de cortes</span>
+            <span class="n">escreve_alinhado</span><span class="p">(</span><span class="s2">&quot;SELECAO DE CORTES&quot;</span><span class="p">,</span>
+                             <span class="n">dger</span><span class="o">.</span><span class="n">selecao_cortes_benders</span><span class="p">)</span>
+            <span class="c1"># Janela para seleção de cortes</span>
+            <span class="n">escreve_alinhado</span><span class="p">(</span><span class="s2">&quot;JANELA DE CORTES&quot;</span><span class="p">,</span>
+                             <span class="n">dger</span><span class="o">.</span><span class="n">janela_selecao_cortes</span><span class="p">)</span>
+            <span class="c1"># Reamostragem de cenários</span>
+            <span class="n">str_aux</span> <span class="o">=</span> <span class="s2">&quot;REAMOST. CENARIOS&quot;</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="n">len_aux</span><span class="p">)</span>
+            <span class="n">str_dados</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+            <span class="n">d</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">dger</span><span class="o">.</span><span class="n">reamostragem</span><span class="p">)</span>
+            <span class="n">str_dados</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">d</span><span class="p">))</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span>
+            <span class="n">d</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">dger</span><span class="o">.</span><span class="n">tipo_reamostragem</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+            <span class="n">str_dados</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">d</span><span class="p">))</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span>
+            <span class="n">d</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">dger</span><span class="o">.</span><span class="n">passo_reamostragem</span><span class="p">)</span>
+            <span class="n">str_dados</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">d</span><span class="p">))</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span>
+            <span class="n">arq</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">str_aux</span> <span class="o">+</span> <span class="n">str_dados</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="c1"># Considera nó 0 na convergência</span>
+            <span class="n">escreve_alinhado</span><span class="p">(</span><span class="s2">&quot;CONVERGE NO ZERO&quot;</span><span class="p">,</span>
+                             <span class="n">dger</span><span class="o">.</span><span class="n">considera_convergencia_no0</span><span class="p">)</span>
+            <span class="c1"># Consulta FCF</span>
+            <span class="n">escreve_alinhado</span><span class="p">(</span><span class="s2">&quot;CONSULTA FCF&quot;</span><span class="p">,</span>
+                             <span class="n">dger</span><span class="o">.</span><span class="n">consulta_fcf</span><span class="p">)</span>
+            <span class="c1"># Impressão ENA</span>
+            <span class="n">escreve_alinhado</span><span class="p">(</span><span class="s2">&quot;IMPRESSAO ENA&quot;</span><span class="p">,</span>
+                             <span class="n">dger</span><span class="o">.</span><span class="n">impressao_ena</span><span class="p">)</span>
+            <span class="c1"># Impressão de cortes ativos na simulação final</span>
+            <span class="n">escreve_alinhado</span><span class="p">(</span><span class="s2">&quot;IMP. CATIVO S.FINAL&quot;</span><span class="p">,</span>
+                             <span class="n">dger</span><span class="o">.</span><span class="n">impressao_cortes_ativos</span><span class="p">)</span>
+            <span class="c1"># Representante da agregação</span>
+            <span class="n">escreve_alinhado</span><span class="p">(</span><span class="s2">&quot;REP. AGREGACAO&quot;</span><span class="p">,</span>
+                             <span class="n">dger</span><span class="o">.</span><span class="n">representante_agregacao</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+            <span class="c1"># Matriz de correlação espacial</span>
+            <span class="n">escreve_alinhado</span><span class="p">(</span><span class="s2">&quot;MATRIZ CORR.ESPACIAL&quot;</span><span class="p">,</span>
+                             <span class="n">dger</span><span class="o">.</span><span class="n">matriz_corr_espacial</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+            <span class="c1"># Desconsidera convergência estatística</span>
+            <span class="n">escreve_alinhado</span><span class="p">(</span><span class="s2">&quot;DESCONS. CONV. ESTAT&quot;</span><span class="p">,</span>
+                             <span class="n">dger</span><span class="o">.</span><span class="n">desconsidera_converg_estatist</span><span class="p">)</span>
+            <span class="c1"># Momento da reamostragem</span>
+            <span class="n">escreve_alinhado</span><span class="p">(</span><span class="s2">&quot;MOMENTO REAMOSTRAGEM&quot;</span><span class="p">,</span>
+                             <span class="n">dger</span><span class="o">.</span><span class="n">momento_reamostragem</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+            <span class="c1"># Mantém arquivos ENA</span>
+            <span class="n">escreve_alinhado</span><span class="p">(</span><span class="s2">&quot;ARQUIVOS ENA&quot;</span><span class="p">,</span>
+                             <span class="n">dger</span><span class="o">.</span><span class="n">mantem_arquivos_ena</span><span class="p">)</span>
+            <span class="c1"># Início do teste de convergência</span>
+            <span class="n">escreve_alinhado</span><span class="p">(</span><span class="s2">&quot;INICIO TESTE CONVERG.&quot;</span><span class="p">,</span>
+                             <span class="n">dger</span><span class="o">.</span><span class="n">inicio_teste_convergencia</span><span class="o">.</span><span class="n">value</span><span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Rogerio Alves.
+
+    </p>
+  </div>
+    
+    
+    
+    Compilado com <a href="https://www.sphinx-doc.org/">Sphinx</a> usando um
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">tema</a>
+    
+    fornecido por <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
