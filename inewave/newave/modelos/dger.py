@@ -2,7 +2,23 @@ from enum import Enum
 from typing import List, Tuple
 
 
-class EnumTipoExecucao(Enum):
+class EnumComInferencia(Enum):
+    """
+    Classe base para os enums com inferência
+    do enum a partir do valor dado
+    """
+    @classmethod
+    def infere_valor(cls, v: int):
+        """
+        Construtor do enum a partir do valor
+        """
+        for e in cls:
+            if e.value == v:
+                return e
+        return None
+
+
+class EnumTipoExecucao(EnumComInferencia):
     r"""
     - COMPLETA:
     - SIMULACAO_FINAL
@@ -11,7 +27,7 @@ class EnumTipoExecucao(Enum):
     SIMULACAO_FINAL = 1
 
 
-class EnumTipoSimulacaoFinal(Enum):
+class EnumTipoSimulacaoFinal(EnumComInferencia):
     r"""
     - NAO_SIMULA
     - SERIES_SINTETICAS
@@ -24,7 +40,7 @@ class EnumTipoSimulacaoFinal(Enum):
     CONSISTENCIA_DADOS = 3
 
 
-class EnumImpressaoOperacao(Enum):
+class EnumImpressaoOperacao(EnumComInferencia):
     r"""
     - SINOPSE
     - OPERACAO_DETALHADA
@@ -33,7 +49,7 @@ class EnumImpressaoOperacao(Enum):
     OPERACAO_DETALHADA = 1
 
 
-class EnumImpressaoConvergencia(Enum):
+class EnumImpressaoConvergencia(EnumComInferencia):
     r"""
     - CONVERGENCIA_FINAL
     - CONVERGENCIA_TOTAL
@@ -42,7 +58,7 @@ class EnumImpressaoConvergencia(Enum):
     CONVERGENCIA_TOTAL = 1
 
 
-class EnumTamanhoArquivoVazoes(Enum):
+class EnumTamanhoArquivoVazoes(EnumComInferencia):
     r"""
     - PALAVRAS_320
     - PALAVRAS_600
@@ -51,7 +67,7 @@ class EnumTamanhoArquivoVazoes(Enum):
     PALAVRAS_600 = 1
 
 
-class EnumTendenciaHidrologica(Enum):
+class EnumTendenciaHidrologica(EnumComInferencia):
     r"""
     - NAO_LER
     - LER_POR_REE
@@ -62,7 +78,7 @@ class EnumTendenciaHidrologica(Enum):
     LER_POR_POSTO = 2
 
 
-class EnumDuracaoPatamar(Enum):
+class EnumDuracaoPatamar(EnumComInferencia):
     r"""
     - SAZONAL
     - VARIAVEL_POR_ANO
@@ -71,7 +87,7 @@ class EnumDuracaoPatamar(Enum):
     VARIAVEL_POR_ANO = 1
 
 
-class EnumCorrecaoEnergiaDesvio(Enum):
+class EnumCorrecaoEnergiaDesvio(EnumComInferencia):
     r"""
     - CONSTANTE
     - VARIAVEL_COM_ARMAZENAMENTO
@@ -80,7 +96,7 @@ class EnumCorrecaoEnergiaDesvio(Enum):
     VARIAVEL_COM_ARMAZENAMENTO = 1
 
 
-class EnumTipoGeracaoENAs(Enum):
+class EnumTipoGeracaoENAs(EnumComInferencia):
     r"""
     - RESIDUOS_IGUAIS_FW_BW
     - COMPENSACAO_CORR_CRUZADA_BW
@@ -91,7 +107,7 @@ class EnumTipoGeracaoENAs(Enum):
     COMPENSACAO_CORR_CRUZADA_FW_BW = 2
 
 
-class EnumRepresentacaoSubmotorizacao(Enum):
+class EnumRepresentacaoSubmotorizacao(EnumComInferencia):
     r"""
     - NAO_CONSIDERA
     - SUBSISTEMA
@@ -102,7 +118,7 @@ class EnumRepresentacaoSubmotorizacao(Enum):
     USINA = 2
 
 
-class EnumCVAR(Enum):
+class EnumCVAR(EnumComInferencia):
     r"""
     - NAO_CONSIDERA
     - CONSTANTE_NO_TEMPO
@@ -113,7 +129,7 @@ class EnumCVAR(Enum):
     VARIAVEL_NO_TEMPO = 2
 
 
-class EnumTipoReamostragem(Enum):
+class EnumTipoReamostragem(EnumComInferencia):
     r"""
     - RECOMBINACAO
     - PLENA
@@ -122,7 +138,7 @@ class EnumTipoReamostragem(Enum):
     PLENA = 1
 
 
-class EnumRepresentanteAgregacao(Enum):
+class EnumRepresentanteAgregacao(EnumComInferencia):
     r"""
     - MAIS_PROXIMO
     - CENTROIDE
@@ -131,7 +147,7 @@ class EnumRepresentanteAgregacao(Enum):
     CENTROIDE = 1
 
 
-class EnumMatrizCorrelacaoEspacial(Enum):
+class EnumMatrizCorrelacaoEspacial(EnumComInferencia):
     r"""
     - ANUAL
     - MENSAL
@@ -140,7 +156,7 @@ class EnumMatrizCorrelacaoEspacial(Enum):
     MENSAL = 1
 
 
-class EnumMomentoReamostragem(Enum):
+class EnumMomentoReamostragem(EnumComInferencia):
     r"""
     - BW_ITER_CORRESPONDENTE
     - FW_ITER_CORRESPONDENTE
@@ -149,7 +165,7 @@ class EnumMomentoReamostragem(Enum):
     FW_ITER_CORRESPONDENTE = 1
 
 
-class EnumInicioTesteConvergencia(Enum):
+class EnumInicioTesteConvergencia(EnumComInferencia):
     r"""
     - PRIMEIRA_ITERACAO
     - ITERACAO_MINIMA
@@ -242,18 +258,18 @@ class DGer:
         - considera_restricoes_elet: ``bool``,
         - selecao_cortes_benders: ``bool``,
         - janela_selecao_cortes: ``bool``,
-        - reamostragem: ``List[bool]``,
-        - tipo_reamostragem: ``List[EnumTipoReamostragem]``,
-        - passo_reamostragem: ``List[int]``,
+        - reamostragem: ``bool``,
+        - tipo_reamostragem: ``EnumTipoReamostragem``,
+        - passo_reamostragem: ``int``,
         - considera_convergencia_no0: ``bool``,
         - consulta_fcf: ``bool``,
-        - impressao_ena: ``List[bool]``,
-        - impressao_cortes_ativos: ``List[bool]``,
-        - representante_agregacao: ``List[EnumRepresentanteAgregacao]``,
-        - matriz_corr_espacial: ``List[EnumMatrizCorrelacaoEspacial]``,
-        - desconsidera_converg_estatist: ``List[bool]``,
-        - momento_reamostragem: ``List[EnumMomentoReamostragem]``,
-        - mantem_arquivos_ena: ``List[bool]``,
+        - impressao_ena: ``bool``,
+        - impressao_cortes_ativos: ``bool``,
+        - representante_agregacao: ``EnumRepresentanteAgregacao``,
+        - matriz_corr_espacial: ``EnumMatrizCorrelacaoEspacial``,
+        - desconsidera_converg_estatist: ``bool``,
+        - momento_reamostragem: ``EnumMomentoReamostragem``,
+        - mantem_arquivos_ena: ``bool``,
         - inicio_teste_convergencia: ``EnumInicioTesteConvergencia``
 
 
@@ -336,18 +352,18 @@ class DGer:
                  considera_restricoes_elet: bool,
                  selecao_cortes_benders: bool,
                  janela_selecao_cortes: bool,
-                 reamostragem: List[bool],
-                 tipo_reamostragem: List[EnumTipoReamostragem],
-                 passo_reamostragem: List[int],
+                 reamostragem: bool,
+                 tipo_reamostragem: EnumTipoReamostragem,
+                 passo_reamostragem: int,
                  considera_convergencia_no0: bool,
                  consulta_fcf: bool,
-                 impressao_ena: List[bool],
-                 impressao_cortes_ativos: List[bool],
-                 representante_agregacao: List[EnumRepresentanteAgregacao],
-                 matriz_corr_espacial: List[EnumMatrizCorrelacaoEspacial],
-                 desconsidera_converg_estatist: List[bool],
-                 momento_reamostragem: List[EnumMomentoReamostragem],
-                 mantem_arquivos_ena: List[bool],
+                 impressao_ena: bool,
+                 impressao_cortes_ativos: bool,
+                 representante_agregacao: EnumRepresentanteAgregacao,
+                 matriz_corr_espacial: EnumMatrizCorrelacaoEspacial,
+                 desconsidera_converg_estatist: bool,
+                 momento_reamostragem: EnumMomentoReamostragem,
+                 mantem_arquivos_ena: bool,
                  inicio_teste_convergencia: EnumInicioTesteConvergencia
                  ):
 
@@ -507,16 +523,13 @@ class DGer:
                     True,
                     True,
                     False,
-                    [False, False, False, True],
-                    [EnumTipoReamostragem.RECOMBINACAO,
-                     EnumTipoReamostragem.RECOMBINACAO,
-                     EnumTipoReamostragem.RECOMBINACAO,
-                     EnumTipoReamostragem.PLENA],
-                    [0, 0, 0, 1],
+                    True,
+                    EnumTipoReamostragem.PLENA,
+                    0,
                     False,
                     False,
-                    [False, False, False, False],
-                    [False, False, False, False],
+                    False,
+                    False,
                     [EnumRepresentanteAgregacao.MAIS_PROXIMO,
                      EnumRepresentanteAgregacao.MAIS_PROXIMO,
                      EnumRepresentanteAgregacao.MAIS_PROXIMO,
