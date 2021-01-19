@@ -22,7 +22,9 @@ através do código::
     >>> leitor = LeituraPMO("/home/usuario/estudo/pmo_MM_AAAA/")
     >>> pmo = leitor.le_arquivo()
 
-É então constrúido um objeto ``PMO``, que fornece os dados do arquivo através de seus métodos::
+.. currentmodule:: inewave.newave.modelos.pmo
+
+É então constrúido um objeto :class:`PMO`, que fornece os dados do arquivo através de seus métodos::
 
     >>> pmo
     <inewave.newave.modelos.pmo.PMO object at 0x000001BC7663B340>
@@ -42,5 +44,6 @@ Realizando a leitura do MEDIAS-SIN.CSV
 
 Leitura, alteração e escrita do dger.dat
 -----------------------------------------
+.. currentmodule:: inewave.newave.modelos.dger
 
-
+A referência à classe :class:`DGer`

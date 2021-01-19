@@ -3,4 +3,6 @@ numpy
 flake8
 mypy
 sphinx
+sphinx-gallery
 sphinx-rtd-theme
+nb2plots

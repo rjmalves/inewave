@@ -1,3 +1,4 @@
+import inewave
 from setuptools import setup, find_packages  # type: ignore
 
 long_description = ""
@@ -10,7 +11,7 @@ with open('requirements.txt', 'r') as fh:
 
 setup(
     name="inewave",
-    version="0.0.8",
+    version=inewave.__version__,
     author="Rogerio Alves",
     author_email="rogerioalves.ee@gmail.com",
     description="Interface para arquivos do NEWAVE",
