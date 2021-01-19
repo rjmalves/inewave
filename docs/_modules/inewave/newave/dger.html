@@ -531,10 +531,9 @@
 <span class="sd">    **Exemplos**</span>
 
 <span class="sd">    &gt;&gt;&gt; diretorio = &quot;~/documentos/.../deck&quot;</span>
-<span class="sd">    &gt;&gt;&gt; leitor = LeituraDGer(diretorio)</span>
-<span class="sd">    &gt;&gt;&gt; leitor.le_arquivo()</span>
-<span class="sd">    # Ops, esqueci de pegar o objeto</span>
-<span class="sd">    &gt;&gt;&gt; dger = leitor.dger</span>
+<span class="sd">    &gt;&gt;&gt; dger = DGer.dger_padrao()</span>
+<span class="sd">    &gt;&gt;&gt; escritor = EscritaDGer(diretorio)</span>
+<span class="sd">    &gt;&gt;&gt; escritor.escreve_arquivo(dger)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">diretorio</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>

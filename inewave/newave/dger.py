@@ -374,8 +374,7 @@ class EscritaDGer(Escrita):
     >>> diretorio = "~/documentos/.../deck"
     >>> dger = DGer.dger_padrao()
     >>> escritor = EscritaDGer(diretorio)
-    # Ops, esqueci de pegar o objeto
-    >>> dger = leitor.dger
+    >>> escritor.escreve_arquivo(dger)
     """
     def __init__(self, diretorio: str):
         super().__init__()
