@@ -94,7 +94,7 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Tutorial</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#leitura-alteracao-e-escrita-do-dger-dat">Leitura, alteração e escrita do dger.dat</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#realizando-a-leitura-do-pmo-dat">Realizando a leitura do pmo.dat</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#realizando-a-leitura-do-earmfbm00x-out">Realizando a leitura do earmfbm00x.out</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#realizando-a-leitura-do-earmfpm00x-out">Realizando a leitura do earmfpm00x.out</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#realizando-a-leitura-do-medias-sin-csv">Realizando a leitura do MEDIAS-SIN.CSV</a></li>
 </ul>
 </li>
@@ -261,11 +261,71 @@ através do código:</p>
 <a class="reference internal image-reference" href="_images/pmo_custos_series.png"><img alt="_images/pmo_custos_series.png" src="_images/pmo_custos_series.png" style="width: 400px;" /></a>
 <p>Informações específicas de cada custo estão disponíveis através de propriedades do objeto. Maiores detalhes podem ser obtidos na referência do objeto <a class="reference internal" href="reference/newave/arquivos/pmo.html#inewave.newave.modelos.pmo.CustoOperacaoPMO" title="inewave.newave.modelos.pmo.CustoOperacaoPMO"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CustoOperacaoPMO</span></code></a>.</p>
 </div>
-<div class="section" id="realizando-a-leitura-do-earmfbm00x-out">
-<h2>Realizando a leitura do earmfbm00x.out<a class="headerlink" href="#realizando-a-leitura-do-earmfbm00x-out" title="Link permanente para este título">¶</a></h2>
+<div class="section" id="realizando-a-leitura-do-earmfpm00x-out">
+<h2>Realizando a leitura do earmfpm00x.out<a class="headerlink" href="#realizando-a-leitura-do-earmfpm00x-out" title="Link permanente para este título">¶</a></h2>
+<p>Seja um sistema de arquivos no qual, dentro de um diretório cujo caminho é:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ pwd
+$ /home/usuario/estudo/pmo_MM_AAAA/
+</pre></div>
+</div>
+<p>E neste diretório exista um arquivo <code class="docutils literal notranslate"><span class="pre">earmfpm001.out</span></code>, então o conteúdo deste pode ser lido
+através do código:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">inewave.nwlistop.earmfpm00</span> <span class="kn">import</span> <span class="n">LeituraEarmfpm00</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">leitor</span> <span class="o">=</span> <span class="n">LeituraEarmfpm00</span><span class="p">(</span><span class="s2">&quot;/home/usuario/estudo/pmo_MM_AAAA/&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">earm</span> <span class="o">=</span> <span class="n">leitor</span><span class="o">.</span><span class="n">le_arquivo</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>É então constrúido um objeto <a class="reference internal" href="reference/nwlistop/arquivos/earmfpm00.html#inewave.nwlistop.modelos.earmfpm00.Earmfpm00" title="inewave.nwlistop.modelos.earmfpm00.Earmfpm00"><code class="xref py py-class docutils literal notranslate"><span class="pre">Earmfpm00</span></code></a>, que fornece os dados do arquivo através de seus métodos:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">earm</span>
+<span class="go">{&#39;SUDESTE&#39;: &lt;inewave.nwlistop.modelos.earmfpm00.Earmfpm00 object at 0x000001BA8C905DC0&gt;}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">earm</span><span class="p">[</span><span class="s1">&#39;SUDESTE&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">ano_pmo</span>
+<span class="go">1995</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">earm</span><span class="p">[</span><span class="s1">&#39;SUDESTE&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">energias_armazenadas</span><span class="p">[</span><span class="mi">1995</span><span class="p">]</span>
+<span class="go">[[ 0.   0.   0.  ... 48.8 44.3 46.6]</span>
+<span class="go">[ 0.   0.   0.  ... 36.5 38.4 50.3]</span>
+<span class="go">[ 0.   0.   0.  ... 50.8 51.1 59.3]</span>
+<span class="gp">...</span>
+<span class="go">[ 0.   0.   0.  ... 76.2 70.7 70.3]</span>
+<span class="go">[ 0.   0.   0.  ... 41.  35.3 35.6]</span>
+<span class="go">[ 0.   0.   0.  ... 59.8 63.2 68.1]]</span>
+</pre></div>
+</div>
+<p>Os dados extraídos pelo módulo encontram-se no arquivo:</p>
+<a class="reference internal image-reference" href="_images/earmfpm.png"><img alt="_images/earmfpm.png" src="_images/earmfpm.png" style="width: 800px;" /></a>
+<p>Para maiores informações, basta consultar a referência <a class="reference internal" href="reference/nwlistop/arquivos/earmfpm00.html#inewave.nwlistop.modelos.earmfpm00.Earmfpm00" title="inewave.nwlistop.modelos.earmfpm00.Earmfpm00"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Earmfpm00</span></code></a>.</p>
 </div>
 <div class="section" id="realizando-a-leitura-do-medias-sin-csv">
 <h2>Realizando a leitura do MEDIAS-SIN.CSV<a class="headerlink" href="#realizando-a-leitura-do-medias-sin-csv" title="Link permanente para este título">¶</a></h2>
+<p>Seja um sistema de arquivos no qual, dentro de um diretório cujo caminho é:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ pwd
+$ /home/usuario/estudo/pmo_MM_AAAA/
+</pre></div>
+</div>
+<p>E neste diretório exista um arquivo <code class="docutils literal notranslate"><span class="pre">MEDIAS-SIN.CSV</span></code>, então o conteúdo deste pode ser lido
+através do código:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">inewave.nwlistop.mediassin</span> <span class="kn">import</span> <span class="n">LeituraMediasSIN</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">leitor</span> <span class="o">=</span> <span class="n">LeituraMediasSIN</span><span class="p">(</span><span class="s2">&quot;/home/usuario/estudo/pmo_MM_AAAA/&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">medias</span> <span class="o">=</span> <span class="n">leitor</span><span class="o">.</span><span class="n">le_arquivo</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>É então constrúido um objeto <a class="reference internal" href="reference/nwlistop/arquivos/mediassin.html#inewave.nwlistop.modelos.mediassin.MediasSIN" title="inewave.nwlistop.modelos.mediassin.MediasSIN"><code class="xref py py-class docutils literal notranslate"><span class="pre">MediasSIN</span></code></a>, que fornece os dados do arquivo através de seus métodos:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">medias</span>
+<span class="go">&lt;inewave.nwlistop.modelos.mediassin.MediasSIN object at 0x00000166A7B59370&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">meidas</span><span class="o">.</span><span class="n">energias_armazenadas_absolutas</span>
+<span class="go">[     0.        0.        0.        0.        0.        0.   120566.76</span>
+<span class="go"> 105553.39  87866.46  74628.94  67384.13  77175.59 103751.27 136444.19</span>
+<span class="go"> 164715.61 179063.05 183767.11 180670.34 170009.45 152021.25 133067.83</span>
+<span class="go"> 119809.86 113629.52 126772.7  154290.17 184992.48 209113.53 221483.92</span>
+<span class="go"> 225683.23 221905.92 209850.84 191386.5  170983.23 155676.92 148345.86</span>
+<span class="go"> 161091.2  185402.48 210185.28 228901.59 238740.84 241397.98 236743.05</span>
+<span class="go"> 221605.42 198691.84 173918.48 153725.42 141373.53 150448.61 174727.58</span>
+<span class="go"> 201001.23 222784.55 234152.59 238611.41 232602.72 216908.98 193381.59</span>
+<span class="go"> 168287.48 148162.03 136430.67 145501.89]</span>
+</pre></div>
+</div>
+<p>Os dados extraídos pelo módulo encontram-se no arquivo:</p>
+<a class="reference internal image-reference" href="_images/mediassin.png"><img alt="_images/mediassin.png" src="_images/mediassin.png" style="width: 800px;" /></a>
+<p>Para maiores informações, basta consultar a referência <a class="reference internal" href="reference/nwlistop/arquivos/mediassin.html#inewave.nwlistop.modelos.mediassin.MediasSIN" title="inewave.nwlistop.modelos.mediassin.MediasSIN"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MediasSIN</span></code></a>.</p>
 </div>
 </div>
 
