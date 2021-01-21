@@ -6,9 +6,21 @@ from inewave.config import NUM_PATAMARES, NUM_CENARIOS, MESES
 
 class Cmarg00:
     """
-    Classe responsável por lidar com o armazenamento dos dados das
-    saídas do NWListOP referentes aos custos marginais de operação
-    por patamar, por submercado: cmarg00x.out.
+    Armazena os dados das saídas referentes aos custos marginais de operação
+    por patamar, por submercado.
+
+    Esta classe lida com as informações de saída fornecidas pelo
+    NWLISTOP e reproduzidas nos `cmarg00x.out`, onde x varia conforme o
+    submercado em questão.
+
+    **Parâmetros**
+
+    - mes_pmo: `int`
+    - ano_pmo: `int`
+    - versao_newave: `str`
+    - submercado: `str`
+    - custos_patamares: `Dict[int, np.ndarray]`
+
     """
     def __init__(self,
                  mes_pmo: int,
@@ -27,7 +39,18 @@ class Cmarg00:
                               patamar: Patamar) -> Dict[int,
                                                         np.ndarray]:
         """
-        Retorna os custos médios para cada ano de estudo e mês.
+        Custos médios para cada ano de estudo.
+
+        **Parâmetros**
+
+        `Patamar`
+
+        **Retorna**
+
+        `Dict[int, np.ndarray]`
+
+        **Sobre**
+
         Recebe um objeto Patamar para realizar a ponderação de
         cada cenários pelos devidos valores. O acesso é feito com
         [ano] e a saída é uma array 2-D do numpy com os valores
@@ -59,7 +82,18 @@ class Cmarg00:
                                                         Dict[int,
                                                              np.ndarray]]:
         """
-        Retorna os custos médios para cada ano de estudo e mês.
+        Custos médios para cada ano de estudo e mês.
+
+        **Parâmetros**
+
+        `Patamar`
+
+        **Retorna**
+
+        `Dict[int, Dict[int, np.ndarray]]`
+
+        **Sobre**
+
         Recebe um objeto Patamar para realizar a ponderação de
         cada cenários pelos devidos valores. O acesso é feito com
         [ano][mes] e a saída é uma array do numpy com os valores
@@ -83,8 +117,16 @@ class Cmarg00:
                                          Dict[int,
                                               Dict[int, np.ndarray]]]:
         """
-        Retorna os custos obtidos para cada ano, mês e em cada cenário,
-        organizados primeiramente por patamar. O acesso é feito
+        Custos obtidos para cada ano, mês e em cada cenário,
+        organizados primeiramente por patamar.
+
+        **Retorna**
+
+        `Dict[int, Dict[int, Dict[int, np.ndarray]]]`
+
+        **Sobre**
+
+        O acesso é feito
         com [patamar][ano][mes] e retorna um np.ndarray.
         """
         custos: Dict[int,
@@ -113,8 +155,16 @@ class Cmarg00:
     def custos_por_ano(self) -> Dict[int,
                                      Dict[int, np.ndarray]]:
         """
-        Retorna os custos obtidos para cada ano e em cada cenário, para
-        todos os meses, organizados primeiramente por ano. O acesso é feito
+        Custos obtidos para cada ano e em cada cenário, para
+        todos os meses, organizados primeiramente por ano.
+
+        **Retorna**
+
+        `Dict[int, Dict[int,  np.ndarray]]`
+
+        **Sobre**
+
+        O acesso é feito
         com [patamar][ano] e retorna um np.ndarray com os valores de
         custos para todos os cenários e meses, naquele patamar e ano.
         """
@@ -141,8 +191,16 @@ class Cmarg00:
                                            Dict[int,
                                                 Dict[int, np.ndarray]]]:
         """
-        Retorna os custos obtidos para cada ano, mês e em cada cenário,
-        organizados primeiramente por ano e mês. O acesso é feito com
+        Custos obtidos para cada ano, mês e em cada cenário,
+        organizados primeiramente por ano e mês.
+
+        **Retorna**
+
+        `Dict[int, Dict[int, Dict[int, np.ndarray]]]`
+
+        **Sobre**
+
+        O acesso é feito com
         [patamar][ano][mes] e retorna um np.ndarray com os valores de
         custos para todos os cenários, naquele patamar.
         """

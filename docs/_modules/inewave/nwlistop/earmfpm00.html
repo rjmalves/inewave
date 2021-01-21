@@ -171,8 +171,28 @@
 
 <div class="viewcode-block" id="LeituraEarmfpm00"><a class="viewcode-back" href="../../../reference/nwlistop/arquivos/earmfpm00.html#inewave.nwlistop.earmfpm00.LeituraEarmfpm00">[documentos]</a><span class="k">class</span> <span class="nc">LeituraEarmfpm00</span><span class="p">(</span><span class="n">Leitura</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Classe para realizar a leitura dos arquivos earmfpm00x.out</span>
+<span class="sd">    Realiza a leitura dos arquivos earmfpm00x.out</span>
 <span class="sd">    existentes em um diretório de saídas do NEWAVE.</span>
+
+<span class="sd">    Esta classe contém o conjunto de utilidades para ler</span>
+<span class="sd">    e interpretar os campos de arquivos earmfpm00x.out, construindo</span>
+<span class="sd">    objetos `Earmfpm00` cujas informações são as mesmas dos arquivos.</span>
+
+<span class="sd">    Este objeto existe para retirar do modelo de dados a complexidade</span>
+<span class="sd">    de iterar pelas linhas do arquivo, recortar colunas, converter</span>
+<span class="sd">    tipos de dados, dentre outras tarefas necessárias para a leitura.</span>
+
+<span class="sd">    Uma vez realizada a leitura do arquivo, as informações são guardadas</span>
+<span class="sd">    internamente no atributo `earmfpms`.</span>
+
+<span class="sd">    **Exemplos**</span>
+
+<span class="sd">    &gt;&gt;&gt; diretorio = &quot;~/documentos/.../deck&quot;</span>
+<span class="sd">    &gt;&gt;&gt; leitor = LeituraEarmfpm00(diretorio)</span>
+<span class="sd">    &gt;&gt;&gt; leitor.le_arquivos()</span>
+<span class="sd">    # Ops, esqueci de pegar o objeto</span>
+<span class="sd">    &gt;&gt;&gt; earm_sudeste = leitor.earmfpms[&#39;SUDESTE&#39;]</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">str_inicio_earmfpms_ano</span> <span class="o">=</span> <span class="s2">&quot;     ANO: &quot;</span>
     <span class="n">str_fim_earmfpms_ano</span> <span class="o">=</span> <span class="s2">&quot;  MAX         &quot;</span>

@@ -171,8 +171,28 @@
 
 <div class="viewcode-block" id="LeituraMediasMerc"><a class="viewcode-back" href="../../../reference/nwlistop/arquivos/mediasmerc.html#inewave.nwlistop.mediasmerc.LeituraMediasMerc">[documentos]</a><span class="k">class</span> <span class="nc">LeituraMediasMerc</span><span class="p">(</span><span class="n">Leitura</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Classe para realizar a leitura do arquivo MEDIAS-MERC.CSV</span>
+<span class="sd">    Realiza a leitura do arquivo MEDIAS-MERC.CSV</span>
 <span class="sd">    existente em um diretório de saídas do NEWAVE.</span>
+
+<span class="sd">    Esta classe contém o conjunto de utilidades para ler</span>
+<span class="sd">    e interpretar os campos do arquivo MEDIAS-MERC.CSV, construindo um</span>
+<span class="sd">    objeto `MediasMerc` cujas informações são as mesmas do arquivo.</span>
+
+<span class="sd">    Este objeto existe para retirar do modelo de dados a complexidade</span>
+<span class="sd">    de iterar pelas linhas do arquivo, recortar colunas, converter</span>
+<span class="sd">    tipos de dados, dentre outras tarefas necessárias para a leitura.</span>
+
+<span class="sd">    Uma vez realizada a leitura do arquivo, as informações são guardadas</span>
+<span class="sd">    internamente no atributo `medias`.</span>
+
+<span class="sd">    **Exemplos**</span>
+
+<span class="sd">    &gt;&gt;&gt; diretorio = &quot;~/documentos/.../deck&quot;</span>
+<span class="sd">    &gt;&gt;&gt; leitor = LeituraMediasMerc(diretorio)</span>
+<span class="sd">    &gt;&gt;&gt; leitor.le_arquivo()</span>
+<span class="sd">    # Ops, esqueci de pegar o objeto</span>
+<span class="sd">    &gt;&gt;&gt; medias = leitor.medias</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                  <span class="n">diretorio</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -181,7 +201,10 @@
         <span class="c1"># MediasMerc default, depois é substituído</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">medias</span> <span class="o">=</span> <span class="n">MediasMerc</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="p">{})</span>
 
-    <span class="k">def</span> <span class="nf">le_arquivo</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MediasMerc</span><span class="p">:</span>
+<div class="viewcode-block" id="LeituraMediasMerc.le_arquivo"><a class="viewcode-back" href="../../../reference/nwlistop/arquivos/mediasmerc.html#inewave.nwlistop.mediasmerc.LeituraMediasMerc.le_arquivo">[documentos]</a>    <span class="k">def</span> <span class="nf">le_arquivo</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MediasMerc</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Lê um arquivo MEDIAS-MERC.CSV em um diretório.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">caminho</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">diretorio</span><span class="p">,</span> <span class="s2">&quot;MEDIAS-MERC.CSV&quot;</span><span class="p">)</span>
             <span class="n">n_meses</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">MESES</span><span class="p">)</span>
@@ -209,7 +232,7 @@
                 <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">medias</span>
         <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
             <span class="n">print_exc</span><span class="p">()</span>
-            <span class="k">return</span> <span class="n">MediasMerc</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="p">{})</span>
+            <span class="k">return</span> <span class="n">MediasMerc</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="p">{})</span></div>
 
     <span class="k">def</span> <span class="nf">_fim_arquivo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">linha</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">False</span></div>

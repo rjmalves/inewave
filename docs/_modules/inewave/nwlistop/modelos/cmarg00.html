@@ -165,9 +165,21 @@
 
 <div class="viewcode-block" id="Cmarg00"><a class="viewcode-back" href="../../../../reference/nwlistop/arquivos/cmarg00.html#inewave.nwlistop.modelos.cmarg00.Cmarg00">[documentos]</a><span class="k">class</span> <span class="nc">Cmarg00</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Classe responsável por lidar com o armazenamento dos dados das</span>
-<span class="sd">    saídas do NWListOP referentes aos custos marginais de operação</span>
-<span class="sd">    por patamar, por submercado: cmarg00x.out.</span>
+<span class="sd">    Armazena os dados das saídas referentes aos custos marginais de operação</span>
+<span class="sd">    por patamar, por submercado.</span>
+
+<span class="sd">    Esta classe lida com as informações de saída fornecidas pelo</span>
+<span class="sd">    NWLISTOP e reproduzidas nos `cmarg00x.out`, onde x varia conforme o</span>
+<span class="sd">    submercado em questão.</span>
+
+<span class="sd">    **Parâmetros**</span>
+
+<span class="sd">    - mes_pmo: `int`</span>
+<span class="sd">    - ano_pmo: `int`</span>
+<span class="sd">    - versao_newave: `str`</span>
+<span class="sd">    - submercado: `str`</span>
+<span class="sd">    - custos_patamares: `Dict[int, np.ndarray]`</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                  <span class="n">mes_pmo</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
@@ -186,7 +198,18 @@
                               <span class="n">patamar</span><span class="p">:</span> <span class="n">Patamar</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span>
                                                         <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Retorna os custos médios para cada ano de estudo e mês.</span>
+<span class="sd">        Custos médios para cada ano de estudo.</span>
+
+<span class="sd">        **Parâmetros**</span>
+
+<span class="sd">        `Patamar`</span>
+
+<span class="sd">        **Retorna**</span>
+
+<span class="sd">        `Dict[int, np.ndarray]`</span>
+
+<span class="sd">        **Sobre**</span>
+
 <span class="sd">        Recebe um objeto Patamar para realizar a ponderação de</span>
 <span class="sd">        cada cenários pelos devidos valores. O acesso é feito com</span>
 <span class="sd">        [ano] e a saída é uma array 2-D do numpy com os valores</span>
@@ -218,7 +241,18 @@
                                                         <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span>
                                                              <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Retorna os custos médios para cada ano de estudo e mês.</span>
+<span class="sd">        Custos médios para cada ano de estudo e mês.</span>
+
+<span class="sd">        **Parâmetros**</span>
+
+<span class="sd">        `Patamar`</span>
+
+<span class="sd">        **Retorna**</span>
+
+<span class="sd">        `Dict[int, Dict[int, np.ndarray]]`</span>
+
+<span class="sd">        **Sobre**</span>
+
 <span class="sd">        Recebe um objeto Patamar para realizar a ponderação de</span>
 <span class="sd">        cada cenários pelos devidos valores. O acesso é feito com</span>
 <span class="sd">        [ano][mes] e a saída é uma array do numpy com os valores</span>
@@ -242,8 +276,16 @@
                                          <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span>
                                               <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Retorna os custos obtidos para cada ano, mês e em cada cenário,</span>
-<span class="sd">        organizados primeiramente por patamar. O acesso é feito</span>
+<span class="sd">        Custos obtidos para cada ano, mês e em cada cenário,</span>
+<span class="sd">        organizados primeiramente por patamar.</span>
+
+<span class="sd">        **Retorna**</span>
+
+<span class="sd">        `Dict[int, Dict[int, Dict[int, np.ndarray]]]`</span>
+
+<span class="sd">        **Sobre**</span>
+
+<span class="sd">        O acesso é feito</span>
 <span class="sd">        com [patamar][ano][mes] e retorna um np.ndarray.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">custos</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span>
@@ -272,8 +314,16 @@
     <span class="k">def</span> <span class="nf">custos_por_ano</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span>
                                      <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Retorna os custos obtidos para cada ano e em cada cenário, para</span>
-<span class="sd">        todos os meses, organizados primeiramente por ano. O acesso é feito</span>
+<span class="sd">        Custos obtidos para cada ano e em cada cenário, para</span>
+<span class="sd">        todos os meses, organizados primeiramente por ano.</span>
+
+<span class="sd">        **Retorna**</span>
+
+<span class="sd">        `Dict[int, Dict[int,  np.ndarray]]`</span>
+
+<span class="sd">        **Sobre**</span>
+
+<span class="sd">        O acesso é feito</span>
 <span class="sd">        com [patamar][ano] e retorna um np.ndarray com os valores de</span>
 <span class="sd">        custos para todos os cenários e meses, naquele patamar e ano.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -300,8 +350,16 @@
                                            <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span>
                                                 <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Retorna os custos obtidos para cada ano, mês e em cada cenário,</span>
-<span class="sd">        organizados primeiramente por ano e mês. O acesso é feito com</span>
+<span class="sd">        Custos obtidos para cada ano, mês e em cada cenário,</span>
+<span class="sd">        organizados primeiramente por ano e mês.</span>
+
+<span class="sd">        **Retorna**</span>
+
+<span class="sd">        `Dict[int, Dict[int, Dict[int, np.ndarray]]]`</span>
+
+<span class="sd">        **Sobre**</span>
+
+<span class="sd">        O acesso é feito com</span>
 <span class="sd">        [patamar][ano][mes] e retorna um np.ndarray com os valores de</span>
 <span class="sd">        custos para todos os cenários, naquele patamar.</span>
 <span class="sd">        &quot;&quot;&quot;</span>

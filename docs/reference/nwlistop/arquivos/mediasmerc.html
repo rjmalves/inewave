@@ -189,269 +189,396 @@ MEDIAS-MERC.CSV, são armazenados na classe:</p>
 <dl class="py class">
 <dt id="inewave.nwlistop.modelos.mediasmerc.MediasMerc">
 <em class="property">class </em><code class="sig-name descname">MediasMerc</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">mes_pmo</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">tabela</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/nwlistop/modelos/mediasmerc.html#MediasMerc"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#inewave.nwlistop.modelos.mediasmerc.MediasMerc" title="Link permanente para esta definição">¶</a></dt>
-<dd><p>Classe responsável por lidar com o armazenamento dos dados das
-saídas do NWListOP referentes às médias de diversas variáveis
-agrupadas por submercado, existentes no arquivo MEDIAS-MERC.CSV.</p>
+<dd><p>Armazena os dados das saídas referentes às médias de diversas variáveis
+agrupadas por submercado.</p>
+<p>Esta classe lida com as informações de saída fornecidas pelo
+NWLISTOP e reproduzidas nos <code class="xref py py-obj docutils literal notranslate"><span class="pre">MEDIAS-MERC.CSV</span></code>.</p>
+<p><strong>Parâmetros</strong></p>
+<ul class="simple">
+<li><p>mes_pmo: <code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></p></li>
+<li><p>tabela: <code class="xref py py-obj docutils literal notranslate"><span class="pre">np.ndarray</span></code></p></li>
+</ul>
 <dl class="py method">
 <dt id="inewave.nwlistop.modelos.mediasmerc.MediasMerc.custo_deficit">
 <em class="property">property </em><code class="sig-name descname">custo_deficit</code><a class="headerlink" href="#inewave.nwlistop.modelos.mediasmerc.MediasMerc.custo_deficit" title="Link permanente para esta definição">¶</a></dt>
-<dd><p>Retorna os custos de déficit (R$) para cada um dos
-submercados. A série histórica retornada é dividida mensalmente,
+<dd><p>Custos de déficit (R$) para cada um dos
+submercados.</p>
+<p><strong>Retorna</strong></p>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dict[str,</span> <span class="pre">np.ndarray]</span></code></p>
+<p><strong>Sobre</strong></p>
+<p>A série histórica retornada é dividida mensalmente,
 para todo o período de estudo.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="inewave.nwlistop.modelos.mediasmerc.MediasMerc.custo_marginal_operacao">
 <em class="property">property </em><code class="sig-name descname">custo_marginal_operacao</code><a class="headerlink" href="#inewave.nwlistop.modelos.mediasmerc.MediasMerc.custo_marginal_operacao" title="Link permanente para esta definição">¶</a></dt>
-<dd><p>Retorna os custos marginais de operação (R$) para cada um dos
-submercados. A série histórica retornada é dividida mensalmente,
+<dd><p>Custos marginais de operação (R$) para cada um dos
+submercados.</p>
+<p><strong>Retorna</strong></p>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dict[str,</span> <span class="pre">np.ndarray]</span></code></p>
+<p><strong>Sobre</strong></p>
+<p>A série histórica retornada é dividida mensalmente,
 para todo o período de estudo.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="inewave.nwlistop.modelos.mediasmerc.MediasMerc.custo_termica">
 <em class="property">property </em><code class="sig-name descname">custo_termica</code><a class="headerlink" href="#inewave.nwlistop.modelos.mediasmerc.MediasMerc.custo_termica" title="Link permanente para esta definição">¶</a></dt>
-<dd><p>Retorna os custos de térmicas (R$) para cada um dos
-submercados. A série histórica retornada é dividida mensalmente,
+<dd><p>Custos de térmicas (R$) para cada um dos
+submercados.</p>
+<p><strong>Retorna</strong></p>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dict[str,</span> <span class="pre">np.ndarray]</span></code></p>
+<p><strong>Sobre</strong></p>
+<p>A série histórica retornada é dividida mensalmente,
 para todo o período de estudo.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="inewave.nwlistop.modelos.mediasmerc.MediasMerc.deficit">
 <em class="property">property </em><code class="sig-name descname">deficit</code><a class="headerlink" href="#inewave.nwlistop.modelos.mediasmerc.MediasMerc.deficit" title="Link permanente para esta definição">¶</a></dt>
-<dd><p>Retorna os déficits de carga em valores absolutos (MWmed) para cada um
-dos submercados. A série histórica retornada é dividida mensalmente,
+<dd><p>Déficits de carga em valores absolutos (MWmed) para cada um
+dos submercados.</p>
+<p><strong>Retorna</strong></p>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dict[str,</span> <span class="pre">np.ndarray]</span></code></p>
+<p><strong>Sobre</strong></p>
+<p>A série histórica retornada é dividida mensalmente,
 para todo o período de estudo.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="inewave.nwlistop.modelos.mediasmerc.MediasMerc.energia_controlavel_corrigida">
 <em class="property">property </em><code class="sig-name descname">energia_controlavel_corrigida</code><a class="headerlink" href="#inewave.nwlistop.modelos.mediasmerc.MediasMerc.energia_controlavel_corrigida" title="Link permanente para esta definição">¶</a></dt>
-<dd><p>Retorna as energias controláveis corrigidas em valores absolutos
-(MWmed) para cada um dos submercados. A série histórica retornada
+<dd><p>Energias controláveis corrigidas em valores absolutos
+(MWmed) para cada um dos submercados.</p>
+<p><strong>Retorna</strong></p>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dict[str,</span> <span class="pre">np.ndarray]</span></code></p>
+<p><strong>Sobre</strong></p>
+<p>A série histórica retornada
 é dividida mensalmente, para todo o período de estudo.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="inewave.nwlistop.modelos.mediasmerc.MediasMerc.energia_evaporada">
 <em class="property">property </em><code class="sig-name descname">energia_evaporada</code><a class="headerlink" href="#inewave.nwlistop.modelos.mediasmerc.MediasMerc.energia_evaporada" title="Link permanente para esta definição">¶</a></dt>
-<dd><p>Retorna as perdas por energia evaporada em valores absolutos
-(MWmed) para cada um dos submercados. A série histórica retornada
+<dd><p>Perdas por energia evaporada em valores absolutos
+(MWmed) para cada um dos submercados.</p>
+<p><strong>Retorna</strong></p>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dict[str,</span> <span class="pre">np.ndarray]</span></code></p>
+<p><strong>Sobre</strong></p>
+<p>A série histórica retornada
 é dividida mensalmente, para todo o período de estudo.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="inewave.nwlistop.modelos.mediasmerc.MediasMerc.energia_fio_dagua_bruta">
 <em class="property">property </em><code class="sig-name descname">energia_fio_dagua_bruta</code><a class="headerlink" href="#inewave.nwlistop.modelos.mediasmerc.MediasMerc.energia_fio_dagua_bruta" title="Link permanente para esta definição">¶</a></dt>
-<dd><p>Retorna as energias fio d’água brutas em valores absolutos
-(MWmed) para cada um dos submercados. A série histórica retornada
+<dd><p>Energias fio d’água brutas em valores absolutos
+(MWmed) para cada um dos submercados.</p>
+<p><strong>Retorna</strong></p>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dict[str,</span> <span class="pre">np.ndarray]</span></code></p>
+<p><strong>Sobre</strong></p>
+<p>A série histórica retornada
 é dividida mensalmente, para todo o período de estudo.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="inewave.nwlistop.modelos.mediasmerc.MediasMerc.energia_fio_dagua_liquida">
 <em class="property">property </em><code class="sig-name descname">energia_fio_dagua_liquida</code><a class="headerlink" href="#inewave.nwlistop.modelos.mediasmerc.MediasMerc.energia_fio_dagua_liquida" title="Link permanente para esta definição">¶</a></dt>
-<dd><p>Retorna as energias fio d’água líquidas em valores absolutos
-(MWmed) para cada um dos submercados. A série histórica retornada
+<dd><p>Energias fio d’água líquidas em valores absolutos
+(MWmed) para cada um dos submercados.</p>
+<p><strong>Retorna</strong></p>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dict[str,</span> <span class="pre">np.ndarray]</span></code></p>
+<p><strong>Sobre</strong></p>
+<p>A série histórica retornada
 é dividida mensalmente, para todo o período de estudo.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="inewave.nwlistop.modelos.mediasmerc.MediasMerc.energia_natural_afluente">
 <em class="property">property </em><code class="sig-name descname">energia_natural_afluente</code><a class="headerlink" href="#inewave.nwlistop.modelos.mediasmerc.MediasMerc.energia_natural_afluente" title="Link permanente para esta definição">¶</a></dt>
-<dd><p>Retorna as energias naturais afluentes em valores absolutos (MWmed)
-para cada um dos submercados. A série histórica retornada é dividida
+<dd><p>Energias naturais afluentes em valores absolutos (MWmed)
+para cada um dos submercados.</p>
+<p><strong>Retorna</strong></p>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dict[str,</span> <span class="pre">np.ndarray]</span></code></p>
+<p><strong>Sobre</strong></p>
+<p>A série histórica retornada é dividida
 mensalmente, para todo o período de estudo.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="inewave.nwlistop.modelos.mediasmerc.MediasMerc.energias_armazenadas_absolutas">
 <em class="property">property </em><code class="sig-name descname">energias_armazenadas_absolutas</code><a class="headerlink" href="#inewave.nwlistop.modelos.mediasmerc.MediasMerc.energias_armazenadas_absolutas" title="Link permanente para esta definição">¶</a></dt>
-<dd><p>Retorna as energias armazenadas em valores absolutos (MWmed) para
-cada um dos submercados. A série histórica retornada é dividida
+<dd><p>Energias armazenadas em valores absolutos (MWmed) para
+cada um dos submercados.</p>
+<p><strong>Retorna</strong></p>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dict[str,</span> <span class="pre">np.ndarray]</span></code></p>
+<p><strong>Sobre</strong></p>
+<p>A série histórica retornada é dividida
 mensalmente, para todo o período de estudo.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="inewave.nwlistop.modelos.mediasmerc.MediasMerc.energias_armazenadas_percentuais">
 <em class="property">property </em><code class="sig-name descname">energias_armazenadas_percentuais</code><a class="headerlink" href="#inewave.nwlistop.modelos.mediasmerc.MediasMerc.energias_armazenadas_percentuais" title="Link permanente para esta definição">¶</a></dt>
-<dd><p>Retorna as energias armazenadas em valores em percentual da EARMax
-para cada um dos submercados. A série histórica retornada é dividida
+<dd><p>Energias armazenadas em valores em percentual da EARMax
+para cada um dos submercados.</p>
+<p><strong>Retorna</strong></p>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dict[str,</span> <span class="pre">np.ndarray]</span></code></p>
+<p><strong>Sobre</strong></p>
+<p>A série histórica retornada é dividida
 mensalmente, para todo o período de estudo.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="inewave.nwlistop.modelos.mediasmerc.MediasMerc.extrai_variavel_tabela">
-<code class="sig-name descname">extrai_variavel_tabela</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">indice_variavel</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span> &#x2192; Dict<span class="p">[</span>str<span class="p">, </span>numpy.ndarray<span class="p">]</span><a class="reference internal" href="../../../_modules/inewave/nwlistop/modelos/mediasmerc.html#MediasMerc.extrai_variavel_tabela"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#inewave.nwlistop.modelos.mediasmerc.MediasMerc.extrai_variavel_tabela" title="Link permanente para esta definição">¶</a></dt>
-<dd><p>Lógica para extrair uma variável qualquer da tabela de médias,
-partindo do índice dela (num. da linha) dentro do seu submercado.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="inewave.nwlistop.modelos.mediasmerc.MediasMerc.geracao_eolica">
 <em class="property">property </em><code class="sig-name descname">geracao_eolica</code><a class="headerlink" href="#inewave.nwlistop.modelos.mediasmerc.MediasMerc.geracao_eolica" title="Link permanente para esta definição">¶</a></dt>
-<dd><p>Retorna as gerações eólicas em valores absolutos (MWmed) para cada um
-dos submercados. A série histórica retornada é dividida mensalmente,
+<dd><p>Gerações eólicas em valores absolutos (MWmed) para cada um
+dos submercados.</p>
+<p><strong>Retorna</strong></p>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dict[str,</span> <span class="pre">np.ndarray]</span></code></p>
+<p><strong>Sobre</strong></p>
+<p>A série histórica retornada é dividida mensalmente,
 para todo o período de estudo.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="inewave.nwlistop.modelos.mediasmerc.MediasMerc.geracao_hidraulica_controlavel">
 <em class="property">property </em><code class="sig-name descname">geracao_hidraulica_controlavel</code><a class="headerlink" href="#inewave.nwlistop.modelos.mediasmerc.MediasMerc.geracao_hidraulica_controlavel" title="Link permanente para esta definição">¶</a></dt>
-<dd><p>Retorna as gerações hidráulicas controláveis em valores absolutos
-(MWmed) para cada um dos submercados. A série histórica retornada
+<dd><p>Gerações hidráulicas controláveis em valores absolutos
+(MWmed) para cada um dos submercados.</p>
+<p><strong>Retorna</strong></p>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dict[str,</span> <span class="pre">np.ndarray]</span></code></p>
+<p><strong>Sobre</strong></p>
+<p>A série histórica retornada
 é dividida mensalmente, para todo o período de estudo.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="inewave.nwlistop.modelos.mediasmerc.MediasMerc.geracao_hidraulica_fio_dagua_liquida">
 <em class="property">property </em><code class="sig-name descname">geracao_hidraulica_fio_dagua_liquida</code><a class="headerlink" href="#inewave.nwlistop.modelos.mediasmerc.MediasMerc.geracao_hidraulica_fio_dagua_liquida" title="Link permanente para esta definição">¶</a></dt>
-<dd><p>Retorna as gerações hidráulicas fio d’água líquidas em valores
-absolutos (MWmed) para cada um dos submercados. A série histórica
+<dd><p>Gerações hidráulicas fio d’água líquidas em valores
+absolutos (MWmed) para cada um dos submercados.</p>
+<p><strong>Retorna</strong></p>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dict[str,</span> <span class="pre">np.ndarray]</span></code></p>
+<p><strong>Sobre</strong></p>
+<p>A série histórica
 retornada é dividida mensalmente, para todo o período de estudo.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="inewave.nwlistop.modelos.mediasmerc.MediasMerc.geracao_hidraulica_maxima">
 <em class="property">property </em><code class="sig-name descname">geracao_hidraulica_maxima</code><a class="headerlink" href="#inewave.nwlistop.modelos.mediasmerc.MediasMerc.geracao_hidraulica_maxima" title="Link permanente para esta definição">¶</a></dt>
-<dd><p>Retorna as gerações hidráulicas máximas em valores absolutos
-(MWmed) para cada um dos submercados. A série histórica retornada
+<dd><p>Gerações hidráulicas máximas em valores absolutos
+(MWmed) para cada um dos submercados.</p>
+<p><strong>Retorna</strong></p>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dict[str,</span> <span class="pre">np.ndarray]</span></code></p>
+<p><strong>Sobre</strong></p>
+<p>A série histórica retornada
 é dividida mensalmente, para todo o período de estudo.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="inewave.nwlistop.modelos.mediasmerc.MediasMerc.geracao_hidraulica_total">
 <em class="property">property </em><code class="sig-name descname">geracao_hidraulica_total</code><a class="headerlink" href="#inewave.nwlistop.modelos.mediasmerc.MediasMerc.geracao_hidraulica_total" title="Link permanente para esta definição">¶</a></dt>
-<dd><p>Retorna as gerações hidráulicas totais em valores absolutos
-(MWmed) para cada um dos submercados. A série histórica retornada
+<dd><p>Gerações hidráulicas totais em valores absolutos
+(MWmed) para cada um dos submercados.</p>
+<p><strong>Retorna</strong></p>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dict[str,</span> <span class="pre">np.ndarray]</span></code></p>
+<p><strong>Sobre</strong></p>
+<p>A série histórica retornada
 é dividida mensalmente, para todo o período de estudo.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="inewave.nwlistop.modelos.mediasmerc.MediasMerc.geracao_solar">
 <em class="property">property </em><code class="sig-name descname">geracao_solar</code><a class="headerlink" href="#inewave.nwlistop.modelos.mediasmerc.MediasMerc.geracao_solar" title="Link permanente para esta definição">¶</a></dt>
-<dd><p>Retorna as gerações solares em valores absolutos (MWmed) para cada um
-dos submercados. A série histórica retornada é dividida mensalmente,
+<dd><p>Gerações solares em valores absolutos (MWmed) para cada um
+dos submercados.</p>
+<p><strong>Retorna</strong></p>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dict[str,</span> <span class="pre">np.ndarray]</span></code></p>
+<p><strong>Sobre</strong></p>
+<p>A série histórica retornada é dividida mensalmente,
 para todo o período de estudo.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="inewave.nwlistop.modelos.mediasmerc.MediasMerc.geracao_termica">
 <em class="property">property </em><code class="sig-name descname">geracao_termica</code><a class="headerlink" href="#inewave.nwlistop.modelos.mediasmerc.MediasMerc.geracao_termica" title="Link permanente para esta definição">¶</a></dt>
-<dd><p>Retorna as gerações de usinas termelétricas em valores absolutos
-(MWmed) para cada um dos submercados. A série histórica retornada
+<dd><p>Gerações de usinas termelétricas em valores absolutos
+(MWmed) para cada um dos submercados.</p>
+<p><strong>Retorna</strong></p>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dict[str,</span> <span class="pre">np.ndarray]</span></code></p>
+<p><strong>Sobre</strong></p>
+<p>A série histórica retornada
 é dividida mensalmente, para todo o período de estudo.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="inewave.nwlistop.modelos.mediasmerc.MediasMerc.percentil_100_energias_armazenadas">
 <em class="property">property </em><code class="sig-name descname">percentil_100_energias_armazenadas</code><a class="headerlink" href="#inewave.nwlistop.modelos.mediasmerc.MediasMerc.percentil_100_energias_armazenadas" title="Link permanente para esta definição">¶</a></dt>
-<dd><p>Retorna os valores para o percentil 100% da energia armazenada
-para cada um dos submercados. A série histórica retornada é dividida
+<dd><p>Valores para o percentil 100% da energia armazenada
+para cada um dos submercados.</p>
+<p><strong>Retorna</strong></p>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dict[str,</span> <span class="pre">np.ndarray]</span></code></p>
+<p><strong>Sobre</strong></p>
+<p>A série histórica retornada é dividida
 mensalmente, para todo o período de estudo.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="inewave.nwlistop.modelos.mediasmerc.MediasMerc.percentil_10_energias_armazenadas">
 <em class="property">property </em><code class="sig-name descname">percentil_10_energias_armazenadas</code><a class="headerlink" href="#inewave.nwlistop.modelos.mediasmerc.MediasMerc.percentil_10_energias_armazenadas" title="Link permanente para esta definição">¶</a></dt>
-<dd><p>Retorna os valores para o percentil 10% da energia armazenada
-para cada um dos submercados. A série histórica retornada é dividida
+<dd><p>Valores para o percentil 10% da energia armazenada
+para cada um dos submercados.</p>
+<p><strong>Retorna</strong></p>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dict[str,</span> <span class="pre">np.ndarray]</span></code></p>
+<p><strong>Sobre</strong></p>
+<p>A série histórica retornada é dividida
 mensalmente, para todo o período de estudo.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="inewave.nwlistop.modelos.mediasmerc.MediasMerc.percentil_20_energias_armazenadas">
 <em class="property">property </em><code class="sig-name descname">percentil_20_energias_armazenadas</code><a class="headerlink" href="#inewave.nwlistop.modelos.mediasmerc.MediasMerc.percentil_20_energias_armazenadas" title="Link permanente para esta definição">¶</a></dt>
-<dd><p>Retorna os valores para o percentil 20% da energia armazenada
-para cada um dos submercados. A série histórica retornada é dividida
+<dd><p>Valores para o percentil 20% da energia armazenada
+para cada um dos submercados.</p>
+<p><strong>Retorna</strong></p>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dict[str,</span> <span class="pre">np.ndarray]</span></code></p>
+<p><strong>Sobre</strong></p>
+<p>A série histórica retornada é dividida
 mensalmente, para todo o período de estudo.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="inewave.nwlistop.modelos.mediasmerc.MediasMerc.percentil_30_energias_armazenadas">
 <em class="property">property </em><code class="sig-name descname">percentil_30_energias_armazenadas</code><a class="headerlink" href="#inewave.nwlistop.modelos.mediasmerc.MediasMerc.percentil_30_energias_armazenadas" title="Link permanente para esta definição">¶</a></dt>
-<dd><p>Retorna os valores para o percentil 30% da energia armazenada
-para cada um dos submercados. A série histórica retornada é dividida
+<dd><p>Valores para o percentil 30% da energia armazenada
+para cada um dos submercados.</p>
+<p><strong>Retorna</strong></p>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dict[str,</span> <span class="pre">np.ndarray]</span></code></p>
+<p><strong>Sobre</strong></p>
+<p>A série histórica retornada é dividida
 mensalmente, para todo o período de estudo.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="inewave.nwlistop.modelos.mediasmerc.MediasMerc.percentil_40_energias_armazenadas">
 <em class="property">property </em><code class="sig-name descname">percentil_40_energias_armazenadas</code><a class="headerlink" href="#inewave.nwlistop.modelos.mediasmerc.MediasMerc.percentil_40_energias_armazenadas" title="Link permanente para esta definição">¶</a></dt>
-<dd><p>Retorna os valores para o percentil 40% da energia armazenada
-para cada um dos submercados. A série histórica retornada é dividida
+<dd><p>Valores para o percentil 40% da energia armazenada
+para cada um dos submercados.</p>
+<p><strong>Retorna</strong></p>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dict[str,</span> <span class="pre">np.ndarray]</span></code></p>
+<p><strong>Sobre</strong></p>
+<p>A série histórica retornada é dividida
 mensalmente, para todo o período de estudo.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="inewave.nwlistop.modelos.mediasmerc.MediasMerc.percentil_50_energias_armazenadas">
 <em class="property">property </em><code class="sig-name descname">percentil_50_energias_armazenadas</code><a class="headerlink" href="#inewave.nwlistop.modelos.mediasmerc.MediasMerc.percentil_50_energias_armazenadas" title="Link permanente para esta definição">¶</a></dt>
-<dd><p>Retorna os valores para o percentil 50% da energia armazenada
-para cada um dos submercados. A série histórica retornada é dividida
+<dd><p>Valores para o percentil 50% da energia armazenada
+para cada um dos submercados.</p>
+<p><strong>Retorna</strong></p>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dict[str,</span> <span class="pre">np.ndarray]</span></code></p>
+<p><strong>Sobre</strong></p>
+<p>A série histórica retornada é dividida
 mensalmente, para todo o período de estudo.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="inewave.nwlistop.modelos.mediasmerc.MediasMerc.percentil_60_energias_armazenadas">
 <em class="property">property </em><code class="sig-name descname">percentil_60_energias_armazenadas</code><a class="headerlink" href="#inewave.nwlistop.modelos.mediasmerc.MediasMerc.percentil_60_energias_armazenadas" title="Link permanente para esta definição">¶</a></dt>
-<dd><p>Retorna os valores para o percentil 60% da energia armazenada
-para cada um dos submercados. A série histórica retornada é dividida
+<dd><p>Valores para o percentil 60% da energia armazenada
+para cada um dos submercados.</p>
+<p><strong>Retorna</strong></p>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dict[str,</span> <span class="pre">np.ndarray]</span></code></p>
+<p><strong>Sobre</strong></p>
+<p>A série histórica retornada é dividida
 mensalmente, para todo o período de estudo.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="inewave.nwlistop.modelos.mediasmerc.MediasMerc.percentil_70_energias_armazenadas">
 <em class="property">property </em><code class="sig-name descname">percentil_70_energias_armazenadas</code><a class="headerlink" href="#inewave.nwlistop.modelos.mediasmerc.MediasMerc.percentil_70_energias_armazenadas" title="Link permanente para esta definição">¶</a></dt>
-<dd><p>Retorna os valores para o percentil 70% da energia armazenada
-para cada um dos submercados. A série histórica retornada é dividida
+<dd><p>Valores para o percentil 70% da energia armazenada
+para cada um dos submercados.</p>
+<p><strong>Retorna</strong></p>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dict[str,</span> <span class="pre">np.ndarray]</span></code></p>
+<p><strong>Sobre</strong></p>
+<p>A série histórica retornada é dividida
 mensalmente, para todo o período de estudo.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="inewave.nwlistop.modelos.mediasmerc.MediasMerc.percentil_80_energias_armazenadas">
 <em class="property">property </em><code class="sig-name descname">percentil_80_energias_armazenadas</code><a class="headerlink" href="#inewave.nwlistop.modelos.mediasmerc.MediasMerc.percentil_80_energias_armazenadas" title="Link permanente para esta definição">¶</a></dt>
-<dd><p>Retorna os valores para o percentil 80% da energia armazenada
-para cada um dos submercados. A série histórica retornada é dividida
+<dd><p>Valores para o percentil 80% da energia armazenada
+para cada um dos submercados.</p>
+<p><strong>Retorna</strong></p>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dict[str,</span> <span class="pre">np.ndarray]</span></code></p>
+<p><strong>Sobre</strong></p>
+<p>A série histórica retornada é dividida
 mensalmente, para todo o período de estudo.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="inewave.nwlistop.modelos.mediasmerc.MediasMerc.percentil_90_energias_armazenadas">
 <em class="property">property </em><code class="sig-name descname">percentil_90_energias_armazenadas</code><a class="headerlink" href="#inewave.nwlistop.modelos.mediasmerc.MediasMerc.percentil_90_energias_armazenadas" title="Link permanente para esta definição">¶</a></dt>
-<dd><p>Retorna os valores para o percentil 90% da energia armazenada
-para cada um dos submercados. A série histórica retornada é dividida
+<dd><p>Valores para o percentil 90% da energia armazenada
+para cada um dos submercados.</p>
+<p><strong>Retorna</strong></p>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dict[str,</span> <span class="pre">np.ndarray]</span></code></p>
+<p><strong>Sobre</strong></p>
+<p>A série histórica retornada é dividida
 mensalmente, para todo o período de estudo.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="inewave.nwlistop.modelos.mediasmerc.MediasMerc.vertimento_controlavel">
 <em class="property">property </em><code class="sig-name descname">vertimento_controlavel</code><a class="headerlink" href="#inewave.nwlistop.modelos.mediasmerc.MediasMerc.vertimento_controlavel" title="Link permanente para esta definição">¶</a></dt>
-<dd><p>Retorna as perdas por vertimento controlável em valores absolutos
-(MWmed) para cada um dos submercados. A série histórica retornada
+<dd><p>Perdas por vertimento controlável em valores absolutos
+(MWmed) para cada um dos submercados.</p>
+<p><strong>Retorna</strong></p>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dict[str,</span> <span class="pre">np.ndarray]</span></code></p>
+<p><strong>Sobre</strong></p>
+<p>A série histórica retornada
 é dividida mensalmente, para todo o período de estudo.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="inewave.nwlistop.modelos.mediasmerc.MediasMerc.vertimento_fio_dagua">
 <em class="property">property </em><code class="sig-name descname">vertimento_fio_dagua</code><a class="headerlink" href="#inewave.nwlistop.modelos.mediasmerc.MediasMerc.vertimento_fio_dagua" title="Link permanente para esta definição">¶</a></dt>
-<dd><p>Retorna as perdas por vertimento fio d’água em valores absolutos
-(MWmed) para cada um dos submercados. A série histórica retornada
+<dd><p>Perdas por vertimento fio d’água em valores absolutos
+(MWmed) para cada um dos submercados.</p>
+<p><strong>Retorna</strong></p>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dict[str,</span> <span class="pre">np.ndarray]</span></code></p>
+<p><strong>Sobre</strong></p>
+<p>A série histórica retornada
 é dividida mensalmente, para todo o período de estudo.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="inewave.nwlistop.modelos.mediasmerc.MediasMerc.vertimento_total">
 <em class="property">property </em><code class="sig-name descname">vertimento_total</code><a class="headerlink" href="#inewave.nwlistop.modelos.mediasmerc.MediasMerc.vertimento_total" title="Link permanente para esta definição">¶</a></dt>
-<dd><p>Retorna as perdas por vertimento totais em valores absolutos (MWmed)
-para cada um dos submercados. A série histórica retornada é dividida
+<dd><p>Perdas por vertimento totais em valores absolutos (MWmed)
+para cada um dos submercados.</p>
+<p><strong>Retorna</strong></p>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dict[str,</span> <span class="pre">np.ndarray]</span></code></p>
+<p><strong>Sobre</strong></p>
+<p>A série histórica retornada é dividida
 mensalmente, para todo o período de estudo.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="inewave.nwlistop.modelos.mediasmerc.MediasMerc.vertimento_turbinavel">
 <em class="property">property </em><code class="sig-name descname">vertimento_turbinavel</code><a class="headerlink" href="#inewave.nwlistop.modelos.mediasmerc.MediasMerc.vertimento_turbinavel" title="Link permanente para esta definição">¶</a></dt>
-<dd><p>Retorna os vertimentos turbináveis em valores absolutos
-(MWmed) para cada um dos submercados. A série histórica retornada
+<dd><p>Vertimentos turbináveis em valores absolutos
+(MWmed) para cada um dos submercados.</p>
+<p><strong>Retorna</strong></p>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dict[str,</span> <span class="pre">np.ndarray]</span></code></p>
+<p><strong>Sobre</strong></p>
+<p>A série histórica retornada
 é dividida mensalmente, para todo o período de estudo.</p>
 </dd></dl>
 
@@ -464,8 +591,30 @@ mensalmente, para todo o período de estudo.</p>
 <dl class="py class">
 <dt id="inewave.nwlistop.mediasmerc.LeituraMediasMerc">
 <em class="property">class </em><code class="sig-name descname">LeituraMediasMerc</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">diretorio</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/nwlistop/mediasmerc.html#LeituraMediasMerc"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#inewave.nwlistop.mediasmerc.LeituraMediasMerc" title="Link permanente para esta definição">¶</a></dt>
-<dd><p>Classe para realizar a leitura do arquivo MEDIAS-MERC.CSV
+<dd><p>Realiza a leitura do arquivo MEDIAS-MERC.CSV
 existente em um diretório de saídas do NEWAVE.</p>
+<p>Esta classe contém o conjunto de utilidades para ler
+e interpretar os campos do arquivo MEDIAS-MERC.CSV, construindo um
+objeto <code class="xref py py-obj docutils literal notranslate"><span class="pre">MediasMerc</span></code> cujas informações são as mesmas do arquivo.</p>
+<p>Este objeto existe para retirar do modelo de dados a complexidade
+de iterar pelas linhas do arquivo, recortar colunas, converter
+tipos de dados, dentre outras tarefas necessárias para a leitura.</p>
+<p>Uma vez realizada a leitura do arquivo, as informações são guardadas
+internamente no atributo <code class="xref py py-obj docutils literal notranslate"><span class="pre">medias</span></code>.</p>
+<p><strong>Exemplos</strong></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">diretorio</span> <span class="o">=</span> <span class="s2">&quot;~/documentos/.../deck&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">leitor</span> <span class="o">=</span> <span class="n">LeituraMediasMerc</span><span class="p">(</span><span class="n">diretorio</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">leitor</span><span class="o">.</span><span class="n">le_arquivo</span><span class="p">()</span>
+<span class="go"># Ops, esqueci de pegar o objeto</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">medias</span> <span class="o">=</span> <span class="n">leitor</span><span class="o">.</span><span class="n">medias</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt id="inewave.nwlistop.mediasmerc.LeituraMediasMerc.le_arquivo">
+<code class="sig-name descname">le_arquivo</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#inewave.nwlistop.modelos.mediasmerc.MediasMerc" title="inewave.nwlistop.modelos.mediasmerc.MediasMerc">inewave.nwlistop.modelos.mediasmerc.MediasMerc</a><a class="reference internal" href="../../../_modules/inewave/nwlistop/mediasmerc.html#LeituraMediasMerc.le_arquivo"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#inewave.nwlistop.mediasmerc.LeituraMediasMerc.le_arquivo" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Lê um arquivo MEDIAS-MERC.CSV em um diretório.</p>
+</dd></dl>
+
 </dd></dl>
 
 </div>

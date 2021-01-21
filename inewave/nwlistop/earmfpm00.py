@@ -12,8 +12,28 @@ from typing import IO, Dict, Tuple
 
 class LeituraEarmfpm00(Leitura):
     """
-    Classe para realizar a leitura dos arquivos earmfpm00x.out
+    Realiza a leitura dos arquivos earmfpm00x.out
     existentes em um diretório de saídas do NEWAVE.
+
+    Esta classe contém o conjunto de utilidades para ler
+    e interpretar os campos de arquivos earmfpm00x.out, construindo
+    objetos `Earmfpm00` cujas informações são as mesmas dos arquivos.
+
+    Este objeto existe para retirar do modelo de dados a complexidade
+    de iterar pelas linhas do arquivo, recortar colunas, converter
+    tipos de dados, dentre outras tarefas necessárias para a leitura.
+
+    Uma vez realizada a leitura do arquivo, as informações são guardadas
+    internamente no atributo `earmfpms`.
+
+    **Exemplos**
+
+    >>> diretorio = "~/documentos/.../deck"
+    >>> leitor = LeituraEarmfpm00(diretorio)
+    >>> leitor.le_arquivos()
+    # Ops, esqueci de pegar o objeto
+    >>> earm_sudeste = leitor.earmfpms['SUDESTE']
+
     """
     str_inicio_earmfpms_ano = "     ANO: "
     str_fim_earmfpms_ano = "  MAX         "

@@ -164,9 +164,17 @@
 
 <div class="viewcode-block" id="MediasMerc"><a class="viewcode-back" href="../../../../reference/nwlistop/arquivos/mediasmerc.html#inewave.nwlistop.modelos.mediasmerc.MediasMerc">[documentos]</a><span class="k">class</span> <span class="nc">MediasMerc</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Classe responsável por lidar com o armazenamento dos dados das</span>
-<span class="sd">    saídas do NWListOP referentes às médias de diversas variáveis</span>
-<span class="sd">    agrupadas por submercado, existentes no arquivo MEDIAS-MERC.CSV.</span>
+<span class="sd">    Armazena os dados das saídas referentes às médias de diversas variáveis</span>
+<span class="sd">    agrupadas por submercado.</span>
+
+<span class="sd">    Esta classe lida com as informações de saída fornecidas pelo</span>
+<span class="sd">    NWLISTOP e reproduzidas nos `MEDIAS-MERC.CSV`.</span>
+
+<span class="sd">    **Parâmetros**</span>
+
+<span class="sd">    - mes_pmo: `int`</span>
+<span class="sd">    - tabela: `np.ndarray`</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                  <span class="n">mes_pmo</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
@@ -174,9 +182,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">mes_pmo</span> <span class="o">=</span> <span class="n">mes_pmo</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">tabela</span> <span class="o">=</span> <span class="n">tabela</span>
 
-<div class="viewcode-block" id="MediasMerc.extrai_variavel_tabela"><a class="viewcode-back" href="../../../../reference/nwlistop/arquivos/mediasmerc.html#inewave.nwlistop.modelos.mediasmerc.MediasMerc.extrai_variavel_tabela">[documentos]</a>    <span class="k">def</span> <span class="nf">extrai_variavel_tabela</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                               <span class="n">indice_variavel</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span>
-                                                             <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">_extrai_variavel_tabela</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                                <span class="n">indice_variavel</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span>
+                                                              <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Lógica para extrair uma variável qualquer da tabela de médias,</span>
 <span class="sd">        partindo do índice dela (num. da linha) dentro do seu submercado.</span>
@@ -186,327 +194,585 @@
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">sub</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">SUBMERCADOS</span><span class="p">):</span>
             <span class="n">lin</span> <span class="o">=</span> <span class="n">NUM_VARIAVEIS_MEDIAS</span> <span class="o">*</span> <span class="n">i</span> <span class="o">+</span> <span class="n">indice_variavel</span>
             <span class="n">valores</span><span class="p">[</span><span class="n">sub</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tabela</span><span class="p">[</span><span class="n">lin</span><span class="p">,</span> <span class="p">:]</span>
-        <span class="k">return</span> <span class="n">valores</span></div>
+        <span class="k">return</span> <span class="n">valores</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">energias_armazenadas_absolutas</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span>
                                                      <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Retorna as energias armazenadas em valores absolutos (MWmed) para</span>
-<span class="sd">        cada um dos submercados. A série histórica retornada é dividida</span>
+<span class="sd">        Energias armazenadas em valores absolutos (MWmed) para</span>
+<span class="sd">        cada um dos submercados.</span>
+
+<span class="sd">        **Retorna**</span>
+
+<span class="sd">        `Dict[str, np.ndarray]`</span>
+
+<span class="sd">        **Sobre**</span>
+
+<span class="sd">        A série histórica retornada é dividida</span>
 <span class="sd">        mensalmente, para todo o período de estudo.</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">extrai_variavel_tabela</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extrai_variavel_tabela</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">energias_armazenadas_percentuais</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span>
                                                        <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Retorna as energias armazenadas em valores em percentual da EARMax</span>
-<span class="sd">        para cada um dos submercados. A série histórica retornada é dividida</span>
+<span class="sd">        Energias armazenadas em valores em percentual da EARMax</span>
+<span class="sd">        para cada um dos submercados.</span>
+
+<span class="sd">        **Retorna**</span>
+
+<span class="sd">        `Dict[str, np.ndarray]`</span>
+
+<span class="sd">        **Sobre**</span>
+
+<span class="sd">        A série histórica retornada é dividida</span>
 <span class="sd">        mensalmente, para todo o período de estudo.</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">extrai_variavel_tabela</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extrai_variavel_tabela</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">percentil_10_energias_armazenadas</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span>
                                                         <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Retorna os valores para o percentil 10% da energia armazenada</span>
-<span class="sd">        para cada um dos submercados. A série histórica retornada é dividida</span>
+<span class="sd">        Valores para o percentil 10% da energia armazenada</span>
+<span class="sd">        para cada um dos submercados.</span>
+
+<span class="sd">        **Retorna**</span>
+
+<span class="sd">        `Dict[str, np.ndarray]`</span>
+
+<span class="sd">        **Sobre**</span>
+
+<span class="sd">        A série histórica retornada é dividida</span>
 <span class="sd">        mensalmente, para todo o período de estudo.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">extrai_variavel_tabela</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extrai_variavel_tabela</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">percentil_20_energias_armazenadas</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span>
                                                         <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Retorna os valores para o percentil 20% da energia armazenada</span>
-<span class="sd">        para cada um dos submercados. A série histórica retornada é dividida</span>
+<span class="sd">        Valores para o percentil 20% da energia armazenada</span>
+<span class="sd">        para cada um dos submercados.</span>
+
+<span class="sd">        **Retorna**</span>
+
+<span class="sd">        `Dict[str, np.ndarray]`</span>
+
+<span class="sd">        **Sobre**</span>
+
+<span class="sd">        A série histórica retornada é dividida</span>
 <span class="sd">        mensalmente, para todo o período de estudo.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">extrai_variavel_tabela</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extrai_variavel_tabela</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">percentil_30_energias_armazenadas</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span>
                                                         <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Retorna os valores para o percentil 30% da energia armazenada</span>
-<span class="sd">        para cada um dos submercados. A série histórica retornada é dividida</span>
+<span class="sd">        Valores para o percentil 30% da energia armazenada</span>
+<span class="sd">        para cada um dos submercados.</span>
+
+<span class="sd">        **Retorna**</span>
+
+<span class="sd">        `Dict[str, np.ndarray]`</span>
+
+<span class="sd">        **Sobre**</span>
+
+<span class="sd">        A série histórica retornada é dividida</span>
 <span class="sd">        mensalmente, para todo o período de estudo.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">extrai_variavel_tabela</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extrai_variavel_tabela</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">percentil_40_energias_armazenadas</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span>
                                                         <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Retorna os valores para o percentil 40% da energia armazenada</span>
-<span class="sd">        para cada um dos submercados. A série histórica retornada é dividida</span>
+<span class="sd">        Valores para o percentil 40% da energia armazenada</span>
+<span class="sd">        para cada um dos submercados.</span>
+
+<span class="sd">        **Retorna**</span>
+
+<span class="sd">        `Dict[str, np.ndarray]`</span>
+
+<span class="sd">        **Sobre**</span>
+
+<span class="sd">        A série histórica retornada é dividida</span>
 <span class="sd">        mensalmente, para todo o período de estudo.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">extrai_variavel_tabela</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extrai_variavel_tabela</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">percentil_50_energias_armazenadas</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span>
                                                         <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Retorna os valores para o percentil 50% da energia armazenada</span>
-<span class="sd">        para cada um dos submercados. A série histórica retornada é dividida</span>
+<span class="sd">        Valores para o percentil 50% da energia armazenada</span>
+<span class="sd">        para cada um dos submercados.</span>
+
+<span class="sd">        **Retorna**</span>
+
+<span class="sd">        `Dict[str, np.ndarray]`</span>
+
+<span class="sd">        **Sobre**</span>
+
+<span class="sd">        A série histórica retornada é dividida</span>
 <span class="sd">        mensalmente, para todo o período de estudo.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">extrai_variavel_tabela</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extrai_variavel_tabela</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">percentil_60_energias_armazenadas</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span>
                                                         <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Retorna os valores para o percentil 60% da energia armazenada</span>
-<span class="sd">        para cada um dos submercados. A série histórica retornada é dividida</span>
+<span class="sd">        Valores para o percentil 60% da energia armazenada</span>
+<span class="sd">        para cada um dos submercados.</span>
+
+<span class="sd">        **Retorna**</span>
+
+<span class="sd">        `Dict[str, np.ndarray]`</span>
+
+<span class="sd">        **Sobre**</span>
+
+<span class="sd">        A série histórica retornada é dividida</span>
 <span class="sd">        mensalmente, para todo o período de estudo.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">extrai_variavel_tabela</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extrai_variavel_tabela</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">percentil_70_energias_armazenadas</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span>
                                                         <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Retorna os valores para o percentil 70% da energia armazenada</span>
-<span class="sd">        para cada um dos submercados. A série histórica retornada é dividida</span>
+<span class="sd">        Valores para o percentil 70% da energia armazenada</span>
+<span class="sd">        para cada um dos submercados.</span>
+
+<span class="sd">        **Retorna**</span>
+
+<span class="sd">        `Dict[str, np.ndarray]`</span>
+
+<span class="sd">        **Sobre**</span>
+
+<span class="sd">        A série histórica retornada é dividida</span>
 <span class="sd">        mensalmente, para todo o período de estudo.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">extrai_variavel_tabela</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extrai_variavel_tabela</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">percentil_80_energias_armazenadas</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span>
                                                         <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Retorna os valores para o percentil 80% da energia armazenada</span>
-<span class="sd">        para cada um dos submercados. A série histórica retornada é dividida</span>
+<span class="sd">        Valores para o percentil 80% da energia armazenada</span>
+<span class="sd">        para cada um dos submercados.</span>
+
+<span class="sd">        **Retorna**</span>
+
+<span class="sd">        `Dict[str, np.ndarray]`</span>
+
+<span class="sd">        **Sobre**</span>
+
+<span class="sd">        A série histórica retornada é dividida</span>
 <span class="sd">        mensalmente, para todo o período de estudo.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">extrai_variavel_tabela</span><span class="p">(</span><span class="mi">9</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extrai_variavel_tabela</span><span class="p">(</span><span class="mi">9</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">percentil_90_energias_armazenadas</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span>
                                                         <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Retorna os valores para o percentil 90% da energia armazenada</span>
-<span class="sd">        para cada um dos submercados. A série histórica retornada é dividida</span>
+<span class="sd">        Valores para o percentil 90% da energia armazenada</span>
+<span class="sd">        para cada um dos submercados.</span>
+
+<span class="sd">        **Retorna**</span>
+
+<span class="sd">        `Dict[str, np.ndarray]`</span>
+
+<span class="sd">        **Sobre**</span>
+
+<span class="sd">        A série histórica retornada é dividida</span>
 <span class="sd">        mensalmente, para todo o período de estudo.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">extrai_variavel_tabela</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extrai_variavel_tabela</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">percentil_100_energias_armazenadas</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span>
                                                          <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Retorna os valores para o percentil 100% da energia armazenada</span>
-<span class="sd">        para cada um dos submercados. A série histórica retornada é dividida</span>
+<span class="sd">        Valores para o percentil 100% da energia armazenada</span>
+<span class="sd">        para cada um dos submercados.</span>
+
+<span class="sd">        **Retorna**</span>
+
+<span class="sd">        `Dict[str, np.ndarray]`</span>
+
+<span class="sd">        **Sobre**</span>
+
+<span class="sd">        A série histórica retornada é dividida</span>
 <span class="sd">        mensalmente, para todo o período de estudo.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">extrai_variavel_tabela</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extrai_variavel_tabela</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">energia_natural_afluente</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span>
                                                <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Retorna as energias naturais afluentes em valores absolutos (MWmed)</span>
-<span class="sd">        para cada um dos submercados. A série histórica retornada é dividida</span>
+<span class="sd">        Energias naturais afluentes em valores absolutos (MWmed)</span>
+<span class="sd">        para cada um dos submercados.</span>
+
+<span class="sd">        **Retorna**</span>
+
+<span class="sd">        `Dict[str, np.ndarray]`</span>
+
+<span class="sd">        **Sobre**</span>
+
+<span class="sd">        A série histórica retornada é dividida</span>
 <span class="sd">        mensalmente, para todo o período de estudo.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">extrai_variavel_tabela</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extrai_variavel_tabela</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">energia_controlavel_corrigida</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span>
                                                     <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Retorna as energias controláveis corrigidas em valores absolutos</span>
-<span class="sd">        (MWmed) para cada um dos submercados. A série histórica retornada</span>
+<span class="sd">        Energias controláveis corrigidas em valores absolutos</span>
+<span class="sd">        (MWmed) para cada um dos submercados.</span>
+
+<span class="sd">        **Retorna**</span>
+
+<span class="sd">        `Dict[str, np.ndarray]`</span>
+
+<span class="sd">        **Sobre**</span>
+
+<span class="sd">        A série histórica retornada</span>
 <span class="sd">        é dividida mensalmente, para todo o período de estudo.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">extrai_variavel_tabela</span><span class="p">(</span><span class="mi">13</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extrai_variavel_tabela</span><span class="p">(</span><span class="mi">13</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">energia_fio_dagua_bruta</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span>
                                               <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Retorna as energias fio d&#39;água brutas em valores absolutos</span>
-<span class="sd">        (MWmed) para cada um dos submercados. A série histórica retornada</span>
+<span class="sd">        Energias fio d&#39;água brutas em valores absolutos</span>
+<span class="sd">        (MWmed) para cada um dos submercados.</span>
+
+<span class="sd">        **Retorna**</span>
+
+<span class="sd">        `Dict[str, np.ndarray]`</span>
+
+<span class="sd">        **Sobre**</span>
+
+<span class="sd">        A série histórica retornada</span>
 <span class="sd">        é dividida mensalmente, para todo o período de estudo.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">extrai_variavel_tabela</span><span class="p">(</span><span class="mi">14</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extrai_variavel_tabela</span><span class="p">(</span><span class="mi">14</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">energia_fio_dagua_liquida</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span>
                                                 <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Retorna as energias fio d&#39;água líquidas em valores absolutos</span>
-<span class="sd">        (MWmed) para cada um dos submercados. A série histórica retornada</span>
+<span class="sd">        Energias fio d&#39;água líquidas em valores absolutos</span>
+<span class="sd">        (MWmed) para cada um dos submercados.</span>
+
+<span class="sd">        **Retorna**</span>
+
+<span class="sd">        `Dict[str, np.ndarray]`</span>
+
+<span class="sd">        **Sobre**</span>
+
+<span class="sd">        A série histórica retornada</span>
 <span class="sd">        é dividida mensalmente, para todo o período de estudo.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">extrai_variavel_tabela</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extrai_variavel_tabela</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">geracao_hidraulica_maxima</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span>
                                                 <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Retorna as gerações hidráulicas máximas em valores absolutos</span>
-<span class="sd">        (MWmed) para cada um dos submercados. A série histórica retornada</span>
+<span class="sd">        Gerações hidráulicas máximas em valores absolutos</span>
+<span class="sd">        (MWmed) para cada um dos submercados.</span>
+
+<span class="sd">        **Retorna**</span>
+
+<span class="sd">        `Dict[str, np.ndarray]`</span>
+
+<span class="sd">        **Sobre**</span>
+
+<span class="sd">        A série histórica retornada</span>
 <span class="sd">        é dividida mensalmente, para todo o período de estudo.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">extrai_variavel_tabela</span><span class="p">(</span><span class="mi">16</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extrai_variavel_tabela</span><span class="p">(</span><span class="mi">16</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">geracao_hidraulica_total</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span>
                                                <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Retorna as gerações hidráulicas totais em valores absolutos</span>
-<span class="sd">        (MWmed) para cada um dos submercados. A série histórica retornada</span>
+<span class="sd">        Gerações hidráulicas totais em valores absolutos</span>
+<span class="sd">        (MWmed) para cada um dos submercados.</span>
+
+<span class="sd">        **Retorna**</span>
+
+<span class="sd">        `Dict[str, np.ndarray]`</span>
+
+<span class="sd">        **Sobre**</span>
+
+<span class="sd">        A série histórica retornada</span>
 <span class="sd">        é dividida mensalmente, para todo o período de estudo.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">extrai_variavel_tabela</span><span class="p">(</span><span class="mi">18</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extrai_variavel_tabela</span><span class="p">(</span><span class="mi">18</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">geracao_hidraulica_controlavel</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span>
                                                      <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Retorna as gerações hidráulicas controláveis em valores absolutos</span>
-<span class="sd">        (MWmed) para cada um dos submercados. A série histórica retornada</span>
+<span class="sd">        Gerações hidráulicas controláveis em valores absolutos</span>
+<span class="sd">        (MWmed) para cada um dos submercados.</span>
+
+<span class="sd">        **Retorna**</span>
+
+<span class="sd">        `Dict[str, np.ndarray]`</span>
+
+<span class="sd">        **Sobre**</span>
+
+<span class="sd">        A série histórica retornada</span>
 <span class="sd">        é dividida mensalmente, para todo o período de estudo.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">extrai_variavel_tabela</span><span class="p">(</span><span class="mi">19</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extrai_variavel_tabela</span><span class="p">(</span><span class="mi">19</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">geracao_hidraulica_fio_dagua_liquida</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span>
                                                            <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Retorna as gerações hidráulicas fio d&#39;água líquidas em valores</span>
-<span class="sd">        absolutos (MWmed) para cada um dos submercados. A série histórica</span>
+<span class="sd">        Gerações hidráulicas fio d&#39;água líquidas em valores</span>
+<span class="sd">        absolutos (MWmed) para cada um dos submercados.</span>
+
+<span class="sd">        **Retorna**</span>
+
+<span class="sd">        `Dict[str, np.ndarray]`</span>
+
+<span class="sd">        **Sobre**</span>
+
+<span class="sd">        A série histórica</span>
 <span class="sd">        retornada é dividida mensalmente, para todo o período de estudo.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">extrai_variavel_tabela</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extrai_variavel_tabela</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">geracao_eolica</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span>
                                      <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Retorna as gerações eólicas em valores absolutos (MWmed) para cada um</span>
-<span class="sd">        dos submercados. A série histórica retornada é dividida mensalmente,</span>
+<span class="sd">        Gerações eólicas em valores absolutos (MWmed) para cada um</span>
+<span class="sd">        dos submercados.</span>
+
+<span class="sd">        **Retorna**</span>
+
+<span class="sd">        `Dict[str, np.ndarray]`</span>
+
+<span class="sd">        **Sobre**</span>
+
+<span class="sd">        A série histórica retornada é dividida mensalmente,</span>
 <span class="sd">        para todo o período de estudo.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">extrai_variavel_tabela</span><span class="p">(</span><span class="mi">21</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extrai_variavel_tabela</span><span class="p">(</span><span class="mi">21</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">geracao_solar</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span>
                                     <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Retorna as gerações solares em valores absolutos (MWmed) para cada um</span>
-<span class="sd">        dos submercados. A série histórica retornada é dividida mensalmente,</span>
+<span class="sd">        Gerações solares em valores absolutos (MWmed) para cada um</span>
+<span class="sd">        dos submercados.</span>
+
+<span class="sd">        **Retorna**</span>
+
+<span class="sd">        `Dict[str, np.ndarray]`</span>
+
+<span class="sd">        **Sobre**</span>
+
+<span class="sd">        A série histórica retornada é dividida mensalmente,</span>
 <span class="sd">        para todo o período de estudo.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">extrai_variavel_tabela</span><span class="p">(</span><span class="mi">22</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extrai_variavel_tabela</span><span class="p">(</span><span class="mi">22</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">vertimento_total</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span>
                                        <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Retorna as perdas por vertimento totais em valores absolutos (MWmed)</span>
-<span class="sd">        para cada um dos submercados. A série histórica retornada é dividida</span>
+<span class="sd">        Perdas por vertimento totais em valores absolutos (MWmed)</span>
+<span class="sd">        para cada um dos submercados.</span>
+
+<span class="sd">        **Retorna**</span>
+
+<span class="sd">        `Dict[str, np.ndarray]`</span>
+
+<span class="sd">        **Sobre**</span>
+
+<span class="sd">        A série histórica retornada é dividida</span>
 <span class="sd">        mensalmente, para todo o período de estudo.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">extrai_variavel_tabela</span><span class="p">(</span><span class="mi">23</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extrai_variavel_tabela</span><span class="p">(</span><span class="mi">23</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">vertimento_controlavel</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span>
                                              <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Retorna as perdas por vertimento controlável em valores absolutos</span>
-<span class="sd">        (MWmed) para cada um dos submercados. A série histórica retornada</span>
+<span class="sd">        Perdas por vertimento controlável em valores absolutos</span>
+<span class="sd">        (MWmed) para cada um dos submercados.</span>
+
+<span class="sd">        **Retorna**</span>
+
+<span class="sd">        `Dict[str, np.ndarray]`</span>
+
+<span class="sd">        **Sobre**</span>
+
+<span class="sd">        A série histórica retornada</span>
 <span class="sd">        é dividida mensalmente, para todo o período de estudo.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">extrai_variavel_tabela</span><span class="p">(</span><span class="mi">24</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extrai_variavel_tabela</span><span class="p">(</span><span class="mi">24</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">vertimento_fio_dagua</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span>
                                            <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Retorna as perdas por vertimento fio d&#39;água em valores absolutos</span>
-<span class="sd">        (MWmed) para cada um dos submercados. A série histórica retornada</span>
+<span class="sd">        Perdas por vertimento fio d&#39;água em valores absolutos</span>
+<span class="sd">        (MWmed) para cada um dos submercados.</span>
+
+<span class="sd">        **Retorna**</span>
+
+<span class="sd">        `Dict[str, np.ndarray]`</span>
+
+<span class="sd">        **Sobre**</span>
+
+<span class="sd">        A série histórica retornada</span>
 <span class="sd">        é dividida mensalmente, para todo o período de estudo.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">extrai_variavel_tabela</span><span class="p">(</span><span class="mi">25</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extrai_variavel_tabela</span><span class="p">(</span><span class="mi">25</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">vertimento_turbinavel</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span>
                                             <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Retorna os vertimentos turbináveis em valores absolutos</span>
-<span class="sd">        (MWmed) para cada um dos submercados. A série histórica retornada</span>
+<span class="sd">        Vertimentos turbináveis em valores absolutos</span>
+<span class="sd">        (MWmed) para cada um dos submercados.</span>
+
+<span class="sd">        **Retorna**</span>
+
+<span class="sd">        `Dict[str, np.ndarray]`</span>
+
+<span class="sd">        **Sobre**</span>
+
+<span class="sd">        A série histórica retornada</span>
 <span class="sd">        é dividida mensalmente, para todo o período de estudo.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">extrai_variavel_tabela</span><span class="p">(</span><span class="mi">26</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extrai_variavel_tabela</span><span class="p">(</span><span class="mi">26</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">energia_evaporada</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span>
                                         <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Retorna as perdas por energia evaporada em valores absolutos</span>
-<span class="sd">        (MWmed) para cada um dos submercados. A série histórica retornada</span>
+<span class="sd">        Perdas por energia evaporada em valores absolutos</span>
+<span class="sd">        (MWmed) para cada um dos submercados.</span>
+
+<span class="sd">        **Retorna**</span>
+
+<span class="sd">        `Dict[str, np.ndarray]`</span>
+
+<span class="sd">        **Sobre**</span>
+
+<span class="sd">        A série histórica retornada</span>
 <span class="sd">        é dividida mensalmente, para todo o período de estudo.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">extrai_variavel_tabela</span><span class="p">(</span><span class="mi">40</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extrai_variavel_tabela</span><span class="p">(</span><span class="mi">40</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">geracao_termica</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span>
                                       <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Retorna as gerações de usinas termelétricas em valores absolutos</span>
-<span class="sd">        (MWmed) para cada um dos submercados. A série histórica retornada</span>
+<span class="sd">        Gerações de usinas termelétricas em valores absolutos</span>
+<span class="sd">        (MWmed) para cada um dos submercados.</span>
+
+<span class="sd">        **Retorna**</span>
+
+<span class="sd">        `Dict[str, np.ndarray]`</span>
+
+<span class="sd">        **Sobre**</span>
+
+<span class="sd">        A série histórica retornada</span>
 <span class="sd">        é dividida mensalmente, para todo o período de estudo.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">extrai_variavel_tabela</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extrai_variavel_tabela</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">deficit</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span>
                               <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Retorna os déficits de carga em valores absolutos (MWmed) para cada um</span>
-<span class="sd">        dos submercados. A série histórica retornada é dividida mensalmente,</span>
+<span class="sd">        Déficits de carga em valores absolutos (MWmed) para cada um</span>
+<span class="sd">        dos submercados.</span>
+
+<span class="sd">        **Retorna**</span>
+
+<span class="sd">        `Dict[str, np.ndarray]`</span>
+
+<span class="sd">        **Sobre**</span>
+
+<span class="sd">        A série histórica retornada é dividida mensalmente,</span>
 <span class="sd">        para todo o período de estudo.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">extrai_variavel_tabela</span><span class="p">(</span><span class="mi">43</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extrai_variavel_tabela</span><span class="p">(</span><span class="mi">43</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">custo_marginal_operacao</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span>
                                               <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Retorna os custos marginais de operação (R$) para cada um dos</span>
-<span class="sd">        submercados. A série histórica retornada é dividida mensalmente,</span>
+<span class="sd">        Custos marginais de operação (R$) para cada um dos</span>
+<span class="sd">        submercados.</span>
+
+<span class="sd">        **Retorna**</span>
+
+<span class="sd">        `Dict[str, np.ndarray]`</span>
+
+<span class="sd">        **Sobre**</span>
+
+<span class="sd">        A série histórica retornada é dividida mensalmente,</span>
 <span class="sd">        para todo o período de estudo.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">extrai_variavel_tabela</span><span class="p">(</span><span class="mi">45</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extrai_variavel_tabela</span><span class="p">(</span><span class="mi">45</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">custo_deficit</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span>
                                     <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Retorna os custos de déficit (R$) para cada um dos</span>
-<span class="sd">        submercados. A série histórica retornada é dividida mensalmente,</span>
+<span class="sd">        Custos de déficit (R$) para cada um dos</span>
+<span class="sd">        submercados.</span>
+
+<span class="sd">        **Retorna**</span>
+
+<span class="sd">        `Dict[str, np.ndarray]`</span>
+
+<span class="sd">        **Sobre**</span>
+
+<span class="sd">        A série histórica retornada é dividida mensalmente,</span>
 <span class="sd">        para todo o período de estudo.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">extrai_variavel_tabela</span><span class="p">(</span><span class="mi">46</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extrai_variavel_tabela</span><span class="p">(</span><span class="mi">46</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">custo_termica</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span>
                                     <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Retorna os custos de térmicas (R$) para cada um dos</span>
-<span class="sd">        submercados. A série histórica retornada é dividida mensalmente,</span>
+<span class="sd">        Custos de térmicas (R$) para cada um dos</span>
+<span class="sd">        submercados.</span>
+
+<span class="sd">        **Retorna**</span>
+
+<span class="sd">        `Dict[str, np.ndarray]`</span>
+
+<span class="sd">        **Sobre**</span>
+
+<span class="sd">        A série histórica retornada é dividida mensalmente,</span>
 <span class="sd">        para todo o período de estudo.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">extrai_variavel_tabela</span><span class="p">(</span><span class="mi">47</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extrai_variavel_tabela</span><span class="p">(</span><span class="mi">47</span><span class="p">)</span></div>
 </pre></div>
 
            </div>

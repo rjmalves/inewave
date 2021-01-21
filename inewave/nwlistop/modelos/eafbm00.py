@@ -5,10 +5,21 @@ from inewave.config import NUM_CENARIOS, MESES
 
 class Eafbm00:
     """
-    Classe responsável por lidar com o armazenamento dos dados das
-    saídas do NWListOP referentes às energias afluentes brutas,
-    por submercado em valores absolutos:
-    eafbm00x.out.
+    Armazena os dados das saídas referentes às energias
+    afluentes brutas, por submercado em valores absolutos.
+
+    Esta classe lida com as informações de saída fornecidas pelo
+    NWLISTOP e reproduzidas nos `eafbm00x.out`, onde x varia conforme o
+    submercado em questão.
+
+    **Parâmetros**
+
+    - mes_pmo: `int`
+    - ano_pmo: `int`
+    - versao_newave: `str`
+    - submercado: `str`
+    - energias_afluentes: `Dict[int, np.ndarray]`
+
     """
     def __init__(self,
                  mes_pmo: int,
@@ -26,10 +37,18 @@ class Eafbm00:
     @property
     def energias_por_ano(self) -> Dict[int, np.ndarray]:
         """
-        Retorna as energias afluentes para cada ano e em cada cenário, para
-        todos os meses, organizadas primeiramente por ano. O acesso é feito
-        com [ano] e retorna um np.ndarray com os valores de EAFB para todos os
-        cenários e meses, naquele ano.
+        Energias afluentes para cada ano e em cada cenário, para
+        todos os meses, organizadas primeiramente por ano.
+
+        **Retorna**
+
+        `Dict[int, np.ndarray]`
+
+        **Sobre**
+
+        O acesso é feito com [ano] e retorna um np.ndarray com os valores
+        de EAFB para todos os cenários e meses, naquele ano.
+
         """
         return self.energias_afluentes
 
@@ -37,10 +56,18 @@ class Eafbm00:
     def energias_por_ano_e_mes(self) -> Dict[int,
                                              Dict[int, np.ndarray]]:
         """
-        Retorna as energias afluentes para cada ano e mês em cada cenário,
-        para todos os meses, organizadas primeiramente por ano. O acesso é
-        feito com [ano][mes] e retorna um np.ndarray com os valores de EAFB
-        para todos os cenários, naquele ano e mês.
+        Energias afluentes para cada ano e mês em cada cenário,
+        para todos os meses, organizadas primeiramente por ano.
+
+        **Retorna**
+
+        `Dict[int, Dict[int, np.ndarray]]`
+
+        **Sobre**
+
+        O acesso é feito com [ano][mes] e retorna um np.ndarray com os
+        valores de EAFB para todos os cenários, naquele ano e mês.
+
         """
         energias: Dict[int,
                        Dict[int, np.ndarray]] = {}
@@ -61,10 +88,18 @@ class Eafbm00:
     def energias_por_ano_e_cenario(self) -> Dict[int,
                                                  Dict[int, np.ndarray]]:
         """
-        Retorna as energias afluentes para cada ano e cenário, para todos os
-        meses, organizadas primeiramente por ano. O acesso é feito
-        com [ano][cenario] e retorna um np.ndarray com os valores de EAFB para
-        todos os meses, naquele ano e cenário.
+        Energias afluentes para cada ano e cenário, para todos os
+        meses, organizadas primeiramente por ano.
+
+        **Retorna**
+
+        `Dict[int, Dict[int, np.ndarray]]`
+
+        **Sobre**
+
+        O acesso é feito com [ano][cenario] e retorna um np.ndarray
+        com os valores de EAFB para todos os meses, naquele ano e cenário.
+
         """
         energias: Dict[int,
                        Dict[int, np.ndarray]] = {}

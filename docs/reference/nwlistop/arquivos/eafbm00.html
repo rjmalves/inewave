@@ -189,35 +189,53 @@ eafbm00x.out, onde x varia confomrme o submercado, são armazenados na classe:</
 <dl class="py class">
 <dt id="inewave.nwlistop.modelos.eafbm00.Eafbm00">
 <em class="property">class </em><code class="sig-name descname">Eafbm00</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">mes_pmo</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">ano_pmo</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">versao_newave</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">submercado</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">energias_afluentes</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>int<span class="p">, </span>numpy.ndarray<span class="p">]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/nwlistop/modelos/eafbm00.html#Eafbm00"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#inewave.nwlistop.modelos.eafbm00.Eafbm00" title="Link permanente para esta definição">¶</a></dt>
-<dd><p>Classe responsável por lidar com o armazenamento dos dados das
-saídas do NWListOP referentes às energias afluentes brutas,
-por submercado em valores absolutos:
-eafbm00x.out.</p>
+<dd><p>Armazena os dados das saídas referentes às energias
+afluentes brutas, por submercado em valores absolutos.</p>
+<p>Esta classe lida com as informações de saída fornecidas pelo
+NWLISTOP e reproduzidas nos <code class="xref py py-obj docutils literal notranslate"><span class="pre">eafbm00x.out</span></code>, onde x varia conforme o
+submercado em questão.</p>
+<p><strong>Parâmetros</strong></p>
+<ul class="simple">
+<li><p>mes_pmo: <code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></p></li>
+<li><p>ano_pmo: <code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></p></li>
+<li><p>versao_newave: <code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></p></li>
+<li><p>submercado: <code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></p></li>
+<li><p>energias_afluentes: <code class="xref py py-obj docutils literal notranslate"><span class="pre">Dict[int,</span> <span class="pre">np.ndarray]</span></code></p></li>
+</ul>
 <dl class="py method">
 <dt id="inewave.nwlistop.modelos.eafbm00.Eafbm00.energias_por_ano">
 <em class="property">property </em><code class="sig-name descname">energias_por_ano</code><a class="headerlink" href="#inewave.nwlistop.modelos.eafbm00.Eafbm00.energias_por_ano" title="Link permanente para esta definição">¶</a></dt>
-<dd><p>Retorna as energias afluentes para cada ano e em cada cenário, para
-todos os meses, organizadas primeiramente por ano. O acesso é feito
-com [ano] e retorna um np.ndarray com os valores de EAFB para todos os
-cenários e meses, naquele ano.</p>
+<dd><p>Energias afluentes para cada ano e em cada cenário, para
+todos os meses, organizadas primeiramente por ano.</p>
+<p><strong>Retorna</strong></p>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dict[int,</span> <span class="pre">np.ndarray]</span></code></p>
+<p><strong>Sobre</strong></p>
+<p>O acesso é feito com [ano] e retorna um np.ndarray com os valores
+de EAFB para todos os cenários e meses, naquele ano.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="inewave.nwlistop.modelos.eafbm00.Eafbm00.energias_por_ano_e_cenario">
 <em class="property">property </em><code class="sig-name descname">energias_por_ano_e_cenario</code><a class="headerlink" href="#inewave.nwlistop.modelos.eafbm00.Eafbm00.energias_por_ano_e_cenario" title="Link permanente para esta definição">¶</a></dt>
-<dd><p>Retorna as energias afluentes para cada ano e cenário, para todos os
-meses, organizadas primeiramente por ano. O acesso é feito
-com [ano][cenario] e retorna um np.ndarray com os valores de EAFB para
-todos os meses, naquele ano e cenário.</p>
+<dd><p>Energias afluentes para cada ano e cenário, para todos os
+meses, organizadas primeiramente por ano.</p>
+<p><strong>Retorna</strong></p>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dict[int,</span> <span class="pre">Dict[int,</span> <span class="pre">np.ndarray]]</span></code></p>
+<p><strong>Sobre</strong></p>
+<p>O acesso é feito com [ano][cenario] e retorna um np.ndarray
+com os valores de EAFB para todos os meses, naquele ano e cenário.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="inewave.nwlistop.modelos.eafbm00.Eafbm00.energias_por_ano_e_mes">
 <em class="property">property </em><code class="sig-name descname">energias_por_ano_e_mes</code><a class="headerlink" href="#inewave.nwlistop.modelos.eafbm00.Eafbm00.energias_por_ano_e_mes" title="Link permanente para esta definição">¶</a></dt>
-<dd><p>Retorna as energias afluentes para cada ano e mês em cada cenário,
-para todos os meses, organizadas primeiramente por ano. O acesso é
-feito com [ano][mes] e retorna um np.ndarray com os valores de EAFB
-para todos os cenários, naquele ano e mês.</p>
+<dd><p>Energias afluentes para cada ano e mês em cada cenário,
+para todos os meses, organizadas primeiramente por ano.</p>
+<p><strong>Retorna</strong></p>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dict[int,</span> <span class="pre">Dict[int,</span> <span class="pre">np.ndarray]]</span></code></p>
+<p><strong>Sobre</strong></p>
+<p>O acesso é feito com [ano][mes] e retorna um np.ndarray com os
+valores de EAFB para todos os cenários, naquele ano e mês.</p>
 </dd></dl>
 
 </dd></dl>
@@ -229,8 +247,23 @@ para todos os cenários, naquele ano e mês.</p>
 <dl class="py class">
 <dt id="inewave.nwlistop.eafbm00.LeituraEafbm00">
 <em class="property">class </em><code class="sig-name descname">LeituraEafbm00</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">diretorio</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/nwlistop/eafbm00.html#LeituraEafbm00"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#inewave.nwlistop.eafbm00.LeituraEafbm00" title="Link permanente para esta definição">¶</a></dt>
-<dd><p>Classe para realizar a leitura dos arquivos eafbm00x.out
+<dd><p>Realiza a leitura dos arquivos eafbm00x.out
 existentes em um diretório de saídas do NEWAVE.</p>
+<p>Esta classe contém o conjunto de utilidades para ler
+e interpretar os campos de arquivos eafbm00x.out, construindo
+objetos <code class="xref py py-obj docutils literal notranslate"><span class="pre">Eafbm00</span></code> cujas informações são as mesmas dos arquivos.</p>
+<p>Este objeto existe para retirar do modelo de dados a complexidade
+de iterar pelas linhas do arquivo, recortar colunas, converter
+tipos de dados, dentre outras tarefas necessárias para a leitura.</p>
+<p>Uma vez realizada a leitura do arquivo, as informações são guardadas
+internamente no atributo <code class="xref py py-obj docutils literal notranslate"><span class="pre">eafbms</span></code>.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">diretorio</span> <span class="o">=</span> <span class="s2">&quot;~/documentos/.../deck&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">leitor</span> <span class="o">=</span> <span class="n">LeituraEafbm00</span><span class="p">(</span><span class="n">diretorio</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">leitor</span><span class="o">.</span><span class="n">le_arquivos</span><span class="p">()</span>
+<span class="go"># Ops, esqueci de pegar o objeto</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">eafbm_sudeste</span> <span class="o">=</span> <span class="n">leitor</span><span class="o">.</span><span class="n">eafbms</span><span class="p">[</span><span class="s1">&#39;SUDESTE&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
 <dl class="py method">
 <dt id="inewave.nwlistop.eafbm00.LeituraEafbm00.le_arquivos">
 <code class="sig-name descname">le_arquivos</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Dict<span class="p">[</span>str<span class="p">, </span><a class="reference internal" href="#inewave.nwlistop.modelos.eafbm00.Eafbm00" title="inewave.nwlistop.modelos.eafbm00.Eafbm00">inewave.nwlistop.modelos.eafbm00.Eafbm00</a><span class="p">]</span><a class="reference internal" href="../../../_modules/inewave/nwlistop/eafbm00.html#LeituraEafbm00.le_arquivos"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#inewave.nwlistop.eafbm00.LeituraEafbm00.le_arquivos" title="Link permanente para esta definição">¶</a></dt>

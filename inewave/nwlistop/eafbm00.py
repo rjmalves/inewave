@@ -12,8 +12,26 @@ from typing import IO, Dict, Tuple
 
 class LeituraEafbm00(Leitura):
     """
-    Classe para realizar a leitura dos arquivos eafbm00x.out
+    Realiza a leitura dos arquivos eafbm00x.out
     existentes em um diretório de saídas do NEWAVE.
+
+    Esta classe contém o conjunto de utilidades para ler
+    e interpretar os campos de arquivos eafbm00x.out, construindo
+    objetos `Eafbm00` cujas informações são as mesmas dos arquivos.
+
+    Este objeto existe para retirar do modelo de dados a complexidade
+    de iterar pelas linhas do arquivo, recortar colunas, converter
+    tipos de dados, dentre outras tarefas necessárias para a leitura.
+
+    Uma vez realizada a leitura do arquivo, as informações são guardadas
+    internamente no atributo `eafbms`.
+
+    >>> diretorio = "~/documentos/.../deck"
+    >>> leitor = LeituraEafbm00(diretorio)
+    >>> leitor.le_arquivos()
+    # Ops, esqueci de pegar o objeto
+    >>> eafbm_sudeste = leitor.eafbms['SUDESTE']
+
     """
     str_inicio_eafbms_ano = "     ANO: "
     str_fim_eafbms_ano = "  MAX         "

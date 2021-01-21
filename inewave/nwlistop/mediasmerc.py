@@ -12,8 +12,28 @@ from traceback import print_exc
 
 class LeituraMediasMerc(Leitura):
     """
-    Classe para realizar a leitura do arquivo MEDIAS-MERC.CSV
+    Realiza a leitura do arquivo MEDIAS-MERC.CSV
     existente em um diretório de saídas do NEWAVE.
+
+    Esta classe contém o conjunto de utilidades para ler
+    e interpretar os campos do arquivo MEDIAS-MERC.CSV, construindo um
+    objeto `MediasMerc` cujas informações são as mesmas do arquivo.
+
+    Este objeto existe para retirar do modelo de dados a complexidade
+    de iterar pelas linhas do arquivo, recortar colunas, converter
+    tipos de dados, dentre outras tarefas necessárias para a leitura.
+
+    Uma vez realizada a leitura do arquivo, as informações são guardadas
+    internamente no atributo `medias`.
+
+    **Exemplos**
+
+    >>> diretorio = "~/documentos/.../deck"
+    >>> leitor = LeituraMediasMerc(diretorio)
+    >>> leitor.le_arquivo()
+    # Ops, esqueci de pegar o objeto
+    >>> medias = leitor.medias
+
     """
     def __init__(self,
                  diretorio: str) -> None:
@@ -23,6 +43,9 @@ class LeituraMediasMerc(Leitura):
         self.medias = MediasMerc(0, {})
 
     def le_arquivo(self) -> MediasMerc:
+        """
+        Lê um arquivo MEDIAS-MERC.CSV em um diretório.
+        """
         try:
             caminho = os.path.join(self.diretorio, "MEDIAS-MERC.CSV")
             n_meses = len(MESES)
