@@ -21,7 +21,7 @@ o estudo em questão. Desta forma, não é recomendado importar todo o módulo `
 
 A importação recomendada é, por exemplo::
 
-    >>> from inewave.newave.dger import LeituraDger, EscritaDger
+    >>> from inewave.newave.dger import LeituraDGer, EscritaDGer
     >>> from inewave.nwlistop.mediasmerc import LeituraMediasMerc
 
 Em geral, os objetos de leitura são instanciados recebendo um único atributo, que é o diretório de leitura e possuem um dos dois métodos: ``le_arquivo()`` ou ``le_arquivos()``. 

@@ -1,0 +1,361 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="pt-BR" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>inewave.nwlistop.eafbm00 &mdash; documentação inewave 0.0.9</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/gallery-binder.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/gallery-dataframe.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/gallery-rendered-html.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/translations.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Índice" href="../../../genindex.html" />
+    <link rel="search" title="Buscar" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> inewave
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Pesquisar documentos" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Instalação</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reference.html">Referência</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">inewave</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Código do módulo</a> &raquo;</li>
+        
+      <li>inewave.nwlistop.eafbm00</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Código fonte para inewave.nwlistop.eafbm00</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Imports do próprio módulo</span>
+<span class="kn">from</span> <span class="nn">inewave._utils.leitura</span> <span class="kn">import</span> <span class="n">Leitura</span>
+<span class="kn">from</span> <span class="nn">inewave.config</span> <span class="kn">import</span> <span class="n">NUM_ANOS_ESTUDO</span><span class="p">,</span> <span class="n">NUM_CENARIOS</span>
+<span class="kn">from</span> <span class="nn">inewave.config</span> <span class="kn">import</span> <span class="n">MESES</span><span class="p">,</span> <span class="n">SUBMERCADOS</span>
+<span class="kn">from</span> <span class="nn">.modelos.eafbm00</span> <span class="kn">import</span> <span class="n">Eafbm00</span>
+<span class="c1"># Imports de módulos externos</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>  <span class="c1"># type: ignore</span>
+<span class="kn">from</span> <span class="nn">traceback</span> <span class="kn">import</span> <span class="n">print_exc</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">IO</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Tuple</span>
+
+
+<div class="viewcode-block" id="LeituraEafbm00"><a class="viewcode-back" href="../../../reference/nwlistop/arquivos/eafbm00.html#inewave.nwlistop.eafbm00.LeituraEafbm00">[documentos]</a><span class="k">class</span> <span class="nc">LeituraEafbm00</span><span class="p">(</span><span class="n">Leitura</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Classe para realizar a leitura dos arquivos eafbm00x.out</span>
+<span class="sd">    existentes em um diretório de saídas do NEWAVE.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">str_inicio_eafbms_ano</span> <span class="o">=</span> <span class="s2">&quot;     ANO: &quot;</span>
+    <span class="n">str_fim_eafbms_ano</span> <span class="o">=</span> <span class="s2">&quot;  MAX         &quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">diretorio</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">diretorio</span> <span class="o">=</span> <span class="n">diretorio</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">arquivos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lista_arquivos_por_chave</span><span class="p">(</span><span class="s2">&quot;eafbm00&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eafbms</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Eafbm00</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
+<div class="viewcode-block" id="LeituraEafbm00.le_arquivos"><a class="viewcode-back" href="../../../reference/nwlistop/arquivos/eafbm00.html#inewave.nwlistop.eafbm00.LeituraEafbm00.le_arquivos">[documentos]</a>    <span class="k">def</span> <span class="nf">le_arquivos</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Eafbm00</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Lê os arquivos eafbm00x.out em um diretório.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">caminhos</span> <span class="o">=</span> <span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">diretorio</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">arquivos</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">arquivos</span><span class="p">,</span> <span class="n">caminhos</span><span class="p">):</span>
+            <span class="n">eafbm</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_arquivo</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">eafbms</span><span class="p">[</span><span class="n">eafbm</span><span class="o">.</span><span class="n">submercado</span><span class="p">]</span> <span class="o">=</span> <span class="n">eafbm</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">eafbms</span></div>
+
+    <span class="k">def</span> <span class="nf">_le_arquivo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">caminho</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Eafbm00</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Lê um arquivo eafbm00x.out.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">caminho</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">arq</span><span class="p">:</span>
+                <span class="c1"># A primeira linha contém as informações gerais</span>
+                <span class="c1"># da execução do NEWAVE associada</span>
+                <span class="n">linha</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
+                <span class="n">mes</span><span class="p">,</span> <span class="n">ano</span><span class="p">,</span> <span class="n">ver</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_infere_informacoes_execucao</span><span class="p">(</span><span class="n">linha</span><span class="p">)</span>
+                <span class="c1"># Em seguida, infere o submercado e inicia a leitura</span>
+                <span class="c1"># dos valores</span>
+                <span class="n">linha</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
+                <span class="n">sub</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_infere_submercado</span><span class="p">(</span><span class="n">linha</span><span class="p">)</span>
+                <span class="c1"># Lê a tabela de valores</span>
+                <span class="n">tabelas</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_eafbm00</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
+                <span class="n">earmfpm</span> <span class="o">=</span> <span class="n">Eafbm00</span><span class="p">(</span><span class="n">mes</span><span class="p">,</span> <span class="n">ano</span><span class="p">,</span> <span class="n">ver</span><span class="p">,</span> <span class="n">sub</span><span class="p">,</span> <span class="n">tabelas</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">earmfpm</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="n">print_exc</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">Eafbm00</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="p">{})</span>
+
+    <span class="k">def</span> <span class="nf">_infere_informacoes_execucao</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">linha</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span>
+                                                                <span class="nb">int</span><span class="p">,</span>
+                                                                <span class="nb">str</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Confere se a linha passada contém as informações.</span>
+        <span class="c1"># Se não, lança exceção</span>
+        <span class="k">if</span> <span class="s2">&quot;NW Versao&quot;</span> <span class="ow">in</span> <span class="n">linha</span><span class="p">:</span>
+            <span class="c1"># Procura o mês de execução</span>
+            <span class="n">mes_na_linha</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">m</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">MESES</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">linha</span><span class="p">:</span>
+                    <span class="n">mes_na_linha</span> <span class="o">=</span> <span class="n">i</span>
+                    <span class="k">break</span>
+            <span class="n">mes</span> <span class="o">=</span> <span class="n">MESES</span><span class="p">[</span><span class="n">mes_na_linha</span><span class="p">]</span>
+            <span class="n">indice_mes</span> <span class="o">=</span> <span class="n">MESES</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">MESES</span><span class="p">[</span><span class="n">mes_na_linha</span><span class="p">])</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="c1"># Quebra a linha no mês e extrai o ano</span>
+            <span class="n">_</span><span class="p">,</span> <span class="n">linha_sem_mes</span> <span class="o">=</span> <span class="n">linha</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">mes</span><span class="p">)</span>
+            <span class="n">ano</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">linha_sem_mes</span><span class="p">[</span><span class="mi">3</span><span class="p">:</span><span class="mi">7</span><span class="p">])</span>
+            <span class="c1"># Extrai a versão</span>
+            <span class="n">versao</span> <span class="o">=</span> <span class="n">linha</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;NW Versao&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">indice_mes</span><span class="p">,</span> <span class="n">ano</span><span class="p">,</span> <span class="n">versao</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Linha sem as informações de execução&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_infere_submercado</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">linha</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">encontrou</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">submercado</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">sub</span> <span class="ow">in</span> <span class="n">SUBMERCADOS</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">sub</span> <span class="ow">in</span> <span class="n">linha</span><span class="p">:</span>
+                <span class="n">encontrou</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="n">submercado</span> <span class="o">=</span> <span class="n">sub</span>
+                <span class="k">break</span>
+        <span class="k">if</span> <span class="n">encontrou</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">submercado</span>
+        <span class="c1"># Se não encontrou o submercado, lança exceção</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Submercado não encontrado&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_le_eafbm00</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arq</span><span class="p">:</span> <span class="n">IO</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Realiza a leitura das tabelas de valores de um arquivo Eafbm00.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">iniciou</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">linha</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="n">tabelas_anos</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="c1"># Confere se já leu todos os anos de estudo</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">tabelas_anos</span><span class="p">)</span> <span class="o">==</span> <span class="n">NUM_ANOS_ESTUDO</span><span class="p">:</span>
+                <span class="k">break</span>
+            <span class="c1"># Procura pelo início da tabela de EAFB do ano</span>
+            <span class="n">linha</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">iniciou</span><span class="p">:</span>
+                <span class="n">iniciou</span> <span class="o">=</span> <span class="n">LeituraEafbm00</span><span class="o">.</span><span class="n">str_inicio_eafbms_ano</span> <span class="ow">in</span> <span class="n">linha</span>
+                <span class="k">if</span> <span class="n">iniciou</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_configura_backup</span><span class="p">()</span>
+                <span class="k">continue</span>
+            <span class="c1"># Extrai o ano da tabela</span>
+            <span class="n">ano</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">linha</span><span class="p">[</span><span class="mi">10</span><span class="p">:</span><span class="mi">14</span><span class="p">])</span>
+            <span class="c1"># Salta uma linha e lê os valores da tabela</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
+            <span class="n">tabelas_anos</span><span class="p">[</span><span class="n">ano</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_eafbm00_ano</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
+            <span class="c1"># Reseta a flag de início de tabela</span>
+            <span class="n">iniciou</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="n">tabelas_anos</span>
+
+    <span class="k">def</span> <span class="nf">_le_eafbm00_ano</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arq</span><span class="p">:</span> <span class="n">IO</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Lê os dados da tabela de um ano do arquivo eafbm00x.out.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">n_meses</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">MESES</span><span class="p">)</span>
+        <span class="n">eafbms_ano</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">NUM_CENARIOS</span><span class="p">,</span> <span class="n">n_meses</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">NUM_CENARIOS</span><span class="p">):</span>
+            <span class="n">eafbms_ano</span><span class="p">[</span><span class="n">c</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_eafbm00_cenario</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">eafbms_ano</span>
+
+    <span class="k">def</span> <span class="nf">_le_eafbm00_cenario</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arq</span><span class="p">:</span> <span class="n">IO</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Lê os dados de um cenário de uma tabela do arquivo eafbm00x.out.</span>
+<span class="sd">        Retorna um array M x 1, onde M é o número de meses.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">n_meses</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">MESES</span><span class="p">)</span>
+        <span class="n">eafbms_cenario</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_meses</span><span class="p">,))</span>
+        <span class="n">cols</span> <span class="o">=</span> <span class="mi">8</span>
+        <span class="n">linha</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
+        <span class="n">col_i</span> <span class="o">=</span> <span class="mi">7</span>
+        <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_meses</span><span class="p">):</span>
+            <span class="n">col_f</span> <span class="o">=</span> <span class="n">col_i</span> <span class="o">+</span> <span class="n">cols</span>
+            <span class="n">eafbms_cenario</span><span class="p">[</span><span class="n">m</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">linha</span><span class="p">[</span><span class="n">col_i</span><span class="p">:</span><span class="n">col_f</span><span class="p">])</span>
+            <span class="n">col_i</span> <span class="o">=</span> <span class="n">col_f</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">eafbms_cenario</span>
+
+    <span class="k">def</span> <span class="nf">_fim_arquivo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">linha</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Rogerio Alves.
+
+    </p>
+  </div>
+    
+    
+    
+    Compilado com <a href="https://www.sphinx-doc.org/">Sphinx</a> usando um
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">tema</a>
+    
+    fornecido por <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

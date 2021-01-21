@@ -1,0 +1,293 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="pt-BR" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Energia Afluente Bruta por Submercado (eafbm00x.out) &mdash; documentação inewave 0.0.9</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/gallery-binder.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/gallery-dataframe.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/gallery-rendered-html.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/translations.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Índice" href="../../../genindex.html" />
+    <link rel="search" title="Buscar" href="../../../search.html" />
+    <link rel="next" title="Energia Armazenada Final Percentual por Submercado (earmfpm00x.out)" href="earmfpm00.html" />
+    <link rel="prev" title="Custos Marginais (cmarg00x.out)" href="cmarg00.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> inewave
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Pesquisar documentos" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Instalação</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../../reference.html">Referência</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../newave/index.html">NEWAVE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../nwlistcf/index.html">NWLISTCF</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">NWLISTOP</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../index.html#basico-da-interface-nwlistop">Básico da interface NWLISTOP</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../index.html#arquivos">Arquivos</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="cmarg00.html">Custos Marginais (cmarg00x.out)</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Energia Afluente Bruta por Submercado (eafbm00x.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="earmfpm00.html">Energia Armazenada Final Percentual por Submercado (earmfpm00x.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mediasmerc.html">Médias por Submercado (MEDIAS-MERC.CSV)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mediassin.html">Médias SIN (MEDIAS-SIN.CSV)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">inewave</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../../reference.html">Referência</a> &raquo;</li>
+        
+          <li><a href="../index.html">NWLISTOP</a> &raquo;</li>
+        
+      <li>Energia Afluente Bruta por Submercado (eafbm00x.out)</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../../_sources/reference/nwlistop/arquivos/eafbm00.rst.txt" rel="nofollow"> Ver código-fonte da página</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="energia-afluente-bruta-por-submercado-eafbm00x-out">
+<span id="eafbm00"></span><h1>Energia Afluente Bruta por Submercado (eafbm00x.out)<a class="headerlink" href="#energia-afluente-bruta-por-submercado-eafbm00x-out" title="Link permanente para este título">¶</a></h1>
+<div class="section" id="visao-geral-do-modelo">
+<h2>Visão geral do modelo<a class="headerlink" href="#visao-geral-do-modelo" title="Link permanente para este título">¶</a></h2>
+<p>Os valores de energias afluentes brutas por submercado, localizados nos arquivos geralmente denominados
+eafbm00x.out, onde x varia confomrme o submercado, são armazenados na classe:</p>
+<dl class="py class">
+<dt id="inewave.nwlistop.modelos.eafbm00.Eafbm00">
+<em class="property">class </em><code class="sig-name descname">Eafbm00</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">mes_pmo</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">ano_pmo</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">versao_newave</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">submercado</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">energias_afluentes</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>int<span class="p">, </span>numpy.ndarray<span class="p">]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/nwlistop/modelos/eafbm00.html#Eafbm00"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#inewave.nwlistop.modelos.eafbm00.Eafbm00" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Classe responsável por lidar com o armazenamento dos dados das
+saídas do NWListOP referentes às energias afluentes brutas,
+por submercado em valores absolutos:
+eafbm00x.out.</p>
+<dl class="py method">
+<dt id="inewave.nwlistop.modelos.eafbm00.Eafbm00.energias_por_ano">
+<em class="property">property </em><code class="sig-name descname">energias_por_ano</code><a class="headerlink" href="#inewave.nwlistop.modelos.eafbm00.Eafbm00.energias_por_ano" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Retorna as energias afluentes para cada ano e em cada cenário, para
+todos os meses, organizadas primeiramente por ano. O acesso é feito
+com [ano] e retorna um np.ndarray com os valores de EAFB para todos os
+cenários e meses, naquele ano.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="inewave.nwlistop.modelos.eafbm00.Eafbm00.energias_por_ano_e_cenario">
+<em class="property">property </em><code class="sig-name descname">energias_por_ano_e_cenario</code><a class="headerlink" href="#inewave.nwlistop.modelos.eafbm00.Eafbm00.energias_por_ano_e_cenario" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Retorna as energias afluentes para cada ano e cenário, para todos os
+meses, organizadas primeiramente por ano. O acesso é feito
+com [ano][cenario] e retorna um np.ndarray com os valores de EAFB para
+todos os meses, naquele ano e cenário.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="inewave.nwlistop.modelos.eafbm00.Eafbm00.energias_por_ano_e_mes">
+<em class="property">property </em><code class="sig-name descname">energias_por_ano_e_mes</code><a class="headerlink" href="#inewave.nwlistop.modelos.eafbm00.Eafbm00.energias_por_ano_e_mes" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Retorna as energias afluentes para cada ano e mês em cada cenário,
+para todos os meses, organizadas primeiramente por ano. O acesso é
+feito com [ano][mes] e retorna um np.ndarray com os valores de EAFB
+para todos os cenários, naquele ano e mês.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="leitura">
+<h2>Leitura<a class="headerlink" href="#leitura" title="Link permanente para este título">¶</a></h2>
+<p>A leitura dos arquivos <code class="xref py py-obj docutils literal notranslate"><span class="pre">eafbm00x.out</span></code> é feita através da classe <a class="reference internal" href="#inewave.nwlistop.eafbm00.LeituraEafbm00" title="inewave.nwlistop.eafbm00.LeituraEafbm00"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LeituraEafbm00</span></code></a>.</p>
+<dl class="py class">
+<dt id="inewave.nwlistop.eafbm00.LeituraEafbm00">
+<em class="property">class </em><code class="sig-name descname">LeituraEafbm00</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">diretorio</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/nwlistop/eafbm00.html#LeituraEafbm00"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#inewave.nwlistop.eafbm00.LeituraEafbm00" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Classe para realizar a leitura dos arquivos eafbm00x.out
+existentes em um diretório de saídas do NEWAVE.</p>
+<dl class="py method">
+<dt id="inewave.nwlistop.eafbm00.LeituraEafbm00.le_arquivos">
+<code class="sig-name descname">le_arquivos</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Dict<span class="p">[</span>str<span class="p">, </span><a class="reference internal" href="#inewave.nwlistop.modelos.eafbm00.Eafbm00" title="inewave.nwlistop.modelos.eafbm00.Eafbm00">inewave.nwlistop.modelos.eafbm00.Eafbm00</a><span class="p">]</span><a class="reference internal" href="../../../_modules/inewave/nwlistop/eafbm00.html#LeituraEafbm00.le_arquivos"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#inewave.nwlistop.eafbm00.LeituraEafbm00.le_arquivos" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Lê os arquivos eafbm00x.out em um diretório.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="earmfpm00.html" class="btn btn-neutral float-right" title="Energia Armazenada Final Percentual por Submercado (earmfpm00x.out)" accesskey="n" rel="next">Próximo <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="cmarg00.html" class="btn btn-neutral float-left" title="Custos Marginais (cmarg00x.out)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Anterior</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Rogerio Alves.
+
+    </p>
+  </div>
+    
+    
+    
+    Compilado com <a href="https://www.sphinx-doc.org/">Sphinx</a> usando um
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">tema</a>
+    
+    fornecido por <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

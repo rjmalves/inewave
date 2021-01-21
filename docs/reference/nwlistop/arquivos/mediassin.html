@@ -1,0 +1,531 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="pt-BR" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Médias SIN (MEDIAS-SIN.CSV) &mdash; documentação inewave 0.0.9</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/gallery-binder.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/gallery-dataframe.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/gallery-rendered-html.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/translations.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Índice" href="../../../genindex.html" />
+    <link rel="search" title="Buscar" href="../../../search.html" />
+    <link rel="prev" title="Médias por Submercado (MEDIAS-MERC.CSV)" href="mediasmerc.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> inewave
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Pesquisar documentos" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Instalação</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../../reference.html">Referência</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../newave/index.html">NEWAVE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../nwlistcf/index.html">NWLISTCF</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">NWLISTOP</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../index.html#basico-da-interface-nwlistop">Básico da interface NWLISTOP</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../index.html#arquivos">Arquivos</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="cmarg00.html">Custos Marginais (cmarg00x.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="eafbm00.html">Energia Afluente Bruta por Submercado (eafbm00x.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="earmfpm00.html">Energia Armazenada Final Percentual por Submercado (earmfpm00x.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mediasmerc.html">Médias por Submercado (MEDIAS-MERC.CSV)</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Médias SIN (MEDIAS-SIN.CSV)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">inewave</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../../reference.html">Referência</a> &raquo;</li>
+        
+          <li><a href="../index.html">NWLISTOP</a> &raquo;</li>
+        
+      <li>Médias SIN (MEDIAS-SIN.CSV)</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../../_sources/reference/nwlistop/arquivos/mediassin.rst.txt" rel="nofollow"> Ver código-fonte da página</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="medias-sin-medias-sin-csv">
+<span id="mediassin"></span><h1>Médias SIN (MEDIAS-SIN.CSV)<a class="headerlink" href="#medias-sin-medias-sin-csv" title="Link permanente para este título">¶</a></h1>
+<div class="section" id="visao-geral-do-modelo">
+<h2>Visão geral do modelo<a class="headerlink" href="#visao-geral-do-modelo" title="Link permanente para este título">¶</a></h2>
+<p>Os valores de médias para o SIN, localizados no arquivo geralmente denominado
+MEDIAS-SIN.CSV, são armazenados na classe:</p>
+<dl class="py class">
+<dt id="inewave.nwlistop.modelos.mediassin.MediasSIN">
+<em class="property">class </em><code class="sig-name descname">MediasSIN</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">mes_pmo</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">tabela</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/nwlistop/modelos/mediassin.html#MediasSIN"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#inewave.nwlistop.modelos.mediassin.MediasSIN" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Classe responsável por lidar com o armazenamento dos dados das
+saídas do NWListOP referentes às médias de diversas variáveis,
+existentes no arquivo MEDIAS-SIN.CSV.</p>
+<dl class="py method">
+<dt id="inewave.nwlistop.modelos.mediassin.MediasSIN.custo_deficit">
+<em class="property">property </em><code class="sig-name descname">custo_deficit</code><a class="headerlink" href="#inewave.nwlistop.modelos.mediassin.MediasSIN.custo_deficit" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Retorna os custos de déficit (MMR$). A série histórica retornada
+é dividida mensalmente, para todo o período de estudo.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="inewave.nwlistop.modelos.mediassin.MediasSIN.custo_operacao_mx">
+<em class="property">property </em><code class="sig-name descname">custo_operacao_mx</code><a class="headerlink" href="#inewave.nwlistop.modelos.mediassin.MediasSIN.custo_operacao_mx" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Retorna os custos de operação MX (MMR$). A série histórica
+retornada é dividida mensalmente, para todo o período de estudo.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="inewave.nwlistop.modelos.mediassin.MediasSIN.custo_operacao_total">
+<em class="property">property </em><code class="sig-name descname">custo_operacao_total</code><a class="headerlink" href="#inewave.nwlistop.modelos.mediassin.MediasSIN.custo_operacao_total" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Retorna os custos de operação totais (MMR$). A série histórica
+retornada é dividida mensalmente, para todo o período de estudo.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="inewave.nwlistop.modelos.mediassin.MediasSIN.custo_operacao_violacao">
+<em class="property">property </em><code class="sig-name descname">custo_operacao_violacao</code><a class="headerlink" href="#inewave.nwlistop.modelos.mediassin.MediasSIN.custo_operacao_violacao" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Retorna os custos de operação por violação (MMR$). A série histórica
+retornada é dividida mensalmente, para todo o período de estudo.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="inewave.nwlistop.modelos.mediassin.MediasSIN.custo_termica">
+<em class="property">property </em><code class="sig-name descname">custo_termica</code><a class="headerlink" href="#inewave.nwlistop.modelos.mediassin.MediasSIN.custo_termica" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Retorna os custos de térmicas (MMR$). A série histórica retornada
+é dividida mensalmente, para todo o período de estudo.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="inewave.nwlistop.modelos.mediassin.MediasSIN.deficit">
+<em class="property">property </em><code class="sig-name descname">deficit</code><a class="headerlink" href="#inewave.nwlistop.modelos.mediassin.MediasSIN.deficit" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Retorna os déficits de carga em valores absolutos (MWmed).
+A série histórica retornada é dividida mensalmente,
+para todo o período de estudo.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="inewave.nwlistop.modelos.mediassin.MediasSIN.energia_controlavel_corrigida">
+<em class="property">property </em><code class="sig-name descname">energia_controlavel_corrigida</code><a class="headerlink" href="#inewave.nwlistop.modelos.mediassin.MediasSIN.energia_controlavel_corrigida" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Retorna as energias controláveis corrigidas em valores absolutos
+(MWmed). A série histórica retornada é dividida mensalmente,
+para todo o período de estudo.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="inewave.nwlistop.modelos.mediassin.MediasSIN.energia_evaporada">
+<em class="property">property </em><code class="sig-name descname">energia_evaporada</code><a class="headerlink" href="#inewave.nwlistop.modelos.mediassin.MediasSIN.energia_evaporada" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Retorna as perdas por energia evaporada em valores absolutos
+(MWmed). A série histórica retornada
+é dividida mensalmente, para todo o período de estudo.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="inewave.nwlistop.modelos.mediassin.MediasSIN.energia_fio_dagua_bruta">
+<em class="property">property </em><code class="sig-name descname">energia_fio_dagua_bruta</code><a class="headerlink" href="#inewave.nwlistop.modelos.mediassin.MediasSIN.energia_fio_dagua_bruta" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Retorna as energias fio d’água brutas em valores absolutos
+(MWmed). A série histórica retornada
+é dividida mensalmente, para todo o período de estudo.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="inewave.nwlistop.modelos.mediassin.MediasSIN.energia_fio_dagua_liquida">
+<em class="property">property </em><code class="sig-name descname">energia_fio_dagua_liquida</code><a class="headerlink" href="#inewave.nwlistop.modelos.mediassin.MediasSIN.energia_fio_dagua_liquida" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Retorna as energias fio d’água líquidas em valores absolutos
+(MWmed). A série histórica retornada
+é dividida mensalmente, para todo o período de estudo.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="inewave.nwlistop.modelos.mediassin.MediasSIN.energia_natural_afluente">
+<em class="property">property </em><code class="sig-name descname">energia_natural_afluente</code><a class="headerlink" href="#inewave.nwlistop.modelos.mediassin.MediasSIN.energia_natural_afluente" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Retorna as energias naturais afluentes em valores absolutos (MWmed).
+A série histórica retornada é dividida
+mensalmente, para todo o período de estudo.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="inewave.nwlistop.modelos.mediassin.MediasSIN.energias_armazenadas_absolutas">
+<em class="property">property </em><code class="sig-name descname">energias_armazenadas_absolutas</code><a class="headerlink" href="#inewave.nwlistop.modelos.mediassin.MediasSIN.energias_armazenadas_absolutas" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Retorna as energias armazenadas em valores absolutos (MWmed).
+A série histórica retornada é dividida mensalmente,
+para todo o período de estudo.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="inewave.nwlistop.modelos.mediassin.MediasSIN.energias_armazenadas_percentuais">
+<em class="property">property </em><code class="sig-name descname">energias_armazenadas_percentuais</code><a class="headerlink" href="#inewave.nwlistop.modelos.mediassin.MediasSIN.energias_armazenadas_percentuais" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Retorna as energias armazenadas em valores em percentual da EARMax.
+A série histórica retornada é dividida
+mensalmente, para todo o período de estudo.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="inewave.nwlistop.modelos.mediassin.MediasSIN.extrai_variavel_tabela">
+<code class="sig-name descname">extrai_variavel_tabela</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">indice_variavel</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="reference internal" href="../../../_modules/inewave/nwlistop/modelos/mediassin.html#MediasSIN.extrai_variavel_tabela"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#inewave.nwlistop.modelos.mediassin.MediasSIN.extrai_variavel_tabela" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Lógica para extrair uma variável qualquer da tabela de médias,
+partindo do índice dela (num. da linha).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="inewave.nwlistop.modelos.mediassin.MediasSIN.geracao_eolica">
+<em class="property">property </em><code class="sig-name descname">geracao_eolica</code><a class="headerlink" href="#inewave.nwlistop.modelos.mediassin.MediasSIN.geracao_eolica" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Retorna as gerações eólicas em valores absolutos (MWmed) para cada um
+dos submercados. A série histórica retornada é dividida mensalmente,
+para todo o período de estudo.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="inewave.nwlistop.modelos.mediassin.MediasSIN.geracao_hidraulica_controlavel">
+<em class="property">property </em><code class="sig-name descname">geracao_hidraulica_controlavel</code><a class="headerlink" href="#inewave.nwlistop.modelos.mediassin.MediasSIN.geracao_hidraulica_controlavel" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Retorna as gerações hidráulicas controláveis em valores absolutos
+(MWmed). A série histórica retornada
+é dividida mensalmente, para todo o período de estudo.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="inewave.nwlistop.modelos.mediassin.MediasSIN.geracao_hidraulica_fio_dagua_liquida">
+<em class="property">property </em><code class="sig-name descname">geracao_hidraulica_fio_dagua_liquida</code><a class="headerlink" href="#inewave.nwlistop.modelos.mediassin.MediasSIN.geracao_hidraulica_fio_dagua_liquida" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Retorna as gerações hidráulicas fio d’água líquidas em valores
+absolutos (MWmed). A série histórica
+retornada é dividida mensalmente, para todo o período de estudo.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="inewave.nwlistop.modelos.mediassin.MediasSIN.geracao_hidraulica_maxima">
+<em class="property">property </em><code class="sig-name descname">geracao_hidraulica_maxima</code><a class="headerlink" href="#inewave.nwlistop.modelos.mediassin.MediasSIN.geracao_hidraulica_maxima" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Retorna as gerações hidráulicas máximas em valores absolutos
+(MWmed). A série histórica retornada
+é dividida mensalmente, para todo o período de estudo.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="inewave.nwlistop.modelos.mediassin.MediasSIN.geracao_hidraulica_total">
+<em class="property">property </em><code class="sig-name descname">geracao_hidraulica_total</code><a class="headerlink" href="#inewave.nwlistop.modelos.mediassin.MediasSIN.geracao_hidraulica_total" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Retorna as gerações hidráulicas totais em valores absolutos
+(MWmed). A série histórica retornada
+é dividida mensalmente, para todo o período de estudo.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="inewave.nwlistop.modelos.mediassin.MediasSIN.geracao_solar">
+<em class="property">property </em><code class="sig-name descname">geracao_solar</code><a class="headerlink" href="#inewave.nwlistop.modelos.mediassin.MediasSIN.geracao_solar" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Retorna as gerações solares em valores absolutos (MWmed) para cada um
+dos submercados. A série histórica retornada é dividida mensalmente,
+para todo o período de estudo.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="inewave.nwlistop.modelos.mediassin.MediasSIN.geracao_termica">
+<em class="property">property </em><code class="sig-name descname">geracao_termica</code><a class="headerlink" href="#inewave.nwlistop.modelos.mediassin.MediasSIN.geracao_termica" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Retorna as gerações de usinas termelétricas em valores absolutos
+(MWmed). A série histórica retornada
+é dividida mensalmente, para todo o período de estudo.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="inewave.nwlistop.modelos.mediassin.MediasSIN.percentil_100_energias_armazenadas">
+<em class="property">property </em><code class="sig-name descname">percentil_100_energias_armazenadas</code><a class="headerlink" href="#inewave.nwlistop.modelos.mediassin.MediasSIN.percentil_100_energias_armazenadas" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Retorna os valores para o percentil 100% da energia armazenada.
+A série histórica retornada é dividida
+mensalmente, para todo o período de estudo.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="inewave.nwlistop.modelos.mediassin.MediasSIN.percentil_10_energias_armazenadas">
+<em class="property">property </em><code class="sig-name descname">percentil_10_energias_armazenadas</code><a class="headerlink" href="#inewave.nwlistop.modelos.mediassin.MediasSIN.percentil_10_energias_armazenadas" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Retorna os valores para o percentil 10% da energia armazenada.
+A série histórica retornada é dividida
+mensalmente, para todo o período de estudo.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="inewave.nwlistop.modelos.mediassin.MediasSIN.percentil_20_energias_armazenadas">
+<em class="property">property </em><code class="sig-name descname">percentil_20_energias_armazenadas</code><a class="headerlink" href="#inewave.nwlistop.modelos.mediassin.MediasSIN.percentil_20_energias_armazenadas" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Retorna os valores para o percentil 20% da energia armazenada.
+A série histórica retornada é dividida
+mensalmente, para todo o período de estudo.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="inewave.nwlistop.modelos.mediassin.MediasSIN.percentil_30_energias_armazenadas">
+<em class="property">property </em><code class="sig-name descname">percentil_30_energias_armazenadas</code><a class="headerlink" href="#inewave.nwlistop.modelos.mediassin.MediasSIN.percentil_30_energias_armazenadas" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Retorna os valores para o percentil 30% da energia armazenada.
+A série histórica retornada é dividida
+mensalmente, para todo o período de estudo.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="inewave.nwlistop.modelos.mediassin.MediasSIN.percentil_40_energias_armazenadas">
+<em class="property">property </em><code class="sig-name descname">percentil_40_energias_armazenadas</code><a class="headerlink" href="#inewave.nwlistop.modelos.mediassin.MediasSIN.percentil_40_energias_armazenadas" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Retorna os valores para o percentil 40% da energia armazenada.
+A série histórica retornada é dividida
+mensalmente, para todo o período de estudo.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="inewave.nwlistop.modelos.mediassin.MediasSIN.percentil_50_energias_armazenadas">
+<em class="property">property </em><code class="sig-name descname">percentil_50_energias_armazenadas</code><a class="headerlink" href="#inewave.nwlistop.modelos.mediassin.MediasSIN.percentil_50_energias_armazenadas" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Retorna os valores para o percentil 50% da energia armazenada.
+A série histórica retornada é dividida
+mensalmente, para todo o período de estudo.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="inewave.nwlistop.modelos.mediassin.MediasSIN.percentil_60_energias_armazenadas">
+<em class="property">property </em><code class="sig-name descname">percentil_60_energias_armazenadas</code><a class="headerlink" href="#inewave.nwlistop.modelos.mediassin.MediasSIN.percentil_60_energias_armazenadas" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Retorna os valores para o percentil 60% da energia armazenada.
+A série histórica retornada é dividida
+mensalmente, para todo o período de estudo.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="inewave.nwlistop.modelos.mediassin.MediasSIN.percentil_70_energias_armazenadas">
+<em class="property">property </em><code class="sig-name descname">percentil_70_energias_armazenadas</code><a class="headerlink" href="#inewave.nwlistop.modelos.mediassin.MediasSIN.percentil_70_energias_armazenadas" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Retorna os valores para o percentil 70% da energia armazenada.
+A série histórica retornada é dividida
+mensalmente, para todo o período de estudo.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="inewave.nwlistop.modelos.mediassin.MediasSIN.percentil_80_energias_armazenadas">
+<em class="property">property </em><code class="sig-name descname">percentil_80_energias_armazenadas</code><a class="headerlink" href="#inewave.nwlistop.modelos.mediassin.MediasSIN.percentil_80_energias_armazenadas" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Retorna os valores para o percentil 80% da energia armazenada.
+A série histórica retornada é dividida
+mensalmente, para todo o período de estudo.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="inewave.nwlistop.modelos.mediassin.MediasSIN.percentil_90_energias_armazenadas">
+<em class="property">property </em><code class="sig-name descname">percentil_90_energias_armazenadas</code><a class="headerlink" href="#inewave.nwlistop.modelos.mediassin.MediasSIN.percentil_90_energias_armazenadas" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Retorna os valores para o percentil 90% da energia armazenada.
+A série histórica retornada é dividida
+mensalmente, para todo o período de estudo.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="inewave.nwlistop.modelos.mediassin.MediasSIN.vertimento_controlavel">
+<em class="property">property </em><code class="sig-name descname">vertimento_controlavel</code><a class="headerlink" href="#inewave.nwlistop.modelos.mediassin.MediasSIN.vertimento_controlavel" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Retorna as perdas por vertimento controlável em valores absolutos
+(MWmed). A série histórica retornada
+é dividida mensalmente, para todo o período de estudo.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="inewave.nwlistop.modelos.mediassin.MediasSIN.vertimento_fio_dagua">
+<em class="property">property </em><code class="sig-name descname">vertimento_fio_dagua</code><a class="headerlink" href="#inewave.nwlistop.modelos.mediassin.MediasSIN.vertimento_fio_dagua" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Retorna as perdas por vertimento fio d’água em valores absolutos
+(MWmed). A série histórica retornada
+é dividida mensalmente, para todo o período de estudo.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="inewave.nwlistop.modelos.mediassin.MediasSIN.vertimento_total">
+<em class="property">property </em><code class="sig-name descname">vertimento_total</code><a class="headerlink" href="#inewave.nwlistop.modelos.mediassin.MediasSIN.vertimento_total" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Retorna as perdas por vertimento totais em valores absolutos (MWmed).
+A série histórica retornada é dividida
+mensalmente, para todo o período de estudo.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="inewave.nwlistop.modelos.mediassin.MediasSIN.vertimento_turbinavel">
+<em class="property">property </em><code class="sig-name descname">vertimento_turbinavel</code><a class="headerlink" href="#inewave.nwlistop.modelos.mediassin.MediasSIN.vertimento_turbinavel" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Retorna os vertimentos turbináveis em valores absolutos
+(MWmed). A série histórica retornada
+é dividida mensalmente, para todo o período de estudo.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="leitura">
+<h2>Leitura<a class="headerlink" href="#leitura" title="Link permanente para este título">¶</a></h2>
+<p>A leitura do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">MEDIAS-SIN.CSV</span></code> é feita através da classe <a class="reference internal" href="#inewave.nwlistop.mediassin.LeituraMediasSIN" title="inewave.nwlistop.mediassin.LeituraMediasSIN"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LeituraMediasSIN</span></code></a>.</p>
+<dl class="py class">
+<dt id="inewave.nwlistop.mediassin.LeituraMediasSIN">
+<em class="property">class </em><code class="sig-name descname">LeituraMediasSIN</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">diretorio</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/nwlistop/mediassin.html#LeituraMediasSIN"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#inewave.nwlistop.mediassin.LeituraMediasSIN" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Classe para realizar a leitura do arquivo MEDIAS-SIN.CSV
+existente em um diretório de saídas do NEWAVE.</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="mediasmerc.html" class="btn btn-neutral float-left" title="Médias por Submercado (MEDIAS-MERC.CSV)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Anterior</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Rogerio Alves.
+
+    </p>
+  </div>
+    
+    
+    
+    Compilado com <a href="https://www.sphinx-doc.org/">Sphinx</a> usando um
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">tema</a>
+    
+    fornecido por <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

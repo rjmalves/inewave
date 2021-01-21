@@ -92,10 +92,10 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="install.html">Instalação</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#leitura-alteracao-e-escrita-do-dger-dat">Leitura, alteração e escrita do dger.dat</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#realizando-a-leitura-do-pmo-dat">Realizando a leitura do pmo.dat</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#realizando-a-leitura-do-earmfbm00x-out">Realizando a leitura do earmfbm00x.out</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#realizando-a-leitura-do-medias-sin-csv">Realizando a leitura do MEDIAS-SIN.CSV</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#leitura-alteracao-e-escrita-do-dger-dat">Leitura, alteração e escrita do dger.dat</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="reference.html">Referência</a></li>
@@ -173,6 +173,41 @@ usar algum editor com um <code class="xref py py-obj docutils literal notranslat
 <a class="reference external" href="https://code.visualstudio.com/">VSCode</a> com <a class="reference external" href="https://marketplace.visualstudio.com/items?itemName=ms-python.vscode-pylance">PyLance</a>
 ou a IDE específica <a class="reference external" href="https://www.jetbrains.com/pt-br/pycharm/download/">PyCharm</a>. O <code class="xref py py-obj docutils literal notranslate"><span class="pre">autocomplete</span></code> é essencial para fazer uso de todo o potencial do
 módulo <em>inewave</em>, além de auxiliar na escrita de códigos melhores.</p>
+<div class="section" id="leitura-alteracao-e-escrita-do-dger-dat">
+<h2>Leitura, alteração e escrita do dger.dat<a class="headerlink" href="#leitura-alteracao-e-escrita-do-dger-dat" title="Link permanente para este título">¶</a></h2>
+<p>Seja um sistema de arquivos no qual, dentro de um diretório cujo caminho é:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ pwd
+$ /home/usuario/estudo/pmo_MM_AAAA/
+</pre></div>
+</div>
+<p>E neste diretório exista um arquivo <code class="docutils literal notranslate"><span class="pre">dger.dat</span></code>, então o conteúdo deste pode ser lido
+através do código:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">inewave.newave.dger</span> <span class="kn">import</span> <span class="n">LeituraDGer</span><span class="p">,</span> <span class="n">EscritaDGer</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">leitor</span> <span class="o">=</span> <span class="n">LeituraDGer</span><span class="p">(</span><span class="s2">&quot;/home/usuario/estudo/pmo_MM_AAAA/&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dger</span> <span class="o">=</span> <span class="n">leitor</span><span class="o">.</span><span class="n">le_arquivo</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>É possível analisar todos os parâmetros existentes no arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dger</span><span class="o">.</span><span class="n">ano_inicio_estudo</span>
+<span class="go">1995</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dger</span><span class="o">.</span><span class="n">imprime_dados_mercados</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<p>Se comparado com o conteúdo do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>:</p>
+<a class="reference internal image-reference" href="_images/dger_antes.png"><img alt="_images/dger_antes.png" src="_images/dger_antes.png" style="width: 180px;" /></a>
+<p>Como o <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code> também é um arquivo de entrada para o NEWAVE, este também possui
+um recurso de escrita, que pode ser usado na geração de novos decks.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dger</span><span class="o">.</span><span class="n">ano_inicio_estudo</span> <span class="o">=</span> <span class="mi">2000</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dger</span><span class="o">.</span><span class="n">imprime_dados_mercados</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">escritor</span> <span class="o">=</span> <span class="n">EscritaDGer</span><span class="p">(</span><span class="s2">&quot;/home/usuario/estudo/pmo_MM_AAAA/&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">escritor</span><span class="o">.</span><span class="n">escreve_arquivo</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Ao visualizar as diferenças entre os arquivos:</p>
+<a class="reference internal image-reference" href="_images/dger_diff.png"><img alt="_images/dger_diff.png" src="_images/dger_diff.png" style="width: 550px;" /></a>
+<p>Para mais informações, basta consultar a referência do objeto <a class="reference internal" href="reference/newave/arquivos/dger.html#inewave.newave.modelos.dger.DGer" title="inewave.newave.modelos.dger.DGer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DGer</span></code></a>.</p>
+</div>
 <div class="section" id="realizando-a-leitura-do-pmo-dat">
 <h2>Realizando a leitura do pmo.dat<a class="headerlink" href="#realizando-a-leitura-do-pmo-dat" title="Link permanente para este título">¶</a></h2>
 <p>Seja um sistema de arquivos no qual, dentro de um diretório cujo caminho é:</p>
@@ -191,23 +226,46 @@ através do código:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pmo</span>
 <span class="go">&lt;inewave.newave.modelos.pmo.PMO object at 0x000001BC7663B340&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">pmo</span><span class="o">.</span><span class="n">ano_pmo</span>
-<span class="go">AAAA</span>
+<span class="go">1995</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">pmo</span><span class="o">.</span><span class="n">mes_pmo</span>
-<span class="go">MM</span>
+<span class="go">5</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">pmo</span><span class="o">.</span><span class="n">versao_newave</span>
 <span class="go">&#39;27.4&#39;</span>
 </pre></div>
 </div>
+<p>Os dados extraídos pelo módulo encontram-se no cabeçalho do arquivo:</p>
+<a class="reference internal image-reference" href="_images/pmo_cabecalho.png"><img alt="_images/pmo_cabecalho.png" src="_images/pmo_cabecalho.png" style="width: 800px;" /></a>
+<p>É possível obter também outras informações sobre o arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">pmo.dat</span></code>, como o custo total de operação:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pmo</span><span class="o">.</span><span class="n">custo_series_simuladas</span>
+<span class="go">&lt;inewave.newave.modelos.pmo.CustoOperacaoPMO object at 0x0000023B14525640&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">leitor</span><span class="o">.</span><span class="n">pmo</span><span class="o">.</span><span class="n">custo_series_simuladas</span><span class="o">.</span><span class="n">custos</span>
+<span class="go">[[1.895133e+04 1.292100e+02 9.082000e+01]</span>
+<span class="go">[2.228000e+01 2.228000e+01 1.100000e-01]</span>
+<span class="go">[8.800000e-01 1.000000e-02 0.000000e+00]</span>
+<span class="go">[0.000000e+00 0.000000e+00 0.000000e+00]</span>
+<span class="go">[1.010490e+03 9.999000e+01 4.840000e+00]</span>
+<span class="go">[0.000000e+00 0.000000e+00 0.000000e+00]</span>
+<span class="go">[7.061000e+01 1.486000e+01 3.400000e-01]</span>
+<span class="go">[1.837600e+02 2.226000e+01 8.800000e-01]</span>
+<span class="go">[0.000000e+00 0.000000e+00 0.000000e+00]</span>
+<span class="go">[1.530000e+00 1.000000e-02 1.000000e-02]</span>
+<span class="go">[0.000000e+00 0.000000e+00 0.000000e+00]</span>
+<span class="go">[1.150000e+00 1.000000e-02 1.000000e-02]</span>
+<span class="go">[6.257700e+02 1.387200e+02 3.000000e+00]</span>
+<span class="go">[0.000000e+00 0.000000e+00 0.000000e+00]</span>
+<span class="go">[0.000000e+00 0.000000e+00 0.000000e+00]</span>
+<span class="go">[0.000000e+00 0.000000e+00 0.000000e+00]]</span>
+</pre></div>
+</div>
+<p>Os dados extraídos pelo módulo encontram-se na respectiva tabela do arquivo:</p>
+<a class="reference internal image-reference" href="_images/pmo_custos_series.png"><img alt="_images/pmo_custos_series.png" src="_images/pmo_custos_series.png" style="width: 400px;" /></a>
+<p>Informações específicas de cada custo estão disponíveis através de propriedades do objeto. Maiores detalhes podem ser obtidos na referência do objeto <a class="reference internal" href="reference/newave/arquivos/pmo.html#inewave.newave.modelos.pmo.CustoOperacaoPMO" title="inewave.newave.modelos.pmo.CustoOperacaoPMO"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CustoOperacaoPMO</span></code></a>.</p>
 </div>
 <div class="section" id="realizando-a-leitura-do-earmfbm00x-out">
 <h2>Realizando a leitura do earmfbm00x.out<a class="headerlink" href="#realizando-a-leitura-do-earmfbm00x-out" title="Link permanente para este título">¶</a></h2>
 </div>
 <div class="section" id="realizando-a-leitura-do-medias-sin-csv">
 <h2>Realizando a leitura do MEDIAS-SIN.CSV<a class="headerlink" href="#realizando-a-leitura-do-medias-sin-csv" title="Link permanente para este título">¶</a></h2>
-</div>
-<div class="section" id="leitura-alteracao-e-escrita-do-dger-dat">
-<h2>Leitura, alteração e escrita do dger.dat<a class="headerlink" href="#leitura-alteracao-e-escrita-do-dger-dat" title="Link permanente para este título">¶</a></h2>
-<p>A referência à classe <a class="reference internal" href="reference/newave/arquivos/dger.html#inewave.newave.modelos.dger.DGer" title="inewave.newave.modelos.dger.DGer"><code class="xref py py-class docutils literal notranslate"><span class="pre">DGer</span></code></a></p>
 </div>
 </div>
 
