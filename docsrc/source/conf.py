@@ -13,6 +13,7 @@
 import os
 import sys
 from datetime import date
+from typing import List
 sys.path.insert(0, os.path.abspath('../../'))
 from inewave import __version__  # noqa: E402
 
@@ -82,7 +83,7 @@ master_doc = "index"
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
-exclude_patterns = []
+exclude_patterns: List[str] = []
 
 add_module_names = False
 pygments_style = "sphinx"
