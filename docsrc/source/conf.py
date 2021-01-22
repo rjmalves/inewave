@@ -14,7 +14,7 @@ import os
 import sys
 from datetime import date
 sys.path.insert(0, os.path.abspath('../../'))
-from inewave import __version__
+from inewave import __version__  # noqa: E402
 
 
 # -- Project information -----------------------------------------------------
