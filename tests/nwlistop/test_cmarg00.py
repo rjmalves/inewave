@@ -2,7 +2,7 @@
 from inewave.newave.patamar import LeituraPatamar
 from inewave.nwlistop.cmarg00 import LeituraCmarg00
 from inewave.config import MESES, NUM_ANOS_ESTUDO, NUM_CENARIOS
-import numpy as np
+import numpy as np  # type: ignore
 
 
 sub_teste = "SUDESTE"

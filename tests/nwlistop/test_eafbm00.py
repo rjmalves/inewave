@@ -1,7 +1,7 @@
 # Rotinas de testes associadas ao arquivo eafbm00x.out do NWLISTOP
 from inewave.nwlistop.eafbm00 import LeituraEafbm00
 from inewave.config import MESES, NUM_CENARIOS
-import numpy as np
+import numpy as np  # type: ignore
 
 
 sub_teste = "SUDESTE"

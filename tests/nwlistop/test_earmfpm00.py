@@ -1,7 +1,7 @@
 # Rotinas de testes associadas ao arquivo earmfpm00x.out do NWLISTOP
 from inewave.nwlistop.earmfpm00 import LeituraEarmfpm00
 from inewave.config import MESES, NUM_ANOS_ESTUDO, NUM_CENARIOS
-import numpy as np
+import numpy as np  # type: ignore
 
 
 sub_teste = "SUDESTE"
