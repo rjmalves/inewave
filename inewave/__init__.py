@@ -1,8 +1,8 @@
 """
-iNEWAVE
+inewave
 =======
 
-iNEWAVE é um módulo em Python para manipulação dos arquivos de entrada
+inewave é um módulo em Python para manipulação dos arquivos de entrada
 e saída do NEWAVE.
 """
 

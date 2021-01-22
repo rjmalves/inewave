@@ -12,7 +12,9 @@
 #
 import os
 import sys
+from datetime import date
 sys.path.insert(0, os.path.abspath('../../'))
+from inewave import __version__
 
 
 # -- Project information -----------------------------------------------------
@@ -22,7 +24,8 @@ copyright = '2021, Rogerio Alves'
 author = 'Rogerio Alves'
 
 # The full version, including alpha/beta/rc tags
-release = "0.0.9"
+release = __version__
+today = date.today().strftime("%d/%m/%Y")
 
 
 # -- General configuration ---------------------------------------------------
