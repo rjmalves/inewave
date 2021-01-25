@@ -1,8 +1,10 @@
 # Imports do próprio módulo
 from inewave._utils.leitura import Leitura
-from inewave.config import NUM_ANOS_ESTUDO, NUM_VARIAVEIS_CUSTO_PMO
+from inewave.config import NUM_ANOS_ESTUDO, NUM_VARIAVEIS_CUSTO_PMO, REES
 from inewave.config import MESES, SUBMERCADOS
 from .modelos.pmo import DadosGeraisPMO
+from .modelos.pmo import EnergiaFioLiquidaREEPMO
+from .modelos.pmo import RetasPerdasEngolimentoREEPMO
 from .modelos.pmo import EnergiasAfluentesPMO
 from .modelos.pmo import RiscoDeficitENSPMO
 from .modelos.pmo import CustoOperacaoPMO
@@ -44,6 +46,8 @@ class LeituraPMO(Leitura):
     str_inicio_custo_series = "                 CUSTO DE OPERACAO DAS"
     str_inicio_valor_esperado = "                 VALOR ESPERADO PARA PERI"
     str_inicio_custo_referenciado = "                     CUSTO OPERACAO R"
+    str_inicio_efio_liquida = '***ENERGIA FIO D"AGUA LIQUIDA***'
+    str_fim_efio_liquida = "MODELO ESTRATEGICO DE GERACAO"
     str_fim_pmo = "DETECTADO NO CALCULO DA SIMULACAO FINAL"
 
     def __init__(self,
@@ -55,6 +59,8 @@ class LeituraPMO(Leitura):
                        0,
                        "",
                        DadosGeraisPMO(),
+                       EnergiaFioLiquidaREEPMO(np.array([])),
+                       RetasPerdasEngolimentoREEPMO(np.array([])),
                        EnergiasAfluentesPMO(),
                        EnergiasAfluentesPMO(),
                        EnergiasAfluentesPMO(),
@@ -83,6 +89,7 @@ class LeituraPMO(Leitura):
         """
         achou_dados_pmo = False
         leu_dados_pmo = False
+        achou_efio_liquida = False
         achou_risco_ens = False
         achou_custo_series = False
         achou_valor_esperado = False
@@ -93,6 +100,8 @@ class LeituraPMO(Leitura):
         ano_pmo = 0
         mes_pmo = 0
         versao_newave = ""
+        energia_liq = EnergiaFioLiquidaREEPMO(np.array([]))
+        retas_perdas = RetasPerdasEngolimentoREEPMO(np.array([]))
         risco_ens = RiscoDeficitENSPMO([], np.array([]))
         custo_series = CustoOperacaoPMO(np.array([]))
         valor_esp = CustoOperacaoPMO(np.array([]))
@@ -108,6 +117,8 @@ class LeituraPMO(Leitura):
                                mes_pmo,
                                versao_newave,
                                DadosGeraisPMO(),
+                               energia_liq,
+                               retas_perdas,
                                EnergiasAfluentesPMO(),
                                EnergiasAfluentesPMO(),
                                EnergiasAfluentesPMO(),
@@ -121,6 +132,9 @@ class LeituraPMO(Leitura):
             if not achou_dados_pmo and not leu_dados_pmo:
                 achou = LeituraPMO.str_dados_pmo in linha
                 achou_dados_pmo = achou
+            if not achou_efio_liquida:
+                achou = LeituraPMO.str_inicio_efio_liquida in linha
+                achou_efio_liquida = achou
             if not achou_risco_ens:
                 achou = LeituraPMO.str_inicio_risco in linha
                 achou_risco_ens = achou
@@ -138,6 +152,9 @@ class LeituraPMO(Leitura):
                 ano_pmo, mes_pmo, versao_newave = self._le_dados_pmo(linha)
                 achou_dados_pmo = False
                 leu_dados_pmo = True
+            if achou_efio_liquida:
+                energia_liq, retas_perdas = self._le_efio_liquida(arq)
+                achou_efio_liquida = False
             if achou_risco_ens:
                 risco_ens = self._le_risco_ens(arq)
                 achou_risco_ens = False
@@ -169,6 +186,126 @@ class LeituraPMO(Leitura):
         # Encontra a versao do NW
         versao_newave = linha.split("Versao")[1].strip()
         return ano_pmo, mes_pmo, versao_newave
+
+    def _le_efio_liquida(self,
+                         arq: IO
+                         ) -> Tuple[EnergiaFioLiquidaREEPMO,
+                                    RetasPerdasEngolimentoREEPMO]:
+        """
+        Lê as tabelas de energia fio d'água líquida e as retas de
+        perdas de energia fio d'água por REE.
+        """
+        # Inicia as variáveis que serão retornadas, com as tabelas
+        # de energia fio d'água líquidas e as retas de perdas.
+        tabela_energias: np.ndarray = None
+        tabela_perdas: np.ndarray = None
+        montou_tabela_energias = False
+        montou_tabela_perdas = False
+        achou_ree_energias = False
+        achou_inicio_ree_perdas = False
+        achou_ree_perdas = False
+        n_rees = len(REES)
+        rees_lidos = 0
+        while True:
+            # Confere se a leitura não acabou
+            linha = self._le_linha_com_backup(arq)
+            if rees_lidos == n_rees:
+                return (EnergiaFioLiquidaREEPMO(tabela_energias),
+                        RetasPerdasEngolimentoREEPMO(tabela_perdas))
+            # Confere se já achou a tabela de energia da próxima REE
+            if 'CONFIGURACAO DO PERIODO' in linha:
+                achou_ree_energias = True
+            # Confere se já achou a tabela de retas da próxima REE
+            if "PERDAS POR ENGOLIMENTO MAXIMO" in linha:
+                achou_inicio_ree_perdas = True
+            if "REE:" in linha and achou_inicio_ree_perdas:
+                # Salta uma linha para ter informação da REE
+                achou_ree_perdas = True
+            if achou_ree_energias:
+                # Infere a REE em questão
+                ree = REES.index(linha[6:18].strip()) + 1
+                if not montou_tabela_energias:
+                    # Se não leu nenhuma tabela ainda, usa a da primeira REE
+                    # como exemplo para inicializar a variável completa
+                    tabela_exemplo = self._le_tabela_efio(arq)
+                    dims = tabela_exemplo.shape
+                    tabela_energias = np.zeros((len(REES),
+                                                dims[0],
+                                                dims[1]))
+                    tabela_energias[ree-1, :, :] = tabela_exemplo
+                    montou_tabela_energias = True
+                else:
+                    tabela_energias[ree-1, :, :] = self._le_tabela_efio(arq)
+                achou_ree_energias = False
+            if achou_ree_perdas:
+                ree = REES.index(linha[6:18].strip()) + 1
+                if not montou_tabela_perdas:
+                    # Se não leu nenhuma tabela ainda, usa a da primeira REE
+                    # como exemplo para inicializar a variável completa
+                    tabela_exemplo = self._le_tabela_perdas(arq)
+                    dims = tabela_exemplo.shape
+                    tabela_perdas = np.zeros((len(REES),
+                                              dims[0],
+                                              dims[1]))
+                    tabela_perdas[ree-1, :, :] = tabela_exemplo
+                    montou_tabela_perdas = True
+                else:
+                    tabela_perdas[ree-1, :, :] = self._le_tabela_perdas(arq)
+                achou_ree_perdas = False
+                rees_lidos += 1
+
+    def _le_tabela_efio(self, arq: IO) -> np.ndarray:
+        """
+        Lê as informações de uma tabela de energias fio d'água líquidas.
+        """
+        tabela: List[List[float]] = []
+        # Pula a linha do cabeçalho dos meses
+        self._le_linha_com_backup(arq)
+        n_meses = len(MESES)
+        ci_ano = 5
+        cf_ano = 10
+        while True:
+            linha = self._le_linha_com_backup(arq)
+            # Confere se a tabela não acabou
+            if len(linha) <= 1:
+                return np.array(tabela)
+            ci = 11
+            nc = 7
+            # Armazena as informações de uma linha
+            dados_linha: List[float] = []
+            dados_linha.append(float(linha[ci_ano:cf_ano]))
+            for i in range(n_meses):
+                cf = ci + nc
+                dados_linha.append(float(linha[ci:cf]))
+                ci = cf + 2
+            tabela.append(dados_linha)
+
+    def _le_tabela_perdas(self, arq: IO) -> np.ndarray:
+        """
+        Lê as informações de uma tabela de retas das perdas de
+        energia fio d'água.
+        """
+        tabela: List[List[float]] = []
+        # Pula 4 linhas - entre a identificação da REE e o
+        # início da tabela
+        self._le_linha_com_backup(arq)
+        self._le_linha_com_backup(arq)
+        self._le_linha_com_backup(arq)
+        self._le_linha_com_backup(arq)
+        while True:
+            linha = self._le_linha_com_backup(arq)
+            # Confere se a tabela não acabou
+            if len(linha) <= 1:
+                return np.array(tabela)
+            ci = 1
+            nc = 12
+            # Armazena as informações de uma linha
+            dados_linha: List[float] = []
+            for i in range(3):
+                cf = ci + nc
+                dados_linha.append(float(linha[ci:cf].strip()))
+                ci = cf + 1
+            tabela.append(dados_linha)
 
     def _le_risco_ens(self, arq: IO) -> RiscoDeficitENSPMO:
         """

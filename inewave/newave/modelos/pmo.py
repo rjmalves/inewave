@@ -27,6 +27,63 @@ class EnergiasAfluentesPMO:
         pass
 
 
+class EnergiaFioLiquidaREEPMO:
+    """
+    Armazena as informações de energias a fio d'água líquidas
+    para cada REE existentes no arquivo `pmo.dat`,
+    quando feita a simulação completa.
+
+    **Parâmetros**
+
+    - tabela: `np.ndarray`
+
+    """
+
+    def __init__(self,
+                 tabela: np.ndarray):
+        self.tabela = tabela
+
+
+class RetasPerdasEngolimentoREEPMO:
+    """
+    Armazena as retas que modelam as perdas por engolimento
+    máximo para cada REE, existentes no arquivo `pmo.dat`, quando
+    feita a simulação completa.
+
+    **Parâmetros**
+
+    - tabela: `np.ndarray`
+
+    """
+    def __init__(self,
+                 tabela: np.ndarray):
+        self.tabela = tabela
+
+    def funcao_perdas(self,
+                      ree: int,
+                      energia_bruta: float) -> float:
+        """
+        Valor da função de perdas composta pelas retas
+        para um determinado valor de energia bruta fornecido.
+
+        **Parâmetros**
+
+        - ree: `int`
+        - energia_bruta: `float`
+
+        **Retorna**
+        `float`
+
+        """
+        n_lin = self.tabela.shape[0]
+        # Calcula o valor das três retas na ordenada dada e
+        # retorna o maior deles.
+        energia = energia_bruta * np.ones((n_lin, 1))
+        perdas: np.ndarray = np.multiply(self.tabela[ree-1, :, 1],
+                                         energia) + self.tabela[ree-1, :, 2]
+        return float(np.max(perdas))
+
+
 class DemandaLiquidaEnergiaPMO:
     """
     Armazena as informações de demandas
@@ -264,6 +321,8 @@ class PMO:
                  mes_pmo: int,
                  versao_newave: str,
                  dados_gerais: DadosGeraisPMO,
+                 energia_fio_liquida: EnergiaFioLiquidaREEPMO,
+                 retas_perdas_engolimento: RetasPerdasEngolimentoREEPMO,
                  energias_passadas_politica: EnergiasAfluentesPMO,
                  energias_passadas_primeira_conf: EnergiasAfluentesPMO,
                  energias_passadas_canal_fuga: EnergiasAfluentesPMO,
@@ -277,6 +336,8 @@ class PMO:
         self.mes_pmo = mes_pmo
         self.versao_newave = versao_newave
         self.dados_gerais = dados_gerais
+        self.energia_fio_liquida = energia_fio_liquida
+        self.retas_perdas_engolimento = retas_perdas_engolimento
         self.energias_passadas_politica = energias_passadas_politica
         self.energias_passadas_primeira_conf = energias_passadas_primeira_conf
         self.energias_passadas_canal_fuga = energias_passadas_canal_fuga

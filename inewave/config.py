@@ -1,4 +1,16 @@
 SUBMERCADOS = ["SUDESTE", "SUL", "NORDESTE", "NORTE"]
+REES = ["SUDESTE",
+        "SUL",
+        "NORDESTE",
+        "NORTE",
+        "ITAIPU",
+        "MADEIRA",
+        "TPIRES",
+        "BMONTE",
+        "MAN-AP",
+        "PARANA",
+        "IGUACU",
+        "PRNPANEMA"]
 NUM_CENARIOS = 2000
 NUM_ANOS_ESTUDO = 5
 NUM_PATAMARES = 3
