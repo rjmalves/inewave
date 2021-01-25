@@ -25,6 +25,12 @@ auxiliares para armazenar todas as informações disponíveis.
 .. autoclass:: DadosGeraisPMO
    :members:
 
+.. autoclass:: EnergiaFioLiquidaREEPMO
+   :members:
+
+.. autoclass:: RetasPerdasEngolimentoREEPMO
+   :members:
+
 .. autoclass:: EnergiasAfluentesPMO
    :members:
 

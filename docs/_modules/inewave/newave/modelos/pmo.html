@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>inewave.newave.modelos.pmo &mdash; documentação inewave 0.0.9</title>
+  <title>inewave.newave.modelos.pmo &mdash; documentação inewave 0.0.10</title>
   
 
   
@@ -184,6 +184,63 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># TODO - estruturar as propriedades</span>
         <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="EnergiaFioLiquidaREEPMO"><a class="viewcode-back" href="../../../../reference/newave/arquivos/pmo.html#inewave.newave.modelos.pmo.EnergiaFioLiquidaREEPMO">[documentos]</a><span class="k">class</span> <span class="nc">EnergiaFioLiquidaREEPMO</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Armazena as informações de energias a fio d&#39;água líquidas</span>
+<span class="sd">    para cada REE existentes no arquivo `pmo.dat`,</span>
+<span class="sd">    quando feita a simulação completa.</span>
+
+<span class="sd">    **Parâmetros**</span>
+
+<span class="sd">    - tabela: `np.ndarray`</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">tabela</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tabela</span> <span class="o">=</span> <span class="n">tabela</span></div>
+
+
+<div class="viewcode-block" id="RetasPerdasEngolimentoREEPMO"><a class="viewcode-back" href="../../../../reference/newave/arquivos/pmo.html#inewave.newave.modelos.pmo.RetasPerdasEngolimentoREEPMO">[documentos]</a><span class="k">class</span> <span class="nc">RetasPerdasEngolimentoREEPMO</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Armazena as retas que modelam as perdas por engolimento</span>
+<span class="sd">    máximo para cada REE, existentes no arquivo `pmo.dat`, quando</span>
+<span class="sd">    feita a simulação completa.</span>
+
+<span class="sd">    **Parâmetros**</span>
+
+<span class="sd">    - tabela: `np.ndarray`</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">tabela</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tabela</span> <span class="o">=</span> <span class="n">tabela</span>
+
+<div class="viewcode-block" id="RetasPerdasEngolimentoREEPMO.funcao_perdas"><a class="viewcode-back" href="../../../../reference/newave/arquivos/pmo.html#inewave.newave.modelos.pmo.RetasPerdasEngolimentoREEPMO.funcao_perdas">[documentos]</a>    <span class="k">def</span> <span class="nf">funcao_perdas</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                      <span class="n">ree</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+                      <span class="n">energia_bruta</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Valor da função de perdas composta pelas retas</span>
+<span class="sd">        para um determinado valor de energia bruta fornecido.</span>
+
+<span class="sd">        **Parâmetros**</span>
+
+<span class="sd">        - ree: `int`</span>
+<span class="sd">        - energia_bruta: `float`</span>
+
+<span class="sd">        **Retorna**</span>
+<span class="sd">        `float`</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">n_lin</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tabela</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="c1"># Calcula o valor das três retas na ordenada dada e</span>
+        <span class="c1"># retorna o maior deles.</span>
+        <span class="n">energia</span> <span class="o">=</span> <span class="n">energia_bruta</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">n_lin</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="n">perdas</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tabela</span><span class="p">[</span><span class="n">ree</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">],</span>
+                                         <span class="n">energia</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">tabela</span><span class="p">[</span><span class="n">ree</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:,</span> <span class="mi">2</span><span class="p">]</span>
+        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">perdas</span><span class="p">))</span></div></div>
 
 
 <div class="viewcode-block" id="DemandaLiquidaEnergiaPMO"><a class="viewcode-back" href="../../../../reference/newave/arquivos/pmo.html#inewave.newave.modelos.pmo.DemandaLiquidaEnergiaPMO">[documentos]</a><span class="k">class</span> <span class="nc">DemandaLiquidaEnergiaPMO</span><span class="p">:</span>
@@ -423,6 +480,8 @@
                  <span class="n">mes_pmo</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
                  <span class="n">versao_newave</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
                  <span class="n">dados_gerais</span><span class="p">:</span> <span class="n">DadosGeraisPMO</span><span class="p">,</span>
+                 <span class="n">energia_fio_liquida</span><span class="p">:</span> <span class="n">EnergiaFioLiquidaREEPMO</span><span class="p">,</span>
+                 <span class="n">retas_perdas_engolimento</span><span class="p">:</span> <span class="n">RetasPerdasEngolimentoREEPMO</span><span class="p">,</span>
                  <span class="n">energias_passadas_politica</span><span class="p">:</span> <span class="n">EnergiasAfluentesPMO</span><span class="p">,</span>
                  <span class="n">energias_passadas_primeira_conf</span><span class="p">:</span> <span class="n">EnergiasAfluentesPMO</span><span class="p">,</span>
                  <span class="n">energias_passadas_canal_fuga</span><span class="p">:</span> <span class="n">EnergiasAfluentesPMO</span><span class="p">,</span>
@@ -436,6 +495,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">mes_pmo</span> <span class="o">=</span> <span class="n">mes_pmo</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">versao_newave</span> <span class="o">=</span> <span class="n">versao_newave</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dados_gerais</span> <span class="o">=</span> <span class="n">dados_gerais</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">energia_fio_liquida</span> <span class="o">=</span> <span class="n">energia_fio_liquida</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">retas_perdas_engolimento</span> <span class="o">=</span> <span class="n">retas_perdas_engolimento</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">energias_passadas_politica</span> <span class="o">=</span> <span class="n">energias_passadas_politica</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">energias_passadas_primeira_conf</span> <span class="o">=</span> <span class="n">energias_passadas_primeira_conf</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">energias_passadas_canal_fuga</span> <span class="o">=</span> <span class="n">energias_passadas_canal_fuga</span>
