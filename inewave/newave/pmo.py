@@ -109,10 +109,7 @@ class LeituraPMO(Leitura):
         while True:
             # Decide se lê uma linha nova ou usa a última lida
             linha = self._le_linha_com_backup(arq)
-            if len(linha) == 0:
-                break
-            # Condição para finalizar a leitura de um arquivo
-            if self._fim_arquivo(linha):
+            if len(linha) == 0 or self._fim_arquivo(linha):
                 self.pmo = PMO(ano_pmo,
                                mes_pmo,
                                versao_newave,
