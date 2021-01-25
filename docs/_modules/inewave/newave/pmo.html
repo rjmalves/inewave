@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>inewave.newave.pmo &mdash; documentação inewave 0.0.10</title>
+  <title>inewave.newave.pmo &mdash; documentação inewave 0.0.11</title>
   
 
   
@@ -268,10 +268,7 @@
         <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
             <span class="c1"># Decide se lê uma linha nova ou usa a última lida</span>
             <span class="n">linha</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">linha</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="k">break</span>
-            <span class="c1"># Condição para finalizar a leitura de um arquivo</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fim_arquivo</span><span class="p">(</span><span class="n">linha</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">linha</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fim_arquivo</span><span class="p">(</span><span class="n">linha</span><span class="p">):</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">pmo</span> <span class="o">=</span> <span class="n">PMO</span><span class="p">(</span><span class="n">ano_pmo</span><span class="p">,</span>
                                <span class="n">mes_pmo</span><span class="p">,</span>
                                <span class="n">versao_newave</span><span class="p">,</span>
