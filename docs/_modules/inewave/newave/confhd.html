@@ -1,0 +1,382 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="pt-BR" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>inewave.newave.confhd &mdash; documentação inewave 0.0.12</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/gallery-binder.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/gallery-dataframe.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/gallery-rendered-html.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/translations.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Índice" href="../../../genindex.html" />
+    <link rel="search" title="Buscar" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> inewave
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Pesquisar documentos" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Instalação</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reference.html">Referência</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">inewave</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Código do módulo</a> &raquo;</li>
+        
+      <li>inewave.newave.confhd</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Código fonte para inewave.newave.confhd</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Imports do próprio módulo</span>
+<span class="kn">from</span> <span class="nn">inewave._utils.escrita</span> <span class="kn">import</span> <span class="n">Escrita</span>
+<span class="kn">from</span> <span class="nn">inewave._utils.leitura</span> <span class="kn">import</span> <span class="n">Leitura</span>
+<span class="kn">from</span> <span class="nn">.modelos.confhd</span> <span class="kn">import</span> <span class="n">UHEConfhd</span><span class="p">,</span> <span class="n">Confhd</span>
+<span class="c1"># Imports de módulos externos</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">traceback</span> <span class="kn">import</span> <span class="n">print_exc</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">IO</span><span class="p">,</span> <span class="n">Dict</span>
+
+
+<div class="viewcode-block" id="LeituraConfhd"><a class="viewcode-back" href="../../../reference/newave/arquivos/confhd.html#inewave.newave.confhd.LeituraConfhd">[documentos]</a><span class="k">class</span> <span class="nc">LeituraConfhd</span><span class="p">(</span><span class="n">Leitura</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Realiza a leitura do arquivo `confhd.dat`</span>
+<span class="sd">    existente em um diretório de entradas do NEWAVE.</span>
+
+<span class="sd">    Esta classe contém o conjunto de utilidades para ler</span>
+<span class="sd">    e interpretar os campos de um arquivo `confhd.dat`, construindo</span>
+<span class="sd">    um objeto `Confhd` cujas informações são as mesmas do `confhd.dat`.</span>
+
+<span class="sd">    Este objeto existe para retirar do modelo de dados a complexidade</span>
+<span class="sd">    de iterar pelas linhas do arquivo, recortar colunas, converter</span>
+<span class="sd">    tipos de dados, dentre outras tarefas necessárias para a leitura.</span>
+
+<span class="sd">    Uma vez realizada a leitura do arquivo, as informações são guardadas</span>
+<span class="sd">    internamente no atributo `confhd`.</span>
+
+<span class="sd">    **Exemplos**</span>
+
+<span class="sd">    &gt;&gt;&gt; diretorio = &quot;~/documentos/.../deck&quot;</span>
+<span class="sd">    &gt;&gt;&gt; leitor = LeituraConfhd(diretorio)</span>
+<span class="sd">    &gt;&gt;&gt; leitor.le_arquivo()</span>
+<span class="sd">    # Ops, esqueci de pegar o objeto</span>
+<span class="sd">    &gt;&gt;&gt; confhd = leitor.confhd</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">diretorio</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">diretorio</span> <span class="o">=</span> <span class="n">diretorio</span>
+        <span class="c1"># Confhd default, depois é substituído</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">confhd</span> <span class="o">=</span> <span class="n">Confhd</span><span class="p">({})</span>
+
+<div class="viewcode-block" id="LeituraConfhd.le_arquivo"><a class="viewcode-back" href="../../../reference/newave/arquivos/confhd.html#inewave.newave.confhd.LeituraConfhd.le_arquivo">[documentos]</a>    <span class="k">def</span> <span class="nf">le_arquivo</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Confhd</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Faz a leitura do arquivo `confhd.dat`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">caminho</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">diretorio</span><span class="p">,</span> <span class="s2">&quot;confhd.dat&quot;</span><span class="p">)</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">caminho</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">arq</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">confhd</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_confhd</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">confhd</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="n">print_exc</span><span class="p">()</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">confhd</span></div>
+
+    <span class="k">def</span> <span class="nf">_le_confhd</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arq</span><span class="p">:</span> <span class="n">IO</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Confhd</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Faz a leitura do arquivo confhd.dat.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">linha</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="c1"># Pula as duas primeiras linhas, com cabeçalhos</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
+        <span class="n">usinas</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">UHEConfhd</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="c1"># Verifica se o arquivo acabou</span>
+            <span class="n">linha</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fim_arquivo</span><span class="p">(</span><span class="n">linha</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">confhd</span> <span class="o">=</span> <span class="n">Confhd</span><span class="p">(</span><span class="n">usinas</span><span class="p">)</span>
+                <span class="k">break</span>
+            <span class="c1"># Senão, lê mais uma usina</span>
+            <span class="n">u</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_dados_uhe</span><span class="p">(</span><span class="n">linha</span><span class="p">)</span>
+            <span class="n">usinas</span><span class="p">[</span><span class="n">u</span><span class="o">.</span><span class="n">numero</span><span class="p">]</span> <span class="o">=</span> <span class="n">u</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">confhd</span>
+
+    <span class="k">def</span> <span class="nf">_le_dados_uhe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">linha</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">UHEConfhd</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Lê a linha com dados do PMO em questão e retorna dados</span>
+<span class="sd">        sobre o mês e ano de estudo e a versão do NEWAVE usada.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">numero</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">linha</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">5</span><span class="p">])</span>
+        <span class="n">nome</span> <span class="o">=</span> <span class="n">linha</span><span class="p">[</span><span class="mi">6</span><span class="p">:</span><span class="mi">18</span><span class="p">]</span>
+        <span class="n">posto</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">linha</span><span class="p">[</span><span class="mi">19</span><span class="p">:</span><span class="mi">23</span><span class="p">])</span>
+        <span class="n">jusante</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">linha</span><span class="p">[</span><span class="mi">25</span><span class="p">:</span><span class="mi">29</span><span class="p">])</span>
+        <span class="n">ree</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">linha</span><span class="p">[</span><span class="mi">30</span><span class="p">:</span><span class="mi">34</span><span class="p">])</span>
+        <span class="n">vol_ini</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">linha</span><span class="p">[</span><span class="mi">35</span><span class="p">:</span><span class="mi">41</span><span class="p">])</span>
+        <span class="n">existente</span> <span class="o">=</span> <span class="kc">True</span> <span class="k">if</span> <span class="n">linha</span><span class="p">[</span><span class="mi">42</span><span class="p">:</span><span class="mi">46</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;EX&quot;</span> <span class="k">else</span> <span class="kc">False</span>
+        <span class="n">modif</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">linha</span><span class="p">[</span><span class="mi">49</span><span class="p">:</span><span class="mi">53</span><span class="p">]))</span>
+        <span class="n">inicio_hist</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">linha</span><span class="p">[</span><span class="mi">58</span><span class="p">:</span><span class="mi">62</span><span class="p">])</span>
+        <span class="n">fim_hist</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">linha</span><span class="p">[</span><span class="mi">67</span><span class="p">:</span><span class="mi">71</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">UHEConfhd</span><span class="p">(</span><span class="n">numero</span><span class="p">,</span>
+                         <span class="n">nome</span><span class="p">,</span>
+                         <span class="n">posto</span><span class="p">,</span>
+                         <span class="n">jusante</span><span class="p">,</span>
+                         <span class="n">ree</span><span class="p">,</span>
+                         <span class="n">vol_ini</span><span class="p">,</span>
+                         <span class="n">existente</span><span class="p">,</span>
+                         <span class="n">modif</span><span class="p">,</span>
+                         <span class="n">inicio_hist</span><span class="p">,</span>
+                         <span class="n">fim_hist</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_fim_arquivo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">linha</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">linha</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1</span></div>
+
+
+<div class="viewcode-block" id="EscritaConfhd"><a class="viewcode-back" href="../../../reference/newave/arquivos/confhd.html#inewave.newave.confhd.EscritaConfhd">[documentos]</a><span class="k">class</span> <span class="nc">EscritaConfhd</span><span class="p">(</span><span class="n">Escrita</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Realiza a escrita do arquivo confhd.dat</span>
+<span class="sd">    em um diretório de entradas do NEWAVE.</span>
+
+<span class="sd">    Esta classe contém o conjunto de utilidades para escrever os campos</span>
+<span class="sd">    de um arquivo confhd.dat, a partir de um objeto `Confhd`.</span>
+
+<span class="sd">    Este objeto existe para retirar do modelo de dados a complexidade</span>
+<span class="sd">    de armazenar as strings auxiliares do arquivo, desenhar tabelas, dentre</span>
+<span class="sd">    outras tarefas associadas à escrita.</span>
+
+<span class="sd">    Se o diretório de escrita não existir, ele será criado.</span>
+
+<span class="sd">    **Exemplos**</span>
+
+<span class="sd">    &gt;&gt;&gt; diretorio = &quot;~/documentos/.../deck&quot;</span>
+<span class="sd">    &gt;&gt;&gt; # confhd é do tipo Confhd</span>
+<span class="sd">    &gt;&gt;&gt; escritor = EscritaConfhd(diretorio)</span>
+<span class="sd">    &gt;&gt;&gt; escritor.escreve_arquivo(confhd)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">diretorio</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">diretorio</span> <span class="o">=</span> <span class="n">diretorio</span>
+
+<div class="viewcode-block" id="EscritaConfhd.escreve_arquivo"><a class="viewcode-back" href="../../../reference/newave/arquivos/confhd.html#inewave.newave.confhd.EscritaConfhd.escreve_arquivo">[documentos]</a>    <span class="k">def</span> <span class="nf">escreve_arquivo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">confhd</span><span class="p">:</span> <span class="n">Confhd</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Realiza a escrita de um arquivo `confhd.dat`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Confere se o diretório existe. Senão, cria.</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">diretorio</span><span class="p">):</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">diretorio</span><span class="p">)</span>
+        <span class="c1"># Inicia a escrita</span>
+        <span class="n">caminho</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">diretorio</span><span class="p">,</span> <span class="s2">&quot;confhd.dat&quot;</span><span class="p">)</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">caminho</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">arq</span><span class="p">:</span>
+
+            <span class="k">def</span> <span class="nf">escreve_uhe</span><span class="p">(</span><span class="n">uhe</span><span class="p">:</span> <span class="n">UHEConfhd</span><span class="p">):</span>
+                <span class="n">linha</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span>
+                <span class="c1"># Número</span>
+                <span class="n">linha</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">uhe</span><span class="o">.</span><span class="n">numero</span><span class="p">)</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span>
+                <span class="c1"># Nome</span>
+                <span class="n">linha</span> <span class="o">+=</span> <span class="n">uhe</span><span class="o">.</span><span class="n">nome</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span>
+                <span class="c1"># Posto</span>
+                <span class="n">linha</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">uhe</span><span class="o">.</span><span class="n">posto</span><span class="p">)</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;  &quot;</span>
+                <span class="c1"># Jusante</span>
+                <span class="n">linha</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">uhe</span><span class="o">.</span><span class="n">jusante</span><span class="p">)</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span>
+                <span class="c1"># REE</span>
+                <span class="n">linha</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">uhe</span><span class="o">.</span><span class="n">ree</span><span class="p">)</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span>
+                <span class="c1"># Volume inicial</span>
+                <span class="n">linha</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="si">{:3.2f}</span><span class="s2"> &quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">uhe</span><span class="o">.</span><span class="n">volume_inicial</span><span class="p">)</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>
+                <span class="c1"># Existente</span>
+                <span class="n">linha</span> <span class="o">+=</span> <span class="s2">&quot;  EX   &quot;</span> <span class="k">if</span> <span class="n">uhe</span><span class="o">.</span><span class="n">existente</span> <span class="k">else</span> <span class="s2">&quot;  NE   &quot;</span>
+                <span class="c1"># Modificada</span>
+                <span class="n">linha</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">uhe</span><span class="o">.</span><span class="n">modificada</span><span class="p">))</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;     &quot;</span>
+                <span class="c1"># Início do histórico</span>
+                <span class="n">linha</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">uhe</span><span class="o">.</span><span class="n">inicio_historico</span><span class="p">)</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;     &quot;</span>
+                <span class="c1"># Fim do histórico</span>
+                <span class="n">linha</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">uhe</span><span class="o">.</span><span class="n">fim_historico</span><span class="p">)</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+                <span class="n">arq</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">linha</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+            <span class="c1"># Escreve cabeçalhos</span>
+            <span class="n">titulos</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot; NUM  NOME         POSTO JUS   REE V.INIC&quot;</span>
+                       <span class="o">+</span> <span class="s2">&quot; U.EXIS MODIF INIC.HIST FIM HIST&quot;</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">cabecalhos</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot; XXXX XXXXXXXXXXXX XXXX  XXXX XXXX XXX.XX&quot;</span>
+                          <span class="o">+</span> <span class="s2">&quot; XXXX   XXXX     XXXX     XXXX&quot;</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">arq</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">titulos</span><span class="p">)</span>
+            <span class="n">arq</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">cabecalhos</span><span class="p">)</span>
+            <span class="c1"># Escreve UHEs</span>
+            <span class="k">for</span> <span class="n">uhe</span> <span class="ow">in</span> <span class="n">confhd</span><span class="o">.</span><span class="n">usinas</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+                <span class="n">escreve_uhe</span><span class="p">(</span><span class="n">uhe</span><span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Rogerio Alves.
+
+    </p>
+  </div>
+    
+    
+    
+    Compilado com <a href="https://www.sphinx-doc.org/">Sphinx</a> usando um
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">tema</a>
+    
+    fornecido por <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,316 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="pt-BR" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Configurações das Hidrelétricas (confhd.dat) &mdash; documentação inewave 0.0.12</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/gallery-binder.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/gallery-dataframe.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/gallery-rendered-html.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/translations.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Índice" href="../../../genindex.html" />
+    <link rel="search" title="Buscar" href="../../../search.html" />
+    <link rel="next" title="Outros Usos da Água (dsvagua.dat)" href="dsvagua.html" />
+    <link rel="prev" title="Acompanhamento do Programa (pmo.dat)" href="pmo.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> inewave
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Pesquisar documentos" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Instalação</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../../reference.html">Referência</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">NEWAVE</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../index.html#basico-da-interface-newave">Básico da interface NEWAVE</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../index.html#arquivos">Arquivos</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="dger.html">Dados Gerais (dger.dat)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="patamar.html">Patamares de Carga (patamar.dat)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pmo.html">Acompanhamento do Programa (pmo.dat)</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Configurações das Hidrelétricas (confhd.dat)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dsvagua.html">Outros Usos da Água (dsvagua.dat)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../nwlistcf/index.html">NWLISTCF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../nwlistop/index.html">NWLISTOP</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">inewave</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../../reference.html">Referência</a> &raquo;</li>
+        
+          <li><a href="../index.html">NEWAVE</a> &raquo;</li>
+        
+      <li>Configurações das Hidrelétricas (confhd.dat)</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../../_sources/reference/newave/arquivos/confhd.rst.txt" rel="nofollow"> Ver código-fonte da página</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="configuracoes-das-hidreletricas-confhd-dat">
+<span id="confhd"></span><h1>Configurações das Hidrelétricas (confhd.dat)<a class="headerlink" href="#configuracoes-das-hidreletricas-confhd-dat" title="Link permanente para este título">¶</a></h1>
+<div class="section" id="visao-geral-do-modelo">
+<h2>Visão geral do modelo<a class="headerlink" href="#visao-geral-do-modelo" title="Link permanente para este título">¶</a></h2>
+<p>As configurações das hidrelétricas do NEWAVE, localizadas no arquivo geralmente denominado
+confhd.dat, são armazenadas na classe:</p>
+<dl class="py class">
+<dt id="inewave.newave.modelos.confhd.Confhd">
+<em class="property">class </em><code class="sig-name descname">Confhd</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">usinas</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>int<span class="p">, </span>inewave.newave.modelos.confhd.UHEConfhd<span class="p">]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/newave/modelos/confhd.html#Confhd"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#inewave.newave.modelos.confhd.Confhd" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Armazena os dados de entrada do NEWAVE referentes às
+configurações das usinas hidrelétricas.</p>
+<p>Esta classe lida com informações de entrada fornecidas ao NEWAVE e
+que podem ser modificadas através do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">modif.dat</span></code>.</p>
+<p><strong>Parâmetros</strong></p>
+<ul class="simple">
+<li><p>usinas: <code class="xref py py-obj docutils literal notranslate"><span class="pre">Dict[int,</span> <span class="pre">UHEConfhd]</span></code></p></li>
+</ul>
+</dd></dl>
+
+</div>
+<div class="section" id="leitura">
+<h2>Leitura<a class="headerlink" href="#leitura" title="Link permanente para este título">¶</a></h2>
+<p>A leitura do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">confhd.dat</span></code> é feita através da classe <a class="reference internal" href="#inewave.newave.confhd.LeituraConfhd" title="inewave.newave.confhd.LeituraConfhd"><code class="xref py py-class docutils literal notranslate"><span class="pre">LeituraConfhd</span></code></a>.</p>
+<dl class="py class">
+<dt id="inewave.newave.confhd.LeituraConfhd">
+<em class="property">class </em><code class="sig-name descname">LeituraConfhd</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">diretorio</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/newave/confhd.html#LeituraConfhd"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#inewave.newave.confhd.LeituraConfhd" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Realiza a leitura do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">confhd.dat</span></code>
+existente em um diretório de entradas do NEWAVE.</p>
+<p>Esta classe contém o conjunto de utilidades para ler
+e interpretar os campos de um arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">confhd.dat</span></code>, construindo
+um objeto <code class="xref py py-obj docutils literal notranslate"><span class="pre">Confhd</span></code> cujas informações são as mesmas do <code class="xref py py-obj docutils literal notranslate"><span class="pre">confhd.dat</span></code>.</p>
+<p>Este objeto existe para retirar do modelo de dados a complexidade
+de iterar pelas linhas do arquivo, recortar colunas, converter
+tipos de dados, dentre outras tarefas necessárias para a leitura.</p>
+<p>Uma vez realizada a leitura do arquivo, as informações são guardadas
+internamente no atributo <code class="xref py py-obj docutils literal notranslate"><span class="pre">confhd</span></code>.</p>
+<p><strong>Exemplos</strong></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">diretorio</span> <span class="o">=</span> <span class="s2">&quot;~/documentos/.../deck&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">leitor</span> <span class="o">=</span> <span class="n">LeituraConfhd</span><span class="p">(</span><span class="n">diretorio</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">leitor</span><span class="o">.</span><span class="n">le_arquivo</span><span class="p">()</span>
+<span class="go"># Ops, esqueci de pegar o objeto</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">confhd</span> <span class="o">=</span> <span class="n">leitor</span><span class="o">.</span><span class="n">confhd</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt id="inewave.newave.confhd.LeituraConfhd.le_arquivo">
+<code class="sig-name descname">le_arquivo</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#inewave.newave.modelos.confhd.Confhd" title="inewave.newave.modelos.confhd.Confhd">inewave.newave.modelos.confhd.Confhd</a><a class="reference internal" href="../../../_modules/inewave/newave/confhd.html#LeituraConfhd.le_arquivo"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#inewave.newave.confhd.LeituraConfhd.le_arquivo" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Faz a leitura do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">confhd.dat</span></code>.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="escrita">
+<h2>Escrita<a class="headerlink" href="#escrita" title="Link permanente para este título">¶</a></h2>
+<p>A escrita do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">confhd.dat</span></code> é feita através da classe <a class="reference internal" href="#inewave.newave.confhd.EscritaConfhd" title="inewave.newave.confhd.EscritaConfhd"><code class="xref py py-class docutils literal notranslate"><span class="pre">EscritaConfhd</span></code></a>.</p>
+<dl class="py class">
+<dt id="inewave.newave.confhd.EscritaConfhd">
+<em class="property">class </em><code class="sig-name descname">EscritaConfhd</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">diretorio</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/newave/confhd.html#EscritaConfhd"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#inewave.newave.confhd.EscritaConfhd" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Realiza a escrita do arquivo confhd.dat
+em um diretório de entradas do NEWAVE.</p>
+<p>Esta classe contém o conjunto de utilidades para escrever os campos
+de um arquivo confhd.dat, a partir de um objeto <code class="xref py py-obj docutils literal notranslate"><span class="pre">Confhd</span></code>.</p>
+<p>Este objeto existe para retirar do modelo de dados a complexidade
+de armazenar as strings auxiliares do arquivo, desenhar tabelas, dentre
+outras tarefas associadas à escrita.</p>
+<p>Se o diretório de escrita não existir, ele será criado.</p>
+<p><strong>Exemplos</strong></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">diretorio</span> <span class="o">=</span> <span class="s2">&quot;~/documentos/.../deck&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># confhd é do tipo Confhd</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">escritor</span> <span class="o">=</span> <span class="n">EscritaConfhd</span><span class="p">(</span><span class="n">diretorio</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">escritor</span><span class="o">.</span><span class="n">escreve_arquivo</span><span class="p">(</span><span class="n">confhd</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt id="inewave.newave.confhd.EscritaConfhd.escreve_arquivo">
+<code class="sig-name descname">escreve_arquivo</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">confhd</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#inewave.newave.modelos.confhd.Confhd" title="inewave.newave.modelos.confhd.Confhd">inewave.newave.modelos.confhd.Confhd</a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/newave/confhd.html#EscritaConfhd.escreve_arquivo"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#inewave.newave.confhd.EscritaConfhd.escreve_arquivo" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Realiza a escrita de um arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">confhd.dat</span></code>.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="dsvagua.html" class="btn btn-neutral float-right" title="Outros Usos da Água (dsvagua.dat)" accesskey="n" rel="next">Próximo <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="pmo.html" class="btn btn-neutral float-left" title="Acompanhamento do Programa (pmo.dat)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Anterior</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Rogerio Alves.
+
+    </p>
+  </div>
+    
+    
+    
+    Compilado com <a href="https://www.sphinx-doc.org/">Sphinx</a> usando um
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">tema</a>
+    
+    fornecido por <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

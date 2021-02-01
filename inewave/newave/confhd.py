@@ -122,9 +122,9 @@ class EscritaConfhd(Escrita):
     **Exemplos**
 
     >>> diretorio = "~/documentos/.../deck"
-    >>> confhd = DGer.dger_padrao()
-    >>> escritor = EscritaDGer(diretorio)
-    >>> escritor.escreve_arquivo(dger)
+    >>> # confhd é do tipo Confhd
+    >>> escritor = EscritaConfhd(diretorio)
+    >>> escritor.escreve_arquivo(confhd)
     """
     def __init__(self, diretorio: str):
         super().__init__()

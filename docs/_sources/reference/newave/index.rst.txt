@@ -64,3 +64,5 @@ Arquivos
    arquivos/dger
    arquivos/patamar
    arquivos/pmo
+   arquivos/confhd
+   arquivos/dsvagua
