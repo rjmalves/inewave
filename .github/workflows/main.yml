@@ -19,7 +19,7 @@ jobs:
         python -m pip install -r deploy-requirements.txt
     - name: Executa os testes do pacote
       run: |
-        python -m pytest
+        python -m pytest --cov=inewave tests/
     - name: Veriricações de qualidade de código - tipagem estática
       run: |
         python -m mypy .
