@@ -1,6 +1,6 @@
 # Imports do próprio módulo
 from inewave._utils.leitura import Leitura
-from inewave.config import NUM_ANOS_ESTUDO, NUM_CENARIOS
+from inewave.config import NUM_CENARIOS
 from inewave.config import MESES, SUBMERCADOS
 from .modelos.earmfpm00 import Earmfpm00
 # Imports de módulos externos
@@ -127,11 +127,11 @@ class LeituraEarmfpm00(Leitura):
         linha = ""
         tabelas_anos: Dict[int, np.ndarray] = {}
         while True:
+            linha = self._le_linha_com_backup(arq)
             # Confere se já leu todos os anos de estudo
-            if len(tabelas_anos) == NUM_ANOS_ESTUDO:
+            if len(linha) < 1:
                 break
             # Procura pelo início da tabela de CMarg do ano
-            linha = self._le_linha_com_backup(arq)
             if not iniciou:
                 iniciou = LeituraEarmfpm00.str_inicio_earmfpms_ano in linha
                 if iniciou:

@@ -1,7 +1,7 @@
 # Imports do próprio módulo
 from inewave.nwlistop.modelos.mediassin import MediasSIN
 from inewave._utils.leitura import Leitura
-from inewave.config import NUM_ANOS_ESTUDO, MESES
+from inewave.config import MAX_ANOS_ESTUDO, MESES
 from inewave.config import NUM_VARIAVEIS_MEDIAS
 # Imports de módulos externos
 import os
@@ -50,8 +50,9 @@ class LeituraMediasSIN(Leitura):
             caminho = os.path.join(self.diretorio, "MEDIAS-SIN.CSV")
             n_meses = len(MESES)
             linhas_medias = NUM_VARIAVEIS_MEDIAS + 3
-            colunas_medias = NUM_ANOS_ESTUDO * n_meses
+            colunas_medias = MAX_ANOS_ESTUDO * n_meses
             mes_pmo = 0
+            n_colunas = 0
             with open(caminho, newline='') as arq:
                 leitor = csv.reader(arq, delimiter=",", quotechar='|')
                 tabela = np.zeros((linhas_medias, colunas_medias))
@@ -61,14 +62,15 @@ class LeituraMediasSIN(Leitura):
                 for i, linha in enumerate(leitor):
                     if primeira_linha:
                         mes_pmo = int(linha[2])
+                        n_colunas = len(linha) + mes_pmo - 4
                         primeira_linha = False
                         continue
                     # Ignora as linhas após os dados do SIN
                     if i > linhas_medias:
                         break
                     linha_num = np.array([float(n) for n in linha[2:-1]])
-                    tabela[i - 1, mes_pmo-1:] = linha_num
-                self.medias = MediasSIN(mes_pmo, tabela)
+                    tabela[i - 1, mes_pmo-1:n_colunas] = linha_num
+                self.medias = MediasSIN(mes_pmo, tabela[:, :n_colunas])
                 return self.medias
         except Exception:
             print_exc()

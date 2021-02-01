@@ -1,7 +1,7 @@
 # Rotinas de testes associadas ao arquivo cmarg00x.out do NWLISTOP
 from inewave.newave.patamar import LeituraPatamar
 from inewave.nwlistop.cmarg00 import LeituraCmarg00
-from inewave.config import MESES, NUM_ANOS_ESTUDO, NUM_CENARIOS
+from inewave.config import MESES, NUM_CENARIOS
 import numpy as np  # type: ignore
 
 
@@ -40,7 +40,7 @@ def test_cmarg_por_patamar():
         assert np.mean(por_patamar[1][ano][m]) == 0.0
     for m in range(mes, len(MESES) + 1):
         assert np.mean(por_patamar[1][ano][m]) > 0.0
-    for a in [ano + i for i in range(1, NUM_ANOS_ESTUDO)]:
+    for a in list(por_patamar[1].keys())[1:]:
         for m in range(mes, len(MESES) + 1):
             assert np.mean(por_patamar[1][a][m]) > 0.0
 
@@ -55,7 +55,7 @@ def test_cmarg_por_ano():
     # ao estudo são nulos, e todos os posteriores são > 0
     assert np.mean(por_ano[1][ano][:, :mes-1]) == 0.0
     assert np.mean(por_ano[1][ano][:, mes-1:]) > 0.0
-    for a in [ano + i for i in range(1, NUM_ANOS_ESTUDO)]:
+    for a in list(por_ano[1].keys())[1:]:
         assert np.mean(por_ano[1][a]) > 0.0
 
 
@@ -71,7 +71,7 @@ def test_cmarg_por_ano_e_mes():
         assert np.mean(por_ano_e_mes[1][ano][m]) == 0.0
     for m in range(mes, len(MESES) + 1):
         assert np.mean(por_ano_e_mes[1][ano][m]) > 0.0
-    for a in [ano + i for i in range(1, NUM_ANOS_ESTUDO)]:
+    for a in list(por_ano_e_mes[1].keys())[1:]:
         for m in range(mes, len(MESES) + 1):
             assert np.mean(por_ano_e_mes[1][a][m]) > 0.0
 

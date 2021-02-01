@@ -1,6 +1,6 @@
 # Rotinas de testes associadas ao arquivo earmfpm00x.out do NWLISTOP
 from inewave.nwlistop.earmfpm00 import LeituraEarmfpm00
-from inewave.config import MESES, NUM_ANOS_ESTUDO, NUM_CENARIOS
+from inewave.config import MESES, NUM_CENARIOS
 import numpy as np  # type: ignore
 
 
@@ -37,7 +37,7 @@ def test_earmfpm_por_ano():
     # ao estudo são nulos, e todos os posteriores são > 0
     assert np.all(por_ano[ano][:, :mes-1] == 0.0)
     assert np.all(por_ano[ano][:, mes-1:] > 0.0)
-    for a in [ano + i for i in range(1, NUM_ANOS_ESTUDO)]:
+    for a in list(por_ano.keys())[1:]:
         assert np.all(por_ano[a] > 0.0)
 
 
@@ -53,7 +53,7 @@ def test_earmfpm_por_ano_e_mes():
         assert np.all(por_ano_e_mes[ano][m] == 0.0)
     for m in range(mes, len(MESES) + 1):
         assert np.all(por_ano_e_mes[ano][m] > 0.0)
-    for a in [ano + i for i in range(1, NUM_ANOS_ESTUDO)]:
+    for a in list(por_ano_e_mes.keys())[1:]:
         for m in range(mes, len(MESES) + 1):
             assert np.all(por_ano_e_mes[a][m] > 0.0)
 
