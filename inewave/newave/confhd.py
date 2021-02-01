@@ -139,8 +139,6 @@ class EscritaConfhd(Escrita):
             os.makedirs(self.diretorio)
         # Inicia a escrita
         caminho = os.path.join(self.diretorio, "confhd.dat")
-        len_aux = 21
-        len_dado = 4
         with open(caminho, "w") as arq:
 
             def escreve_uhe(uhe: UHEConfhd):
