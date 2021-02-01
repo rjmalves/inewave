@@ -40,7 +40,7 @@ class LeituraMediasMerc(Leitura):
         super().__init__()
         self.diretorio = diretorio
         # MediasMerc default, depois é substituído
-        self.medias = MediasMerc(0, {})
+        self.medias = MediasMerc(0, np.array([]))
 
     def le_arquivo(self) -> MediasMerc:
         """
@@ -75,7 +75,7 @@ class LeituraMediasMerc(Leitura):
                 return self.medias
         except Exception:
             print_exc()
-            return MediasMerc(0, {})
+            return MediasMerc(0, np.array([]))
 
     def _fim_arquivo(self, linha: str) -> bool:
         return False

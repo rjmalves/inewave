@@ -30,7 +30,7 @@ class MediasMerc:
         Lógica para extrair uma variável qualquer da tabela de médias,
         partindo do índice dela (num. da linha) dentro do seu submercado.
         """
-        valores: Dict[str, np.ndarray] = {sub: None
+        valores: Dict[str, np.ndarray] = {sub: np.array([])
                                           for sub in SUBMERCADOS}
         for i, sub in enumerate(SUBMERCADOS):
             lin = NUM_VARIAVEIS_MEDIAS * i + indice_variavel

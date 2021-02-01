@@ -194,8 +194,8 @@ class LeituraPMO(Leitura):
         """
         # Inicia as variáveis que serão retornadas, com as tabelas
         # de energia fio d'água líquidas e as retas de perdas.
-        tabela_energias: np.ndarray = None
-        tabela_perdas: np.ndarray = None
+        tabela_energias: np.ndarray = np.array([])
+        tabela_perdas: np.ndarray = np.array([])
         montou_tabela_energias = False
         montou_tabela_perdas = False
         achou_ree_energias = False
@@ -334,7 +334,7 @@ class LeituraPMO(Leitura):
                 ci = cf + 1
             i += 1
 
-    def _le_tabela_custo(self, arq: IO) -> np.ndarray:
+    def _le_tabela_custo(self, arq: IO) -> CustoOperacaoPMO:
         """
         Lê as linhas que formam uma das tabelas de composição
         do valor total de operação do pmo.dat.

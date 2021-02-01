@@ -75,7 +75,7 @@ class Eafbm00:
         n_meses = len(MESES)
         # Cria e inicializa os objetos a serem retornados
         for a in anos_estudo:
-            energias[a] = {m: None
+            energias[a] = {m: np.array([])
                            for m in range(1, n_meses + 1)}
         # Preenche com os valores
         for a, tabela in self.energias_afluentes.items():
@@ -106,7 +106,7 @@ class Eafbm00:
         anos_estudo = list(self.energias_afluentes.keys())
         # Cria e inicializa os objetos a serem retornados
         for a in anos_estudo:
-            energias[a] = {c: None
+            energias[a] = {c: np.array([])
                            for c in range(NUM_CENARIOS)}
         # Preenche com os valores
         for a, tabela in self.energias_afluentes.items():

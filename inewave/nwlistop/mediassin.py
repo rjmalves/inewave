@@ -74,7 +74,7 @@ class LeituraMediasSIN(Leitura):
                 return self.medias
         except Exception:
             print_exc()
-            return MediasSIN(0, {})
+            return MediasSIN(0, np.array([]))
 
     def _fim_arquivo(self, linha: str) -> bool:
         return False
