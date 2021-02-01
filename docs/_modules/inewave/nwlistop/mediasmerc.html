@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>inewave.nwlistop.mediasmerc &mdash; documentação inewave 0.0.11</title>
+  <title>inewave.nwlistop.mediasmerc &mdash; documentação inewave 0.0.12</title>
   
 
   
@@ -160,7 +160,7 @@
 <span></span><span class="c1"># Imports do próprio módulo</span>
 <span class="kn">from</span> <span class="nn">inewave.nwlistop.modelos.mediasmerc</span> <span class="kn">import</span> <span class="n">MediasMerc</span>
 <span class="kn">from</span> <span class="nn">inewave._utils.leitura</span> <span class="kn">import</span> <span class="n">Leitura</span>
-<span class="kn">from</span> <span class="nn">inewave.config</span> <span class="kn">import</span> <span class="n">NUM_ANOS_ESTUDO</span><span class="p">,</span> <span class="n">MESES</span>
+<span class="kn">from</span> <span class="nn">inewave.config</span> <span class="kn">import</span> <span class="n">MAX_ANOS_ESTUDO</span><span class="p">,</span> <span class="n">MESES</span>
 <span class="kn">from</span> <span class="nn">inewave.config</span> <span class="kn">import</span> <span class="n">NUM_VARIAVEIS_MEDIAS</span><span class="p">,</span> <span class="n">SUBMERCADOS</span>
 <span class="c1"># Imports de módulos externos</span>
 <span class="kn">import</span> <span class="nn">os</span>
@@ -199,7 +199,7 @@
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">diretorio</span> <span class="o">=</span> <span class="n">diretorio</span>
         <span class="c1"># MediasMerc default, depois é substituído</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">medias</span> <span class="o">=</span> <span class="n">MediasMerc</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="p">{})</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">medias</span> <span class="o">=</span> <span class="n">MediasMerc</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([]))</span>
 
 <div class="viewcode-block" id="LeituraMediasMerc.le_arquivo"><a class="viewcode-back" href="../../../reference/nwlistop/arquivos/mediasmerc.html#inewave.nwlistop.mediasmerc.LeituraMediasMerc.le_arquivo">[documentos]</a>    <span class="k">def</span> <span class="nf">le_arquivo</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MediasMerc</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -210,8 +210,9 @@
             <span class="n">n_meses</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">MESES</span><span class="p">)</span>
             <span class="n">n_submercados</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">SUBMERCADOS</span><span class="p">)</span>
             <span class="n">linhas_medias</span> <span class="o">=</span> <span class="n">NUM_VARIAVEIS_MEDIAS</span> <span class="o">*</span> <span class="n">n_submercados</span>
-            <span class="n">colunas_medias</span> <span class="o">=</span> <span class="n">NUM_ANOS_ESTUDO</span> <span class="o">*</span> <span class="n">n_meses</span>
+            <span class="n">colunas_medias</span> <span class="o">=</span> <span class="n">MAX_ANOS_ESTUDO</span> <span class="o">*</span> <span class="n">n_meses</span>
             <span class="n">mes_pmo</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">n_colunas</span> <span class="o">=</span> <span class="mi">0</span>
             <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">caminho</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">arq</span><span class="p">:</span>
                 <span class="n">leitor</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">reader</span><span class="p">(</span><span class="n">arq</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s2">&quot;,&quot;</span><span class="p">,</span> <span class="n">quotechar</span><span class="o">=</span><span class="s1">&#39;|&#39;</span><span class="p">)</span>
                 <span class="n">tabela</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">linhas_medias</span><span class="p">,</span> <span class="n">colunas_medias</span><span class="p">))</span>
@@ -221,18 +222,19 @@
                 <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">linha</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">leitor</span><span class="p">):</span>
                     <span class="k">if</span> <span class="n">primeira_linha</span><span class="p">:</span>
                         <span class="n">mes_pmo</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">linha</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+                        <span class="n">n_colunas</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">linha</span><span class="p">)</span> <span class="o">+</span> <span class="n">mes_pmo</span> <span class="o">-</span> <span class="mi">4</span>
                         <span class="n">primeira_linha</span> <span class="o">=</span> <span class="kc">False</span>
                         <span class="k">continue</span>
                     <span class="c1"># Ignora as linhas após os dados dos submercados</span>
                     <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="n">linhas_medias</span><span class="p">:</span>
                         <span class="k">break</span>
                     <span class="n">linha_num</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">float</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">linha</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]])</span>
-                    <span class="n">tabela</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">mes_pmo</span><span class="o">-</span><span class="mi">1</span><span class="p">:]</span> <span class="o">=</span> <span class="n">linha_num</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">medias</span> <span class="o">=</span> <span class="n">MediasMerc</span><span class="p">(</span><span class="n">mes_pmo</span><span class="p">,</span> <span class="n">tabela</span><span class="p">)</span>
+                    <span class="n">tabela</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">mes_pmo</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="n">n_colunas</span><span class="p">]</span> <span class="o">=</span> <span class="n">linha_num</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">medias</span> <span class="o">=</span> <span class="n">MediasMerc</span><span class="p">(</span><span class="n">mes_pmo</span><span class="p">,</span> <span class="n">tabela</span><span class="p">[:,</span> <span class="p">:</span><span class="n">n_colunas</span><span class="p">])</span>
                 <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">medias</span>
         <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
             <span class="n">print_exc</span><span class="p">()</span>
-            <span class="k">return</span> <span class="n">MediasMerc</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="p">{})</span></div>
+            <span class="k">return</span> <span class="n">MediasMerc</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([]))</span></div>
 
     <span class="k">def</span> <span class="nf">_fim_arquivo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">linha</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">False</span></div>

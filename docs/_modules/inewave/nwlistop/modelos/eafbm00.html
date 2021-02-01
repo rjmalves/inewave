@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>inewave.nwlistop.modelos.eafbm00 &mdash; documentação inewave 0.0.11</title>
+  <title>inewave.nwlistop.modelos.eafbm00 &mdash; documentação inewave 0.0.12</title>
   
 
   
@@ -234,7 +234,7 @@
         <span class="n">n_meses</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">MESES</span><span class="p">)</span>
         <span class="c1"># Cria e inicializa os objetos a serem retornados</span>
         <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">anos_estudo</span><span class="p">:</span>
-            <span class="n">energias</span><span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">m</span><span class="p">:</span> <span class="kc">None</span>
+            <span class="n">energias</span><span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">m</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
                            <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_meses</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)}</span>
         <span class="c1"># Preenche com os valores</span>
         <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">tabela</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">energias_afluentes</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
@@ -265,7 +265,7 @@
         <span class="n">anos_estudo</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">energias_afluentes</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
         <span class="c1"># Cria e inicializa os objetos a serem retornados</span>
         <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">anos_estudo</span><span class="p">:</span>
-            <span class="n">energias</span><span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">c</span><span class="p">:</span> <span class="kc">None</span>
+            <span class="n">energias</span><span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">c</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
                            <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">NUM_CENARIOS</span><span class="p">)}</span>
         <span class="c1"># Preenche com os valores</span>
         <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">tabela</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">energias_afluentes</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>

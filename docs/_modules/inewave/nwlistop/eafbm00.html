@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>inewave.nwlistop.eafbm00 &mdash; documentação inewave 0.0.11</title>
+  <title>inewave.nwlistop.eafbm00 &mdash; documentação inewave 0.0.12</title>
   
 
   
@@ -159,7 +159,7 @@
   <h1>Código fonte para inewave.nwlistop.eafbm00</h1><div class="highlight"><pre>
 <span></span><span class="c1"># Imports do próprio módulo</span>
 <span class="kn">from</span> <span class="nn">inewave._utils.leitura</span> <span class="kn">import</span> <span class="n">Leitura</span>
-<span class="kn">from</span> <span class="nn">inewave.config</span> <span class="kn">import</span> <span class="n">NUM_ANOS_ESTUDO</span><span class="p">,</span> <span class="n">NUM_CENARIOS</span>
+<span class="kn">from</span> <span class="nn">inewave.config</span> <span class="kn">import</span> <span class="n">NUM_CENARIOS</span>
 <span class="kn">from</span> <span class="nn">inewave.config</span> <span class="kn">import</span> <span class="n">MESES</span><span class="p">,</span> <span class="n">SUBMERCADOS</span>
 <span class="kn">from</span> <span class="nn">.modelos.eafbm00</span> <span class="kn">import</span> <span class="n">Eafbm00</span>
 <span class="c1"># Imports de módulos externos</span>
@@ -284,11 +284,11 @@
         <span class="n">linha</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
         <span class="n">tabelas_anos</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">linha</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
             <span class="c1"># Confere se já leu todos os anos de estudo</span>
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">tabelas_anos</span><span class="p">)</span> <span class="o">==</span> <span class="n">NUM_ANOS_ESTUDO</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">linha</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
                 <span class="k">break</span>
             <span class="c1"># Procura pelo início da tabela de EAFB do ano</span>
-            <span class="n">linha</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">iniciou</span><span class="p">:</span>
                 <span class="n">iniciou</span> <span class="o">=</span> <span class="n">LeituraEafbm00</span><span class="o">.</span><span class="n">str_inicio_eafbms_ano</span> <span class="ow">in</span> <span class="n">linha</span>
                 <span class="k">if</span> <span class="n">iniciou</span><span class="p">:</span>

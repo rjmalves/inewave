@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>inewave.newave.pmo &mdash; documentação inewave 0.0.11</title>
+  <title>inewave.newave.pmo &mdash; documentação inewave 0.0.12</title>
   
 
   
@@ -159,7 +159,7 @@
   <h1>Código fonte para inewave.newave.pmo</h1><div class="highlight"><pre>
 <span></span><span class="c1"># Imports do próprio módulo</span>
 <span class="kn">from</span> <span class="nn">inewave._utils.leitura</span> <span class="kn">import</span> <span class="n">Leitura</span>
-<span class="kn">from</span> <span class="nn">inewave.config</span> <span class="kn">import</span> <span class="n">NUM_ANOS_ESTUDO</span><span class="p">,</span> <span class="n">NUM_VARIAVEIS_CUSTO_PMO</span><span class="p">,</span> <span class="n">REES</span>
+<span class="kn">from</span> <span class="nn">inewave.config</span> <span class="kn">import</span> <span class="n">MAX_ANOS_ESTUDO</span><span class="p">,</span> <span class="n">NUM_VARIAVEIS_CUSTO_PMO</span><span class="p">,</span> <span class="n">REES</span>
 <span class="kn">from</span> <span class="nn">inewave.config</span> <span class="kn">import</span> <span class="n">MESES</span><span class="p">,</span> <span class="n">SUBMERCADOS</span>
 <span class="kn">from</span> <span class="nn">.modelos.pmo</span> <span class="kn">import</span> <span class="n">DadosGeraisPMO</span>
 <span class="kn">from</span> <span class="nn">.modelos.pmo</span> <span class="kn">import</span> <span class="n">EnergiaFioLiquidaREEPMO</span>
@@ -353,8 +353,8 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Inicia as variáveis que serão retornadas, com as tabelas</span>
         <span class="c1"># de energia fio d&#39;água líquidas e as retas de perdas.</span>
-        <span class="n">tabela_energias</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="n">tabela_perdas</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">tabela_energias</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
+        <span class="n">tabela_perdas</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
         <span class="n">montou_tabela_energias</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="n">montou_tabela_perdas</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="n">achou_ree_energias</span> <span class="o">=</span> <span class="kc">False</span>
@@ -473,23 +473,27 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
         <span class="c1"># Inicializa as variáveis de interesse</span>
         <span class="n">anos_estudo</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">linhas_tabela</span> <span class="o">=</span> <span class="n">NUM_ANOS_ESTUDO</span>
+        <span class="n">linhas_tabela</span> <span class="o">=</span> <span class="n">MAX_ANOS_ESTUDO</span>
         <span class="n">colunas_tabela</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">SUBMERCADOS</span><span class="p">)</span>
         <span class="n">tabela</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">linhas_tabela</span><span class="p">,</span> <span class="n">colunas_tabela</span><span class="p">))</span>
         <span class="n">campos_colunas</span> <span class="o">=</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">SUBMERCADOS</span><span class="p">)</span>
         <span class="c1"># Lê a tabela</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">linhas_tabela</span><span class="p">):</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
             <span class="n">linha</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
+            <span class="c1"># Confere se a tabela já acabou</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">linha</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="c1"># Constroi o objeto e retorna</span>
+                <span class="k">return</span> <span class="n">RiscoDeficitENSPMO</span><span class="p">(</span><span class="n">anos_estudo</span><span class="p">,</span> <span class="n">tabela</span><span class="p">[:</span><span class="n">i</span><span class="p">,</span> <span class="p">:])</span>
             <span class="n">anos_estudo</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">linha</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">5</span><span class="p">]))</span>
             <span class="n">ci</span> <span class="o">=</span> <span class="mi">7</span>
             <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">colunas_tabela</span><span class="p">):</span>
                 <span class="n">cf</span> <span class="o">=</span> <span class="n">ci</span> <span class="o">+</span> <span class="n">campos_colunas</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
                 <span class="n">tabela</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">linha</span><span class="p">[</span><span class="n">ci</span><span class="p">:</span><span class="n">cf</span><span class="p">])</span>
                 <span class="n">ci</span> <span class="o">=</span> <span class="n">cf</span> <span class="o">+</span> <span class="mi">1</span>
-        <span class="c1"># Constroi o objeto e retorna</span>
-        <span class="k">return</span> <span class="n">RiscoDeficitENSPMO</span><span class="p">(</span><span class="n">anos_estudo</span><span class="p">,</span> <span class="n">tabela</span><span class="p">)</span>
+            <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
 
-    <span class="k">def</span> <span class="nf">_le_tabela_custo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arq</span><span class="p">:</span> <span class="n">IO</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">_le_tabela_custo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arq</span><span class="p">:</span> <span class="n">IO</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CustoOperacaoPMO</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Lê as linhas que formam uma das tabelas de composição</span>
 <span class="sd">        do valor total de operação do pmo.dat.</span>

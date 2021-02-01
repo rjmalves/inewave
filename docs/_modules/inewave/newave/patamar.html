@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>inewave.newave.patamar &mdash; documentação inewave 0.0.11</title>
+  <title>inewave.newave.patamar &mdash; documentação inewave 0.0.12</title>
   
 
   
@@ -159,7 +159,7 @@
   <h1>Código fonte para inewave.newave.patamar</h1><div class="highlight"><pre>
 <span></span><span class="c1"># Imports do próprio módulo</span>
 <span class="kn">from</span> <span class="nn">inewave._utils.leitura</span> <span class="kn">import</span> <span class="n">Leitura</span>
-<span class="kn">from</span> <span class="nn">inewave.config</span> <span class="kn">import</span> <span class="n">NUM_ANOS_ESTUDO</span><span class="p">,</span> <span class="n">NUM_PATAMARES</span><span class="p">,</span> <span class="n">MESES</span>
+<span class="kn">from</span> <span class="nn">inewave.config</span> <span class="kn">import</span> <span class="n">MAX_ANOS_ESTUDO</span><span class="p">,</span> <span class="n">NUM_PATAMARES</span><span class="p">,</span> <span class="n">MESES</span>
 <span class="kn">from</span> <span class="nn">.modelos.patamar</span> <span class="kn">import</span> <span class="n">Patamar</span>
 <span class="c1"># Imports de módulos externos</span>
 <span class="kn">import</span> <span class="nn">os</span>
@@ -193,6 +193,9 @@
 <span class="sd">    &gt;&gt;&gt; patamar = leitor.patamar</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">str_fim_patamares</span> <span class="o">=</span> <span class="s2">&quot;SUBSISTEMA&quot;</span>
+
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                  <span class="n">diretorio</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
@@ -234,15 +237,24 @@
 <span class="sd">        Faz a leitura da tabela de patamares de carga.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">anos</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">patamares</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">NUM_PATAMARES</span> <span class="o">*</span> <span class="n">NUM_ANOS_ESTUDO</span><span class="p">,</span>
+        <span class="n">patamares</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">NUM_PATAMARES</span> <span class="o">*</span> <span class="n">MAX_ANOS_ESTUDO</span><span class="p">,</span>
                               <span class="nb">len</span><span class="p">(</span><span class="n">MESES</span><span class="p">)))</span>
-        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">NUM_ANOS_ESTUDO</span><span class="p">):</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="c1"># Confere se a tabela já acabou</span>
+            <span class="n">linha</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_configura_backup</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">LeituraPatamar</span><span class="o">.</span><span class="n">str_fim_patamares</span> <span class="ow">in</span> <span class="n">linha</span><span class="p">:</span>
+                <span class="c1"># Retorna os anos de estudo e o recorte da tabela</span>
+                <span class="c1"># com os valores usados</span>
+                <span class="k">return</span> <span class="n">anos</span><span class="p">,</span> <span class="n">patamares</span><span class="p">[:</span><span class="n">n</span><span class="o">*</span><span class="n">NUM_PATAMARES</span><span class="p">,</span> <span class="p">:]</span>
+            <span class="c1"># Senão, lê mais um ano</span>
             <span class="n">a</span><span class="p">,</span> <span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_patamares_ano</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
             <span class="n">anos</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
             <span class="n">li</span> <span class="o">=</span> <span class="n">n</span> <span class="o">*</span> <span class="n">NUM_PATAMARES</span>
             <span class="n">lf</span> <span class="o">=</span> <span class="n">li</span> <span class="o">+</span> <span class="n">NUM_PATAMARES</span>
             <span class="n">patamares</span><span class="p">[</span><span class="n">li</span><span class="p">:</span><span class="n">lf</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">p</span>
-        <span class="k">return</span> <span class="n">anos</span><span class="p">,</span> <span class="n">patamares</span>
+            <span class="n">n</span> <span class="o">+=</span> <span class="mi">1</span>
 
     <span class="k">def</span> <span class="nf">_le_patamares_ano</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arq</span><span class="p">:</span> <span class="n">IO</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
