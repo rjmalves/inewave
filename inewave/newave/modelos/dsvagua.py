@@ -1,5 +1,4 @@
-from typing import Dict
-import numpy as np
+import numpy as np  # type: ignore
 
 
 class DSVAgua:

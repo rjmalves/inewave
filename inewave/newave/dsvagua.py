@@ -5,9 +5,9 @@ from .modelos.dsvagua import DSVAgua
 from inewave.config import MESES
 # Imports de módulos externos
 import os
-import numpy as np
+import numpy as np  # type: ignore
 from traceback import print_exc
-from typing import IO, Dict
+from typing import IO
 
 
 class LeituraDSVAgua(Leitura):
