@@ -1,6 +1,6 @@
 # Imports do próprio módulo
 from inewave._utils.leitura import Leitura
-from inewave.config import NUM_ANOS_ESTUDO, NUM_PATAMARES, MESES
+from inewave.config import MAX_ANOS_ESTUDO, NUM_PATAMARES, MESES
 from .modelos.patamar import Patamar
 # Imports de módulos externos
 import os
@@ -34,6 +34,9 @@ class LeituraPatamar(Leitura):
     >>> patamar = leitor.patamar
 
     """
+
+    str_fim_patamares = "SUBSISTEMA"
+
     def __init__(self,
                  diretorio: str) -> None:
         super().__init__()
@@ -75,15 +78,24 @@ class LeituraPatamar(Leitura):
         Faz a leitura da tabela de patamares de carga.
         """
         anos: List[int] = []
-        patamares = np.zeros((NUM_PATAMARES * NUM_ANOS_ESTUDO,
+        patamares = np.zeros((NUM_PATAMARES * MAX_ANOS_ESTUDO,
                               len(MESES)))
-        for n in range(NUM_ANOS_ESTUDO):
+        n = 0
+        while True:
+            # Confere se a tabela já acabou
+            linha = self._le_linha_com_backup(arq)
+            self._configura_backup()
+            if LeituraPatamar.str_fim_patamares in linha:
+                # Retorna os anos de estudo e o recorte da tabela
+                # com os valores usados
+                return anos, patamares[:n*NUM_PATAMARES, :]
+            # Senão, lê mais um ano
             a, p = self._le_patamares_ano(arq)
             anos.append(a)
             li = n * NUM_PATAMARES
             lf = li + NUM_PATAMARES
             patamares[li:lf, :] = p
-        return anos, patamares
+            n += 1
 
     def _le_patamares_ano(self, arq: IO) -> Tuple[int, np.ndarray]:
         """
