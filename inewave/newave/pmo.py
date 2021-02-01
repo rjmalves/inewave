@@ -1,6 +1,6 @@
 # Imports do próprio módulo
 from inewave._utils.leitura import Leitura
-from inewave.config import NUM_ANOS_ESTUDO, NUM_VARIAVEIS_CUSTO_PMO, REES
+from inewave.config import MAX_ANOS_ESTUDO, NUM_VARIAVEIS_CUSTO_PMO, REES
 from inewave.config import MESES, SUBMERCADOS
 from .modelos.pmo import DadosGeraisPMO
 from .modelos.pmo import EnergiaFioLiquidaREEPMO
@@ -314,21 +314,25 @@ class LeituraPMO(Leitura):
         self._le_linha_com_backup(arq)
         # Inicializa as variáveis de interesse
         anos_estudo: List[int] = []
-        linhas_tabela = NUM_ANOS_ESTUDO
+        linhas_tabela = MAX_ANOS_ESTUDO
         colunas_tabela = 2 * len(SUBMERCADOS)
         tabela = np.zeros((linhas_tabela, colunas_tabela))
         campos_colunas = [5, 7] * len(SUBMERCADOS)
         # Lê a tabela
-        for i in range(linhas_tabela):
+        i = 0
+        while True:
             linha = self._le_linha_com_backup(arq)
+            # Confere se a tabela já acabou
+            if len(linha) <= 1:
+                # Constroi o objeto e retorna
+                return RiscoDeficitENSPMO(anos_estudo, tabela[:i, :])
             anos_estudo.append(int(linha[1:5]))
             ci = 7
             for j in range(colunas_tabela):
                 cf = ci + campos_colunas[j]
                 tabela[i, j] = float(linha[ci:cf])
                 ci = cf + 1
-        # Constroi o objeto e retorna
-        return RiscoDeficitENSPMO(anos_estudo, tabela)
+            i += 1
 
     def _le_tabela_custo(self, arq: IO) -> np.ndarray:
         """
