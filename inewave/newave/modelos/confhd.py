@@ -54,6 +54,21 @@ class UHEConfhd:
         self.inicio_historico = inicio_historico
         self.fim_historico = fim_historico
 
+    def __eq__(self, o: object) -> bool:
+        """
+        A igualdade entre UHEConfhd avalia todos os campos.
+        """
+        if not isinstance(o, UHEConfhd):
+            return False
+        uhe: UHEConfhd = o
+        dif = False
+        for s1, s2 in zip(self.__slots__,
+                          uhe.__slots__):
+            if s1 != s2 or getattr(self, s1) != getattr(uhe, s2):
+                dif = True
+                break
+        return not dif
+
 
 class Confhd:
     """
@@ -71,3 +86,18 @@ class Confhd:
     def __init__(self,
                  usinas: Dict[int, UHEConfhd]):
         self.usinas = usinas
+
+    def __eq__(self, o: object) -> bool:
+        """
+        A igualdade entre Confhd avalia todas as usinas.
+        """
+        if not isinstance(o, Confhd):
+            return False
+        confhd: Confhd = o
+        dif = False
+        for (n1, uhe1), (n2, uhe2) in zip(self.usinas.items(),
+                                          confhd.usinas.items()):
+            if n1 != n2 or uhe1 != uhe2:
+                dif = True
+                break
+        return not dif
