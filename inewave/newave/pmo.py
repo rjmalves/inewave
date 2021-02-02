@@ -19,7 +19,7 @@ from typing import IO, List, Tuple
 class LeituraPMO(Leitura):
     """
     Realiza a leitura do arquivo pmo.dat
-    existente em um diretório de entradas do NEWAVE.
+    existente em um diretório de saídas do NEWAVE.
 
     Esta classe contém o conjunto de utilidades para ler
     e interpretar os campos de um arquivo pmo.dat, construindo

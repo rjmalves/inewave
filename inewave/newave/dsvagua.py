@@ -16,7 +16,7 @@ class LeituraDSVAgua(Leitura):
     existente em um diretório de entradas do NEWAVE.
 
     Esta classe contém o conjunto de utilidades para ler
-    e interpretar os campos de um arquivo `dsvagya.dat`, construindo
+    e interpretar os campos de um arquivo `dsvagua.dat`, construindo
     um objeto `DSVAgua` cujas informações são as mesmas do `dsvagua.dat`.
 
     Este objeto existe para retirar do modelo de dados a complexidade
