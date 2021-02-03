@@ -56,6 +56,7 @@ def test_leitura_tabelas_custos():
     assert np.all(custo_series.custos == custo_ref.custos)
     assert np.all(custo_ref.custos == valor_esp.custos)
 
+
 def test_eq_pmo():
     leitor2 = LeituraPMO("tests/_arquivos")
     leitor2.le_arquivo()

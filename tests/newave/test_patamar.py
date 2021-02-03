@@ -45,6 +45,7 @@ def test_patamar_por_ano_e_mes():
             assert p.shape == (leitor.patamar.num_patamares,)
             assert np.all(p > 0.0)
 
+
 def test_eq_patamar():
     leitor2 = LeituraPatamar("tests/_arquivos")
     leitor2.le_arquivo()
