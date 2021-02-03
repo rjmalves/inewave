@@ -35,6 +35,23 @@ class Cmarg00:
         self.submercado = submercado
         self.custos_patamares = custos_patamares
 
+    def __eq__(self, o: object) -> bool:
+        """
+        A igualdade entre Cmarg00 avalia todos os valores, exceto
+        a versão do NEWAVE.
+        """
+        if not isinstance(o, Cmarg00):
+            return False
+        cmarg: Cmarg00 = o
+        eq_mes_pmo = self.mes_pmo == cmarg.mes_pmo
+        eq_ano_pmo = self.ano_pmo == cmarg.ano_pmo
+        eq_submercado = self.submercado == cmarg.submercado
+        eq_custos = all([np.array_equal(c1, c2)
+                         for (c1, c2) in zip(self.custos_patamares.values(),
+                                             cmarg.custos_patamares.values())
+                         ])
+        return eq_mes_pmo and eq_ano_pmo and eq_submercado and eq_custos
+
     def custos_medios_por_ano(self,
                               patamar: Patamar) -> Dict[int,
                                                         np.ndarray]:

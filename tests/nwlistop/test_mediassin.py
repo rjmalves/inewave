@@ -11,6 +11,12 @@ def test_leitura():
     assert leitor.medias.mes_pmo != 0
 
 
+def test_eq_mediasmerc():
+    leitor2 = LeituraMediasSIN("tests/_arquivos")
+    leitor2.le_arquivo()
+    assert leitor.medias == leitor2.medias
+
+
 def test_alinhamento_vertical():
     mes_pmo = leitor.medias.mes_pmo
     # Confere se todos os valores anteriores ao mês

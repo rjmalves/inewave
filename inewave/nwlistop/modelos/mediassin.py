@@ -21,6 +21,16 @@ class MediasSIN:
         self.mes_pmo = mes_pmo
         self.tabela = tabela
 
+    def __eq__(self, o: object) -> bool:
+        """
+        A igualdade entre MediasSIN avalia todos os valores da tabela.
+        """
+        if not isinstance(o, MediasSIN):
+            return False
+        medias: MediasSIN = o
+        eq_mes_pmo = self.mes_pmo == medias.mes_pmo
+        return eq_mes_pmo and np.array_equal(self.tabela, medias.tabela)
+
     def _extrai_variavel_tabela(self,
                                 indice_variavel: int) -> np.ndarray:
         """

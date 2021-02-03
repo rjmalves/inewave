@@ -14,6 +14,12 @@ def test_leitura():
     assert sub_teste in leitor.earmfpms
 
 
+def test_eq_earmfpm00():
+    leitor2 = LeituraEarmfpm00("tests/_arquivos")
+    leitor2.le_arquivos()
+    assert leitor.earmfpms == leitor2.earmfpms
+
+
 def test_extrai_dados_execucao():
     earmfpm = leitor.earmfpms[sub_teste]
     assert earmfpm.mes_pmo == 5

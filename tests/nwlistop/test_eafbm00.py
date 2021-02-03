@@ -14,6 +14,12 @@ def test_leitura():
     assert sub_teste in leitor.eafbms
 
 
+def test_eq_eafbm00():
+    leitor2 = LeituraEafbm00("tests/_arquivos")
+    leitor2.le_arquivos()
+    assert leitor.eafbms == leitor2.eafbms
+
+
 def test_extrai_dados_execucao():
     eafbm = leitor.eafbms[sub_teste]
     assert eafbm.mes_pmo == 1

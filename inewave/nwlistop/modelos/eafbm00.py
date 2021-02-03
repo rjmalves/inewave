@@ -34,6 +34,23 @@ class Eafbm00:
         self.submercado = submercado
         self.energias_afluentes = energias_afluentes
 
+    def __eq__(self, o: object) -> bool:
+        """
+        A igualdade entre Eafbm00 avalia todos os valores, exceto
+        a versão do NEWAVE.
+        """
+        if not isinstance(o, Eafbm00):
+            return False
+        eaf: Eafbm00 = o
+        eq_mes_pmo = self.mes_pmo == eaf.mes_pmo
+        eq_ano_pmo = self.ano_pmo == eaf.ano_pmo
+        eq_submercado = self.submercado == eaf.submercado
+        eq_e = all([np.array_equal(e, f)
+                    for (e, f) in zip(self.energias_afluentes.values(),
+                                      eaf.energias_afluentes.values())
+                    ])
+        return eq_mes_pmo and eq_ano_pmo and eq_submercado and eq_e
+
     @property
     def energias_por_ano(self) -> Dict[int, np.ndarray]:
         """
