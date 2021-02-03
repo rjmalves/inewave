@@ -68,284 +68,299 @@ class LeituraDGer(Leitura):
                 ci = 21
                 cf = 25
 
-                def le_parametro():
-                    return self._le_linha_com_backup(arq)[ci:cf].strip()
-
-                # Tipo de execução
-                t = int(le_parametro())
-                self.dger.tipo_execucao = EnumTipoExecucao.infere_valor(t)
-                # Duração do período
-                self.dger.duracao_estagio_op = int(le_parametro())
-                # Num. anos do estudo
-                self.dger.num_anos_estudo = int(le_parametro())
-                # Mês início do pré-estudo
-                self.dger.mes_inicio_pre_estudo = int(le_parametro())
-                # Mês início do estudo
-                self.dger.mes_inicio_estudo = int(le_parametro())
-                # Ano de início do estudo
-                self.dger.ano_inicio_estudo = int(le_parametro())
-                # Num. anos pré-estudo
-                self.dger.num_anos_pre_estudo = int(le_parametro())
-                # Num. anos pós estudo
-                self.dger.num_anos_pos_estudo = int(le_parametro())
-                # Num. anos pós estudo na sim final
-                self.dger.num_anos_pos_sim_final = int(le_parametro())
-                # Impressão de dados das usinas
-                p = le_parametro()
-                self.dger.imprime_dados_usinas = (True if p == "1"
-                                                  else False)
-                # Impressão de dados dos mercados
-                p = le_parametro()
-                self.dger.imprime_dados_mercados = (True if p == "1"
-                                                    else False)
-                # Impressão de dados de energias
-                p = le_parametro()
-                self.dger.imprime_dados_energias = (True if p == "1"
-                                                    else False)
-                # Impressão de dados do modelo estocástico
-                p = le_parametro()
-                self.dger.imprime_dados_modelo = (True if p == "1"
-                                                  else False)
-                # Impressão de dados das REEs
-                p = le_parametro()
-                self.dger.imprime_dados_rees = (True if p == "1"
-                                                else False)
-                # Máximo de iterações
-                self.dger.max_iteracoes = int(le_parametro())
-                # Num. de forwards
-                self.dger.num_sim_forward = int(le_parametro())
-                # Num. de aberturas
-                self.dger.num_aberturas = int(le_parametro())
-                # Num. de séries sintéticas
-                self.dger.num_series_sinteticas = int(le_parametro())
-                # Ordem máxima do Par(P)
-                self.dger.ordem_maxima_parp = int(le_parametro())
-                # Ano inicial do histórico de afluências e tamanho
-                p = self._le_linha_com_backup(arq)
-                self.dger.ano_inicial_vaz_historicas = int(p[ci:cf].strip())
-                tam = EnumTamanhoArquivoVazoes.infere_valor(int(p[28]))
-                self.dger.tamanho_arq_vaz_historicas = tam
-                # Cálculo da energia armazenada dos volumes iniciais
-                p = le_parametro()
-                self.dger.calcula_vol_inicial = (True if p == "1"
-                                                 else False)
-                # Ignora a linha de cabeçalho dos volumes iniciais
-                self._le_linha_com_backup(arq)
-                # Lê os volumes de cada subsistema
-                p = self._le_linha_com_backup(arq)
-                cisub = 22
-                n_col_sub = 5
-                for i in range(4):
-                    cfsub = cisub + n_col_sub
-                    v = float(p[cisub:cfsub])
-                    self.dger.vol_inicial_subsistema[i] = v
-                    cisub = cfsub + 2
-                # Tolerância
-                self.dger.tolerancia = float(le_parametro())
-                # Taxa de desconto
-                self.dger.taxa_de_desconto = float(le_parametro())
-                # Tipo de simulação final
-                t = int(le_parametro())
-                tipo = EnumTipoSimulacaoFinal.infere_valor(t)
-                self.dger.tipo_simulacao_final = tipo
-                # Opções de impressão
-                p = le_parametro()
-                impr_op = EnumImpressaoOperacao.infere_valor(int(p))
-                self.dger.impressao_operacao = impr_op
-                p = le_parametro()
-                impr_conv = EnumImpressaoConvergencia.infere_valor(int(p))
-                self.dger.impressao_convergencia = impr_conv
-                # Intervalo de gravação
-                self.dger.intervalo_gravacao_relatorio = int(le_parametro())
-                # Mínimo de iterações
-                self.dger.min_interacoes = int(le_parametro())
-                # Racionamento preventivo
-                p = le_parametro()
-                self.dger.racionamento_preventivo = (True if p == "1"
-                                                     else False)
-                # Número de anos de manutenção da UTEs
-                self.dger.numero_anos_manutencao_UTEs = int(le_parametro())
-                # Tendência hidrológica
-                t = int(le_parametro())
-                tendencia = EnumTendenciaHidrologica.infere_valor(t)
-                self.dger.tendencia_hidrologica = tendencia
-                # Itaipu
-                p = le_parametro()
-                self.dger.restricoes_itaipu = (True if p == "1"
-                                               else False)
-                # Bidding
-                p = le_parametro()
-                self.dger.bidding_demanda = (True if p == "1"
-                                             else False)
-                # Perdas da transmissão
-                p = le_parametro()
-                self.dger.perdas_transmissao = (True if p == "1"
-                                                else False)
-                # El Niño
-                p = le_parametro()
-                self.dger.el_nino = (True if p == "1"
-                                     else False)
-                # ENSO
-                p = le_parametro()
-                self.dger.enso = (True if p == "1"
-                                  else False)
-                # Duração por patamar
-                t = int(le_parametro())
-                self.dger.duracao_patamar = EnumDuracaoPatamar.infere_valor(t)
-                # Outros usos da água
-                p = le_parametro()
-                self.dger.considera_desvio_dagua = (True if p == "1"
-                                                    else False)
-                # Correção da energia de desvio
-                t = int(le_parametro())
-                correcao = EnumCorrecaoEnergiaDesvio.infere_valor(t)
-                self.dger.correcao_energia_desvio = correcao
-                # Curva de aversão (VminP)
-                p = le_parametro()
-                self.dger.considera_curva_aversao = (True if p == "1"
-                                                     else False)
-                # Tipos de geração das ENAs
-                t = int(le_parametro())
-                tipo_geracao = EnumTipoGeracaoENAs.infere_valor(t)
-                self.dger.tipo_geracao_afluencias = tipo_geracao
-                # Risco de déficit
-                p = self._le_linha_com_backup(arq)
-                p1 = float(p[21:25].strip())
-                p2 = float(p[27:31].strip())
-                self.dger.profundidade_risco_deficit = (p1, p2)
-                # Iteração para simulação final
-                self.dger.iteracao_sim_final = int(le_parametro())
-                # Agrupamento de intercâmbios
-                p = le_parametro()
-                self.dger.agrupamento_livre_interc = (True if p == "1"
-                                                      else False)
-                # Equalização de penalidades de intercâmbio
-                p = le_parametro()
-                self.dger.equaliza_penalidades_interc = (True if p == "1"
-                                                         else False)
-                # Representação da submotorização
-                t = int(le_parametro())
-                submot = EnumRepresentacaoSubmotorizacao.infere_valor(t)
-                self.dger.representa_submotor = submot
-                # Ordenação automática
-                p = le_parametro()
-                self.dger.ordenacao_automatica_subsist = (True if p == "1"
+                def le_parametro(linha: str):
+                    aux = linha[:21]
+                    param = linha[ci:cf].strip()
+                    if "TIPO DE EXECUCAO" in aux:
+                        t = EnumTipoExecucao.infere_valor(int(param))
+                        self.dger.tipo_execucao = t
+                    elif "DURACAO DO PERIODO" in aux:
+                        self.dger.duracao_estagio_op = int(param)
+                    elif "No. DE ANOS DO EST" in aux:
+                        self.dger.num_anos_estudo = int(param)
+                    elif "MES INICIO PRE-EST" in aux:
+                        self.dger.mes_inicio_pre_estudo = int(param)
+                    elif "MES INICIO DO ESTUDO" in aux:
+                        self.dger.mes_inicio_estudo = int(param)
+                    elif "ANO INICIO DO ESTUDO" in aux:
+                        self.dger.ano_inicio_estudo = int(param)
+                    elif "No. DE ANOS PRE" in aux:
+                        self.dger.num_anos_pre_estudo = int(param)
+                    elif "No. DE ANOS POS FINAL" in aux:
+                        self.dger.num_anos_pos_sim_final = int(param)
+                    elif ("No. DE ANOS POS" in aux and "FINAL" not in aux):
+                        self.dger.num_anos_pos_estudo = int(param)
+                    elif "IMPRIME DADOS" in aux:
+                        p = param
+                        self.dger.imprime_dados_usinas = (True if p == "1"
                                                           else False)
-                # Considera cargas adicionais
-                p = le_parametro()
-                self.dger.considera_cargas_adicionais = (True if p == "1"
+                    elif "IMPRIME MERCADOS" in aux:
+                        p = param
+                        self.dger.imprime_dados_mercados = (True if p == "1"
+                                                            else False)
+                    elif "IMPRIME ENERGIAS" in aux:
+                        p = param
+                        self.dger.imprime_dados_energias = (True if p == "1"
+                                                            else False)
+                    elif "IMPRIME M. ESTOCAS" in aux:
+                        p = param
+                        self.dger.imprime_dados_modelo = (True if p == "1"
+                                                          else False)
+                    elif "IMPRIME SUBSISTEMA" in aux:
+                        p = param
+                        self.dger.imprime_dados_rees = (True if p == "1"
+                                                        else False)
+                    elif "No MAX. DE ITER." in aux:
+                        self.dger.max_iteracoes = int(param)
+                    elif "No DE SIM. FORWARD" in aux:
+                        self.dger.num_sim_forward = int(param)
+                    elif "No DE ABERTURAS" in aux:
+                        self.dger.num_aberturas = int(param)
+                    elif "No DE SERIES SINT." in aux:
+                        self.dger.num_series_sinteticas = int(param)
+                    elif "ORDEM MAX. PAR(P)" in aux:
+                        self.dger.ordem_maxima_parp = int(param)
+                    elif "ANO INICIAL HIST." in aux:
+                        self.dger.ano_inicial_vaz_historicas = int(param)
+                        t = int(linha[28])
+                        tam = EnumTamanhoArquivoVazoes.infere_valor(t)
+                        self.dger.tamanho_arq_vaz_historicas = tam
+                    elif "CALCULA VOL.INICIAL" in aux:
+                        p = param
+                        self.dger.calcula_vol_inicial = (True if p == "1"
                                                          else False)
-                # Variação do Zsup e Zinf
-                self.dger.delta_zsup = float(le_parametro())
-                self.dger.delta_zinf = float(le_parametro())
-                # Núm. de deltas para convergência
-                self.dger.deltas_consecutivos = int(le_parametro())
-                # Despacho antecipado GNL
-                p = le_parametro()
-                self.dger.considera_despacho_gnl = (True if p == "1"
-                                                    else False)
-                # Modificação automática da Ad. Term.
-                p = le_parametro()
-                self.dger.modifica_auto_despacho_gnl = (True if p == "1"
-                                                        else False)
-                # Considera GHmin
-                p = le_parametro()
-                self.dger.considera_ghmin = (True if p == "1"
-                                             else False)
-                # Simulação final com data
-                p = le_parametro()
-                self.dger.sim_final_com_data = (True if p == "1"
-                                                else False)
-                # Gerenciador externo, comunicação em 2 níveis, ...
-                p = self._le_linha_com_backup(arq)
-                p1 = p[21:25].strip()
-                p2 = p[26:30].strip()
-                p3 = p[31:35].strip()
-                p4 = p[36:40].strip()
-                p5 = p[41:45].strip()
-                self.dger.gerenciador_externo = (True if p1 == "1"
-                                                 else False)
-                self.dger.comunicacao_dois_niveis = (True if p2 == "1"
+                    elif "VOLUME INICIAL  -%" in aux:
+                        pass
+                    elif "POR SUBSISTEMA" in aux:
+                        cisub = 22
+                        n_col_sub = 5
+                        for i in range(4):
+                            cfsub = cisub + n_col_sub
+                            v = float(linha[cisub:cfsub])
+                            self.dger.vol_inicial_subsistema[i] = v
+                            cisub = cfsub + 2
+                    elif "TOLERANCIA      -%" in aux:
+                        self.dger.tolerancia = float(param)
+                    elif "TAXA DE DESCONTO-%" in aux:
+                        self.dger.taxa_de_desconto = float(param)
+                    elif "TIPO SIMUL. FINAL" in aux:
+                        val = int(param)
+                        tipo = EnumTipoSimulacaoFinal.infere_valor(val)
+                        self.dger.tipo_simulacao_final = tipo
+                    elif "IMPRESSAO DA OPER" in aux:
+                        val = int(param)
+                        impr_op = EnumImpressaoOperacao.infere_valor(val)
+                        self.dger.impressao_operacao = impr_op
+                    elif "IMPRESSAO DA CONVERG." in aux:
+                        val = int(param)
+                        impr_c = EnumImpressaoConvergencia.infere_valor(val)
+                        self.dger.impressao_convergencia = impr_c
+                    elif "INTERVALO P/ GRAVAR" in aux:
+                        self.dger.intervalo_gravacao_relatorio = int(param)
+                    elif "No. MIN. ITER." in aux:
+                        self.dger.min_interacoes = int(param)
+                    elif "RACIONAMENTO PREVENT." in aux:
+                        p = param
+                        self.dger.racionamento_preventivo = (True if p == "1"
+                                                             else False)
+                    elif "No. ANOS MANUT.UTE'S" in aux:
+                        self.dger.numero_anos_manutencao_UTEs = int(param)
+                    elif "TENDENCIA HIDROLOGICA" in aux:
+                        val = int(param)
+                        tend = EnumTendenciaHidrologica.infere_valor(val)
+                        self.dger.tendencia_hidrologica = tend
+                    elif "RESTRICA0 DE ITAIPU" in aux:
+                        p = param
+                        self.dger.restricoes_itaipu = (True if p == "1"
+                                                       else False)
+                    elif "BID " in aux:
+                        p = param
+                        self.dger.bidding_demanda = (True if p == "1"
                                                      else False)
-                self.dger.armazenamento_local_temp = (True if p3 == "1"
-                                                      else False)
-                self.dger.aloca_memoria_enas = (True if p4 == "1"
-                                                else False)
-                self.dger.aloca_memoria_cortes = (True if p5 == "1"
-                                                  else False)
-                # SAR e CVaR
-                p = le_parametro()
-                self.dger.sar = (True if p == "1"
-                                 else False)
-                p = le_parametro()
-                self.dger.cvar = (True if p == "1"
-                                  else False)
-                # Critério de mínimo Zsup para convergência
-                p = le_parametro()
-                self.dger.convergencia_minimo_zsup = (True if p == "1"
-                                                      else False)
-                # Vazmin
-                p = le_parametro()
-                self.dger.desconsidera_vazao_minima = (True if p == "1"
-                                                       else False)
-                # Restrições elétricas
-                p = le_parametro()
-                self.dger.considera_restricoes_elet = (True if p == "1"
-                                                       else False)
-                # Seleção de cortes
-                p = le_parametro()
-                self.dger.selecao_cortes_benders = (True if p == "1"
-                                                    else False)
-                # Janela de cortes
-                p = le_parametro()
-                self.dger.janela_selecao_cortes = (True if p == "1"
-                                                   else False)
-                # Reamostragem de cenários
-                p = self._le_linha_com_backup(arq)
-                reamos = p[21:25].strip()
-                self.dger.reamostragem = bool(int(reamos))
-                # Tipo de reamostragem
-                reamos = p[26:30].strip()
-                tipo_reamos = EnumTipoReamostragem.infere_valor(int(reamos))
-                self.dger.tipo_reamostragem = tipo_reamos
-                # Passo para reamostragem
-                self.dger.passo_reamostragem = int(p[31:35])
-                # Considera convergência do nó 0
-                p = le_parametro()
-                self.dger.considera_convergencia_no0 = (True if p == "1"
+                    elif "PERDAS P/ TRANSMISSAO" in aux:
+                        p = param
+                        self.dger.perdas_transmissao = (True if p == "1"
                                                         else False)
-                # Consulta FCF
-                p = le_parametro()
-                self.dger.consulta_fcf = (True if p == "1"
+                    elif "EL NINO" in aux:
+                        p = param
+                        self.dger.el_nino = (True if p == "1"
+                                             else False)
+                    elif "ENSO INDEX " in aux:
+                        p = param
+                        self.dger.enso = (True if p == "1"
                                           else False)
-                # Impressão ENA
-                p = le_parametro()
-                self.dger.impressao_ena = bool(int(p))
-                # Impressão cortes ativos
-                p = le_parametro()
-                self.dger.impressao_cortes_ativos = bool(int(p))
-                # Representante da agregação
-                p = le_parametro()
-                repres = EnumRepresentanteAgregacao.infere_valor(int(p))
-                self.dger.representante_agregacao = repres
-                # Matriz de correlação espacial
-                p = le_parametro()
-                matriz = EnumMatrizCorrelacaoEspacial.infere_valor(int(p))
-                self.dger.matriz_corr_espacial = matriz
-                # Desconsidera convergência estatística
-                p = le_parametro()
-                self.dger.desconsidera_converg_estatist = bool(int(p))
-                # Momento da reamostragem
-                p = le_parametro()
-                momento = EnumMomentoReamostragem.infere_valor(int(p))
-                self.dger.momento_reamostragem = momento
-                # Manter arquivos ENA
-                p = le_parametro()
-                self.dger.mantem_arquivos_ena = bool(int(p))
-                # Início do teste de convergência
-                p = le_parametro()
-                inicio = EnumInicioTesteConvergencia.infere_valor(int(p))
-                self.dger.inicio_teste_convergencia = inicio
+                    elif "DURACAO POR PATAMAR" in aux:
+                        val = int(param)
+                        dp = EnumDuracaoPatamar.infere_valor(val)
+                        self.dger.duracao_patamar = dp
+                    elif "OUTROS USOS DA AGUA" in aux:
+                        p = param
+                        self.dger.considera_desvio_dagua = (True if p == "1"
+                                                            else False)
+                    elif "CORRECAO DESVIO" in aux:
+                        val = int(param)
+                        des = EnumCorrecaoEnergiaDesvio.infere_valor(val)
+                        self.dger.correcao_energia_desvio = des
+                    elif "C.AVERSAO/PENAL.VMINP" in aux:
+                        p = param
+                        self.dger.considera_curva_aversao = (True if p == "1"
+                                                             else False)
+                    elif "TIPO DE GERACAO ENAS" in aux:
+                        val = int(param)
+                        tg = EnumTipoGeracaoENAs.infere_valor(val)
+                        self.dger.tipo_geracao_afluencias = tg
+                    elif "RISCO DE DEFICIT" in aux:
+                        r1 = float(linha[21:25].strip())
+                        r2 = float(linha[27:31].strip())
+                        self.dger.profundidade_risco_deficit = (r1, r2)
+                    elif "ITERACAO P/SIM.FINAL" in aux:
+                        self.dger.iteracao_sim_final = int(param)
+                    elif "AGRUPAMENTO LIVRE" in aux:
+                        p = param
+                        self.dger.agrupamento_livre_interc = (True
+                                                              if p == "1"
+                                                              else False)
+                    elif "EQUALIZACAO PEN.INT." in aux:
+                        p = param
+                        self.dger.equaliza_penalidades_interc = (True
+                                                                 if p == "1"
+                                                                 else False)
+                    elif "REPRESENT.SUBMOT." in aux:
+                        t = int(param)
+                        sm = EnumRepresentacaoSubmotorizacao.infere_valor(t)
+                        self.dger.representa_submotor = sm
+                    elif "ORDENACAO AUTOMATICA" in aux:
+                        p = param
+                        self.dger.ordenacao_automatica_subsist = (True
+                                                                  if p == "1"
+                                                                  else False)
+                    elif "CONS. CARGA ADICIONAL" in aux:
+                        p = param
+                        self.dger.considera_cargas_adicionais = (True
+                                                                 if p == "1"
+                                                                 else False)
+                    elif "DELTA ZSUP" in aux:
+                        self.dger.delta_zsup = float(param)
+                    elif "DELTA ZINF" in aux:
+                        self.dger.delta_zinf = float(param)
+                    elif "DELTAS CONSECUT." in aux:
+                        self.dger.deltas_consecutivos = int(param)
+                    elif "DESP. ANTEC.  GNL" in aux:
+                        p = param
+                        self.dger.considera_despacho_gnl = (True
+                                                            if p == "1"
+                                                            else False)
+                    elif "MODIF.AUTOM.ADTERM" in aux:
+                        p = param
+                        self.dger.modifica_auto_despacho_gnl = (True
+                                                                if p == "1"
+                                                                else False)
+                    elif "CONSIDERA GHMIN" in aux:
+                        p = param
+                        self.dger.considera_ghmin = (True
+                                                     if p == "1"
+                                                     else False)
+                    elif "S.F. COM DATA" in aux:
+                        p = param
+                        self.dger.sim_final_com_data = (True
+                                                        if p == "1"
+                                                        else False)
+                    elif "GER.PLs E NV1 E NV2" in aux:
+                        p1 = linha[21:25].strip()
+                        p2 = linha[26:30].strip()
+                        p3 = linha[31:35].strip()
+                        p4 = linha[36:40].strip()
+                        p5 = linha[41:45].strip()
+                        self.dger.gerenciador_externo = (True if p1 == "1"
+                                                         else False)
+                        self.dger.comunicacao_dois_niveis = (True if p2 == "1"
+                                                             else False)
+                        self.dger.armazenamento_local_temp = (True if p3 == "1"
+                                                              else False)
+                        self.dger.aloca_memoria_enas = (True if p4 == "1"
+                                                        else False)
+                        self.dger.aloca_memoria_cortes = (True if p5 == "1"
+                                                          else False)
+                    elif "SAR" in aux:
+                        p = param
+                        self.dger.sar = (True if p == "1"
+                                         else False)
+                    elif "CVAR" in aux:
+                        p = param
+                        self.dger.cvar = (True if p == "1"
+                                          else False)
+                    elif "CONS. ZSUP MIN. CONV." in aux:
+                        p = param
+                        self.dger.convergencia_minimo_zsup = (True if p == "1"
+                                                              else False)
+                    elif "DESCONSIDERA VAZMIN" in aux:
+                        p = param
+                        self.dger.desconsidera_vazao_minima = (True if p == "1"
+                                                               else False)
+                    elif "RESTRICOES ELETRICAS" in aux:
+                        p = param
+                        self.dger.considera_restricoes_elet = (True if p == "1"
+                                                               else False)
+                    elif "SELECAO DE CORTES" in aux:
+                        p = param
+                        self.dger.selecao_cortes_benders = (True if p == "1"
+                                                            else False)
+                    elif "JANELA DE CORTES" in aux:
+                        p = param
+                        self.dger.janela_selecao_cortes = (True if p == "1"
+                                                           else False)
+                    elif "REAMOST. CENARIOS" in aux:
+                        reamos = linha[21:25].strip()
+                        self.dger.reamostragem = bool(int(reamos))
+                        reamos = linha[26:30].strip()
+                        t = int(reamos)
+                        tipo_reamos = EnumTipoReamostragem.infere_valor(t)
+                        self.dger.tipo_reamostragem = tipo_reamos
+                        self.dger.passo_reamostragem = int(linha[31:35])
+                    elif "CONVERGE NO ZERO" in aux:
+                        p = param
+                        self.dger.considera_convergencia_no0 = (True
+                                                                if p == "1"
+                                                                else False)
+                    elif "CONSULTA FCF" in aux:
+                        p = param
+                        self.dger.consulta_fcf = (True
+                                                  if p == "1"
+                                                  else False)
+                    elif "IMPRESSAO ENA" in aux:
+                        self.dger.impressao_ena = bool(int(param))
+                    elif "IMP. CATIVO S.FINAL" in aux:
+                        self.dger.impressao_cortes_ativos = bool(int(param))
+                    elif "REP. AGREGACAO" in aux:
+                        t = int(param)
+                        ra = EnumRepresentanteAgregacao.infere_valor(t)
+                        self.dger.representante_agregacao = ra
+                    elif "MATRIZ CORR.ESPACIAL" in aux:
+                        t = int(param)
+                        mc = EnumMatrizCorrelacaoEspacial.infere_valor(t)
+                        self.dger.matriz_corr_espacial = mc
+                    elif "DESCONS. CONV. ESTAT" in aux:
+                        p = param
+                        self.dger.desconsidera_converg_estatist = bool(int(p))
+                    elif "MOMENTO REAMOSTRAGEM" in aux:
+                        t = int(param)
+                        mr = EnumMomentoReamostragem.infere_valor(t)
+                        self.dger.momento_reamostragem = mr
+                    elif "ARQUIVOS ENA" in aux:
+                        p = param
+                        self.dger.mantem_arquivos_ena = bool(int(p))
+                    elif "INICIO TESTE CONVERG." in aux:
+                        t = int(param)
+                        tc = EnumInicioTesteConvergencia.infere_valor(t)
+                        self.dger.inicio_teste_convergencia = tc
+
+                while True:
+                    # Confere se o arquivo já acabou
+                    linha = self._le_linha_com_backup(arq)
+                    if len(linha) < 2:
+                        break
+                    # Senão, lê mais um parâmetro
+                    le_parametro(linha)
                 return self.dger
         except Exception:
             print_exc()
