@@ -1,11 +1,13 @@
 # Imports do próprio módulo
 from inewave._utils.leitura import Leitura
-from inewave.config import MAX_ANOS_ESTUDO, NUM_VARIAVEIS_CUSTO_PMO, REES
+from inewave.config import MAX_ANOS_ESTUDO, MAX_ITERS
+from inewave.config import NUM_VARIAVEIS_CUSTO_PMO, REES
 from inewave.config import MESES, SUBMERCADOS
 from .modelos.pmo import DadosGeraisPMO
 from .modelos.pmo import EnergiaFioLiquidaREEPMO
 from .modelos.pmo import RetasPerdasEngolimentoREEPMO
 from .modelos.pmo import EnergiasAfluentesPMO
+from .modelos.pmo import ConvergenciaPMO
 from .modelos.pmo import RiscoDeficitENSPMO
 from .modelos.pmo import CustoOperacaoPMO
 from .modelos.pmo import PMO
@@ -42,11 +44,13 @@ class LeituraPMO(Leitura):
 
     """
     str_dados_pmo = " DATA : "
+    str_inicio_converg = "    ITER               LIM.INF.        "
     str_inicio_risco = " ANO  RISCO   EENS  RISCO"
     str_inicio_custo_series = "                 CUSTO DE OPERACAO DAS"
     str_inicio_valor_esperado = "                 VALOR ESPERADO PARA PERI"
     str_inicio_custo_referenciado = "                     CUSTO OPERACAO R"
     str_inicio_efio_liquida = '***ENERGIA FIO D"AGUA LIQUIDA***'
+    str_fim_converg = "NENHUM ERRO FOI DETECTADO NO CALCULO DA POLITICA"
     str_fim_efio_liquida = "MODELO ESTRATEGICO DE GERACAO"
     str_fim_pmo = "DETECTADO NO CALCULO DA SIMULACAO FINAL"
 
@@ -65,6 +69,7 @@ class LeituraPMO(Leitura):
                        EnergiasAfluentesPMO(),
                        EnergiasAfluentesPMO(),
                        {},
+                       ConvergenciaPMO(np.array([])),
                        RiscoDeficitENSPMO([], np.array([])),
                        CustoOperacaoPMO(np.array([])),
                        CustoOperacaoPMO(np.array([])),
@@ -90,6 +95,7 @@ class LeituraPMO(Leitura):
         achou_dados_pmo = False
         leu_dados_pmo = False
         achou_efio_liquida = False
+        achou_convergencia = False
         achou_risco_ens = False
         achou_custo_series = False
         achou_valor_esperado = False
@@ -102,6 +108,7 @@ class LeituraPMO(Leitura):
         versao_newave = ""
         energia_liq = EnergiaFioLiquidaREEPMO(np.array([]))
         retas_perdas = RetasPerdasEngolimentoREEPMO(np.array([]))
+        convergencia = ConvergenciaPMO(np.array([]))
         risco_ens = RiscoDeficitENSPMO([], np.array([]))
         custo_series = CustoOperacaoPMO(np.array([]))
         valor_esp = CustoOperacaoPMO(np.array([]))
@@ -120,6 +127,7 @@ class LeituraPMO(Leitura):
                                EnergiasAfluentesPMO(),
                                EnergiasAfluentesPMO(),
                                {},
+                               convergencia,
                                risco_ens,
                                custo_series,
                                valor_esp,
@@ -132,6 +140,9 @@ class LeituraPMO(Leitura):
             if not achou_efio_liquida:
                 achou = LeituraPMO.str_inicio_efio_liquida in linha
                 achou_efio_liquida = achou
+            if not achou_convergencia:
+                achou = LeituraPMO.str_inicio_converg in linha
+                achou_convergencia = achou
             if not achou_risco_ens:
                 achou = LeituraPMO.str_inicio_risco in linha
                 achou_risco_ens = achou
@@ -152,6 +163,9 @@ class LeituraPMO(Leitura):
             if achou_efio_liquida:
                 energia_liq, retas_perdas = self._le_efio_liquida(arq)
                 achou_efio_liquida = False
+            if achou_convergencia:
+                convergencia = self._le_convergencia(arq)
+                achou_convergencia = False
             if achou_risco_ens:
                 risco_ens = self._le_risco_ens(arq)
                 achou_risco_ens = False
@@ -303,6 +317,48 @@ class LeituraPMO(Leitura):
                 dados_linha.append(float(linha[ci:cf].strip()))
                 ci = cf + 1
             tabela.append(dados_linha)
+
+    def _le_convergencia(self, arq: IO) -> ConvergenciaPMO:
+        """
+        Lê as linhas que formam a tabela do relatório de convergência
+        da execução do NEWAVE.
+        """
+        # Salta duas linhas depois de identificar o início do relatório
+        self._le_linha_com_backup(arq)
+        self._le_linha_com_backup(arq)
+        # Inicia as variáveis
+        tabela = np.zeros((MAX_ITERS, 6))
+        i = 0
+        while True:
+            linha = self._le_linha_com_backup(arq)
+            # Confere se já acabou
+            if LeituraPMO.str_fim_converg in linha:
+                return ConvergenciaPMO(tabela[:i, :])
+            # Senão, confere se a linha não tem dados relevantes
+            if not linha[4:8].strip().isnumeric():
+                continue
+            # Lê a linha normalmente
+            it = int(linha[4:8])
+            liminf = float(linha[9:31])
+            zinf = float(linha[32:54])
+            limsup = float(linha[55:77])
+            zsup = float(linha[78:100])
+            # Converte o tempo, se for informado nessa linha
+            # Senão, pega da linha anterior
+            str_tempo = linha[153:169]
+            tempo = 0.0
+            if "min" in str_tempo:
+                str_horas = str_tempo.split('h')[0]
+                str_min = str_tempo.split('h')[1].split('min')[0]
+                str_seg = str_tempo.split('min')[1].split('s')[0]
+                tempo = (float(str_seg) +
+                         60 * float(str_min) +
+                         3600 * float(str_horas))
+            else:
+                tempo = tabela[i - 1, -1]
+            # Armazena na linha da tabela
+            tabela[i, :] = np.array([it, liminf, zinf, limsup, zsup, tempo])
+            i += 1
 
     def _le_risco_ens(self, arq: IO) -> RiscoDeficitENSPMO:
         """

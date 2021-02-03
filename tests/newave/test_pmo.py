@@ -19,6 +19,16 @@ def test_anos_estudo():
     assert anos_estudo_teste == leitor.pmo.risco_ens.anos_estudo
 
 
+def test_leitura_convergencia():
+    convergencia = leitor.pmo.convergencia
+    tempos = convergencia.tempos_execucao
+    zinfs = convergencia.zinf
+    zsups = convergencia.zsup
+    assert len(tempos) == 45
+    assert len(zinfs.keys())
+    assert len(zsups.keys())
+
+
 def test_leitura_ens():
     risco_ens = leitor.pmo.risco_ens
     por_subs_e_ano = risco_ens.ens_por_subsistema_e_ano

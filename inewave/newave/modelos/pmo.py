@@ -96,6 +96,86 @@ class DemandaLiquidaEnergiaPMO:
         pass
 
 
+class ConvergenciaPMO:
+    """
+    Armazena as informações do relatório de convergência do NEWAVE
+    existentes no arquivo `pmo.dat`.
+
+    **Parâmetros**
+
+    - anos_estudo: `List[int]`
+    - tabela: `np.ndarray`
+    """
+    def __init__(self,
+                 tabela: np.ndarray):
+        self.tabela = tabela
+
+    @property
+    def zinf(self) -> Dict[int, List[float]]:
+        """
+        Limite inferior da função objetivo na PDDE (Zinf).
+
+        **Retorna**
+
+        `Dict[int, List[float]]`
+
+        **Sobre**
+
+        O número de chaves do dicionário é igual ao de iterações.
+        """
+        zinfs: Dict[int, List[float]] = {}
+        for lin in range(self.tabela.shape[0]):
+            it = int(self.tabela[lin, 0])
+            if it not in zinfs:
+                zinfs[it] = []
+            zinfs[it].append(self.tabela[lin, 2])
+        return zinfs
+
+    @property
+    def zsup(self) -> Dict[int, List[float]]:
+        """
+        Limite superior da função objetivo na PDDE (Zsup).
+
+        **Retorna**
+
+        `Dict[int, List[float]]`
+
+        **Sobre**
+
+        O número de chaves do dicionário é igual ao de iterações.
+        """
+        zsups: Dict[int, List[float]] = {}
+        for lin in range(self.tabela.shape[0]):
+            it = int(self.tabela[lin, 0])
+            if it not in zsups:
+                zsups[it] = []
+            zsups[it].append(self.tabela[lin, 4])
+        return zsups
+
+    @property
+    def tempos_execucao(self) -> List[float]:
+        """
+        Tempo de execução de cada iteração em segundos.
+
+        **Retorna**
+
+        `List[float]`
+
+        **Sobre**
+
+        O número de elementos da lista é igual ao de iterações.
+        """
+        tempos: List[float] = []
+        ultima_it = -1
+        for lin in range(self.tabela.shape[0]):
+            it = self.tabela[lin, 0]
+            if it == ultima_it:
+                continue
+            tempos.append(self.tabela[lin, -1])
+            ultima_it = it
+        return tempos
+
+
 class RiscoDeficitENSPMO:
     """
     Armazena as informações risco de déficit e valores esperados
@@ -310,6 +390,7 @@ class PMO:
     - energias_passadas_primeira_conf: `EnergiasAfluentesPMO`
     - energias_passadas_canal_fuga: `EnergiasAfluentesPMO`
     - demanda_liquida_energia : `Dict[str, DemandaLiquidaEnergiaPMO]`
+    - convergencia: `ConvergenciaPMO`
     - risco_ens: `RiscoDeficitENSPMO`
     - custo_series_simuladas: `CustoOperacaoPMO`
     - valor_esperado_periodo: `CustoOperacaoPMO`
@@ -328,6 +409,7 @@ class PMO:
                  energias_passadas_canal_fuga: EnergiasAfluentesPMO,
                  demanda_liquida_energia: Dict[str,
                                                DemandaLiquidaEnergiaPMO],
+                 convergencia: ConvergenciaPMO,
                  risco_ens: RiscoDeficitENSPMO,
                  custo_series_simuladas: CustoOperacaoPMO,
                  valor_esperado_periodo: CustoOperacaoPMO,
@@ -342,6 +424,7 @@ class PMO:
         self.energias_passadas_primeira_conf = energias_passadas_primeira_conf
         self.energias_passadas_canal_fuga = energias_passadas_canal_fuga
         self.demanda_liquida_energia = demanda_liquida_energia
+        self.convergencia = convergencia
         self.risco_ens = risco_ens
         self.custo_series_simuladas = custo_series_simuladas
         self.valor_esperado_periodo = valor_esperado_periodo

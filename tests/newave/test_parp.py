@@ -22,4 +22,3 @@ def test_eq_parp():
     leitor2 = LeituraPARp("tests/_arquivos")
     leitor2.le_arquivo()
     assert leitor.parp == leitor2.parp
-
