@@ -34,6 +34,18 @@ class Patamar:
         self.anos_estudo = anos_estudo
         self.patamares = patamares
 
+    def __eq__(self, o: object) -> bool:
+        """
+        A igualdade entre Patamar avalia todos os campos.
+        """
+        if not isinstance(o, Patamar):
+            return False
+        pat: Patamar = o
+        eq_num = self.num_patamares == pat.num_patamares
+        eq_anos = self.anos_estudo == pat.anos_estudo
+        eq_pats = np.array_equal(self.patamares, pat.patamares)
+        return eq_num and eq_anos and eq_pats
+
     @property
     def patamares_por_ano(self) -> Dict[int, np.ndarray]:
         """

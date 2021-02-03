@@ -37,6 +37,9 @@ auxiliares para armazenar todas as informações disponíveis.
 .. autoclass:: DemandaLiquidaEnergiaPMO
    :members:
 
+.. autoclass:: ConvergenciaPMO
+   :members:
+
 .. autoclass:: RiscoDeficitENSPMO
    :members:
 

@@ -12,6 +12,7 @@ class PARp:
     do NWLISTOP.
 
     **Parâmetros**
+
     - ordens: `Dict[int, np.ndarray]`
     - coeficientes: `Dict[int, np.ndarray]`
     - series: `Dict[int, np.ndarray]`

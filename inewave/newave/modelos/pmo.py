@@ -14,6 +14,9 @@ class DadosGeraisPMO:
         # Todas as informações echo do dger.dat.
         pass
 
+    def __eq__(self, o: object):
+        return True
+
 
 class EnergiasAfluentesPMO:
     """
@@ -25,6 +28,9 @@ class EnergiasAfluentesPMO:
     def __init__(self):
         # TODO - estruturar as propriedades
         pass
+
+    def __eq__(self, o: object):
+        return True
 
 
 class EnergiaFioLiquidaREEPMO:
@@ -43,6 +49,15 @@ class EnergiaFioLiquidaREEPMO:
                  tabela: np.ndarray):
         self.tabela = tabela
 
+    def __eq__(self, o: object) -> bool:
+        """
+        A igualdade entre EnergiaFioLiquidaREEPMO avalia todos os campos.
+        """
+        if not isinstance(o, EnergiaFioLiquidaREEPMO):
+            return False
+        e: EnergiaFioLiquidaREEPMO = o
+        return np.array_equal(self.tabela, e.tabela)
+
 
 class RetasPerdasEngolimentoREEPMO:
     """
@@ -58,6 +73,16 @@ class RetasPerdasEngolimentoREEPMO:
     def __init__(self,
                  tabela: np.ndarray):
         self.tabela = tabela
+
+    def __eq__(self, o: object) -> bool:
+        """
+        A igualdade entre RetasPerdasEngolimentoREEPMO
+        avalia todos os campos.
+        """
+        if not isinstance(o, RetasPerdasEngolimentoREEPMO):
+            return False
+        e: RetasPerdasEngolimentoREEPMO = o
+        return np.array_equal(self.tabela, e.tabela)
 
     def funcao_perdas(self,
                       ree: int,
@@ -109,6 +134,16 @@ class ConvergenciaPMO:
     def __init__(self,
                  tabela: np.ndarray):
         self.tabela = tabela
+
+    def __eq__(self, o: object) -> bool:
+        """
+        A igualdade entre ConvergenciaPMO
+        avalia todos os campos.
+        """
+        if not isinstance(o, ConvergenciaPMO):
+            return False
+        e: ConvergenciaPMO = o
+        return np.array_equal(self.tabela, e.tabela)
 
     @property
     def zinf(self) -> Dict[int, List[float]]:
@@ -197,6 +232,20 @@ class RiscoDeficitENSPMO:
                             "NORTE"]
         self.anos_estudo = anos_estudo
         self.tabela = tabela
+
+    def __eq__(self, o: object) -> bool:
+        """
+        A igualdade entre RiscoDeficitENSPMO
+        avalia todos os campos.
+        """
+        if not isinstance(o, RiscoDeficitENSPMO):
+            return False
+        e: RiscoDeficitENSPMO = o
+        eq_anos = all([a == b
+                       for (a, b) in zip(self.anos_estudo,
+                                         e.anos_estudo)])
+        eq_tabela = np.array_equal(self.tabela, e.tabela)
+        return eq_anos and eq_tabela
 
     @property
     def riscos_por_subsistema_e_ano(self) -> Dict[str,
@@ -290,6 +339,16 @@ class CustoOperacaoPMO:
         # self.violacao_ghmin_usina = violacao_ghmin_usina
         # self.violacao_retirada = violacao_retirada
         # self.violacao_emissao_gee = violacao_emissao_gee
+
+    def __eq__(self, o: object) -> bool:
+        """
+        A igualdade entre CustoOperacaoPMO
+        avalia todos os campos.
+        """
+        if not isinstance(o, CustoOperacaoPMO):
+            return False
+        e: CustoOperacaoPMO = o
+        return np.array_equal(self.custos, e.custos)
 
     @property
     def geracao_termica(self) -> float:
@@ -429,3 +488,21 @@ class PMO:
         self.custo_series_simuladas = custo_series_simuladas
         self.valor_esperado_periodo = valor_esperado_periodo
         self.custo_referenciado = custo_referenciado
+
+    def __eq__(self, o: object) -> bool:
+        """
+        A igualdade entre PMO avalia todos os campos,
+        menos a versão do NEWAVE e a convergência.
+        """
+        if not isinstance(o, PMO):
+            return False
+        pmo: PMO = o
+        dif = False
+        for (k, u), (_, v) in zip(self.__dict__.items(),
+                                  pmo.__dict__.items()):
+            if k == "versao_newave" or k == "convergencia":
+                continue
+            if u != v:
+                dif = True
+                break
+        return not dif

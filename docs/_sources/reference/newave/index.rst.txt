@@ -66,3 +66,5 @@ Arquivos
    arquivos/pmo
    arquivos/confhd
    arquivos/dsvagua
+   arquivos/vazpast
+   arquivos/parp
