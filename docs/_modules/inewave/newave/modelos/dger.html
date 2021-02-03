@@ -333,6 +333,26 @@
     <span class="n">ITERACAO_MINIMA</span> <span class="o">=</span> <span class="mi">1</span></div>
 
 
+<div class="viewcode-block" id="EnumSazonaliza"><a class="viewcode-back" href="../../../../reference/newave/arquivos/dger.html#inewave.newave.modelos.dger.EnumSazonaliza">[documentos]</a><span class="k">class</span> <span class="nc">EnumSazonaliza</span><span class="p">(</span><span class="n">EnumComInferencia</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    - PRE_POS_NAO_SAZONAIS</span>
+<span class="sd">    - PRE_POS_SAZONAIS</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">PRE_POS_NAO_SAZONAIS</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">PRE_POS_SAZONAIS</span> <span class="o">=</span> <span class="mi">1</span></div>
+
+
+<div class="viewcode-block" id="EnumRepresentacaoIncerteza"><a class="viewcode-back" href="../../../../reference/newave/arquivos/dger.html#inewave.newave.modelos.dger.EnumRepresentacaoIncerteza">[documentos]</a><span class="k">class</span> <span class="nc">EnumRepresentacaoIncerteza</span><span class="p">(</span><span class="n">EnumComInferencia</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    - HISTORICO</span>
+<span class="sd">    - PARAMETROS_DISTRIBUICAO</span>
+<span class="sd">    - CENARIOS</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">HISTORICO</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">PARAMETROS_DISTRIBUICAO</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">CENARIOS</span> <span class="o">=</span> <span class="mi">3</span></div>
+
+
 <div class="viewcode-block" id="DGer"><a class="viewcode-back" href="../../../../reference/newave/arquivos/dger.html#inewave.newave.modelos.dger.DGer">[documentos]</a><span class="k">class</span> <span class="nc">DGer</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Classe para armazenar dados gerais de uma execução do NEWAVE.</span>
@@ -430,6 +450,16 @@
 <span class="sd">    - momento_reamostragem: `EnumMomentoReamostragem`,</span>
 <span class="sd">    - mantem_arquivos_ena: `bool`,</span>
 <span class="sd">    - inicio_teste_convergencia: `EnumInicioTesteConvergencia`</span>
+<span class="sd">    - sazonaliza_vmint: `EnumSazonaliza`</span>
+<span class="sd">    - sazonaliza_vmaxt: `EnumSazonaliza`</span>
+<span class="sd">    - sazonaliza_vminp: `EnumSazonaliza`</span>
+<span class="sd">    - sazonaliza_cfuga_cmont: `EnumSazonaliza`</span>
+<span class="sd">    - restricoes_gee: `bool`</span>
+<span class="sd">    - afluencia_anual_parp: `bool`</span>
+<span class="sd">    - incerteza_ger_eolica: `bool`</span>
+<span class="sd">    - incerteza_ger_solar: `bool`</span>
+<span class="sd">    - representacao_incerteza: `EnumRepresentacaoIncerteza`</span>
+<span class="sd">    - restricoes_fornecimento_gas: `bool`</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
@@ -515,9 +545,18 @@
                  <span class="n">desconsidera_converg_estatist</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
                  <span class="n">momento_reamostragem</span><span class="p">:</span> <span class="n">EnumMomentoReamostragem</span><span class="p">,</span>
                  <span class="n">mantem_arquivos_ena</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
-                 <span class="n">inicio_teste_convergencia</span><span class="p">:</span> <span class="n">EnumInicioTesteConvergencia</span>
+                 <span class="n">inicio_teste_convergencia</span><span class="p">:</span> <span class="n">EnumInicioTesteConvergencia</span><span class="p">,</span>
+                 <span class="n">sazonaliza_vmint</span><span class="p">:</span> <span class="n">EnumSazonaliza</span><span class="p">,</span>
+                 <span class="n">sazonaliza_vmaxt</span><span class="p">:</span> <span class="n">EnumSazonaliza</span><span class="p">,</span>
+                 <span class="n">sazonaliza_vminp</span><span class="p">:</span> <span class="n">EnumSazonaliza</span><span class="p">,</span>
+                 <span class="n">sazonaliza_cfuga_cmont</span><span class="p">:</span> <span class="n">EnumSazonaliza</span><span class="p">,</span>
+                 <span class="n">restricoes_gee</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+                 <span class="n">afluencia_anual_parp</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">bool</span><span class="p">],</span>
+                 <span class="n">incerteza_ger_eolica</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+                 <span class="n">incerteza_ger_solar</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+                 <span class="n">representacao_incerteza</span><span class="p">:</span> <span class="n">EnumRepresentacaoIncerteza</span><span class="p">,</span>
+                 <span class="n">restricoes_fornecimento_gas</span><span class="p">:</span> <span class="nb">bool</span>
                  <span class="p">):</span>
-
         <span class="bp">self</span><span class="o">.</span><span class="n">nome_estudo</span> <span class="o">=</span> <span class="n">nome_estudo</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">tipo_execucao</span> <span class="o">=</span> <span class="n">tipo_execucao</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">duracao_estagio_op</span> <span class="o">=</span> <span class="n">duracao_estagio_op</span>
@@ -601,6 +640,16 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">momento_reamostragem</span> <span class="o">=</span> <span class="n">momento_reamostragem</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mantem_arquivos_ena</span> <span class="o">=</span> <span class="n">mantem_arquivos_ena</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">inicio_teste_convergencia</span> <span class="o">=</span> <span class="n">inicio_teste_convergencia</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sazonaliza_vmint</span> <span class="o">=</span> <span class="n">sazonaliza_vmint</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sazonaliza_vmaxt</span> <span class="o">=</span> <span class="n">sazonaliza_vmaxt</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sazonaliza_vminp</span> <span class="o">=</span> <span class="n">sazonaliza_vminp</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sazonaliza_cfuga_cmont</span> <span class="o">=</span> <span class="n">sazonaliza_cfuga_cmont</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">restricoes_gee</span> <span class="o">=</span> <span class="n">restricoes_gee</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">afluencia_anual_parp</span> <span class="o">=</span> <span class="n">afluencia_anual_parp</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">incerteza_ger_eolica</span> <span class="o">=</span> <span class="n">incerteza_ger_eolica</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">incerteza_ger_solar</span> <span class="o">=</span> <span class="n">incerteza_ger_solar</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">representacao_incerteza</span> <span class="o">=</span> <span class="n">representacao_incerteza</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">restricoes_fornecimento_gas</span> <span class="o">=</span> <span class="n">restricoes_fornecimento_gas</span>
 
     <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">o</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -726,7 +775,17 @@
                     <span class="kc">True</span><span class="p">,</span>
                     <span class="n">EnumMomentoReamostragem</span><span class="o">.</span><span class="n">FW_ITER_CORRESPONDENTE</span><span class="p">,</span>
                     <span class="kc">False</span><span class="p">,</span>
-                    <span class="n">EnumInicioTesteConvergencia</span><span class="o">.</span><span class="n">ITERACAO_MINIMA</span>
+                    <span class="n">EnumInicioTesteConvergencia</span><span class="o">.</span><span class="n">ITERACAO_MINIMA</span><span class="p">,</span>
+                    <span class="n">EnumSazonaliza</span><span class="o">.</span><span class="n">PRE_POS_NAO_SAZONAIS</span><span class="p">,</span>
+                    <span class="n">EnumSazonaliza</span><span class="o">.</span><span class="n">PRE_POS_NAO_SAZONAIS</span><span class="p">,</span>
+                    <span class="n">EnumSazonaliza</span><span class="o">.</span><span class="n">PRE_POS_NAO_SAZONAIS</span><span class="p">,</span>
+                    <span class="n">EnumSazonaliza</span><span class="o">.</span><span class="n">PRE_POS_NAO_SAZONAIS</span><span class="p">,</span>
+                    <span class="kc">False</span><span class="p">,</span>
+                    <span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
+                    <span class="kc">False</span><span class="p">,</span>
+                    <span class="kc">False</span><span class="p">,</span>
+                    <span class="n">EnumRepresentacaoIncerteza</span><span class="o">.</span><span class="n">HISTORICO</span><span class="p">,</span>
+                    <span class="kc">False</span>
                     <span class="p">)</span></div></div>
 </pre></div>
 

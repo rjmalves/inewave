@@ -53,6 +53,9 @@ são definidos enumeradores auxiliares:
 
 .. autoclass:: EnumInicioTesteConvergencia
 
+.. autoclass:: EnumSazonaliza
+
+.. autoclass:: EnumRepresentacaoIncerteza
 
 Leitura
 ========

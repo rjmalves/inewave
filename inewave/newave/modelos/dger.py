@@ -184,7 +184,10 @@ class EnumSazonaliza(EnumComInferencia):
 
 
 class EnumRepresentacaoIncerteza(EnumComInferencia):
-    """
+    r"""
+    - HISTORICO
+    - PARAMETROS_DISTRIBUICAO
+    - CENARIOS
     """
     HISTORICO = 1
     PARAMETROS_DISTRIBUICAO = 2
