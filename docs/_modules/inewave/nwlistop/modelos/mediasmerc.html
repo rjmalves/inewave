@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>inewave.nwlistop.modelos.mediasmerc &mdash; documentação inewave 0.0.14</title>
+  <title>inewave.nwlistop.modelos.mediasmerc &mdash; documentação inewave 0.0.15</title>
   
 
   
@@ -181,6 +181,16 @@
                  <span class="n">tabela</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mes_pmo</span> <span class="o">=</span> <span class="n">mes_pmo</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">tabela</span> <span class="o">=</span> <span class="n">tabela</span>
+
+    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">o</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        A igualdade entre MediasMerc avalia todos os valores da tabela.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="n">MediasMerc</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="n">medias</span><span class="p">:</span> <span class="n">MediasMerc</span> <span class="o">=</span> <span class="n">o</span>
+        <span class="n">eq_mes_pmo</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mes_pmo</span> <span class="o">==</span> <span class="n">medias</span><span class="o">.</span><span class="n">mes_pmo</span>
+        <span class="k">return</span> <span class="n">eq_mes_pmo</span> <span class="ow">and</span> <span class="n">np</span><span class="o">.</span><span class="n">array_equal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tabela</span><span class="p">,</span> <span class="n">medias</span><span class="o">.</span><span class="n">tabela</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_extrai_variavel_tabela</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                                 <span class="n">indice_variavel</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span>
