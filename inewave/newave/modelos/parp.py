@@ -32,7 +32,13 @@ class PARp:
         if not isinstance(o, PARp):
             return False
         parp: PARp = o
-        eq_ordens = self.ordens == parp.ordens
-        eq_coefs = self.coeficientes == parp.coeficientes
-        eq_series = self.series == parp.series
+        eq_ordens = all([np.array_equal(o1, o2)
+                         for (o1, o2) in zip(self.ordens,
+                                             parp.ordens)])
+        eq_coefs = all([np.array_equal(c1, c2)
+                        for (c1, c2) in zip(self.coeficientes,
+                                            parp.coeficientes)])
+        eq_series = all([np.array_equal(s1, s2)
+                         for (s1, s2) in zip(self.series,
+                                             parp.series)])
         return eq_ordens and eq_coefs and eq_series
