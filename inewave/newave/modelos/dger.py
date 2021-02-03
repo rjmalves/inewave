@@ -185,10 +185,12 @@ class EnumSazonaliza(EnumComInferencia):
 
 class EnumRepresentacaoIncerteza(EnumComInferencia):
     r"""
+    - NAO_REPRESENTA
     - HISTORICO
     - PARAMETROS_DISTRIBUICAO
     - CENARIOS
     """
+    NAO_REPRESENTA = 0
     HISTORICO = 1
     PARAMETROS_DISTRIBUICAO = 2
     CENARIOS = 3
@@ -625,6 +627,6 @@ class DGer:
                     (True, False),
                     False,
                     False,
-                    EnumRepresentacaoIncerteza.HISTORICO,
+                    EnumRepresentacaoIncerteza.NAO_REPRESENTA,
                     False
                     )

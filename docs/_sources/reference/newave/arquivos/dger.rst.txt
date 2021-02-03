@@ -66,7 +66,6 @@ A leitura do arquivo `dger.dat` é feita através da classe :class:`LeituraDGer`
 .. autoclass:: LeituraDGer
    :members:
 
-
 Escrita
 ========
 
