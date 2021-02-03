@@ -81,7 +81,7 @@ class LeituraPARp(Leitura):
                                                         len(REES) + 1)}
         ordens: Dict[int, np.ndarray] = {i: np.zeros((MAX_ANOS_ESTUDO,
                                                       n_meses + 1),
-                                                     dtype=np.int)
+                                                     dtype=np.int32)
                                          for i in range(1,
                                                         len(REES) + 1)}
         n_linhas_coefs = MAX_ANOS_ESTUDO * n_meses
