@@ -17,6 +17,8 @@ from .modelos.dger import EnumTipoExecucao
 from .modelos.dger import EnumTipoGeracaoENAs
 from .modelos.dger import EnumTipoReamostragem
 from .modelos.dger import EnumTipoSimulacaoFinal
+from .modelos.dger import EnumSazonaliza
+from .modelos.dger import EnumRepresentacaoIncerteza
 # Imports de módulos externos
 import os
 from traceback import print_exc
@@ -353,6 +355,42 @@ class LeituraDGer(Leitura):
                         t = int(param)
                         tc = EnumInicioTesteConvergencia.infere_valor(t)
                         self.dger.inicio_teste_convergencia = tc
+                    elif "SAZ. VMINT PER. EST." in aux:
+                        t = int(param)
+                        sv = EnumSazonaliza.infere_valor(t)
+                        self.dger.sazonaliza_vmint = sv
+                    elif "SAZ. VMAXT PER. EST." in aux:
+                        t = int(param)
+                        sv = EnumSazonaliza.infere_valor(t)
+                        self.dger.sazonaliza_vmaxt = sv
+                    elif "SAZ. VMINP PER. EST." in aux:
+                        t = int(param)
+                        sv = EnumSazonaliza.infere_valor(t)
+                        self.dger.sazonaliza_vminp = sv
+                    elif "SAZ. CFUGA e CMONT" in aux:
+                        t = int(param)
+                        sv = EnumSazonaliza.infere_valor(t)
+                        self.dger.sazonaliza_cfuga_cmont = sv
+                    elif "REST. EMISSAO GEE" in aux:
+                        p = param
+                        self.dger.restricoes_gee = bool(int(p))
+                    elif "AFLUENCIA ANUAL PARP" in aux:
+                        af1 = bool(int(linha[21:25].strip()))
+                        af2 = bool(int(linha[26:30].strip()))
+                        self.dger.afluencia_anual_parp = (af1, af2)
+                    elif "INCERTEZA GER.EOLICA" in aux:
+                        p = param
+                        self.dger.incerteza_ger_eolica = bool(int(p))
+                    elif "INCERTEZA GER.SOLAR" in aux:
+                        p = param
+                        self.dger.incerteza_ger_solar = bool(int(p))
+                    elif "REPRESENTACAO INCERT" in aux:
+                        t = int(param)
+                        ri = EnumRepresentacaoIncerteza.infere_valor(t)
+                        self.dger.representacao_incerteza = ri
+                    elif "REST. FORNEC. GAS" in aux:
+                        p = param
+                        self.dger.restricoes_fornecimento_gas = bool(int(p))
 
                 while True:
                     # Confere se o arquivo já acabou
@@ -682,3 +720,38 @@ class EscritaDGer(Escrita):
             # Início do teste de convergência
             escreve_alinhado("INICIO TESTE CONVERG.",
                              dger.inicio_teste_convergencia.value)
+            # Sazonalização Vmint
+            escreve_alinhado("SAZ. VMINT PER. EST.",
+                             dger.sazonaliza_vmint.value)
+            # Sazonalização Vmaxt
+            escreve_alinhado("SAZ. VMAXT PER. EST.",
+                             dger.sazonaliza_vmaxt.value)
+            # Sazonalização Vminp
+            escreve_alinhado("SAZ. VMINP PER. EST.",
+                             dger.sazonaliza_vminp.value)
+            # Sazonalização Cfuga e Cmont
+            escreve_alinhado("SAZ. CFUGA e CMONT",
+                             dger.sazonaliza_cfuga_cmont.value)
+            # Restrições de GEE
+            escreve_alinhado("REST. EMISSAO GEE",
+                             dger.restricoes_gee)
+            # Uso do PAR(p)-A
+            str_aux = "AFLUENCIA ANUAL PARP".ljust(len_aux)
+            str_dados = ""
+            d = int(dger.afluencia_anual_parp[0])
+            str_dados += str(int(d)).rjust(4) + " "
+            d = int(dger.afluencia_anual_parp[1])
+            str_dados += str(int(d)).rjust(4)
+            arq.write(str_aux + str_dados + "\n")
+            # Incerteza na geração eólica
+            escreve_alinhado("INCERTEZA GER.EOLICA",
+                             dger.incerteza_ger_eolica)
+            # Incerteza na geração solar
+            escreve_alinhado("INCERTEZA GER.SOLAR",
+                             dger.incerteza_ger_solar)
+            # Representação das incertezas
+            escreve_alinhado("REPRESENTACAO INCERT",
+                             dger.representacao_incerteza.value)
+            # Restrições de fornecimento de gás
+            escreve_alinhado("REST. FORNEC. GAS",
+                             dger.restricoes_fornecimento_gas)

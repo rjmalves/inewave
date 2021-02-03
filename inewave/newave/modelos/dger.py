@@ -174,6 +174,23 @@ class EnumInicioTesteConvergencia(EnumComInferencia):
     ITERACAO_MINIMA = 1
 
 
+class EnumSazonaliza(EnumComInferencia):
+    r"""
+    - PRE_POS_NAO_SAZONAIS
+    - PRE_POS_SAZONAIS
+    """
+    PRE_POS_NAO_SAZONAIS = 0
+    PRE_POS_SAZONAIS = 1
+
+
+class EnumRepresentacaoIncerteza(EnumComInferencia):
+    """
+    """
+    HISTORICO = 1
+    PARAMETROS_DISTRIBUICAO = 2
+    CENARIOS = 3
+
+
 class DGer:
     """
     Classe para armazenar dados gerais de uma execução do NEWAVE.
@@ -271,6 +288,16 @@ class DGer:
     - momento_reamostragem: `EnumMomentoReamostragem`,
     - mantem_arquivos_ena: `bool`,
     - inicio_teste_convergencia: `EnumInicioTesteConvergencia`
+    - sazonaliza_vmint: `EnumSazonaliza`
+    - sazonaliza_vmaxt: `EnumSazonaliza`
+    - sazonaliza_vminp: `EnumSazonaliza`
+    - sazonaliza_cfuga_cmont: `EnumSazonaliza`
+    - restricoes_gee: `bool`
+    - afluencia_anual_parp: `bool`
+    - incerteza_ger_eolica: `bool`
+    - incerteza_ger_solar: `bool`
+    - representacao_incerteza: `EnumRepresentacaoIncerteza`
+    - restricoes_fornecimento_gas: `bool`
 
     """
     def __init__(self,
@@ -356,9 +383,18 @@ class DGer:
                  desconsidera_converg_estatist: bool,
                  momento_reamostragem: EnumMomentoReamostragem,
                  mantem_arquivos_ena: bool,
-                 inicio_teste_convergencia: EnumInicioTesteConvergencia
+                 inicio_teste_convergencia: EnumInicioTesteConvergencia,
+                 sazonaliza_vmint: EnumSazonaliza,
+                 sazonaliza_vmaxt: EnumSazonaliza,
+                 sazonaliza_vminp: EnumSazonaliza,
+                 sazonaliza_cfuga_cmont: EnumSazonaliza,
+                 restricoes_gee: bool,
+                 afluencia_anual_parp: Tuple[bool, bool],
+                 incerteza_ger_eolica: bool,
+                 incerteza_ger_solar: bool,
+                 representacao_incerteza: EnumRepresentacaoIncerteza,
+                 restricoes_fornecimento_gas: bool
                  ):
-
         self.nome_estudo = nome_estudo
         self.tipo_execucao = tipo_execucao
         self.duracao_estagio_op = duracao_estagio_op
@@ -442,6 +478,16 @@ class DGer:
         self.momento_reamostragem = momento_reamostragem
         self.mantem_arquivos_ena = mantem_arquivos_ena
         self.inicio_teste_convergencia = inicio_teste_convergencia
+        self.sazonaliza_vmint = sazonaliza_vmint
+        self.sazonaliza_vmaxt = sazonaliza_vmaxt
+        self.sazonaliza_vminp = sazonaliza_vminp
+        self.sazonaliza_cfuga_cmont = sazonaliza_cfuga_cmont
+        self.restricoes_gee = restricoes_gee
+        self.afluencia_anual_parp = afluencia_anual_parp
+        self.incerteza_ger_eolica = incerteza_ger_eolica
+        self.incerteza_ger_solar = incerteza_ger_solar
+        self.representacao_incerteza = representacao_incerteza
+        self.restricoes_fornecimento_gas = restricoes_fornecimento_gas
 
     def __eq__(self, o: object) -> bool:
         """
@@ -567,5 +613,15 @@ class DGer:
                     True,
                     EnumMomentoReamostragem.FW_ITER_CORRESPONDENTE,
                     False,
-                    EnumInicioTesteConvergencia.ITERACAO_MINIMA
+                    EnumInicioTesteConvergencia.ITERACAO_MINIMA,
+                    EnumSazonaliza.PRE_POS_NAO_SAZONAIS,
+                    EnumSazonaliza.PRE_POS_NAO_SAZONAIS,
+                    EnumSazonaliza.PRE_POS_NAO_SAZONAIS,
+                    EnumSazonaliza.PRE_POS_NAO_SAZONAIS,
+                    False,
+                    (True, False),
+                    False,
+                    False,
+                    EnumRepresentacaoIncerteza.HISTORICO,
+                    False
                     )
