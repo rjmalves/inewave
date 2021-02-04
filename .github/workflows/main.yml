@@ -19,7 +19,16 @@ jobs:
         python -m pip install -r deploy-requirements.txt
     - name: Executa os testes do pacote
       run: |
-        python -m pytest --cov=inewave tests/
+        python -m pytest --cov-report=xml --cov=inewave tests/
+    - uses: codecov/codecov-action@v1
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }} 
+        files: ./coverage.xml
+        flags: unittests # optional
+        env_vars: OS,PYTHON
+        name: codecov-inewave # optional
+        fail_ci_if_error: true # optional (default = false)
+        verbose: true # optional (default = false)
     - name: Veriricações de qualidade de código - tipagem estática
       run: |
         python -m mypy .
