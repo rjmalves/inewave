@@ -24,11 +24,11 @@ jobs:
       with:
         token: ${{ secrets.CODECOV_TOKEN }} 
         files: ./coverage.xml
-        flags: unittests # optional
+        flags: unittests
         env_vars: OS,PYTHON
-        name: codecov-inewave # optional
-        fail_ci_if_error: true # optional (default = false)
-        verbose: true # optional (default = false)
+        name: codecov-inewave
+        fail_ci_if_error: true 
+        verbose: true 
     - name: Veriricações de qualidade de código - tipagem estática
       run: |
         python -m mypy .
