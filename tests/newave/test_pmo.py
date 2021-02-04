@@ -15,6 +15,19 @@ def test_leitura_dados_pmo():
     assert leitor.pmo.versao_newave == "27.4"
 
 
+def test_eq_pmo():
+    leitor2 = LeituraPMO("tests/_arquivos")
+    leitor2.le_arquivo()
+    assert leitor.pmo == leitor2.pmo
+
+
+def test_neq_pmo():
+    leitor2 = LeituraPMO("tests/_arquivos")
+    leitor2.le_arquivo()
+    leitor2.pmo.ano_pmo = 2077
+    assert leitor.pmo != leitor2.pmo
+
+
 def test_anos_estudo():
     assert anos_estudo_teste == leitor.pmo.risco_ens.anos_estudo
 
@@ -55,9 +68,3 @@ def test_leitura_tabelas_custos():
     assert np.all(custo_series.custos == valor_esp.custos)
     assert np.all(custo_series.custos == custo_ref.custos)
     assert np.all(custo_ref.custos == valor_esp.custos)
-
-
-def test_eq_pmo():
-    leitor2 = LeituraPMO("tests/_arquivos")
-    leitor2.le_arquivo()
-    assert leitor.pmo == leitor2.pmo

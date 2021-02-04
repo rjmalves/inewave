@@ -13,6 +13,19 @@ def test_leitura():
     assert leitor.patamar.num_patamares != 0
 
 
+def test_eq_patamar():
+    leitor2 = LeituraPatamar("tests/_arquivos")
+    leitor2.le_arquivo()
+    assert leitor.patamar == leitor2.patamar
+
+
+def test_neq_patamar():
+    leitor2 = LeituraPatamar("tests/_arquivos")
+    leitor2.le_arquivo()
+    leitor2.patamar.anos_estudo = []
+    assert leitor.patamar != leitor2.patamar
+
+
 def test_anos_estudo():
     assert anos_estudo_teste == leitor.patamar.anos_estudo
 
@@ -44,9 +57,3 @@ def test_patamar_por_ano_e_mes():
             p = patamares_ano[ano][mes]
             assert p.shape == (leitor.patamar.num_patamares,)
             assert np.all(p > 0.0)
-
-
-def test_eq_patamar():
-    leitor2 = LeituraPatamar("tests/_arquivos")
-    leitor2.le_arquivo()
-    assert leitor.patamar == leitor2.patamar

@@ -20,6 +20,13 @@ def test_eq_cmarg00():
     assert leitor.cmargs == leitor2.cmargs
 
 
+def test_neq_cmarg00():
+    leitor2 = LeituraCmarg00("tests/_arquivos")
+    leitor2.le_arquivos()
+    leitor2.cmargs[sub_teste].ano_pmo = 2077
+    assert leitor.cmargs != leitor2.cmargs
+
+
 def test_extrai_dados_execucao():
     cmarg = leitor.cmargs[sub_teste]
     assert cmarg.mes_pmo == 5

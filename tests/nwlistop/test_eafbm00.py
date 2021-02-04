@@ -20,6 +20,13 @@ def test_eq_eafbm00():
     assert leitor.eafbms == leitor2.eafbms
 
 
+def test_neq_eafbm00():
+    leitor2 = LeituraEafbm00("tests/_arquivos")
+    leitor2.le_arquivos()
+    leitor2.eafbms[sub_teste].ano_pmo = 2077
+    assert leitor.eafbms != leitor2.eafbms
+
+
 def test_extrai_dados_execucao():
     eafbm = leitor.eafbms[sub_teste]
     assert eafbm.mes_pmo == 1

@@ -1,5 +1,6 @@
 # Rotinas de testes associadas ao arquivo vazpast.dat do NEWAVE
 from inewave.newave.vazpast import LeituraVazPast, EscritaVazPast
+import numpy as np  # type: ignore
 
 
 leitor = LeituraVazPast("tests/_arquivos")
@@ -18,3 +19,17 @@ def test_escrita_e_leitura():
     leitor2 = LeituraVazPast("tests/_saidas")
     leitor2.le_arquivo()
     assert leitor.vazpast == leitor2.vazpast
+
+
+def test_eq_vazpast():
+    leitor2 = LeituraVazPast("tests/_arquivos")
+    leitor2.le_arquivo()
+    leitor2.vazpast.tabela = np.array([])
+    assert leitor.vazpast != leitor2.vazpast
+
+
+def test_neq_vazpast():
+    leitor2 = LeituraVazPast("tests/_arquivos")
+    leitor2.le_arquivo()
+    leitor2.vazpast.tabela = np.array([])
+    assert leitor.vazpast != leitor2.vazpast
