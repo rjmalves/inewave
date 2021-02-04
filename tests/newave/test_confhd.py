@@ -16,3 +16,17 @@ def test_escrita_e_leitura():
     leitor2 = LeituraConfhd("tests/_saidas")
     leitor2.le_arquivo()
     assert leitor.confhd == leitor2.confhd
+
+
+def test_eq_confhd():
+    leitor2 = LeituraConfhd("tests/_arquivos")
+    leitor2.le_arquivo()
+    assert leitor2.confhd == leitor.confhd
+
+
+def test_neq_confhd():
+    leitor2 = LeituraConfhd("tests/_arquivos")
+    leitor2.le_arquivo()
+    leitor2.confhd.usinas[4].existente = False
+    assert leitor2.confhd != leitor.confhd
+    assert leitor2.confhd is not None

@@ -34,12 +34,12 @@ class PARp:
             return False
         parp: PARp = o
         eq_ordens = all([np.array_equal(o1, o2)
-                         for (o1, o2) in zip(self.ordens,
-                                             parp.ordens)])
+                         for (o1, o2) in zip(self.ordens.values(),
+                                             parp.ordens.values())])
         eq_coefs = all([np.array_equal(c1, c2)
-                        for (c1, c2) in zip(self.coeficientes,
-                                            parp.coeficientes)])
+                        for (c1, c2) in zip(self.coeficientes.values(),
+                                            parp.coeficientes.values())])
         eq_series = all([np.array_equal(s1, s2)
-                         for (s1, s2) in zip(self.series,
-                                             parp.series)])
+                         for (s1, s2) in zip(self.series.values(),
+                                             parp.series.values())])
         return eq_ordens and eq_coefs and eq_series

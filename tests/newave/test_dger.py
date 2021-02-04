@@ -42,3 +42,17 @@ def test_escrita_e_leitura():
     leitor2 = LeituraDGer("tests/_saidas")
     leitor2.le_arquivo()
     assert leitor.dger == leitor2.dger
+
+
+def test_eq_dger():
+    leitor2 = LeituraDGer("tests/_arquivos")
+    leitor2.le_arquivo()
+    assert leitor2.dger == leitor.dger
+
+
+def test_neq_dger():
+    leitor2 = LeituraDGer("tests/_arquivos")
+    leitor2.le_arquivo()
+    leitor2.dger.delta_zsup = -10.0
+    assert leitor2.dger != leitor.dger
+    assert leitor2.dger is not None
