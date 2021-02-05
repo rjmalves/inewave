@@ -1,4 +1,4 @@
-name: Testes de funcionalidades após alterações de código
+name: tests
 
 on: [push, pull_request]
 
