@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Dados Gerais (dger.dat) &mdash; documentação inewave 0.0.15</title>
+  <title>Dados Gerais (dger.dat) &mdash; documentação inewave 0.0.16</title>
   
 
   
@@ -288,7 +288,7 @@ que podem ser modificados.</p>
 <li><p>sazonaliza_vminp: <a class="reference internal" href="#inewave.newave.modelos.dger.EnumSazonaliza" title="inewave.newave.modelos.dger.EnumSazonaliza"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EnumSazonaliza</span></code></a></p></li>
 <li><p>sazonaliza_cfuga_cmont: <a class="reference internal" href="#inewave.newave.modelos.dger.EnumSazonaliza" title="inewave.newave.modelos.dger.EnumSazonaliza"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EnumSazonaliza</span></code></a></p></li>
 <li><p>restricoes_gee: <code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></p></li>
-<li><p>afluencia_anual_parp: <code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></p></li>
+<li><p>afluencia_anual_parp: <code class="xref py py-obj docutils literal notranslate"><span class="pre">Tuple[bool,</span> <span class="pre">bool]</span></code></p></li>
 <li><p>incerteza_ger_eolica: <code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></p></li>
 <li><p>incerteza_ger_solar: <code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></p></li>
 <li><p>representacao_incerteza: <a class="reference internal" href="#inewave.newave.modelos.dger.EnumRepresentacaoIncerteza" title="inewave.newave.modelos.dger.EnumRepresentacaoIncerteza"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EnumRepresentacaoIncerteza</span></code></a></p></li>
@@ -314,6 +314,20 @@ facilitando a realização de estudos.</p>
 <span class="go">True</span>
 </pre></div>
 </div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="inewave.newave.modelos.dger.DGer.eq_eco_saida">
+<code class="sig-name descname">eq_eco_saida</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">o</span><span class="p">:</span> <span class="n">object</span></em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="../../../_modules/inewave/newave/modelos/dger.html#DGer.eq_eco_saida"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#inewave.newave.modelos.dger.DGer.eq_eco_saida" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Compara o eco de saída do DGer em um <code class="xref py py-obj docutils literal notranslate"><span class="pre">pmo.dat</span></code> com o DGer
+dado como entrada.</p>
+<p>** Parâmetros **</p>
+<ul class="simple">
+<li><p>o: <a class="reference internal" href="#inewave.newave.modelos.dger.DGer" title="inewave.newave.modelos.dger.DGer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DGer</span></code></a></p></li>
+</ul>
+<p>** Sobre **</p>
+<p>A igualdade entre DGer no eco de saída ignora alguns
+campos.</p>
 </dd></dl>
 
 </dd></dl>

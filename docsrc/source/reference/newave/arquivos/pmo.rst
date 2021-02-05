@@ -22,9 +22,6 @@ Modelos auxiliares
 Devido ao grande número de informações existentes no `pmo.dat`, foram definidos modelos
 auxiliares para armazenar todas as informações disponíveis.
 
-.. autoclass:: DadosGeraisPMO
-   :members:
-
 .. autoclass:: EnergiaFioLiquidaREEPMO
    :members:
 

@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>inewave.newave.pmo &mdash; documentação inewave 0.0.15</title>
+  <title>inewave.newave.pmo &mdash; documentação inewave 0.0.16</title>
   
 
   
@@ -162,7 +162,17 @@
 <span class="kn">from</span> <span class="nn">inewave.config</span> <span class="kn">import</span> <span class="n">MAX_ANOS_ESTUDO</span><span class="p">,</span> <span class="n">MAX_ITERS</span>
 <span class="kn">from</span> <span class="nn">inewave.config</span> <span class="kn">import</span> <span class="n">NUM_VARIAVEIS_CUSTO_PMO</span><span class="p">,</span> <span class="n">REES</span>
 <span class="kn">from</span> <span class="nn">inewave.config</span> <span class="kn">import</span> <span class="n">MESES</span><span class="p">,</span> <span class="n">SUBMERCADOS</span>
-<span class="kn">from</span> <span class="nn">.modelos.pmo</span> <span class="kn">import</span> <span class="n">DadosGeraisPMO</span>
+<span class="kn">from</span> <span class="nn">.modelos.dger</span> <span class="kn">import</span> <span class="n">DGer</span>
+<span class="kn">from</span> <span class="nn">.modelos.dger</span> <span class="kn">import</span> <span class="n">EnumImpressaoOperacao</span>
+<span class="kn">from</span> <span class="nn">.modelos.dger</span> <span class="kn">import</span> <span class="n">EnumImpressaoConvergencia</span>
+<span class="kn">from</span> <span class="nn">.modelos.dger</span> <span class="kn">import</span> <span class="n">EnumCorrecaoEnergiaDesvio</span>
+<span class="kn">from</span> <span class="nn">.modelos.dger</span> <span class="kn">import</span> <span class="n">EnumRepresentacaoSubmotorizacao</span>
+<span class="kn">from</span> <span class="nn">.modelos.dger</span> <span class="kn">import</span> <span class="n">EnumTipoReamostragem</span>
+<span class="kn">from</span> <span class="nn">.modelos.dger</span> <span class="kn">import</span> <span class="n">EnumRepresentanteAgregacao</span>
+<span class="kn">from</span> <span class="nn">.modelos.dger</span> <span class="kn">import</span> <span class="n">EnumMatrizCorrelacaoEspacial</span>
+<span class="kn">from</span> <span class="nn">.modelos.dger</span> <span class="kn">import</span> <span class="n">EnumMomentoReamostragem</span>
+<span class="kn">from</span> <span class="nn">.modelos.dger</span> <span class="kn">import</span> <span class="n">EnumInicioTesteConvergencia</span>
+<span class="kn">from</span> <span class="nn">.modelos.dger</span> <span class="kn">import</span> <span class="n">EnumSazonaliza</span>
 <span class="kn">from</span> <span class="nn">.modelos.pmo</span> <span class="kn">import</span> <span class="n">EnergiaFioLiquidaREEPMO</span>
 <span class="kn">from</span> <span class="nn">.modelos.pmo</span> <span class="kn">import</span> <span class="n">RetasPerdasEngolimentoREEPMO</span>
 <span class="kn">from</span> <span class="nn">.modelos.pmo</span> <span class="kn">import</span> <span class="n">EnergiasAfluentesPMO</span>
@@ -203,12 +213,14 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">str_dados_pmo</span> <span class="o">=</span> <span class="s2">&quot; DATA : &quot;</span>
+    <span class="n">str_inicio_dger</span> <span class="o">=</span> <span class="s2">&quot;  DADOS GERAIS&quot;</span>
     <span class="n">str_inicio_converg</span> <span class="o">=</span> <span class="s2">&quot;    ITER               LIM.INF.        &quot;</span>
     <span class="n">str_inicio_risco</span> <span class="o">=</span> <span class="s2">&quot; ANO  RISCO   EENS  RISCO&quot;</span>
     <span class="n">str_inicio_custo_series</span> <span class="o">=</span> <span class="s2">&quot;                 CUSTO DE OPERACAO DAS&quot;</span>
     <span class="n">str_inicio_valor_esperado</span> <span class="o">=</span> <span class="s2">&quot;                 VALOR ESPERADO PARA PERI&quot;</span>
     <span class="n">str_inicio_custo_referenciado</span> <span class="o">=</span> <span class="s2">&quot;                     CUSTO OPERACAO R&quot;</span>
     <span class="n">str_inicio_efio_liquida</span> <span class="o">=</span> <span class="s1">&#39;***ENERGIA FIO D&quot;AGUA LIQUIDA***&#39;</span>
+    <span class="n">str_fim_dger</span> <span class="o">=</span> <span class="s2">&quot;CEPEL&quot;</span>
     <span class="n">str_fim_converg</span> <span class="o">=</span> <span class="s2">&quot;NENHUM ERRO FOI DETECTADO NO CALCULO DA POLITICA&quot;</span>
     <span class="n">str_fim_efio_liquida</span> <span class="o">=</span> <span class="s2">&quot;MODELO ESTRATEGICO DE GERACAO&quot;</span>
     <span class="n">str_fim_pmo</span> <span class="o">=</span> <span class="s2">&quot;DETECTADO NO CALCULO DA SIMULACAO FINAL&quot;</span>
@@ -221,7 +233,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">pmo</span> <span class="o">=</span> <span class="n">PMO</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span>
                        <span class="mi">0</span><span class="p">,</span>
                        <span class="s2">&quot;&quot;</span><span class="p">,</span>
-                       <span class="n">DadosGeraisPMO</span><span class="p">(),</span>
+                       <span class="n">DGer</span><span class="o">.</span><span class="n">dger_padrao</span><span class="p">(),</span>
                        <span class="n">EnergiaFioLiquidaREEPMO</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])),</span>
                        <span class="n">RetasPerdasEngolimentoREEPMO</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])),</span>
                        <span class="n">EnergiasAfluentesPMO</span><span class="p">(),</span>
@@ -253,6 +265,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">achou_dados_pmo</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="n">leu_dados_pmo</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">achou_dger</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="n">achou_efio_liquida</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="n">achou_convergencia</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="n">achou_risco_ens</span> <span class="o">=</span> <span class="kc">False</span>
@@ -265,6 +278,7 @@
         <span class="n">ano_pmo</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="n">mes_pmo</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="n">versao_newave</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="n">dger</span> <span class="o">=</span> <span class="n">DGer</span><span class="o">.</span><span class="n">dger_padrao</span><span class="p">()</span>
         <span class="n">energia_liq</span> <span class="o">=</span> <span class="n">EnergiaFioLiquidaREEPMO</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([]))</span>
         <span class="n">retas_perdas</span> <span class="o">=</span> <span class="n">RetasPerdasEngolimentoREEPMO</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([]))</span>
         <span class="n">convergencia</span> <span class="o">=</span> <span class="n">ConvergenciaPMO</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([]))</span>
@@ -279,7 +293,7 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">pmo</span> <span class="o">=</span> <span class="n">PMO</span><span class="p">(</span><span class="n">ano_pmo</span><span class="p">,</span>
                                <span class="n">mes_pmo</span><span class="p">,</span>
                                <span class="n">versao_newave</span><span class="p">,</span>
-                               <span class="n">DadosGeraisPMO</span><span class="p">(),</span>
+                               <span class="n">dger</span><span class="p">,</span>
                                <span class="n">energia_liq</span><span class="p">,</span>
                                <span class="n">retas_perdas</span><span class="p">,</span>
                                <span class="n">EnergiasAfluentesPMO</span><span class="p">(),</span>
@@ -296,6 +310,9 @@
             <span class="k">if</span> <span class="ow">not</span> <span class="n">achou_dados_pmo</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">leu_dados_pmo</span><span class="p">:</span>
                 <span class="n">achou</span> <span class="o">=</span> <span class="n">LeituraPMO</span><span class="o">.</span><span class="n">str_dados_pmo</span> <span class="ow">in</span> <span class="n">linha</span>
                 <span class="n">achou_dados_pmo</span> <span class="o">=</span> <span class="n">achou</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">achou_dger</span><span class="p">:</span>
+                <span class="n">achou</span> <span class="o">=</span> <span class="n">LeituraPMO</span><span class="o">.</span><span class="n">str_inicio_dger</span> <span class="ow">in</span> <span class="n">linha</span>
+                <span class="n">achou_dger</span> <span class="o">=</span> <span class="n">achou</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">achou_efio_liquida</span><span class="p">:</span>
                 <span class="n">achou</span> <span class="o">=</span> <span class="n">LeituraPMO</span><span class="o">.</span><span class="n">str_inicio_efio_liquida</span> <span class="ow">in</span> <span class="n">linha</span>
                 <span class="n">achou_efio_liquida</span> <span class="o">=</span> <span class="n">achou</span>
@@ -319,6 +336,9 @@
                 <span class="n">ano_pmo</span><span class="p">,</span> <span class="n">mes_pmo</span><span class="p">,</span> <span class="n">versao_newave</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_dados_pmo</span><span class="p">(</span><span class="n">linha</span><span class="p">)</span>
                 <span class="n">achou_dados_pmo</span> <span class="o">=</span> <span class="kc">False</span>
                 <span class="n">leu_dados_pmo</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">if</span> <span class="n">achou_dger</span><span class="p">:</span>
+                <span class="n">dger</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_dger</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
+                <span class="n">achou_dger</span> <span class="o">=</span> <span class="kc">False</span>
             <span class="k">if</span> <span class="n">achou_efio_liquida</span><span class="p">:</span>
                 <span class="n">energia_liq</span><span class="p">,</span> <span class="n">retas_perdas</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_efio_liquida</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
                 <span class="n">achou_efio_liquida</span> <span class="o">=</span> <span class="kc">False</span>
@@ -356,6 +376,318 @@
         <span class="c1"># Encontra a versao do NW</span>
         <span class="n">versao_newave</span> <span class="o">=</span> <span class="n">linha</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;Versao&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">ano_pmo</span><span class="p">,</span> <span class="n">mes_pmo</span><span class="p">,</span> <span class="n">versao_newave</span>
+
+    <span class="k">def</span> <span class="nf">_le_dger</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arq</span><span class="p">:</span> <span class="n">IO</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DGer</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Lê o eco dos dados gerais de entrada fornecidos ao caso.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">dger</span> <span class="o">=</span> <span class="n">DGer</span><span class="o">.</span><span class="n">dger_padrao</span><span class="p">()</span>
+        <span class="n">ci</span> <span class="o">=</span> <span class="mi">57</span>
+
+        <span class="k">def</span> <span class="nf">le_parametro</span><span class="p">(</span><span class="n">linha</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">aux</span> <span class="o">=</span> <span class="n">linha</span><span class="p">[</span><span class="mi">5</span><span class="p">:</span><span class="mi">54</span><span class="p">]</span>
+            <span class="n">param</span> <span class="o">=</span> <span class="n">linha</span><span class="p">[</span><span class="n">ci</span><span class="p">:]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="k">if</span> <span class="s2">&quot;DURACAO DE CADA PERIODO&quot;</span> <span class="ow">in</span> <span class="n">aux</span><span class="p">:</span>
+                <span class="n">dger</span><span class="o">.</span><span class="n">duracao_estagio_op</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">param</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="s2">&quot;NUMERO DE ANOS DO HORIZONTE DE&quot;</span> <span class="ow">in</span> <span class="n">aux</span><span class="p">:</span>
+                <span class="n">dger</span><span class="o">.</span><span class="n">num_anos_estudo</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">param</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="s2">&quot;MES INICIAL DO PERIODO DE PRE&quot;</span> <span class="ow">in</span> <span class="n">aux</span><span class="p">:</span>
+                <span class="n">dger</span><span class="o">.</span><span class="n">mes_inicio_pre_estudo</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">param</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="s2">&quot;MES INICIAL DO PERIODO DE EST&quot;</span> <span class="ow">in</span> <span class="n">aux</span><span class="p">:</span>
+                <span class="n">dger</span><span class="o">.</span><span class="n">mes_inicio_estudo</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">param</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="s2">&quot;ANO INICIAL DO PERIODO DE EST&quot;</span> <span class="ow">in</span> <span class="n">aux</span><span class="p">:</span>
+                <span class="n">dger</span><span class="o">.</span><span class="n">ano_inicio_estudo</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">param</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="s2">&quot;NUMERO DE ANOS QUE PRECEDEM O HOR&quot;</span> <span class="ow">in</span> <span class="n">aux</span><span class="p">:</span>
+                <span class="n">dger</span><span class="o">.</span><span class="n">num_anos_pre_estudo</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">param</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="s2">&quot;NUMERO DE ANOS QUE SUCEDEM O HOR&quot;</span> <span class="ow">in</span> <span class="n">aux</span><span class="p">:</span>
+                <span class="n">dger</span><span class="o">.</span><span class="n">num_anos_pos_estudo</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">param</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="s2">&quot;NUMERO DE ANOS DO POS NA SIMULACAO&quot;</span> <span class="ow">in</span> <span class="n">aux</span><span class="p">:</span>
+                <span class="n">dger</span><span class="o">.</span><span class="n">num_anos_pos_sim_final</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">param</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="s2">&quot;IMPRIME DADOS DAS USINAS &quot;</span> <span class="ow">in</span> <span class="n">aux</span><span class="p">:</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">param</span>
+                <span class="n">dger</span><span class="o">.</span><span class="n">imprime_dados_usinas</span> <span class="o">=</span> <span class="p">(</span><span class="kc">True</span> <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="s2">&quot;SIM&quot;</span>
+                                             <span class="k">else</span> <span class="kc">False</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="s2">&quot;IMPRIME DADOS DE MERCADO&quot;</span> <span class="ow">in</span> <span class="n">aux</span><span class="p">:</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">param</span>
+                <span class="n">dger</span><span class="o">.</span><span class="n">imprime_dados_mercados</span> <span class="o">=</span> <span class="p">(</span><span class="kc">True</span> <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="s2">&quot;SIM&quot;</span>
+                                               <span class="k">else</span> <span class="kc">False</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="s2">&quot;IMPRIME DADOS DE ENERGIAS&quot;</span> <span class="ow">in</span> <span class="n">aux</span><span class="p">:</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">param</span>
+                <span class="n">dger</span><span class="o">.</span><span class="n">imprime_dados_energias</span> <span class="o">=</span> <span class="p">(</span><span class="kc">True</span> <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="s2">&quot;SIM&quot;</span>
+                                               <span class="k">else</span> <span class="kc">False</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="s2">&quot;IMPRIME PARAMETROS DO MODELO DE ENERGIA&quot;</span> <span class="ow">in</span> <span class="n">aux</span><span class="p">:</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">param</span>
+                <span class="n">dger</span><span class="o">.</span><span class="n">imprime_dados_modelo</span> <span class="o">=</span> <span class="p">(</span><span class="kc">True</span> <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="s2">&quot;SIM&quot;</span>
+                                             <span class="k">else</span> <span class="kc">False</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="s2">&quot;IMPRIME PARAMETROS DO RESERVATORIO EQUIV&quot;</span> <span class="ow">in</span> <span class="n">aux</span><span class="p">:</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">param</span>
+                <span class="n">dger</span><span class="o">.</span><span class="n">imprime_dados_rees</span> <span class="o">=</span> <span class="p">(</span><span class="kc">True</span> <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="s2">&quot;SIM&quot;</span>
+                                           <span class="k">else</span> <span class="kc">False</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="s2">&quot;NUMERO MAXIMO DE ITERACOES&quot;</span> <span class="ow">in</span> <span class="n">aux</span><span class="p">:</span>
+                <span class="n">dger</span><span class="o">.</span><span class="n">max_iteracoes</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">param</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="s2">&quot;NUMERO DE SIMULACOES&quot;</span> <span class="ow">in</span> <span class="n">aux</span><span class="p">:</span>
+                <span class="n">dger</span><span class="o">.</span><span class="n">num_sim_forward</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">param</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="s2">&quot;NUMERO DE ABERTURAS&quot;</span> <span class="ow">in</span> <span class="n">aux</span><span class="p">:</span>
+                <span class="n">dger</span><span class="o">.</span><span class="n">num_aberturas</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">param</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="s2">&quot;TOTAL DE SERIES SIMULADAS GRAVADAS&quot;</span> <span class="ow">in</span> <span class="n">aux</span><span class="p">:</span>
+                <span class="n">dger</span><span class="o">.</span><span class="n">num_series_sinteticas</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">param</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="s2">&quot;ORDEM MAXIMA DO MODELO DE ENERGI&quot;</span> <span class="ow">in</span> <span class="n">aux</span><span class="p">:</span>
+                <span class="n">dger</span><span class="o">.</span><span class="n">ordem_maxima_parp</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">param</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="s2">&quot;ANO INICIAL DO HISTORICO DE&quot;</span> <span class="ow">in</span> <span class="n">aux</span><span class="p">:</span>
+                <span class="n">dger</span><span class="o">.</span><span class="n">ano_inicial_vaz_historicas</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">param</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="s2">&quot;CALCULA VOLUME INICIAL&quot;</span> <span class="ow">in</span> <span class="n">aux</span><span class="p">:</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">param</span>
+                <span class="n">dger</span><span class="o">.</span><span class="n">calcula_vol_inicial</span> <span class="o">=</span> <span class="p">(</span><span class="kc">True</span> <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="s2">&quot;SIM&quot;</span>
+                                            <span class="k">else</span> <span class="kc">False</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="s2">&quot;TOLERANCIA PARA CONVERGENCIA&quot;</span> <span class="ow">in</span> <span class="n">aux</span><span class="p">:</span>
+                <span class="n">dger</span><span class="o">.</span><span class="n">tolerancia</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">param</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="s2">&quot;TAXA DE DESCONTO ANUAL (%)&quot;</span> <span class="ow">in</span> <span class="n">aux</span><span class="p">:</span>
+                <span class="n">dger</span><span class="o">.</span><span class="n">taxa_de_desconto</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">param</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="s2">&quot;IMPRIME DETALHAMENTO DA OPERACAO&quot;</span> <span class="ow">in</span> <span class="n">aux</span><span class="p">:</span>
+                <span class="n">val</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span> <span class="k">if</span> <span class="n">param</span> <span class="o">==</span> <span class="s2">&quot;NAO&quot;</span> <span class="k">else</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="n">impr_op</span> <span class="o">=</span> <span class="n">EnumImpressaoOperacao</span><span class="o">.</span><span class="n">infere_valor</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+                <span class="n">dger</span><span class="o">.</span><span class="n">impressao_operacao</span> <span class="o">=</span> <span class="n">impr_op</span>
+            <span class="k">elif</span> <span class="s2">&quot;IMPRIME RESULTADOS DA CONVERGENCIA&quot;</span> <span class="ow">in</span> <span class="n">aux</span><span class="p">:</span>
+                <span class="n">val</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span> <span class="k">if</span> <span class="n">param</span> <span class="o">==</span> <span class="s2">&quot;NAO&quot;</span> <span class="k">else</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="n">impr_c</span> <span class="o">=</span> <span class="n">EnumImpressaoConvergencia</span><span class="o">.</span><span class="n">infere_valor</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+                <span class="n">dger</span><span class="o">.</span><span class="n">impressao_convergencia</span> <span class="o">=</span> <span class="n">impr_c</span>
+            <span class="k">elif</span> <span class="s2">&quot;NUMERO MINIMO DE ITERACOES&quot;</span> <span class="ow">in</span> <span class="n">aux</span><span class="p">:</span>
+                <span class="n">dger</span><span class="o">.</span><span class="n">min_interacoes</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">param</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="s2">&quot;ADOCAO DE RACIONAMENTO PREVENTIVO&quot;</span> <span class="ow">in</span> <span class="n">aux</span><span class="p">:</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">param</span>
+                <span class="n">dger</span><span class="o">.</span><span class="n">racionamento_preventivo</span> <span class="o">=</span> <span class="p">(</span><span class="kc">True</span> <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="s2">&quot;SIM&quot;</span>
+                                                <span class="k">else</span> <span class="kc">False</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="s2">&quot;LIDA DO ARQUIVO DE MANUTENCOES&quot;</span> <span class="ow">in</span> <span class="n">aux</span><span class="p">:</span>
+                <span class="n">dger</span><span class="o">.</span><span class="n">numero_anos_manutencao_UTEs</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">param</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="s2">&quot;CONSIDERA PERDAS NA REDE DE TRANSMISSAO&quot;</span> <span class="ow">in</span> <span class="n">aux</span><span class="p">:</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">param</span>
+                <span class="n">dger</span><span class="o">.</span><span class="n">perdas_transmissao</span> <span class="o">=</span> <span class="p">(</span><span class="kc">True</span> <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="s2">&quot;SIM&quot;</span>
+                                           <span class="k">else</span> <span class="kc">False</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="s2">&quot;CONSIDERA OUTROS USOS DA AGUA&quot;</span> <span class="ow">in</span> <span class="n">aux</span><span class="p">:</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">param</span>
+                <span class="n">dger</span><span class="o">.</span><span class="n">considera_desvio_dagua</span> <span class="o">=</span> <span class="p">(</span><span class="kc">True</span> <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="s2">&quot;SIM&quot;</span>
+                                               <span class="k">else</span> <span class="kc">False</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="s2">&quot;OUTROS USOS DA AGUA VARIAVEL COM A ENERGIA&quot;</span> <span class="ow">in</span> <span class="n">aux</span><span class="p">:</span>
+                <span class="n">val</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span> <span class="k">if</span> <span class="n">param</span> <span class="o">==</span> <span class="s2">&quot;NAO&quot;</span> <span class="k">else</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="n">des</span> <span class="o">=</span> <span class="n">EnumCorrecaoEnergiaDesvio</span><span class="o">.</span><span class="n">infere_valor</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+                <span class="n">dger</span><span class="o">.</span><span class="n">correcao_energia_desvio</span> <span class="o">=</span> <span class="n">des</span>
+            <span class="k">elif</span> <span class="s2">&quot;CONSIDERA CURVA GUIA DE SEGURANCA/VMINP&quot;</span> <span class="ow">in</span> <span class="n">aux</span><span class="p">:</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">param</span>
+                <span class="n">dger</span><span class="o">.</span><span class="n">considera_curva_aversao</span> <span class="o">=</span> <span class="p">(</span><span class="kc">True</span> <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="s2">&quot;SIM&quot;</span>
+                                                <span class="k">else</span> <span class="kc">False</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="s2">&quot;AGRUPAMENTO LIVRE&quot;</span> <span class="ow">in</span> <span class="n">aux</span><span class="p">:</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">param</span>
+                <span class="n">dger</span><span class="o">.</span><span class="n">agrupamento_livre_interc</span> <span class="o">=</span> <span class="p">(</span><span class="kc">True</span>
+                                                 <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="s2">&quot;SIM&quot;</span>
+                                                 <span class="k">else</span> <span class="kc">False</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="s2">&quot;CONSIDERA EQUALIZACAO DE PENALIDADES DE&quot;</span> <span class="ow">in</span> <span class="n">aux</span><span class="p">:</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">param</span>
+                <span class="n">dger</span><span class="o">.</span><span class="n">equaliza_penalidades_interc</span> <span class="o">=</span> <span class="p">(</span><span class="kc">True</span>
+                                                    <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="s2">&quot;SIM&quot;</span>
+                                                    <span class="k">else</span> <span class="kc">False</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="s2">&quot;CONSIDERA SUBMOTORIZACAO SAZONAL&quot;</span> <span class="ow">in</span> <span class="n">aux</span><span class="p">:</span>
+                <span class="n">val</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span> <span class="k">if</span> <span class="n">param</span> <span class="o">==</span> <span class="s2">&quot;NAO&quot;</span> <span class="k">else</span>
+                       <span class="mi">2</span> <span class="k">if</span> <span class="s2">&quot;USINA&quot;</span> <span class="ow">in</span> <span class="n">param</span> <span class="k">else</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="n">sm</span> <span class="o">=</span> <span class="n">EnumRepresentacaoSubmotorizacao</span><span class="o">.</span><span class="n">infere_valor</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+                <span class="n">dger</span><span class="o">.</span><span class="n">representa_submotor</span> <span class="o">=</span> <span class="n">sm</span>
+            <span class="k">elif</span> <span class="s2">&quot;CONSIDERA ORDENACAO AUTOMATICA REEs&quot;</span> <span class="ow">in</span> <span class="n">aux</span><span class="p">:</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">linha</span><span class="p">[</span><span class="mi">66</span><span class="p">:]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+                <span class="n">dger</span><span class="o">.</span><span class="n">ordenacao_automatica_subsist</span> <span class="o">=</span> <span class="p">(</span><span class="kc">True</span>
+                                                     <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="s2">&quot;SIM&quot;</span>
+                                                     <span class="k">else</span> <span class="kc">False</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="s2">&quot;CONSIDERA CARGAS ADICIONAIS&quot;</span> <span class="ow">in</span> <span class="n">aux</span><span class="p">:</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">param</span>
+                <span class="n">dger</span><span class="o">.</span><span class="n">considera_cargas_adicionais</span> <span class="o">=</span> <span class="p">(</span><span class="kc">True</span>
+                                                    <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="s2">&quot;SIM&quot;</span>
+                                                    <span class="k">else</span> <span class="kc">False</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="s2">&quot;DELTA DE ZSUP&quot;</span> <span class="ow">in</span> <span class="n">aux</span><span class="p">:</span>
+                <span class="n">dger</span><span class="o">.</span><span class="n">delta_zsup</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">param</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+            <span class="k">elif</span> <span class="s2">&quot;DELTA DE ZINF&quot;</span> <span class="ow">in</span> <span class="n">aux</span><span class="p">:</span>
+                <span class="n">dger</span><span class="o">.</span><span class="n">delta_zinf</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">param</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+            <span class="k">elif</span> <span class="s2">&quot;NUMERO DE DELTAS DE ZINF CONSECUTIVOS&quot;</span> <span class="ow">in</span> <span class="n">aux</span><span class="p">:</span>
+                <span class="n">dger</span><span class="o">.</span><span class="n">deltas_consecutivos</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">param</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="s2">&quot;CONSIDERA ANTECIPACAO DE GERACAO&quot;</span> <span class="ow">in</span> <span class="n">aux</span><span class="p">:</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">param</span>
+                <span class="n">dger</span><span class="o">.</span><span class="n">considera_despacho_gnl</span> <span class="o">=</span> <span class="p">(</span><span class="kc">True</span>
+                                               <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="s2">&quot;SIM&quot;</span>
+                                               <span class="k">else</span> <span class="kc">False</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="s2">&quot;ANTECIPACAO DE GERACAO TERMOELETRICA&quot;</span> <span class="ow">in</span> <span class="n">aux</span><span class="p">:</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">param</span>
+                <span class="n">dger</span><span class="o">.</span><span class="n">modifica_auto_despacho_gnl</span> <span class="o">=</span> <span class="p">(</span><span class="kc">True</span>
+                                                   <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="s2">&quot;SIM&quot;</span>
+                                                   <span class="k">else</span> <span class="kc">False</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="s2">&quot;CONSIDERA GERACAO HIDRAULICA MINIMA&quot;</span> <span class="ow">in</span> <span class="n">aux</span><span class="p">:</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">param</span>
+                <span class="n">dger</span><span class="o">.</span><span class="n">considera_ghmin</span> <span class="o">=</span> <span class="p">(</span><span class="kc">True</span>
+                                        <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="s2">&quot;SIM&quot;</span>
+                                        <span class="k">else</span> <span class="kc">False</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="s2">&quot;CONSIDERA GERENCIAMENTO EXTERNO DE PROCESSOS&quot;</span> <span class="ow">in</span> <span class="n">aux</span><span class="p">:</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">param</span>
+                <span class="n">dger</span><span class="o">.</span><span class="n">gerenciador_externo</span> <span class="o">=</span> <span class="p">(</span><span class="kc">True</span> <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="s2">&quot;SIM&quot;</span>
+                                            <span class="k">else</span> <span class="kc">False</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="s2">&quot;CONSIDERA COMUNICACAO EM DOIS NIVEIS&quot;</span> <span class="ow">in</span> <span class="n">aux</span><span class="p">:</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">param</span>
+                <span class="n">dger</span><span class="o">.</span><span class="n">comunicacao_dois_niveis</span> <span class="o">=</span> <span class="p">(</span><span class="kc">True</span> <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="s2">&quot;SIM&quot;</span>
+                                                <span class="k">else</span> <span class="kc">False</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="s2">&quot;CONSIDERA ARMAZENAMENTO LOCAL DE ARQUIVOS&quot;</span> <span class="ow">in</span> <span class="n">aux</span><span class="p">:</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">param</span>
+                <span class="n">dger</span><span class="o">.</span><span class="n">armazenamento_local_temp</span> <span class="o">=</span> <span class="p">(</span><span class="kc">True</span> <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="s2">&quot;SIM&quot;</span>
+                                                 <span class="k">else</span> <span class="kc">False</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="s2">&quot;CONSIDERA ALOCACAO DE ENERGIA EM MEMORIA&quot;</span> <span class="ow">in</span> <span class="n">aux</span><span class="p">:</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">param</span>
+                <span class="n">dger</span><span class="o">.</span><span class="n">aloca_memoria_enas</span> <span class="o">=</span> <span class="p">(</span><span class="kc">True</span> <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="s2">&quot;SIM&quot;</span>
+                                           <span class="k">else</span> <span class="kc">False</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="s2">&quot;CONSIDERA ALOCACAO DE CORTES EM MEMORIA&quot;</span> <span class="ow">in</span> <span class="n">aux</span><span class="p">:</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">param</span>
+                <span class="n">dger</span><span class="o">.</span><span class="n">aloca_memoria_cortes</span> <span class="o">=</span> <span class="p">(</span><span class="kc">True</span> <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="s2">&quot;SIM&quot;</span>
+                                             <span class="k">else</span> <span class="kc">False</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="s2">&quot;CONSIDERA SUPERFICIE DE AVERSAO A RISCO (SAR)&quot;</span> <span class="ow">in</span> <span class="n">aux</span><span class="p">:</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">param</span>
+                <span class="n">dger</span><span class="o">.</span><span class="n">sar</span> <span class="o">=</span> <span class="p">(</span><span class="kc">True</span> <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="s2">&quot;SIM&quot;</span>
+                            <span class="k">else</span> <span class="kc">False</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="s2">&quot;CONSIDERA MECANISMO DE AVERSAO AO RISCO (CVAR)&quot;</span> <span class="ow">in</span> <span class="n">aux</span><span class="p">:</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">param</span>
+                <span class="n">dger</span><span class="o">.</span><span class="n">cvar</span> <span class="o">=</span> <span class="p">(</span><span class="kc">True</span> <span class="k">if</span> <span class="s2">&quot;SIM&quot;</span> <span class="ow">in</span> <span class="n">p</span>
+                             <span class="k">else</span> <span class="kc">False</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="s2">&quot;DESCONSIDERA VAZAO MINIMA&quot;</span> <span class="ow">in</span> <span class="n">aux</span><span class="p">:</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">param</span>
+                <span class="n">dger</span><span class="o">.</span><span class="n">desconsidera_vazao_minima</span> <span class="o">=</span> <span class="p">(</span><span class="kc">True</span> <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="s2">&quot;SIM&quot;</span>
+                                                  <span class="k">else</span> <span class="kc">False</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="s2">&quot;CONSIDERA RESTRICOES ELETRICAS NO REE&quot;</span> <span class="ow">in</span> <span class="n">aux</span><span class="p">:</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">param</span>
+                <span class="n">dger</span><span class="o">.</span><span class="n">considera_restricoes_elet</span> <span class="o">=</span> <span class="p">(</span><span class="kc">True</span> <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="s2">&quot;SIM&quot;</span>
+                                                  <span class="k">else</span> <span class="kc">False</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="s2">&quot;CONSIDERA SELECAO DE CORTES DE BENDERS&quot;</span> <span class="ow">in</span> <span class="n">aux</span><span class="p">:</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">param</span>
+                <span class="n">dger</span><span class="o">.</span><span class="n">selecao_cortes_benders</span> <span class="o">=</span> <span class="p">(</span><span class="kc">True</span> <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="s2">&quot;SIM&quot;</span>
+                                               <span class="k">else</span> <span class="kc">False</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="s2">&quot;CONSIDERA JANELA DE CORTES DE BENDERS&quot;</span> <span class="ow">in</span> <span class="n">aux</span><span class="p">:</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">param</span>
+                <span class="n">dger</span><span class="o">.</span><span class="n">janela_selecao_cortes</span> <span class="o">=</span> <span class="p">(</span><span class="kc">True</span> <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="s2">&quot;SIM&quot;</span>
+                                              <span class="k">else</span> <span class="kc">False</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="s2">&quot;CONSIDERA REAMOSTRAGEM DE CENARIOS&quot;</span> <span class="ow">in</span> <span class="n">aux</span><span class="p">:</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">param</span>
+                <span class="n">dger</span><span class="o">.</span><span class="n">reamostragem</span> <span class="o">=</span> <span class="p">(</span><span class="kc">True</span> <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="s2">&quot;SIM&quot;</span>
+                                     <span class="k">else</span> <span class="kc">False</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="s2">&quot;PASSO DA REAMOSTRAGEM:&quot;</span> <span class="ow">in</span> <span class="n">aux</span><span class="p">:</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">linha</span><span class="p">[</span><span class="mi">33</span><span class="p">:</span><span class="mi">37</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+                <span class="n">dger</span><span class="o">.</span><span class="n">passo_reamostragem</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="s2">&quot;TIPO DA REAMOSTRAGEM&quot;</span> <span class="ow">in</span> <span class="n">aux</span><span class="p">:</span>
+                <span class="n">t</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span> <span class="k">if</span> <span class="s2">&quot;SORTEIA NOVOS RUIDOS&quot;</span> <span class="ow">in</span> <span class="n">param</span> <span class="k">else</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="n">tipo_reamos</span> <span class="o">=</span> <span class="n">EnumTipoReamostragem</span><span class="o">.</span><span class="n">infere_valor</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+                <span class="n">dger</span><span class="o">.</span><span class="n">tipo_reamostragem</span> <span class="o">=</span> <span class="n">tipo_reamos</span>
+            <span class="k">elif</span> <span class="s2">&quot;CONSIDERA ZINF CALCULADO NO NO ZERO&quot;</span> <span class="ow">in</span> <span class="n">aux</span><span class="p">:</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">param</span>
+                <span class="n">dger</span><span class="o">.</span><span class="n">considera_convergencia_no0</span> <span class="o">=</span> <span class="p">(</span><span class="kc">True</span>
+                                                   <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="s2">&quot;SIM&quot;</span>
+                                                   <span class="k">else</span> <span class="kc">False</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="s2">&quot;REALIZA ACESSO A FCF PARA CONVERGENCIA&quot;</span> <span class="ow">in</span> <span class="n">aux</span><span class="p">:</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">param</span>
+                <span class="n">dger</span><span class="o">.</span><span class="n">consulta_fcf</span> <span class="o">=</span> <span class="p">(</span><span class="kc">True</span>
+                                     <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="s2">&quot;SIM&quot;</span>
+                                     <span class="k">else</span> <span class="kc">False</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="s2">&quot;CENARIOS DE ENERGIA:&quot;</span> <span class="ow">in</span> <span class="n">aux</span><span class="p">:</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">linha</span><span class="p">[</span><span class="mi">36</span><span class="p">:]</span>
+                <span class="n">dger</span><span class="o">.</span><span class="n">impressao_ena</span> <span class="o">=</span> <span class="p">(</span><span class="kc">True</span>
+                                      <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="s2">&quot;SIM&quot;</span>
+                                      <span class="k">else</span> <span class="kc">False</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="s2">&quot;CORTES ATIVOS:&quot;</span> <span class="ow">in</span> <span class="n">aux</span><span class="p">:</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">linha</span><span class="p">[</span><span class="mi">36</span><span class="p">:]</span>
+                <span class="n">dger</span><span class="o">.</span><span class="n">impressao_cortes_ativos</span> <span class="o">=</span> <span class="p">(</span><span class="kc">True</span>
+                                                <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="s2">&quot;SIM&quot;</span>
+                                                <span class="k">else</span> <span class="kc">False</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="s2">&quot;REPRESENTANTE NO PROCESSO DE AGREGACAO&quot;</span> <span class="ow">in</span> <span class="n">aux</span><span class="p">:</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">linha</span><span class="p">[</span><span class="mi">45</span><span class="p">:]</span>
+                <span class="n">t</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="k">if</span> <span class="s2">&quot;CENTROIDE&quot;</span> <span class="ow">in</span> <span class="n">p</span> <span class="k">else</span> <span class="mi">0</span><span class="p">)</span>
+                <span class="n">ra</span> <span class="o">=</span> <span class="n">EnumRepresentanteAgregacao</span><span class="o">.</span><span class="n">infere_valor</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+                <span class="n">dger</span><span class="o">.</span><span class="n">representante_agregacao</span> <span class="o">=</span> <span class="n">ra</span>
+            <span class="k">elif</span> <span class="s2">&quot;MATRIZ DE CORRELACAO ESPACIAL CONSIDERADA&quot;</span> <span class="ow">in</span> <span class="n">aux</span><span class="p">:</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">linha</span><span class="p">[</span><span class="mi">48</span><span class="p">:]</span>
+                <span class="n">t</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="k">if</span> <span class="s2">&quot;MENSAL&quot;</span> <span class="ow">in</span> <span class="n">p</span> <span class="k">else</span> <span class="mi">0</span><span class="p">)</span>
+                <span class="n">mc</span> <span class="o">=</span> <span class="n">EnumMatrizCorrelacaoEspacial</span><span class="o">.</span><span class="n">infere_valor</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+                <span class="n">dger</span><span class="o">.</span><span class="n">matriz_corr_espacial</span> <span class="o">=</span> <span class="n">mc</span>
+            <span class="k">elif</span> <span class="s2">&quot;DESCONSIDERA CRITERIO DE CONV. ESTATISTICO&quot;</span> <span class="ow">in</span> <span class="n">aux</span><span class="p">:</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">param</span>
+                <span class="n">dger</span><span class="o">.</span><span class="n">desconsidera_converg_estatist</span> <span class="o">=</span> <span class="p">(</span><span class="kc">True</span>
+                                                      <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="s2">&quot;SIM&quot;</span>
+                                                      <span class="k">else</span> <span class="kc">False</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="s2">&quot;MOMENTO DE REAMOSTRAGEM&quot;</span> <span class="ow">in</span> <span class="n">aux</span><span class="p">:</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">linha</span><span class="p">[</span><span class="mi">30</span><span class="p">:]</span>
+                <span class="n">t</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="k">if</span> <span class="s2">&quot;FORWARD&quot;</span> <span class="ow">in</span> <span class="n">p</span> <span class="k">else</span> <span class="mi">0</span><span class="p">)</span>
+                <span class="n">mr</span> <span class="o">=</span> <span class="n">EnumMomentoReamostragem</span><span class="o">.</span><span class="n">infere_valor</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+                <span class="n">dger</span><span class="o">.</span><span class="n">momento_reamostragem</span> <span class="o">=</span> <span class="n">mr</span>
+            <span class="k">elif</span> <span class="s2">&quot;MANTEM OS ARQUIVOS DE ENERGIAS APOS EXECUCAO&quot;</span> <span class="ow">in</span> <span class="n">aux</span><span class="p">:</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">linha</span><span class="p">[</span><span class="mi">51</span><span class="p">:]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+                <span class="n">dger</span><span class="o">.</span><span class="n">mantem_arquivos_ena</span> <span class="o">=</span> <span class="p">(</span><span class="kc">True</span>
+                                            <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="s2">&quot;SIM&quot;</span>
+                                            <span class="k">else</span> <span class="kc">False</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="s2">&quot;INICIO TESTE CONVERG.&quot;</span> <span class="ow">in</span> <span class="n">aux</span><span class="p">:</span>
+                <span class="n">t</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">param</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="mi">0</span><span class="p">)</span>
+                <span class="n">tc</span> <span class="o">=</span> <span class="n">EnumInicioTesteConvergencia</span><span class="o">.</span><span class="n">infere_valor</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+                <span class="n">dger</span><span class="o">.</span><span class="n">inicio_teste_convergencia</span> <span class="o">=</span> <span class="n">tc</span>
+            <span class="k">elif</span> <span class="s2">&quot;VOLUME MINIMO COM DATA SAZONAL NOS PERIODOS&quot;</span> <span class="ow">in</span> <span class="n">aux</span><span class="p">:</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">param</span>
+                <span class="n">t</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="k">if</span> <span class="s2">&quot;SIM&quot;</span> <span class="ow">in</span> <span class="n">p</span> <span class="k">else</span> <span class="mi">0</span><span class="p">)</span>
+                <span class="n">sv</span> <span class="o">=</span> <span class="n">EnumSazonaliza</span><span class="o">.</span><span class="n">infere_valor</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+                <span class="n">dger</span><span class="o">.</span><span class="n">sazonaliza_vmint</span> <span class="o">=</span> <span class="n">sv</span>
+            <span class="k">elif</span> <span class="s2">&quot;VOLUME MAXIMO COM DATA SAZONAL NOS PERIODOS&quot;</span> <span class="ow">in</span> <span class="n">aux</span><span class="p">:</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">param</span>
+                <span class="n">t</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="k">if</span> <span class="s2">&quot;SIM&quot;</span> <span class="ow">in</span> <span class="n">p</span> <span class="k">else</span> <span class="mi">0</span><span class="p">)</span>
+                <span class="n">sv</span> <span class="o">=</span> <span class="n">EnumSazonaliza</span><span class="o">.</span><span class="n">infere_valor</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+                <span class="n">dger</span><span class="o">.</span><span class="n">sazonaliza_vmaxt</span> <span class="o">=</span> <span class="n">sv</span>
+            <span class="k">elif</span> <span class="s2">&quot;VOLUME MAXIMO PENAL. SAZONAL NOS PERIODOS&quot;</span> <span class="ow">in</span> <span class="n">aux</span><span class="p">:</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">param</span>
+                <span class="n">t</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="k">if</span> <span class="s2">&quot;SIM&quot;</span> <span class="ow">in</span> <span class="n">p</span> <span class="k">else</span> <span class="mi">0</span><span class="p">)</span>
+                <span class="n">sv</span> <span class="o">=</span> <span class="n">EnumSazonaliza</span><span class="o">.</span><span class="n">infere_valor</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+                <span class="n">dger</span><span class="o">.</span><span class="n">sazonaliza_vminp</span> <span class="o">=</span> <span class="n">sv</span>
+            <span class="k">elif</span> <span class="s2">&quot;CFUGA E CMONT SAZONAIS NOS PERIODOS&quot;</span> <span class="ow">in</span> <span class="n">aux</span><span class="p">:</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">linha</span><span class="p">[</span><span class="mi">53</span><span class="p">:]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+                <span class="n">t</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="k">if</span> <span class="s2">&quot;SIM&quot;</span> <span class="ow">in</span> <span class="n">p</span> <span class="k">else</span> <span class="mi">0</span><span class="p">)</span>
+                <span class="n">sv</span> <span class="o">=</span> <span class="n">EnumSazonaliza</span><span class="o">.</span><span class="n">infere_valor</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+                <span class="n">dger</span><span class="o">.</span><span class="n">sazonaliza_cfuga_cmont</span> <span class="o">=</span> <span class="n">sv</span>
+            <span class="k">elif</span> <span class="s2">&quot;CONSIDERA RESTRICOES DE LIMITES DE EMISSAO&quot;</span> <span class="ow">in</span> <span class="n">aux</span><span class="p">:</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">param</span>
+                <span class="n">dger</span><span class="o">.</span><span class="n">restricoes_gee</span> <span class="o">=</span> <span class="p">(</span><span class="kc">True</span>
+                                       <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="s2">&quot;SIM&quot;</span>
+                                       <span class="k">else</span> <span class="kc">False</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="s2">&quot;CONSIDERA AFLUENCIA ANUAL NOS MODELOS&quot;</span> <span class="ow">in</span> <span class="n">aux</span><span class="p">:</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">param</span>
+                <span class="n">af</span> <span class="o">=</span> <span class="p">(</span><span class="kc">True</span>
+                      <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="s2">&quot;SIM&quot;</span>
+                      <span class="k">else</span> <span class="kc">False</span><span class="p">)</span>
+                <span class="n">af_existente</span> <span class="o">=</span> <span class="n">dger</span><span class="o">.</span><span class="n">afluencia_anual_parp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">dger</span><span class="o">.</span><span class="n">afluencia_anual_parp</span> <span class="o">=</span> <span class="p">(</span><span class="n">af</span><span class="p">,</span> <span class="n">af_existente</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="s2">&quot;CONSIDERA VERIFICACAO AUTOMATICA DA ORDEM DO&quot;</span> <span class="ow">in</span> <span class="n">aux</span><span class="p">:</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">linha</span><span class="p">[</span><span class="mi">63</span><span class="p">:]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+                <span class="n">af</span> <span class="o">=</span> <span class="p">(</span><span class="kc">True</span>
+                      <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="s2">&quot;SIM&quot;</span>
+                      <span class="k">else</span> <span class="kc">False</span><span class="p">)</span>
+                <span class="n">af_existente</span> <span class="o">=</span> <span class="n">dger</span><span class="o">.</span><span class="n">afluencia_anual_parp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">dger</span><span class="o">.</span><span class="n">afluencia_anual_parp</span> <span class="o">=</span> <span class="p">(</span><span class="n">af_existente</span><span class="p">,</span> <span class="n">af</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="s2">&quot;CONSIDERACAO DA INCERTEZA NA GERACAO EOLICA&quot;</span> <span class="ow">in</span> <span class="n">aux</span><span class="p">:</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">param</span>
+                <span class="n">dger</span><span class="o">.</span><span class="n">incerteza_ger_eolica</span> <span class="o">=</span> <span class="p">(</span><span class="kc">True</span>
+                                             <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="s2">&quot;SIM&quot;</span>
+                                             <span class="k">else</span> <span class="kc">False</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="s2">&quot;CONSIDERACAO DA INCERTEZA NA GERACAO SOLAR &quot;</span> <span class="ow">in</span> <span class="n">aux</span><span class="p">:</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">param</span>
+                <span class="n">dger</span><span class="o">.</span><span class="n">incerteza_ger_solar</span> <span class="o">=</span> <span class="p">(</span><span class="kc">True</span>
+                                            <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="s2">&quot;SIM&quot;</span>
+                                            <span class="k">else</span> <span class="kc">False</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="s2">&quot;CONSIDERA RESTRICOES DE FORNECIMENTO DE GAS&quot;</span> <span class="ow">in</span> <span class="n">aux</span><span class="p">:</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">param</span>
+                <span class="n">dger</span><span class="o">.</span><span class="n">restricoes_fornecimento_gas</span> <span class="o">=</span> <span class="p">(</span><span class="kc">True</span>
+                                                    <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="s2">&quot;SIM&quot;</span>
+                                                    <span class="k">else</span> <span class="kc">False</span><span class="p">)</span>
+
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">linha</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
+            <span class="c1"># Confere se a parte do DGer já acabou</span>
+            <span class="k">if</span> <span class="n">LeituraPMO</span><span class="o">.</span><span class="n">str_fim_dger</span> <span class="ow">in</span> <span class="n">linha</span><span class="p">:</span>
+                <span class="k">break</span>
+            <span class="c1"># Senão, lê mais um parâmetro</span>
+            <span class="n">le_parametro</span><span class="p">(</span><span class="n">linha</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">dger</span>
 
     <span class="k">def</span> <span class="nf">_le_efio_liquida</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                          <span class="n">arq</span><span class="p">:</span> <span class="n">IO</span>

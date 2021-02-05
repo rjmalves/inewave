@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>inewave.newave.modelos.pmo &mdash; documentação inewave 0.0.15</title>
+  <title>inewave.newave.modelos.pmo &mdash; documentação inewave 0.0.16</title>
   
 
   
@@ -157,24 +157,10 @@
            <div itemprop="articleBody">
             
   <h1>Código fonte para inewave.newave.modelos.pmo</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span>
+<span></span><span class="kn">from</span> <span class="nn">.dger</span> <span class="kn">import</span> <span class="n">DGer</span>
+
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>  <span class="c1"># type: ignore</span>
-
-
-<div class="viewcode-block" id="DadosGeraisPMO"><a class="viewcode-back" href="../../../../reference/newave/arquivos/pmo.html#inewave.newave.modelos.pmo.DadosGeraisPMO">[documentos]</a><span class="k">class</span> <span class="nc">DadosGeraisPMO</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Armazena as informações de dados</span>
-<span class="sd">    gerais contidas no arquivo `pmo.dat`.</span>
-
-<span class="sd">    **Parâmetros**</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1"># TODO - estruturar as propriedades</span>
-        <span class="c1"># Todas as informações echo do dger.dat.</span>
-        <span class="k">pass</span>
-
-    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">o</span><span class="p">:</span> <span class="nb">object</span><span class="p">):</span>
-        <span class="k">return</span> <span class="kc">True</span></div>
 
 
 <div class="viewcode-block" id="EnergiasAfluentesPMO"><a class="viewcode-back" href="../../../../reference/newave/arquivos/pmo.html#inewave.newave.modelos.pmo.EnergiasAfluentesPMO">[documentos]</a><span class="k">class</span> <span class="nc">EnergiasAfluentesPMO</span><span class="p">:</span>
@@ -603,7 +589,7 @@
 <span class="sd">    - ano_pmo: `int`</span>
 <span class="sd">    - mes_pmo: `int`</span>
 <span class="sd">    - versao_newave: `str`</span>
-<span class="sd">    - dados_gerais: `DadosGeraisPMO`</span>
+<span class="sd">    - dados_gerais: `DGer`</span>
 <span class="sd">    - energias_passadas_politica: `EnergiasAfluentesPMO`</span>
 <span class="sd">    - energias_passadas_primeira_conf: `EnergiasAfluentesPMO`</span>
 <span class="sd">    - energias_passadas_canal_fuga: `EnergiasAfluentesPMO`</span>
@@ -619,7 +605,7 @@
                  <span class="n">ano_pmo</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
                  <span class="n">mes_pmo</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
                  <span class="n">versao_newave</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-                 <span class="n">dados_gerais</span><span class="p">:</span> <span class="n">DadosGeraisPMO</span><span class="p">,</span>
+                 <span class="n">dados_gerais</span><span class="p">:</span> <span class="n">DGer</span><span class="p">,</span>
                  <span class="n">energia_fio_liquida</span><span class="p">:</span> <span class="n">EnergiaFioLiquidaREEPMO</span><span class="p">,</span>
                  <span class="n">retas_perdas_engolimento</span><span class="p">:</span> <span class="n">RetasPerdasEngolimentoREEPMO</span><span class="p">,</span>
                  <span class="n">energias_passadas_politica</span><span class="p">:</span> <span class="n">EnergiasAfluentesPMO</span><span class="p">,</span>

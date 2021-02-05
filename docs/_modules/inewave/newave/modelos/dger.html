@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>inewave.newave.modelos.dger &mdash; documentação inewave 0.0.15</title>
+  <title>inewave.newave.modelos.dger &mdash; documentação inewave 0.0.16</title>
   
 
   
@@ -355,7 +355,7 @@
     <span class="n">CENARIOS</span> <span class="o">=</span> <span class="mi">3</span></div>
 
 
-<div class="viewcode-block" id="DGer"><a class="viewcode-back" href="../../../../reference/newave/arquivos/dger.html#inewave.newave.modelos.dger.DGer">[documentos]</a><span class="k">class</span> <span class="nc">DGer</span><span class="p">:</span>
+<div class="viewcode-block" id="DGer"><a class="viewcode-back" href="../../../../reference/newave/arquivos/pmo.html#inewave.newave.modelos.dger.DGer">[documentos]</a><span class="k">class</span> <span class="nc">DGer</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Classe para armazenar dados gerais de uma execução do NEWAVE.</span>
 
@@ -457,7 +457,7 @@
 <span class="sd">    - sazonaliza_vminp: `EnumSazonaliza`</span>
 <span class="sd">    - sazonaliza_cfuga_cmont: `EnumSazonaliza`</span>
 <span class="sd">    - restricoes_gee: `bool`</span>
-<span class="sd">    - afluencia_anual_parp: `bool`</span>
+<span class="sd">    - afluencia_anual_parp: `Tuple[bool, bool]`</span>
 <span class="sd">    - incerteza_ger_eolica: `bool`</span>
 <span class="sd">    - incerteza_ger_solar: `bool`</span>
 <span class="sd">    - representacao_incerteza: `EnumRepresentacaoIncerteza`</span>
@@ -668,10 +668,55 @@
                 <span class="k">continue</span>
             <span class="k">if</span> <span class="n">u</span> <span class="o">!=</span> <span class="n">v</span><span class="p">:</span>
                 <span class="n">dif</span> <span class="o">=</span> <span class="kc">True</span>
-                <span class="k">break</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
         <span class="k">return</span> <span class="ow">not</span> <span class="n">dif</span>
 
-<div class="viewcode-block" id="DGer.dger_padrao"><a class="viewcode-back" href="../../../../reference/newave/arquivos/dger.html#inewave.newave.modelos.dger.DGer.dger_padrao">[documentos]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="DGer.eq_eco_saida"><a class="viewcode-back" href="../../../../reference/newave/arquivos/pmo.html#inewave.newave.modelos.dger.DGer.eq_eco_saida">[documentos]</a>    <span class="k">def</span> <span class="nf">eq_eco_saida</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">o</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compara o eco de saída do DGer em um `pmo.dat` com o DGer</span>
+<span class="sd">        dado como entrada.</span>
+
+<span class="sd">        ** Parâmetros **</span>
+
+<span class="sd">        - o: `DGer`</span>
+
+<span class="sd">        ** Sobre **</span>
+
+<span class="sd">        A igualdade entre DGer no eco de saída ignora alguns</span>
+<span class="sd">        campos.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="n">DGer</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="n">dger</span><span class="p">:</span> <span class="n">DGer</span> <span class="o">=</span> <span class="n">o</span>
+        <span class="n">dif</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">campos_ignorados</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;nome_estudo&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;tipo_execucao&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;restricoes_itaipu&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;tamanho_arq_vaz&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;vol_inicial_subsistema&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;tendencia_hidrologica&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;tipo_simulacao_final&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;intervalo_gravacao_relatorio&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;bidding_demanda&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;el_nino&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;enso&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;duracao_patamar&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;tipo_geracao_afluencias&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;profundidade_risco_deficit&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;iteracao_sim_final&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;sim_final_com_data&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;convergencia_minimo_zsup&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;representacao_incerteza&quot;</span><span class="p">]</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">u</span><span class="p">),</span> <span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span>
+                                  <span class="n">dger</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+            <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">campos_ignorados</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="k">if</span> <span class="n">u</span> <span class="o">!=</span> <span class="n">v</span><span class="p">:</span>
+                <span class="n">dif</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="n">dif</span></div>
+
+<div class="viewcode-block" id="DGer.dger_padrao"><a class="viewcode-back" href="../../../../reference/newave/arquivos/pmo.html#inewave.newave.modelos.dger.DGer.dger_padrao">[documentos]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">dger_padrao</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Retorna um DGer padrão, com valores em todos os campos.</span>
