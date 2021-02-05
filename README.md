@@ -1,7 +1,6 @@
 # inewave
 
-![tests](https://github.com/rjmalves/inewave/workflows/Testes%20de%20funcionalidades%20ap%C3%B3s%20altera%C3%A7%C3%B5es%20de%20c%C3%B3digo/badge.svg?branch=main)
-
+![tests](https://github.com/rjmalves/inewave/workflows/tests/badge.svg)  
 [![codecov](https://codecov.io/gh/rjmalves/inewave/branch/main/graph/badge.svg?token=R9WPQHQGKF)](https://codecov.io/gh/rjmalves/inewave)
 
 O `inewave` é um pacote Python para manipulação dos arquivos de entrada e saída do programa [NEWAVE](http://www.cepel.br/pt_br/produtos/newave-modelo-de-planejamento-da-operacao-de-sistemas-hidrotermicos-interligados-de-longo-e-medio-prazo.htm), desenvolvido pelo [CEPEL](http://www.cepel.br) e utilizado para os estudos de planejamento e operação do Sistema Interligado Nacional (SIN).
