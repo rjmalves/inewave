@@ -1,4 +1,4 @@
-name: Upload de versão atualizada para o PyPI
+name: deploy
 
 on:
   release:
