@@ -3,7 +3,17 @@ from inewave._utils.leitura import Leitura
 from inewave.config import MAX_ANOS_ESTUDO, MAX_ITERS
 from inewave.config import NUM_VARIAVEIS_CUSTO_PMO, REES
 from inewave.config import MESES, SUBMERCADOS
-from .modelos.pmo import DadosGeraisPMO
+from .modelos.dger import DGer
+from .modelos.dger import EnumImpressaoOperacao
+from .modelos.dger import EnumImpressaoConvergencia
+from .modelos.dger import EnumCorrecaoEnergiaDesvio
+from .modelos.dger import EnumRepresentacaoSubmotorizacao
+from .modelos.dger import EnumTipoReamostragem
+from .modelos.dger import EnumRepresentanteAgregacao
+from .modelos.dger import EnumMatrizCorrelacaoEspacial
+from .modelos.dger import EnumMomentoReamostragem
+from .modelos.dger import EnumInicioTesteConvergencia
+from .modelos.dger import EnumSazonaliza
 from .modelos.pmo import EnergiaFioLiquidaREEPMO
 from .modelos.pmo import RetasPerdasEngolimentoREEPMO
 from .modelos.pmo import EnergiasAfluentesPMO
@@ -44,12 +54,14 @@ class LeituraPMO(Leitura):
 
     """
     str_dados_pmo = " DATA : "
+    str_inicio_dger = "  DADOS GERAIS"
     str_inicio_converg = "    ITER               LIM.INF.        "
     str_inicio_risco = " ANO  RISCO   EENS  RISCO"
     str_inicio_custo_series = "                 CUSTO DE OPERACAO DAS"
     str_inicio_valor_esperado = "                 VALOR ESPERADO PARA PERI"
     str_inicio_custo_referenciado = "                     CUSTO OPERACAO R"
     str_inicio_efio_liquida = '***ENERGIA FIO D"AGUA LIQUIDA***'
+    str_fim_dger = "CEPEL"
     str_fim_converg = "NENHUM ERRO FOI DETECTADO NO CALCULO DA POLITICA"
     str_fim_efio_liquida = "MODELO ESTRATEGICO DE GERACAO"
     str_fim_pmo = "DETECTADO NO CALCULO DA SIMULACAO FINAL"
@@ -62,7 +74,7 @@ class LeituraPMO(Leitura):
         self.pmo = PMO(0,
                        0,
                        "",
-                       DadosGeraisPMO(),
+                       DGer.dger_padrao(),
                        EnergiaFioLiquidaREEPMO(np.array([])),
                        RetasPerdasEngolimentoREEPMO(np.array([])),
                        EnergiasAfluentesPMO(),
@@ -94,6 +106,7 @@ class LeituraPMO(Leitura):
         """
         achou_dados_pmo = False
         leu_dados_pmo = False
+        achou_dger = False
         achou_efio_liquida = False
         achou_convergencia = False
         achou_risco_ens = False
@@ -106,6 +119,7 @@ class LeituraPMO(Leitura):
         ano_pmo = 0
         mes_pmo = 0
         versao_newave = ""
+        dger = DGer.dger_padrao()
         energia_liq = EnergiaFioLiquidaREEPMO(np.array([]))
         retas_perdas = RetasPerdasEngolimentoREEPMO(np.array([]))
         convergencia = ConvergenciaPMO(np.array([]))
@@ -120,7 +134,7 @@ class LeituraPMO(Leitura):
                 self.pmo = PMO(ano_pmo,
                                mes_pmo,
                                versao_newave,
-                               DadosGeraisPMO(),
+                               dger,
                                energia_liq,
                                retas_perdas,
                                EnergiasAfluentesPMO(),
@@ -137,6 +151,9 @@ class LeituraPMO(Leitura):
             if not achou_dados_pmo and not leu_dados_pmo:
                 achou = LeituraPMO.str_dados_pmo in linha
                 achou_dados_pmo = achou
+            if not achou_dger:
+                achou = LeituraPMO.str_inicio_dger in linha
+                achou_dger = achou
             if not achou_efio_liquida:
                 achou = LeituraPMO.str_inicio_efio_liquida in linha
                 achou_efio_liquida = achou
@@ -160,6 +177,9 @@ class LeituraPMO(Leitura):
                 ano_pmo, mes_pmo, versao_newave = self._le_dados_pmo(linha)
                 achou_dados_pmo = False
                 leu_dados_pmo = True
+            if achou_dger:
+                dger = self._le_dger(arq)
+                achou_dger = False
             if achou_efio_liquida:
                 energia_liq, retas_perdas = self._le_efio_liquida(arq)
                 achou_efio_liquida = False
@@ -197,6 +217,318 @@ class LeituraPMO(Leitura):
         # Encontra a versao do NW
         versao_newave = linha.split("Versao")[1].strip()
         return ano_pmo, mes_pmo, versao_newave
+
+    def _le_dger(self, arq: IO) -> DGer:
+        """
+        Lê o eco dos dados gerais de entrada fornecidos ao caso.
+        """
+        dger = DGer.dger_padrao()
+        ci = 57
+
+        def le_parametro(linha: str):
+            aux = linha[5:54]
+            param = linha[ci:].strip()
+            if "DURACAO DE CADA PERIODO" in aux:
+                dger.duracao_estagio_op = int(param)
+            elif "NUMERO DE ANOS DO HORIZONTE DE" in aux:
+                dger.num_anos_estudo = int(param)
+            elif "MES INICIAL DO PERIODO DE PRE" in aux:
+                dger.mes_inicio_pre_estudo = int(param)
+            elif "MES INICIAL DO PERIODO DE EST" in aux:
+                dger.mes_inicio_estudo = int(param)
+            elif "ANO INICIAL DO PERIODO DE EST" in aux:
+                dger.ano_inicio_estudo = int(param)
+            elif "NUMERO DE ANOS QUE PRECEDEM O HOR" in aux:
+                dger.num_anos_pre_estudo = int(param)
+            elif "NUMERO DE ANOS QUE SUCEDEM O HOR" in aux:
+                dger.num_anos_pos_estudo = int(param)
+            elif "NUMERO DE ANOS DO POS NA SIMULACAO" in aux:
+                dger.num_anos_pos_sim_final = int(param)
+            elif "IMPRIME DADOS DAS USINAS " in aux:
+                p = param
+                dger.imprime_dados_usinas = (True if p == "SIM"
+                                             else False)
+            elif "IMPRIME DADOS DE MERCADO" in aux:
+                p = param
+                dger.imprime_dados_mercados = (True if p == "SIM"
+                                               else False)
+            elif "IMPRIME DADOS DE ENERGIAS" in aux:
+                p = param
+                dger.imprime_dados_energias = (True if p == "SIM"
+                                               else False)
+            elif "IMPRIME PARAMETROS DO MODELO DE ENERGIA" in aux:
+                p = param
+                dger.imprime_dados_modelo = (True if p == "SIM"
+                                             else False)
+            elif "IMPRIME PARAMETROS DO RESERVATORIO EQUIV" in aux:
+                p = param
+                dger.imprime_dados_rees = (True if p == "SIM"
+                                           else False)
+            elif "NUMERO MAXIMO DE ITERACOES" in aux:
+                dger.max_iteracoes = int(param)
+            elif "NUMERO DE SIMULACOES" in aux:
+                dger.num_sim_forward = int(param)
+            elif "NUMERO DE ABERTURAS" in aux:
+                dger.num_aberturas = int(param)
+            elif "TOTAL DE SERIES SIMULADAS GRAVADAS" in aux:
+                dger.num_series_sinteticas = int(param)
+            elif "ORDEM MAXIMA DO MODELO DE ENERGI" in aux:
+                dger.ordem_maxima_parp = int(param)
+            elif "ANO INICIAL DO HISTORICO DE" in aux:
+                dger.ano_inicial_vaz_historicas = int(param)
+            elif "CALCULA VOLUME INICIAL" in aux:
+                p = param
+                dger.calcula_vol_inicial = (True if p == "SIM"
+                                            else False)
+            elif "TOLERANCIA PARA CONVERGENCIA" in aux:
+                dger.tolerancia = float(param)
+            elif "TAXA DE DESCONTO ANUAL (%)" in aux:
+                dger.taxa_de_desconto = float(param)
+            elif "IMPRIME DETALHAMENTO DA OPERACAO" in aux:
+                val = (0 if param == "NAO" else 1)
+                impr_op = EnumImpressaoOperacao.infere_valor(val)
+                dger.impressao_operacao = impr_op
+            elif "IMPRIME RESULTADOS DA CONVERGENCIA" in aux:
+                val = (0 if param == "NAO" else 1)
+                impr_c = EnumImpressaoConvergencia.infere_valor(val)
+                dger.impressao_convergencia = impr_c
+            elif "NUMERO MINIMO DE ITERACOES" in aux:
+                dger.min_interacoes = int(param)
+            elif "ADOCAO DE RACIONAMENTO PREVENTIVO" in aux:
+                p = param
+                dger.racionamento_preventivo = (True if p == "SIM"
+                                                else False)
+            elif "LIDA DO ARQUIVO DE MANUTENCOES" in aux:
+                dger.numero_anos_manutencao_UTEs = int(param)
+            elif "CONSIDERA PERDAS NA REDE DE TRANSMISSAO" in aux:
+                p = param
+                dger.perdas_transmissao = (True if p == "SIM"
+                                           else False)
+            elif "CONSIDERA OUTROS USOS DA AGUA" in aux:
+                p = param
+                dger.considera_desvio_dagua = (True if p == "SIM"
+                                               else False)
+            elif "OUTROS USOS DA AGUA VARIAVEL COM A ENERGIA" in aux:
+                val = (0 if param == "NAO" else 1)
+                des = EnumCorrecaoEnergiaDesvio.infere_valor(val)
+                dger.correcao_energia_desvio = des
+            elif "CONSIDERA CURVA GUIA DE SEGURANCA/VMINP" in aux:
+                p = param
+                dger.considera_curva_aversao = (True if p == "SIM"
+                                                else False)
+            elif "AGRUPAMENTO LIVRE" in aux:
+                p = param
+                dger.agrupamento_livre_interc = (True
+                                                 if p == "SIM"
+                                                 else False)
+            elif "CONSIDERA EQUALIZACAO DE PENALIDADES DE" in aux:
+                p = param
+                dger.equaliza_penalidades_interc = (True
+                                                    if p == "SIM"
+                                                    else False)
+            elif "CONSIDERA SUBMOTORIZACAO SAZONAL" in aux:
+                val = (0 if param == "NAO" else
+                       2 if "USINA" in param else 1)
+                sm = EnumRepresentacaoSubmotorizacao.infere_valor(val)
+                dger.representa_submotor = sm
+            elif "CONSIDERA ORDENACAO AUTOMATICA REEs" in aux:
+                p = linha[66:].strip()
+                dger.ordenacao_automatica_subsist = (True
+                                                     if p == "SIM"
+                                                     else False)
+            elif "CONSIDERA CARGAS ADICIONAIS" in aux:
+                p = param
+                dger.considera_cargas_adicionais = (True
+                                                    if p == "SIM"
+                                                    else False)
+            elif "DELTA DE ZSUP" in aux:
+                dger.delta_zsup = float(param[:-1])
+            elif "DELTA DE ZINF" in aux:
+                dger.delta_zinf = float(param[:-1])
+            elif "NUMERO DE DELTAS DE ZINF CONSECUTIVOS" in aux:
+                dger.deltas_consecutivos = int(param)
+            elif "CONSIDERA ANTECIPACAO DE GERACAO" in aux:
+                p = param
+                dger.considera_despacho_gnl = (True
+                                               if p == "SIM"
+                                               else False)
+            elif "ANTECIPACAO DE GERACAO TERMOELETRICA" in aux:
+                p = param
+                dger.modifica_auto_despacho_gnl = (True
+                                                   if p == "SIM"
+                                                   else False)
+            elif "CONSIDERA GERACAO HIDRAULICA MINIMA" in aux:
+                p = param
+                dger.considera_ghmin = (True
+                                        if p == "SIM"
+                                        else False)
+            elif "CONSIDERA GERENCIAMENTO EXTERNO DE PROCESSOS" in aux:
+                p = param
+                dger.gerenciador_externo = (True if p == "SIM"
+                                            else False)
+            elif "CONSIDERA COMUNICACAO EM DOIS NIVEIS" in aux:
+                p = param
+                dger.comunicacao_dois_niveis = (True if p == "SIM"
+                                                else False)
+            elif "CONSIDERA ARMAZENAMENTO LOCAL DE ARQUIVOS" in aux:
+                p = param
+                dger.armazenamento_local_temp = (True if p == "SIM"
+                                                 else False)
+            elif "CONSIDERA ALOCACAO DE ENERGIA EM MEMORIA" in aux:
+                p = param
+                dger.aloca_memoria_enas = (True if p == "SIM"
+                                           else False)
+            elif "CONSIDERA ALOCACAO DE CORTES EM MEMORIA" in aux:
+                p = param
+                dger.aloca_memoria_cortes = (True if p == "SIM"
+                                             else False)
+            elif "CONSIDERA SUPERFICIE DE AVERSAO A RISCO (SAR)" in aux:
+                p = param
+                dger.sar = (True if p == "SIM"
+                            else False)
+            elif "CONSIDERA MECANISMO DE AVERSAO AO RISCO (CVAR)" in aux:
+                p = param
+                dger.cvar = (True if "SIM" in p
+                             else False)
+            elif "DESCONSIDERA VAZAO MINIMA" in aux:
+                p = param
+                dger.desconsidera_vazao_minima = (True if p == "SIM"
+                                                  else False)
+            elif "CONSIDERA RESTRICOES ELETRICAS NO REE" in aux:
+                p = param
+                dger.considera_restricoes_elet = (True if p == "SIM"
+                                                  else False)
+            elif "CONSIDERA SELECAO DE CORTES DE BENDERS" in aux:
+                p = param
+                dger.selecao_cortes_benders = (True if p == "SIM"
+                                               else False)
+            elif "CONSIDERA JANELA DE CORTES DE BENDERS" in aux:
+                p = param
+                dger.janela_selecao_cortes = (True if p == "SIM"
+                                              else False)
+            elif "CONSIDERA REAMOSTRAGEM DE CENARIOS" in aux:
+                p = param
+                dger.reamostragem = (True if p == "SIM"
+                                     else False)
+            elif "PASSO DA REAMOSTRAGEM:" in aux:
+                p = linha[33:37].strip()
+                dger.passo_reamostragem = int(p)
+            elif "TIPO DA REAMOSTRAGEM" in aux:
+                t = (0 if "SORTEIA NOVOS RUIDOS" in param else 1)
+                tipo_reamos = EnumTipoReamostragem.infere_valor(t)
+                dger.tipo_reamostragem = tipo_reamos
+            elif "CONSIDERA ZINF CALCULADO NO NO ZERO" in aux:
+                p = param
+                dger.considera_convergencia_no0 = (True
+                                                   if p == "SIM"
+                                                   else False)
+            elif "REALIZA ACESSO A FCF PARA CONVERGENCIA" in aux:
+                p = param
+                dger.consulta_fcf = (True
+                                     if p == "SIM"
+                                     else False)
+            elif "CENARIOS DE ENERGIA:" in aux:
+                p = linha[36:]
+                dger.impressao_ena = (True
+                                      if p == "SIM"
+                                      else False)
+            elif "CORTES ATIVOS:" in aux:
+                p = linha[36:]
+                dger.impressao_cortes_ativos = (True
+                                                if p == "SIM"
+                                                else False)
+            elif "REPRESENTANTE NO PROCESSO DE AGREGACAO" in aux:
+                p = linha[45:]
+                t = (1 if "CENTROIDE" in p else 0)
+                ra = EnumRepresentanteAgregacao.infere_valor(t)
+                dger.representante_agregacao = ra
+            elif "MATRIZ DE CORRELACAO ESPACIAL CONSIDERADA" in aux:
+                p = linha[48:]
+                t = (1 if "MENSAL" in p else 0)
+                mc = EnumMatrizCorrelacaoEspacial.infere_valor(t)
+                dger.matriz_corr_espacial = mc
+            elif "DESCONSIDERA CRITERIO DE CONV. ESTATISTICO" in aux:
+                p = param
+                dger.desconsidera_converg_estatist = (True
+                                                      if p == "SIM"
+                                                      else False)
+            elif "MOMENTO DE REAMOSTRAGEM" in aux:
+                p = linha[30:]
+                t = (1 if "FORWARD" in p else 0)
+                mr = EnumMomentoReamostragem.infere_valor(t)
+                dger.momento_reamostragem = mr
+            elif "MANTEM OS ARQUIVOS DE ENERGIAS APOS EXECUCAO" in aux:
+                p = linha[51:].strip()
+                dger.mantem_arquivos_ena = (True
+                                            if p == "SIM"
+                                            else False)
+            elif "INICIO TESTE CONVERG." in aux:
+                t = (1 if int(param) > 1 else 0)
+                tc = EnumInicioTesteConvergencia.infere_valor(t)
+                dger.inicio_teste_convergencia = tc
+            elif "VOLUME MINIMO COM DATA SAZONAL NOS PERIODOS" in aux:
+                p = param
+                t = (1 if "SIM" in p else 0)
+                sv = EnumSazonaliza.infere_valor(t)
+                dger.sazonaliza_vmint = sv
+            elif "VOLUME MAXIMO COM DATA SAZONAL NOS PERIODOS" in aux:
+                p = param
+                t = (1 if "SIM" in p else 0)
+                sv = EnumSazonaliza.infere_valor(t)
+                dger.sazonaliza_vmaxt = sv
+            elif "VOLUME MAXIMO PENAL. SAZONAL NOS PERIODOS" in aux:
+                p = param
+                t = (1 if "SIM" in p else 0)
+                sv = EnumSazonaliza.infere_valor(t)
+                dger.sazonaliza_vminp = sv
+            elif "CFUGA E CMONT SAZONAIS NOS PERIODOS" in aux:
+                p = linha[53:].strip()
+                t = (1 if "SIM" in p else 0)
+                sv = EnumSazonaliza.infere_valor(t)
+                dger.sazonaliza_cfuga_cmont = sv
+            elif "CONSIDERA RESTRICOES DE LIMITES DE EMISSAO" in aux:
+                p = param
+                dger.restricoes_gee = (True
+                                       if p == "SIM"
+                                       else False)
+            elif "CONSIDERA AFLUENCIA ANUAL NOS MODELOS" in aux:
+                p = param
+                af = (True
+                      if p == "SIM"
+                      else False)
+                af_existente = dger.afluencia_anual_parp[1]
+                dger.afluencia_anual_parp = (af, af_existente)
+            elif "CONSIDERA VERIFICACAO AUTOMATICA DA ORDEM DO" in aux:
+                p = linha[63:].strip()
+                af = (True
+                      if p == "SIM"
+                      else False)
+                af_existente = dger.afluencia_anual_parp[0]
+                dger.afluencia_anual_parp = (af_existente, af)
+            elif "CONSIDERACAO DA INCERTEZA NA GERACAO EOLICA" in aux:
+                p = param
+                dger.incerteza_ger_eolica = (True
+                                             if p == "SIM"
+                                             else False)
+            elif "CONSIDERACAO DA INCERTEZA NA GERACAO SOLAR " in aux:
+                p = param
+                dger.incerteza_ger_solar = (True
+                                            if p == "SIM"
+                                            else False)
+            elif "CONSIDERA RESTRICOES DE FORNECIMENTO DE GAS" in aux:
+                p = param
+                dger.restricoes_fornecimento_gas = (True
+                                                    if p == "SIM"
+                                                    else False)
+
+        while True:
+            linha = self._le_linha_com_backup(arq)
+            # Confere se a parte do DGer já acabou
+            if LeituraPMO.str_fim_dger in linha:
+                break
+            # Senão, lê mais um parâmetro
+            le_parametro(linha)
+        return dger
 
     def _le_efio_liquida(self,
                          arq: IO

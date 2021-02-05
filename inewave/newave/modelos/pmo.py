@@ -1,21 +1,7 @@
+from .dger import DGer
+
 from typing import Dict, List
 import numpy as np  # type: ignore
-
-
-class DadosGeraisPMO:
-    """
-    Armazena as informações de dados
-    gerais contidas no arquivo `pmo.dat`.
-
-    **Parâmetros**
-    """
-    def __init__(self):
-        # TODO - estruturar as propriedades
-        # Todas as informações echo do dger.dat.
-        pass
-
-    def __eq__(self, o: object):
-        return True
 
 
 class EnergiasAfluentesPMO:
@@ -444,7 +430,7 @@ class PMO:
     - ano_pmo: `int`
     - mes_pmo: `int`
     - versao_newave: `str`
-    - dados_gerais: `DadosGeraisPMO`
+    - dados_gerais: `DGer`
     - energias_passadas_politica: `EnergiasAfluentesPMO`
     - energias_passadas_primeira_conf: `EnergiasAfluentesPMO`
     - energias_passadas_canal_fuga: `EnergiasAfluentesPMO`
@@ -460,7 +446,7 @@ class PMO:
                  ano_pmo: int,
                  mes_pmo: int,
                  versao_newave: str,
-                 dados_gerais: DadosGeraisPMO,
+                 dados_gerais: DGer,
                  energia_fio_liquida: EnergiaFioLiquidaREEPMO,
                  retas_perdas_engolimento: RetasPerdasEngolimentoREEPMO,
                  energias_passadas_politica: EnergiasAfluentesPMO,

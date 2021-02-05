@@ -1,5 +1,6 @@
 # Rotinas de testes associadas ao arquivo pmo.dat do NEWAVE
 from inewave.newave.pmo import LeituraPMO
+from inewave.newave.dger import LeituraDGer
 from inewave.config import SUBMERCADOS
 import numpy as np  # type: ignore
 
@@ -68,3 +69,9 @@ def test_leitura_tabelas_custos():
     assert np.all(custo_series.custos == valor_esp.custos)
     assert np.all(custo_series.custos == custo_ref.custos)
     assert np.all(custo_ref.custos == valor_esp.custos)
+
+
+def test_eco_dger_pmo():
+    leitor2 = LeituraDGer("tests/_arquivos")
+    leitor2.le_arquivo()
+    leitor.pmo.dados_gerais.eq_eco_saida(leitor2.dger)

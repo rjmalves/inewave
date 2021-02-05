@@ -377,7 +377,7 @@ class LeituraDGer(Leitura):
                     elif "AFLUENCIA ANUAL PARP" in aux:
                         af1 = bool(int(linha[21:25].strip()))
                         af2 = bool(int(linha[26:30].strip()))
-                        self.dger.afluencia_anual_parp = (af1, af2)
+                        self.dger.afluencia_anual_parp = (af1, not af2)
                     elif "INCERTEZA GER.EOLICA" in aux:
                         p = param
                         self.dger.incerteza_ger_eolica = bool(int(p))
@@ -741,7 +741,7 @@ class EscritaDGer(Escrita):
             d = int(dger.afluencia_anual_parp[0])
             str_dados += str(int(d)).rjust(4) + " "
             d = int(dger.afluencia_anual_parp[1])
-            str_dados += str(int(d)).rjust(4)
+            str_dados += str(int(not d)).rjust(4)
             arq.write(str_aux + str_dados + "\n")
             # Incerteza na geração eólica
             escreve_alinhado("INCERTEZA GER.EOLICA",

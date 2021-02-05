@@ -298,7 +298,7 @@ class DGer:
     - sazonaliza_vminp: `EnumSazonaliza`
     - sazonaliza_cfuga_cmont: `EnumSazonaliza`
     - restricoes_gee: `bool`
-    - afluencia_anual_parp: `bool`
+    - afluencia_anual_parp: `Tuple[bool, bool]`
     - incerteza_ger_eolica: `bool`
     - incerteza_ger_solar: `bool`
     - representacao_incerteza: `EnumRepresentacaoIncerteza`
@@ -509,7 +509,52 @@ class DGer:
                 continue
             if u != v:
                 dif = True
-                break
+                print(k)
+        return not dif
+
+    def eq_eco_saida(self, o: object) -> bool:
+        """
+        Compara o eco de saída do DGer em um `pmo.dat` com o DGer
+        dado como entrada.
+
+        ** Parâmetros **
+
+        - o: `DGer`
+
+        ** Sobre **
+
+        A igualdade entre DGer no eco de saída ignora alguns
+        campos.
+        """
+        if not isinstance(o, DGer):
+            return False
+        dger: DGer = o
+        dif = False
+        campos_ignorados = ["nome_estudo",
+                            "tipo_execucao",
+                            "restricoes_itaipu",
+                            "tamanho_arq_vaz",
+                            "vol_inicial_subsistema",
+                            "tendencia_hidrologica",
+                            "tipo_simulacao_final",
+                            "intervalo_gravacao_relatorio",
+                            "bidding_demanda",
+                            "el_nino",
+                            "enso",
+                            "duracao_patamar",
+                            "tipo_geracao_afluencias",
+                            "profundidade_risco_deficit",
+                            "iteracao_sim_final",
+                            "sim_final_com_data",
+                            "convergencia_minimo_zsup",
+                            "representacao_incerteza"]
+        for (k, u), (_, v) in zip(self.__dict__.items(),
+                                  dger.__dict__.items()):
+            if k in campos_ignorados:
+                continue
+            if u != v:
+                dif = True
+                print(k, u, v)
         return not dif
 
     @classmethod
