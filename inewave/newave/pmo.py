@@ -62,7 +62,6 @@ class LeituraPMO(Leitura):
     str_inicio_custo_referenciado = "                     CUSTO OPERACAO R"
     str_inicio_efio_liquida = '***ENERGIA FIO D"AGUA LIQUIDA***'
     str_fim_dger = "CEPEL"
-    str_fim_converg = "NENHUM ERRO FOI DETECTADO NO CALCULO DA POLITICA"
     str_fim_efio_liquida = "MODELO ESTRATEGICO DE GERACAO"
     str_fim_pmo = "DETECTADO NO CALCULO DA SIMULACAO FINAL"
 
@@ -664,7 +663,7 @@ class LeituraPMO(Leitura):
         while True:
             linha = self._le_linha_com_backup(arq)
             # Confere se já acabou
-            if LeituraPMO.str_fim_converg in linha:
+            if len(linha) < 2:
                 return ConvergenciaPMO(tabela[:i, :])
             # Senão, confere se a linha não tem dados relevantes
             if not linha[4:8].strip().isnumeric():
