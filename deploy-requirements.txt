@@ -7,3 +7,4 @@ sphinx
 sphinx-gallery
 sphinx-rtd-theme
 nb2plots
+numpydoc

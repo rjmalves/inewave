@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>inewave.newave.pmo &mdash; documentação inewave 0.0.16</title>
+  <title>inewave.newave.pmo &mdash; documentação inewave 0.0.17</title>
   
 
   
@@ -221,7 +221,6 @@
     <span class="n">str_inicio_custo_referenciado</span> <span class="o">=</span> <span class="s2">&quot;                     CUSTO OPERACAO R&quot;</span>
     <span class="n">str_inicio_efio_liquida</span> <span class="o">=</span> <span class="s1">&#39;***ENERGIA FIO D&quot;AGUA LIQUIDA***&#39;</span>
     <span class="n">str_fim_dger</span> <span class="o">=</span> <span class="s2">&quot;CEPEL&quot;</span>
-    <span class="n">str_fim_converg</span> <span class="o">=</span> <span class="s2">&quot;NENHUM ERRO FOI DETECTADO NO CALCULO DA POLITICA&quot;</span>
     <span class="n">str_fim_efio_liquida</span> <span class="o">=</span> <span class="s2">&quot;MODELO ESTRATEGICO DE GERACAO&quot;</span>
     <span class="n">str_fim_pmo</span> <span class="o">=</span> <span class="s2">&quot;DETECTADO NO CALCULO DA SIMULACAO FINAL&quot;</span>
 
@@ -823,7 +822,7 @@
         <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
             <span class="n">linha</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
             <span class="c1"># Confere se já acabou</span>
-            <span class="k">if</span> <span class="n">LeituraPMO</span><span class="o">.</span><span class="n">str_fim_converg</span> <span class="ow">in</span> <span class="n">linha</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">linha</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">ConvergenciaPMO</span><span class="p">(</span><span class="n">tabela</span><span class="p">[:</span><span class="n">i</span><span class="p">,</span> <span class="p">:])</span>
             <span class="c1"># Senão, confere se a linha não tem dados relevantes</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">linha</span><span class="p">[</span><span class="mi">4</span><span class="p">:</span><span class="mi">8</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">isnumeric</span><span class="p">():</span>
