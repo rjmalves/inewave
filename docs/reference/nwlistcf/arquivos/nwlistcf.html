@@ -1,0 +1,285 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="pt-BR" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Cortes da Função de Custo Futuro (nwlistcf.rel) &mdash; documentação inewave 0.0.17</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/gallery-binder.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/gallery-dataframe.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/gallery-rendered-html.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/translations.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Índice" href="../../../genindex.html" />
+    <link rel="search" title="Buscar" href="../../../search.html" />
+    <link rel="next" title="NWLISTOP" href="../../nwlistop/index.html" />
+    <link rel="prev" title="Estados Visitados pelo NEWAVE (estados.rel)" href="estados.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> inewave
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Pesquisar documentos" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Instalação</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../../reference.html">Referência</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../newave/index.html">NEWAVE</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">NWLISTCF</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../index.html#basico-da-interface-nwlistcf">Básico da interface NWLISTCF</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../index.html#arquivos">Arquivos</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="estados.html">Estados Visitados pelo NEWAVE (estados.rel)</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Cortes da Função de Custo Futuro (nwlistcf.rel)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../nwlistop/index.html">NWLISTOP</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">inewave</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../../reference.html">Referência</a> &raquo;</li>
+        
+          <li><a href="../index.html">NWLISTCF</a> &raquo;</li>
+        
+      <li>Cortes da Função de Custo Futuro (nwlistcf.rel)</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../../_sources/reference/nwlistcf/arquivos/nwlistcf.rst.txt" rel="nofollow"> Ver código-fonte da página</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="cortes-da-funcao-de-custo-futuro-nwlistcf-rel">
+<span id="nwlistcf"></span><h1>Cortes da Função de Custo Futuro (nwlistcf.rel)<a class="headerlink" href="#cortes-da-funcao-de-custo-futuro-nwlistcf-rel" title="Link permanente para este título">¶</a></h1>
+<div class="section" id="visao-geral-do-modelo">
+<h2>Visão geral do modelo<a class="headerlink" href="#visao-geral-do-modelo" title="Link permanente para este título">¶</a></h2>
+<p>Os cortes que determinam a função de custo futuro do NEWAVE, localizados no arquivo geralmente denominado
+nwlistcf.rel, são armazenados na classe:</p>
+<dl class="py class">
+<dt id="inewave.nwlistcf.modelos.nwlistcf.Nwlistcf">
+<em class="property">class </em><code class="sig-name descname">Nwlistcf</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">registros</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>int<span class="p">, </span>Dict<span class="p">[</span>int<span class="p">, </span>inewave.nwlistcf.modelos.nwlistcf.RegistroNwlistcf<span class="p">]</span><span class="p">]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/nwlistcf/modelos/nwlistcf.html#Nwlistcf"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#inewave.nwlistcf.modelos.nwlistcf.Nwlistcf" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Armazena os dados dos cortes construídos pelo NEWAVE existentes
+no arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">nwlistcf.rel</span></code> do NWLISTCF.</p>
+<p>Esta classe armazena os cortes da FCF de cada uma das variáveis,
+para cada registro e REE dentro do registro.</p>
+<p>Cada registro possui um modelo próprio, armazenando os coeficientes
+dos hiperplanos em uma array específica.</p>
+<p><strong>Parâmetros</strong></p>
+<ul class="simple">
+<li><p>registros: <code class="xref py py-obj docutils literal notranslate"><span class="pre">Dict[int,</span> <span class="pre">Dict[int,</span> <span class="pre">RegistroNwlistcf]]</span></code></p></li>
+</ul>
+</dd></dl>
+
+</div>
+<div class="section" id="leitura">
+<h2>Leitura<a class="headerlink" href="#leitura" title="Link permanente para este título">¶</a></h2>
+<p>A leitura do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">nwlistcf.rel</span></code> é feita através da classe <a class="reference internal" href="#inewave.nwlistcf.nwlistcf.LeituraNwlistcf" title="inewave.nwlistcf.nwlistcf.LeituraNwlistcf"><code class="xref py py-class docutils literal notranslate"><span class="pre">LeituraNwlistcf</span></code></a>.</p>
+<dl class="py class">
+<dt id="inewave.nwlistcf.nwlistcf.LeituraNwlistcf">
+<em class="property">class </em><code class="sig-name descname">LeituraNwlistcf</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">diretorio</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/nwlistcf/nwlistcf.html#LeituraNwlistcf"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#inewave.nwlistcf.nwlistcf.LeituraNwlistcf" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Realiza a leitura do arquivo nwlistcf.rel,
+existente em um diretório de saídas do NWLISTCF.</p>
+<p>Esta classe contém o conjunto de utilidades para ler
+e interpretar os campos do arquivo nwlistcf.rel, construindo um
+objeto <code class="xref py py-obj docutils literal notranslate"><span class="pre">Nwlistcf</span></code> cujas informações são as mesmas do arquivo.</p>
+<p>Este objeto existe para retirar do modelo de dados a complexidade
+de iterar pelas linhas do arquivo, recortar colunas, converter
+tipos de dados, dentre outras tarefas necessárias para a leitura.</p>
+<p>Uma vez realizada a leitura do arquivo, as informações são guardadas
+internamente no atributo <code class="xref py py-obj docutils literal notranslate"><span class="pre">nwlistcf</span></code>.</p>
+<p><strong>Exemplos</strong></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">diretorio</span> <span class="o">=</span> <span class="s2">&quot;~/documentos/.../deck&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">leitor</span> <span class="o">=</span> <span class="n">LeituraNwlistcf</span><span class="p">(</span><span class="n">diretorio</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">leitor</span><span class="o">.</span><span class="n">le_arquivo</span><span class="p">()</span>
+<span class="go"># Ops, esqueci de pegar o objeto</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">nwlist</span><span class="o">=</span> <span class="n">leitor</span><span class="o">.</span><span class="n">nwlist</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt id="inewave.nwlistcf.nwlistcf.LeituraNwlistcf.le_arquivo">
+<code class="sig-name descname">le_arquivo</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#inewave.nwlistcf.modelos.nwlistcf.Nwlistcf" title="inewave.nwlistcf.modelos.nwlistcf.Nwlistcf">inewave.nwlistcf.modelos.nwlistcf.Nwlistcf</a><a class="reference internal" href="../../../_modules/inewave/nwlistcf/nwlistcf.html#LeituraNwlistcf.le_arquivo"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#inewave.nwlistcf.nwlistcf.LeituraNwlistcf.le_arquivo" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Faz a leitura do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">nwlistcf.rel</span></code>.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="../../nwlistop/index.html" class="btn btn-neutral float-right" title="NWLISTOP" accesskey="n" rel="next">Próximo <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="estados.html" class="btn btn-neutral float-left" title="Estados Visitados pelo NEWAVE (estados.rel)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Anterior</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Rogerio Alves.
+
+    </p>
+  </div>
+    
+    
+    
+    Compilado com <a href="https://www.sphinx-doc.org/">Sphinx</a> usando um
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">tema</a>
+    
+    fornecido por <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
