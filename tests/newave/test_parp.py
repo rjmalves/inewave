@@ -10,13 +10,13 @@ n_meses = len(MESES)
 
 
 def test_leitura():
-    assert leitor.parp.series[1].shape == (2018 - 1931 + 1,
-                                           n_meses + 1,
-                                           56)
-    assert leitor.parp.ordens[1].shape == (5, n_meses + 1)
+    assert leitor.parp.series_energia[1].shape == (2018 - 1931 + 1,
+                                                   n_meses + 1,
+                                                   50)
+    assert leitor.parp.ordens_orig[1].shape == (5, n_meses + 1)
     assert leitor.parp.coeficientes[1].shape == (5 * n_meses,
                                                  ORDEM_MAX_PARP,
-                                                 2)
+                                                 4)
 
 
 def test_eq_parp():
@@ -28,6 +28,41 @@ def test_eq_parp():
 def test_neq_parp():
     leitor2 = LeituraPARp("tests/_arquivos")
     leitor2.le_arquivo()
-    leitor2.parp.ordens[1] = np.array([])
+    leitor2.parp.ordens_orig[1] = np.array([])
     assert leitor2.parp != leitor.parp
     assert leitor2.parp is not None
+
+
+def test_series_energia_ree():
+    series = leitor.parp.series_energia_ree(1)
+    assert len(series.keys()) == 50
+
+
+def test_series_medias_ree():
+    series = leitor.parp.series_medias_ree(1)
+    assert len(series.keys()) == 5
+
+
+def test_correlograma_energia_ree():
+    correl = leitor.parp.correlograma_energia_ree(1)
+    assert len(correl.keys()) == 5 * n_meses
+
+
+def test_correlograma_media_ree():
+    correl = leitor.parp.correlograma_media_ree(1)
+    assert len(correl.keys()) == 5 * n_meses
+
+
+def test_ordens_originais_ree():
+    ordens = leitor.parp.ordens_originais_ree(1)
+    assert len(ordens.keys()) == 5
+
+
+def test_ordens_finais_ree():
+    ordens = leitor.parp.ordens_finais_ree(1)
+    assert len(ordens.keys()) == 5
+
+
+def test_coeficientes_ree():
+    coefs = leitor.parp.coeficientes_ree(1)
+    assert len(coefs) == 5 * n_meses
