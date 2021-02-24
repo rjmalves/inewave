@@ -20,6 +20,7 @@ class PARp:
     - series_energia: `Dict[int, np.ndarray]`
     - correl_energia: `Dict[int, np.ndarray]`
     - series_medias: `Dict[int, np.ndarray]`
+    - correl_media: `Dict[int, np.ndarray]`
 
     """
     def __init__(self,

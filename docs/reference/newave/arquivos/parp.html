@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Acompanhamento do modelo PAR(p) (parp.dat) &mdash; documentação inewave 0.0.17</title>
+  <title>Acompanhamento do modelo PAR(p) (parp.dat) &mdash; documentação inewave 0.0.18</title>
   
 
   
@@ -191,18 +191,151 @@ localizado no arquivo geralmente denominado
 parp.dat, é armazenado na classe:</p>
 <dl class="py class">
 <dt id="inewave.newave.modelos.parp.PARp">
-<em class="property">class </em><code class="sig-name descname">PARp</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ordens</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>int<span class="p">, </span>numpy.ndarray<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">coeficientes</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>int<span class="p">, </span>numpy.ndarray<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">series</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>int<span class="p">, </span>numpy.ndarray<span class="p">]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/newave/modelos/parp.html#PARp"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#inewave.newave.modelos.parp.PARp" title="Link permanente para esta definição">¶</a></dt>
+<em class="property">class </em><code class="sig-name descname">PARp</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ordens_orig</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>int<span class="p">, </span>numpy.ndarray<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">ordens_finais</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>int<span class="p">, </span>numpy.ndarray<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">coeficientes</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>int<span class="p">, </span>numpy.ndarray<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">series_energia</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>int<span class="p">, </span>numpy.ndarray<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">correl_energia</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>int<span class="p">, </span>numpy.ndarray<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">series_medias</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>int<span class="p">, </span>numpy.ndarray<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">correl_media</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>int<span class="p">, </span>numpy.ndarray<span class="p">]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/newave/modelos/parp.html#PARp"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#inewave.newave.modelos.parp.PARp" title="Link permanente para esta definição">¶</a></dt>
 <dd><p>Armazena os dados de saída do NEWAVE referentes aos modelos e às
-séries sintéticas de energia geradas pelo PAR(p).</p>
+séries sintéticas de energia geradas pelo PAR(p) e PAR(p)-A.</p>
 <p>Esta classe lida com informações de saída do NEWAVE e
 cujas saídas devem ser compatíveis com as observadas através
 do NWLISTOP.</p>
 <p><strong>Parâmetros</strong></p>
 <ul class="simple">
-<li><p>ordens: <code class="xref py py-obj docutils literal notranslate"><span class="pre">Dict[int,</span> <span class="pre">np.ndarray]</span></code></p></li>
+<li><p>ordens_orig: <code class="xref py py-obj docutils literal notranslate"><span class="pre">Dict[int,</span> <span class="pre">np.ndarray]</span></code></p></li>
+<li><p>ordens_finais: <code class="xref py py-obj docutils literal notranslate"><span class="pre">Dict[int,</span> <span class="pre">np.ndarray]</span></code></p></li>
 <li><p>coeficientes: <code class="xref py py-obj docutils literal notranslate"><span class="pre">Dict[int,</span> <span class="pre">np.ndarray]</span></code></p></li>
-<li><p>series: <code class="xref py py-obj docutils literal notranslate"><span class="pre">Dict[int,</span> <span class="pre">np.ndarray]</span></code></p></li>
+<li><p>series_energia: <code class="xref py py-obj docutils literal notranslate"><span class="pre">Dict[int,</span> <span class="pre">np.ndarray]</span></code></p></li>
+<li><p>correl_energia: <code class="xref py py-obj docutils literal notranslate"><span class="pre">Dict[int,</span> <span class="pre">np.ndarray]</span></code></p></li>
+<li><p>series_medias: <code class="xref py py-obj docutils literal notranslate"><span class="pre">Dict[int,</span> <span class="pre">np.ndarray]</span></code></p></li>
+<li><p>correl_media: <code class="xref py py-obj docutils literal notranslate"><span class="pre">Dict[int,</span> <span class="pre">np.ndarray]</span></code></p></li>
 </ul>
+<dl class="py method">
+<dt id="inewave.newave.modelos.parp.PARp.anos_estudo">
+<em class="property">property </em><code class="sig-name descname">anos_estudo</code><a class="headerlink" href="#inewave.newave.modelos.parp.PARp.anos_estudo" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>A lista de anos do estudo associados às tabelas de
+coeficientes e ordens dos modelos.</p>
+<p><strong>Retorna</strong></p>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">List[int]</span></code></p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="inewave.newave.modelos.parp.PARp.anos_historico">
+<em class="property">property </em><code class="sig-name descname">anos_historico</code><a class="headerlink" href="#inewave.newave.modelos.parp.PARp.anos_historico" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>A lista de anos do histórico associados às séries de
+energia.</p>
+<p><strong>Retorna</strong></p>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">List[int]</span></code></p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="inewave.newave.modelos.parp.PARp.coeficientes_ree">
+<code class="sig-name descname">coeficientes_ree</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ree</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span> &#x2192; List<span class="p">[</span>numpy.ndarray<span class="p">]</span><a class="reference internal" href="../../../_modules/inewave/newave/modelos/parp.html#PARp.coeficientes_ree"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#inewave.newave.modelos.parp.PARp.coeficientes_ree" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Lista de coeficientes dos modelos PAR ou PAR-A.</p>
+<p><strong>Parâmetros</strong></p>
+<ul class="simple">
+<li><p>ree: <code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></p></li>
+</ul>
+<p><strong>Retorna</strong></p>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">List[np.ndarray]</span></code></p>
+<p><strong>Sobre</strong></p>
+<p>No caso de um modelo PAR-A de ordem p, a lista possui
+p + 1 coeficientes, e a última posição contém o
+coeficiente da componente anual.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="inewave.newave.modelos.parp.PARp.correlograma_energia_ree">
+<code class="sig-name descname">correlograma_energia_ree</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ree</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span> &#x2192; Dict<span class="p">[</span>int<span class="p">, </span>numpy.ndarray<span class="p">]</span><a class="reference internal" href="../../../_modules/inewave/newave/modelos/parp.html#PARp.correlograma_energia_ree"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#inewave.newave.modelos.parp.PARp.correlograma_energia_ree" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>A tabela de autocorrelações parciais da série de energia
+de uma determinada REE, no mesmo formato do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">parp.dat</span></code>,
+excluindo a coluna dos meses.</p>
+<p><strong>Parâmetros</strong></p>
+<ul class="simple">
+<li><p>ree: <code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></p></li>
+</ul>
+<p><strong>Retorna</strong></p>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dict[int,</span> <span class="pre">np.ndarray]</span></code></p>
+<p><strong>Sobre</strong></p>
+<p>O acesso é feito com [mes] e retorna um np.ndarray.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="inewave.newave.modelos.parp.PARp.correlograma_media_ree">
+<code class="sig-name descname">correlograma_media_ree</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ree</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span> &#x2192; Dict<span class="p">[</span>int<span class="p">, </span>numpy.ndarray<span class="p">]</span><a class="reference internal" href="../../../_modules/inewave/newave/modelos/parp.html#PARp.correlograma_media_ree"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#inewave.newave.modelos.parp.PARp.correlograma_media_ree" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>A tabela de correlações cruzadas da série de médias anuais de
+energia com as séries de energia de uma determinada REE, no mesmo
+formato do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">parp.dat</span></code>, excluindo a coluna dos meses.</p>
+<p><strong>Parâmetros</strong></p>
+<ul class="simple">
+<li><p>ree: <code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></p></li>
+</ul>
+<p><strong>Retorna</strong></p>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dict[int,</span> <span class="pre">np.ndarray]</span></code></p>
+<p><strong>Sobre</strong></p>
+<p>O acesso é feito com [mes] e retorna um np.ndarray.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="inewave.newave.modelos.parp.PARp.ordens_finais_ree">
+<code class="sig-name descname">ordens_finais_ree</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ree</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span> &#x2192; Dict<span class="p">[</span>int<span class="p">, </span>numpy.ndarray<span class="p">]</span><a class="reference internal" href="../../../_modules/inewave/newave/modelos/parp.html#PARp.ordens_finais_ree"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#inewave.newave.modelos.parp.PARp.ordens_finais_ree" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>A tabela de ordens finais do modelo PAR ou PAR-A
+de uma determinada REE, no mesmo formato do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">parp.dat</span></code>,
+organizada por ano de estudo.</p>
+<p><strong>Parâmetros</strong></p>
+<ul class="simple">
+<li><p>ree: <code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></p></li>
+</ul>
+<p><strong>Retorna</strong></p>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dict[int,</span> <span class="pre">np.ndarray]</span></code></p>
+<p><strong>Sobre</strong></p>
+<p>O acesso é feito com [ano] e retorna um np.ndarray.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="inewave.newave.modelos.parp.PARp.ordens_originais_ree">
+<code class="sig-name descname">ordens_originais_ree</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ree</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span> &#x2192; Dict<span class="p">[</span>int<span class="p">, </span>numpy.ndarray<span class="p">]</span><a class="reference internal" href="../../../_modules/inewave/newave/modelos/parp.html#PARp.ordens_originais_ree"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#inewave.newave.modelos.parp.PARp.ordens_originais_ree" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>A tabela de ordens originais do modelo PAR ou PAR-A
+de uma determinada REE, no mesmo formato do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">parp.dat</span></code>,
+organizada por ano de estudo.</p>
+<p><strong>Parâmetros</strong></p>
+<ul class="simple">
+<li><p>ree: <code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></p></li>
+</ul>
+<p><strong>Retorna</strong></p>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dict[int,</span> <span class="pre">np.ndarray]</span></code></p>
+<p><strong>Sobre</strong></p>
+<p>O acesso é feito com [ano] e retorna um np.ndarray.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="inewave.newave.modelos.parp.PARp.series_energia_ree">
+<code class="sig-name descname">series_energia_ree</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ree</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span> &#x2192; Dict<span class="p">[</span>int<span class="p">, </span>numpy.ndarray<span class="p">]</span><a class="reference internal" href="../../../_modules/inewave/newave/modelos/parp.html#PARp.series_energia_ree"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#inewave.newave.modelos.parp.PARp.series_energia_ree" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>A tabela de séries de energia para todas as configurações
+de uma determinada REE, no mesmo formato do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">parp.dat</span></code>,
+excluindo a coluna dos anos.</p>
+<p><strong>Parâmetros</strong></p>
+<ul class="simple">
+<li><p>ree: <code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></p></li>
+</ul>
+<p><strong>Retorna</strong></p>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dict[int,</span> <span class="pre">np.ndarray]</span></code></p>
+<p><strong>Sobre</strong></p>
+<p>O acesso é feito com [configuracao] e retorna um np.ndarray.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="inewave.newave.modelos.parp.PARp.series_medias_ree">
+<code class="sig-name descname">series_medias_ree</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ree</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span> &#x2192; Dict<span class="p">[</span>int<span class="p">, </span>numpy.ndarray<span class="p">]</span><a class="reference internal" href="../../../_modules/inewave/newave/modelos/parp.html#PARp.series_medias_ree"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#inewave.newave.modelos.parp.PARp.series_medias_ree" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>A tabela de séries das médias anuais de energia para todos os anos
+de uma determinada REE, no mesmo formato do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">parp.dat</span></code>.</p>
+<p><strong>Parâmetros</strong></p>
+<ul class="simple">
+<li><p>ree: <code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></p></li>
+</ul>
+<p><strong>Retorna</strong></p>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dict[int,</span> <span class="pre">np.ndarray]</span></code></p>
+<p><strong>Sobre</strong></p>
+<p>O acesso é feito com [ano] e retorna um np.ndarray.</p>
+</dd></dl>
+
 </dd></dl>
 
 </div>
@@ -235,6 +368,16 @@ internamente no atributo <code class="xref py py-obj docutils literal notranslat
 <code class="sig-name descname">le_arquivo</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#inewave.newave.modelos.parp.PARp" title="inewave.newave.modelos.parp.PARp">inewave.newave.modelos.parp.PARp</a><a class="reference internal" href="../../../_modules/inewave/newave/parp.html#LeituraPARp.le_arquivo"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#inewave.newave.parp.LeituraPARp.le_arquivo" title="Link permanente para esta definição">¶</a></dt>
 <dd><p>Faz a leitura do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">parp.dat</span></code>.</p>
 </dd></dl>
+
+<dl class="py method">
+<dt id="inewave.newave.parp.LeituraPARp.le_tabela_correl_cruzada">
+<code class="sig-name descname">le_tabela_correl_cruzada</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">arq</span><span class="p">:</span> <span class="n">IO</span></em>, <em class="sig-param"><span class="n">correl</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>int<span class="p">, </span>numpy.ndarray<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">ree</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/newave/parp.html#LeituraPARp.le_tabela_correl_cruzada"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#inewave.newave.parp.LeituraPARp.le_tabela_correl_cruzada" title="Link permanente para esta definição">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="inewave.newave.parp.LeituraPARp.le_tabela_correlograma">
+<code class="sig-name descname">le_tabela_correlograma</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">arq</span><span class="p">:</span> <span class="n">IO</span></em>, <em class="sig-param"><span class="n">correl</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>int<span class="p">, </span>numpy.ndarray<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">ree</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/newave/parp.html#LeituraPARp.le_tabela_correlograma"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#inewave.newave.parp.LeituraPARp.le_tabela_correlograma" title="Link permanente para esta definição">¶</a></dt>
+<dd></dd></dl>
 
 </dd></dl>
 
