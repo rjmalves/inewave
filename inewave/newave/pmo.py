@@ -634,14 +634,14 @@ class LeituraPMO(Leitura):
                 ci = cf + 2
             tabela.append(dados_linha)
 
-    def _le_configs_expansao(self, arq: IO) -> np.ndarray:
+    def _le_configs_expansao(self, arq: IO) -> ConfiguracoesExpansaoPMO:
         """
         Lê as informações da tabela de configurações por período
         de acordo com a expansão do sistema.
         """
         n_meses = len(MESES)
         tabela = np.zeros((MAX_ANOS_ESTUDO, n_meses + 1),
-                           dtype=np.int64)
+                          dtype=np.int64)
         # Pula 5 linhas
         self._le_linha_com_backup(arq)
         self._le_linha_com_backup(arq)

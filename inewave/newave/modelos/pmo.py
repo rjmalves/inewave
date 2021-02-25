@@ -56,7 +56,7 @@ class ConfiguracoesExpansaoPMO:
     """
     def __init__(self,
                  tabela: np.ndarray):
-        self.tabela= tabela
+        self.tabela = tabela
 
     def __eq__(self, o: object):
         """

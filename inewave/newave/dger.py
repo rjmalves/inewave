@@ -743,6 +743,9 @@ class EscritaDGer(Escrita):
             d = int(dger.afluencia_anual_parp[1])
             str_dados += str(int(not d)).rjust(4)
             arq.write(str_aux + str_dados + "\n")
+            # Restrições de fornecimento de gás
+            escreve_alinhado("REST. FORNEC. GAS",
+                             dger.restricoes_fornecimento_gas)
             # Incerteza na geração eólica
             escreve_alinhado("INCERTEZA GER.EOLICA",
                              dger.incerteza_ger_eolica)
@@ -752,6 +755,3 @@ class EscritaDGer(Escrita):
             # Representação das incertezas
             escreve_alinhado("REPRESENTACAO INCERT",
                              dger.representacao_incerteza.value)
-            # Restrições de fornecimento de gás
-            escreve_alinhado("REST. FORNEC. GAS",
-                             dger.restricoes_fornecimento_gas)
