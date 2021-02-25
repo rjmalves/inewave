@@ -902,6 +902,9 @@
             <span class="n">d</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">dger</span><span class="o">.</span><span class="n">afluencia_anual_parp</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
             <span class="n">str_dados</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="ow">not</span> <span class="n">d</span><span class="p">))</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
             <span class="n">arq</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">str_aux</span> <span class="o">+</span> <span class="n">str_dados</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="c1"># Restrições de fornecimento de gás</span>
+            <span class="n">escreve_alinhado</span><span class="p">(</span><span class="s2">&quot;REST. FORNEC. GAS&quot;</span><span class="p">,</span>
+                             <span class="n">dger</span><span class="o">.</span><span class="n">restricoes_fornecimento_gas</span><span class="p">)</span>
             <span class="c1"># Incerteza na geração eólica</span>
             <span class="n">escreve_alinhado</span><span class="p">(</span><span class="s2">&quot;INCERTEZA GER.EOLICA&quot;</span><span class="p">,</span>
                              <span class="n">dger</span><span class="o">.</span><span class="n">incerteza_ger_eolica</span><span class="p">)</span>
@@ -910,10 +913,7 @@
                              <span class="n">dger</span><span class="o">.</span><span class="n">incerteza_ger_solar</span><span class="p">)</span>
             <span class="c1"># Representação das incertezas</span>
             <span class="n">escreve_alinhado</span><span class="p">(</span><span class="s2">&quot;REPRESENTACAO INCERT&quot;</span><span class="p">,</span>
-                             <span class="n">dger</span><span class="o">.</span><span class="n">representacao_incerteza</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
-            <span class="c1"># Restrições de fornecimento de gás</span>
-            <span class="n">escreve_alinhado</span><span class="p">(</span><span class="s2">&quot;REST. FORNEC. GAS&quot;</span><span class="p">,</span>
-                             <span class="n">dger</span><span class="o">.</span><span class="n">restricoes_fornecimento_gas</span><span class="p">)</span></div></div>
+                             <span class="n">dger</span><span class="o">.</span><span class="n">representacao_incerteza</span><span class="o">.</span><span class="n">value</span><span class="p">)</span></div></div>
 </pre></div>
 
            </div>
