@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>inewave.newave.pmo &mdash; documentação inewave 0.0.18</title>
+  <title>inewave.newave.pmo &mdash; documentação inewave 0.0.19</title>
   
 
   
@@ -174,6 +174,7 @@
 <span class="kn">from</span> <span class="nn">.modelos.dger</span> <span class="kn">import</span> <span class="n">EnumInicioTesteConvergencia</span>
 <span class="kn">from</span> <span class="nn">.modelos.dger</span> <span class="kn">import</span> <span class="n">EnumSazonaliza</span>
 <span class="kn">from</span> <span class="nn">.modelos.pmo</span> <span class="kn">import</span> <span class="n">EnergiaFioLiquidaREEPMO</span>
+<span class="kn">from</span> <span class="nn">.modelos.pmo</span> <span class="kn">import</span> <span class="n">ConfiguracoesExpansaoPMO</span>
 <span class="kn">from</span> <span class="nn">.modelos.pmo</span> <span class="kn">import</span> <span class="n">RetasPerdasEngolimentoREEPMO</span>
 <span class="kn">from</span> <span class="nn">.modelos.pmo</span> <span class="kn">import</span> <span class="n">EnergiasAfluentesPMO</span>
 <span class="kn">from</span> <span class="nn">.modelos.pmo</span> <span class="kn">import</span> <span class="n">ConvergenciaPMO</span>
@@ -220,6 +221,7 @@
     <span class="n">str_inicio_valor_esperado</span> <span class="o">=</span> <span class="s2">&quot;                 VALOR ESPERADO PARA PERI&quot;</span>
     <span class="n">str_inicio_custo_referenciado</span> <span class="o">=</span> <span class="s2">&quot;                     CUSTO OPERACAO R&quot;</span>
     <span class="n">str_inicio_efio_liquida</span> <span class="o">=</span> <span class="s1">&#39;***ENERGIA FIO D&quot;AGUA LIQUIDA***&#39;</span>
+    <span class="n">str_inicio_configs_expansao</span> <span class="o">=</span> <span class="s2">&quot;CONFIGURACOES POR QUALQUER MODIFICACAO&quot;</span>
     <span class="n">str_fim_dger</span> <span class="o">=</span> <span class="s2">&quot;CEPEL&quot;</span>
     <span class="n">str_fim_efio_liquida</span> <span class="o">=</span> <span class="s2">&quot;MODELO ESTRATEGICO DE GERACAO&quot;</span>
     <span class="n">str_fim_pmo</span> <span class="o">=</span> <span class="s2">&quot;DETECTADO NO CALCULO DA SIMULACAO FINAL&quot;</span>
@@ -234,6 +236,7 @@
                        <span class="s2">&quot;&quot;</span><span class="p">,</span>
                        <span class="n">DGer</span><span class="o">.</span><span class="n">dger_padrao</span><span class="p">(),</span>
                        <span class="n">EnergiaFioLiquidaREEPMO</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])),</span>
+                       <span class="n">ConfiguracoesExpansaoPMO</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])),</span>
                        <span class="n">RetasPerdasEngolimentoREEPMO</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])),</span>
                        <span class="n">EnergiasAfluentesPMO</span><span class="p">(),</span>
                        <span class="n">EnergiasAfluentesPMO</span><span class="p">(),</span>
@@ -266,6 +269,7 @@
         <span class="n">leu_dados_pmo</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="n">achou_dger</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="n">achou_efio_liquida</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">achou_configs_exp</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="n">achou_convergencia</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="n">achou_risco_ens</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="n">achou_custo_series</span> <span class="o">=</span> <span class="kc">False</span>
@@ -279,6 +283,7 @@
         <span class="n">versao_newave</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
         <span class="n">dger</span> <span class="o">=</span> <span class="n">DGer</span><span class="o">.</span><span class="n">dger_padrao</span><span class="p">()</span>
         <span class="n">energia_liq</span> <span class="o">=</span> <span class="n">EnergiaFioLiquidaREEPMO</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([]))</span>
+        <span class="n">configs_exp</span> <span class="o">=</span> <span class="n">ConfiguracoesExpansaoPMO</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([]))</span>
         <span class="n">retas_perdas</span> <span class="o">=</span> <span class="n">RetasPerdasEngolimentoREEPMO</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([]))</span>
         <span class="n">convergencia</span> <span class="o">=</span> <span class="n">ConvergenciaPMO</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([]))</span>
         <span class="n">risco_ens</span> <span class="o">=</span> <span class="n">RiscoDeficitENSPMO</span><span class="p">([],</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([]))</span>
@@ -294,6 +299,7 @@
                                <span class="n">versao_newave</span><span class="p">,</span>
                                <span class="n">dger</span><span class="p">,</span>
                                <span class="n">energia_liq</span><span class="p">,</span>
+                               <span class="n">configs_exp</span><span class="p">,</span>
                                <span class="n">retas_perdas</span><span class="p">,</span>
                                <span class="n">EnergiasAfluentesPMO</span><span class="p">(),</span>
                                <span class="n">EnergiasAfluentesPMO</span><span class="p">(),</span>
@@ -315,6 +321,9 @@
             <span class="k">if</span> <span class="ow">not</span> <span class="n">achou_efio_liquida</span><span class="p">:</span>
                 <span class="n">achou</span> <span class="o">=</span> <span class="n">LeituraPMO</span><span class="o">.</span><span class="n">str_inicio_efio_liquida</span> <span class="ow">in</span> <span class="n">linha</span>
                 <span class="n">achou_efio_liquida</span> <span class="o">=</span> <span class="n">achou</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">achou_configs_exp</span><span class="p">:</span>
+                <span class="n">achou</span> <span class="o">=</span> <span class="n">LeituraPMO</span><span class="o">.</span><span class="n">str_inicio_configs_expansao</span> <span class="ow">in</span> <span class="n">linha</span>
+                <span class="n">achou_configs_exp</span> <span class="o">=</span> <span class="n">achou</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">achou_convergencia</span><span class="p">:</span>
                 <span class="n">achou</span> <span class="o">=</span> <span class="n">LeituraPMO</span><span class="o">.</span><span class="n">str_inicio_converg</span> <span class="ow">in</span> <span class="n">linha</span>
                 <span class="n">achou_convergencia</span> <span class="o">=</span> <span class="n">achou</span>
@@ -341,6 +350,9 @@
             <span class="k">if</span> <span class="n">achou_efio_liquida</span><span class="p">:</span>
                 <span class="n">energia_liq</span><span class="p">,</span> <span class="n">retas_perdas</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_efio_liquida</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
                 <span class="n">achou_efio_liquida</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">if</span> <span class="n">achou_configs_exp</span><span class="p">:</span>
+                <span class="n">configs_exp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_configs_expansao</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
+                <span class="n">achou_configs_exp</span> <span class="o">=</span> <span class="kc">False</span>
             <span class="k">if</span> <span class="n">achou_convergencia</span><span class="p">:</span>
                 <span class="n">convergencia</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_convergencia</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
                 <span class="n">achou_convergencia</span> <span class="o">=</span> <span class="kc">False</span>
@@ -780,6 +792,35 @@
                 <span class="n">dados_linha</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">linha</span><span class="p">[</span><span class="n">ci</span><span class="p">:</span><span class="n">cf</span><span class="p">]))</span>
                 <span class="n">ci</span> <span class="o">=</span> <span class="n">cf</span> <span class="o">+</span> <span class="mi">2</span>
             <span class="n">tabela</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dados_linha</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_le_configs_expansao</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arq</span><span class="p">:</span> <span class="n">IO</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Lê as informações da tabela de configurações por período</span>
+<span class="sd">        de acordo com a expansão do sistema.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">n_meses</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">MESES</span><span class="p">)</span>
+        <span class="n">tabela</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">MAX_ANOS_ESTUDO</span><span class="p">,</span> <span class="n">n_meses</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span>
+                           <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
+        <span class="c1"># Pula 5 linhas</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">linha</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
+            <span class="c1"># Confere se a tabela não acabou</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">linha</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">3</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">ConfiguracoesExpansaoPMO</span><span class="p">(</span><span class="n">tabela</span><span class="p">[:</span><span class="n">i</span><span class="p">,</span> <span class="p">:])</span>
+            <span class="n">ci</span> <span class="o">=</span> <span class="mi">5</span>
+            <span class="n">nc</span> <span class="o">=</span> <span class="mi">5</span>
+            <span class="c1"># Armazena as informações de uma linha</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_meses</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="n">cf</span> <span class="o">=</span> <span class="n">ci</span> <span class="o">+</span> <span class="n">nc</span>
+                <span class="n">tabela</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">linha</span><span class="p">[</span><span class="n">ci</span><span class="p">:</span><span class="n">cf</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+                <span class="n">ci</span> <span class="o">=</span> <span class="n">cf</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
 
     <span class="k">def</span> <span class="nf">_le_tabela_perdas</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arq</span><span class="p">:</span> <span class="n">IO</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>

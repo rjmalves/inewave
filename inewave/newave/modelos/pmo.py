@@ -45,6 +45,44 @@ class EnergiaFioLiquidaREEPMO:
         return np.array_equal(self.tabela, e.tabela)
 
 
+class ConfiguracoesExpansaoPMO:
+    """
+    Armazena as informações das configurações válidas para cada
+    mês do estudo contidas no arquivo `pmo.dat`.
+
+    **Parâmetros**
+
+    - tabela: `np.ndarray`
+    """
+    def __init__(self,
+                 tabela: np.ndarray):
+        self.tabela= tabela
+
+    def __eq__(self, o: object):
+        """
+        A igualdade entre ConfiguracoesExpansaoPMO avalia todos os campos.
+        """
+        if not isinstance(o, ConfiguracoesExpansaoPMO):
+            return False
+        e: ConfiguracoesExpansaoPMO = o
+        return np.array_equal(self.tabela, e.tabela)
+
+    @property
+    def configs_por_ano(self) -> Dict[int, np.ndarray]:
+        """
+        Configurações ativas para serem consideradas em cada
+        mês de estudo, organizada por ano.
+
+        **Retorna**
+        `Dict[int, np.ndarray]`
+        """
+        dict_configs: Dict[int, np.ndarray] = {}
+        for lin in range(self.tabela.shape[0]):
+            dict_configs[self.tabela[lin, 0]] = self.tabela[lin, 1:]
+
+        return dict_configs
+
+
 class RetasPerdasEngolimentoREEPMO:
     """
     Armazena as retas que modelam as perdas por engolimento
@@ -434,6 +472,7 @@ class PMO:
     - energias_passadas_politica: `EnergiasAfluentesPMO`
     - energias_passadas_primeira_conf: `EnergiasAfluentesPMO`
     - energias_passadas_canal_fuga: `EnergiasAfluentesPMO`
+    - configuracoes_expansao: `ConfiguracoesExpansaoPMO`
     - demanda_liquida_energia : `Dict[str, DemandaLiquidaEnergiaPMO]`
     - convergencia: `ConvergenciaPMO`
     - risco_ens: `RiscoDeficitENSPMO`
@@ -448,6 +487,7 @@ class PMO:
                  versao_newave: str,
                  dados_gerais: DGer,
                  energia_fio_liquida: EnergiaFioLiquidaREEPMO,
+                 configuracoes_expansao: ConfiguracoesExpansaoPMO,
                  retas_perdas_engolimento: RetasPerdasEngolimentoREEPMO,
                  energias_passadas_politica: EnergiasAfluentesPMO,
                  energias_passadas_primeira_conf: EnergiasAfluentesPMO,
@@ -464,6 +504,7 @@ class PMO:
         self.versao_newave = versao_newave
         self.dados_gerais = dados_gerais
         self.energia_fio_liquida = energia_fio_liquida
+        self.configuracoes_expansao = configuracoes_expansao
         self.retas_perdas_engolimento = retas_perdas_engolimento
         self.energias_passadas_politica = energias_passadas_politica
         self.energias_passadas_primeira_conf = energias_passadas_primeira_conf

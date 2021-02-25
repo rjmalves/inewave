@@ -1,7 +1,7 @@
 # Rotinas de testes associadas ao arquivo pmo.dat do NEWAVE
 from inewave.newave.pmo import LeituraPMO
 from inewave.newave.dger import LeituraDGer
-from inewave.config import SUBMERCADOS
+from inewave.config import MESES, SUBMERCADOS
 import numpy as np  # type: ignore
 
 
@@ -31,6 +31,19 @@ def test_neq_pmo():
 
 def test_anos_estudo():
     assert anos_estudo_teste == leitor.pmo.risco_ens.anos_estudo
+
+
+def test_leitura_configs():
+    configs = leitor.pmo.configuracoes_expansao.configs_por_ano
+    assert len(configs.keys()) == 10
+    for ano, confs in configs.items():
+        assert ano > 0
+        assert len(confs) == len(MESES)
+
+
+def test_leitura_retas_perdas():
+    perdas = leitor.pmo.retas_perdas_engolimento
+    assert perdas.funcao_perdas(1, -1) < 0
 
 
 def test_leitura_convergencia():

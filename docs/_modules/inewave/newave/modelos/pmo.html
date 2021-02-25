@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>inewave.newave.modelos.pmo &mdash; documentação inewave 0.0.18</title>
+  <title>inewave.newave.modelos.pmo &mdash; documentação inewave 0.0.19</title>
   
 
   
@@ -202,6 +202,44 @@
             <span class="k">return</span> <span class="kc">False</span>
         <span class="n">e</span><span class="p">:</span> <span class="n">EnergiaFioLiquidaREEPMO</span> <span class="o">=</span> <span class="n">o</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array_equal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tabela</span><span class="p">,</span> <span class="n">e</span><span class="o">.</span><span class="n">tabela</span><span class="p">)</span></div>
+
+
+<span class="k">class</span> <span class="nc">ConfiguracoesExpansaoPMO</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Armazena as informações das configurações válidas para cada</span>
+<span class="sd">    mês do estudo contidas no arquivo `pmo.dat`.</span>
+
+<span class="sd">    **Parâmetros**</span>
+
+<span class="sd">    - tabela: `np.ndarray`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">tabela</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tabela</span><span class="o">=</span> <span class="n">tabela</span>
+
+    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">o</span><span class="p">:</span> <span class="nb">object</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        A igualdade entre ConfiguracoesExpansaoPMO avalia todos os campos.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="n">ConfiguracoesExpansaoPMO</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="n">e</span><span class="p">:</span> <span class="n">ConfiguracoesExpansaoPMO</span> <span class="o">=</span> <span class="n">o</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array_equal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tabela</span><span class="p">,</span> <span class="n">e</span><span class="o">.</span><span class="n">tabela</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">configs_por_ano</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Configurações ativas para serem consideradas em cada</span>
+<span class="sd">        mês de estudo, organizada por ano.</span>
+
+<span class="sd">        **Retorna**</span>
+<span class="sd">        `Dict[int, np.ndarray]`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">dict_configs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">lin</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tabela</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+            <span class="n">dict_configs</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">tabela</span><span class="p">[</span><span class="n">lin</span><span class="p">,</span> <span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tabela</span><span class="p">[</span><span class="n">lin</span><span class="p">,</span> <span class="mi">1</span><span class="p">:]</span>
+
+        <span class="k">return</span> <span class="n">dict_configs</span>
 
 
 <div class="viewcode-block" id="RetasPerdasEngolimentoREEPMO"><a class="viewcode-back" href="../../../../reference/newave/arquivos/pmo.html#inewave.newave.modelos.pmo.RetasPerdasEngolimentoREEPMO">[documentos]</a><span class="k">class</span> <span class="nc">RetasPerdasEngolimentoREEPMO</span><span class="p">:</span>
@@ -593,6 +631,7 @@
 <span class="sd">    - energias_passadas_politica: `EnergiasAfluentesPMO`</span>
 <span class="sd">    - energias_passadas_primeira_conf: `EnergiasAfluentesPMO`</span>
 <span class="sd">    - energias_passadas_canal_fuga: `EnergiasAfluentesPMO`</span>
+<span class="sd">    - configuracoes_expansao: `ConfiguracoesExpansaoPMO`</span>
 <span class="sd">    - demanda_liquida_energia : `Dict[str, DemandaLiquidaEnergiaPMO]`</span>
 <span class="sd">    - convergencia: `ConvergenciaPMO`</span>
 <span class="sd">    - risco_ens: `RiscoDeficitENSPMO`</span>
@@ -607,6 +646,7 @@
                  <span class="n">versao_newave</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
                  <span class="n">dados_gerais</span><span class="p">:</span> <span class="n">DGer</span><span class="p">,</span>
                  <span class="n">energia_fio_liquida</span><span class="p">:</span> <span class="n">EnergiaFioLiquidaREEPMO</span><span class="p">,</span>
+                 <span class="n">configuracoes_expansao</span><span class="p">:</span> <span class="n">ConfiguracoesExpansaoPMO</span><span class="p">,</span>
                  <span class="n">retas_perdas_engolimento</span><span class="p">:</span> <span class="n">RetasPerdasEngolimentoREEPMO</span><span class="p">,</span>
                  <span class="n">energias_passadas_politica</span><span class="p">:</span> <span class="n">EnergiasAfluentesPMO</span><span class="p">,</span>
                  <span class="n">energias_passadas_primeira_conf</span><span class="p">:</span> <span class="n">EnergiasAfluentesPMO</span><span class="p">,</span>
@@ -623,6 +663,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">versao_newave</span> <span class="o">=</span> <span class="n">versao_newave</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dados_gerais</span> <span class="o">=</span> <span class="n">dados_gerais</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">energia_fio_liquida</span> <span class="o">=</span> <span class="n">energia_fio_liquida</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">configuracoes_expansao</span> <span class="o">=</span> <span class="n">configuracoes_expansao</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">retas_perdas_engolimento</span> <span class="o">=</span> <span class="n">retas_perdas_engolimento</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">energias_passadas_politica</span> <span class="o">=</span> <span class="n">energias_passadas_politica</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">energias_passadas_primeira_conf</span> <span class="o">=</span> <span class="n">energias_passadas_primeira_conf</span>

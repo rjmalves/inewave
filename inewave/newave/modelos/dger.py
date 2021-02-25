@@ -509,7 +509,6 @@ class DGer:
                 continue
             if u != v:
                 dif = True
-                print(k)
         return not dif
 
     def eq_eco_saida(self, o: object) -> bool:
@@ -554,7 +553,6 @@ class DGer:
                 continue
             if u != v:
                 dif = True
-                print(k, u, v)
         return not dif
 
     @classmethod

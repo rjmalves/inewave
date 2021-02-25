@@ -15,6 +15,7 @@ from .modelos.dger import EnumMomentoReamostragem
 from .modelos.dger import EnumInicioTesteConvergencia
 from .modelos.dger import EnumSazonaliza
 from .modelos.pmo import EnergiaFioLiquidaREEPMO
+from .modelos.pmo import ConfiguracoesExpansaoPMO
 from .modelos.pmo import RetasPerdasEngolimentoREEPMO
 from .modelos.pmo import EnergiasAfluentesPMO
 from .modelos.pmo import ConvergenciaPMO
@@ -61,6 +62,7 @@ class LeituraPMO(Leitura):
     str_inicio_valor_esperado = "                 VALOR ESPERADO PARA PERI"
     str_inicio_custo_referenciado = "                     CUSTO OPERACAO R"
     str_inicio_efio_liquida = '***ENERGIA FIO D"AGUA LIQUIDA***'
+    str_inicio_configs_expansao = "CONFIGURACOES POR QUALQUER MODIFICACAO"
     str_fim_dger = "CEPEL"
     str_fim_efio_liquida = "MODELO ESTRATEGICO DE GERACAO"
     str_fim_pmo = "DETECTADO NO CALCULO DA SIMULACAO FINAL"
@@ -75,6 +77,7 @@ class LeituraPMO(Leitura):
                        "",
                        DGer.dger_padrao(),
                        EnergiaFioLiquidaREEPMO(np.array([])),
+                       ConfiguracoesExpansaoPMO(np.array([])),
                        RetasPerdasEngolimentoREEPMO(np.array([])),
                        EnergiasAfluentesPMO(),
                        EnergiasAfluentesPMO(),
@@ -107,6 +110,7 @@ class LeituraPMO(Leitura):
         leu_dados_pmo = False
         achou_dger = False
         achou_efio_liquida = False
+        achou_configs_exp = False
         achou_convergencia = False
         achou_risco_ens = False
         achou_custo_series = False
@@ -120,6 +124,7 @@ class LeituraPMO(Leitura):
         versao_newave = ""
         dger = DGer.dger_padrao()
         energia_liq = EnergiaFioLiquidaREEPMO(np.array([]))
+        configs_exp = ConfiguracoesExpansaoPMO(np.array([]))
         retas_perdas = RetasPerdasEngolimentoREEPMO(np.array([]))
         convergencia = ConvergenciaPMO(np.array([]))
         risco_ens = RiscoDeficitENSPMO([], np.array([]))
@@ -135,6 +140,7 @@ class LeituraPMO(Leitura):
                                versao_newave,
                                dger,
                                energia_liq,
+                               configs_exp,
                                retas_perdas,
                                EnergiasAfluentesPMO(),
                                EnergiasAfluentesPMO(),
@@ -156,6 +162,9 @@ class LeituraPMO(Leitura):
             if not achou_efio_liquida:
                 achou = LeituraPMO.str_inicio_efio_liquida in linha
                 achou_efio_liquida = achou
+            if not achou_configs_exp:
+                achou = LeituraPMO.str_inicio_configs_expansao in linha
+                achou_configs_exp = achou
             if not achou_convergencia:
                 achou = LeituraPMO.str_inicio_converg in linha
                 achou_convergencia = achou
@@ -182,6 +191,9 @@ class LeituraPMO(Leitura):
             if achou_efio_liquida:
                 energia_liq, retas_perdas = self._le_efio_liquida(arq)
                 achou_efio_liquida = False
+            if achou_configs_exp:
+                configs_exp = self._le_configs_expansao(arq)
+                achou_configs_exp = False
             if achou_convergencia:
                 convergencia = self._le_convergencia(arq)
                 achou_convergencia = False
@@ -621,6 +633,35 @@ class LeituraPMO(Leitura):
                 dados_linha.append(float(linha[ci:cf]))
                 ci = cf + 2
             tabela.append(dados_linha)
+
+    def _le_configs_expansao(self, arq: IO) -> np.ndarray:
+        """
+        Lê as informações da tabela de configurações por período
+        de acordo com a expansão do sistema.
+        """
+        n_meses = len(MESES)
+        tabela = np.zeros((MAX_ANOS_ESTUDO, n_meses + 1),
+                           dtype=np.int64)
+        # Pula 5 linhas
+        self._le_linha_com_backup(arq)
+        self._le_linha_com_backup(arq)
+        self._le_linha_com_backup(arq)
+        self._le_linha_com_backup(arq)
+        self._le_linha_com_backup(arq)
+        i = 0
+        while True:
+            linha = self._le_linha_com_backup(arq)
+            # Confere se a tabela não acabou
+            if len(linha) <= 3:
+                return ConfiguracoesExpansaoPMO(tabela[:i, :])
+            ci = 5
+            nc = 5
+            # Armazena as informações de uma linha
+            for j in range(n_meses + 1):
+                cf = ci + nc
+                tabela[i, j] = float(linha[ci:cf].strip())
+                ci = cf + 1
+            i += 1
 
     def _le_tabela_perdas(self, arq: IO) -> np.ndarray:
         """
