@@ -307,8 +307,6 @@ class PARp:
                 if ree1 not in corrs_anuais[c].keys():
                     corrs_anuais[c][ree1] = {}
                 for ree2 in rees:
-                    if ree2 not in corrs_anuais[c][ree1].keys():
-                        corrs_anuais[c][ree1][ree2] = {}
                     corrs_anuais[c][ree1][ree2] = corrs[c][ree1-1,
                                                            ree2-1]
         return corrs_anuais
@@ -344,8 +342,6 @@ class PARp:
                 if ree1 not in corrs_mensais[c].keys():
                     corrs_mensais[c][ree1] = {}
                 for ree2 in rees:
-                    if ree2 not in corrs_mensais[c][ree1].keys():
-                        corrs_mensais[c][ree1][ree2] = {}
                     corrs_mensais[c][ree1][ree2] = corrs[c][ree1-1,
                                                             :,
                                                             ree2-1]
