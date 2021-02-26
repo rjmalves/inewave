@@ -40,6 +40,8 @@ class LeituraPARp(Leitura):
     str_inicio_correl_cruz = "CORRELACAO CRUZADA VARIAVEL ANUAL"
     str_inicio_ordens_o = "ORDEM ORIGINAL DO MODELO AUTORREGRESSIVO"
     str_inicio_ordens_f = "ORDEM FINAL DO MODELO AUTORREGRESSIVO"
+    str_inicio_correl_esp_a = "CORRELACAO ESPACIAL HISTORICA ANUAL"
+    str_inicio_correl_esp_m = "CORRELACAO ESPACIAL HISTORICA MENSAL"
     str_fim_serie = "CORRELOGRAMO"
     str_fim_coefs = "SERIE DE RUIDOS"
     str_fim_parp = "////////////////////"
@@ -49,7 +51,7 @@ class LeituraPARp(Leitura):
         super().__init__()
         self.diretorio = diretorio
         # PARp default, depois é substituído
-        self.parp = PARp({}, {}, {}, {}, {}, {}, {})
+        self.parp = PARp({}, {}, {}, {}, {}, {}, {}, {}, {})
 
     def le_arquivo(self) -> PARp:
         """
@@ -74,6 +76,8 @@ class LeituraPARp(Leitura):
         achou_ordens_f_coefs = False
         achou_medias = False
         achou_correl_cruz = False
+        achou_correl_esp_a = False
+        achou_correl_esp_m = False
         leu_series = False
         leu_correl_parc = False
         leu_ordens_o_coefs = False
@@ -82,6 +86,7 @@ class LeituraPARp(Leitura):
         leu_correl_cruz = False
         leu_rees = {i: False for i in range(1, len(REES) + 1)}
         ree = 0
+        ultima_cfg_lida = 0
         linha = ""
         # Variáveis para armazenar os componentes do PARp, que será
         # construído quando acabar a leitura
@@ -120,18 +125,34 @@ class LeituraPARp(Leitura):
                                                      4))
                                         for i in range(1,
                                                        len(REES) + 1)}
-
+        correl_esp_a: Dict[int, np.ndarray] = {i: np.zeros((len(REES),
+                                                            len(REES)))
+                                               for i in range(100)}
+        correl_esp_m: Dict[int, np.ndarray] = {i: np.zeros((len(REES),
+                                                            n_meses,
+                                                            len(REES)))
+                                               for i in range(100)}
         while True:
             # Decide se lê uma linha nova ou usa a última lida
             linha = self._le_linha_com_backup(arq)
             if self._fim_arquivo(linha):
+                # Limpa as correls_esp_a e correl_esp_m com apenas as
+                # cfgs lidas
+                cfgs_lidas = list(range(1, ultima_cfg_lida + 1))
+                for i in range(100):
+                    if i not in cfgs_lidas:
+                        correl_esp_a.pop(i)
+                        correl_esp_m.pop(i)
+                # Cria o objeto parp completo
                 self.parp = PARp(ordens_o,
                                  ordens_f,
                                  coefs,
                                  series,
                                  correl_p,
                                  medias,
-                                 correl_c)
+                                 correl_c,
+                                 correl_esp_a,
+                                 correl_esp_m)
                 break
             # Verifica se terminou de ler tudo sobre uma REE
             # e reseta as flags
@@ -171,13 +192,23 @@ class LeituraPARp(Leitura):
             if not achou_correl_cruz and not leu_correl_cruz:
                 achou = LeituraPARp.str_inicio_correl_cruz in linha
                 achou_correl_cruz = achou
+            if not achou_correl_esp_a:
+                achou = LeituraPARp.str_inicio_correl_esp_a in linha
+                achou_correl_esp_a = achou
+                if achou:
+                    self._configura_backup()
+            if not achou_correl_esp_m:
+                achou = LeituraPARp.str_inicio_correl_esp_m in linha
+                achou_correl_esp_m = achou
+                if achou:
+                    self._configura_backup()
             # Quando achar, le cada parte adequadamente
             if achou_series:
                 ree = self._le_series(arq, series)
                 achou_series = False
                 leu_series = True
             if achou_correl_parc:
-                self.le_tabela_correlograma(arq, correl_p, ree)
+                self._le_tabela_correlograma(arq, correl_p, ree)
                 achou_correl_parc = False
                 leu_correl_parc = True
             if achou_ordens_o_coefs:
@@ -196,9 +227,17 @@ class LeituraPARp(Leitura):
                 achou_medias = False
                 leu_medias = True
             if achou_correl_cruz:
-                self.le_tabela_correl_cruzada(arq, correl_c, ree)
+                self._le_tabela_correl_cruzada(arq, correl_c, ree)
                 achou_correl_cruz = False
                 leu_correl_cruz = True
+            if achou_correl_esp_a:
+                ultima_cfg_lida = self._le_tabela_correl_esp_a(arq,
+                                                               correl_esp_a)
+                achou_correl_esp_a = False
+            if achou_correl_esp_m:
+                self._le_tabelas_correl_esp_m(arq,
+                                              correl_esp_m)
+                achou_correl_esp_m = False
 
         return self.parp
 
@@ -298,10 +337,10 @@ class LeituraPARp(Leitura):
                 ci = cf + 2
             i += 1
 
-    def le_tabela_correlograma(self,
-                               arq: IO,
-                               correl: Dict[int, np.ndarray],
-                               ree: int):
+    def _le_tabela_correlograma(self,
+                                arq: IO,
+                                correl: Dict[int, np.ndarray],
+                                ree: int):
         """
         """
         # Salta 2 linhas
@@ -328,10 +367,10 @@ class LeituraPARp(Leitura):
                 ci = cf + 2
             i += 1
 
-    def le_tabela_correl_cruzada(self,
-                                 arq: IO,
-                                 correl: Dict[int, np.ndarray],
-                                 ree: int):
+    def _le_tabela_correl_cruzada(self,
+                                  arq: IO,
+                                  correl: Dict[int, np.ndarray],
+                                  ree: int):
         """
         """
         # Salta 4 linhas
@@ -490,6 +529,103 @@ class LeituraPARp(Leitura):
                 else:
                     coefs[ree][i, 0, lin] = float(linha[ci:cf])
                 lin += 1
+
+    def _le_tabela_correl_esp_a(self,
+                                arq: IO,
+                                correls: Dict[int, np.ndarray]
+                                ) -> int:
+        """
+        """
+        # Lê a linha do backup para descobrir a configuração
+        self._configura_backup()
+        linha = self._le_linha_com_backup(arq)
+        str_cfg = linha.split("No:")[1].strip()
+        # Descobre a configuração
+        cfg = int(str_cfg)
+        # Salta 1 linhas
+        self._le_linha_com_backup(arq)
+        linha = self._le_linha_com_backup(arq)
+        # Descobre a ordem das REEs nas colunas
+        str_rees = [s for s in linha.split(" ") if len(s) > 1]
+        ordem_rees = [REES.index(s) + 1 for s in str_rees]
+        # Lê a tabela
+        i = 0
+        n_meses = len(MESES)
+        while True:
+            # Verifica se a tabela já acabou
+            linha = self._le_linha_com_backup(arq)
+            if len(linha) < 3:
+                return cfg
+            # Senão, lê mais uma linha
+            ci = 18
+            nc = 7
+            for j in range(n_meses):
+                cf = ci + nc
+                correls[cfg][ordem_rees[i]-1,
+                             ordem_rees[j]-1] = float(linha[ci:cf])
+                ci = cf + 6
+            i += 1
+
+    def _le_tabelas_correl_esp_m(self,
+                                 arq: IO,
+                                 correls: Dict[int, np.ndarray]):
+        """
+        """
+        # Lê a linha do backup para descobrir a configuração
+        self._configura_backup()
+        linha = self._le_linha_com_backup(arq)
+        str_cfg = linha.split("No:")[1].strip()
+        # Descobre a configuração
+        cfg = int(str_cfg)
+        # Salta 1 linha
+        self._le_linha_com_backup(arq)
+        # Lê a tabela
+        i = 0
+        while True:
+            # Verifica se a tabela já acabou
+            linha = self._le_linha_com_backup(arq)
+            if (LeituraPARp.str_inicio_correl_esp_a in linha or
+                    LeituraPARp.str_fim_parp in linha):
+                self._configura_backup()
+                return cfg
+            # Senão, procura e lê mais uma tabela
+            if "MES" in linha:
+                self._configura_backup()
+                self._le_tabela_correl_esp_m(arq,
+                                             correls,
+                                             cfg)
+                i += 1
+
+    def _le_tabela_correl_esp_m(self,
+                                arq: IO,
+                                correls: Dict[int, np.ndarray],
+                                cfg: int):
+        """
+        """
+        linha = self._le_linha_com_backup(arq)
+        # Descobre a ordem das REEs nas colunas
+        str_rees = [s for s in linha[18:].split(" ") if len(s) > 1]
+        ordem_rees = [REES.index(s) + 1 for s in str_rees]
+        # Lê a tabela
+        i = 0
+        n_meses = len(MESES)
+        while True:
+            # Verifica se a tabela já acabou
+            linha = self._le_linha_com_backup(arq)
+            if len(linha) < 3:
+                break
+            # Senão, lê mais uma linha
+            # Identifica a REE da linha
+            ree_linha = str_rees.index(linha[:12].strip())
+            ci = 18
+            nc = 7
+            for j in range(n_meses):
+                cf = ci + nc
+                correls[cfg][ree_linha,
+                             i,
+                             ordem_rees[j]-1] = float(linha[ci:cf])
+                ci = cf + 6
+            i += 1
 
     def _fim_arquivo(self, linha: str) -> bool:
         return LeituraPARp.str_fim_parp in linha

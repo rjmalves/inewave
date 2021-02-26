@@ -1,3 +1,4 @@
+from inewave.config import REES
 from typing import Dict, List
 import numpy as np  # type: ignore
 
@@ -30,7 +31,9 @@ class PARp:
                  series_energia: Dict[int, np.ndarray],
                  correl_energia: Dict[int, np.ndarray],
                  series_medias: Dict[int, np.ndarray],
-                 correl_media: Dict[int, np.ndarray]):
+                 correl_media: Dict[int, np.ndarray],
+                 correl_e_anual: Dict[int, np.ndarray],
+                 correl_e_mensal: Dict[int, np.ndarray]):
         self.ordens_orig = ordens_orig
         self.ordens_finais = ordens_finais
         self.coeficientes = coeficientes
@@ -38,6 +41,8 @@ class PARp:
         self.correl_energia = correl_energia
         self.series_medias = series_medias
         self.correl_media = correl_media
+        self.correl_e_anual = correl_e_anual
+        self.correl_e_mensal = correl_e_mensal
 
     def __eq__(self, o: object) -> bool:
         """
@@ -64,16 +69,23 @@ class PARp:
         eq_medias_e = all([np.array_equal(s1, s2)
                            for (s1, s2) in zip(self.series_medias.values(),
                                                parp.series_medias.values())])
+        eq_correl_med = all([np.array_equal(s1, s2)
+                             for (s1, s2) in zip(self.correl_media.values(),
+                                                 parp.correl_media.values())])
+        eq_correl_a = all([np.array_equal(s1, s2)
+                           for (s1, s2) in zip(self.correl_e_anual.values(),
+                                               parp.correl_e_anual.values())])
         eq_correl_m = all([np.array_equal(s1, s2)
-                           for (s1, s2) in zip(self.correl_media.values(),
-                                               parp.correl_media.values())])
-
+                           for (s1, s2) in zip(self.correl_e_mensal.values(),
+                                               parp.correl_e_mensal.values())])
         return all([eq_ordens_o,
                     eq_ordens_f,
                     eq_coefs,
                     eq_series_e,
                     eq_correl_e,
                     eq_medias_e,
+                    eq_correl_med,
+                    eq_correl_a,
                     eq_correl_m])
 
     def series_energia_ree(self,
@@ -264,6 +276,80 @@ class PARp:
             coefs[i].append(c[0])
 
         return [np.array(c) for c in coefs]
+
+    @property
+    def correlacoes_espaciais_anuais(self) -> Dict[int,
+                                                   Dict[int,
+                                                        Dict[int,
+                                                             float]]]:
+        """
+        Correlações espaciais anuais para cada combinação de
+        REEs em cada configuração do sistema, da mesma maneira
+        encontrada no arquivo `parp.dat`.
+
+        **Retorna**
+
+        `Dict[int, Dict[int, Dict[int, float]]]`
+
+        **Sobre**
+
+        O acesso é feito com `[configuracao][ree1][ree2]`, onde `ree1`
+        e `ree2` são inteiros de 1 ao número de REEs, indexados da mesma
+        maneira do NEWAVE (1 = SUDESTE, 2 = SUL...).
+        """
+        corrs = self.correl_e_anual
+        rees = range(1, len(REES) + 1)
+        corrs_anuais: Dict[int, Dict[int, Dict[int, float]]] = {}
+        for c in corrs.keys():
+            if c not in corrs_anuais.keys():
+                corrs_anuais[c] = {}
+            for ree1 in rees:
+                if ree1 not in corrs_anuais[c].keys():
+                    corrs_anuais[c][ree1] = {}
+                for ree2 in rees:
+                    if ree2 not in corrs_anuais[c][ree1].keys():
+                        corrs_anuais[c][ree1][ree2] = {}
+                    corrs_anuais[c][ree1][ree2] = corrs[c][ree1-1,
+                                                           ree2-1]
+        return corrs_anuais
+
+    @property
+    def correlacoes_espaciais_mensais(self) -> Dict[int,
+                                                    Dict[int,
+                                                         Dict[int,
+                                                              np.ndarray]]]:
+        """
+        Correlações espaciais mensais para cada combinação de
+        REEs em cada configuração do sistema, da mesma maneira
+        encontrada no arquivo `parp.dat`.
+
+        **Retorna**
+
+        `Dict[int, Dict[int, Dict[int, np.ndarray]]]`
+
+        **Sobre**
+
+        O acesso é feito com `[configuracao][ree1][ree2]`, onde `ree1`
+        e `ree2` são inteiros de 1 ao número de REEs, indexados da mesma
+        maneira do NEWAVE (1 = SUDESTE, 2 = SUL...). É retornada a lista
+        com as correlações para todos os meses, ordenadas por mês.
+        """
+        corrs = self.correl_e_mensal
+        rees = range(1, len(REES) + 1)
+        corrs_mensais: Dict[int, Dict[int, Dict[int, np.ndarray]]] = {}
+        for c in corrs.keys():
+            if c not in corrs_mensais.keys():
+                corrs_mensais[c] = {}
+            for ree1 in rees:
+                if ree1 not in corrs_mensais[c].keys():
+                    corrs_mensais[c][ree1] = {}
+                for ree2 in rees:
+                    if ree2 not in corrs_mensais[c][ree1].keys():
+                        corrs_mensais[c][ree1][ree2] = {}
+                    corrs_mensais[c][ree1][ree2] = corrs[c][ree1-1,
+                                                            :,
+                                                            ree2-1]
+        return corrs_mensais
 
     @property
     def anos_historico(self) -> List[int]:

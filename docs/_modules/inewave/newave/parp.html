@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>inewave.newave.parp &mdash; documentação inewave 0.0.19</title>
+  <title>inewave.newave.parp &mdash; documentação inewave 0.0.20</title>
   
 
   
@@ -199,6 +199,8 @@
     <span class="n">str_inicio_correl_cruz</span> <span class="o">=</span> <span class="s2">&quot;CORRELACAO CRUZADA VARIAVEL ANUAL&quot;</span>
     <span class="n">str_inicio_ordens_o</span> <span class="o">=</span> <span class="s2">&quot;ORDEM ORIGINAL DO MODELO AUTORREGRESSIVO&quot;</span>
     <span class="n">str_inicio_ordens_f</span> <span class="o">=</span> <span class="s2">&quot;ORDEM FINAL DO MODELO AUTORREGRESSIVO&quot;</span>
+    <span class="n">str_inicio_correl_esp_a</span> <span class="o">=</span> <span class="s2">&quot;CORRELACAO ESPACIAL HISTORICA ANUAL&quot;</span>
+    <span class="n">str_inicio_correl_esp_m</span> <span class="o">=</span> <span class="s2">&quot;CORRELACAO ESPACIAL HISTORICA MENSAL&quot;</span>
     <span class="n">str_fim_serie</span> <span class="o">=</span> <span class="s2">&quot;CORRELOGRAMO&quot;</span>
     <span class="n">str_fim_coefs</span> <span class="o">=</span> <span class="s2">&quot;SERIE DE RUIDOS&quot;</span>
     <span class="n">str_fim_parp</span> <span class="o">=</span> <span class="s2">&quot;////////////////////&quot;</span>
@@ -208,7 +210,7 @@
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">diretorio</span> <span class="o">=</span> <span class="n">diretorio</span>
         <span class="c1"># PARp default, depois é substituído</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">parp</span> <span class="o">=</span> <span class="n">PARp</span><span class="p">({},</span> <span class="p">{},</span> <span class="p">{},</span> <span class="p">{},</span> <span class="p">{},</span> <span class="p">{},</span> <span class="p">{})</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parp</span> <span class="o">=</span> <span class="n">PARp</span><span class="p">({},</span> <span class="p">{},</span> <span class="p">{},</span> <span class="p">{},</span> <span class="p">{},</span> <span class="p">{},</span> <span class="p">{},</span> <span class="p">{},</span> <span class="p">{})</span>
 
 <div class="viewcode-block" id="LeituraPARp.le_arquivo"><a class="viewcode-back" href="../../../reference/newave/arquivos/parp.html#inewave.newave.parp.LeituraPARp.le_arquivo">[documentos]</a>    <span class="k">def</span> <span class="nf">le_arquivo</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PARp</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -233,6 +235,8 @@
         <span class="n">achou_ordens_f_coefs</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="n">achou_medias</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="n">achou_correl_cruz</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">achou_correl_esp_a</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">achou_correl_esp_m</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="n">leu_series</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="n">leu_correl_parc</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="n">leu_ordens_o_coefs</span> <span class="o">=</span> <span class="kc">False</span>
@@ -241,6 +245,7 @@
         <span class="n">leu_correl_cruz</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="n">leu_rees</span> <span class="o">=</span> <span class="p">{</span><span class="n">i</span><span class="p">:</span> <span class="kc">False</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">REES</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)}</span>
         <span class="n">ree</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">ultima_cfg_lida</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="n">linha</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
         <span class="c1"># Variáveis para armazenar os componentes do PARp, que será</span>
         <span class="c1"># construído quando acabar a leitura</span>
@@ -279,18 +284,34 @@
                                                      <span class="mi">4</span><span class="p">))</span>
                                         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span>
                                                        <span class="nb">len</span><span class="p">(</span><span class="n">REES</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)}</span>
-
+        <span class="n">correl_esp_a</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">i</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">REES</span><span class="p">),</span>
+                                                            <span class="nb">len</span><span class="p">(</span><span class="n">REES</span><span class="p">)))</span>
+                                               <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">)}</span>
+        <span class="n">correl_esp_m</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">i</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">REES</span><span class="p">),</span>
+                                                            <span class="n">n_meses</span><span class="p">,</span>
+                                                            <span class="nb">len</span><span class="p">(</span><span class="n">REES</span><span class="p">)))</span>
+                                               <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">)}</span>
         <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
             <span class="c1"># Decide se lê uma linha nova ou usa a última lida</span>
             <span class="n">linha</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fim_arquivo</span><span class="p">(</span><span class="n">linha</span><span class="p">):</span>
+                <span class="c1"># Limpa as correls_esp_a e correl_esp_m com apenas as</span>
+                <span class="c1"># cfgs lidas</span>
+                <span class="n">cfgs_lidas</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">ultima_cfg_lida</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="n">i</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">cfgs_lidas</span><span class="p">:</span>
+                        <span class="n">correl_esp_a</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+                        <span class="n">correl_esp_m</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+                <span class="c1"># Cria o objeto parp completo</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">parp</span> <span class="o">=</span> <span class="n">PARp</span><span class="p">(</span><span class="n">ordens_o</span><span class="p">,</span>
                                  <span class="n">ordens_f</span><span class="p">,</span>
                                  <span class="n">coefs</span><span class="p">,</span>
                                  <span class="n">series</span><span class="p">,</span>
                                  <span class="n">correl_p</span><span class="p">,</span>
                                  <span class="n">medias</span><span class="p">,</span>
-                                 <span class="n">correl_c</span><span class="p">)</span>
+                                 <span class="n">correl_c</span><span class="p">,</span>
+                                 <span class="n">correl_esp_a</span><span class="p">,</span>
+                                 <span class="n">correl_esp_m</span><span class="p">)</span>
                 <span class="k">break</span>
             <span class="c1"># Verifica se terminou de ler tudo sobre uma REE</span>
             <span class="c1"># e reseta as flags</span>
@@ -330,13 +351,23 @@
             <span class="k">if</span> <span class="ow">not</span> <span class="n">achou_correl_cruz</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">leu_correl_cruz</span><span class="p">:</span>
                 <span class="n">achou</span> <span class="o">=</span> <span class="n">LeituraPARp</span><span class="o">.</span><span class="n">str_inicio_correl_cruz</span> <span class="ow">in</span> <span class="n">linha</span>
                 <span class="n">achou_correl_cruz</span> <span class="o">=</span> <span class="n">achou</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">achou_correl_esp_a</span><span class="p">:</span>
+                <span class="n">achou</span> <span class="o">=</span> <span class="n">LeituraPARp</span><span class="o">.</span><span class="n">str_inicio_correl_esp_a</span> <span class="ow">in</span> <span class="n">linha</span>
+                <span class="n">achou_correl_esp_a</span> <span class="o">=</span> <span class="n">achou</span>
+                <span class="k">if</span> <span class="n">achou</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_configura_backup</span><span class="p">()</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">achou_correl_esp_m</span><span class="p">:</span>
+                <span class="n">achou</span> <span class="o">=</span> <span class="n">LeituraPARp</span><span class="o">.</span><span class="n">str_inicio_correl_esp_m</span> <span class="ow">in</span> <span class="n">linha</span>
+                <span class="n">achou_correl_esp_m</span> <span class="o">=</span> <span class="n">achou</span>
+                <span class="k">if</span> <span class="n">achou</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_configura_backup</span><span class="p">()</span>
             <span class="c1"># Quando achar, le cada parte adequadamente</span>
             <span class="k">if</span> <span class="n">achou_series</span><span class="p">:</span>
                 <span class="n">ree</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_series</span><span class="p">(</span><span class="n">arq</span><span class="p">,</span> <span class="n">series</span><span class="p">)</span>
                 <span class="n">achou_series</span> <span class="o">=</span> <span class="kc">False</span>
                 <span class="n">leu_series</span> <span class="o">=</span> <span class="kc">True</span>
             <span class="k">if</span> <span class="n">achou_correl_parc</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">le_tabela_correlograma</span><span class="p">(</span><span class="n">arq</span><span class="p">,</span> <span class="n">correl_p</span><span class="p">,</span> <span class="n">ree</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_le_tabela_correlograma</span><span class="p">(</span><span class="n">arq</span><span class="p">,</span> <span class="n">correl_p</span><span class="p">,</span> <span class="n">ree</span><span class="p">)</span>
                 <span class="n">achou_correl_parc</span> <span class="o">=</span> <span class="kc">False</span>
                 <span class="n">leu_correl_parc</span> <span class="o">=</span> <span class="kc">True</span>
             <span class="k">if</span> <span class="n">achou_ordens_o_coefs</span><span class="p">:</span>
@@ -355,9 +386,17 @@
                 <span class="n">achou_medias</span> <span class="o">=</span> <span class="kc">False</span>
                 <span class="n">leu_medias</span> <span class="o">=</span> <span class="kc">True</span>
             <span class="k">if</span> <span class="n">achou_correl_cruz</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">le_tabela_correl_cruzada</span><span class="p">(</span><span class="n">arq</span><span class="p">,</span> <span class="n">correl_c</span><span class="p">,</span> <span class="n">ree</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_le_tabela_correl_cruzada</span><span class="p">(</span><span class="n">arq</span><span class="p">,</span> <span class="n">correl_c</span><span class="p">,</span> <span class="n">ree</span><span class="p">)</span>
                 <span class="n">achou_correl_cruz</span> <span class="o">=</span> <span class="kc">False</span>
                 <span class="n">leu_correl_cruz</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">if</span> <span class="n">achou_correl_esp_a</span><span class="p">:</span>
+                <span class="n">ultima_cfg_lida</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_tabela_correl_esp_a</span><span class="p">(</span><span class="n">arq</span><span class="p">,</span>
+                                                               <span class="n">correl_esp_a</span><span class="p">)</span>
+                <span class="n">achou_correl_esp_a</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">if</span> <span class="n">achou_correl_esp_m</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_le_tabelas_correl_esp_m</span><span class="p">(</span><span class="n">arq</span><span class="p">,</span>
+                                              <span class="n">correl_esp_m</span><span class="p">)</span>
+                <span class="n">achou_correl_esp_m</span> <span class="o">=</span> <span class="kc">False</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">parp</span>
 
@@ -457,10 +496,10 @@
                 <span class="n">ci</span> <span class="o">=</span> <span class="n">cf</span> <span class="o">+</span> <span class="mi">2</span>
             <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
 
-<div class="viewcode-block" id="LeituraPARp.le_tabela_correlograma"><a class="viewcode-back" href="../../../reference/newave/arquivos/parp.html#inewave.newave.parp.LeituraPARp.le_tabela_correlograma">[documentos]</a>    <span class="k">def</span> <span class="nf">le_tabela_correlograma</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                               <span class="n">arq</span><span class="p">:</span> <span class="n">IO</span><span class="p">,</span>
-                               <span class="n">correl</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
-                               <span class="n">ree</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_le_tabela_correlograma</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                                <span class="n">arq</span><span class="p">:</span> <span class="n">IO</span><span class="p">,</span>
+                                <span class="n">correl</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
+                                <span class="n">ree</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Salta 2 linhas</span>
@@ -485,12 +524,12 @@
                 <span class="n">cf</span> <span class="o">=</span> <span class="n">ci</span> <span class="o">+</span> <span class="n">nc</span>
                 <span class="n">correl</span><span class="p">[</span><span class="n">ree</span><span class="p">][</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">linha</span><span class="p">[</span><span class="n">ci</span><span class="p">:</span><span class="n">cf</span><span class="p">])</span>
                 <span class="n">ci</span> <span class="o">=</span> <span class="n">cf</span> <span class="o">+</span> <span class="mi">2</span>
-            <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span></div>
+            <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
 
-<div class="viewcode-block" id="LeituraPARp.le_tabela_correl_cruzada"><a class="viewcode-back" href="../../../reference/newave/arquivos/parp.html#inewave.newave.parp.LeituraPARp.le_tabela_correl_cruzada">[documentos]</a>    <span class="k">def</span> <span class="nf">le_tabela_correl_cruzada</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                                 <span class="n">arq</span><span class="p">:</span> <span class="n">IO</span><span class="p">,</span>
-                                 <span class="n">correl</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
-                                 <span class="n">ree</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_le_tabela_correl_cruzada</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                                  <span class="n">arq</span><span class="p">:</span> <span class="n">IO</span><span class="p">,</span>
+                                  <span class="n">correl</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
+                                  <span class="n">ree</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Salta 4 linhas</span>
@@ -517,7 +556,7 @@
                 <span class="n">cf</span> <span class="o">=</span> <span class="n">ci</span> <span class="o">+</span> <span class="n">nc</span>
                 <span class="n">correl</span><span class="p">[</span><span class="n">ree</span><span class="p">][</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">linha</span><span class="p">[</span><span class="n">ci</span><span class="p">:</span><span class="n">cf</span><span class="p">])</span>
                 <span class="n">ci</span> <span class="o">=</span> <span class="n">cf</span> <span class="o">+</span> <span class="mi">2</span>
-            <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span></div>
+            <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
 
     <span class="k">def</span> <span class="nf">_le_tabela_media</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                          <span class="n">arq</span><span class="p">:</span> <span class="n">IO</span><span class="p">,</span>
@@ -649,6 +688,103 @@
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">coefs</span><span class="p">[</span><span class="n">ree</span><span class="p">][</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">lin</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">linha</span><span class="p">[</span><span class="n">ci</span><span class="p">:</span><span class="n">cf</span><span class="p">])</span>
                 <span class="n">lin</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="k">def</span> <span class="nf">_le_tabela_correl_esp_a</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                                <span class="n">arq</span><span class="p">:</span> <span class="n">IO</span><span class="p">,</span>
+                                <span class="n">correls</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span>
+                                <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Lê a linha do backup para descobrir a configuração</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_configura_backup</span><span class="p">()</span>
+        <span class="n">linha</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
+        <span class="n">str_cfg</span> <span class="o">=</span> <span class="n">linha</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;No:&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="c1"># Descobre a configuração</span>
+        <span class="n">cfg</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">str_cfg</span><span class="p">)</span>
+        <span class="c1"># Salta 1 linhas</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
+        <span class="n">linha</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
+        <span class="c1"># Descobre a ordem das REEs nas colunas</span>
+        <span class="n">str_rees</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">linha</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="n">ordem_rees</span> <span class="o">=</span> <span class="p">[</span><span class="n">REES</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">str_rees</span><span class="p">]</span>
+        <span class="c1"># Lê a tabela</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">n_meses</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">MESES</span><span class="p">)</span>
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="c1"># Verifica se a tabela já acabou</span>
+            <span class="n">linha</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">linha</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">cfg</span>
+            <span class="c1"># Senão, lê mais uma linha</span>
+            <span class="n">ci</span> <span class="o">=</span> <span class="mi">18</span>
+            <span class="n">nc</span> <span class="o">=</span> <span class="mi">7</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_meses</span><span class="p">):</span>
+                <span class="n">cf</span> <span class="o">=</span> <span class="n">ci</span> <span class="o">+</span> <span class="n">nc</span>
+                <span class="n">correls</span><span class="p">[</span><span class="n">cfg</span><span class="p">][</span><span class="n">ordem_rees</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+                             <span class="n">ordem_rees</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">linha</span><span class="p">[</span><span class="n">ci</span><span class="p">:</span><span class="n">cf</span><span class="p">])</span>
+                <span class="n">ci</span> <span class="o">=</span> <span class="n">cf</span> <span class="o">+</span> <span class="mi">6</span>
+            <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="k">def</span> <span class="nf">_le_tabelas_correl_esp_m</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                                 <span class="n">arq</span><span class="p">:</span> <span class="n">IO</span><span class="p">,</span>
+                                 <span class="n">correls</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Lê a linha do backup para descobrir a configuração</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_configura_backup</span><span class="p">()</span>
+        <span class="n">linha</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
+        <span class="n">str_cfg</span> <span class="o">=</span> <span class="n">linha</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;No:&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="c1"># Descobre a configuração</span>
+        <span class="n">cfg</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">str_cfg</span><span class="p">)</span>
+        <span class="c1"># Salta 1 linha</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
+        <span class="c1"># Lê a tabela</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="c1"># Verifica se a tabela já acabou</span>
+            <span class="n">linha</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">LeituraPARp</span><span class="o">.</span><span class="n">str_inicio_correl_esp_a</span> <span class="ow">in</span> <span class="n">linha</span> <span class="ow">or</span>
+                    <span class="n">LeituraPARp</span><span class="o">.</span><span class="n">str_fim_parp</span> <span class="ow">in</span> <span class="n">linha</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_configura_backup</span><span class="p">()</span>
+                <span class="k">return</span> <span class="n">cfg</span>
+            <span class="c1"># Senão, procura e lê mais uma tabela</span>
+            <span class="k">if</span> <span class="s2">&quot;MES&quot;</span> <span class="ow">in</span> <span class="n">linha</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_configura_backup</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_le_tabela_correl_esp_m</span><span class="p">(</span><span class="n">arq</span><span class="p">,</span>
+                                             <span class="n">correls</span><span class="p">,</span>
+                                             <span class="n">cfg</span><span class="p">)</span>
+                <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="k">def</span> <span class="nf">_le_tabela_correl_esp_m</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                                <span class="n">arq</span><span class="p">:</span> <span class="n">IO</span><span class="p">,</span>
+                                <span class="n">correls</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
+                                <span class="n">cfg</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">linha</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
+        <span class="c1"># Descobre a ordem das REEs nas colunas</span>
+        <span class="n">str_rees</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">linha</span><span class="p">[</span><span class="mi">18</span><span class="p">:]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="n">ordem_rees</span> <span class="o">=</span> <span class="p">[</span><span class="n">REES</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">str_rees</span><span class="p">]</span>
+        <span class="c1"># Lê a tabela</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">n_meses</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">MESES</span><span class="p">)</span>
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="c1"># Verifica se a tabela já acabou</span>
+            <span class="n">linha</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">linha</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
+                <span class="k">break</span>
+            <span class="c1"># Senão, lê mais uma linha</span>
+            <span class="c1"># Identifica a REE da linha</span>
+            <span class="n">ree_linha</span> <span class="o">=</span> <span class="n">str_rees</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">linha</span><span class="p">[:</span><span class="mi">12</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+            <span class="n">ci</span> <span class="o">=</span> <span class="mi">18</span>
+            <span class="n">nc</span> <span class="o">=</span> <span class="mi">7</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_meses</span><span class="p">):</span>
+                <span class="n">cf</span> <span class="o">=</span> <span class="n">ci</span> <span class="o">+</span> <span class="n">nc</span>
+                <span class="n">correls</span><span class="p">[</span><span class="n">cfg</span><span class="p">][</span><span class="n">ree_linha</span><span class="p">,</span>
+                             <span class="n">i</span><span class="p">,</span>
+                             <span class="n">ordem_rees</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">linha</span><span class="p">[</span><span class="n">ci</span><span class="p">:</span><span class="n">cf</span><span class="p">])</span>
+                <span class="n">ci</span> <span class="o">=</span> <span class="n">cf</span> <span class="o">+</span> <span class="mi">6</span>
+            <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
 
     <span class="k">def</span> <span class="nf">_fim_arquivo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">linha</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">LeituraPARp</span><span class="o">.</span><span class="n">str_fim_parp</span> <span class="ow">in</span> <span class="n">linha</span></div>

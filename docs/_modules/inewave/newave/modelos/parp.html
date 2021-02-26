@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>inewave.newave.modelos.parp &mdash; documentação inewave 0.0.19</title>
+  <title>inewave.newave.modelos.parp &mdash; documentação inewave 0.0.20</title>
   
 
   
@@ -157,7 +157,8 @@
            <div itemprop="articleBody">
             
   <h1>Código fonte para inewave.newave.modelos.parp</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span>
+<span></span><span class="kn">from</span> <span class="nn">inewave.config</span> <span class="kn">import</span> <span class="n">REES</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>  <span class="c1"># type: ignore</span>
 
 
@@ -189,7 +190,9 @@
                  <span class="n">series_energia</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
                  <span class="n">correl_energia</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
                  <span class="n">series_medias</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
-                 <span class="n">correl_media</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]):</span>
+                 <span class="n">correl_media</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
+                 <span class="n">correl_e_anual</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
+                 <span class="n">correl_e_mensal</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ordens_orig</span> <span class="o">=</span> <span class="n">ordens_orig</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ordens_finais</span> <span class="o">=</span> <span class="n">ordens_finais</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">coeficientes</span> <span class="o">=</span> <span class="n">coeficientes</span>
@@ -197,6 +200,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">correl_energia</span> <span class="o">=</span> <span class="n">correl_energia</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">series_medias</span> <span class="o">=</span> <span class="n">series_medias</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">correl_media</span> <span class="o">=</span> <span class="n">correl_media</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">correl_e_anual</span> <span class="o">=</span> <span class="n">correl_e_anual</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">correl_e_mensal</span> <span class="o">=</span> <span class="n">correl_e_mensal</span>
 
     <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">o</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -223,16 +228,23 @@
         <span class="n">eq_medias_e</span> <span class="o">=</span> <span class="nb">all</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">array_equal</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span> <span class="n">s2</span><span class="p">)</span>
                            <span class="k">for</span> <span class="p">(</span><span class="n">s1</span><span class="p">,</span> <span class="n">s2</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">series_medias</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span>
                                                <span class="n">parp</span><span class="o">.</span><span class="n">series_medias</span><span class="o">.</span><span class="n">values</span><span class="p">())])</span>
+        <span class="n">eq_correl_med</span> <span class="o">=</span> <span class="nb">all</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">array_equal</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span> <span class="n">s2</span><span class="p">)</span>
+                             <span class="k">for</span> <span class="p">(</span><span class="n">s1</span><span class="p">,</span> <span class="n">s2</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">correl_media</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span>
+                                                 <span class="n">parp</span><span class="o">.</span><span class="n">correl_media</span><span class="o">.</span><span class="n">values</span><span class="p">())])</span>
+        <span class="n">eq_correl_a</span> <span class="o">=</span> <span class="nb">all</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">array_equal</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span> <span class="n">s2</span><span class="p">)</span>
+                           <span class="k">for</span> <span class="p">(</span><span class="n">s1</span><span class="p">,</span> <span class="n">s2</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">correl_e_anual</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span>
+                                               <span class="n">parp</span><span class="o">.</span><span class="n">correl_e_anual</span><span class="o">.</span><span class="n">values</span><span class="p">())])</span>
         <span class="n">eq_correl_m</span> <span class="o">=</span> <span class="nb">all</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">array_equal</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span> <span class="n">s2</span><span class="p">)</span>
-                           <span class="k">for</span> <span class="p">(</span><span class="n">s1</span><span class="p">,</span> <span class="n">s2</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">correl_media</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span>
-                                               <span class="n">parp</span><span class="o">.</span><span class="n">correl_media</span><span class="o">.</span><span class="n">values</span><span class="p">())])</span>
-
+                           <span class="k">for</span> <span class="p">(</span><span class="n">s1</span><span class="p">,</span> <span class="n">s2</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">correl_e_mensal</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span>
+                                               <span class="n">parp</span><span class="o">.</span><span class="n">correl_e_mensal</span><span class="o">.</span><span class="n">values</span><span class="p">())])</span>
         <span class="k">return</span> <span class="nb">all</span><span class="p">([</span><span class="n">eq_ordens_o</span><span class="p">,</span>
                     <span class="n">eq_ordens_f</span><span class="p">,</span>
                     <span class="n">eq_coefs</span><span class="p">,</span>
                     <span class="n">eq_series_e</span><span class="p">,</span>
                     <span class="n">eq_correl_e</span><span class="p">,</span>
                     <span class="n">eq_medias_e</span><span class="p">,</span>
+                    <span class="n">eq_correl_med</span><span class="p">,</span>
+                    <span class="n">eq_correl_a</span><span class="p">,</span>
                     <span class="n">eq_correl_m</span><span class="p">])</span>
 
 <div class="viewcode-block" id="PARp.series_energia_ree"><a class="viewcode-back" href="../../../../reference/newave/arquivos/parp.html#inewave.newave.modelos.parp.PARp.series_energia_ree">[documentos]</a>    <span class="k">def</span> <span class="nf">series_energia_ree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
@@ -423,6 +435,80 @@
             <span class="n">coefs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 
         <span class="k">return</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">coefs</span><span class="p">]</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">correlacoes_espaciais_anuais</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span>
+                                                   <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span>
+                                                        <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span>
+                                                             <span class="nb">float</span><span class="p">]]]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Correlações espaciais anuais para cada combinação de</span>
+<span class="sd">        REEs em cada configuração do sistema, da mesma maneira</span>
+<span class="sd">        encontrada no arquivo `parp.dat`.</span>
+
+<span class="sd">        **Retorna**</span>
+
+<span class="sd">        `Dict[int, Dict[int, Dict[int, float]]]`</span>
+
+<span class="sd">        **Sobre**</span>
+
+<span class="sd">        O acesso é feito com `[configuracao][ree1][ree2]`, onde `ree1`</span>
+<span class="sd">        e `ree2` são inteiros de 1 ao número de REEs, indexados da mesma</span>
+<span class="sd">        maneira do NEWAVE (1 = SUDESTE, 2 = SUL...).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">corrs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">correl_e_anual</span>
+        <span class="n">rees</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">REES</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">corrs_anuais</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">corrs</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">c</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">corrs_anuais</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="n">corrs_anuais</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">ree1</span> <span class="ow">in</span> <span class="n">rees</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">ree1</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">corrs_anuais</span><span class="p">[</span><span class="n">c</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                    <span class="n">corrs_anuais</span><span class="p">[</span><span class="n">c</span><span class="p">][</span><span class="n">ree1</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+                <span class="k">for</span> <span class="n">ree2</span> <span class="ow">in</span> <span class="n">rees</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">ree2</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">corrs_anuais</span><span class="p">[</span><span class="n">c</span><span class="p">][</span><span class="n">ree1</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                        <span class="n">corrs_anuais</span><span class="p">[</span><span class="n">c</span><span class="p">][</span><span class="n">ree1</span><span class="p">][</span><span class="n">ree2</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+                    <span class="n">corrs_anuais</span><span class="p">[</span><span class="n">c</span><span class="p">][</span><span class="n">ree1</span><span class="p">][</span><span class="n">ree2</span><span class="p">]</span> <span class="o">=</span> <span class="n">corrs</span><span class="p">[</span><span class="n">c</span><span class="p">][</span><span class="n">ree1</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+                                                           <span class="n">ree2</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">corrs_anuais</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">correlacoes_espaciais_mensais</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span>
+                                                    <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span>
+                                                         <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span>
+                                                              <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Correlações espaciais mensais para cada combinação de</span>
+<span class="sd">        REEs em cada configuração do sistema, da mesma maneira</span>
+<span class="sd">        encontrada no arquivo `parp.dat`.</span>
+
+<span class="sd">        **Retorna**</span>
+
+<span class="sd">        `Dict[int, Dict[int, Dict[int, np.ndarray]]]`</span>
+
+<span class="sd">        **Sobre**</span>
+
+<span class="sd">        O acesso é feito com `[configuracao][ree1][ree2]`, onde `ree1`</span>
+<span class="sd">        e `ree2` são inteiros de 1 ao número de REEs, indexados da mesma</span>
+<span class="sd">        maneira do NEWAVE (1 = SUDESTE, 2 = SUL...). É retornada a lista</span>
+<span class="sd">        com as correlações para todos os meses, ordenadas por mês.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">corrs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">correl_e_mensal</span>
+        <span class="n">rees</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">REES</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">corrs_mensais</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">corrs</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">c</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">corrs_mensais</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="n">corrs_mensais</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">ree1</span> <span class="ow">in</span> <span class="n">rees</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">ree1</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">corrs_mensais</span><span class="p">[</span><span class="n">c</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                    <span class="n">corrs_mensais</span><span class="p">[</span><span class="n">c</span><span class="p">][</span><span class="n">ree1</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+                <span class="k">for</span> <span class="n">ree2</span> <span class="ow">in</span> <span class="n">rees</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">ree2</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">corrs_mensais</span><span class="p">[</span><span class="n">c</span><span class="p">][</span><span class="n">ree1</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                        <span class="n">corrs_mensais</span><span class="p">[</span><span class="n">c</span><span class="p">][</span><span class="n">ree1</span><span class="p">][</span><span class="n">ree2</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+                    <span class="n">corrs_mensais</span><span class="p">[</span><span class="n">c</span><span class="p">][</span><span class="n">ree1</span><span class="p">][</span><span class="n">ree2</span><span class="p">]</span> <span class="o">=</span> <span class="n">corrs</span><span class="p">[</span><span class="n">c</span><span class="p">][</span><span class="n">ree1</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+                                                            <span class="p">:,</span>
+                                                            <span class="n">ree2</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">corrs_mensais</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">anos_historico</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>

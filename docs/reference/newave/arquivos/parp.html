@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Acompanhamento do modelo PAR(p) (parp.dat) &mdash; documentação inewave 0.0.19</title>
+  <title>Acompanhamento do modelo PAR(p) (parp.dat) &mdash; documentação inewave 0.0.20</title>
   
 
   
@@ -191,7 +191,7 @@ localizado no arquivo geralmente denominado
 parp.dat, é armazenado na classe:</p>
 <dl class="py class">
 <dt id="inewave.newave.modelos.parp.PARp">
-<em class="property">class </em><code class="sig-name descname">PARp</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ordens_orig</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>int<span class="p">, </span>numpy.ndarray<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">ordens_finais</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>int<span class="p">, </span>numpy.ndarray<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">coeficientes</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>int<span class="p">, </span>numpy.ndarray<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">series_energia</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>int<span class="p">, </span>numpy.ndarray<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">correl_energia</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>int<span class="p">, </span>numpy.ndarray<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">series_medias</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>int<span class="p">, </span>numpy.ndarray<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">correl_media</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>int<span class="p">, </span>numpy.ndarray<span class="p">]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/newave/modelos/parp.html#PARp"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#inewave.newave.modelos.parp.PARp" title="Link permanente para esta definição">¶</a></dt>
+<em class="property">class </em><code class="sig-name descname">PARp</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ordens_orig</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>int<span class="p">, </span>numpy.ndarray<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">ordens_finais</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>int<span class="p">, </span>numpy.ndarray<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">coeficientes</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>int<span class="p">, </span>numpy.ndarray<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">series_energia</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>int<span class="p">, </span>numpy.ndarray<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">correl_energia</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>int<span class="p">, </span>numpy.ndarray<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">series_medias</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>int<span class="p">, </span>numpy.ndarray<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">correl_media</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>int<span class="p">, </span>numpy.ndarray<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">correl_e_anual</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>int<span class="p">, </span>numpy.ndarray<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">correl_e_mensal</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>int<span class="p">, </span>numpy.ndarray<span class="p">]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/newave/modelos/parp.html#PARp"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#inewave.newave.modelos.parp.PARp" title="Link permanente para esta definição">¶</a></dt>
 <dd><p>Armazena os dados de saída do NEWAVE referentes aos modelos e às
 séries sintéticas de energia geradas pelo PAR(p) e PAR(p)-A.</p>
 <p>Esta classe lida com informações de saída do NEWAVE e
@@ -239,6 +239,35 @@ energia.</p>
 <p>No caso de um modelo PAR-A de ordem p, a lista possui
 p + 1 coeficientes, e a última posição contém o
 coeficiente da componente anual.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="inewave.newave.modelos.parp.PARp.correlacoes_espaciais_anuais">
+<em class="property">property </em><code class="sig-name descname">correlacoes_espaciais_anuais</code><a class="headerlink" href="#inewave.newave.modelos.parp.PARp.correlacoes_espaciais_anuais" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Correlações espaciais anuais para cada combinação de
+REEs em cada configuração do sistema, da mesma maneira
+encontrada no arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">parp.dat</span></code>.</p>
+<p><strong>Retorna</strong></p>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dict[int,</span> <span class="pre">Dict[int,</span> <span class="pre">Dict[int,</span> <span class="pre">float]]]</span></code></p>
+<p><strong>Sobre</strong></p>
+<p>O acesso é feito com <code class="xref py py-obj docutils literal notranslate"><span class="pre">[configuracao][ree1][ree2]</span></code>, onde <code class="xref py py-obj docutils literal notranslate"><span class="pre">ree1</span></code>
+e <code class="xref py py-obj docutils literal notranslate"><span class="pre">ree2</span></code> são inteiros de 1 ao número de REEs, indexados da mesma
+maneira do NEWAVE (1 = SUDESTE, 2 = SUL…).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="inewave.newave.modelos.parp.PARp.correlacoes_espaciais_mensais">
+<em class="property">property </em><code class="sig-name descname">correlacoes_espaciais_mensais</code><a class="headerlink" href="#inewave.newave.modelos.parp.PARp.correlacoes_espaciais_mensais" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Correlações espaciais mensais para cada combinação de
+REEs em cada configuração do sistema, da mesma maneira
+encontrada no arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">parp.dat</span></code>.</p>
+<p><strong>Retorna</strong></p>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dict[int,</span> <span class="pre">Dict[int,</span> <span class="pre">Dict[int,</span> <span class="pre">np.ndarray]]]</span></code></p>
+<p><strong>Sobre</strong></p>
+<p>O acesso é feito com <code class="xref py py-obj docutils literal notranslate"><span class="pre">[configuracao][ree1][ree2]</span></code>, onde <code class="xref py py-obj docutils literal notranslate"><span class="pre">ree1</span></code>
+e <code class="xref py py-obj docutils literal notranslate"><span class="pre">ree2</span></code> são inteiros de 1 ao número de REEs, indexados da mesma
+maneira do NEWAVE (1 = SUDESTE, 2 = SUL…). É retornada a lista
+com as correlações para todos os meses, ordenadas por mês.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -368,16 +397,6 @@ internamente no atributo <code class="xref py py-obj docutils literal notranslat
 <code class="sig-name descname">le_arquivo</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#inewave.newave.modelos.parp.PARp" title="inewave.newave.modelos.parp.PARp">inewave.newave.modelos.parp.PARp</a><a class="reference internal" href="../../../_modules/inewave/newave/parp.html#LeituraPARp.le_arquivo"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#inewave.newave.parp.LeituraPARp.le_arquivo" title="Link permanente para esta definição">¶</a></dt>
 <dd><p>Faz a leitura do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">parp.dat</span></code>.</p>
 </dd></dl>
-
-<dl class="py method">
-<dt id="inewave.newave.parp.LeituraPARp.le_tabela_correl_cruzada">
-<code class="sig-name descname">le_tabela_correl_cruzada</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">arq</span><span class="p">:</span> <span class="n">IO</span></em>, <em class="sig-param"><span class="n">correl</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>int<span class="p">, </span>numpy.ndarray<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">ree</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/newave/parp.html#LeituraPARp.le_tabela_correl_cruzada"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#inewave.newave.parp.LeituraPARp.le_tabela_correl_cruzada" title="Link permanente para esta definição">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="inewave.newave.parp.LeituraPARp.le_tabela_correlograma">
-<code class="sig-name descname">le_tabela_correlograma</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">arq</span><span class="p">:</span> <span class="n">IO</span></em>, <em class="sig-param"><span class="n">correl</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>int<span class="p">, </span>numpy.ndarray<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">ree</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/newave/parp.html#LeituraPARp.le_tabela_correlograma"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#inewave.newave.parp.LeituraPARp.le_tabela_correlograma" title="Link permanente para esta definição">¶</a></dt>
-<dd></dd></dl>
 
 </dd></dl>
 
