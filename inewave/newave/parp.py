@@ -605,10 +605,9 @@ class LeituraPARp(Leitura):
         linha = self._le_linha_com_backup(arq)
         # Descobre a ordem das REEs nas colunas
         str_rees = [s for s in linha[18:].split(" ") if len(s) > 1]
-        ordem_rees = [REES.index(s) + 1 for s in str_rees]
+        ordem_rees = [REES.index(s) for s in str_rees]
         # Lê a tabela
         i = 0
-        n_meses = len(MESES)
         while True:
             # Verifica se a tabela já acabou
             linha = self._le_linha_com_backup(arq)
@@ -616,14 +615,14 @@ class LeituraPARp(Leitura):
                 break
             # Senão, lê mais uma linha
             # Identifica a REE da linha
-            ree_linha = str_rees.index(linha[:12].strip())
+            ree_linha = REES.index(linha[:12].strip())
             ci = 18
             nc = 7
-            for j in range(n_meses):
+            for j in ordem_rees:
                 cf = ci + nc
                 correls[cfg][ree_linha,
-                             ordem_rees[i]-1,
-                             ordem_rees[j]-1] = float(linha[ci:cf])
+                             i-1,
+                             j] = float(linha[ci:cf])
                 ci = cf + 6
             i += 1
 

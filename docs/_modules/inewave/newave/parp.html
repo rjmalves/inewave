@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>inewave.newave.parp &mdash; documentação inewave 0.0.21</title>
+  <title>inewave.newave.parp &mdash; documentação inewave 0.0.22</title>
   
 
   
@@ -764,10 +764,9 @@
         <span class="n">linha</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
         <span class="c1"># Descobre a ordem das REEs nas colunas</span>
         <span class="n">str_rees</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">linha</span><span class="p">[</span><span class="mi">18</span><span class="p">:]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">]</span>
-        <span class="n">ordem_rees</span> <span class="o">=</span> <span class="p">[</span><span class="n">REES</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">str_rees</span><span class="p">]</span>
+        <span class="n">ordem_rees</span> <span class="o">=</span> <span class="p">[</span><span class="n">REES</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">str_rees</span><span class="p">]</span>
         <span class="c1"># Lê a tabela</span>
         <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="n">n_meses</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">MESES</span><span class="p">)</span>
         <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
             <span class="c1"># Verifica se a tabela já acabou</span>
             <span class="n">linha</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
@@ -775,14 +774,14 @@
                 <span class="k">break</span>
             <span class="c1"># Senão, lê mais uma linha</span>
             <span class="c1"># Identifica a REE da linha</span>
-            <span class="n">ree_linha</span> <span class="o">=</span> <span class="n">str_rees</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">linha</span><span class="p">[:</span><span class="mi">12</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+            <span class="n">ree_linha</span> <span class="o">=</span> <span class="n">REES</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">linha</span><span class="p">[:</span><span class="mi">12</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
             <span class="n">ci</span> <span class="o">=</span> <span class="mi">18</span>
             <span class="n">nc</span> <span class="o">=</span> <span class="mi">7</span>
-            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_meses</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">ordem_rees</span><span class="p">:</span>
                 <span class="n">cf</span> <span class="o">=</span> <span class="n">ci</span> <span class="o">+</span> <span class="n">nc</span>
                 <span class="n">correls</span><span class="p">[</span><span class="n">cfg</span><span class="p">][</span><span class="n">ree_linha</span><span class="p">,</span>
-                             <span class="n">ordem_rees</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span>
-                             <span class="n">ordem_rees</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">linha</span><span class="p">[</span><span class="n">ci</span><span class="p">:</span><span class="n">cf</span><span class="p">])</span>
+                             <span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+                             <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">linha</span><span class="p">[</span><span class="n">ci</span><span class="p">:</span><span class="n">cf</span><span class="p">])</span>
                 <span class="n">ci</span> <span class="o">=</span> <span class="n">cf</span> <span class="o">+</span> <span class="mi">6</span>
             <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
 
