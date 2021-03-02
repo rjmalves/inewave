@@ -159,9 +159,7 @@ class LeituraPARp(Leitura):
             if all([leu_ordens_o_coefs,
                     leu_ordens_f_coefs,
                     leu_series,
-                    leu_correl_parc,
-                    leu_medias,
-                    leu_correl_cruz]):
+                    leu_correl_parc]):
                 leu_ordens_o_coefs = False
                 leu_ordens_f_coefs = False
                 leu_series = False
