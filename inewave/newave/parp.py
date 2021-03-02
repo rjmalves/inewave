@@ -621,7 +621,7 @@ class LeituraPARp(Leitura):
             for j in ordem_rees:
                 cf = ci + nc
                 correls[cfg][ree_linha,
-                             i-1,
+                             i,
                              j] = float(linha[ci:cf])
                 ci = cf + 6
             i += 1
