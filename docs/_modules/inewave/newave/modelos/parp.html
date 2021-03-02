@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>inewave.newave.modelos.parp &mdash; documentação inewave 0.0.20</title>
+  <title>inewave.newave.modelos.parp &mdash; documentação inewave 0.0.21</title>
   
 
   
@@ -466,8 +466,6 @@
                 <span class="k">if</span> <span class="n">ree1</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">corrs_anuais</span><span class="p">[</span><span class="n">c</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
                     <span class="n">corrs_anuais</span><span class="p">[</span><span class="n">c</span><span class="p">][</span><span class="n">ree1</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
                 <span class="k">for</span> <span class="n">ree2</span> <span class="ow">in</span> <span class="n">rees</span><span class="p">:</span>
-                    <span class="k">if</span> <span class="n">ree2</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">corrs_anuais</span><span class="p">[</span><span class="n">c</span><span class="p">][</span><span class="n">ree1</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-                        <span class="n">corrs_anuais</span><span class="p">[</span><span class="n">c</span><span class="p">][</span><span class="n">ree1</span><span class="p">][</span><span class="n">ree2</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
                     <span class="n">corrs_anuais</span><span class="p">[</span><span class="n">c</span><span class="p">][</span><span class="n">ree1</span><span class="p">][</span><span class="n">ree2</span><span class="p">]</span> <span class="o">=</span> <span class="n">corrs</span><span class="p">[</span><span class="n">c</span><span class="p">][</span><span class="n">ree1</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span>
                                                            <span class="n">ree2</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">corrs_anuais</span>
@@ -503,8 +501,6 @@
                 <span class="k">if</span> <span class="n">ree1</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">corrs_mensais</span><span class="p">[</span><span class="n">c</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
                     <span class="n">corrs_mensais</span><span class="p">[</span><span class="n">c</span><span class="p">][</span><span class="n">ree1</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
                 <span class="k">for</span> <span class="n">ree2</span> <span class="ow">in</span> <span class="n">rees</span><span class="p">:</span>
-                    <span class="k">if</span> <span class="n">ree2</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">corrs_mensais</span><span class="p">[</span><span class="n">c</span><span class="p">][</span><span class="n">ree1</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-                        <span class="n">corrs_mensais</span><span class="p">[</span><span class="n">c</span><span class="p">][</span><span class="n">ree1</span><span class="p">][</span><span class="n">ree2</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
                     <span class="n">corrs_mensais</span><span class="p">[</span><span class="n">c</span><span class="p">][</span><span class="n">ree1</span><span class="p">][</span><span class="n">ree2</span><span class="p">]</span> <span class="o">=</span> <span class="n">corrs</span><span class="p">[</span><span class="n">c</span><span class="p">][</span><span class="n">ree1</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span>
                                                             <span class="p">:,</span>
                                                             <span class="n">ree2</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>

@@ -51,3 +51,70 @@ def test_valores_vertimento():
                        vert_control,
                        vert_fio):
         assert np.all(t - c - f < 1e-1)
+
+
+def test_energias_armazenadas():
+    e = leitor.medias.energias_armazenadas_absolutas
+    assert len(e) > 0
+    e = leitor.medias.energias_armazenadas_percentuais
+    assert len(e) > 0
+
+
+def test_percentis_energias():
+    e = leitor.medias.percentil_10_energias_armazenadas
+    assert len(e) > 0
+    e = leitor.medias.percentil_20_energias_armazenadas
+    assert len(e) > 0
+    e = leitor.medias.percentil_30_energias_armazenadas
+    assert len(e) > 0
+    e = leitor.medias.percentil_40_energias_armazenadas
+    assert len(e) > 0
+    e = leitor.medias.percentil_50_energias_armazenadas
+    assert len(e) > 0
+    e = leitor.medias.percentil_60_energias_armazenadas
+    assert len(e) > 0
+    e = leitor.medias.percentil_70_energias_armazenadas
+    assert len(e) > 0
+    e = leitor.medias.percentil_80_energias_armazenadas
+    assert len(e) > 0
+    e = leitor.medias.percentil_90_energias_armazenadas
+    assert len(e) > 0
+    e = leitor.medias.percentil_100_energias_armazenadas
+    assert len(e) > 0
+
+
+def test_energias_afluentes():
+    e = leitor.medias.energia_natural_afluente
+    assert len(e) > 0
+    e = leitor.medias.energia_controlavel_corrigida
+    assert len(e) > 0
+    e = leitor.medias.energia_fio_dagua_bruta
+    assert len(e) > 0
+    e = leitor.medias.energia_fio_dagua_liquida
+    assert len(e) > 0
+    e = leitor.medias.energia_evaporada
+    assert len(e) > 0
+
+
+def test_geracoes():
+    e = leitor.medias.geracao_hidraulica_controlavel
+    assert len(e) > 0
+    e = leitor.medias.geracao_hidraulica_fio_dagua_liquida
+    assert len(e) > 0
+    e = leitor.medias.geracao_hidraulica_total
+    assert len(e) > 0
+    e = leitor.medias.geracao_eolica
+    assert len(e) > 0
+    e = leitor.medias.geracao_solar
+    assert len(e) > 0
+    e = leitor.medias.geracao_termica
+    assert len(e) > 0
+
+
+def test_custos():
+    e = leitor.medias.deficit
+    assert len(e) > 0
+    e = leitor.medias.custo_deficit
+    assert len(e) > 0
+    e = leitor.medias.custo_termica
+    assert len(e) > 0

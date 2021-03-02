@@ -622,7 +622,7 @@ class LeituraPARp(Leitura):
             for j in range(n_meses):
                 cf = ci + nc
                 correls[cfg][ree_linha,
-                             i,
+                             ordem_rees[i]-1,
                              ordem_rees[j]-1] = float(linha[ci:cf])
                 ci = cf + 6
             i += 1
