@@ -88,3 +88,12 @@ def test_eco_dger_pmo():
     leitor2 = LeituraDGer("tests/_arquivos")
     leitor2.le_arquivo()
     leitor.pmo.dados_gerais.eq_eco_saida(leitor2.dger)
+
+
+def test_tabelas_configs():
+    configs_res = leitor.pmo.configuracoes_entrada_reservatorio
+    configs_alt = leitor.pmo.configuracoes_alteracao_potencia
+    configs_exp = leitor.pmo.configuracoes_expansao
+    assert len(list(configs_res.configs_por_ano.keys())) == 10
+    assert len(list(configs_alt.configs_por_ano.keys())) == 10
+    assert len(list(configs_exp.configs_por_ano.keys())) == 10
