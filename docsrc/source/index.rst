@@ -14,10 +14,10 @@ desenvolvido pelo `CEPEL <http://www.cepel.br/>`_ e utilizado para os estudos de
 
 O inewave oferece:
 
-- meios para leitura dos arquivos de entrada e saída do NEWAVE e programas associados: NWLISTCF e NWLISTOP
-- armazenamento e processamento de dados otimizados com o uso de `NumPy <https://numpy.org/>`_
-- dados estruturados em modelos com o uso do paradigma de orientação a objetos (OOP)
-- utilidades de escritas dos arquivos de entrada do NEWAVE para elaboração automatizada de estudos
+- Meios para leitura dos arquivos de entrada e saída do NEWAVE e programas associados: NWLISTCF e NWLISTOP
+- Armazenamento e processamento de dados otimizados com o uso de `NumPy <https://numpy.org/>`_
+- Dados estruturados em modelos com o uso do paradigma de orientação a objetos (OOP)
+- Utilidades de escritas dos arquivos de entrada do NEWAVE para elaboração automatizada de estudos
 
 Com *inewave* é possível ler os arquivos de texto, característicos do NEWAVE, e salvar as informações em `pickle <https://docs.python.org/3/library/pickle.html>`_, 
 para poupar processamento futuro e reduzir o tempo de execução.

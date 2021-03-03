@@ -487,6 +487,8 @@ class PMO:
                  versao_newave: str,
                  dados_gerais: DGer,
                  energia_fio_liquida: EnergiaFioLiquidaREEPMO,
+                 configuracoes_entrada_res: ConfiguracoesExpansaoPMO,
+                 configuracoes_alt_potencia: ConfiguracoesExpansaoPMO,
                  configuracoes_expansao: ConfiguracoesExpansaoPMO,
                  retas_perdas_engolimento: RetasPerdasEngolimentoREEPMO,
                  energias_passadas_politica: EnergiasAfluentesPMO,
@@ -504,6 +506,8 @@ class PMO:
         self.versao_newave = versao_newave
         self.dados_gerais = dados_gerais
         self.energia_fio_liquida = energia_fio_liquida
+        self.configuracoes_entrada_res = configuracoes_entrada_res
+        self.configuracoes_alt_potencia = configuracoes_alt_potencia
         self.configuracoes_expansao = configuracoes_expansao
         self.retas_perdas_engolimento = retas_perdas_engolimento
         self.energias_passadas_politica = energias_passadas_politica
@@ -533,3 +537,27 @@ class PMO:
                 dif = True
                 break
         return not dif
+
+    @property
+    def configuracoes_entrada_reservatorio(self) -> ConfiguracoesExpansaoPMO:
+        """
+        Configurações do sistema em cada período devido a entrada
+        de reservatórios e/ou potência de base.
+
+        **Retorna**
+
+        `ConfiguracoesExpansaoPMO`
+        """
+        return self.configuracoes_entrada_res
+
+    @property
+    def configuracoes_alteracao_potencia(self) -> ConfiguracoesExpansaoPMO:
+        """
+        Configurações do sistema em cada período devido a alterações
+        de potência.
+
+        **Retorna**
+
+        `ConfiguracoesExpansaoPMO`
+        """
+        return self.configuracoes_alt_potencia

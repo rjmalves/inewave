@@ -62,6 +62,8 @@ class LeituraPMO(Leitura):
     str_inicio_valor_esperado = "                 VALOR ESPERADO PARA PERI"
     str_inicio_custo_referenciado = "                     CUSTO OPERACAO R"
     str_inicio_efio_liquida = '***ENERGIA FIO D"AGUA LIQUIDA***'
+    str_inicio_entrada_res = "CONFIGURACOES POR ENTRADA DE RES"
+    str_inicio_alt_potencia = "CONFIGURACOES POR ALTERACAO DE POT"
     str_inicio_configs_expansao = "CONFIGURACOES POR QUALQUER MODIFICACAO"
     str_fim_dger = "CEPEL"
     str_fim_efio_liquida = "MODELO ESTRATEGICO DE GERACAO"
@@ -77,6 +79,8 @@ class LeituraPMO(Leitura):
                        "",
                        DGer.dger_padrao(),
                        EnergiaFioLiquidaREEPMO(np.array([])),
+                       ConfiguracoesExpansaoPMO(np.array([])),
+                       ConfiguracoesExpansaoPMO(np.array([])),
                        ConfiguracoesExpansaoPMO(np.array([])),
                        RetasPerdasEngolimentoREEPMO(np.array([])),
                        EnergiasAfluentesPMO(),
@@ -110,6 +114,8 @@ class LeituraPMO(Leitura):
         leu_dados_pmo = False
         achou_dger = False
         achou_efio_liquida = False
+        achou_configs_res = False
+        achou_configs_alt = False
         achou_configs_exp = False
         achou_convergencia = False
         achou_risco_ens = False
@@ -124,6 +130,8 @@ class LeituraPMO(Leitura):
         versao_newave = ""
         dger = DGer.dger_padrao()
         energia_liq = EnergiaFioLiquidaREEPMO(np.array([]))
+        configs_res = ConfiguracoesExpansaoPMO(np.array([]))
+        configs_alt = ConfiguracoesExpansaoPMO(np.array([]))
         configs_exp = ConfiguracoesExpansaoPMO(np.array([]))
         retas_perdas = RetasPerdasEngolimentoREEPMO(np.array([]))
         convergencia = ConvergenciaPMO(np.array([]))
@@ -140,6 +148,8 @@ class LeituraPMO(Leitura):
                                versao_newave,
                                dger,
                                energia_liq,
+                               configs_res,
+                               configs_alt,
                                configs_exp,
                                retas_perdas,
                                EnergiasAfluentesPMO(),
@@ -162,6 +172,12 @@ class LeituraPMO(Leitura):
             if not achou_efio_liquida:
                 achou = LeituraPMO.str_inicio_efio_liquida in linha
                 achou_efio_liquida = achou
+            if not achou_configs_res:
+                achou = LeituraPMO.str_inicio_entrada_res in linha
+                achou_configs_res = achou
+            if not achou_configs_alt:
+                achou = LeituraPMO.str_inicio_alt_potencia in linha
+                achou_configs_alt = achou
             if not achou_configs_exp:
                 achou = LeituraPMO.str_inicio_configs_expansao in linha
                 achou_configs_exp = achou
@@ -191,6 +207,12 @@ class LeituraPMO(Leitura):
             if achou_efio_liquida:
                 energia_liq, retas_perdas = self._le_efio_liquida(arq)
                 achou_efio_liquida = False
+            if achou_configs_res:
+                configs_res = self._le_configs_expansao(arq)
+                achou_configs_res = False
+            if achou_configs_alt:
+                configs_alt = self._le_configs_expansao(arq)
+                achou_configs_alt = False
             if achou_configs_exp:
                 configs_exp = self._le_configs_expansao(arq)
                 achou_configs_exp = False

@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>inewave.newave.modelos.pmo &mdash; documentação inewave 0.0.24</title>
+  <title>inewave.newave.modelos.pmo &mdash; documentação inewave 0.0.25</title>
   
 
   
@@ -646,6 +646,8 @@
                  <span class="n">versao_newave</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
                  <span class="n">dados_gerais</span><span class="p">:</span> <span class="n">DGer</span><span class="p">,</span>
                  <span class="n">energia_fio_liquida</span><span class="p">:</span> <span class="n">EnergiaFioLiquidaREEPMO</span><span class="p">,</span>
+                 <span class="n">configuracoes_entrada_res</span><span class="p">:</span> <span class="n">ConfiguracoesExpansaoPMO</span><span class="p">,</span>
+                 <span class="n">configuracoes_alt_potencia</span><span class="p">:</span> <span class="n">ConfiguracoesExpansaoPMO</span><span class="p">,</span>
                  <span class="n">configuracoes_expansao</span><span class="p">:</span> <span class="n">ConfiguracoesExpansaoPMO</span><span class="p">,</span>
                  <span class="n">retas_perdas_engolimento</span><span class="p">:</span> <span class="n">RetasPerdasEngolimentoREEPMO</span><span class="p">,</span>
                  <span class="n">energias_passadas_politica</span><span class="p">:</span> <span class="n">EnergiasAfluentesPMO</span><span class="p">,</span>
@@ -663,6 +665,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">versao_newave</span> <span class="o">=</span> <span class="n">versao_newave</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dados_gerais</span> <span class="o">=</span> <span class="n">dados_gerais</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">energia_fio_liquida</span> <span class="o">=</span> <span class="n">energia_fio_liquida</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">configuracoes_entrada_res</span> <span class="o">=</span> <span class="n">configuracoes_entrada_res</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">configuracoes_alt_potencia</span> <span class="o">=</span> <span class="n">configuracoes_alt_potencia</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">configuracoes_expansao</span> <span class="o">=</span> <span class="n">configuracoes_expansao</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">retas_perdas_engolimento</span> <span class="o">=</span> <span class="n">retas_perdas_engolimento</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">energias_passadas_politica</span> <span class="o">=</span> <span class="n">energias_passadas_politica</span>
@@ -691,7 +695,31 @@
             <span class="k">if</span> <span class="n">u</span> <span class="o">!=</span> <span class="n">v</span><span class="p">:</span>
                 <span class="n">dif</span> <span class="o">=</span> <span class="kc">True</span>
                 <span class="k">break</span>
-        <span class="k">return</span> <span class="ow">not</span> <span class="n">dif</span></div>
+        <span class="k">return</span> <span class="ow">not</span> <span class="n">dif</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">configuracoes_entrada_reservatorio</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ConfiguracoesExpansaoPMO</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Configurações do sistema em cada período devido a entrada</span>
+<span class="sd">        de reservatórios e/ou potência de base.</span>
+
+<span class="sd">        **Retorna**</span>
+
+<span class="sd">        `ConfiguracoesExpansaoPMO`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">configuracoes_entrada_res</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">configuracoes_alteracao_potencia</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ConfiguracoesExpansaoPMO</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Configurações do sistema em cada período devido a alterações</span>
+<span class="sd">        de potência.</span>
+
+<span class="sd">        **Retorna**</span>
+
+<span class="sd">        `ConfiguracoesExpansaoPMO`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">configuracoes_alt_potencia</span></div>
 </pre></div>
 
            </div>

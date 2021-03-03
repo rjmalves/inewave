@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>inewave.newave.pmo &mdash; documentação inewave 0.0.24</title>
+  <title>inewave.newave.pmo &mdash; documentação inewave 0.0.25</title>
   
 
   
@@ -221,6 +221,8 @@
     <span class="n">str_inicio_valor_esperado</span> <span class="o">=</span> <span class="s2">&quot;                 VALOR ESPERADO PARA PERI&quot;</span>
     <span class="n">str_inicio_custo_referenciado</span> <span class="o">=</span> <span class="s2">&quot;                     CUSTO OPERACAO R&quot;</span>
     <span class="n">str_inicio_efio_liquida</span> <span class="o">=</span> <span class="s1">&#39;***ENERGIA FIO D&quot;AGUA LIQUIDA***&#39;</span>
+    <span class="n">str_inicio_entrada_res</span> <span class="o">=</span> <span class="s2">&quot;CONFIGURACOES POR ENTRADA DE RES&quot;</span>
+    <span class="n">str_inicio_alt_potencia</span> <span class="o">=</span> <span class="s2">&quot;CONFIGURACOES POR ALTERACAO DE POT&quot;</span>
     <span class="n">str_inicio_configs_expansao</span> <span class="o">=</span> <span class="s2">&quot;CONFIGURACOES POR QUALQUER MODIFICACAO&quot;</span>
     <span class="n">str_fim_dger</span> <span class="o">=</span> <span class="s2">&quot;CEPEL&quot;</span>
     <span class="n">str_fim_efio_liquida</span> <span class="o">=</span> <span class="s2">&quot;MODELO ESTRATEGICO DE GERACAO&quot;</span>
@@ -236,6 +238,8 @@
                        <span class="s2">&quot;&quot;</span><span class="p">,</span>
                        <span class="n">DGer</span><span class="o">.</span><span class="n">dger_padrao</span><span class="p">(),</span>
                        <span class="n">EnergiaFioLiquidaREEPMO</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])),</span>
+                       <span class="n">ConfiguracoesExpansaoPMO</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])),</span>
+                       <span class="n">ConfiguracoesExpansaoPMO</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])),</span>
                        <span class="n">ConfiguracoesExpansaoPMO</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])),</span>
                        <span class="n">RetasPerdasEngolimentoREEPMO</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])),</span>
                        <span class="n">EnergiasAfluentesPMO</span><span class="p">(),</span>
@@ -269,6 +273,8 @@
         <span class="n">leu_dados_pmo</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="n">achou_dger</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="n">achou_efio_liquida</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">achou_configs_res</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">achou_configs_alt</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="n">achou_configs_exp</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="n">achou_convergencia</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="n">achou_risco_ens</span> <span class="o">=</span> <span class="kc">False</span>
@@ -283,6 +289,8 @@
         <span class="n">versao_newave</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
         <span class="n">dger</span> <span class="o">=</span> <span class="n">DGer</span><span class="o">.</span><span class="n">dger_padrao</span><span class="p">()</span>
         <span class="n">energia_liq</span> <span class="o">=</span> <span class="n">EnergiaFioLiquidaREEPMO</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([]))</span>
+        <span class="n">configs_res</span> <span class="o">=</span> <span class="n">ConfiguracoesExpansaoPMO</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([]))</span>
+        <span class="n">configs_alt</span> <span class="o">=</span> <span class="n">ConfiguracoesExpansaoPMO</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([]))</span>
         <span class="n">configs_exp</span> <span class="o">=</span> <span class="n">ConfiguracoesExpansaoPMO</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([]))</span>
         <span class="n">retas_perdas</span> <span class="o">=</span> <span class="n">RetasPerdasEngolimentoREEPMO</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([]))</span>
         <span class="n">convergencia</span> <span class="o">=</span> <span class="n">ConvergenciaPMO</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([]))</span>
@@ -299,6 +307,8 @@
                                <span class="n">versao_newave</span><span class="p">,</span>
                                <span class="n">dger</span><span class="p">,</span>
                                <span class="n">energia_liq</span><span class="p">,</span>
+                               <span class="n">configs_res</span><span class="p">,</span>
+                               <span class="n">configs_alt</span><span class="p">,</span>
                                <span class="n">configs_exp</span><span class="p">,</span>
                                <span class="n">retas_perdas</span><span class="p">,</span>
                                <span class="n">EnergiasAfluentesPMO</span><span class="p">(),</span>
@@ -321,6 +331,12 @@
             <span class="k">if</span> <span class="ow">not</span> <span class="n">achou_efio_liquida</span><span class="p">:</span>
                 <span class="n">achou</span> <span class="o">=</span> <span class="n">LeituraPMO</span><span class="o">.</span><span class="n">str_inicio_efio_liquida</span> <span class="ow">in</span> <span class="n">linha</span>
                 <span class="n">achou_efio_liquida</span> <span class="o">=</span> <span class="n">achou</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">achou_configs_res</span><span class="p">:</span>
+                <span class="n">achou</span> <span class="o">=</span> <span class="n">LeituraPMO</span><span class="o">.</span><span class="n">str_inicio_entrada_res</span> <span class="ow">in</span> <span class="n">linha</span>
+                <span class="n">achou_configs_res</span> <span class="o">=</span> <span class="n">achou</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">achou_configs_alt</span><span class="p">:</span>
+                <span class="n">achou</span> <span class="o">=</span> <span class="n">LeituraPMO</span><span class="o">.</span><span class="n">str_inicio_alt_potencia</span> <span class="ow">in</span> <span class="n">linha</span>
+                <span class="n">achou_configs_alt</span> <span class="o">=</span> <span class="n">achou</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">achou_configs_exp</span><span class="p">:</span>
                 <span class="n">achou</span> <span class="o">=</span> <span class="n">LeituraPMO</span><span class="o">.</span><span class="n">str_inicio_configs_expansao</span> <span class="ow">in</span> <span class="n">linha</span>
                 <span class="n">achou_configs_exp</span> <span class="o">=</span> <span class="n">achou</span>
@@ -350,6 +366,12 @@
             <span class="k">if</span> <span class="n">achou_efio_liquida</span><span class="p">:</span>
                 <span class="n">energia_liq</span><span class="p">,</span> <span class="n">retas_perdas</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_efio_liquida</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
                 <span class="n">achou_efio_liquida</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">if</span> <span class="n">achou_configs_res</span><span class="p">:</span>
+                <span class="n">configs_res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_configs_expansao</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
+                <span class="n">achou_configs_res</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">if</span> <span class="n">achou_configs_alt</span><span class="p">:</span>
+                <span class="n">configs_alt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_configs_expansao</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
+                <span class="n">achou_configs_alt</span> <span class="o">=</span> <span class="kc">False</span>
             <span class="k">if</span> <span class="n">achou_configs_exp</span><span class="p">:</span>
                 <span class="n">configs_exp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_configs_expansao</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
                 <span class="n">achou_configs_exp</span> <span class="o">=</span> <span class="kc">False</span>
