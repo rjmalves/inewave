@@ -156,8 +156,7 @@ class LeituraPARp(Leitura):
                 break
             # Verifica se terminou de ler tudo sobre uma REE
             # e reseta as flags
-            if all([leu_ordens_o_coefs,
-                    leu_ordens_f_coefs,
+            if all([leu_ordens_f_coefs,
                     leu_series,
                     leu_correl_parc]):
                 leu_ordens_o_coefs = False

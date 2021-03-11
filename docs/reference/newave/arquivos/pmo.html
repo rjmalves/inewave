@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Acompanhamento do Programa (pmo.dat) &mdash; documentação inewave 0.0.25</title>
+  <title>Acompanhamento do Programa (pmo.dat) &mdash; documentação inewave 0.0.26</title>
   
 
   
@@ -190,7 +190,7 @@
 pmo.dat, é armazenado na classe:</p>
 <dl class="py class">
 <dt id="inewave.newave.modelos.pmo.PMO">
-<em class="property">class </em><code class="sig-name descname">PMO</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ano_pmo</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">mes_pmo</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">versao_newave</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">dados_gerais</span><span class="p">:</span> <span class="n"><a class="reference internal" href="dger.html#inewave.newave.modelos.dger.DGer" title="inewave.newave.modelos.dger.DGer">inewave.newave.modelos.dger.DGer</a></span></em>, <em class="sig-param"><span class="n">energia_fio_liquida</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#inewave.newave.modelos.pmo.EnergiaFioLiquidaREEPMO" title="inewave.newave.modelos.pmo.EnergiaFioLiquidaREEPMO">inewave.newave.modelos.pmo.EnergiaFioLiquidaREEPMO</a></span></em>, <em class="sig-param"><span class="n">configuracoes_entrada_res</span><span class="p">:</span> <span class="n">inewave.newave.modelos.pmo.ConfiguracoesExpansaoPMO</span></em>, <em class="sig-param"><span class="n">configuracoes_alt_potencia</span><span class="p">:</span> <span class="n">inewave.newave.modelos.pmo.ConfiguracoesExpansaoPMO</span></em>, <em class="sig-param"><span class="n">configuracoes_expansao</span><span class="p">:</span> <span class="n">inewave.newave.modelos.pmo.ConfiguracoesExpansaoPMO</span></em>, <em class="sig-param"><span class="n">retas_perdas_engolimento</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#inewave.newave.modelos.pmo.RetasPerdasEngolimentoREEPMO" title="inewave.newave.modelos.pmo.RetasPerdasEngolimentoREEPMO">inewave.newave.modelos.pmo.RetasPerdasEngolimentoREEPMO</a></span></em>, <em class="sig-param"><span class="n">energias_passadas_politica</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#inewave.newave.modelos.pmo.EnergiasAfluentesPMO" title="inewave.newave.modelos.pmo.EnergiasAfluentesPMO">inewave.newave.modelos.pmo.EnergiasAfluentesPMO</a></span></em>, <em class="sig-param"><span class="n">energias_passadas_primeira_conf</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#inewave.newave.modelos.pmo.EnergiasAfluentesPMO" title="inewave.newave.modelos.pmo.EnergiasAfluentesPMO">inewave.newave.modelos.pmo.EnergiasAfluentesPMO</a></span></em>, <em class="sig-param"><span class="n">energias_passadas_canal_fuga</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#inewave.newave.modelos.pmo.EnergiasAfluentesPMO" title="inewave.newave.modelos.pmo.EnergiasAfluentesPMO">inewave.newave.modelos.pmo.EnergiasAfluentesPMO</a></span></em>, <em class="sig-param"><span class="n">demanda_liquida_energia</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>str<span class="p">, </span><a class="reference internal" href="#inewave.newave.modelos.pmo.DemandaLiquidaEnergiaPMO" title="inewave.newave.modelos.pmo.DemandaLiquidaEnergiaPMO">inewave.newave.modelos.pmo.DemandaLiquidaEnergiaPMO</a><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">convergencia</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#inewave.newave.modelos.pmo.ConvergenciaPMO" title="inewave.newave.modelos.pmo.ConvergenciaPMO">inewave.newave.modelos.pmo.ConvergenciaPMO</a></span></em>, <em class="sig-param"><span class="n">risco_ens</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#inewave.newave.modelos.pmo.RiscoDeficitENSPMO" title="inewave.newave.modelos.pmo.RiscoDeficitENSPMO">inewave.newave.modelos.pmo.RiscoDeficitENSPMO</a></span></em>, <em class="sig-param"><span class="n">custo_series_simuladas</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#inewave.newave.modelos.pmo.CustoOperacaoPMO" title="inewave.newave.modelos.pmo.CustoOperacaoPMO">inewave.newave.modelos.pmo.CustoOperacaoPMO</a></span></em>, <em class="sig-param"><span class="n">valor_esperado_periodo</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#inewave.newave.modelos.pmo.CustoOperacaoPMO" title="inewave.newave.modelos.pmo.CustoOperacaoPMO">inewave.newave.modelos.pmo.CustoOperacaoPMO</a></span></em>, <em class="sig-param"><span class="n">custo_referenciado</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#inewave.newave.modelos.pmo.CustoOperacaoPMO" title="inewave.newave.modelos.pmo.CustoOperacaoPMO">inewave.newave.modelos.pmo.CustoOperacaoPMO</a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/newave/modelos/pmo.html#PMO"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#inewave.newave.modelos.pmo.PMO" title="Link permanente para esta definição">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-name descname"><span class="pre">PMO</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ano_pmo</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mes_pmo</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">versao_newave</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dados_gerais</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="dger.html#inewave.newave.modelos.dger.DGer" title="inewave.newave.modelos.dger.DGer"><span class="pre">inewave.newave.modelos.dger.DGer</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">energia_fio_liquida</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#inewave.newave.modelos.pmo.EnergiaFioLiquidaREEPMO" title="inewave.newave.modelos.pmo.EnergiaFioLiquidaREEPMO"><span class="pre">inewave.newave.modelos.pmo.EnergiaFioLiquidaREEPMO</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">configuracoes_entrada_res</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">inewave.newave.modelos.pmo.ConfiguracoesExpansaoPMO</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">configuracoes_alt_potencia</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">inewave.newave.modelos.pmo.ConfiguracoesExpansaoPMO</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">configuracoes_expansao</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">inewave.newave.modelos.pmo.ConfiguracoesExpansaoPMO</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">retas_perdas_engolimento</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#inewave.newave.modelos.pmo.RetasPerdasEngolimentoREEPMO" title="inewave.newave.modelos.pmo.RetasPerdasEngolimentoREEPMO"><span class="pre">inewave.newave.modelos.pmo.RetasPerdasEngolimentoREEPMO</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">energias_passadas_politica</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#inewave.newave.modelos.pmo.EnergiasAfluentesPMO" title="inewave.newave.modelos.pmo.EnergiasAfluentesPMO"><span class="pre">inewave.newave.modelos.pmo.EnergiasAfluentesPMO</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">energias_passadas_primeira_conf</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#inewave.newave.modelos.pmo.EnergiasAfluentesPMO" title="inewave.newave.modelos.pmo.EnergiasAfluentesPMO"><span class="pre">inewave.newave.modelos.pmo.EnergiasAfluentesPMO</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">energias_passadas_canal_fuga</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#inewave.newave.modelos.pmo.EnergiasAfluentesPMO" title="inewave.newave.modelos.pmo.EnergiasAfluentesPMO"><span class="pre">inewave.newave.modelos.pmo.EnergiasAfluentesPMO</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">demanda_liquida_energia</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><a class="reference internal" href="#inewave.newave.modelos.pmo.DemandaLiquidaEnergiaPMO" title="inewave.newave.modelos.pmo.DemandaLiquidaEnergiaPMO"><span class="pre">inewave.newave.modelos.pmo.DemandaLiquidaEnergiaPMO</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">convergencia</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#inewave.newave.modelos.pmo.ConvergenciaPMO" title="inewave.newave.modelos.pmo.ConvergenciaPMO"><span class="pre">inewave.newave.modelos.pmo.ConvergenciaPMO</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">risco_ens</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#inewave.newave.modelos.pmo.RiscoDeficitENSPMO" title="inewave.newave.modelos.pmo.RiscoDeficitENSPMO"><span class="pre">inewave.newave.modelos.pmo.RiscoDeficitENSPMO</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">custo_series_simuladas</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#inewave.newave.modelos.pmo.CustoOperacaoPMO" title="inewave.newave.modelos.pmo.CustoOperacaoPMO"><span class="pre">inewave.newave.modelos.pmo.CustoOperacaoPMO</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">valor_esperado_periodo</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#inewave.newave.modelos.pmo.CustoOperacaoPMO" title="inewave.newave.modelos.pmo.CustoOperacaoPMO"><span class="pre">inewave.newave.modelos.pmo.CustoOperacaoPMO</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">custo_referenciado</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#inewave.newave.modelos.pmo.CustoOperacaoPMO" title="inewave.newave.modelos.pmo.CustoOperacaoPMO"><span class="pre">inewave.newave.modelos.pmo.CustoOperacaoPMO</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/newave/modelos/pmo.html#PMO"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.modelos.pmo.PMO" title="Link permanente para esta definição">¶</a></dt>
 <dd><p>Armazena os dados de entrada do NEWAVE referentes ao
 acompanhamento do programa.</p>
 <p>Esta classe lida com as informações de entrada fornecidas ao
@@ -217,7 +217,7 @@ de execução intermediárias do programa.</p>
 </ul>
 <dl class="py method">
 <dt id="inewave.newave.modelos.pmo.PMO.configuracoes_alteracao_potencia">
-<em class="property">property </em><code class="sig-name descname">configuracoes_alteracao_potencia</code><a class="headerlink" href="#inewave.newave.modelos.pmo.PMO.configuracoes_alteracao_potencia" title="Link permanente para esta definição">¶</a></dt>
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">configuracoes_alteracao_potencia</span></code><a class="headerlink" href="#inewave.newave.modelos.pmo.PMO.configuracoes_alteracao_potencia" title="Link permanente para esta definição">¶</a></dt>
 <dd><p>Configurações do sistema em cada período devido a alterações
 de potência.</p>
 <p><strong>Retorna</strong></p>
@@ -226,7 +226,7 @@ de potência.</p>
 
 <dl class="py method">
 <dt id="inewave.newave.modelos.pmo.PMO.configuracoes_entrada_reservatorio">
-<em class="property">property </em><code class="sig-name descname">configuracoes_entrada_reservatorio</code><a class="headerlink" href="#inewave.newave.modelos.pmo.PMO.configuracoes_entrada_reservatorio" title="Link permanente para esta definição">¶</a></dt>
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">configuracoes_entrada_reservatorio</span></code><a class="headerlink" href="#inewave.newave.modelos.pmo.PMO.configuracoes_entrada_reservatorio" title="Link permanente para esta definição">¶</a></dt>
 <dd><p>Configurações do sistema em cada período devido a entrada
 de reservatórios e/ou potência de base.</p>
 <p><strong>Retorna</strong></p>
@@ -242,7 +242,7 @@ de reservatórios e/ou potência de base.</p>
 auxiliares para armazenar todas as informações disponíveis.</p>
 <dl class="py class">
 <dt id="inewave.newave.modelos.pmo.EnergiaFioLiquidaREEPMO">
-<em class="property">class </em><code class="sig-name descname">EnergiaFioLiquidaREEPMO</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">tabela</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/newave/modelos/pmo.html#EnergiaFioLiquidaREEPMO"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#inewave.newave.modelos.pmo.EnergiaFioLiquidaREEPMO" title="Link permanente para esta definição">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-name descname"><span class="pre">EnergiaFioLiquidaREEPMO</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tabela</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">numpy.ndarray</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/newave/modelos/pmo.html#EnergiaFioLiquidaREEPMO"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.modelos.pmo.EnergiaFioLiquidaREEPMO" title="Link permanente para esta definição">¶</a></dt>
 <dd><p>Armazena as informações de energias a fio d’água líquidas
 para cada REE existentes no arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">pmo.dat</span></code>,
 quando feita a simulação completa.</p>
@@ -254,7 +254,7 @@ quando feita a simulação completa.</p>
 
 <dl class="py class">
 <dt id="inewave.newave.modelos.pmo.RetasPerdasEngolimentoREEPMO">
-<em class="property">class </em><code class="sig-name descname">RetasPerdasEngolimentoREEPMO</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">tabela</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/newave/modelos/pmo.html#RetasPerdasEngolimentoREEPMO"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#inewave.newave.modelos.pmo.RetasPerdasEngolimentoREEPMO" title="Link permanente para esta definição">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-name descname"><span class="pre">RetasPerdasEngolimentoREEPMO</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tabela</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">numpy.ndarray</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/newave/modelos/pmo.html#RetasPerdasEngolimentoREEPMO"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.modelos.pmo.RetasPerdasEngolimentoREEPMO" title="Link permanente para esta definição">¶</a></dt>
 <dd><p>Armazena as retas que modelam as perdas por engolimento
 máximo para cada REE, existentes no arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">pmo.dat</span></code>, quando
 feita a simulação completa.</p>
@@ -264,7 +264,7 @@ feita a simulação completa.</p>
 </ul>
 <dl class="py method">
 <dt id="inewave.newave.modelos.pmo.RetasPerdasEngolimentoREEPMO.funcao_perdas">
-<code class="sig-name descname">funcao_perdas</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ree</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">energia_bruta</span><span class="p">:</span> <span class="n">float</span></em><span class="sig-paren">)</span> &#x2192; float<a class="reference internal" href="../../../_modules/inewave/newave/modelos/pmo.html#RetasPerdasEngolimentoREEPMO.funcao_perdas"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#inewave.newave.modelos.pmo.RetasPerdasEngolimentoREEPMO.funcao_perdas" title="Link permanente para esta definição">¶</a></dt>
+<code class="sig-name descname"><span class="pre">funcao_perdas</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ree</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">energia_bruta</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">float</span><a class="reference internal" href="../../../_modules/inewave/newave/modelos/pmo.html#RetasPerdasEngolimentoREEPMO.funcao_perdas"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.modelos.pmo.RetasPerdasEngolimentoREEPMO.funcao_perdas" title="Link permanente para esta definição">¶</a></dt>
 <dd><p>Valor da função de perdas composta pelas retas
 para um determinado valor de energia bruta fornecido.</p>
 <p><strong>Parâmetros</strong></p>
@@ -280,7 +280,7 @@ para um determinado valor de energia bruta fornecido.</p>
 
 <dl class="py class">
 <dt id="inewave.newave.modelos.pmo.EnergiasAfluentesPMO">
-<em class="property">class </em><code class="sig-name descname">EnergiasAfluentesPMO</code><a class="reference internal" href="../../../_modules/inewave/newave/modelos/pmo.html#EnergiasAfluentesPMO"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#inewave.newave.modelos.pmo.EnergiasAfluentesPMO" title="Link permanente para esta definição">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-name descname"><span class="pre">EnergiasAfluentesPMO</span></code><a class="reference internal" href="../../../_modules/inewave/newave/modelos/pmo.html#EnergiasAfluentesPMO"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.modelos.pmo.EnergiasAfluentesPMO" title="Link permanente para esta definição">¶</a></dt>
 <dd><p>Armazena as informações de energias
 afluentes anteriores ao estudo contidas no arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">pmo.dat</span></code>.</p>
 <p><strong>Parâmetros</strong></p>
@@ -288,7 +288,7 @@ afluentes anteriores ao estudo contidas no arquivo <code class="xref py py-obj d
 
 <dl class="py class">
 <dt id="inewave.newave.modelos.pmo.DemandaLiquidaEnergiaPMO">
-<em class="property">class </em><code class="sig-name descname">DemandaLiquidaEnergiaPMO</code><a class="reference internal" href="../../../_modules/inewave/newave/modelos/pmo.html#DemandaLiquidaEnergiaPMO"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#inewave.newave.modelos.pmo.DemandaLiquidaEnergiaPMO" title="Link permanente para esta definição">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-name descname"><span class="pre">DemandaLiquidaEnergiaPMO</span></code><a class="reference internal" href="../../../_modules/inewave/newave/modelos/pmo.html#DemandaLiquidaEnergiaPMO"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.modelos.pmo.DemandaLiquidaEnergiaPMO" title="Link permanente para esta definição">¶</a></dt>
 <dd><p>Armazena as informações de demandas
 líquidas de energia contidas no arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">pmo.dat</span></code>.</p>
 <p><strong>Parâmetros</strong></p>
@@ -296,7 +296,7 @@ líquidas de energia contidas no arquivo <code class="xref py py-obj docutils li
 
 <dl class="py class">
 <dt id="inewave.newave.modelos.pmo.ConvergenciaPMO">
-<em class="property">class </em><code class="sig-name descname">ConvergenciaPMO</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">tabela</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/newave/modelos/pmo.html#ConvergenciaPMO"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#inewave.newave.modelos.pmo.ConvergenciaPMO" title="Link permanente para esta definição">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-name descname"><span class="pre">ConvergenciaPMO</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tabela</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">numpy.ndarray</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/newave/modelos/pmo.html#ConvergenciaPMO"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.modelos.pmo.ConvergenciaPMO" title="Link permanente para esta definição">¶</a></dt>
 <dd><p>Armazena as informações do relatório de convergência do NEWAVE
 existentes no arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">pmo.dat</span></code>.</p>
 <p><strong>Parâmetros</strong></p>
@@ -306,7 +306,7 @@ existentes no arquivo <code class="xref py py-obj docutils literal notranslate">
 </ul>
 <dl class="py method">
 <dt id="inewave.newave.modelos.pmo.ConvergenciaPMO.tempos_execucao">
-<em class="property">property </em><code class="sig-name descname">tempos_execucao</code><a class="headerlink" href="#inewave.newave.modelos.pmo.ConvergenciaPMO.tempos_execucao" title="Link permanente para esta definição">¶</a></dt>
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">tempos_execucao</span></code><a class="headerlink" href="#inewave.newave.modelos.pmo.ConvergenciaPMO.tempos_execucao" title="Link permanente para esta definição">¶</a></dt>
 <dd><p>Tempo de execução de cada iteração em segundos.</p>
 <p><strong>Retorna</strong></p>
 <p><code class="xref py py-obj docutils literal notranslate"><span class="pre">List[float]</span></code></p>
@@ -316,7 +316,7 @@ existentes no arquivo <code class="xref py py-obj docutils literal notranslate">
 
 <dl class="py method">
 <dt id="inewave.newave.modelos.pmo.ConvergenciaPMO.zinf">
-<em class="property">property </em><code class="sig-name descname">zinf</code><a class="headerlink" href="#inewave.newave.modelos.pmo.ConvergenciaPMO.zinf" title="Link permanente para esta definição">¶</a></dt>
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">zinf</span></code><a class="headerlink" href="#inewave.newave.modelos.pmo.ConvergenciaPMO.zinf" title="Link permanente para esta definição">¶</a></dt>
 <dd><p>Limite inferior da função objetivo na PDDE (Zinf).</p>
 <p><strong>Retorna</strong></p>
 <p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dict[int,</span> <span class="pre">List[float]]</span></code></p>
@@ -326,7 +326,7 @@ existentes no arquivo <code class="xref py py-obj docutils literal notranslate">
 
 <dl class="py method">
 <dt id="inewave.newave.modelos.pmo.ConvergenciaPMO.zsup">
-<em class="property">property </em><code class="sig-name descname">zsup</code><a class="headerlink" href="#inewave.newave.modelos.pmo.ConvergenciaPMO.zsup" title="Link permanente para esta definição">¶</a></dt>
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">zsup</span></code><a class="headerlink" href="#inewave.newave.modelos.pmo.ConvergenciaPMO.zsup" title="Link permanente para esta definição">¶</a></dt>
 <dd><p>Limite superior da função objetivo na PDDE (Zsup).</p>
 <p><strong>Retorna</strong></p>
 <p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dict[int,</span> <span class="pre">List[float]]</span></code></p>
@@ -338,7 +338,7 @@ existentes no arquivo <code class="xref py py-obj docutils literal notranslate">
 
 <dl class="py class">
 <dt id="inewave.newave.modelos.pmo.RiscoDeficitENSPMO">
-<em class="property">class </em><code class="sig-name descname">RiscoDeficitENSPMO</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">anos_estudo</span><span class="p">:</span> <span class="n">List<span class="p">[</span>int<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">tabela</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/newave/modelos/pmo.html#RiscoDeficitENSPMO"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#inewave.newave.modelos.pmo.RiscoDeficitENSPMO" title="Link permanente para esta definição">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-name descname"><span class="pre">RiscoDeficitENSPMO</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">anos_estudo</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tabela</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">numpy.ndarray</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/newave/modelos/pmo.html#RiscoDeficitENSPMO"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.modelos.pmo.RiscoDeficitENSPMO" title="Link permanente para esta definição">¶</a></dt>
 <dd><p>Armazena as informações risco de déficit e valores esperados
 de energia não supridacontidas no arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">pmo.dat</span></code>.</p>
 <p><strong>Parâmetros</strong></p>
@@ -348,7 +348,7 @@ de energia não supridacontidas no arquivo <code class="xref py py-obj docutils 
 </ul>
 <dl class="py method">
 <dt id="inewave.newave.modelos.pmo.RiscoDeficitENSPMO.ens_por_subsistema_e_ano">
-<em class="property">property </em><code class="sig-name descname">ens_por_subsistema_e_ano</code><a class="headerlink" href="#inewave.newave.modelos.pmo.RiscoDeficitENSPMO.ens_por_subsistema_e_ano" title="Link permanente para esta definição">¶</a></dt>
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">ens_por_subsistema_e_ano</span></code><a class="headerlink" href="#inewave.newave.modelos.pmo.RiscoDeficitENSPMO.ens_por_subsistema_e_ano" title="Link permanente para esta definição">¶</a></dt>
 <dd><p>Energias não supridas agrupadas por
 subsistema e ano de estudo.</p>
 <p><strong>Retorna</strong></p>
@@ -360,7 +360,7 @@ subsistema e ano de estudo.</p>
 
 <dl class="py method">
 <dt id="inewave.newave.modelos.pmo.RiscoDeficitENSPMO.riscos_por_subsistema_e_ano">
-<em class="property">property </em><code class="sig-name descname">riscos_por_subsistema_e_ano</code><a class="headerlink" href="#inewave.newave.modelos.pmo.RiscoDeficitENSPMO.riscos_por_subsistema_e_ano" title="Link permanente para esta definição">¶</a></dt>
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">riscos_por_subsistema_e_ano</span></code><a class="headerlink" href="#inewave.newave.modelos.pmo.RiscoDeficitENSPMO.riscos_por_subsistema_e_ano" title="Link permanente para esta definição">¶</a></dt>
 <dd><p>Riscos de déficit agrupados por
 subsistema e ano de estudo.</p>
 <p><strong>Retorna</strong></p>
@@ -374,7 +374,7 @@ subsistema e ano de estudo.</p>
 
 <dl class="py class">
 <dt id="inewave.newave.modelos.pmo.CustoOperacaoPMO">
-<em class="property">class </em><code class="sig-name descname">CustoOperacaoPMO</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">custos</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/newave/modelos/pmo.html#CustoOperacaoPMO"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#inewave.newave.modelos.pmo.CustoOperacaoPMO" title="Link permanente para esta definição">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-name descname"><span class="pre">CustoOperacaoPMO</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">custos</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">numpy.ndarray</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/newave/modelos/pmo.html#CustoOperacaoPMO"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.modelos.pmo.CustoOperacaoPMO" title="Link permanente para esta definição">¶</a></dt>
 <dd><p>Armazena as informações do relatório
 de custo de operação, disponível no arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">pmo.dat</span></code>.</p>
 <p>Esta classe armazena uma das tabelas existentes ao final do arquivo
@@ -391,7 +391,7 @@ da própria classe.</p>
 </ul>
 <dl class="py method">
 <dt id="inewave.newave.modelos.pmo.CustoOperacaoPMO.custo_total">
-<em class="property">property </em><code class="sig-name descname">custo_total</code><a class="headerlink" href="#inewave.newave.modelos.pmo.CustoOperacaoPMO.custo_total" title="Link permanente para esta definição">¶</a></dt>
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">custo_total</span></code><a class="headerlink" href="#inewave.newave.modelos.pmo.CustoOperacaoPMO.custo_total" title="Link permanente para esta definição">¶</a></dt>
 <dd><p>Custo total de operação, em MMR$.</p>
 <p><strong>Retorna</strong></p>
 <p><code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code></p>
@@ -399,7 +399,7 @@ da própria classe.</p>
 
 <dl class="py method">
 <dt id="inewave.newave.modelos.pmo.CustoOperacaoPMO.custos_hidricos">
-<em class="property">property </em><code class="sig-name descname">custos_hidricos</code><a class="headerlink" href="#inewave.newave.modelos.pmo.CustoOperacaoPMO.custos_hidricos" title="Link permanente para esta definição">¶</a></dt>
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">custos_hidricos</span></code><a class="headerlink" href="#inewave.newave.modelos.pmo.CustoOperacaoPMO.custos_hidricos" title="Link permanente para esta definição">¶</a></dt>
 <dd><p>Parcela do custo de operação devido a violações de restrições
 hídricas, EVmin, VZmin, GHmin, GHmin Usina e outros usos
 da água, em MMR$.</p>
@@ -409,7 +409,7 @@ da água, em MMR$.</p>
 
 <dl class="py method">
 <dt id="inewave.newave.modelos.pmo.CustoOperacaoPMO.custos_seguranca">
-<em class="property">property </em><code class="sig-name descname">custos_seguranca</code><a class="headerlink" href="#inewave.newave.modelos.pmo.CustoOperacaoPMO.custos_seguranca" title="Link permanente para esta definição">¶</a></dt>
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">custos_seguranca</span></code><a class="headerlink" href="#inewave.newave.modelos.pmo.CustoOperacaoPMO.custos_seguranca" title="Link permanente para esta definição">¶</a></dt>
 <dd><p>Parcela do custo de operação devido a violações de segurança,
 CAR e SAR, em MMR$.</p>
 <p><strong>Retorna</strong></p>
@@ -418,7 +418,7 @@ CAR e SAR, em MMR$.</p>
 
 <dl class="py method">
 <dt id="inewave.newave.modelos.pmo.CustoOperacaoPMO.deficit">
-<em class="property">property </em><code class="sig-name descname">deficit</code><a class="headerlink" href="#inewave.newave.modelos.pmo.CustoOperacaoPMO.deficit" title="Link permanente para esta definição">¶</a></dt>
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">deficit</span></code><a class="headerlink" href="#inewave.newave.modelos.pmo.CustoOperacaoPMO.deficit" title="Link permanente para esta definição">¶</a></dt>
 <dd><p>Parcela do custo de operação devido ao déficit, em MMR$.</p>
 <p><strong>Retorna</strong></p>
 <p><code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code></p>
@@ -426,7 +426,7 @@ CAR e SAR, em MMR$.</p>
 
 <dl class="py method">
 <dt id="inewave.newave.modelos.pmo.CustoOperacaoPMO.geracao_termica">
-<em class="property">property </em><code class="sig-name descname">geracao_termica</code><a class="headerlink" href="#inewave.newave.modelos.pmo.CustoOperacaoPMO.geracao_termica" title="Link permanente para esta definição">¶</a></dt>
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">geracao_termica</span></code><a class="headerlink" href="#inewave.newave.modelos.pmo.CustoOperacaoPMO.geracao_termica" title="Link permanente para esta definição">¶</a></dt>
 <dd><p>Parcela do custo de operação devido à geração térmica,
 em MMR$.</p>
 <p><strong>Retorna</strong></p>
@@ -435,7 +435,7 @@ em MMR$.</p>
 
 <dl class="py method">
 <dt id="inewave.newave.modelos.pmo.CustoOperacaoPMO.outros_custos">
-<em class="property">property </em><code class="sig-name descname">outros_custos</code><a class="headerlink" href="#inewave.newave.modelos.pmo.CustoOperacaoPMO.outros_custos" title="Link permanente para esta definição">¶</a></dt>
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">outros_custos</span></code><a class="headerlink" href="#inewave.newave.modelos.pmo.CustoOperacaoPMO.outros_custos" title="Link permanente para esta definição">¶</a></dt>
 <dd><p>Parcela do custo de operação devido a violações e penalidades
 de intercâmbio, intercâmbio mínimo, vertimento, vertimento
 fio d’água não turbinável, excesso de energia, emissão de GEE
@@ -452,7 +452,7 @@ e retirada, em MMR$.</p>
 <p>A leitura do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">pmo.dat</span></code> é feita através da classe <a class="reference internal" href="#inewave.newave.pmo.LeituraPMO" title="inewave.newave.pmo.LeituraPMO"><code class="xref py py-class docutils literal notranslate"><span class="pre">LeituraPMO</span></code></a>.</p>
 <dl class="py class">
 <dt id="inewave.newave.pmo.LeituraPMO">
-<em class="property">class </em><code class="sig-name descname">LeituraPMO</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">diretorio</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/newave/pmo.html#LeituraPMO"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#inewave.newave.pmo.LeituraPMO" title="Link permanente para esta definição">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-name descname"><span class="pre">LeituraPMO</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">diretorio</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/newave/pmo.html#LeituraPMO"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.pmo.LeituraPMO" title="Link permanente para esta definição">¶</a></dt>
 <dd><p>Realiza a leitura do arquivo pmo.dat
 existente em um diretório de saídas do NEWAVE.</p>
 <p>Esta classe contém o conjunto de utilidades para ler
@@ -473,7 +473,7 @@ internamente no atributo <code class="xref py py-obj docutils literal notranslat
 </div>
 <dl class="py method">
 <dt id="inewave.newave.pmo.LeituraPMO.le_arquivo">
-<code class="sig-name descname">le_arquivo</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#inewave.newave.modelos.pmo.PMO" title="inewave.newave.modelos.pmo.PMO">inewave.newave.modelos.pmo.PMO</a><a class="reference internal" href="../../../_modules/inewave/newave/pmo.html#LeituraPMO.le_arquivo"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#inewave.newave.pmo.LeituraPMO.le_arquivo" title="Link permanente para esta definição">¶</a></dt>
+<code class="sig-name descname"><span class="pre">le_arquivo</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#inewave.newave.modelos.pmo.PMO" title="inewave.newave.modelos.pmo.PMO"><span class="pre">inewave.newave.modelos.pmo.PMO</span></a><a class="reference internal" href="../../../_modules/inewave/newave/pmo.html#LeituraPMO.le_arquivo"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.pmo.LeituraPMO.le_arquivo" title="Link permanente para esta definição">¶</a></dt>
 <dd><p>Faz a leitura do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">pmo.dat</span></code>.</p>
 </dd></dl>
 

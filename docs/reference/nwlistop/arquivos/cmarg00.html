@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Custos Marginais (cmarg00x.out) &mdash; documentação inewave 0.0.25</title>
+  <title>Custos Marginais (cmarg00x.out) &mdash; documentação inewave 0.0.26</title>
   
 
   
@@ -188,7 +188,7 @@
 cmarg00x.out, onde x varia confomrme o submercado, são armazenados na classe:</p>
 <dl class="py class">
 <dt id="inewave.nwlistop.modelos.cmarg00.Cmarg00">
-<em class="property">class </em><code class="sig-name descname">Cmarg00</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">mes_pmo</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">ano_pmo</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">versao_newave</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">submercado</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">custos_patamares</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>int<span class="p">, </span>numpy.ndarray<span class="p">]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/nwlistop/modelos/cmarg00.html#Cmarg00"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#inewave.nwlistop.modelos.cmarg00.Cmarg00" title="Link permanente para esta definição">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-name descname"><span class="pre">Cmarg00</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mes_pmo</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ano_pmo</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">versao_newave</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">submercado</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custos_patamares</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span> </span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/nwlistop/modelos/cmarg00.html#Cmarg00"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.nwlistop.modelos.cmarg00.Cmarg00" title="Link permanente para esta definição">¶</a></dt>
 <dd><p>Armazena os dados das saídas referentes aos custos marginais de operação
 por patamar, por submercado.</p>
 <p>Esta classe lida com as informações de saída fornecidas pelo
@@ -204,7 +204,7 @@ submercado em questão.</p>
 </ul>
 <dl class="py method">
 <dt id="inewave.nwlistop.modelos.cmarg00.Cmarg00.custos_medios_por_ano">
-<code class="sig-name descname">custos_medios_por_ano</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">patamar</span><span class="p">:</span> <span class="n"><a class="reference internal" href="../../newave/arquivos/patamar.html#inewave.newave.modelos.patamar.Patamar" title="inewave.newave.modelos.patamar.Patamar">inewave.newave.modelos.patamar.Patamar</a></span></em><span class="sig-paren">)</span> &#x2192; Dict<span class="p">[</span>int<span class="p">, </span>numpy.ndarray<span class="p">]</span><a class="reference internal" href="../../../_modules/inewave/nwlistop/modelos/cmarg00.html#Cmarg00.custos_medios_por_ano"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#inewave.nwlistop.modelos.cmarg00.Cmarg00.custos_medios_por_ano" title="Link permanente para esta definição">¶</a></dt>
+<code class="sig-name descname"><span class="pre">custos_medios_por_ano</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">patamar</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="../../newave/arquivos/patamar.html#inewave.newave.modelos.patamar.Patamar" title="inewave.newave.modelos.patamar.Patamar"><span class="pre">inewave.newave.modelos.patamar.Patamar</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span> </span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">]</span></span><a class="reference internal" href="../../../_modules/inewave/nwlistop/modelos/cmarg00.html#Cmarg00.custos_medios_por_ano"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.nwlistop.modelos.cmarg00.Cmarg00.custos_medios_por_ano" title="Link permanente para esta definição">¶</a></dt>
 <dd><p>Custos médios para cada ano de estudo.</p>
 <p><strong>Parâmetros</strong></p>
 <p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Patamar</span></code></p>
@@ -219,7 +219,7 @@ médios de cada cenário e mês.</p>
 
 <dl class="py method">
 <dt id="inewave.nwlistop.modelos.cmarg00.Cmarg00.custos_medios_por_ano_e_mes">
-<code class="sig-name descname">custos_medios_por_ano_e_mes</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">p</span><span class="p">:</span> <span class="n"><a class="reference internal" href="../../newave/arquivos/patamar.html#inewave.newave.modelos.patamar.Patamar" title="inewave.newave.modelos.patamar.Patamar">inewave.newave.modelos.patamar.Patamar</a></span></em><span class="sig-paren">)</span> &#x2192; Dict<span class="p">[</span>int<span class="p">, </span>Dict<span class="p">[</span>int<span class="p">, </span>numpy.ndarray<span class="p">]</span><span class="p">]</span><a class="reference internal" href="../../../_modules/inewave/nwlistop/modelos/cmarg00.html#Cmarg00.custos_medios_por_ano_e_mes"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#inewave.nwlistop.modelos.cmarg00.Cmarg00.custos_medios_por_ano_e_mes" title="Link permanente para esta definição">¶</a></dt>
+<code class="sig-name descname"><span class="pre">custos_medios_por_ano_e_mes</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="../../newave/arquivos/patamar.html#inewave.newave.modelos.patamar.Patamar" title="inewave.newave.modelos.patamar.Patamar"><span class="pre">inewave.newave.modelos.patamar.Patamar</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span> </span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><a class="reference internal" href="../../../_modules/inewave/nwlistop/modelos/cmarg00.html#Cmarg00.custos_medios_por_ano_e_mes"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.nwlistop.modelos.cmarg00.Cmarg00.custos_medios_por_ano_e_mes" title="Link permanente para esta definição">¶</a></dt>
 <dd><p>Custos médios para cada ano de estudo e mês.</p>
 <p><strong>Parâmetros</strong></p>
 <p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Patamar</span></code></p>
@@ -234,7 +234,7 @@ médios de cada cenário.</p>
 
 <dl class="py method">
 <dt id="inewave.nwlistop.modelos.cmarg00.Cmarg00.custos_por_ano">
-<em class="property">property </em><code class="sig-name descname">custos_por_ano</code><a class="headerlink" href="#inewave.nwlistop.modelos.cmarg00.Cmarg00.custos_por_ano" title="Link permanente para esta definição">¶</a></dt>
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">custos_por_ano</span></code><a class="headerlink" href="#inewave.nwlistop.modelos.cmarg00.Cmarg00.custos_por_ano" title="Link permanente para esta definição">¶</a></dt>
 <dd><p>Custos obtidos para cada ano e em cada cenário, para
 todos os meses, organizados primeiramente por ano.</p>
 <p><strong>Retorna</strong></p>
@@ -247,7 +247,7 @@ custos para todos os cenários e meses, naquele patamar e ano.</p>
 
 <dl class="py method">
 <dt id="inewave.nwlistop.modelos.cmarg00.Cmarg00.custos_por_ano_e_mes">
-<em class="property">property </em><code class="sig-name descname">custos_por_ano_e_mes</code><a class="headerlink" href="#inewave.nwlistop.modelos.cmarg00.Cmarg00.custos_por_ano_e_mes" title="Link permanente para esta definição">¶</a></dt>
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">custos_por_ano_e_mes</span></code><a class="headerlink" href="#inewave.nwlistop.modelos.cmarg00.Cmarg00.custos_por_ano_e_mes" title="Link permanente para esta definição">¶</a></dt>
 <dd><p>Custos obtidos para cada ano, mês e em cada cenário,
 organizados primeiramente por ano e mês.</p>
 <p><strong>Retorna</strong></p>
@@ -260,7 +260,7 @@ custos para todos os cenários, naquele patamar.</p>
 
 <dl class="py method">
 <dt id="inewave.nwlistop.modelos.cmarg00.Cmarg00.custos_por_patamar">
-<em class="property">property </em><code class="sig-name descname">custos_por_patamar</code><a class="headerlink" href="#inewave.nwlistop.modelos.cmarg00.Cmarg00.custos_por_patamar" title="Link permanente para esta definição">¶</a></dt>
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">custos_por_patamar</span></code><a class="headerlink" href="#inewave.nwlistop.modelos.cmarg00.Cmarg00.custos_por_patamar" title="Link permanente para esta definição">¶</a></dt>
 <dd><p>Custos obtidos para cada ano, mês e em cada cenário,
 organizados primeiramente por patamar.</p>
 <p><strong>Retorna</strong></p>
@@ -278,7 +278,7 @@ com [patamar][ano][mes] e retorna um np.ndarray.</p>
 <p>A leitura dos arquivos <code class="xref py py-obj docutils literal notranslate"><span class="pre">cmarg00x.out</span></code> é feita através da classe <a class="reference internal" href="#inewave.nwlistop.cmarg00.LeituraCmarg00" title="inewave.nwlistop.cmarg00.LeituraCmarg00"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LeituraCmarg00</span></code></a>.</p>
 <dl class="py class">
 <dt id="inewave.nwlistop.cmarg00.LeituraCmarg00">
-<em class="property">class </em><code class="sig-name descname">LeituraCmarg00</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">diretorio</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/nwlistop/cmarg00.html#LeituraCmarg00"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#inewave.nwlistop.cmarg00.LeituraCmarg00" title="Link permanente para esta definição">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-name descname"><span class="pre">LeituraCmarg00</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">diretorio</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/nwlistop/cmarg00.html#LeituraCmarg00"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.nwlistop.cmarg00.LeituraCmarg00" title="Link permanente para esta definição">¶</a></dt>
 <dd><p>Realiza a leitura dos arquivos cmarg00x.out
 existentes em um diretório de saídas do NEWAVE.</p>
 <p>Esta classe contém o conjunto de utilidades para ler
@@ -299,7 +299,7 @@ internamente no atributo <code class="xref py py-obj docutils literal notranslat
 </div>
 <dl class="py method">
 <dt id="inewave.nwlistop.cmarg00.LeituraCmarg00.le_arquivos">
-<code class="sig-name descname">le_arquivos</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Dict<span class="p">[</span>str<span class="p">, </span><a class="reference internal" href="#inewave.nwlistop.modelos.cmarg00.Cmarg00" title="inewave.nwlistop.modelos.cmarg00.Cmarg00">inewave.nwlistop.modelos.cmarg00.Cmarg00</a><span class="p">]</span><a class="reference internal" href="../../../_modules/inewave/nwlistop/cmarg00.html#LeituraCmarg00.le_arquivos"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#inewave.nwlistop.cmarg00.LeituraCmarg00.le_arquivos" title="Link permanente para esta definição">¶</a></dt>
+<code class="sig-name descname"><span class="pre">le_arquivos</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><a class="reference internal" href="#inewave.nwlistop.modelos.cmarg00.Cmarg00" title="inewave.nwlistop.modelos.cmarg00.Cmarg00"><span class="pre">inewave.nwlistop.modelos.cmarg00.Cmarg00</span></a><span class="p"><span class="pre">]</span></span><a class="reference internal" href="../../../_modules/inewave/nwlistop/cmarg00.html#LeituraCmarg00.le_arquivos"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.nwlistop.cmarg00.LeituraCmarg00.le_arquivos" title="Link permanente para esta definição">¶</a></dt>
 <dd><p>Lê os arquivos cmarg00x.out em um diretório.</p>
 </dd></dl>
 

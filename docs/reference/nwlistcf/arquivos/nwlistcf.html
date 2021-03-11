@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Cortes da Função de Custo Futuro (nwlistcf.rel) &mdash; documentação inewave 0.0.25</title>
+  <title>Cortes da Função de Custo Futuro (nwlistcf.rel) &mdash; documentação inewave 0.0.26</title>
   
 
   
@@ -185,7 +185,7 @@
 nwlistcf.rel, são armazenados na classe:</p>
 <dl class="py class">
 <dt id="inewave.nwlistcf.modelos.nwlistcf.Nwlistcf">
-<em class="property">class </em><code class="sig-name descname">Nwlistcf</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">registros</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>int<span class="p">, </span>Dict<span class="p">[</span>int<span class="p">, </span>inewave.nwlistcf.modelos.nwlistcf.RegistroNwlistcf<span class="p">]</span><span class="p">]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/nwlistcf/modelos/nwlistcf.html#Nwlistcf"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#inewave.nwlistcf.modelos.nwlistcf.Nwlistcf" title="Link permanente para esta definição">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-name descname"><span class="pre">Nwlistcf</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">registros</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span> </span><span class="pre">inewave.nwlistcf.modelos.nwlistcf.RegistroNwlistcf</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/nwlistcf/modelos/nwlistcf.html#Nwlistcf"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.nwlistcf.modelos.nwlistcf.Nwlistcf" title="Link permanente para esta definição">¶</a></dt>
 <dd><p>Armazena os dados dos cortes construídos pelo NEWAVE existentes
 no arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">nwlistcf.rel</span></code> do NWLISTCF.</p>
 <p>Esta classe armazena os cortes da FCF de cada uma das variáveis,
@@ -204,7 +204,7 @@ dos hiperplanos em uma array específica.</p>
 <p>A leitura do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">nwlistcf.rel</span></code> é feita através da classe <a class="reference internal" href="#inewave.nwlistcf.nwlistcf.LeituraNwlistcf" title="inewave.nwlistcf.nwlistcf.LeituraNwlistcf"><code class="xref py py-class docutils literal notranslate"><span class="pre">LeituraNwlistcf</span></code></a>.</p>
 <dl class="py class">
 <dt id="inewave.nwlistcf.nwlistcf.LeituraNwlistcf">
-<em class="property">class </em><code class="sig-name descname">LeituraNwlistcf</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">diretorio</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/nwlistcf/nwlistcf.html#LeituraNwlistcf"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#inewave.nwlistcf.nwlistcf.LeituraNwlistcf" title="Link permanente para esta definição">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-name descname"><span class="pre">LeituraNwlistcf</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">diretorio</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/nwlistcf/nwlistcf.html#LeituraNwlistcf"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.nwlistcf.nwlistcf.LeituraNwlistcf" title="Link permanente para esta definição">¶</a></dt>
 <dd><p>Realiza a leitura do arquivo nwlistcf.rel,
 existente em um diretório de saídas do NWLISTCF.</p>
 <p>Esta classe contém o conjunto de utilidades para ler
@@ -225,7 +225,7 @@ internamente no atributo <code class="xref py py-obj docutils literal notranslat
 </div>
 <dl class="py method">
 <dt id="inewave.nwlistcf.nwlistcf.LeituraNwlistcf.le_arquivo">
-<code class="sig-name descname">le_arquivo</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#inewave.nwlistcf.modelos.nwlistcf.Nwlistcf" title="inewave.nwlistcf.modelos.nwlistcf.Nwlistcf">inewave.nwlistcf.modelos.nwlistcf.Nwlistcf</a><a class="reference internal" href="../../../_modules/inewave/nwlistcf/nwlistcf.html#LeituraNwlistcf.le_arquivo"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#inewave.nwlistcf.nwlistcf.LeituraNwlistcf.le_arquivo" title="Link permanente para esta definição">¶</a></dt>
+<code class="sig-name descname"><span class="pre">le_arquivo</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#inewave.nwlistcf.modelos.nwlistcf.Nwlistcf" title="inewave.nwlistcf.modelos.nwlistcf.Nwlistcf"><span class="pre">inewave.nwlistcf.modelos.nwlistcf.Nwlistcf</span></a><a class="reference internal" href="../../../_modules/inewave/nwlistcf/nwlistcf.html#LeituraNwlistcf.le_arquivo"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.nwlistcf.nwlistcf.LeituraNwlistcf.le_arquivo" title="Link permanente para esta definição">¶</a></dt>
 <dd><p>Faz a leitura do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">nwlistcf.rel</span></code>.</p>
 </dd></dl>
 
