@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>inewave.newave.vazpast &mdash; documentação inewave 0.0.25</title>
+  <title>inewave.newave.vazpast &mdash; documentação inewave 0.0.27</title>
   
 
   
@@ -226,8 +226,8 @@
         <span class="c1"># Extrai o mês e ano do estudo</span>
         <span class="n">linha</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
         <span class="n">str_mes_plan</span><span class="p">,</span> <span class="n">str_ano_plan</span> <span class="o">=</span> <span class="n">linha</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;ANOPLAN&quot;</span><span class="p">)</span>
-        <span class="n">mes_plan</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">str_mes_plan</span><span class="p">[</span><span class="mi">9</span><span class="p">:]</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
-        <span class="n">ano_plan</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">str_ano_plan</span><span class="p">[</span><span class="mi">9</span><span class="p">:]</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+        <span class="n">mes_plan</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">str_mes_plan</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+        <span class="n">ano_plan</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">str_ano_plan</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
         <span class="c1"># Lê as informações da tabela</span>
         <span class="n">postos</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">nomes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>

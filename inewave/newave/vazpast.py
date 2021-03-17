@@ -67,8 +67,8 @@ class LeituraVazPast(Leitura):
         # Extrai o mês e ano do estudo
         linha = self._le_linha_com_backup(arq)
         str_mes_plan, str_ano_plan = linha.split("ANOPLAN")
-        mes_plan = int(str_mes_plan[9:].strip())
-        ano_plan = int(str_ano_plan[9:].strip())
+        mes_plan = int(str_mes_plan.split("=")[1].strip())
+        ano_plan = int(str_ano_plan.split("=")[1].strip())
         # Lê as informações da tabela
         postos: List[int] = []
         nomes: List[str] = []
