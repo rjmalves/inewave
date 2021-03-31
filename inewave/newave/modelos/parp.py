@@ -277,6 +277,42 @@ class PARp:
 
         return [np.array(c) for c in coefs]
 
+    def contribuicoes_ree(self,
+                          ree: int) -> List[np.ndarray]:
+        """
+        Lista de contribuições dos coeficientes dos modelos
+        PAR ou PAR-A.
+
+        **Parâmetros**
+
+        - ree: `int`
+
+        **Retorna**
+
+        `List[np.ndarray]`
+
+        **Sobre**
+
+        No caso de um modelo PAR-A de ordem p, a lista possui
+        p + 1 contribuições, e a última posição contém a contribuição
+        do coeficiente da componente anual.
+        """
+        # Extrai as contribuições dos coeficientes regressivos
+        todas_contrib = self.coeficientes[ree][:, :, 1]
+        contribs: List[List[float]] = []
+        for i, c in enumerate(todas_contrib):
+            contribs.append([])
+            for co in c:
+                if co == 0.:
+                    break
+                contribs[i].append(co)
+        # Extrai a contribuição do coeficiente da componente anual
+        contrib_anual = self.coeficientes[ree][:, :, 3]
+        for i, c in enumerate(contrib_anual):
+            contribs[i].append(c[0])
+
+        return [np.array(c) for c in contribs]
+
     @property
     def correlacoes_espaciais_anuais(self) -> Dict[int,
                                                    Dict[int,

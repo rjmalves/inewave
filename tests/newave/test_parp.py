@@ -68,6 +68,11 @@ def test_coeficientes_ree():
     assert len(coefs) == 5 * n_meses
 
 
+def test_contribuicoes_ree():
+    coefs = leitor.parp.contribuicoes_ree(1)
+    assert len(coefs) == 5 * n_meses
+
+
 def test_correlacoes_espaciais_ano_configuracao():
     corrs = leitor.parp.correlacoes_espaciais_anuais
     assert len(corrs.keys()) == 3
