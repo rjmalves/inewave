@@ -42,7 +42,9 @@ class LeituraCmarg00(Leitura):
                  diretorio: str) -> None:
         super().__init__()
         self.diretorio = diretorio
-        self.arquivos = self._lista_arquivos_por_chave("cmarg00")
+        # Filtra apenas os cmarg00 que não são médios
+        arquivos_temp = self._lista_arquivos_por_chave("cmarg00")
+        self.arquivos = [a for a in arquivos_temp if "med" not in a]
         self.cmargs: Dict[str, Cmarg00] = {}
 
     def le_arquivos(self) -> Dict[str, Cmarg00]:
