@@ -42,12 +42,12 @@ class LeituraMediasSIN(Leitura):
         # MediasSIN default, depois é substituído
         self.medias = MediasSIN(0, np.array([]))
 
-    def le_arquivo(self) -> MediasSIN:
+    def le_arquivo(self, nome_arquivo="MEDIAS-SIN.CSV") -> MediasSIN:
         """
         Lê um arquivo MEDIAS-SIN.CSV em um diretório.
         """
         try:
-            caminho = os.path.join(self.diretorio, "MEDIAS-SIN.CSV")
+            caminho = os.path.join(self.diretorio, nome_arquivo)
             n_meses = len(MESES)
             linhas_medias = NUM_VARIAVEIS_MEDIAS + 3
             colunas_medias = MAX_ANOS_ESTUDO * n_meses

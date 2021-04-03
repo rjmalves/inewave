@@ -93,12 +93,12 @@ class LeituraPMO(Leitura):
                        CustoOperacaoPMO(np.array([])),
                        CustoOperacaoPMO(np.array([])))
 
-    def le_arquivo(self) -> PMO:
+    def le_arquivo(self, nome_arquivo="pmo.dat") -> PMO:
         """
         Faz a leitura do arquivo `pmo.dat`.
         """
         try:
-            caminho = os.path.join(self.diretorio, "pmo.dat")
+            caminho = os.path.join(self.diretorio, nome_arquivo)
             with open(caminho, "r") as arq:
                 self.pmo = self._le_pmo(arq)
                 return self.pmo

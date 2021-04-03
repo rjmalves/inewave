@@ -42,13 +42,13 @@ class LeituraNwlistcf(Leitura):
         self.diretorio = diretorio
         self.nwlistcf = Nwlistcf({})
 
-    def le_arquivo(self) -> Nwlistcf:
+    def le_arquivo(self, nome_arquivo="nwlistcf.rel") -> Nwlistcf:
         """
         Faz a leitura do arquivo `nwlistcf.rel`.
         """
         try:
             achou = False
-            caminho = os.path.join(self.diretorio, "nwlistcf.rel")
+            caminho = os.path.join(self.diretorio, nome_arquivo)
             with open(caminho, "r") as arq:
                 while True:
                     linha = self._le_linha_com_backup(arq)

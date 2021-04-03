@@ -44,12 +44,12 @@ class LeituraPatamar(Leitura):
         # Patamar default, depois é substituído
         self.patamar = Patamar(0, [], np.array([]))
 
-    def le_arquivo(self) -> Patamar:
+    def le_arquivo(self, nome_arquivo="patamar.dat") -> Patamar:
         """
         Realiza a leitura do arquivo `patamar.dat`.
         """
         try:
-            caminho = os.path.join(self.diretorio, "patamar.dat")
+            caminho = os.path.join(self.diretorio, nome_arquivo)
             with open(caminho, "r") as arq:
                 # Pula inicialmente duas linhas
                 # de número de patamares

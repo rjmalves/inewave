@@ -42,12 +42,12 @@ class LeituraMediasMerc(Leitura):
         # MediasMerc default, depois é substituído
         self.medias = MediasMerc(0, np.array([]))
 
-    def le_arquivo(self) -> MediasMerc:
+    def le_arquivo(self, nome_arquivo="MEDIAS-MERC.CSV") -> MediasMerc:
         """
         Lê um arquivo MEDIAS-MERC.CSV em um diretório.
         """
         try:
-            caminho = os.path.join(self.diretorio, "MEDIAS-MERC.CSV")
+            caminho = os.path.join(self.diretorio, nome_arquivo)
             n_meses = len(MESES)
             n_submercados = len(SUBMERCADOS)
             linhas_medias = NUM_VARIAVEIS_MEDIAS * n_submercados

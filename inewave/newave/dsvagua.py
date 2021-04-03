@@ -43,12 +43,12 @@ class LeituraDSVAgua(Leitura):
         # Confhd default, depois é substituído
         self.dsvagua = DSVAgua(np.array([]))
 
-    def le_arquivo(self) -> DSVAgua:
+    def le_arquivo(self, nome_arquivo="dsvagua.dat") -> DSVAgua:
         """
         Faz a leitura do arquivo `dsvagua.dat`.
         """
         try:
-            caminho = os.path.join(self.diretorio, "dsvagua.dat")
+            caminho = os.path.join(self.diretorio, nome_arquivo)
             with open(caminho, "r") as arq:
                 self.confhd = self._le_dsvagua(arq)
                 return self.dsvagua

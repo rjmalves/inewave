@@ -42,12 +42,12 @@ class LeituraEstados(Leitura):
         self.diretorio = diretorio
         self.estados = Estados({})
 
-    def le_arquivo(self) -> Estados:
+    def le_arquivo(self, nome_arquivo="estados.rel") -> Estados:
         """
         Faz a leitura do arquivo `estados.rel`.
         """
         try:
-            caminho = os.path.join(self.diretorio, "estados.rel")
+            caminho = os.path.join(self.diretorio, nome_arquivo)
             with open(caminho, "r") as arq:
                 while True:
                     linha = self._le_linha_com_backup(arq)

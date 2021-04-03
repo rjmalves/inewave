@@ -43,12 +43,12 @@ class LeituraVazPast(Leitura):
         # Confhd default, depois é substituído
         self.vazpast = VazPast(0, 0, [], [], np.array([]))
 
-    def le_arquivo(self) -> VazPast:
+    def le_arquivo(self, nome_arquivo="vazpast.dat") -> VazPast:
         """
         Faz a leitura do arquivo `vazpast.dat`.
         """
         try:
-            caminho = os.path.join(self.diretorio, "vazpast.dat")
+            caminho = os.path.join(self.diretorio, nome_arquivo)
             with open(caminho, "r") as arq:
                 self.confhd = self._le_vazpast(arq)
                 return self.vazpast

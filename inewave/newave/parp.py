@@ -53,12 +53,12 @@ class LeituraPARp(Leitura):
         # PARp default, depois é substituído
         self.parp = PARp({}, {}, {}, {}, {}, {}, {}, {}, {})
 
-    def le_arquivo(self) -> PARp:
+    def le_arquivo(self, nome_arquivo="parp.dat") -> PARp:
         """
         Faz a leitura do arquivo `parp.dat`.
         """
         try:
-            caminho = os.path.join(self.diretorio, "parp.dat")
+            caminho = os.path.join(self.diretorio, nome_arquivo)
             with open(caminho, "r") as arq:
                 self.parp = self._le_parp(arq)
                 return self.parp

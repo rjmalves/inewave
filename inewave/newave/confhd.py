@@ -41,12 +41,12 @@ class LeituraConfhd(Leitura):
         # Confhd default, depois é substituído
         self.confhd = Confhd({})
 
-    def le_arquivo(self) -> Confhd:
+    def le_arquivo(self, nome_arquivo="confhd.dat") -> Confhd:
         """
         Faz a leitura do arquivo `confhd.dat`.
         """
         try:
-            caminho = os.path.join(self.diretorio, "confhd.dat")
+            caminho = os.path.join(self.diretorio, nome_arquivo)
             with open(caminho, "r") as arq:
                 self.confhd = self._le_confhd(arq)
                 return self.confhd

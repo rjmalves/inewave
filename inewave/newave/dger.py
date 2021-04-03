@@ -56,12 +56,12 @@ class LeituraDGer(Leitura):
         # DGer default, depois é substituído
         self.dger = DGer.dger_padrao()
 
-    def le_arquivo(self) -> DGer:
+    def le_arquivo(self, nome_arquivo="dger.dat") -> DGer:
         """
         Realiza a leitura do arquivo `dger.dat`.
         """
         try:
-            caminho = os.path.join(self.diretorio, "dger.dat")
+            caminho = os.path.join(self.diretorio, nome_arquivo)
             with open(caminho, "r") as arq:
                 # Lê o nome do estudo e restringe até a coluna 80
                 nome = self._le_linha_com_backup(arq)
