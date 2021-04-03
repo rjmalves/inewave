@@ -22,12 +22,19 @@ class Bloco:
         self._lido = False
         self._linha_inicio = ""
 
-    def inicio_bloco(self, linha: str) -> bool:
+    def e_inicio_de_bloco(self, linha: str) -> bool:
         """
         Verifica se uma linha é início do bloco.
         """
-        self._encontrado = self._str_inicio in linha
-        if self._encontrado:
+        return (self._str_inicio in linha
+                and not self._encontrado)
+
+    def inicia_bloco(self, linha: str) -> bool:
+        """
+        Inicia um bloco com uma linha.
+        """
+        if not self._encontrado:
+            self._encontrado = True
             self._linha_inicio = linha
         return self._encontrado and not self._lido
 
@@ -35,14 +42,13 @@ class Bloco:
         """
         """
         self._lido = True
-        self._encontrado = False
         return self._funcao_leitura(arq,
                                     self._linha_inicio)
 
     @property
     def concluido(self):
         if self._obrigatorio:
-            return self._lido and not self._encontrado
+            return self._lido
         else:
             return True
 

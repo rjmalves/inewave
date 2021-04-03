@@ -6,7 +6,7 @@ from inewave.newave.modelos.parp import PARp
 # Imports de módulos externos
 import os
 import numpy as np  # type: ignore
-from copy import deepcopy
+from copy import deepcopy, copy
 from traceback import print_exc
 from typing import IO, Dict, List
 
@@ -61,12 +61,62 @@ class LeituraPARp(Leitura):
         """
         Cria a lista de blocos a serem lidos no arquivo parp.dat.
         """
-        series_energia = Bloco(LeituraPARp.str_inicio_serie,
-                               LeituraPARp.str_fim_serie,
+        energia = Bloco(LeituraPARp.str_inicio_serie,
+                        LeituraPARp.str_fim_serie,
+                        True,
+                        self._le_series
+                        )
+        correl_parcial = Bloco(LeituraPARp.str_inicio_correl_parc,
+                               "",
                                True,
-                               self._le_series
-                               )
-        return [series_energia]
+                               self._le_tabela_correlograma)
+        ordens_finais_coefs = Bloco(LeituraPARp.str_inicio_ordens_f,
+                                    LeituraPARp.str_fim_coefs,
+                                    True,
+                                    self._le_ordens_finais_e_coefs)
+        ordens_originais = Bloco(LeituraPARp.str_inicio_ordens_o,
+                                 "",
+                                 False,
+                                 self._le_ordens_originais)
+        medias = Bloco(LeituraPARp.str_inicio_media,
+                       "",
+                       False,
+                       self._le_medias)
+        correl_cruz_media = Bloco(LeituraPARp.str_inicio_correl_cruz,
+                                  "",
+                                  False,
+                                  self._le_tabela_correl_cruzada)
+        correl_esp_anual = Bloco(LeituraPARp.str_inicio_correl_esp_a,
+                                 "",
+                                 True,
+                                 self._le_tabela_correl_esp_a)
+        correl_esp_mensal = Bloco(LeituraPARp.str_inicio_correl_esp_m,
+                                  "",
+                                  True,
+                                  self._le_tabelas_correl_esp_m)
+        series_energia = [copy(energia) for _ in range(len(REES))]
+        series_correls = [copy(correl_parcial) for _ in range(len(REES))]
+        series_ordens_finais_coefs = [copy(ordens_finais_coefs)
+                                      for _ in range(len(REES))]
+        series_ordens_originais = [copy(ordens_originais)
+                                   for _ in range(len(REES))]
+        series_medias = [copy(medias)
+                         for _ in range(len(REES))]
+        correls_cruzada_media = [copy(correl_cruz_media)
+                                 for _ in range(len(REES))]
+        MAX_CFGS = 60
+        correls_esp_anuais = [copy(correl_esp_anual)
+                              for _ in range(MAX_CFGS)]
+        correls_esp_mensais = [copy(correl_esp_mensal)
+                               for _ in range(MAX_CFGS)]
+        return [*series_energia,
+                *series_correls,
+                *series_ordens_finais_coefs,
+                *series_ordens_originais,
+                *series_medias,
+                *correls_cruzada_media,
+                *correls_esp_anuais,
+                *correls_esp_mensais]
 
     def _verifica_inicio_blocos(self,
                                 linha: str,
@@ -75,7 +125,10 @@ class LeituraPARp(Leitura):
         Verifica se a linha atual é a linha de início de algum
         dos blocos a serem lidos.
         """
-        return any([b.inicio_bloco(linha) for b in blocos])
+        for i, b in enumerate(blocos):
+            if b.e_inicio_de_bloco(linha):
+                return b.inicia_bloco(linha)
+        return False
 
     def _le_blocos_encontrados(self,
                                arq: IO,
@@ -85,7 +138,7 @@ class LeituraPARp(Leitura):
         Faz a leitura dos blocos encontrados até o momento e que
         ainda não foram lidos.
         """
-        for b in blocos:
+        for i, b in enumerate(blocos):
             if b.encontrado:
                 return b.le_bloco(arq, *args)
 
@@ -157,24 +210,7 @@ class LeituraPARp(Leitura):
         """
         blocos = self._cria_blocos_leitura()
         self._inicia_variaveis_leitura()
-        achou_correl_parc = False
-        achou_ordens_o_coefs = False
-        achou_ordens_f_coefs = False
-        achou_medias = False
-        achou_correl_cruz = False
-        achou_correl_esp_a = False
-        achou_correl_esp_m = False
-        leu_correl_parc = False
-        leu_ordens_o_coefs = False
-        leu_ordens_f_coefs = False
-        leu_medias = False
-        leu_correl_cruz = False
-        leu_rees = {i: False for i in range(1, len(REES) + 1)}
-        ultima_cfg_lida = 0
         linha = ""
-        # Variáveis para armazenar os componentes do PARp, que será
-        # construído quando acabar a leitura
-
         while True:
             # Decide se lê uma linha nova ou usa a última lida
             linha = self._le_linha_com_backup(arq)
@@ -182,11 +218,10 @@ class LeituraPARp(Leitura):
             if self._fim_arquivo(linha):
                 # Limpa as correls_esp_a e correl_esp_m com apenas as
                 # cfgs lidas
-                cfgs_lidas = list(range(1, ultima_cfg_lida + 1))
-                for i in range(100):
-                    if i not in cfgs_lidas:
-                        self.correl_esp_a.pop(i)
-                        self.correl_esp_m.pop(i)
+                cfgs_lidas = list(range(self._cfg_atual, 60))
+                for i in cfgs_lidas:
+                    self.correl_esp_a.pop(i)
+                    self.correl_esp_m.pop(i)
                 # Cria o objeto parp completo
                 self.parp = PARp(deepcopy(self.ordens_o),
                                  deepcopy(self.ordens_f),
@@ -198,78 +233,14 @@ class LeituraPARp(Leitura):
                                  deepcopy(self.correl_esp_a),
                                  deepcopy(self.correl_esp_m))
                 break
-            # Verifica se terminou de ler tudo sobre uma REE
-            # e reseta as flags
-            if all([leu_ordens_f_coefs,
-                    leu_correl_parc]) and all([b.concluido for b in blocos]):
-                leu_ordens_o_coefs = False
-                leu_ordens_f_coefs = False
-                leu_correl_parc = False
-                leu_medias = False
-                leu_correl_cruz = False
-                leu_rees[self._ree_atual] = True
-            # Condição para iniciar uma leitura de dados
+
             self._le_blocos_encontrados(arq, blocos)
-            if not achou_correl_parc and not leu_correl_parc:
-                achou = LeituraPARp.str_inicio_correl_parc in linha
-                achou_correl_parc = achou
-            if not achou_ordens_o_coefs and not leu_ordens_o_coefs:
-                achou = LeituraPARp.str_inicio_ordens_o in linha
-                achou_ordens_o_coefs = achou
-            if not achou_ordens_f_coefs and not leu_ordens_f_coefs:
-                achou = LeituraPARp.str_inicio_ordens_f in linha
-                achou_ordens_f_coefs = achou
-            if not achou_medias and not leu_medias:
-                achou = LeituraPARp.str_inicio_media in linha
-                achou_medias = achou
-                if achou:
-                    self._configura_backup()
-            if not achou_correl_cruz and not leu_correl_cruz:
-                achou = LeituraPARp.str_inicio_correl_cruz in linha
-                achou_correl_cruz = achou
-            if not achou_correl_esp_a:
-                achou = LeituraPARp.str_inicio_correl_esp_a in linha
-                achou_correl_esp_a = achou
-                if achou:
-                    self._configura_backup()
-            if not achou_correl_esp_m:
-                achou = LeituraPARp.str_inicio_correl_esp_m in linha
-                achou_correl_esp_m = achou
-                if achou:
-                    self._configura_backup()
-            # Quando achar, le cada parte adequadamente
-            if achou_correl_parc:
-                self._le_tabela_correlograma(arq)
-                achou_correl_parc = False
-                leu_correl_parc = True
-            if achou_ordens_o_coefs:
-                self._le_ordens_originais(arq)
-                achou_ordens_o_coefs = False
-                leu_ordens_o_coefs = True
-            if achou_ordens_f_coefs:
-                self._le_ordens_finais_e_coefs(arq)
-                achou_ordens_f_coefs = False
-                leu_ordens_f_coefs = True
-            if achou_medias:
-                self._le_medias(arq)
-                achou_medias = False
-                leu_medias = True
-            if achou_correl_cruz:
-                self._le_tabela_correl_cruzada(arq)
-                achou_correl_cruz = False
-                leu_correl_cruz = True
-            if achou_correl_esp_a:
-                ultima_cfg_lida = self._le_tabela_correl_esp_a(arq)
-                achou_correl_esp_a = False
-            if achou_correl_esp_m:
-                self._le_tabelas_correl_esp_m(arq)
-                achou_correl_esp_m = False
 
         return self.parp
 
     def _le_series(self,
                    arq: IO,
-                   cabecalho: str) -> None:
+                   cabecalho: str = "") -> None:
         """
         Lê as tabelas de séries de energia para uma REE.
         """
@@ -293,39 +264,43 @@ class LeituraPARp(Leitura):
                 cfg_tmp = int(linha.split(STR_CFG)[1][:-2].strip())
                 self._cfg_atual = cfg_tmp
             # Se for um cabeçalho de tabela, começa a ler
-            if linha[8:11] == "JAN" and cfg_tmp != cfg_lida:
+            if linha[8:11] == "JAN" and self._cfg_atual != cfg_lida:
                 self._le_tabela_serie(arq)
                 cfg_lida = self._cfg_atual
 
     def _le_medias(self,
-                   arq: IO):
+                   arq: IO,
+                   cabecalho: str = ""):
         """
         Lê as tabelas de séries de energia para uma REE.
         """
+        # Variáveis auxiliares
+        STR_ANO = "ANO:"
         ree = self._ree_atual
+        # Identifica o primeiro ano no cabeçalho
+        str_ano = cabecalho.split(STR_ANO)[1].strip()
         ind_ano = 0
-        achou = False
+        str_ano_lido = ""
         acabou = False
         while True:
             # Confere se a leitura não acabou
             linha = self._le_linha_com_backup(arq)
             if LeituraPARp.str_inicio_correl_cruz in linha or acabou:
                 self._configura_backup()
+                print(ind_ano)
                 self.medias[ree] = self.medias[ree][:, :, :ind_ano]
                 break
-            # Senão, lê mais uma tabela
-            if not achou:
-                achou = LeituraPARp.str_inicio_media in linha
-                if achou:
-                    self._configura_backup()
-                continue
-            if achou:
-                self._configura_backup()
-                if self._le_tabela_media(arq, ind_ano):
-                    ind_ano += 1
-                else:
+            # Atualiza o ano lido quando for a linha devida
+            if STR_ANO in linha:
+                str_ano = linha.split(STR_ANO)[1].strip()
+                if not str_ano.isnumeric():
                     acabou = True
-                achou = False
+            if (linha[8:11] == "JAN" and
+                    str_ano_lido != str_ano and
+                    not acabou):
+                self._le_tabela_media(arq, ind_ano)
+                ind_ano += 1
+                str_ano_lido = str_ano
 
     def _le_tabela_serie(self,
                          arq: IO):
@@ -338,7 +313,6 @@ class LeituraPARp(Leitura):
         # Lê a tabela
         i = 0
         n_meses = len(MESES)
-        print(cfg)
         while True:
             # Verifica se a tabela já acabou
             linha = self._le_linha_com_backup(arq)
@@ -358,7 +332,8 @@ class LeituraPARp(Leitura):
             i += 1
 
     def _le_tabela_correlograma(self,
-                                arq: IO):
+                                arq: IO,
+                                cabecalho: str = "") -> None:
         """
         """
         ree = self._ree_atual
@@ -367,7 +342,6 @@ class LeituraPARp(Leitura):
         self._le_linha_com_backup(arq)
         # Lê a tabela
         i = 0
-        n_meses = len(MESES)
         while True:
             # Verifica se a tabela já acabou
             linha = self._le_linha_com_backup(arq)
@@ -380,14 +354,15 @@ class LeituraPARp(Leitura):
             # Correlação de cada mês
             ci = 11
             nc = 8
-            for j in range(n_meses - 1):
+            for j in range(len(MESES) - 1):
                 cf = ci + nc
                 self.correl_p[ree][i, j+1] = float(linha[ci:cf])
                 ci = cf + 2
             i += 1
 
     def _le_tabela_correl_cruzada(self,
-                                  arq: IO):
+                                  arq: IO,
+                                  cabecalho: str = ""):
         """
         """
         ree = self._ree_atual
@@ -419,22 +394,12 @@ class LeituraPARp(Leitura):
 
     def _le_tabela_media(self,
                          arq: IO,
-                         ind_ano: int,
+                         ind_ano: int
                          ) -> bool:
         """
         """
         ree = self._ree_atual
-        # Lê a linha do backup para descobrir o ano
-        linha = self._le_linha_com_backup(arq)
-        str_ano = linha.split("ANO:")[1].strip()
-        # Se é um ano de pós estudo, ignora
-        if not str_ano.isnumeric():
-            return False
-        # Salta 5 linhas
-        self._le_linha_com_backup(arq)
-        self._le_linha_com_backup(arq)
-        self._le_linha_com_backup(arq)
-        self._le_linha_com_backup(arq)
+        # Salta 1 linha
         self._le_linha_com_backup(arq)
         # Lê a tabela
         i = 0
@@ -455,7 +420,8 @@ class LeituraPARp(Leitura):
             i += 1
 
     def _le_ordens_finais_e_coefs(self,
-                                  arq: IO):
+                                  arq: IO,
+                                  cabecalho: str = "") -> None:
         """
         Lê as informações das ordens e dos coeficientes do PAR(p).
         """
@@ -463,7 +429,8 @@ class LeituraPARp(Leitura):
         self._le_coeficientes(arq, n_anos)
 
     def _le_ordens_originais(self,
-                             arq: IO):
+                             arq: IO,
+                             cabecalho: str = "") -> None:
         """
         Lê a tabela de ordens originais do modelo.
         """
@@ -506,7 +473,7 @@ class LeituraPARp(Leitura):
 
     def _le_coeficientes(self,
                          arq: IO,
-                         n_anos: int):
+                         n_anos: int) -> None:
         ree = self._ree_atual
         i = 0
         n_meses = len(MESES)
@@ -550,15 +517,14 @@ class LeituraPARp(Leitura):
                 lin += 1
 
     def _le_tabela_correl_esp_a(self,
-                                arq: IO) -> int:
+                                arq: IO,
+                                cabecalho: str = "") -> None:
         """
         """
-        # Lê a linha do backup para descobrir a configuração
-        self._configura_backup()
-        linha = self._le_linha_com_backup(arq)
-        str_cfg = linha.split("No:")[1].strip()
+        str_cfg = cabecalho.split("No:")[1].strip()
         # Descobre a configuração
-        cfg = int(str_cfg)
+        self._cfg_atual = int(str_cfg)
+        cfg = self._cfg_atual
         # Salta 1 linhas
         self._le_linha_com_backup(arq)
         linha = self._le_linha_com_backup(arq)
@@ -572,7 +538,7 @@ class LeituraPARp(Leitura):
             # Verifica se a tabela já acabou
             linha = self._le_linha_com_backup(arq)
             if len(linha) < 3:
-                return cfg
+                break
             # Senão, lê mais uma linha
             ci = 18
             nc = 7
@@ -584,15 +550,13 @@ class LeituraPARp(Leitura):
             i += 1
 
     def _le_tabelas_correl_esp_m(self,
-                                 arq: IO):
+                                 arq: IO,
+                                 cabecalho: str = "") -> None:
         """
         """
-        # Lê a linha do backup para descobrir a configuração
-        self._configura_backup()
-        linha = self._le_linha_com_backup(arq)
-        str_cfg = linha.split("No:")[1].strip()
+        str_cfg = cabecalho.split("No:")[1].strip()
         # Descobre a configuração
-        cfg = int(str_cfg)
+        self._cfg_atual = int(str_cfg)
         # Salta 1 linha
         self._le_linha_com_backup(arq)
         # Lê a tabela
@@ -603,17 +567,15 @@ class LeituraPARp(Leitura):
             if (LeituraPARp.str_inicio_correl_esp_a in linha or
                     LeituraPARp.str_fim_parp in linha):
                 self._configura_backup()
-                return cfg
+                break
             # Senão, procura e lê mais uma tabela
             if "MES" in linha:
                 self._configura_backup()
-                self._le_tabela_correl_esp_m(arq,
-                                             cfg)
+                self._le_tabela_correl_esp_m(arq)
                 i += 1
 
     def _le_tabela_correl_esp_m(self,
-                                arq: IO,
-                                cfg: int):
+                                arq: IO):
         """
         """
         linha = self._le_linha_com_backup(arq)
@@ -634,9 +596,9 @@ class LeituraPARp(Leitura):
             nc = 7
             for j in ordem_rees:
                 cf = ci + nc
-                self.correl_esp_m[cfg][ree_linha,
-                                       i,
-                                       j] = float(linha[ci:cf])
+                self.correl_esp_m[self._cfg_atual][ree_linha,
+                                                   i,
+                                                   j] = float(linha[ci:cf])
                 ci = cf + 6
             i += 1
 
