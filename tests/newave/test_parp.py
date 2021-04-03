@@ -1,6 +1,6 @@
 # Rotinas de testes associadas ao arquivo parp.dat do NEWAVE
 from inewave.newave.parp import LeituraPARp
-from inewave.config import MESES, ORDEM_MAX_PARP
+from inewave.config import MESES, ORDEM_MAX_PARP, REES
 import numpy as np  # type: ignore
 
 leitor = LeituraPARp("tests/_arquivos")
@@ -53,39 +53,68 @@ def test_series_medias_ree():
 def test_correlograma_energia_ree():
     correl = leitor.parp.correlograma_energia_ree(1)
     assert len(correl.keys()) == 5 * n_meses
+    # Confere valores aleatórios para validar
     assert correl[1][0] == 0.18930
+    assert correl[25][5] == -0.02014
 
 
 def test_correlograma_media_ree():
     correl = leitor.parp.correlograma_media_ree(1)
     assert len(correl.keys()) == 5 * n_meses
+    # Confere valores aleatórios para validar
+    assert correl[1][0] == 0.29324
+    assert correl[60][5] == 0.88305
 
 
 def test_ordens_originais_ree():
     ordens = leitor.parp.ordens_originais_ree(1)
     assert len(ordens.keys()) == 5
+    # Confere valores aleatórios para validar
+    assert ordens[2020][1] == 2
+    assert ordens[2024][5] == 6
 
 
 def test_ordens_finais_ree():
     ordens = leitor.parp.ordens_finais_ree(1)
     assert len(ordens.keys()) == 5
+    # Confere valores aleatórios para validar
+    assert ordens[2020][1] == 1
+    assert ordens[2024][5] == 1
 
 
 def test_coeficientes_ree():
     coefs = leitor.parp.coeficientes_ree(1)
     assert len(coefs) == 5 * n_meses
+    # Confere valores aleatórios para validar
+    assert len(coefs[0]) == 2
+    assert coefs[0][0] == 0.203
+    assert len(coefs[23]) == 5
+    assert coefs[23][-1] == -0.218
 
 
 def test_contribuicoes_ree():
-    coefs = leitor.parp.contribuicoes_ree(1)
-    assert len(coefs) == 5 * n_meses
+    contribs = leitor.parp.contribuicoes_ree(1)
+    assert len(contribs) == 5 * n_meses
+    # Confere valores aleatórios para validar
+    assert len(contribs[0]) == 2
+    assert contribs[0][0] == 0.261
+    assert len(contribs[23]) == 5
+    assert contribs[23][-1] == -0.475
 
 
 def test_correlacoes_espaciais_ano_configuracao():
     corrs = leitor.parp.correlacoes_espaciais_anuais
+    n_rees = len(REES)
     assert len(corrs.keys()) == 3
+    assert all([corrs[1][i][i] == 1
+                for i in range(1, n_rees + 1)])
+    # Confere valores aleatórios para validar
+    corrs[1][1][2] == -0.1809
 
 
 def test_correlacoes_espaciais_mes_configuracao():
     corrs = leitor.parp.correlacoes_espaciais_mensais
     assert len(corrs.keys()) == 3
+    # Confere valores aleatórios para validar
+    assert corrs[1][1][2][0] == -0.3822
+    assert corrs[1][1][2][11] == -0.4190
