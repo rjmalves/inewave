@@ -36,16 +36,24 @@ def test_neq_parp():
 def test_series_energia_ree():
     series = leitor.parp.series_energia_ree(1)
     assert len(series.keys()) == 50
+    # Confere valores aleatórios para validar
+    assert series[38][0, 0] == 8428.04
+    assert series[44][6, 4] == 4855.95
+    assert series[44][10, 11] == 7472.84
 
 
 def test_series_medias_ree():
     series = leitor.parp.series_medias_ree(1)
     assert len(series.keys()) == 5
+    assert not any(series[2024][0, :])
+    # Confere valores aleatórios para validar
+    assert series[2020][9, 0] == 5266.78
 
 
 def test_correlograma_energia_ree():
     correl = leitor.parp.correlograma_energia_ree(1)
     assert len(correl.keys()) == 5 * n_meses
+    assert correl[1][0] == 0.18930
 
 
 def test_correlograma_media_ree():
