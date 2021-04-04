@@ -212,57 +212,76 @@ class LeituraPARp(Leitura):
         Lê as tabelas de séries de energia para uma REE.
         """
 
+        def _identifica_ree() -> int:
+            """
+            Processa uma linha e extrai o índice da REE.
+            """
+            ree = REES.index(cabecalho.split("REE")[1][:16].strip()) + 1
+            self._ree_atual = ree
+            return ree
+
+        def _identifica_cfg(linha: str) -> int:
+            """
+            Processa uma linha e extrai o número da configuração.
+            """
+            self._cfg_atual = int(linha.split(STR_CFG)[1][:-2].strip())
+            return self._cfg_atual
+
         def _le_tabela_serie():
             """
+            Lê a tabela de séries de energia de uma configuração.
             """
+            # Variáveis auxiliares
+            ree = self._ree_atual  # PEP8
+            cfg = self._cfg_atual  # PEP8
+            regi = RegistroIn(4)  # PEP8
+            regf = RegistroFn(9)  # PEP8
+            i_linha = 0
             # Salta 1 linha
             self._le_linha_com_backup(arq)
             # Lê a tabela
-            cfg = self._cfg_atual
-            regi = RegistroIn(4)
-            regf = RegistroFn(9)
-            i = 0
             while True:
                 linha = self._le_linha_com_backup(arq)
                 # Verifica se a tabela já acabou
                 if len(linha) < 3:  # Tolerância a caracteres especiais
-                    self.series[ree] = self.series[ree][:i, :, :]
+                    self.series[ree] = self.series[ree][:i_linha, :, :]
                     break
                 # Senão, lê mais uma linha
                 # Ano
-                self.series[ree][i, 0, cfg-1] = regi.le_registro(linha,
-                                                                 0)
+                self.series[ree][i_linha, 0, cfg-1] = regi.le_registro(linha,
+                                                                       0)
                 # Energias de cada mês
-                self.series[ree][i,
+                self.series[ree][i_linha,
                                  1:,
                                  cfg-1] = regf.le_linha_tabela(linha,
                                                                5,
                                                                2,
                                                                len(MESES))
-                i += 1
+                i_linha += 1
 
         # Variáveis auxiliares
         STR_CFG = "CONFIGURACAO No."
         # Identifica o REE e a primeira cfg no cabeçalho
-        str_ree = cabecalho.split("REE")[1][:16].strip()
-        ree = REES.index(str_ree) + 1
-        self._ree_atual = ree
-        self._cfg_atual = int(cabecalho.split(STR_CFG)[1][:-2].strip())
-        cfg_lida = 0
+        _identifica_ree()
+        _identifica_cfg(cabecalho)
+
+        ultima_cfg_lida = 0
         while True:
             # Confere se a leitura não acabou
             linha = self._le_linha_com_backup(arq)
             if LeituraPARp.str_fim_serie in linha:
-                self.series[ree] = self.series[ree][:, :, :self._cfg_atual]
+                ree = self._ree_atual  # PEP8
+                self.series[ree] = self.series[ree][:,
+                                                    :,
+                                                    :self._cfg_atual]
                 break
-            # Atualiza a última cfg_tmp quando for a linha devida
+            # Atualiza a última cfg quando for a linha devida
             if STR_CFG in linha:
-                cfg_tmp = int(linha.split(STR_CFG)[1][:-2].strip())
-                self._cfg_atual = cfg_tmp
+                _identifica_cfg(linha)
             # Se for um cabeçalho de tabela, começa a ler
-            if linha[8:11] == "JAN" and self._cfg_atual != cfg_lida:
+            if linha[8:11] == "JAN" and self._cfg_atual != ultima_cfg_lida:
                 _le_tabela_serie()
-                cfg_lida = self._cfg_atual
+                ultima_cfg_lida = self._cfg_atual
 
     def _le_medias(self,
                    arq: IO,
@@ -273,26 +292,30 @@ class LeituraPARp(Leitura):
 
         def _le_tabela_media() -> bool:
             """
+            Lê uma tabela de médias anuais.
             """
+            # Variáveis auxiliares
+            reg = RegistroFn(9)
+            i_linha = 0
             # Salta 1 linha
             self._le_linha_com_backup(arq)
             # Lê a tabela
-            i = 0
-            n_meses = len(MESES)
             while True:
                 # Verifica se a tabela já acabou
                 linha = self._le_linha_com_backup(arq)
-                if len(linha) < 3:
-                    self.medias[ree] = self.medias[ree][:i, :, :]
+                if len(linha) < 3:  # Tolerância a caracteres especiais
+                    self.medias[ree] = self.medias[ree][:i_linha,
+                                                        :,
+                                                        :]
                     return True
                 # Senão, lê mais uma linha
-                ci = 5
-                nc = 9
-                for j in range(n_meses):
-                    cf = ci + nc
-                    self.medias[ree][i, j, ind_ano] = float(linha[ci:cf])
-                    ci = cf + 2
-                i += 1
+                self.medias[ree][i_linha,
+                                 :,
+                                 ind_ano] = reg.le_linha_tabela(linha,
+                                                                5,
+                                                                2,
+                                                                len(MESES))
+                i_linha += 1
 
         # Variáveis auxiliares
         STR_ANO = "ANO:"
