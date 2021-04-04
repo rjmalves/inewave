@@ -1,6 +1,7 @@
 # Imports do próprio módulo
 from inewave._utils.bloco import Bloco
 from inewave._utils.leitura import Leitura
+from inewave._utils.registros import RegistroFn, RegistroIn
 from inewave.config import MAX_ANOS_ESTUDO, MAX_CONFIGURACOES
 from inewave.config import MESES, REES, ORDEM_MAX_PARP
 from inewave.newave.modelos.parp import PARp
@@ -217,25 +218,27 @@ class LeituraPARp(Leitura):
             # Salta 1 linha
             self._le_linha_com_backup(arq)
             # Lê a tabela
-            i = 0
-            n_meses = len(MESES)
             cfg = self._cfg_atual
+            regi = RegistroIn(4)
+            regf = RegistroFn(9)
+            i = 0
             while True:
-                # Verifica se a tabela já acabou
                 linha = self._le_linha_com_backup(arq)
-                if len(linha) < 3:
+                # Verifica se a tabela já acabou
+                if len(linha) < 3:  # Tolerância a caracteres especiais
                     self.series[ree] = self.series[ree][:i, :, :]
                     break
                 # Senão, lê mais uma linha
                 # Ano
-                self.series[ree][i, 0, cfg-1] = int(linha[:4])
+                self.series[ree][i, 0, cfg-1] = regi.le_registro(linha,
+                                                                 0)
                 # Energias de cada mês
-                ci = 5
-                nc = 9
-                for j in range(n_meses):
-                    cf = ci + nc
-                    self.series[ree][i, j+1, cfg-1] = float(linha[ci:cf])
-                    ci = cf + 2
+                self.series[ree][i,
+                                 1:,
+                                 cfg-1] = regf.le_linha_tabela(linha,
+                                                               5,
+                                                               2,
+                                                               len(MESES))
                 i += 1
 
         # Variáveis auxiliares
