@@ -2,6 +2,8 @@ from abc import abstractmethod
 from typing import IO, List
 import os
 
+from inewave._utils.bloco import Bloco
+
 
 class Leitura:
     """
@@ -40,6 +42,70 @@ class Leitura:
         diretório, desde que tenham uma certa chave no nome.
         """
         return [f for f in os.listdir(self.diretorio) if chave in f]
+
+    def _verifica_inicio_blocos(self,
+                                linha: str,
+                                blocos: List[Bloco]) -> bool:
+        """
+        Verifica se a linha atual é a linha de início de algum
+        dos blocos a serem lidos.
+        """
+        for i, b in enumerate(blocos):
+            if b.e_inicio_de_bloco(linha):
+                return b.inicia_bloco(linha)
+        return False
+
+    def _le_blocos_encontrados(self,
+                               arq: IO,
+                               blocos: List[Bloco],
+                               *args):
+        """
+        Faz a leitura dos blocos encontrados até o momento e que
+        ainda não foram lidos.
+        """
+        for i, b in enumerate(blocos):
+            if b.encontrado:
+                return b.le_bloco(arq, *args)
+
+    def _le_blocos_arquivo(self, arq: IO):
+        """
+        Faz a leitura dos blocos de dados do arquivo.
+        """
+        blocos = self._cria_blocos_leitura()
+        self._inicia_variaveis_leitura()
+        linha = ""
+        while True:
+            # Decide se lê uma linha nova ou usa a última lida
+            linha = self._le_linha_com_backup(arq)
+            self._verifica_inicio_blocos(linha, blocos)
+
+            if self._fim_arquivo(linha):
+                self._prepara_dados_arquivo()
+                break
+
+            self._le_blocos_encontrados(arq, blocos)
+
+    # @abstractmethod
+    def _cria_blocos_leitura(self) -> List[Bloco]:
+        """
+        Método que cria a lista de blocos a serem lidos no arquivo.
+        """
+        pass
+
+    # @abstractmethod
+    def _inicia_variaveis_leitura(self):
+        """
+        Inicia variáveis temporárias que são escritas durante
+        a leitura do arquivo.
+        """
+        pass
+
+    # @abstractmethod
+    def _prepara_dados_arquivo(self):
+        """
+        Trata os dados obtidos do arquivo para ser retornado.
+        """
+        pass
 
     @abstractmethod
     def _fim_arquivo(self, linha: str) -> bool:

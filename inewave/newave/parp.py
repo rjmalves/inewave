@@ -118,30 +118,6 @@ class LeituraPARp(Leitura):
                 *correls_esp_anuais,
                 *correls_esp_mensais]
 
-    def _verifica_inicio_blocos(self,
-                                linha: str,
-                                blocos: List[Bloco]) -> bool:
-        """
-        Verifica se a linha atual é a linha de início de algum
-        dos blocos a serem lidos.
-        """
-        for i, b in enumerate(blocos):
-            if b.e_inicio_de_bloco(linha):
-                return b.inicia_bloco(linha)
-        return False
-
-    def _le_blocos_encontrados(self,
-                               arq: IO,
-                               blocos: List[Bloco],
-                               *args):
-        """
-        Faz a leitura dos blocos encontrados até o momento e que
-        ainda não foram lidos.
-        """
-        for i, b in enumerate(blocos):
-            if b.encontrado:
-                return b.le_bloco(arq, *args)
-
     def _inicia_variaveis_leitura(self):
         """
         Inicia variáveis temporárias que são escritas durante
@@ -192,6 +168,28 @@ class LeituraPARp(Leitura):
                                                                  len(REES)))
                                                     for i in range(MAX_CFG)}
 
+    def _prepara_dados_arquivo(self):
+        """
+        Trata os dados obtidos do arquivo para ser retornado.
+        """
+        # Limpa as correls_esp_a e correl_esp_m com apenas as
+        # cfgs lidas
+        cfgs_lidas = list(range(self._cfg_atual,
+                                MAX_CONFIGURACOES))
+        for i in cfgs_lidas:
+            self.correl_esp_a.pop(i)
+            self.correl_esp_m.pop(i)
+        # Cria o objeto parp completo
+        self.parp = PARp(deepcopy(self.ordens_o),
+                         deepcopy(self.ordens_f),
+                         deepcopy(self.coefs),
+                         deepcopy(self.series),
+                         deepcopy(self.correl_p),
+                         deepcopy(self.medias),
+                         deepcopy(self.correl_c),
+                         deepcopy(self.correl_esp_a),
+                         deepcopy(self.correl_esp_m))
+
     def le_arquivo(self, nome_arquivo="parp.dat") -> PARp:
         """
         Faz a leitura do arquivo `parp.dat`.
@@ -199,45 +197,11 @@ class LeituraPARp(Leitura):
         try:
             caminho = os.path.join(self.diretorio, nome_arquivo)
             with open(caminho, "r") as arq:
-                self.parp = self._le_parp(arq)
+                self._le_blocos_arquivo(arq)
                 return self.parp
         except Exception:
             print_exc()
             return self.parp
-
-    def _le_parp(self, arq: IO) -> PARp:
-        """
-        Faz a leitura do arquivo parp.dat.
-        """
-        blocos = self._cria_blocos_leitura()
-        self._inicia_variaveis_leitura()
-        linha = ""
-        while True:
-            # Decide se lê uma linha nova ou usa a última lida
-            linha = self._le_linha_com_backup(arq)
-            self._verifica_inicio_blocos(linha, blocos)
-            if self._fim_arquivo(linha):
-                # Limpa as correls_esp_a e correl_esp_m com apenas as
-                # cfgs lidas
-                cfgs_lidas = list(range(self._cfg_atual, 60))
-                for i in cfgs_lidas:
-                    self.correl_esp_a.pop(i)
-                    self.correl_esp_m.pop(i)
-                # Cria o objeto parp completo
-                self.parp = PARp(deepcopy(self.ordens_o),
-                                 deepcopy(self.ordens_f),
-                                 deepcopy(self.coefs),
-                                 deepcopy(self.series),
-                                 deepcopy(self.correl_p),
-                                 deepcopy(self.medias),
-                                 deepcopy(self.correl_c),
-                                 deepcopy(self.correl_esp_a),
-                                 deepcopy(self.correl_esp_m))
-                break
-
-            self._le_blocos_encontrados(arq, blocos)
-
-        return self.parp
 
     def _le_series(self,
                    arq: IO,
