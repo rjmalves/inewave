@@ -1,6 +1,7 @@
 from abc import abstractmethod
-from typing import IO, List
+from typing import Any, IO, List
 import os
+from traceback import print_exc
 
 from inewave._utils.bloco import Bloco
 
@@ -85,10 +86,24 @@ class Leitura:
 
             self._le_blocos_encontrados(arq, blocos)
 
+    def _le_arquivo_em_diretorio(self,
+                                 diretorio: str,
+                                 nome_arquivo: str) -> None:
+        """
+        Faz a leitura do arquivo em um diretorio.
+        """
+        try:
+            caminho = os.path.join(diretorio, nome_arquivo)
+            with open(caminho, "r") as arq:
+                self._le_blocos_arquivo(arq)
+        except Exception:
+            print_exc()
+
     # @abstractmethod
     def _cria_blocos_leitura(self) -> List[Bloco]:
         """
         Método que cria a lista de blocos a serem lidos no arquivo.
+        Implementa o Factory Pattern.
         """
         pass
 
@@ -113,5 +128,13 @@ class Leitura:
         Método que deve ser implementado para cada arquivo, com o
         conteúdo da linha que indica o fim do próprio, para impedir loops
         de leitura eterna.
+        """
+        pass
+
+    # @abstractmethod
+    def le_arquivo(self, nome_arquivo: str) -> Any:
+        """
+        Método para ler um arquivo e retornar o objeto
+        devido da classe em particular.
         """
         pass
