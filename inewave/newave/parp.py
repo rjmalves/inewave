@@ -1,7 +1,8 @@
 # Imports do próprio módulo
 from inewave._utils.bloco import Bloco
 from inewave._utils.leitura import Leitura
-from inewave.config import MAX_ANOS_ESTUDO, MESES, REES, ORDEM_MAX_PARP
+from inewave.config import MAX_ANOS_ESTUDO, MAX_CONFIGURACOES
+from inewave.config import MESES, REES, ORDEM_MAX_PARP
 from inewave.newave.modelos.parp import PARp
 # Imports de módulos externos
 import os
@@ -104,11 +105,10 @@ class LeituraPARp(Leitura):
                          for _ in range(len(REES))]
         correls_cruzada_media = [copy(correl_cruz_media)
                                  for _ in range(len(REES))]
-        MAX_CFGS = 60
         correls_esp_anuais = [copy(correl_esp_anual)
-                              for _ in range(MAX_CFGS)]
+                              for _ in range(MAX_CONFIGURACOES)]
         correls_esp_mensais = [copy(correl_esp_mensal)
-                               for _ in range(MAX_CFGS)]
+                               for _ in range(MAX_CONFIGURACOES)]
         return [*series_energia,
                 *series_correls,
                 *series_ordens_finais_coefs,
@@ -183,13 +183,14 @@ class LeituraPARp(Leitura):
                                                           4))
                                              for i in range(1,
                                                             len(REES) + 1)}
+        MAX_CFG = MAX_CONFIGURACOES
         self.correl_esp_a: Dict[int, np.ndarray] = {i: np.zeros((len(REES),
                                                                  len(REES)))
-                                                    for i in range(100)}
+                                                    for i in range(MAX_CFG)}
         self.correl_esp_m: Dict[int, np.ndarray] = {i: np.zeros((len(REES),
                                                                  len(MESES),
                                                                  len(REES)))
-                                                    for i in range(100)}
+                                                    for i in range(MAX_CFG)}
 
     def le_arquivo(self, nome_arquivo="parp.dat") -> PARp:
         """
@@ -279,6 +280,8 @@ class LeituraPARp(Leitura):
         ree = self._ree_atual
         # Identifica o primeiro ano no cabeçalho
         str_ano = cabecalho.split(STR_ANO)[1].strip()
+        if not str_ano.isnumeric():
+            return
         ind_ano = 0
         str_ano_lido = ""
         acabou = False
@@ -293,6 +296,7 @@ class LeituraPARp(Leitura):
             # Atualiza o ano lido quando for a linha devida
             if STR_ANO in linha:
                 str_ano = linha.split(STR_ANO)[1].strip()
+                print(str_ano)
                 if not str_ano.isnumeric():
                     acabou = True
             if (linha[8:11] == "JAN" and
