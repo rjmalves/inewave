@@ -126,6 +126,7 @@ class LeituraPARp(Leitura):
         """
         self._ree_atual = 0
         self._cfg_atual = 0
+        self._ano_atual = ""
         self.series: Dict[int, np.ndarray] = {i: np.zeros((100,
                                                            len(MESES) + 1,
                                                            100))
@@ -290,6 +291,18 @@ class LeituraPARp(Leitura):
         Lê as tabelas de séries de energia para uma REE.
         """
 
+        def _identifica_ano_estudo(linha: str) -> bool:
+            """
+            Identifica o ano de estudo em questão. Retorna o sucesso
+            da identificação.
+            """
+            if STR_ANO in linha:
+                ano = linha.split(STR_ANO)[1].strip()
+                self._ano_atual = ano if ano.isnumeric() else self._ano_atual
+                return ano.isnumeric()
+            else:
+                return True
+
         def _le_tabela_media() -> bool:
             """
             Lê uma tabela de médias anuais.
@@ -311,40 +324,33 @@ class LeituraPARp(Leitura):
                 # Senão, lê mais uma linha
                 self.medias[ree][i_linha,
                                  :,
-                                 ind_ano] = reg.le_linha_tabela(linha,
-                                                                5,
-                                                                2,
-                                                                len(MESES))
+                                 i_ano] = reg.le_linha_tabela(linha,
+                                                              5,
+                                                              2,
+                                                              len(MESES))
                 i_linha += 1
 
         # Variáveis auxiliares
         STR_ANO = "ANO:"
         ree = self._ree_atual
+        i_ano = 0
+        ultimo_ano_lido = ""
         # Identifica o primeiro ano no cabeçalho
-        str_ano = cabecalho.split(STR_ANO)[1].strip()
-        if not str_ano.isnumeric():
-            return
-        ind_ano = 0
-        str_ano_lido = ""
-        acabou = False
+        _identifica_ano_estudo(cabecalho)
         while True:
             # Confere se a leitura não acabou
             linha = self._le_linha_com_backup(arq)
-            if LeituraPARp.str_inicio_correl_cruz in linha or acabou:
+            if (LeituraPARp.str_inicio_correl_cruz in linha or
+                    not _identifica_ano_estudo(linha)):
                 self._configura_backup()
-                self.medias[ree] = self.medias[ree][:, :, :ind_ano]
+                self.medias[ree] = self.medias[ree][:,
+                                                    :,
+                                                    :i_ano]
                 break
-            # Atualiza o ano lido quando for a linha devida
-            if STR_ANO in linha:
-                str_ano = linha.split(STR_ANO)[1].strip()
-                if not str_ano.isnumeric():
-                    acabou = True
-            if (linha[8:11] == "JAN" and
-                    str_ano_lido != str_ano and
-                    not acabou):
+            if linha[8:11] == "JAN" and ultimo_ano_lido != self._ano_atual:
                 _le_tabela_media()
-                ind_ano += 1
-                str_ano_lido = str_ano
+                i_ano += 1
+                ultimo_ano_lido = self._ano_atual
 
     def _le_correlograma(self,
                          arq: IO,
