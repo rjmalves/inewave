@@ -133,10 +133,9 @@ class PARp:
         O acesso é feito com [ano] e retorna um np.ndarray.
         """
         dict_series: Dict[int, np.ndarray] = {}
-        n_anos = self.series_medias[ree].shape[2]
         anos = self.anos_estudo
-        for c in range(n_anos):
-            dict_series[anos[c]] = self.series_medias[ree][:, :, c]
+        for c, ano in enumerate(anos):
+            dict_series[ano] = self.series_medias[ree][:, :, c]
 
         return dict_series
 
