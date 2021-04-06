@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>inewave.nwlistop.cmarg00 &mdash; documentação inewave 0.0.25</title>
+  <title>inewave.nwlistop.cmarg00 &mdash; documentação inewave 0.0.29</title>
   
 
   
@@ -201,7 +201,9 @@
                  <span class="n">diretorio</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">diretorio</span> <span class="o">=</span> <span class="n">diretorio</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">arquivos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lista_arquivos_por_chave</span><span class="p">(</span><span class="s2">&quot;cmarg00&quot;</span><span class="p">)</span>
+        <span class="c1"># Filtra apenas os cmarg00 que não são médios</span>
+        <span class="n">arquivos_temp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lista_arquivos_por_chave</span><span class="p">(</span><span class="s2">&quot;cmarg00&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">arquivos</span> <span class="o">=</span> <span class="p">[</span><span class="n">a</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">arquivos_temp</span> <span class="k">if</span> <span class="s2">&quot;med&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">a</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cmargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Cmarg00</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
 
 <div class="viewcode-block" id="LeituraCmarg00.le_arquivos"><a class="viewcode-back" href="../../../reference/nwlistop/arquivos/cmarg00.html#inewave.nwlistop.cmarg00.LeituraCmarg00.le_arquivos">[documentos]</a>    <span class="k">def</span> <span class="nf">le_arquivos</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Cmarg00</span><span class="p">]:</span>

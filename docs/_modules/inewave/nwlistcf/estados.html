@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>inewave.nwlistcf.estados &mdash; documentação inewave 0.0.26</title>
+  <title>inewave.nwlistcf.estados &mdash; documentação inewave 0.0.29</title>
   
 
   
@@ -201,12 +201,12 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">diretorio</span> <span class="o">=</span> <span class="n">diretorio</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">estados</span> <span class="o">=</span> <span class="n">Estados</span><span class="p">({})</span>
 
-<div class="viewcode-block" id="LeituraEstados.le_arquivo"><a class="viewcode-back" href="../../../reference/nwlistcf/arquivos/estados.html#inewave.nwlistcf.estados.LeituraEstados.le_arquivo">[documentos]</a>    <span class="k">def</span> <span class="nf">le_arquivo</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Estados</span><span class="p">:</span>
+<div class="viewcode-block" id="LeituraEstados.le_arquivo"><a class="viewcode-back" href="../../../reference/nwlistcf/arquivos/estados.html#inewave.nwlistcf.estados.LeituraEstados.le_arquivo">[documentos]</a>    <span class="k">def</span> <span class="nf">le_arquivo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nome_arquivo</span><span class="o">=</span><span class="s2">&quot;estados.rel&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Estados</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Faz a leitura do arquivo `estados.rel`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">caminho</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">diretorio</span><span class="p">,</span> <span class="s2">&quot;estados.rel&quot;</span><span class="p">)</span>
+            <span class="n">caminho</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">diretorio</span><span class="p">,</span> <span class="n">nome_arquivo</span><span class="p">)</span>
             <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">caminho</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">arq</span><span class="p">:</span>
                 <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
                     <span class="n">linha</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>

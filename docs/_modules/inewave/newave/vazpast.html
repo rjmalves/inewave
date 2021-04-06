@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>inewave.newave.vazpast &mdash; documentação inewave 0.0.27</title>
+  <title>inewave.newave.vazpast &mdash; documentação inewave 0.0.29</title>
   
 
   
@@ -202,12 +202,12 @@
         <span class="c1"># Confhd default, depois é substituído</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">vazpast</span> <span class="o">=</span> <span class="n">VazPast</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">[],</span> <span class="p">[],</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([]))</span>
 
-<div class="viewcode-block" id="LeituraVazPast.le_arquivo"><a class="viewcode-back" href="../../../reference/newave/arquivos/vazpast.html#inewave.newave.vazpast.LeituraVazPast.le_arquivo">[documentos]</a>    <span class="k">def</span> <span class="nf">le_arquivo</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">VazPast</span><span class="p">:</span>
+<div class="viewcode-block" id="LeituraVazPast.le_arquivo"><a class="viewcode-back" href="../../../reference/newave/arquivos/vazpast.html#inewave.newave.vazpast.LeituraVazPast.le_arquivo">[documentos]</a>    <span class="k">def</span> <span class="nf">le_arquivo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nome_arquivo</span><span class="o">=</span><span class="s2">&quot;vazpast.dat&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">VazPast</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Faz a leitura do arquivo `vazpast.dat`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">caminho</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">diretorio</span><span class="p">,</span> <span class="s2">&quot;vazpast.dat&quot;</span><span class="p">)</span>
+            <span class="n">caminho</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">diretorio</span><span class="p">,</span> <span class="n">nome_arquivo</span><span class="p">)</span>
             <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">caminho</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">arq</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">confhd</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_vazpast</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
                 <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">vazpast</span>

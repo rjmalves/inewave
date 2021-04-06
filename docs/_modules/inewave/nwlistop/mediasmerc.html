@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>inewave.nwlistop.mediasmerc &mdash; documentação inewave 0.0.25</title>
+  <title>inewave.nwlistop.mediasmerc &mdash; documentação inewave 0.0.29</title>
   
 
   
@@ -201,12 +201,12 @@
         <span class="c1"># MediasMerc default, depois é substituído</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">medias</span> <span class="o">=</span> <span class="n">MediasMerc</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([]))</span>
 
-<div class="viewcode-block" id="LeituraMediasMerc.le_arquivo"><a class="viewcode-back" href="../../../reference/nwlistop/arquivos/mediasmerc.html#inewave.nwlistop.mediasmerc.LeituraMediasMerc.le_arquivo">[documentos]</a>    <span class="k">def</span> <span class="nf">le_arquivo</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MediasMerc</span><span class="p">:</span>
+<div class="viewcode-block" id="LeituraMediasMerc.le_arquivo"><a class="viewcode-back" href="../../../reference/nwlistop/arquivos/mediasmerc.html#inewave.nwlistop.mediasmerc.LeituraMediasMerc.le_arquivo">[documentos]</a>    <span class="k">def</span> <span class="nf">le_arquivo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nome_arquivo</span><span class="o">=</span><span class="s2">&quot;MEDIAS-MERC.CSV&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MediasMerc</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Lê um arquivo MEDIAS-MERC.CSV em um diretório.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">caminho</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">diretorio</span><span class="p">,</span> <span class="s2">&quot;MEDIAS-MERC.CSV&quot;</span><span class="p">)</span>
+            <span class="n">caminho</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">diretorio</span><span class="p">,</span> <span class="n">nome_arquivo</span><span class="p">)</span>
             <span class="n">n_meses</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">MESES</span><span class="p">)</span>
             <span class="n">n_submercados</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">SUBMERCADOS</span><span class="p">)</span>
             <span class="n">linhas_medias</span> <span class="o">=</span> <span class="n">NUM_VARIAVEIS_MEDIAS</span> <span class="o">*</span> <span class="n">n_submercados</span>

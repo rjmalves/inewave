@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>inewave.newave.patamar &mdash; documentação inewave 0.0.25</title>
+  <title>inewave.newave.patamar &mdash; documentação inewave 0.0.29</title>
   
 
   
@@ -203,12 +203,12 @@
         <span class="c1"># Patamar default, depois é substituído</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">patamar</span> <span class="o">=</span> <span class="n">Patamar</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="p">[],</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([]))</span>
 
-<div class="viewcode-block" id="LeituraPatamar.le_arquivo"><a class="viewcode-back" href="../../../reference/newave/arquivos/patamar.html#inewave.newave.patamar.LeituraPatamar.le_arquivo">[documentos]</a>    <span class="k">def</span> <span class="nf">le_arquivo</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Patamar</span><span class="p">:</span>
+<div class="viewcode-block" id="LeituraPatamar.le_arquivo"><a class="viewcode-back" href="../../../reference/newave/arquivos/patamar.html#inewave.newave.patamar.LeituraPatamar.le_arquivo">[documentos]</a>    <span class="k">def</span> <span class="nf">le_arquivo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nome_arquivo</span><span class="o">=</span><span class="s2">&quot;patamar.dat&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Patamar</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Realiza a leitura do arquivo `patamar.dat`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">caminho</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">diretorio</span><span class="p">,</span> <span class="s2">&quot;patamar.dat&quot;</span><span class="p">)</span>
+            <span class="n">caminho</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">diretorio</span><span class="p">,</span> <span class="n">nome_arquivo</span><span class="p">)</span>
             <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">caminho</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">arq</span><span class="p">:</span>
                 <span class="c1"># Pula inicialmente duas linhas</span>
                 <span class="c1"># de número de patamares</span>

@@ -95,6 +95,8 @@ class LeituraPARp(Leitura):
                                   "",
                                   True,
                                   self._le_correl_esp_mensal)
+
+        # Repete os blocos para o número esperado de tabelas no arquivo
         series_energia = [copy(energia) for _ in range(len(REES))]
         series_correls = [copy(correl_parcial) for _ in range(len(REES))]
         series_ordens_finais_coefs = [copy(ordens_finais_coefs)

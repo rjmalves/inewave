@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>inewave.newave.dger &mdash; documentação inewave 0.0.25</title>
+  <title>inewave.newave.dger &mdash; documentação inewave 0.0.29</title>
   
 
   
@@ -215,12 +215,12 @@
         <span class="c1"># DGer default, depois é substituído</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dger</span> <span class="o">=</span> <span class="n">DGer</span><span class="o">.</span><span class="n">dger_padrao</span><span class="p">()</span>
 
-<div class="viewcode-block" id="LeituraDGer.le_arquivo"><a class="viewcode-back" href="../../../reference/newave/arquivos/dger.html#inewave.newave.dger.LeituraDGer.le_arquivo">[documentos]</a>    <span class="k">def</span> <span class="nf">le_arquivo</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DGer</span><span class="p">:</span>
+<div class="viewcode-block" id="LeituraDGer.le_arquivo"><a class="viewcode-back" href="../../../reference/newave/arquivos/dger.html#inewave.newave.dger.LeituraDGer.le_arquivo">[documentos]</a>    <span class="k">def</span> <span class="nf">le_arquivo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nome_arquivo</span><span class="o">=</span><span class="s2">&quot;dger.dat&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DGer</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Realiza a leitura do arquivo `dger.dat`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">caminho</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">diretorio</span><span class="p">,</span> <span class="s2">&quot;dger.dat&quot;</span><span class="p">)</span>
+            <span class="n">caminho</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">diretorio</span><span class="p">,</span> <span class="n">nome_arquivo</span><span class="p">)</span>
             <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">caminho</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">arq</span><span class="p">:</span>
                 <span class="c1"># Lê o nome do estudo e restringe até a coluna 80</span>
                 <span class="n">nome</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>

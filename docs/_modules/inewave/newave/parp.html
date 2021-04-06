@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>inewave.newave.parp &mdash; documentação inewave 0.0.26</title>
+  <title>inewave.newave.parp &mdash; documentação inewave 0.0.29</title>
   
 
   
@@ -158,14 +158,16 @@
             
   <h1>Código fonte para inewave.newave.parp</h1><div class="highlight"><pre>
 <span></span><span class="c1"># Imports do próprio módulo</span>
+<span class="kn">from</span> <span class="nn">inewave._utils.bloco</span> <span class="kn">import</span> <span class="n">Bloco</span>
 <span class="kn">from</span> <span class="nn">inewave._utils.leitura</span> <span class="kn">import</span> <span class="n">Leitura</span>
-<span class="kn">from</span> <span class="nn">inewave.config</span> <span class="kn">import</span> <span class="n">MAX_ANOS_ESTUDO</span><span class="p">,</span> <span class="n">MESES</span><span class="p">,</span> <span class="n">REES</span><span class="p">,</span> <span class="n">ORDEM_MAX_PARP</span>
+<span class="kn">from</span> <span class="nn">inewave._utils.registros</span> <span class="kn">import</span> <span class="n">RegistroAn</span><span class="p">,</span> <span class="n">RegistroFn</span><span class="p">,</span> <span class="n">RegistroIn</span>
+<span class="kn">from</span> <span class="nn">inewave.config</span> <span class="kn">import</span> <span class="n">MAX_ANOS_ESTUDO</span><span class="p">,</span> <span class="n">MAX_CONFIGURACOES</span>
+<span class="kn">from</span> <span class="nn">inewave.config</span> <span class="kn">import</span> <span class="n">MESES</span><span class="p">,</span> <span class="n">REES</span><span class="p">,</span> <span class="n">ORDEM_MAX_PARP</span>
 <span class="kn">from</span> <span class="nn">inewave.newave.modelos.parp</span> <span class="kn">import</span> <span class="n">PARp</span>
 <span class="c1"># Imports de módulos externos</span>
-<span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>  <span class="c1"># type: ignore</span>
-<span class="kn">from</span> <span class="nn">traceback</span> <span class="kn">import</span> <span class="n">print_exc</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">IO</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Tuple</span>
+<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">copy</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">IO</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span>
 
 
 <div class="viewcode-block" id="LeituraPARp"><a class="viewcode-back" href="../../../reference/newave/arquivos/parp.html#inewave.newave.parp.LeituraPARp">[documentos]</a><span class="k">class</span> <span class="nc">LeituraPARp</span><span class="p">(</span><span class="n">Leitura</span><span class="p">):</span>
@@ -193,6 +195,7 @@
 <span class="sd">    &gt;&gt;&gt; parp = leitor.parp</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Marcadores de início dos blocos que são lidos</span>
     <span class="n">str_inicio_serie</span> <span class="o">=</span> <span class="s2">&quot;SERIE  DE ENERGIAS DO REE&quot;</span>
     <span class="n">str_inicio_media</span> <span class="o">=</span> <span class="s2">&quot;SERIE MEDIA 12 MESES &quot;</span>
     <span class="n">str_inicio_correl_parc</span> <span class="o">=</span> <span class="s2">&quot;CORRELOGRAMO PARCIAL DA SERIE DE ENERGIAS&quot;</span>
@@ -201,6 +204,7 @@
     <span class="n">str_inicio_ordens_f</span> <span class="o">=</span> <span class="s2">&quot;ORDEM FINAL DO MODELO AUTORREGRESSIVO&quot;</span>
     <span class="n">str_inicio_correl_esp_a</span> <span class="o">=</span> <span class="s2">&quot;CORRELACAO ESPACIAL HISTORICA ANUAL&quot;</span>
     <span class="n">str_inicio_correl_esp_m</span> <span class="o">=</span> <span class="s2">&quot;CORRELACAO ESPACIAL HISTORICA MENSAL&quot;</span>
+    <span class="c1"># Marcadores de fim dos blocos que são lidos</span>
     <span class="n">str_fim_serie</span> <span class="o">=</span> <span class="s2">&quot;CORRELOGRAMO&quot;</span>
     <span class="n">str_fim_coefs</span> <span class="o">=</span> <span class="s2">&quot;SERIE DE RUIDOS&quot;</span>
     <span class="n">str_fim_parp</span> <span class="o">=</span> <span class="s2">&quot;////////////////////&quot;</span>
@@ -212,578 +216,604 @@
         <span class="c1"># PARp default, depois é substituído</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">parp</span> <span class="o">=</span> <span class="n">PARp</span><span class="p">({},</span> <span class="p">{},</span> <span class="p">{},</span> <span class="p">{},</span> <span class="p">{},</span> <span class="p">{},</span> <span class="p">{},</span> <span class="p">{},</span> <span class="p">{})</span>
 
-<div class="viewcode-block" id="LeituraPARp.le_arquivo"><a class="viewcode-back" href="../../../reference/newave/arquivos/parp.html#inewave.newave.parp.LeituraPARp.le_arquivo">[documentos]</a>    <span class="k">def</span> <span class="nf">le_arquivo</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PARp</span><span class="p">:</span>
+    <span class="c1"># Override</span>
+    <span class="k">def</span> <span class="nf">_cria_blocos_leitura</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Bloco</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Cria a lista de blocos a serem lidos no arquivo parp.dat.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">energia</span> <span class="o">=</span> <span class="n">Bloco</span><span class="p">(</span><span class="n">LeituraPARp</span><span class="o">.</span><span class="n">str_inicio_serie</span><span class="p">,</span>
+                        <span class="n">LeituraPARp</span><span class="o">.</span><span class="n">str_fim_serie</span><span class="p">,</span>
+                        <span class="kc">True</span><span class="p">,</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_le_series</span>
+                        <span class="p">)</span>
+        <span class="n">correl_parcial</span> <span class="o">=</span> <span class="n">Bloco</span><span class="p">(</span><span class="n">LeituraPARp</span><span class="o">.</span><span class="n">str_inicio_correl_parc</span><span class="p">,</span>
+                               <span class="s2">&quot;&quot;</span><span class="p">,</span>
+                               <span class="kc">True</span><span class="p">,</span>
+                               <span class="bp">self</span><span class="o">.</span><span class="n">_le_correlograma</span><span class="p">)</span>
+        <span class="n">ordens_finais_coefs</span> <span class="o">=</span> <span class="n">Bloco</span><span class="p">(</span><span class="n">LeituraPARp</span><span class="o">.</span><span class="n">str_inicio_ordens_f</span><span class="p">,</span>
+                                    <span class="n">LeituraPARp</span><span class="o">.</span><span class="n">str_fim_coefs</span><span class="p">,</span>
+                                    <span class="kc">True</span><span class="p">,</span>
+                                    <span class="bp">self</span><span class="o">.</span><span class="n">_le_ordens_finais_e_coefs</span><span class="p">)</span>
+        <span class="n">ordens_originais</span> <span class="o">=</span> <span class="n">Bloco</span><span class="p">(</span><span class="n">LeituraPARp</span><span class="o">.</span><span class="n">str_inicio_ordens_o</span><span class="p">,</span>
+                                 <span class="s2">&quot;&quot;</span><span class="p">,</span>
+                                 <span class="kc">False</span><span class="p">,</span>
+                                 <span class="bp">self</span><span class="o">.</span><span class="n">_le_ordens_originais</span><span class="p">)</span>
+        <span class="n">medias</span> <span class="o">=</span> <span class="n">Bloco</span><span class="p">(</span><span class="n">LeituraPARp</span><span class="o">.</span><span class="n">str_inicio_media</span><span class="p">,</span>
+                       <span class="s2">&quot;&quot;</span><span class="p">,</span>
+                       <span class="kc">False</span><span class="p">,</span>
+                       <span class="bp">self</span><span class="o">.</span><span class="n">_le_medias</span><span class="p">)</span>
+        <span class="n">correl_cruz_media</span> <span class="o">=</span> <span class="n">Bloco</span><span class="p">(</span><span class="n">LeituraPARp</span><span class="o">.</span><span class="n">str_inicio_correl_cruz</span><span class="p">,</span>
+                                  <span class="s2">&quot;&quot;</span><span class="p">,</span>
+                                  <span class="kc">False</span><span class="p">,</span>
+                                  <span class="bp">self</span><span class="o">.</span><span class="n">_le_correl_cruzada_media</span><span class="p">)</span>
+        <span class="n">correl_esp_anual</span> <span class="o">=</span> <span class="n">Bloco</span><span class="p">(</span><span class="n">LeituraPARp</span><span class="o">.</span><span class="n">str_inicio_correl_esp_a</span><span class="p">,</span>
+                                 <span class="s2">&quot;&quot;</span><span class="p">,</span>
+                                 <span class="kc">True</span><span class="p">,</span>
+                                 <span class="bp">self</span><span class="o">.</span><span class="n">_le_correl_esp_anual</span><span class="p">)</span>
+        <span class="n">correl_esp_mensal</span> <span class="o">=</span> <span class="n">Bloco</span><span class="p">(</span><span class="n">LeituraPARp</span><span class="o">.</span><span class="n">str_inicio_correl_esp_m</span><span class="p">,</span>
+                                  <span class="s2">&quot;&quot;</span><span class="p">,</span>
+                                  <span class="kc">True</span><span class="p">,</span>
+                                  <span class="bp">self</span><span class="o">.</span><span class="n">_le_correl_esp_mensal</span><span class="p">)</span>
+
+        <span class="c1"># Repete os blocos para o número esperado de tabelas no arquivo</span>
+        <span class="n">series_energia</span> <span class="o">=</span> <span class="p">[</span><span class="n">copy</span><span class="p">(</span><span class="n">energia</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">REES</span><span class="p">))]</span>
+        <span class="n">series_correls</span> <span class="o">=</span> <span class="p">[</span><span class="n">copy</span><span class="p">(</span><span class="n">correl_parcial</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">REES</span><span class="p">))]</span>
+        <span class="n">series_ordens_finais_coefs</span> <span class="o">=</span> <span class="p">[</span><span class="n">copy</span><span class="p">(</span><span class="n">ordens_finais_coefs</span><span class="p">)</span>
+                                      <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">REES</span><span class="p">))]</span>
+        <span class="n">series_ordens_originais</span> <span class="o">=</span> <span class="p">[</span><span class="n">copy</span><span class="p">(</span><span class="n">ordens_originais</span><span class="p">)</span>
+                                   <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">REES</span><span class="p">))]</span>
+        <span class="n">series_medias</span> <span class="o">=</span> <span class="p">[</span><span class="n">copy</span><span class="p">(</span><span class="n">medias</span><span class="p">)</span>
+                         <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">REES</span><span class="p">))]</span>
+        <span class="n">correls_cruzada_media</span> <span class="o">=</span> <span class="p">[</span><span class="n">copy</span><span class="p">(</span><span class="n">correl_cruz_media</span><span class="p">)</span>
+                                 <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">REES</span><span class="p">))]</span>
+        <span class="n">correls_esp_anuais</span> <span class="o">=</span> <span class="p">[</span><span class="n">copy</span><span class="p">(</span><span class="n">correl_esp_anual</span><span class="p">)</span>
+                              <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">MAX_CONFIGURACOES</span><span class="p">)]</span>
+        <span class="n">correls_esp_mensais</span> <span class="o">=</span> <span class="p">[</span><span class="n">copy</span><span class="p">(</span><span class="n">correl_esp_mensal</span><span class="p">)</span>
+                               <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">MAX_CONFIGURACOES</span><span class="p">)]</span>
+        <span class="k">return</span> <span class="p">[</span><span class="o">*</span><span class="n">series_energia</span><span class="p">,</span>
+                <span class="o">*</span><span class="n">series_correls</span><span class="p">,</span>
+                <span class="o">*</span><span class="n">series_ordens_finais_coefs</span><span class="p">,</span>
+                <span class="o">*</span><span class="n">series_ordens_originais</span><span class="p">,</span>
+                <span class="o">*</span><span class="n">series_medias</span><span class="p">,</span>
+                <span class="o">*</span><span class="n">correls_cruzada_media</span><span class="p">,</span>
+                <span class="o">*</span><span class="n">correls_esp_anuais</span><span class="p">,</span>
+                <span class="o">*</span><span class="n">correls_esp_mensais</span><span class="p">]</span>
+
+    <span class="c1"># Override</span>
+    <span class="k">def</span> <span class="nf">_inicia_variaveis_leitura</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Inicia variáveis temporárias que são escritas durante</span>
+<span class="sd">        a leitura do arquivo.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ree_atual</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cfg_atual</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ano_atual</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">series</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">i</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">100</span><span class="p">,</span>
+                                                           <span class="nb">len</span><span class="p">(</span><span class="n">MESES</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+                                                           <span class="mi">100</span><span class="p">))</span>
+                                              <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span>
+                                                             <span class="nb">len</span><span class="p">(</span><span class="n">REES</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">medias</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">i</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">100</span><span class="p">,</span>
+                                                           <span class="nb">len</span><span class="p">(</span><span class="n">MESES</span><span class="p">),</span>
+                                                           <span class="mi">100</span><span class="p">))</span>
+                                              <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span>
+                                                             <span class="nb">len</span><span class="p">(</span><span class="n">REES</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">correl_p</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">i</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">200</span><span class="p">,</span>
+                                                             <span class="nb">len</span><span class="p">(</span><span class="n">MESES</span><span class="p">)))</span>
+                                                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span>
+                                                               <span class="nb">len</span><span class="p">(</span><span class="n">REES</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ordens_o</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">i</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">MAX_ANOS_ESTUDO</span><span class="p">,</span>
+                                                             <span class="nb">len</span><span class="p">(</span><span class="n">MESES</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span>
+                                                            <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+                                                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span>
+                                                               <span class="nb">len</span><span class="p">(</span><span class="n">REES</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ordens_f</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">i</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">MAX_ANOS_ESTUDO</span><span class="p">,</span>
+                                                             <span class="nb">len</span><span class="p">(</span><span class="n">MESES</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span>
+                                                            <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+                                                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span>
+                                                               <span class="nb">len</span><span class="p">(</span><span class="n">REES</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">correl_c</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">i</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">200</span><span class="p">,</span>
+                                                             <span class="nb">len</span><span class="p">(</span><span class="n">MESES</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+                                                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span>
+                                                               <span class="nb">len</span><span class="p">(</span><span class="n">REES</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)}</span>
+        <span class="n">n_linhas_coefs</span> <span class="o">=</span> <span class="n">MAX_ANOS_ESTUDO</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">MESES</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">coefs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">i</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_linhas_coefs</span><span class="p">,</span>
+                                                          <span class="n">ORDEM_MAX_PARP</span><span class="p">,</span>
+                                                          <span class="mi">4</span><span class="p">))</span>
+                                             <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span>
+                                                            <span class="nb">len</span><span class="p">(</span><span class="n">REES</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)}</span>
+        <span class="n">MAX_CFG</span> <span class="o">=</span> <span class="n">MAX_CONFIGURACOES</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">correl_esp_a</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">i</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">REES</span><span class="p">),</span>
+                                                                 <span class="nb">len</span><span class="p">(</span><span class="n">REES</span><span class="p">)))</span>
+                                                    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">MAX_CFG</span><span class="p">)}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">correl_esp_m</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">i</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">REES</span><span class="p">),</span>
+                                                                 <span class="nb">len</span><span class="p">(</span><span class="n">MESES</span><span class="p">),</span>
+                                                                 <span class="nb">len</span><span class="p">(</span><span class="n">REES</span><span class="p">)))</span>
+                                                    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">MAX_CFG</span><span class="p">)}</span>
+
+    <span class="c1"># Override</span>
+    <span class="k">def</span> <span class="nf">_prepara_dados_saida</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Trata os dados obtidos do arquivo para ser retornado.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Limpa as correls_esp_a e correl_esp_m com apenas as</span>
+        <span class="c1"># cfgs lidas</span>
+        <span class="n">cfgs_nao_lidas</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_cfg_atual</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+                                    <span class="n">MAX_CONFIGURACOES</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">cfgs_nao_lidas</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">correl_esp_a</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">correl_esp_m</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        <span class="c1"># Cria o objeto parp completo</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parp</span> <span class="o">=</span> <span class="n">PARp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ordens_o</span><span class="p">,</span>
+                         <span class="bp">self</span><span class="o">.</span><span class="n">ordens_f</span><span class="p">,</span>
+                         <span class="bp">self</span><span class="o">.</span><span class="n">coefs</span><span class="p">,</span>
+                         <span class="bp">self</span><span class="o">.</span><span class="n">series</span><span class="p">,</span>
+                         <span class="bp">self</span><span class="o">.</span><span class="n">correl_p</span><span class="p">,</span>
+                         <span class="bp">self</span><span class="o">.</span><span class="n">medias</span><span class="p">,</span>
+                         <span class="bp">self</span><span class="o">.</span><span class="n">correl_c</span><span class="p">,</span>
+                         <span class="bp">self</span><span class="o">.</span><span class="n">correl_esp_a</span><span class="p">,</span>
+                         <span class="bp">self</span><span class="o">.</span><span class="n">correl_esp_m</span><span class="p">)</span>
+
+    <span class="c1"># Override</span>
+    <span class="k">def</span> <span class="nf">_fim_arquivo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">linha</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">LeituraPARp</span><span class="o">.</span><span class="n">str_fim_parp</span> <span class="ow">in</span> <span class="n">linha</span>
+
+    <span class="c1"># Override</span>
+<div class="viewcode-block" id="LeituraPARp.le_arquivo"><a class="viewcode-back" href="../../../reference/newave/arquivos/parp.html#inewave.newave.parp.LeituraPARp.le_arquivo">[documentos]</a>    <span class="k">def</span> <span class="nf">le_arquivo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nome_arquivo</span><span class="o">=</span><span class="s2">&quot;parp.dat&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PARp</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Faz a leitura do arquivo `parp.dat`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">caminho</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">diretorio</span><span class="p">,</span> <span class="s2">&quot;parp.dat&quot;</span><span class="p">)</span>
-            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">caminho</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">arq</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">parp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_parp</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
-                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">parp</span>
-        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-            <span class="n">print_exc</span><span class="p">()</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">parp</span></div>
-
-    <span class="k">def</span> <span class="nf">_le_parp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arq</span><span class="p">:</span> <span class="n">IO</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PARp</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Faz a leitura do arquivo parp.dat.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">achou_series</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="n">achou_correl_parc</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="n">achou_ordens_o_coefs</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="n">achou_ordens_f_coefs</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="n">achou_medias</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="n">achou_correl_cruz</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="n">achou_correl_esp_a</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="n">achou_correl_esp_m</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="n">leu_series</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="n">leu_correl_parc</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="n">leu_ordens_o_coefs</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="n">leu_ordens_f_coefs</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="n">leu_medias</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="n">leu_correl_cruz</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="n">leu_rees</span> <span class="o">=</span> <span class="p">{</span><span class="n">i</span><span class="p">:</span> <span class="kc">False</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">REES</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)}</span>
-        <span class="n">ree</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="n">ultima_cfg_lida</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="n">linha</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
-        <span class="c1"># Variáveis para armazenar os componentes do PARp, que será</span>
-        <span class="c1"># construído quando acabar a leitura</span>
-        <span class="n">n_meses</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">MESES</span><span class="p">)</span>
-        <span class="n">series</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">i</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">100</span><span class="p">,</span>
-                                                      <span class="n">n_meses</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
-                                                      <span class="mi">100</span><span class="p">))</span>
-                                         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span>
-                                                        <span class="nb">len</span><span class="p">(</span><span class="n">REES</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)}</span>
-        <span class="n">medias</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">i</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">100</span><span class="p">,</span>
-                                                      <span class="n">n_meses</span><span class="p">,</span>
-                                                      <span class="mi">100</span><span class="p">))</span>
-                                         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span>
-                                                        <span class="nb">len</span><span class="p">(</span><span class="n">REES</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)}</span>
-        <span class="n">correl_p</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">i</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">200</span><span class="p">,</span>
-                                                        <span class="n">n_meses</span><span class="p">))</span>
-                                           <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span>
-                                                          <span class="nb">len</span><span class="p">(</span><span class="n">REES</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)}</span>
-        <span class="n">ordens_o</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">i</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">MAX_ANOS_ESTUDO</span><span class="p">,</span>
-                                                        <span class="n">n_meses</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span>
-                                                       <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
-                                           <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span>
-                                                          <span class="nb">len</span><span class="p">(</span><span class="n">REES</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)}</span>
-        <span class="n">ordens_f</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">i</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">MAX_ANOS_ESTUDO</span><span class="p">,</span>
-                                                        <span class="n">n_meses</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span>
-                                                       <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
-                                           <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span>
-                                                          <span class="nb">len</span><span class="p">(</span><span class="n">REES</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)}</span>
-        <span class="n">correl_c</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">i</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">200</span><span class="p">,</span>
-                                                        <span class="n">n_meses</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
-                                           <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span>
-                                                          <span class="nb">len</span><span class="p">(</span><span class="n">REES</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)}</span>
-        <span class="n">n_linhas_coefs</span> <span class="o">=</span> <span class="n">MAX_ANOS_ESTUDO</span> <span class="o">*</span> <span class="n">n_meses</span>
-        <span class="n">coefs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">i</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_linhas_coefs</span><span class="p">,</span>
-                                                     <span class="n">ORDEM_MAX_PARP</span><span class="p">,</span>
-                                                     <span class="mi">4</span><span class="p">))</span>
-                                        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span>
-                                                       <span class="nb">len</span><span class="p">(</span><span class="n">REES</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)}</span>
-        <span class="n">correl_esp_a</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">i</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">REES</span><span class="p">),</span>
-                                                            <span class="nb">len</span><span class="p">(</span><span class="n">REES</span><span class="p">)))</span>
-                                               <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">)}</span>
-        <span class="n">correl_esp_m</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">i</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">REES</span><span class="p">),</span>
-                                                            <span class="n">n_meses</span><span class="p">,</span>
-                                                            <span class="nb">len</span><span class="p">(</span><span class="n">REES</span><span class="p">)))</span>
-                                               <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">)}</span>
-        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-            <span class="c1"># Decide se lê uma linha nova ou usa a última lida</span>
-            <span class="n">linha</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fim_arquivo</span><span class="p">(</span><span class="n">linha</span><span class="p">):</span>
-                <span class="c1"># Limpa as correls_esp_a e correl_esp_m com apenas as</span>
-                <span class="c1"># cfgs lidas</span>
-                <span class="n">cfgs_lidas</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">ultima_cfg_lida</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
-                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
-                    <span class="k">if</span> <span class="n">i</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">cfgs_lidas</span><span class="p">:</span>
-                        <span class="n">correl_esp_a</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-                        <span class="n">correl_esp_m</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-                <span class="c1"># Cria o objeto parp completo</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">parp</span> <span class="o">=</span> <span class="n">PARp</span><span class="p">(</span><span class="n">ordens_o</span><span class="p">,</span>
-                                 <span class="n">ordens_f</span><span class="p">,</span>
-                                 <span class="n">coefs</span><span class="p">,</span>
-                                 <span class="n">series</span><span class="p">,</span>
-                                 <span class="n">correl_p</span><span class="p">,</span>
-                                 <span class="n">medias</span><span class="p">,</span>
-                                 <span class="n">correl_c</span><span class="p">,</span>
-                                 <span class="n">correl_esp_a</span><span class="p">,</span>
-                                 <span class="n">correl_esp_m</span><span class="p">)</span>
-                <span class="k">break</span>
-            <span class="c1"># Verifica se terminou de ler tudo sobre uma REE</span>
-            <span class="c1"># e reseta as flags</span>
-            <span class="k">if</span> <span class="nb">all</span><span class="p">([</span><span class="n">leu_ordens_f_coefs</span><span class="p">,</span>
-                    <span class="n">leu_series</span><span class="p">,</span>
-                    <span class="n">leu_correl_parc</span><span class="p">]):</span>
-                <span class="n">leu_ordens_o_coefs</span> <span class="o">=</span> <span class="kc">False</span>
-                <span class="n">leu_ordens_f_coefs</span> <span class="o">=</span> <span class="kc">False</span>
-                <span class="n">leu_series</span> <span class="o">=</span> <span class="kc">False</span>
-                <span class="n">leu_correl_parc</span> <span class="o">=</span> <span class="kc">False</span>
-                <span class="n">leu_medias</span> <span class="o">=</span> <span class="kc">False</span>
-                <span class="n">leu_correl_cruz</span> <span class="o">=</span> <span class="kc">False</span>
-                <span class="n">leu_rees</span><span class="p">[</span><span class="n">ree</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
-            <span class="c1"># Condição para iniciar uma leitura de dados</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">achou_series</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">leu_series</span><span class="p">:</span>
-                <span class="n">achou</span> <span class="o">=</span> <span class="n">LeituraPARp</span><span class="o">.</span><span class="n">str_inicio_serie</span> <span class="ow">in</span> <span class="n">linha</span>
-                <span class="n">achou_series</span> <span class="o">=</span> <span class="n">achou</span>
-                <span class="k">if</span> <span class="n">achou</span><span class="p">:</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">_configura_backup</span><span class="p">()</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">achou_correl_parc</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">leu_correl_parc</span><span class="p">:</span>
-                <span class="n">achou</span> <span class="o">=</span> <span class="n">LeituraPARp</span><span class="o">.</span><span class="n">str_inicio_correl_parc</span> <span class="ow">in</span> <span class="n">linha</span>
-                <span class="n">achou_correl_parc</span> <span class="o">=</span> <span class="n">achou</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">achou_ordens_o_coefs</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">leu_ordens_o_coefs</span><span class="p">:</span>
-                <span class="n">achou</span> <span class="o">=</span> <span class="n">LeituraPARp</span><span class="o">.</span><span class="n">str_inicio_ordens_o</span> <span class="ow">in</span> <span class="n">linha</span>
-                <span class="n">achou_ordens_o_coefs</span> <span class="o">=</span> <span class="n">achou</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">achou_ordens_f_coefs</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">leu_ordens_f_coefs</span><span class="p">:</span>
-                <span class="n">achou</span> <span class="o">=</span> <span class="n">LeituraPARp</span><span class="o">.</span><span class="n">str_inicio_ordens_f</span> <span class="ow">in</span> <span class="n">linha</span>
-                <span class="n">achou_ordens_f_coefs</span> <span class="o">=</span> <span class="n">achou</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">achou_medias</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">leu_medias</span><span class="p">:</span>
-                <span class="n">achou</span> <span class="o">=</span> <span class="n">LeituraPARp</span><span class="o">.</span><span class="n">str_inicio_media</span> <span class="ow">in</span> <span class="n">linha</span>
-                <span class="n">achou_medias</span> <span class="o">=</span> <span class="n">achou</span>
-                <span class="k">if</span> <span class="n">achou</span><span class="p">:</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">_configura_backup</span><span class="p">()</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">achou_correl_cruz</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">leu_correl_cruz</span><span class="p">:</span>
-                <span class="n">achou</span> <span class="o">=</span> <span class="n">LeituraPARp</span><span class="o">.</span><span class="n">str_inicio_correl_cruz</span> <span class="ow">in</span> <span class="n">linha</span>
-                <span class="n">achou_correl_cruz</span> <span class="o">=</span> <span class="n">achou</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">achou_correl_esp_a</span><span class="p">:</span>
-                <span class="n">achou</span> <span class="o">=</span> <span class="n">LeituraPARp</span><span class="o">.</span><span class="n">str_inicio_correl_esp_a</span> <span class="ow">in</span> <span class="n">linha</span>
-                <span class="n">achou_correl_esp_a</span> <span class="o">=</span> <span class="n">achou</span>
-                <span class="k">if</span> <span class="n">achou</span><span class="p">:</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">_configura_backup</span><span class="p">()</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">achou_correl_esp_m</span><span class="p">:</span>
-                <span class="n">achou</span> <span class="o">=</span> <span class="n">LeituraPARp</span><span class="o">.</span><span class="n">str_inicio_correl_esp_m</span> <span class="ow">in</span> <span class="n">linha</span>
-                <span class="n">achou_correl_esp_m</span> <span class="o">=</span> <span class="n">achou</span>
-                <span class="k">if</span> <span class="n">achou</span><span class="p">:</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">_configura_backup</span><span class="p">()</span>
-            <span class="c1"># Quando achar, le cada parte adequadamente</span>
-            <span class="k">if</span> <span class="n">achou_series</span><span class="p">:</span>
-                <span class="n">ree</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_series</span><span class="p">(</span><span class="n">arq</span><span class="p">,</span> <span class="n">series</span><span class="p">)</span>
-                <span class="n">achou_series</span> <span class="o">=</span> <span class="kc">False</span>
-                <span class="n">leu_series</span> <span class="o">=</span> <span class="kc">True</span>
-            <span class="k">if</span> <span class="n">achou_correl_parc</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_le_tabela_correlograma</span><span class="p">(</span><span class="n">arq</span><span class="p">,</span> <span class="n">correl_p</span><span class="p">,</span> <span class="n">ree</span><span class="p">)</span>
-                <span class="n">achou_correl_parc</span> <span class="o">=</span> <span class="kc">False</span>
-                <span class="n">leu_correl_parc</span> <span class="o">=</span> <span class="kc">True</span>
-            <span class="k">if</span> <span class="n">achou_ordens_o_coefs</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_le_tabela_ordens</span><span class="p">(</span><span class="n">arq</span><span class="p">,</span> <span class="n">ree</span><span class="p">,</span> <span class="n">ordens_o</span><span class="p">)</span>
-                <span class="n">achou_ordens_o_coefs</span> <span class="o">=</span> <span class="kc">False</span>
-                <span class="n">leu_ordens_o_coefs</span> <span class="o">=</span> <span class="kc">True</span>
-            <span class="k">if</span> <span class="n">achou_ordens_f_coefs</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_le_ordens_coefs</span><span class="p">(</span><span class="n">arq</span><span class="p">,</span>
-                                      <span class="n">ree</span><span class="p">,</span>
-                                      <span class="n">ordens_f</span><span class="p">,</span>
-                                      <span class="n">coefs</span><span class="p">)</span>
-                <span class="n">achou_ordens_f_coefs</span> <span class="o">=</span> <span class="kc">False</span>
-                <span class="n">leu_ordens_f_coefs</span> <span class="o">=</span> <span class="kc">True</span>
-            <span class="k">if</span> <span class="n">achou_medias</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_le_medias</span><span class="p">(</span><span class="n">arq</span><span class="p">,</span> <span class="n">medias</span><span class="p">,</span> <span class="n">ree</span><span class="p">)</span>
-                <span class="n">achou_medias</span> <span class="o">=</span> <span class="kc">False</span>
-                <span class="n">leu_medias</span> <span class="o">=</span> <span class="kc">True</span>
-            <span class="k">if</span> <span class="n">achou_correl_cruz</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_le_tabela_correl_cruzada</span><span class="p">(</span><span class="n">arq</span><span class="p">,</span> <span class="n">correl_c</span><span class="p">,</span> <span class="n">ree</span><span class="p">)</span>
-                <span class="n">achou_correl_cruz</span> <span class="o">=</span> <span class="kc">False</span>
-                <span class="n">leu_correl_cruz</span> <span class="o">=</span> <span class="kc">True</span>
-            <span class="k">if</span> <span class="n">achou_correl_esp_a</span><span class="p">:</span>
-                <span class="n">ultima_cfg_lida</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_tabela_correl_esp_a</span><span class="p">(</span><span class="n">arq</span><span class="p">,</span>
-                                                               <span class="n">correl_esp_a</span><span class="p">)</span>
-                <span class="n">achou_correl_esp_a</span> <span class="o">=</span> <span class="kc">False</span>
-            <span class="k">if</span> <span class="n">achou_correl_esp_m</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_le_tabelas_correl_esp_m</span><span class="p">(</span><span class="n">arq</span><span class="p">,</span>
-                                              <span class="n">correl_esp_m</span><span class="p">)</span>
-                <span class="n">achou_correl_esp_m</span> <span class="o">=</span> <span class="kc">False</span>
-
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">parp</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_le_arquivo_em_diretorio</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">diretorio</span><span class="p">,</span>
+                                      <span class="n">nome_arquivo</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">parp</span></div>
 
     <span class="k">def</span> <span class="nf">_le_series</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                    <span class="n">arq</span><span class="p">:</span> <span class="n">IO</span><span class="p">,</span>
-                   <span class="n">series</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+                   <span class="n">cabecalho</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Lê as tabelas de séries de energia para uma REE.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">ree</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="n">cfg</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="n">achou</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="k">def</span> <span class="nf">_identifica_ree</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+            <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Processa uma linha e extrai o índice da REE.</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="n">ree</span> <span class="o">=</span> <span class="n">REES</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">cabecalho</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;REE&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">][:</span><span class="mi">16</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_ree_atual</span> <span class="o">=</span> <span class="n">ree</span>
+            <span class="k">return</span> <span class="n">ree</span>
+
+        <span class="k">def</span> <span class="nf">_identifica_cfg</span><span class="p">(</span><span class="n">linha</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+            <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Processa uma linha e extrai o número da configuração.</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_cfg_atual</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">linha</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">STR_CFG</span><span class="p">)[</span><span class="mi">1</span><span class="p">][:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cfg_atual</span>
+
+        <span class="k">def</span> <span class="nf">_le_tabela_serie</span><span class="p">():</span>
+            <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Lê a tabela de séries de energia de uma configuração.</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="c1"># Variáveis auxiliares</span>
+            <span class="n">ree</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ree_atual</span>  <span class="c1"># PEP8</span>
+            <span class="n">cfg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cfg_atual</span>  <span class="c1"># PEP8</span>
+            <span class="n">regi</span> <span class="o">=</span> <span class="n">RegistroIn</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>  <span class="c1"># PEP8</span>
+            <span class="n">regf</span> <span class="o">=</span> <span class="n">RegistroFn</span><span class="p">(</span><span class="mi">9</span><span class="p">)</span>  <span class="c1"># PEP8</span>
+            <span class="n">i_linha</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="c1"># Salta 1 linha</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
+            <span class="c1"># Lê a tabela</span>
+            <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+                <span class="n">linha</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
+                <span class="c1"># Verifica se a tabela já acabou</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">linha</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>  <span class="c1"># Tolerância a caracteres especiais</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">series</span><span class="p">[</span><span class="n">ree</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">series</span><span class="p">[</span><span class="n">ree</span><span class="p">][:</span><span class="n">i_linha</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]</span>
+                    <span class="k">break</span>
+                <span class="c1"># Senão, lê mais uma linha</span>
+                <span class="c1"># Ano</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">series</span><span class="p">[</span><span class="n">ree</span><span class="p">][</span><span class="n">i_linha</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">cfg</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">regi</span><span class="o">.</span><span class="n">le_registro</span><span class="p">(</span><span class="n">linha</span><span class="p">,</span>
+                                                                       <span class="mi">0</span><span class="p">)</span>
+                <span class="c1"># Energias de cada mês</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">series</span><span class="p">[</span><span class="n">ree</span><span class="p">][</span><span class="n">i_linha</span><span class="p">,</span>
+                                 <span class="mi">1</span><span class="p">:,</span>
+                                 <span class="n">cfg</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">regf</span><span class="o">.</span><span class="n">le_linha_tabela</span><span class="p">(</span><span class="n">linha</span><span class="p">,</span>
+                                                               <span class="mi">5</span><span class="p">,</span>
+                                                               <span class="mi">2</span><span class="p">,</span>
+                                                               <span class="nb">len</span><span class="p">(</span><span class="n">MESES</span><span class="p">))</span>
+                <span class="n">i_linha</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="c1"># Variáveis auxiliares</span>
+        <span class="n">STR_CFG</span> <span class="o">=</span> <span class="s2">&quot;CONFIGURACAO No.&quot;</span>
+        <span class="c1"># Identifica o REE e a primeira cfg no cabeçalho</span>
+        <span class="n">_identifica_ree</span><span class="p">()</span>
+        <span class="n">_identifica_cfg</span><span class="p">(</span><span class="n">cabecalho</span><span class="p">)</span>
+
+        <span class="n">ultima_cfg_lida</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
             <span class="c1"># Confere se a leitura não acabou</span>
             <span class="n">linha</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">LeituraPARp</span><span class="o">.</span><span class="n">str_fim_serie</span> <span class="ow">in</span> <span class="n">linha</span><span class="p">:</span>
-                <span class="n">series</span><span class="p">[</span><span class="n">ree</span><span class="p">]</span> <span class="o">=</span> <span class="n">series</span><span class="p">[</span><span class="n">ree</span><span class="p">][:,</span> <span class="p">:,</span> <span class="p">:</span><span class="n">cfg</span><span class="p">]</span>
+                <span class="n">ree</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ree_atual</span>  <span class="c1"># PEP8</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">series</span><span class="p">[</span><span class="n">ree</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">series</span><span class="p">[</span><span class="n">ree</span><span class="p">][:,</span>
+                                                    <span class="p">:,</span>
+                                                    <span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">_cfg_atual</span><span class="p">]</span>
                 <span class="k">break</span>
-            <span class="c1"># Senão, lê mais uma tabela</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">achou</span><span class="p">:</span>
-                <span class="n">achou</span> <span class="o">=</span> <span class="n">LeituraPARp</span><span class="o">.</span><span class="n">str_inicio_serie</span> <span class="ow">in</span> <span class="n">linha</span>
-                <span class="k">if</span> <span class="n">achou</span><span class="p">:</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">_configura_backup</span><span class="p">()</span>
-                <span class="k">continue</span>
-            <span class="k">if</span> <span class="n">achou</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_configura_backup</span><span class="p">()</span>
-                <span class="n">ree</span><span class="p">,</span> <span class="n">cfg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_tabela_serie</span><span class="p">(</span><span class="n">arq</span><span class="p">,</span> <span class="n">series</span><span class="p">)</span>
-                <span class="n">achou</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="k">return</span> <span class="n">ree</span>
+            <span class="c1"># Atualiza a última cfg quando for a linha devida</span>
+            <span class="k">if</span> <span class="n">STR_CFG</span> <span class="ow">in</span> <span class="n">linha</span><span class="p">:</span>
+                <span class="n">_identifica_cfg</span><span class="p">(</span><span class="n">linha</span><span class="p">)</span>
+            <span class="c1"># Se for um cabeçalho de tabela, começa a ler</span>
+            <span class="k">if</span> <span class="n">linha</span><span class="p">[</span><span class="mi">8</span><span class="p">:</span><span class="mi">11</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;JAN&quot;</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cfg_atual</span> <span class="o">!=</span> <span class="n">ultima_cfg_lida</span><span class="p">:</span>
+                <span class="n">_le_tabela_serie</span><span class="p">()</span>
+                <span class="n">ultima_cfg_lida</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cfg_atual</span>
 
     <span class="k">def</span> <span class="nf">_le_medias</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                    <span class="n">arq</span><span class="p">:</span> <span class="n">IO</span><span class="p">,</span>
-                   <span class="n">medias</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
-                   <span class="n">ree</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+                   <span class="n">cabecalho</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Lê as tabelas de séries de energia para uma REE.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">ind_ano</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="n">achou</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="n">acabou</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="k">def</span> <span class="nf">_identifica_ano_estudo</span><span class="p">(</span><span class="n">linha</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Identifica o ano de estudo em questão.</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="c1"># Não pode usar uma leitura simples de registro</span>
+            <span class="c1"># pois pode ter &quot;POS&quot; no lugar</span>
+            <span class="k">if</span> <span class="n">STR_ANO</span> <span class="ow">in</span> <span class="n">linha</span><span class="p">:</span>
+                <span class="n">ano</span> <span class="o">=</span> <span class="n">linha</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">STR_ANO</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_ano_atual</span> <span class="o">=</span> <span class="p">(</span><span class="n">ano</span> <span class="k">if</span> <span class="n">ano</span><span class="o">.</span><span class="n">isnumeric</span><span class="p">()</span>
+                                   <span class="k">else</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ano_atual</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+
+        <span class="k">def</span> <span class="nf">_le_tabela_media</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+            <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Lê uma tabela de médias anuais.</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="c1"># Variáveis auxiliares</span>
+            <span class="n">reg</span> <span class="o">=</span> <span class="n">RegistroFn</span><span class="p">(</span><span class="mi">9</span><span class="p">)</span>
+            <span class="n">i_linha</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="c1"># Salta 1 linha</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
+            <span class="c1"># Lê a tabela</span>
+            <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+                <span class="c1"># Verifica se a tabela já acabou</span>
+                <span class="n">linha</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">linha</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>  <span class="c1"># Tolerância a caracteres especiais</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">medias</span><span class="p">[</span><span class="n">ree</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">medias</span><span class="p">[</span><span class="n">ree</span><span class="p">][:</span><span class="n">i_linha</span><span class="p">,</span>
+                                                        <span class="p">:,</span>
+                                                        <span class="p">:]</span>
+                    <span class="k">return</span> <span class="kc">True</span>
+                <span class="c1"># Senão, lê mais uma linha</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">medias</span><span class="p">[</span><span class="n">ree</span><span class="p">][</span><span class="n">i_linha</span><span class="p">,</span>
+                                 <span class="p">:,</span>
+                                 <span class="n">i_ano</span><span class="p">]</span> <span class="o">=</span> <span class="n">reg</span><span class="o">.</span><span class="n">le_linha_tabela</span><span class="p">(</span><span class="n">linha</span><span class="p">,</span>
+                                                              <span class="mi">5</span><span class="p">,</span>
+                                                              <span class="mi">2</span><span class="p">,</span>
+                                                              <span class="nb">len</span><span class="p">(</span><span class="n">MESES</span><span class="p">))</span>
+                <span class="n">i_linha</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="c1"># Variáveis auxiliares</span>
+        <span class="n">STR_ANO</span> <span class="o">=</span> <span class="s2">&quot;ANO:&quot;</span>
+        <span class="n">ree</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ree_atual</span>
+        <span class="n">i_ano</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">ultimo_ano_lido</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="c1"># Identifica o primeiro ano no cabeçalho</span>
+        <span class="n">_identifica_ano_estudo</span><span class="p">(</span><span class="n">cabecalho</span><span class="p">)</span>
         <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
             <span class="c1"># Confere se a leitura não acabou</span>
             <span class="n">linha</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">LeituraPARp</span><span class="o">.</span><span class="n">str_inicio_correl_cruz</span> <span class="ow">in</span> <span class="n">linha</span> <span class="ow">or</span> <span class="n">acabou</span><span class="p">:</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">LeituraPARp</span><span class="o">.</span><span class="n">str_inicio_correl_cruz</span> <span class="ow">in</span> <span class="n">linha</span><span class="p">):</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_configura_backup</span><span class="p">()</span>
-                <span class="n">medias</span><span class="p">[</span><span class="n">ree</span><span class="p">]</span> <span class="o">=</span> <span class="n">medias</span><span class="p">[</span><span class="n">ree</span><span class="p">][:,</span> <span class="p">:,</span> <span class="p">:</span><span class="n">ind_ano</span><span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">medias</span><span class="p">[</span><span class="n">ree</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">medias</span><span class="p">[</span><span class="n">ree</span><span class="p">][:,</span>
+                                                    <span class="p">:,</span>
+                                                    <span class="p">:</span><span class="n">i_ano</span><span class="p">]</span>
                 <span class="k">break</span>
-            <span class="c1"># Senão, lê mais uma tabela</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">achou</span><span class="p">:</span>
-                <span class="n">achou</span> <span class="o">=</span> <span class="n">LeituraPARp</span><span class="o">.</span><span class="n">str_inicio_media</span> <span class="ow">in</span> <span class="n">linha</span>
-                <span class="k">if</span> <span class="n">achou</span><span class="p">:</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">_configura_backup</span><span class="p">()</span>
-                <span class="k">continue</span>
-            <span class="k">if</span> <span class="n">achou</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_configura_backup</span><span class="p">()</span>
-                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_tabela_media</span><span class="p">(</span><span class="n">arq</span><span class="p">,</span> <span class="n">medias</span><span class="p">,</span> <span class="n">ree</span><span class="p">,</span> <span class="n">ind_ano</span><span class="p">):</span>
-                    <span class="n">ind_ano</span> <span class="o">+=</span> <span class="mi">1</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="n">acabou</span> <span class="o">=</span> <span class="kc">True</span>
-                <span class="n">achou</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="c1"># Atualiza a detecção de uma nova tabela</span>
+            <span class="n">_identifica_ano_estudo</span><span class="p">(</span><span class="n">linha</span><span class="p">)</span>
+            <span class="c1"># Se existe uma nova tabela, lê</span>
+            <span class="k">if</span> <span class="n">linha</span><span class="p">[</span><span class="mi">8</span><span class="p">:</span><span class="mi">11</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;JAN&quot;</span> <span class="ow">and</span> <span class="n">ultimo_ano_lido</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ano_atual</span><span class="p">:</span>
+                <span class="n">_le_tabela_media</span><span class="p">()</span>
+                <span class="n">i_ano</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">ultimo_ano_lido</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ano_atual</span>
 
-    <span class="k">def</span> <span class="nf">_le_tabela_serie</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+    <span class="k">def</span> <span class="nf">_le_correlograma</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                          <span class="n">arq</span><span class="p">:</span> <span class="n">IO</span><span class="p">,</span>
-                         <span class="n">series</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span>
-                         <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+                         <span class="n">cabecalho</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># Lê a linha do backup para descobrir a REE</span>
-        <span class="n">linha</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
-        <span class="n">str_ree</span> <span class="o">=</span> <span class="n">linha</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;REE&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">][:</span><span class="mi">16</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-        <span class="n">ree</span> <span class="o">=</span> <span class="n">REES</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">str_ree</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
-        <span class="c1"># Descobre a configuração</span>
-        <span class="n">cfg</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">linha</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;CONFIGURACAO No.&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">][:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
-        <span class="c1"># Salta 4 linhas</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
-        <span class="c1"># Lê a tabela</span>
-        <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="n">n_meses</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">MESES</span><span class="p">)</span>
-        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-            <span class="c1"># Verifica se a tabela já acabou</span>
-            <span class="n">linha</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">linha</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">3</span> <span class="ow">or</span> <span class="s2">&quot;MEDIA AMOSTRAL DAS ENERGIAS&quot;</span> <span class="ow">in</span> <span class="n">linha</span><span class="p">:</span>
-                <span class="n">series</span><span class="p">[</span><span class="n">ree</span><span class="p">]</span> <span class="o">=</span> <span class="n">series</span><span class="p">[</span><span class="n">ree</span><span class="p">][:</span><span class="n">i</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]</span>
-                <span class="k">return</span> <span class="n">ree</span><span class="p">,</span> <span class="n">cfg</span>
-            <span class="c1"># Senão, lê mais uma linha</span>
-            <span class="c1"># Ano</span>
-            <span class="n">series</span><span class="p">[</span><span class="n">ree</span><span class="p">][</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">cfg</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">linha</span><span class="p">[:</span><span class="mi">4</span><span class="p">])</span>
-            <span class="c1"># Energias de cada mês</span>
-            <span class="n">ci</span> <span class="o">=</span> <span class="mi">5</span>
-            <span class="n">nc</span> <span class="o">=</span> <span class="mi">9</span>
-            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_meses</span><span class="p">):</span>
-                <span class="n">cf</span> <span class="o">=</span> <span class="n">ci</span> <span class="o">+</span> <span class="n">nc</span>
-                <span class="n">series</span><span class="p">[</span><span class="n">ree</span><span class="p">][</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">cfg</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">linha</span><span class="p">[</span><span class="n">ci</span><span class="p">:</span><span class="n">cf</span><span class="p">])</span>
-                <span class="n">ci</span> <span class="o">=</span> <span class="n">cf</span> <span class="o">+</span> <span class="mi">2</span>
-            <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
-
-    <span class="k">def</span> <span class="nf">_le_tabela_correlograma</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                                <span class="n">arq</span><span class="p">:</span> <span class="n">IO</span><span class="p">,</span>
-                                <span class="n">correl</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
-                                <span class="n">ree</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Variáveis auxiliares</span>
+        <span class="n">ree</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ree_atual</span>
+        <span class="n">i_mes</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">regi</span> <span class="o">=</span> <span class="n">RegistroIn</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+        <span class="n">regf</span> <span class="o">=</span> <span class="n">RegistroFn</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
         <span class="c1"># Salta 2 linhas</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
         <span class="c1"># Lê a tabela</span>
-        <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="n">n_meses</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">MESES</span><span class="p">)</span>
         <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
             <span class="c1"># Verifica se a tabela já acabou</span>
             <span class="n">linha</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">linha</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">3</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">linha</span><span class="p">[</span><span class="mi">5</span><span class="p">:</span><span class="mi">9</span><span class="p">]</span><span class="o">.</span><span class="n">isnumeric</span><span class="p">():</span>
-                <span class="n">correl</span><span class="p">[</span><span class="n">ree</span><span class="p">]</span> <span class="o">=</span> <span class="n">correl</span><span class="p">[</span><span class="n">ree</span><span class="p">][:</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">correl_p</span><span class="p">[</span><span class="n">ree</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">correl_p</span><span class="p">[</span><span class="n">ree</span><span class="p">][:</span><span class="n">i_mes</span><span class="p">,</span> <span class="p">:]</span>
                 <span class="k">break</span>
             <span class="c1"># Senão, lê mais uma linha</span>
             <span class="c1"># Ano</span>
-            <span class="n">correl</span><span class="p">[</span><span class="n">ree</span><span class="p">][</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">linha</span><span class="p">[</span><span class="mi">5</span><span class="p">:</span><span class="mi">9</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">correl_p</span><span class="p">[</span><span class="n">ree</span><span class="p">][</span><span class="n">i_mes</span><span class="p">,</span>
+                               <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">regi</span><span class="o">.</span><span class="n">le_registro</span><span class="p">(</span><span class="n">linha</span><span class="p">,</span>
+                                                     <span class="mi">5</span><span class="p">)</span>
             <span class="c1"># Correlação de cada mês</span>
-            <span class="n">ci</span> <span class="o">=</span> <span class="mi">11</span>
-            <span class="n">nc</span> <span class="o">=</span> <span class="mi">8</span>
-            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_meses</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
-                <span class="n">cf</span> <span class="o">=</span> <span class="n">ci</span> <span class="o">+</span> <span class="n">nc</span>
-                <span class="n">correl</span><span class="p">[</span><span class="n">ree</span><span class="p">][</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">linha</span><span class="p">[</span><span class="n">ci</span><span class="p">:</span><span class="n">cf</span><span class="p">])</span>
-                <span class="n">ci</span> <span class="o">=</span> <span class="n">cf</span> <span class="o">+</span> <span class="mi">2</span>
-            <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">correl_p</span><span class="p">[</span><span class="n">ree</span><span class="p">][</span><span class="n">i_mes</span><span class="p">,</span>
+                               <span class="mi">1</span><span class="p">:]</span> <span class="o">=</span> <span class="n">regf</span><span class="o">.</span><span class="n">le_linha_tabela</span><span class="p">(</span><span class="n">linha</span><span class="p">,</span>
+                                                          <span class="mi">11</span><span class="p">,</span>
+                                                          <span class="mi">2</span><span class="p">,</span>
+                                                          <span class="nb">len</span><span class="p">(</span><span class="n">MESES</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">i_mes</span> <span class="o">+=</span> <span class="mi">1</span>
 
-    <span class="k">def</span> <span class="nf">_le_tabela_correl_cruzada</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                                  <span class="n">arq</span><span class="p">:</span> <span class="n">IO</span><span class="p">,</span>
-                                  <span class="n">correl</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
-                                  <span class="n">ree</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_le_correl_cruzada_media</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                                 <span class="n">arq</span><span class="p">:</span> <span class="n">IO</span><span class="p">,</span>
+                                 <span class="n">cabecalho</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Variáveis auxiliares</span>
+        <span class="n">ree</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ree_atual</span>
+        <span class="n">i_mes</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">regi</span> <span class="o">=</span> <span class="n">RegistroIn</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+        <span class="n">regf</span> <span class="o">=</span> <span class="n">RegistroFn</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
         <span class="c1"># Salta 4 linhas</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
         <span class="c1"># Lê a tabela</span>
-        <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="n">n_meses</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">MESES</span><span class="p">)</span>
         <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
             <span class="c1"># Verifica se a tabela já acabou</span>
             <span class="n">linha</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">linha</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">3</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">linha</span><span class="p">[</span><span class="mi">5</span><span class="p">:</span><span class="mi">9</span><span class="p">]</span><span class="o">.</span><span class="n">isnumeric</span><span class="p">():</span>
-                <span class="n">correl</span><span class="p">[</span><span class="n">ree</span><span class="p">]</span> <span class="o">=</span> <span class="n">correl</span><span class="p">[</span><span class="n">ree</span><span class="p">][:</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">correl_c</span><span class="p">[</span><span class="n">ree</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">correl_c</span><span class="p">[</span><span class="n">ree</span><span class="p">][:</span><span class="n">i_mes</span><span class="p">,</span> <span class="p">:]</span>
                 <span class="k">break</span>
             <span class="c1"># Senão, lê mais uma linha</span>
             <span class="c1"># Ano</span>
-            <span class="n">correl</span><span class="p">[</span><span class="n">ree</span><span class="p">][</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">linha</span><span class="p">[</span><span class="mi">5</span><span class="p">:</span><span class="mi">9</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">correl_c</span><span class="p">[</span><span class="n">ree</span><span class="p">][</span><span class="n">i_mes</span><span class="p">,</span>
+                               <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">regi</span><span class="o">.</span><span class="n">le_registro</span><span class="p">(</span><span class="n">linha</span><span class="p">,</span>
+                                                     <span class="mi">5</span><span class="p">)</span>
             <span class="c1"># Correlação de cada mês</span>
-            <span class="n">ci</span> <span class="o">=</span> <span class="mi">11</span>
-            <span class="n">nc</span> <span class="o">=</span> <span class="mi">8</span>
-            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_meses</span><span class="p">):</span>
-                <span class="n">cf</span> <span class="o">=</span> <span class="n">ci</span> <span class="o">+</span> <span class="n">nc</span>
-                <span class="n">correl</span><span class="p">[</span><span class="n">ree</span><span class="p">][</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">linha</span><span class="p">[</span><span class="n">ci</span><span class="p">:</span><span class="n">cf</span><span class="p">])</span>
-                <span class="n">ci</span> <span class="o">=</span> <span class="n">cf</span> <span class="o">+</span> <span class="mi">2</span>
-            <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">correl_c</span><span class="p">[</span><span class="n">ree</span><span class="p">][</span><span class="n">i_mes</span><span class="p">,</span>
+                               <span class="mi">1</span><span class="p">:]</span> <span class="o">=</span> <span class="n">regf</span><span class="o">.</span><span class="n">le_linha_tabela</span><span class="p">(</span><span class="n">linha</span><span class="p">,</span>
+                                                          <span class="mi">11</span><span class="p">,</span>
+                                                          <span class="mi">2</span><span class="p">,</span>
+                                                          <span class="nb">len</span><span class="p">(</span><span class="n">MESES</span><span class="p">))</span>
+            <span class="n">i_mes</span> <span class="o">+=</span> <span class="mi">1</span>
 
-    <span class="k">def</span> <span class="nf">_le_tabela_media</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                         <span class="n">arq</span><span class="p">:</span> <span class="n">IO</span><span class="p">,</span>
-                         <span class="n">medias</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
-                         <span class="n">ree</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-                         <span class="n">ind_ano</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-                         <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># Lê a linha do backup para descobrir o ano</span>
-        <span class="n">linha</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
-        <span class="n">str_ano</span> <span class="o">=</span> <span class="n">linha</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;ANO:&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-        <span class="c1"># Se é um ano de pós estudo, ignora</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">str_ano</span><span class="o">.</span><span class="n">isnumeric</span><span class="p">():</span>
-            <span class="k">return</span> <span class="kc">False</span>
-        <span class="c1"># Salta 5 linhas</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
-        <span class="c1"># Lê a tabela</span>
-        <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="n">n_meses</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">MESES</span><span class="p">)</span>
-        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-            <span class="c1"># Verifica se a tabela já acabou</span>
-            <span class="n">linha</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">linha</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
-                <span class="n">medias</span><span class="p">[</span><span class="n">ree</span><span class="p">]</span> <span class="o">=</span> <span class="n">medias</span><span class="p">[</span><span class="n">ree</span><span class="p">][:</span><span class="n">i</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]</span>
-                <span class="k">return</span> <span class="kc">True</span>
-            <span class="c1"># Senão, lê mais uma linha</span>
-            <span class="n">ci</span> <span class="o">=</span> <span class="mi">5</span>
-            <span class="n">nc</span> <span class="o">=</span> <span class="mi">9</span>
-            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_meses</span><span class="p">):</span>
-                <span class="n">cf</span> <span class="o">=</span> <span class="n">ci</span> <span class="o">+</span> <span class="n">nc</span>
-                <span class="n">medias</span><span class="p">[</span><span class="n">ree</span><span class="p">][</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">ind_ano</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">linha</span><span class="p">[</span><span class="n">ci</span><span class="p">:</span><span class="n">cf</span><span class="p">])</span>
-                <span class="n">ci</span> <span class="o">=</span> <span class="n">cf</span> <span class="o">+</span> <span class="mi">2</span>
-            <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
-
-    <span class="k">def</span> <span class="nf">_le_ordens_coefs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                         <span class="n">arq</span><span class="p">:</span> <span class="n">IO</span><span class="p">,</span>
-                         <span class="n">ree</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-                         <span class="n">ordens</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
-                         <span class="n">coefs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]):</span>
+    <span class="k">def</span> <span class="nf">_le_ordens_finais_e_coefs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                                  <span class="n">arq</span><span class="p">:</span> <span class="n">IO</span><span class="p">,</span>
+                                  <span class="n">cabecalho</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Lê as informações das ordens e dos coeficientes do PAR(p).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">n_anos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_tabela_ordens</span><span class="p">(</span><span class="n">arq</span><span class="p">,</span> <span class="n">ree</span><span class="p">,</span> <span class="n">ordens</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_le_coeficientes</span><span class="p">(</span><span class="n">arq</span><span class="p">,</span> <span class="n">ree</span><span class="p">,</span> <span class="n">coefs</span><span class="p">,</span> <span class="n">n_anos</span><span class="p">)</span>
+        <span class="n">n_anos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_tabela_ordens</span><span class="p">(</span><span class="n">arq</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ordens_f</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_le_coeficientes</span><span class="p">(</span><span class="n">arq</span><span class="p">,</span> <span class="n">n_anos</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_le_ordens_originais</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                             <span class="n">arq</span><span class="p">:</span> <span class="n">IO</span><span class="p">,</span>
+                             <span class="n">cabecalho</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Lê a tabela de ordens originais do modelo.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_le_tabela_ordens</span><span class="p">(</span><span class="n">arq</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ordens_o</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_le_tabela_ordens</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                           <span class="n">arq</span><span class="p">:</span> <span class="n">IO</span><span class="p">,</span>
-                          <span class="n">ree</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
                           <span class="n">ordens</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span>
                           <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Retorna o número de anos de estudo válidos (sem POS).</span>
+<span class="sd">        Retorna o número de anos de estudo válidos (Sem PRE).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">def</span> <span class="nf">_identifica_ano_estudo</span><span class="p">(</span><span class="n">linha</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Identifica o ano de estudo em questão.</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="c1"># Não pode usar uma leitura simples de registro</span>
+            <span class="c1"># pois pode ter &quot;POS&quot; no lugar</span>
+            <span class="n">ano</span> <span class="o">=</span> <span class="n">linha</span><span class="p">[</span><span class="mi">32</span><span class="p">:</span><span class="mi">36</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_ano_atual</span> <span class="o">=</span> <span class="p">(</span><span class="n">ano</span> <span class="k">if</span> <span class="n">ano</span><span class="o">.</span><span class="n">isnumeric</span><span class="p">()</span>
+                               <span class="k">else</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ano_atual</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+
+        <span class="c1"># Variáveis auxiliares</span>
+        <span class="n">ree</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ree_atual</span>
+        <span class="n">i_ano</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">reg</span> <span class="o">=</span> <span class="n">RegistroIn</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
         <span class="c1"># Salta 3 linhas</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
-        <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="n">n_meses</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">MESES</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
         <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
             <span class="n">linha</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
             <span class="c1"># Confere se a tabela já acabou</span>
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">linha</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
-                <span class="n">ordens</span><span class="p">[</span><span class="n">ree</span><span class="p">]</span> <span class="o">=</span> <span class="n">ordens</span><span class="p">[</span><span class="n">ree</span><span class="p">][:</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">linha</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>  <span class="c1"># Tolerância a caracteres especiais</span>
+                <span class="n">ordens</span><span class="p">[</span><span class="n">ree</span><span class="p">]</span> <span class="o">=</span> <span class="n">ordens</span><span class="p">[</span><span class="n">ree</span><span class="p">][:</span><span class="n">i_ano</span><span class="p">,</span> <span class="p">:]</span>
                 <span class="k">break</span>
             <span class="c1"># Extrai o ano</span>
-            <span class="n">str_ano</span> <span class="o">=</span> <span class="n">linha</span><span class="p">[</span><span class="mi">32</span><span class="p">:</span><span class="mi">36</span><span class="p">]</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">str_ano</span><span class="o">.</span><span class="n">isnumeric</span><span class="p">():</span>
-                <span class="k">continue</span>
-            <span class="n">ordens</span><span class="p">[</span><span class="n">ree</span><span class="p">][</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">str_ano</span><span class="p">)</span>
+            <span class="n">_identifica_ano_estudo</span><span class="p">(</span><span class="n">linha</span><span class="p">)</span>
+            <span class="n">ordens</span><span class="p">[</span><span class="n">ree</span><span class="p">][</span><span class="n">i_ano</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ano_atual</span><span class="p">)</span>
             <span class="c1"># As ordens de cada mês</span>
-            <span class="n">ci</span> <span class="o">=</span> <span class="mi">38</span>
-            <span class="n">nc</span> <span class="o">=</span> <span class="mi">3</span>
-            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_meses</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
-                <span class="n">cf</span> <span class="o">=</span> <span class="n">ci</span> <span class="o">+</span> <span class="n">nc</span>
-                <span class="n">ordens</span><span class="p">[</span><span class="n">ree</span><span class="p">][</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">linha</span><span class="p">[</span><span class="n">ci</span><span class="p">:</span><span class="n">cf</span><span class="p">])</span>
-                <span class="n">ci</span> <span class="o">=</span> <span class="n">cf</span> <span class="o">+</span> <span class="mi">2</span>
-            <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
-        <span class="k">return</span> <span class="n">i</span>
+            <span class="n">ordens</span><span class="p">[</span><span class="n">ree</span><span class="p">][</span><span class="n">i_ano</span><span class="p">,</span>
+                        <span class="mi">1</span><span class="p">:]</span> <span class="o">=</span> <span class="n">reg</span><span class="o">.</span><span class="n">le_linha_tabela</span><span class="p">(</span><span class="n">linha</span><span class="p">,</span>
+                                                  <span class="mi">38</span><span class="p">,</span>
+                                                  <span class="mi">2</span><span class="p">,</span>
+                                                  <span class="nb">len</span><span class="p">(</span><span class="n">MESES</span><span class="p">))</span>
+            <span class="n">i_ano</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">i_ano</span>
 
     <span class="k">def</span> <span class="nf">_le_coeficientes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                          <span class="n">arq</span><span class="p">:</span> <span class="n">IO</span><span class="p">,</span>
-                         <span class="n">ree</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-                         <span class="n">coefs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
-                         <span class="n">n_anos</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
-        <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="n">n_meses</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">MESES</span><span class="p">)</span>
-        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-            <span class="n">linha</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
-            <span class="c1"># Verifica se a leitura dos coeficientes já não terminou</span>
-            <span class="k">if</span> <span class="n">LeituraPARp</span><span class="o">.</span><span class="n">str_fim_coefs</span> <span class="ow">in</span> <span class="n">linha</span> <span class="ow">or</span> <span class="n">i</span> <span class="o">==</span> <span class="n">n_anos</span> <span class="o">*</span> <span class="n">n_meses</span><span class="p">:</span>
-                <span class="n">coefs</span><span class="p">[</span><span class="n">ree</span><span class="p">]</span> <span class="o">=</span> <span class="n">coefs</span><span class="p">[</span><span class="n">ree</span><span class="p">][:</span><span class="n">i</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]</span>
-                <span class="k">break</span>
-            <span class="c1"># Senão, lê mais uma tabela de coeficientes</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_le_tabela_coeficientes</span><span class="p">(</span><span class="n">arq</span><span class="p">,</span> <span class="n">ree</span><span class="p">,</span> <span class="n">coefs</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
-            <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+                         <span class="n">n_anos</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 
-    <span class="k">def</span> <span class="nf">_le_tabela_coeficientes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                                <span class="n">arq</span><span class="p">:</span> <span class="n">IO</span><span class="p">,</span>
-                                <span class="n">ree</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-                                <span class="n">coefs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
-                                <span class="n">i</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
-        <span class="n">achou</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="n">ordem</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="n">lin</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-            <span class="n">linha</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">achou</span><span class="p">:</span>
-                <span class="c1"># Procura pela ordem do modelo</span>
-                <span class="k">if</span> <span class="s2">&quot;COEFICIENTES DA EQUACAO&quot;</span> <span class="ow">in</span> <span class="n">linha</span><span class="p">:</span>
-                    <span class="n">achou</span> <span class="o">=</span> <span class="kc">True</span>
-                    <span class="n">ordem</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">linha</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;AR(&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">][:</span><span class="o">-</span><span class="mi">2</span><span class="p">])</span>
-                <span class="k">continue</span>
-            <span class="k">if</span> <span class="n">lin</span> <span class="o">==</span> <span class="mi">4</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">linha</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
-                <span class="k">break</span>
-            <span class="k">if</span> <span class="n">achou</span><span class="p">:</span>
-                <span class="n">ci</span> <span class="o">=</span> <span class="mi">0</span>
-                <span class="n">nc</span> <span class="o">=</span> <span class="mi">9</span>
-                <span class="k">if</span> <span class="n">lin</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
-                    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ordem</span><span class="p">):</span>
-                        <span class="n">cf</span> <span class="o">=</span> <span class="n">ci</span> <span class="o">+</span> <span class="n">nc</span>
-                        <span class="n">coefs</span><span class="p">[</span><span class="n">ree</span><span class="p">][</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">lin</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">linha</span><span class="p">[</span><span class="n">ci</span><span class="p">:</span><span class="n">cf</span><span class="p">])</span>
-                        <span class="n">ci</span> <span class="o">=</span> <span class="n">cf</span> <span class="o">+</span> <span class="mi">2</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="n">coefs</span><span class="p">[</span><span class="n">ree</span><span class="p">][</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">lin</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">linha</span><span class="p">[</span><span class="n">ci</span><span class="p">:</span><span class="n">cf</span><span class="p">])</span>
-                <span class="n">lin</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">def</span> <span class="nf">_extrai_ordem_modelo</span><span class="p">(</span><span class="n">linha</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">linha</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;AR(&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">][:</span><span class="o">-</span><span class="mi">2</span><span class="p">])</span>
 
-    <span class="k">def</span> <span class="nf">_le_tabela_correl_esp_a</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                                <span class="n">arq</span><span class="p">:</span> <span class="n">IO</span><span class="p">,</span>
-                                <span class="n">correls</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span>
-                                <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">def</span> <span class="nf">_le_tabela_coeficientes</span><span class="p">():</span>
+
+            <span class="k">def</span> <span class="nf">_le_coefs_periodo</span><span class="p">():</span>
+                <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">                &quot;&quot;&quot;</span>
+                <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span>
+                    <span class="n">linha</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">coefs</span><span class="p">[</span><span class="n">ree</span><span class="p">][</span><span class="n">i_coefs</span><span class="p">,</span>
+                                    <span class="p">:</span><span class="n">ordem</span><span class="p">,</span>
+                                    <span class="n">o</span><span class="p">]</span> <span class="o">=</span> <span class="n">regf</span><span class="o">.</span><span class="n">le_linha_tabela</span><span class="p">(</span><span class="n">linha</span><span class="p">,</span>
+                                                              <span class="mi">0</span><span class="p">,</span>
+                                                              <span class="mi">2</span><span class="p">,</span>
+                                                              <span class="n">ordem</span><span class="p">)</span>
+
+            <span class="k">def</span> <span class="nf">_le_coef_media</span><span class="p">():</span>
+                <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">                &quot;&quot;&quot;</span>
+                <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">):</span>
+                    <span class="n">linha</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
+                    <span class="c1"># Se não possui dados de média, não lê</span>
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">linha</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+                        <span class="k">break</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">coefs</span><span class="p">[</span><span class="n">ree</span><span class="p">][</span><span class="n">i_coefs</span><span class="p">,</span>
+                                    <span class="mi">0</span><span class="p">,</span>
+                                    <span class="n">o</span><span class="p">]</span> <span class="o">=</span> <span class="n">regf</span><span class="o">.</span><span class="n">le_registro</span><span class="p">(</span><span class="n">linha</span><span class="p">,</span>
+                                                          <span class="mi">0</span><span class="p">)</span>
+
+            <span class="c1"># Variaveis auxiliares</span>
+            <span class="n">ree</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ree_atual</span>
+            <span class="n">regf</span> <span class="o">=</span> <span class="n">RegistroFn</span><span class="p">(</span><span class="mi">9</span><span class="p">)</span>
+            <span class="n">linha</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+            <span class="c1"># Procura pelo cabeçalho dos coeficientes do período</span>
+            <span class="k">while</span> <span class="s2">&quot;COEFICIENTES DA EQUACAO&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">linha</span><span class="p">:</span>
+                <span class="n">linha</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
+            <span class="n">ordem</span> <span class="o">=</span> <span class="n">_extrai_ordem_modelo</span><span class="p">(</span><span class="n">linha</span><span class="p">)</span>
+            <span class="n">_le_coefs_periodo</span><span class="p">()</span>
+            <span class="n">_le_coef_media</span><span class="p">()</span>
+
+        <span class="n">n_periodos</span> <span class="o">=</span> <span class="n">n_anos</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">MESES</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i_coefs</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_periodos</span><span class="p">):</span>
+            <span class="n">_le_tabela_coeficientes</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">coefs</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_ree_atual</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">coefs</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_ree_atual</span><span class="p">][:</span><span class="n">n_periodos</span><span class="p">,</span>
+                                                                  <span class="p">:,</span>
+                                                                  <span class="p">:]</span>
+
+    <span class="k">def</span> <span class="nf">_le_correl_esp_anual</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                             <span class="n">arq</span><span class="p">:</span> <span class="n">IO</span><span class="p">,</span>
+                             <span class="n">cabecalho</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># Lê a linha do backup para descobrir a configuração</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_configura_backup</span><span class="p">()</span>
-        <span class="n">linha</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
-        <span class="n">str_cfg</span> <span class="o">=</span> <span class="n">linha</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;No:&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-        <span class="c1"># Descobre a configuração</span>
-        <span class="n">cfg</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">str_cfg</span><span class="p">)</span>
-        <span class="c1"># Salta 1 linhas</span>
+
+        <span class="k">def</span> <span class="nf">_identifica_configuracao</span><span class="p">():</span>
+            <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Identifica a configuração associada à tabela.</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_cfg_atual</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">cabecalho</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;No:&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+
+        <span class="k">def</span> <span class="nf">_extrai_ordem_rees</span><span class="p">(</span><span class="n">linha</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+            <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Obtém a ordem de disposição das REEs nas colunas.</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="n">str_rees</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">linha</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="k">return</span> <span class="p">[</span><span class="n">REES</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">str_rees</span><span class="p">]</span>
+
+        <span class="k">def</span> <span class="nf">_ordena_correls</span><span class="p">(</span><span class="n">correls</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
+                            <span class="n">idx</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]):</span>
+            <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="k">return</span> <span class="p">[</span><span class="n">correls</span><span class="p">[</span><span class="n">idx</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span>
+                    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">idx</span><span class="p">))]</span>
+
+        <span class="n">reg</span> <span class="o">=</span> <span class="n">RegistroFn</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>
+        <span class="n">_identifica_configuracao</span><span class="p">()</span>
+        <span class="n">cfg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cfg_atual</span>
+        <span class="c1"># Salta 1 linha</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
-        <span class="n">linha</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
-        <span class="c1"># Descobre a ordem das REEs nas colunas</span>
-        <span class="n">str_rees</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">linha</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">]</span>
-        <span class="n">ordem_rees</span> <span class="o">=</span> <span class="p">[</span><span class="n">REES</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">str_rees</span><span class="p">]</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="n">_extrai_ordem_rees</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">))</span>
+        <span class="n">i_ree</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="c1"># Lê a tabela</span>
-        <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="n">n_meses</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">MESES</span><span class="p">)</span>
         <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
             <span class="c1"># Verifica se a tabela já acabou</span>
             <span class="n">linha</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">linha</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">cfg</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">linha</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>  <span class="c1"># Tolerância a caracteres especiais</span>
+                <span class="k">break</span>
             <span class="c1"># Senão, lê mais uma linha</span>
-            <span class="n">ci</span> <span class="o">=</span> <span class="mi">18</span>
-            <span class="n">nc</span> <span class="o">=</span> <span class="mi">7</span>
-            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_meses</span><span class="p">):</span>
-                <span class="n">cf</span> <span class="o">=</span> <span class="n">ci</span> <span class="o">+</span> <span class="n">nc</span>
-                <span class="n">correls</span><span class="p">[</span><span class="n">cfg</span><span class="p">][</span><span class="n">ordem_rees</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span>
-                             <span class="n">ordem_rees</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">linha</span><span class="p">[</span><span class="n">ci</span><span class="p">:</span><span class="n">cf</span><span class="p">])</span>
-                <span class="n">ci</span> <span class="o">=</span> <span class="n">cf</span> <span class="o">+</span> <span class="mi">6</span>
-            <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">correls</span> <span class="o">=</span> <span class="n">reg</span><span class="o">.</span><span class="n">le_linha_tabela</span><span class="p">(</span><span class="n">linha</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">MESES</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">correl_esp_a</span><span class="p">[</span><span class="n">cfg</span><span class="p">][</span><span class="n">idx</span><span class="p">[</span><span class="n">i_ree</span><span class="p">],</span>
+                                   <span class="p">:]</span> <span class="o">=</span> <span class="n">_ordena_correls</span><span class="p">(</span><span class="n">correls</span><span class="p">,</span>
+                                                        <span class="n">idx</span><span class="p">)</span>
+            <span class="n">i_ree</span> <span class="o">+=</span> <span class="mi">1</span>
 
-    <span class="k">def</span> <span class="nf">_le_tabelas_correl_esp_m</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                                 <span class="n">arq</span><span class="p">:</span> <span class="n">IO</span><span class="p">,</span>
-                                 <span class="n">correls</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]):</span>
+    <span class="k">def</span> <span class="nf">_le_correl_esp_mensal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                              <span class="n">arq</span><span class="p">:</span> <span class="n">IO</span><span class="p">,</span>
+                              <span class="n">cabecalho</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># Lê a linha do backup para descobrir a configuração</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_configura_backup</span><span class="p">()</span>
-        <span class="n">linha</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
-        <span class="n">str_cfg</span> <span class="o">=</span> <span class="n">linha</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;No:&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-        <span class="c1"># Descobre a configuração</span>
-        <span class="n">cfg</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">str_cfg</span><span class="p">)</span>
+
+        <span class="k">def</span> <span class="nf">_identifica_configuracao</span><span class="p">():</span>
+            <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Identifica a configuração associada à tabela.</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_cfg_atual</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">cabecalho</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;No:&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+
+        <span class="k">def</span> <span class="nf">_le_tabela_correl_esp_m</span><span class="p">(</span><span class="n">cabecalho</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+
+            <span class="k">def</span> <span class="nf">_extrai_ordem_rees</span><span class="p">(</span><span class="n">linha</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+                <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">                Obtém a ordem de disposição das REEs nas colunas.</span>
+<span class="sd">                &quot;&quot;&quot;</span>
+                <span class="n">str_rees</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">linha</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">]</span>
+                <span class="k">return</span> <span class="p">[</span><span class="n">REES</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">str_rees</span><span class="p">]</span>
+
+            <span class="k">def</span> <span class="nf">_ordena_correls</span><span class="p">(</span><span class="n">correls</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
+                                <span class="n">idx</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]):</span>
+                <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">                &quot;&quot;&quot;</span>
+                <span class="k">return</span> <span class="p">[</span><span class="n">correls</span><span class="p">[</span><span class="n">idx</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span>
+                        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">idx</span><span class="p">))]</span>
+
+            <span class="c1"># Variáveis auxiliares</span>
+            <span class="n">rega</span> <span class="o">=</span> <span class="n">RegistroAn</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span>
+            <span class="n">regf</span> <span class="o">=</span> <span class="n">RegistroFn</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>
+            <span class="n">idx</span> <span class="o">=</span> <span class="n">_extrai_ordem_rees</span><span class="p">(</span><span class="n">cabecalho</span><span class="p">[</span><span class="mi">18</span><span class="p">:])</span>
+            <span class="c1"># Lê a tabela</span>
+            <span class="n">i_ree</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+                <span class="c1"># Verifica se a tabela já acabou</span>
+                <span class="n">linha</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">linha</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>  <span class="c1"># Tolerância a caracteres especiais</span>
+                    <span class="k">break</span>
+                <span class="c1"># Senão, lê mais uma linha</span>
+                <span class="c1"># Identifica a REE da linha</span>
+                <span class="n">ree</span> <span class="o">=</span> <span class="n">REES</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">rega</span><span class="o">.</span><span class="n">le_registro</span><span class="p">(</span><span class="n">linha</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+                <span class="n">cor</span> <span class="o">=</span> <span class="n">regf</span><span class="o">.</span><span class="n">le_linha_tabela</span><span class="p">(</span><span class="n">linha</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">MESES</span><span class="p">))</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">correl_esp_m</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_cfg_atual</span><span class="p">][</span><span class="n">ree</span><span class="p">,</span>
+                                                   <span class="n">i_ree</span><span class="p">,</span>
+                                                   <span class="p">:]</span> <span class="o">=</span> <span class="n">_ordena_correls</span><span class="p">(</span><span class="n">cor</span><span class="p">,</span>
+                                                                        <span class="n">idx</span><span class="p">)</span>
+                <span class="n">i_ree</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="n">_identifica_configuracao</span><span class="p">()</span>
         <span class="c1"># Salta 1 linha</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
         <span class="c1"># Lê a tabela</span>
-        <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">i_tabela</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
             <span class="c1"># Verifica se a tabela já acabou</span>
             <span class="n">linha</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
             <span class="k">if</span> <span class="p">(</span><span class="n">LeituraPARp</span><span class="o">.</span><span class="n">str_inicio_correl_esp_a</span> <span class="ow">in</span> <span class="n">linha</span> <span class="ow">or</span>
-                    <span class="n">LeituraPARp</span><span class="o">.</span><span class="n">str_fim_parp</span> <span class="ow">in</span> <span class="n">linha</span><span class="p">):</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_configura_backup</span><span class="p">()</span>
-                <span class="k">return</span> <span class="n">cfg</span>
-            <span class="c1"># Senão, procura e lê mais uma tabela</span>
-            <span class="k">if</span> <span class="s2">&quot;MES&quot;</span> <span class="ow">in</span> <span class="n">linha</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_configura_backup</span><span class="p">()</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_le_tabela_correl_esp_m</span><span class="p">(</span><span class="n">arq</span><span class="p">,</span>
-                                             <span class="n">correls</span><span class="p">,</span>
-                                             <span class="n">cfg</span><span class="p">)</span>
-                <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
-
-    <span class="k">def</span> <span class="nf">_le_tabela_correl_esp_m</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                                <span class="n">arq</span><span class="p">:</span> <span class="n">IO</span><span class="p">,</span>
-                                <span class="n">correls</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
-                                <span class="n">cfg</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">linha</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
-        <span class="c1"># Descobre a ordem das REEs nas colunas</span>
-        <span class="n">str_rees</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">linha</span><span class="p">[</span><span class="mi">18</span><span class="p">:]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">]</span>
-        <span class="n">ordem_rees</span> <span class="o">=</span> <span class="p">[</span><span class="n">REES</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">str_rees</span><span class="p">]</span>
-        <span class="c1"># Lê a tabela</span>
-        <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-            <span class="c1"># Verifica se a tabela já acabou</span>
-            <span class="n">linha</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">linha</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_fim_arquivo</span><span class="p">(</span><span class="n">linha</span><span class="p">)):</span>
                 <span class="k">break</span>
-            <span class="c1"># Senão, lê mais uma linha</span>
-            <span class="c1"># Identifica a REE da linha</span>
-            <span class="n">ree_linha</span> <span class="o">=</span> <span class="n">REES</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">linha</span><span class="p">[:</span><span class="mi">12</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
-            <span class="n">ci</span> <span class="o">=</span> <span class="mi">18</span>
-            <span class="n">nc</span> <span class="o">=</span> <span class="mi">7</span>
-            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">ordem_rees</span><span class="p">:</span>
-                <span class="n">cf</span> <span class="o">=</span> <span class="n">ci</span> <span class="o">+</span> <span class="n">nc</span>
-                <span class="n">correls</span><span class="p">[</span><span class="n">cfg</span><span class="p">][</span><span class="n">ree_linha</span><span class="p">,</span>
-                             <span class="n">i</span><span class="p">,</span>
-                             <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">linha</span><span class="p">[</span><span class="n">ci</span><span class="p">:</span><span class="n">cf</span><span class="p">])</span>
-                <span class="n">ci</span> <span class="o">=</span> <span class="n">cf</span> <span class="o">+</span> <span class="mi">6</span>
-            <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
 
-    <span class="k">def</span> <span class="nf">_fim_arquivo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">linha</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">LeituraPARp</span><span class="o">.</span><span class="n">str_fim_parp</span> <span class="ow">in</span> <span class="n">linha</span></div>
+            <span class="c1"># Senão, procura e lê mais uma tabela</span>
+            <span class="k">if</span> <span class="s2">&quot;MES&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">linha</span><span class="p">:</span>
+                <span class="k">continue</span>
+
+            <span class="n">_le_tabela_correl_esp_m</span><span class="p">(</span><span class="n">linha</span><span class="p">)</span>
+            <span class="n">i_tabela</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_configura_backup</span><span class="p">()</span></div>
 </pre></div>
 
            </div>
