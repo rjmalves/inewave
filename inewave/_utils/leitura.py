@@ -116,7 +116,7 @@ class Leitura:
         pass
 
     # @abstractmethod
-    def _prepara_dados_arquivo(self):
+    def _prepara_dados_saida(self):
         """
         Trata os dados obtidos do arquivo para ser retornado.
         """

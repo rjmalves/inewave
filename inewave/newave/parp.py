@@ -1,7 +1,7 @@
 # Imports do próprio módulo
 from inewave._utils.bloco import Bloco
 from inewave._utils.leitura import Leitura
-from inewave._utils.registros import RegistroFn, RegistroIn
+from inewave._utils.registros import RegistroAn, RegistroFn, RegistroIn
 from inewave.config import MAX_ANOS_ESTUDO, MAX_CONFIGURACOES
 from inewave.config import MESES, REES, ORDEM_MAX_PARP
 from inewave.newave.modelos.parp import PARp
@@ -164,22 +164,22 @@ class LeituraPARp(Leitura):
         MAX_CFG = MAX_CONFIGURACOES
         self.correl_esp_a: Dict[int, np.ndarray] = {i: np.zeros((len(REES),
                                                                  len(REES)))
-                                                    for i in range(MAX_CFG)}
+                                                    for i in range(1, MAX_CFG)}
         self.correl_esp_m: Dict[int, np.ndarray] = {i: np.zeros((len(REES),
                                                                  len(MESES),
                                                                  len(REES)))
-                                                    for i in range(MAX_CFG)}
+                                                    for i in range(1, MAX_CFG)}
 
     # Override
-    def _prepara_dados_arquivo(self):
+    def _prepara_dados_saida(self):
         """
         Trata os dados obtidos do arquivo para ser retornado.
         """
         # Limpa as correls_esp_a e correl_esp_m com apenas as
         # cfgs lidas
-        cfgs_lidas = list(range(self._cfg_atual,
-                                MAX_CONFIGURACOES))
-        for i in cfgs_lidas:
+        cfgs_nao_lidas = list(range(self._cfg_atual + 1,
+                                    MAX_CONFIGURACOES))
+        for i in cfgs_nao_lidas:
             self.correl_esp_a.pop(i)
             self.correl_esp_m.pop(i)
         # Cria o objeto parp completo
@@ -293,9 +293,10 @@ class LeituraPARp(Leitura):
 
         def _identifica_ano_estudo(linha: str):
             """
-            Identifica o ano de estudo em questão. Retorna o sucesso
-            da identificação.
+            Identifica o ano de estudo em questão.
             """
+            # Não pode usar uma leitura simples de registro
+            # pois pode ter "POS" no lugar
             if STR_ANO in linha:
                 ano = linha.split(STR_ANO)[1].strip()
                 self._ano_atual = (ano if ano.isnumeric()
@@ -442,35 +443,43 @@ class LeituraPARp(Leitura):
                           ordens: Dict[int, np.ndarray]
                           ) -> int:
         """
-        Retorna o número de anos de estudo válidos (sem POS).
+        Retorna o número de anos de estudo válidos (Sem PRE).
         """
+
+        def _identifica_ano_estudo(linha: str):
+            """
+            Identifica o ano de estudo em questão.
+            """
+            # Não pode usar uma leitura simples de registro
+            # pois pode ter "POS" no lugar
+            ano = linha[32:36]
+            self._ano_atual = (ano if ano.isnumeric()
+                               else str(int(self._ano_atual) + 1))
+
+        # Variáveis auxiliares
         ree = self._ree_atual
+        i_ano = 0
+        reg = RegistroIn(3)
         # Salta 3 linhas
-        self._le_linha_com_backup(arq)
-        self._le_linha_com_backup(arq)
-        self._le_linha_com_backup(arq)
-        i = 0
-        n_meses = len(MESES)
+        for _ in range(3):
+            self._le_linha_com_backup(arq)
         while True:
             linha = self._le_linha_com_backup(arq)
             # Confere se a tabela já acabou
-            if len(linha) < 3:
-                ordens[ree] = ordens[ree][:i, :]
+            if len(linha) < 3:  # Tolerância a caracteres especiais
+                ordens[ree] = ordens[ree][:i_ano, :]
                 break
             # Extrai o ano
-            str_ano = linha[32:36]
-            if not str_ano.isnumeric():
-                continue
-            ordens[ree][i, 0] = int(str_ano)
+            _identifica_ano_estudo(linha)
+            ordens[ree][i_ano, 0] = int(self._ano_atual)
             # As ordens de cada mês
-            ci = 38
-            nc = 3
-            for j in range(1, n_meses + 1):
-                cf = ci + nc
-                ordens[ree][i, j] = int(linha[ci:cf])
-                ci = cf + 2
-            i += 1
-        return i
+            ordens[ree][i_ano,
+                        1:] = reg.le_linha_tabela(linha,
+                                                  38,
+                                                  2,
+                                                  len(MESES))
+            i_ano += 1
+        return i_ano
 
     def _le_coeficientes(self,
                          arq: IO,
@@ -495,21 +504,14 @@ class LeituraPARp(Leitura):
                                                               2,
                                                               ordem)
 
-            def _verifica_parpa() -> bool:
-                """
-                """
-                linha = self._le_linha_com_backup(arq)
-                if len(linha) < 2:
-                    return False
-                else:
-                    self._configura_backup()
-                    return True
-
             def _le_coef_media():
                 """
                 """
                 for o in range(2, 4):
                     linha = self._le_linha_com_backup(arq)
+                    # Se não possui dados de média, não lê
+                    if len(linha) < 2:
+                        break
                     self.coefs[ree][i_coefs,
                                     0,
                                     o] = regf.le_registro(linha,
@@ -517,7 +519,6 @@ class LeituraPARp(Leitura):
 
             # Variaveis auxiliares
             ree = self._ree_atual
-            ordem = 0
             regf = RegistroFn(9)
             linha = ""
             # Procura pelo cabeçalho dos coeficientes do período
@@ -525,91 +526,114 @@ class LeituraPARp(Leitura):
                 linha = self._le_linha_com_backup(arq)
             ordem = _extrai_ordem_modelo(linha)
             _le_coefs_periodo()
-            _verifica_parpa()
             _le_coef_media()
 
-        ree = self._ree_atual
-        i_coefs = 0
-        while True:
-            linha = self._le_linha_com_backup(arq)
-            # Verifica se a leitura dos coeficientes já não terminou
-            if (LeituraPARp.str_fim_coefs in linha or
-                    i_coefs == n_anos * len(MESES)):
-                self.coefs[ree] = self.coefs[ree][:i_coefs, :, :]
-                break
-            # Senão, lê mais uma tabela de coeficientes
+        n_periodos = n_anos * len(MESES)
+        for i_coefs in range(n_periodos):
             _le_tabela_coeficientes()
-            i_coefs += 1
+
+        self.coefs[self._ree_atual] = self.coefs[self._ree_atual][:n_periodos,
+                                                                  :,
+                                                                  :]
 
     def _le_correl_esp_anual(self,
                              arq: IO,
                              cabecalho: str = "") -> None:
         """
         """
-        str_cfg = cabecalho.split("No:")[1].strip()
-        # Descobre a configuração
-        self._cfg_atual = int(str_cfg)
+
+        def _identifica_configuracao():
+            """
+            Identifica a configuração associada à tabela.
+            """
+            self._cfg_atual = int(cabecalho.split("No:")[1].strip())
+
+        def _extrai_ordem_rees(linha: str) -> List[int]:
+            """
+            Obtém a ordem de disposição das REEs nas colunas.
+            """
+            str_rees = [s for s in linha.split(" ") if len(s) > 1]
+            return [REES.index(s) for s in str_rees]
+
+        def _ordena_correls(correls: List[float],
+                            idx: List[int]):
+            """
+            """
+            return [correls[idx.index(i)]
+                    for i in range(len(idx))]
+
+        reg = RegistroFn(7)
+        _identifica_configuracao()
         cfg = self._cfg_atual
-        # Salta 1 linhas
+        # Salta 1 linha
         self._le_linha_com_backup(arq)
-        linha = self._le_linha_com_backup(arq)
-        # Descobre a ordem das REEs nas colunas
-        str_rees = [s for s in linha.split(" ") if len(s) > 1]
-        ordem_rees = [REES.index(s) + 1 for s in str_rees]
+        idx = _extrai_ordem_rees(self._le_linha_com_backup(arq))
+        i_ree = 0
         # Lê a tabela
-        i = 0
-        n_meses = len(MESES)
         while True:
             # Verifica se a tabela já acabou
             linha = self._le_linha_com_backup(arq)
-            if len(linha) < 3:
+            if len(linha) < 3:  # Tolerância a caracteres especiais
                 break
             # Senão, lê mais uma linha
-            ci = 18
-            nc = 7
-            for j in range(n_meses):
-                cf = ci + nc
-                self.correl_esp_a[cfg][ordem_rees[i]-1,
-                                       ordem_rees[j]-1] = float(linha[ci:cf])
-                ci = cf + 6
-            i += 1
+            correls = reg.le_linha_tabela(linha, 18, 6, len(MESES))
+            self.correl_esp_a[cfg][idx[i_ree],
+                                   :] = _ordena_correls(correls,
+                                                        idx)
+            i_ree += 1
 
     def _le_correl_esp_mensal(self,
                               arq: IO,
                               cabecalho: str = "") -> None:
         """
         """
+
+        def _identifica_configuracao():
+            """
+            Identifica a configuração associada à tabela.
+            """
+            self._cfg_atual = int(cabecalho.split("No:")[1].strip())
+
+        def _extrai_ordem_rees(linha: str) -> List[int]:
+            """
+            Obtém a ordem de disposição das REEs nas colunas.
+            """
+            str_rees = [s for s in linha.split(" ") if len(s) > 1]
+            return [REES.index(s) for s in str_rees]
+
+        def _ordena_correls(correls: List[float],
+                            idx: List[int]):
+            """
+            """
+            return [correls[idx.index(i)]
+                    for i in range(len(idx))]
+
         def _le_tabela_correl_esp_m():
             """
             """
+            # Variáveis auxiliares
+            rega = RegistroAn(12)
+            regf = RegistroFn(7)
             linha = self._le_linha_com_backup(arq)
-            # Descobre a ordem das REEs nas colunas
-            str_rees = [s for s in linha[18:].split(" ") if len(s) > 1]
-            ordem_rees = [REES.index(s) for s in str_rees]
+            idx = _extrai_ordem_rees(linha[18:])
             # Lê a tabela
-            i = 0
+            i_ree = 0
             while True:
                 # Verifica se a tabela já acabou
                 linha = self._le_linha_com_backup(arq)
-                if len(linha) < 3:
+                if len(linha) < 3:  # Tolerância a caracteres especiais
                     break
                 # Senão, lê mais uma linha
                 # Identifica a REE da linha
-                ree = REES.index(linha[:12].strip())
-                ci = 18
-                nc = 7
-                for j in ordem_rees:
-                    cf = ci + nc
-                    num = float(linha[ci:cf])
-                    self.correl_esp_m[self._cfg_atual][ree,
-                                                       i,
-                                                       j] = num
-                    ci = cf + 6
-                i += 1
+                ree = REES.index(rega.le_registro(linha, 0))
+                cor = regf.le_linha_tabela(linha, 18, 6, len(MESES))
+                self.correl_esp_m[self._cfg_atual][ree,
+                                                   i_ree,
+                                                   :] = _ordena_correls(cor,
+                                                                        idx)
+                i_ree += 1
 
-        str_cfg = cabecalho.split("No:")[1].strip()
-        # Descobre a configuração
-        self._cfg_atual = int(str_cfg)
+        _identifica_configuracao()
         # Salta 1 linha
         self._le_linha_com_backup(arq)
         # Lê a tabela

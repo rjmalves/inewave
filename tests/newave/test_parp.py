@@ -13,8 +13,8 @@ def test_leitura():
     assert leitor.parp.series_energia[1].shape == (2018 - 1931 + 1,
                                                    n_meses + 1,
                                                    50)
-    assert leitor.parp.ordens_orig[1].shape == (5, n_meses + 1)
-    assert leitor.parp.coeficientes[1].shape == (5 * n_meses,
+    assert leitor.parp.ordens_orig[1].shape == (10, n_meses + 1)
+    assert leitor.parp.coeficientes[1].shape == (10 * n_meses,
                                                  ORDEM_MAX_PARP,
                                                  4)
 
@@ -44,7 +44,7 @@ def test_series_energia_ree():
 
 def test_series_medias_ree():
     series = leitor.parp.series_medias_ree(1)
-    assert len(series.keys()) == 5
+    assert len(series.keys()) == 10
     assert not any(series[2024][0, :])
     # Confere valores aleatórios para validar
     assert series[2020][9, 0] == 5266.78
@@ -68,7 +68,7 @@ def test_correlograma_media_ree():
 
 def test_ordens_originais_ree():
     ordens = leitor.parp.ordens_originais_ree(1)
-    assert len(ordens.keys()) == 5
+    assert len(ordens.keys()) == 10
     # Confere valores aleatórios para validar
     assert ordens[2020][1] == 2
     assert ordens[2024][5] == 6
@@ -76,7 +76,7 @@ def test_ordens_originais_ree():
 
 def test_ordens_finais_ree():
     ordens = leitor.parp.ordens_finais_ree(1)
-    assert len(ordens.keys()) == 5
+    assert len(ordens.keys()) == 10
     # Confere valores aleatórios para validar
     assert ordens[2020][1] == 1
     assert ordens[2024][5] == 1
@@ -84,7 +84,7 @@ def test_ordens_finais_ree():
 
 def test_coeficientes_ree():
     coefs = leitor.parp.coeficientes_ree(1)
-    assert len(coefs) == 5 * n_meses
+    assert len(coefs) == 10 * n_meses
     # Confere valores aleatórios para validar
     assert len(coefs[0]) == 2
     assert coefs[0][0] == 0.203
@@ -94,7 +94,7 @@ def test_coeficientes_ree():
 
 def test_contribuicoes_ree():
     contribs = leitor.parp.contribuicoes_ree(1)
-    assert len(contribs) == 5 * n_meses
+    assert len(contribs) == 10 * n_meses
     # Confere valores aleatórios para validar
     assert len(contribs[0]) == 2
     assert contribs[0][0] == 0.261
