@@ -81,7 +81,7 @@ class Leitura:
             self._verifica_inicio_blocos(linha, blocos)
 
             if self._fim_arquivo(linha):
-                self._prepara_dados_arquivo()
+                self._prepara_dados_saida()
                 break
 
             self._le_blocos_encontrados(arq, blocos)

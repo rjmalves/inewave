@@ -594,28 +594,28 @@ class LeituraPARp(Leitura):
             """
             self._cfg_atual = int(cabecalho.split("No:")[1].strip())
 
-        def _extrai_ordem_rees(linha: str) -> List[int]:
+        def _le_tabela_correl_esp_m(cabecalho: str):
             """
-            Obtém a ordem de disposição das REEs nas colunas.
             """
-            str_rees = [s for s in linha.split(" ") if len(s) > 1]
-            return [REES.index(s) for s in str_rees]
 
-        def _ordena_correls(correls: List[float],
-                            idx: List[int]):
-            """
-            """
-            return [correls[idx.index(i)]
-                    for i in range(len(idx))]
+            def _extrai_ordem_rees(linha: str) -> List[int]:
+                """
+                Obtém a ordem de disposição das REEs nas colunas.
+                """
+                str_rees = [s for s in linha.split(" ") if len(s) > 1]
+                return [REES.index(s) for s in str_rees]
 
-        def _le_tabela_correl_esp_m():
-            """
-            """
+            def _ordena_correls(correls: List[float],
+                                idx: List[int]):
+                """
+                """
+                return [correls[idx.index(i)]
+                        for i in range(len(idx))]
+
             # Variáveis auxiliares
             rega = RegistroAn(12)
             regf = RegistroFn(7)
-            linha = self._le_linha_com_backup(arq)
-            idx = _extrai_ordem_rees(linha[18:])
+            idx = _extrai_ordem_rees(cabecalho[18:])
             # Lê a tabela
             i_ree = 0
             while True:
@@ -637,16 +637,19 @@ class LeituraPARp(Leitura):
         # Salta 1 linha
         self._le_linha_com_backup(arq)
         # Lê a tabela
-        i = 0
+        i_tabela = 0
         while True:
             # Verifica se a tabela já acabou
             linha = self._le_linha_com_backup(arq)
             if (LeituraPARp.str_inicio_correl_esp_a in linha or
-                    LeituraPARp.str_fim_parp in linha):
-                self._configura_backup()
+                    self._fim_arquivo(linha)):
                 break
+
             # Senão, procura e lê mais uma tabela
-            if "MES" in linha:
-                self._configura_backup()
-                _le_tabela_correl_esp_m()
-                i += 1
+            if "MES" not in linha:
+                continue
+
+            _le_tabela_correl_esp_m(linha)
+            i_tabela += 1
+
+        self._configura_backup()
