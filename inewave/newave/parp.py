@@ -495,14 +495,21 @@ class LeituraPARp(Leitura):
                                                               2,
                                                               ordem)
 
+            def _verifica_parpa() -> bool:
+                """
+                """
+                linha = self._le_linha_com_backup(arq)
+                if len(linha) < 2:
+                    return False
+                else:
+                    self._configura_backup()
+                    return True
+
             def _le_coef_media():
                 """
                 """
                 for o in range(2, 4):
                     linha = self._le_linha_com_backup(arq)
-                    # Confere se existem coeficientes - PAR(p) ou PAR(p)-A
-                    if len(linha) < 2:
-                        break
                     self.coefs[ree][i_coefs,
                                     0,
                                     o] = regf.le_registro(linha,
@@ -517,8 +524,8 @@ class LeituraPARp(Leitura):
             while "COEFICIENTES DA EQUACAO" not in linha:
                 linha = self._le_linha_com_backup(arq)
             ordem = _extrai_ordem_modelo(linha)
-            # Lê os coeficientes
             _le_coefs_periodo()
+            _verifica_parpa()
             _le_coef_media()
 
         ree = self._ree_atual
