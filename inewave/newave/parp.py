@@ -482,36 +482,44 @@ class LeituraPARp(Leitura):
             return int(linha.split("AR(")[1][:-2])
 
         def _le_tabela_coeficientes():
+
+            def _le_coefs_periodo():
+                """
+                """
+                for o in range(2):
+                    linha = self._le_linha_com_backup(arq)
+                    self.coefs[ree][i_coefs,
+                                    :ordem,
+                                    o] = regf.le_linha_tabela(linha,
+                                                              0,
+                                                              2,
+                                                              ordem)
+
+            def _le_coef_media():
+                """
+                """
+                for o in range(2, 4):
+                    linha = self._le_linha_com_backup(arq)
+                    # Confere se existem coeficientes - PAR(p) ou PAR(p)-A
+                    if len(linha) < 2:
+                        break
+                    self.coefs[ree][i_coefs,
+                                    0,
+                                    o] = regf.le_registro(linha,
+                                                          0)
+
             # Variaveis auxiliares
             ree = self._ree_atual
-            achou = False
             ordem = 0
-            lin = 0
             regf = RegistroFn(9)
-            while True:
+            linha = ""
+            # Procura pelo cabeçalho dos coeficientes do período
+            while "COEFICIENTES DA EQUACAO" not in linha:
                 linha = self._le_linha_com_backup(arq)
-                if not achou:
-                    # Procura pela ordem do modelo
-                    if "COEFICIENTES DA EQUACAO" in linha:
-                        achou = True
-                        ordem = _extrai_ordem_modelo(linha)
-                    continue
-                if lin == 4 or len(linha) < 2:
-                    break
-                if achou:
-                    if lin < 2:
-                        self.coefs[ree][i_coefs,
-                                        :ordem,
-                                        lin] = regf.le_linha_tabela(linha,
-                                                                    0,
-                                                                    2,
-                                                                    ordem)
-                    else:
-                        self.coefs[ree][i_coefs,
-                                        0,
-                                        lin] = regf.le_registro(linha,
-                                                                0)
-                    lin += 1
+            ordem = _extrai_ordem_modelo(linha)
+            # Lê os coeficientes
+            _le_coefs_periodo()
+            _le_coef_media()
 
         ree = self._ree_atual
         i_coefs = 0
