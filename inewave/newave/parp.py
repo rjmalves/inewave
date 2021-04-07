@@ -264,11 +264,11 @@ class LeituraPARp(Leitura):
 
         # Variáveis auxiliares
         STR_CFG = "CONFIGURACAO No."
+        ultima_cfg_lida = 0
         # Identifica o REE e a primeira cfg no cabeçalho
         _identifica_ree()
         _identifica_cfg(cabecalho)
 
-        ultima_cfg_lida = 0
         while True:
             # Confere se a leitura não acabou
             linha = self._le_linha_com_backup(arq)
@@ -282,7 +282,8 @@ class LeituraPARp(Leitura):
             if STR_CFG in linha:
                 _identifica_cfg(linha)
             # Se for um cabeçalho de tabela, começa a ler
-            if linha[8:11] == "JAN" and self._cfg_atual != ultima_cfg_lida:
+            if (linha[8:11] == "JAN" and
+                    self._cfg_atual != ultima_cfg_lida):
                 _le_tabela_serie()
                 ultima_cfg_lida = self._cfg_atual
 
