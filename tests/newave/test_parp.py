@@ -14,6 +14,19 @@ ARQ_PARPA_SEM_REDORDEM = "parp_parpa_sem_redordem.dat"
 
 # Classe para realizar testes com o parp.dat
 class TestesPARp:
+    __test__ = False
+
+    def __init__(self,
+                 parp: PARp,
+                 usa_parpa: bool,
+                 ano_pmo: int,
+                 num_cfgs: int,
+                 num_anos_estudo: int) -> None:
+        self.parp = parp
+        self.usa_parpa = usa_parpa
+        self.ano_pmo = ano_pmo
+        self.num_cfgs = num_cfgs
+        self.num_anos_estudo = num_anos_estudo
 
     @staticmethod
     def _dimensoes_dict(func: Callable[[int],
@@ -28,7 +41,7 @@ class TestesPARp:
             # Condição do teste
             b = len(chaves) == num_chaves
             for _, serie in elems.items():
-                b = serie.shape == dim_desejada
+                b = b and serie.shape == dim_desejada
             dims.append(b)
         return all(dims)
 
@@ -45,161 +58,229 @@ class TestesPARp:
             dims.append(b)
         return all(dims)
 
-    @staticmethod
-    def confere_dimensoes(parp: PARp,
-                          usa_parpa: bool,
-                          ano_pmo: int,
-                          num_cfgs: int,
-                          num_anos_estudo: int) -> bool:
+    def dimensoes_series_energia(self) -> bool:
+        return self._dimensoes_dict(self.parp.series_energia_ree,
+                                    self.num_cfgs,
+                                    (self.ano_pmo - 2 - 1931 + 1,
+                                     len(MESES))
+                                    )
 
-        def _dimensoes_series_energia() -> bool:
-            return TestesPARp._dimensoes_dict(parp.series_energia_ree,
-                                              num_cfgs,
-                                              (ano_pmo - 2 - 1931 + 1,
-                                               len(MESES))
-                                              )
+    def dimensoes_correl_energia(self) -> bool:
+        return TestesPARp._dimensoes_dict(self.parp.correlograma_energia_ree,
+                                          self.num_anos_estudo * len(MESES),
+                                          (len(MESES) - 1,)
+                                          )
 
-        def _dimensoes_correl_energia() -> bool:
-            return TestesPARp._dimensoes_dict(parp.correlograma_energia_ree,
-                                              num_anos_estudo * len(MESES),
-                                              (len(MESES) - 1,)
-                                              )
+    def dimensoes_ordens_finais(self) -> bool:
+        return TestesPARp._dimensoes_dict(self.parp.ordens_finais_ree,
+                                          self.num_anos_estudo,
+                                          (len(MESES),)
+                                          )
 
-        def _dimensoes_ordens_finais() -> bool:
-            return TestesPARp._dimensoes_dict(parp.ordens_finais_ree,
-                                              num_anos_estudo,
-                                              (len(MESES),)
-                                              )
+    def dimensoes_ordens_originais(self) -> bool:
+        return TestesPARp._dimensoes_dict(self.parp.ordens_originais_ree,
+                                          self.num_anos_estudo,
+                                          (len(MESES),)
+                                          )
 
-        def _dimensoes_ordens_originais() -> bool:
-            return TestesPARp._dimensoes_dict(parp.ordens_originais_ree,
-                                              num_anos_estudo,
-                                              (len(MESES),)
-                                              )
+    def dimensoes_coeficientes(self) -> bool:
+        return TestesPARp._dimensoes_list(self.parp.coeficientes_ree,
+                                          self.num_anos_estudo * len(MESES))
 
-        def _dimensoes_coeficientes() -> bool:
-            return TestesPARp._dimensoes_list(parp.coeficientes_ree,
-                                              num_anos_estudo * len(MESES))
+    def dimensoes_contribuicoes(self) -> bool:
+        return TestesPARp._dimensoes_list(self.parp.contribuicoes_ree,
+                                          self.num_anos_estudo * len(MESES))
 
-        def _dimensoes_contribuicoes() -> bool:
-            return TestesPARp._dimensoes_list(parp.contribuicoes_ree,
-                                              num_anos_estudo * len(MESES))
+    def dimensoes_correl_esp_anual(self) -> bool:
+        dims: List[bool] = []
+        elems = self.parp.correlacoes_espaciais_anuais
+        cfgs = list(elems.keys())
+        b = len(cfgs) == self.num_cfgs
+        for cfg in cfgs:
+            chaves_rees = list(elems[cfg].keys())
+            b = b and len(chaves_rees) == len(REES)
+            for ree in chaves_rees:
+                chaves_internas_rees = list(elems[cfg][ree].keys())
+                b = b and len(chaves_internas_rees) == len(REES)
+            dims.append(b)
+        return all(dims)
 
-        def _dimensoes_correl_esp_anual() -> bool:
-            dims: List[bool] = []
-            elems = parp.correlacoes_espaciais_anuais
-            cfgs = list(elems.keys())
-            b = len(cfgs) == num_cfgs
-            for cfg in cfgs:
-                chaves_rees = list(elems[cfg].keys())
-                b = b and len(chaves_rees) == len(REES)
-                for ree in chaves_rees:
-                    chaves_internas_rees = list(elems[cfg][ree].keys())
-                    b = b and len(chaves_internas_rees) == len(REES)
-                dims.append(b)
-            return all(dims)
+    def dimensoes_correl_esp_mensal(self) -> bool:
+        dims: List[bool] = []
+        elems = self.parp.correlacoes_espaciais_mensais
+        cfgs = list(elems.keys())
+        b = len(cfgs) == self.num_cfgs
+        for cfg in cfgs:
+            chaves_rees = list(elems[cfg].keys())
+            b = b and len(chaves_rees) == len(REES)
+            for ree in chaves_rees:
+                chaves_internas_rees = list(elems[cfg][ree].keys())
+                b = b and len(chaves_internas_rees) == len(REES)
+                for ree_interna in chaves_internas_rees:
+                    correls = elems[cfg][ree][ree_interna]
+                    b = b and correls.shape == (len(MESES), )
+            dims.append(b)
+        return all(dims)
 
-        def _dimensoes_correl_esp_mensal() -> bool:
-            dims: List[bool] = []
-            elems = parp.correlacoes_espaciais_mensais
-            cfgs = list(elems.keys())
-            b = len(cfgs) == num_cfgs
-            for cfg in cfgs:
-                chaves_rees = list(elems[cfg].keys())
-                b = b and len(chaves_rees) == len(REES)
-                for ree in chaves_rees:
-                    chaves_internas_rees = list(elems[cfg][ree].keys())
-                    b = b and len(chaves_internas_rees) == len(REES)
-                    for ree_interna in chaves_internas_rees:
-                        correls = elems[cfg][ree][ree_interna]
-                        b = b and correls.shape == (len(MESES), )
-                dims.append(b)
-            return all(dims)
+    def dimensoes_series_medias(self) -> bool:
+        return TestesPARp._dimensoes_dict(self.parp.series_medias_ree,
+                                          self.num_anos_estudo,
+                                          (self.ano_pmo - 2 - 1931 + 1,
+                                           len(MESES))
+                                          )
 
-        return all([_dimensoes_series_energia(),
-                    _dimensoes_correl_energia(),
-                    _dimensoes_ordens_finais(),
-                    _dimensoes_ordens_originais(),
-                    _dimensoes_coeficientes(),
-                    _dimensoes_contribuicoes(),
-                    _dimensoes_correl_esp_anual(),
-                    _dimensoes_correl_esp_mensal()])
-
-    @staticmethod
-    def confere_dimensoes_medias(parp: PARp,
-                                 ano_pmo: int,
-                                 num_anos_estudo: int):
-
-        def _dimensoes_series_medias() -> bool:
-            return TestesPARp._dimensoes_dict(parp.series_medias_ree,
-                                              num_anos_estudo,
-                                              (ano_pmo - 2 - 1931 + 1,
-                                               len(MESES))
-                                              )
-
-        def _dimensoes_correl_medias() -> bool:
-            return TestesPARp._dimensoes_dict(parp.correlograma_media_ree,
-                                              num_anos_estudo * len(MESES),
-                                              (len(MESES),)
-                                              )
-
-        return all([_dimensoes_series_medias(),
-                    _dimensoes_correl_medias()])
+    def dimensoes_correl_medias(self) -> bool:
+        return TestesPARp._dimensoes_dict(self.parp.correlograma_media_ree,
+                                          self.num_anos_estudo * len(MESES),
+                                          (len(MESES),)
+                                          )
 
 
 # Testes com o parp.dat de um PMO sem PAR(p)-A
 parp_parp = LeituraPARp(DIR_TESTES).le_arquivo(ARQ_PARP)
+teste_parp_parp = TestesPARp(parp_parp,
+                             False,
+                             2020,
+                             60,
+                             10)
 
 
-def test_dimensoes_parp_parp():
-    assert TestesPARp.confere_dimensoes(parp_parp,
-                                        False,
-                                        2020,
-                                        60,
-                                        10)
+def test_dimensao_series_energia_parp_parp():
+    assert teste_parp_parp.dimensoes_series_energia()
 
 
-def test_dimensoes_medias_parp_parp():
-    assert not TestesPARp.confere_dimensoes_medias(parp_parp,
-                                                   2020,
-                                                   10)
+def test_dimensao_series_medias_parp_parp():
+    assert not teste_parp_parp.dimensoes_series_medias()
+
+
+def test_dimensao_correl_energia_parp_parp():
+    assert teste_parp_parp.dimensoes_correl_energia()
+
+
+def test_dimensao_correl_medias_parp_parp():
+    assert not teste_parp_parp.dimensoes_correl_medias()
+
+
+def test_dimensao_ordens_finais_parp_parp():
+    assert teste_parp_parp.dimensoes_ordens_finais()
+
+
+def test_dimensao_ordens_originais_parp_parp():
+    assert teste_parp_parp.dimensoes_ordens_originais()
+
+
+def test_dimensao_coeficientes_parp_parp():
+    assert teste_parp_parp.dimensoes_coeficientes()
+
+
+def test_dimensao_contribuicoes_parp_parp():
+    assert teste_parp_parp.dimensoes_contribuicoes()
+
+
+def test_dimensao_correl_esp_anual_parp_parp():
+    assert teste_parp_parp.dimensoes_correl_esp_anual()
+
+
+def test_dimensao_correl_esp_mensal_parp_parp():
+    assert teste_parp_parp.dimensoes_correl_esp_mensal()
 
 
 # Testes com o parp.dat de um PMO com PAR(p)-A
 parp_parpa = LeituraPARp(DIR_TESTES).le_arquivo(ARQ_PARPA)
+teste_parp_parpa = TestesPARp(parp_parpa,
+                              True,
+                              2020,
+                              50,
+                              10)
 
 
-def test_dimensoes_parp_parpa():
-    assert TestesPARp.confere_dimensoes(parp_parpa,
-                                        True,
-                                        2020,
-                                        50,
-                                        10)
+def test_dimensao_series_energia_parp_parpa():
+    assert teste_parp_parpa.dimensoes_series_energia()
 
 
-def test_dimensoes_medias_parp_parpa():
-    assert TestesPARp.confere_dimensoes_medias(parp_parpa,
-                                               2020,
-                                               10)
+def test_dimensao_series_medias_parp_parpa():
+    assert teste_parp_parpa.dimensoes_series_medias()
+
+
+def test_dimensao_correl_energia_parp_parpa():
+    assert teste_parp_parpa.dimensoes_correl_energia()
+
+
+def test_dimensao_correl_medias_parp_parpa():
+    assert teste_parp_parpa.dimensoes_correl_medias()
+
+
+def test_dimensao_ordens_finais_parp_parpa():
+    assert teste_parp_parpa.dimensoes_ordens_finais()
+
+
+def test_dimensao_ordens_originais_parp_parpa():
+    assert teste_parp_parpa.dimensoes_ordens_originais()
+
+
+def test_dimensao_coeficientes_parp_parpa():
+    assert teste_parp_parpa.dimensoes_coeficientes()
+
+
+def test_dimensao_contribuicoes_parp_parpa():
+    assert teste_parp_parpa.dimensoes_contribuicoes()
+
+
+def test_dimensao_correl_esp_anual_parp_parpa():
+    assert teste_parp_parpa.dimensoes_correl_esp_anual()
+
+
+def test_dimensao_correl_esp_mensal_parp_parpa():
+    assert teste_parp_parpa.dimensoes_correl_esp_mensal()
 
 
 # Testes com o parp.dat de um PMO com PAR(p)-A sem Red. Ordem
 parp_parpa_sem_red = LeituraPARp(DIR_TESTES).le_arquivo(ARQ_PARPA_SEM_REDORDEM)
+teste_parp_parpa_sem_red = TestesPARp(parp_parpa_sem_red,
+                                      True,
+                                      2020,
+                                      50,
+                                      10)
 
 
-def test_dimensoes_parp_parpa_sem_redordem():
-    assert TestesPARp.confere_dimensoes(parp_parpa_sem_red,
-                                        True,
-                                        2020,
-                                        50,
-                                        10)
+def test_dimensao_series_energia_parp_parpa_sem_red():
+    assert teste_parp_parpa_sem_red.dimensoes_series_energia()
 
 
-def test_dimensoes_medias_parp_parpa_sem_redordem():
-    assert TestesPARp.confere_dimensoes_medias(parp_parpa_sem_red,
-                                               2020,
-                                               10)
+def test_dimensao_series_medias_parp_parpa_sem_red():
+    assert teste_parp_parpa_sem_red.dimensoes_series_medias()
 
+
+def test_dimensao_correl_energia_parp_parpa_sem_red():
+    assert teste_parp_parpa_sem_red.dimensoes_correl_energia()
+
+
+def test_dimensao_correl_medias_parp_parpa_sem_red():
+    assert teste_parp_parpa_sem_red.dimensoes_correl_medias()
+
+
+def test_dimensao_ordens_finais_parp_parpa_sem_red():
+    assert teste_parp_parpa_sem_red.dimensoes_ordens_finais()
+
+
+def test_dimensao_ordens_originais_parp_parpa_sem_red():
+    assert teste_parp_parpa_sem_red.dimensoes_ordens_originais()
+
+
+def test_dimensao_coeficientes_parp_parpa_sem_red():
+    assert teste_parp_parpa_sem_red.dimensoes_coeficientes()
+
+
+def test_dimensao_contribuicoes_parp_parpa_sem_red():
+    assert teste_parp_parpa_sem_red.dimensoes_contribuicoes()
+
+
+def test_dimensao_correl_esp_anual_parp_parpa_sem_red():
+    assert teste_parp_parpa_sem_red.dimensoes_correl_esp_anual()
+
+
+def test_dimensao_correl_esp_mensal_parp_parpa_sem_red():
+    assert teste_parp_parpa_sem_red.dimensoes_correl_esp_mensal()
 
 # def test_eq_parp():
 #     leitor2 = LeituraPARp("tests/_arquivos")
