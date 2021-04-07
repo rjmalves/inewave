@@ -272,6 +272,8 @@ class PARp:
         # Extrai os coeficientes da componente anual
         coefs_anual = self.coeficientes[ree][:, :, 2]
         for i, c in enumerate(coefs_anual):
+            if c[0] == 0:
+                break
             coefs[i].append(c[0])
 
         return [np.array(c) for c in coefs]

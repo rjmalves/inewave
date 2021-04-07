@@ -373,14 +373,19 @@ class LeituraPARp(Leitura):
         while True:
             # Verifica se a tabela já acabou
             linha = self._le_linha_com_backup(arq)
-            if len(linha) < 3 or not linha[5:9].isnumeric():
+            if len(linha) < 3:
                 self.correl_p[ree] = self.correl_p[ree][:i_mes, :]
                 break
             # Senão, lê mais uma linha
             # Ano
+            str_ano = linha[5:9]
+            if not linha[5:9].isnumeric():
+                idx_ano_passado = i_mes - len(MESES) - 1
+                str_ano = str(self.correl_p[ree][idx_ano_passado, 0] + 1)
+
             self.correl_p[ree][i_mes,
-                               0] = regi.le_registro(linha,
-                                                     5)
+                               0] = regi.le_registro(str_ano,
+                                                     0)
             # Correlação de cada mês
             self.correl_p[ree][i_mes,
                                1:] = regf.le_linha_tabela(linha,
@@ -408,14 +413,18 @@ class LeituraPARp(Leitura):
         while True:
             # Verifica se a tabela já acabou
             linha = self._le_linha_com_backup(arq)
-            if len(linha) < 3 or not linha[5:9].isnumeric():
+            if len(linha) < 3:
                 self.correl_c[ree] = self.correl_c[ree][:i_mes, :]
                 break
             # Senão, lê mais uma linha
             # Ano
+            str_ano = linha[5:9]
+            if not linha[5:9].isnumeric():
+                idx_ano_passado = i_mes - len(MESES) - 1
+                str_ano = str(self.correl_c[ree][idx_ano_passado, 0] + 1)
             self.correl_c[ree][i_mes,
-                               0] = regi.le_registro(linha,
-                                                     5)
+                               0] = regi.le_registro(str_ano,
+                                                     0)
             # Correlação de cada mês
             self.correl_c[ree][i_mes,
                                1:] = regf.le_linha_tabela(linha,
@@ -513,7 +522,7 @@ class LeituraPARp(Leitura):
                 for o in range(2, 4):
                     linha = self._le_linha_com_backup(arq)
                     # Se não possui dados de média, não lê
-                    if len(linha) < 2:
+                    if len(linha) < 3:
                         break
                     self.coefs[ree][i_coefs,
                                     0,
