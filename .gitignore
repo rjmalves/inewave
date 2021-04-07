@@ -131,3 +131,4 @@ dmypy.json
 test.py
 _saidas/
 .vscode
+**/_arquivos*
