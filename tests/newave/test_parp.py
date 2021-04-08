@@ -6,6 +6,7 @@ from inewave.config import MESES, REES
 from inewave.newave.parp import LeituraPARp
 from inewave.newave.modelos.parp import PARp
 from tests.newave import DIR_TESTES
+import pytest
 
 ARQ_PARP = "parp_parp.dat"
 ARQ_PARPA = "parp_parpa.dat"
@@ -123,6 +124,8 @@ class TestesPARp:
         return all(dims)
 
     def dimensoes_series_medias(self) -> bool:
+        if not self.usa_parpa:
+            return True
         return TestesPARp._dimensoes_dict(self.parp.series_medias_ree,
                                           self.num_anos_estudo,
                                           (self.ano_pmo - 2 - 1931 + 1,
@@ -130,6 +133,8 @@ class TestesPARp:
                                           )
 
     def dimensoes_correl_medias(self) -> bool:
+        if not self.usa_parpa:
+            return True
         return TestesPARp._dimensoes_dict(self.parp.correlograma_media_ree,
                                           self.num_anos_estudo * len(MESES),
                                           (len(MESES),)
@@ -143,48 +148,6 @@ teste_parp_parp = TestesPARp(parp_parp,
                              2020,
                              60,
                              10)
-
-
-def test_dimensao_series_energia_parp_parp():
-    assert teste_parp_parp.dimensoes_series_energia()
-
-
-def test_dimensao_series_medias_parp_parp():
-    assert not teste_parp_parp.dimensoes_series_medias()
-
-
-def test_dimensao_correl_energia_parp_parp():
-    assert teste_parp_parp.dimensoes_correl_energia()
-
-
-def test_dimensao_correl_medias_parp_parp():
-    assert not teste_parp_parp.dimensoes_correl_medias()
-
-
-def test_dimensao_ordens_finais_parp_parp():
-    assert teste_parp_parp.dimensoes_ordens_finais()
-
-
-def test_dimensao_ordens_originais_parp_parp():
-    assert teste_parp_parp.dimensoes_ordens_originais()
-
-
-def test_dimensao_coeficientes_parp_parp():
-    assert teste_parp_parp.dimensoes_coeficientes()
-
-
-def test_dimensao_contribuicoes_parp_parp():
-    assert teste_parp_parp.dimensoes_contribuicoes()
-
-
-def test_dimensao_correl_esp_anual_parp_parp():
-    assert teste_parp_parp.dimensoes_correl_esp_anual()
-
-
-def test_dimensao_correl_esp_mensal_parp_parp():
-    assert teste_parp_parp.dimensoes_correl_esp_mensal()
-
-
 # Testes com o parp.dat de um PMO com PAR(p)-A
 parp_parpa = LeituraPARp(DIR_TESTES).le_arquivo(ARQ_PARPA)
 teste_parp_parpa = TestesPARp(parp_parpa,
@@ -192,48 +155,6 @@ teste_parp_parpa = TestesPARp(parp_parpa,
                               2020,
                               50,
                               10)
-
-
-def test_dimensao_series_energia_parp_parpa():
-    assert teste_parp_parpa.dimensoes_series_energia()
-
-
-def test_dimensao_series_medias_parp_parpa():
-    assert teste_parp_parpa.dimensoes_series_medias()
-
-
-def test_dimensao_correl_energia_parp_parpa():
-    assert teste_parp_parpa.dimensoes_correl_energia()
-
-
-def test_dimensao_correl_medias_parp_parpa():
-    assert teste_parp_parpa.dimensoes_correl_medias()
-
-
-def test_dimensao_ordens_finais_parp_parpa():
-    assert teste_parp_parpa.dimensoes_ordens_finais()
-
-
-def test_dimensao_ordens_originais_parp_parpa():
-    assert teste_parp_parpa.dimensoes_ordens_originais()
-
-
-def test_dimensao_coeficientes_parp_parpa():
-    assert teste_parp_parpa.dimensoes_coeficientes()
-
-
-def test_dimensao_contribuicoes_parp_parpa():
-    assert teste_parp_parpa.dimensoes_contribuicoes()
-
-
-def test_dimensao_correl_esp_anual_parp_parpa():
-    assert teste_parp_parpa.dimensoes_correl_esp_anual()
-
-
-def test_dimensao_correl_esp_mensal_parp_parpa():
-    assert teste_parp_parpa.dimensoes_correl_esp_mensal()
-
-
 # Testes com o parp.dat de um PMO com PAR(p)-A sem Red. Ordem
 parp_parpa_sem_red = LeituraPARp(DIR_TESTES).le_arquivo(ARQ_PARPA_SEM_REDORDEM)
 teste_parp_parpa_sem_red = TestesPARp(parp_parpa_sem_red,
@@ -243,44 +164,74 @@ teste_parp_parpa_sem_red = TestesPARp(parp_parpa_sem_red,
                                       10)
 
 
-def test_dimensao_series_energia_parp_parpa_sem_red():
-    assert teste_parp_parpa_sem_red.dimensoes_series_energia()
+@pytest.mark.parametrize("parp", [teste_parp_parp,
+                                  teste_parp_parpa,
+                                  teste_parp_parpa_sem_red])
+def test_dimensao_series_energia_parp_parp(parp: TestesPARp):
+    assert parp.dimensoes_series_energia()
 
 
-def test_dimensao_series_medias_parp_parpa_sem_red():
-    assert teste_parp_parpa_sem_red.dimensoes_series_medias()
+@pytest.mark.parametrize("parp", [teste_parp_parp,
+                                  teste_parp_parpa,
+                                  teste_parp_parpa_sem_red])
+def test_dimensao_series_medias_parp_parp(parp: TestesPARp):
+    assert parp.dimensoes_series_medias()
 
 
-def test_dimensao_correl_energia_parp_parpa_sem_red():
-    assert teste_parp_parpa_sem_red.dimensoes_correl_energia()
+@pytest.mark.parametrize("parp", [teste_parp_parp,
+                                  teste_parp_parpa,
+                                  teste_parp_parpa_sem_red])
+def test_dimensao_correl_energia_parp_parp(parp: TestesPARp):
+    assert parp.dimensoes_correl_energia()
 
 
-def test_dimensao_correl_medias_parp_parpa_sem_red():
-    assert teste_parp_parpa_sem_red.dimensoes_correl_medias()
+@pytest.mark.parametrize("parp", [teste_parp_parp,
+                                  teste_parp_parpa,
+                                  teste_parp_parpa_sem_red])
+def test_dimensao_correl_medias_parp_parp(parp: TestesPARp):
+    assert parp.dimensoes_correl_medias()
 
 
-def test_dimensao_ordens_finais_parp_parpa_sem_red():
-    assert teste_parp_parpa_sem_red.dimensoes_ordens_finais()
+@pytest.mark.parametrize("parp", [teste_parp_parp,
+                                  teste_parp_parpa,
+                                  teste_parp_parpa_sem_red])
+def test_dimensao_ordens_finais_parp_parp(parp: TestesPARp):
+    assert parp.dimensoes_ordens_finais()
 
 
-def test_dimensao_ordens_originais_parp_parpa_sem_red():
-    assert teste_parp_parpa_sem_red.dimensoes_ordens_originais()
+@pytest.mark.parametrize("parp", [teste_parp_parp,
+                                  teste_parp_parpa,
+                                  teste_parp_parpa_sem_red])
+def test_dimensao_ordens_originais_parp_parp(parp: TestesPARp):
+    assert parp.dimensoes_ordens_originais()
 
 
-def test_dimensao_coeficientes_parp_parpa_sem_red():
-    assert teste_parp_parpa_sem_red.dimensoes_coeficientes()
+@pytest.mark.parametrize("parp", [teste_parp_parp,
+                                  teste_parp_parpa,
+                                  teste_parp_parpa_sem_red])
+def test_dimensao_coeficientes_parp_parp(parp: TestesPARp):
+    assert parp.dimensoes_coeficientes()
 
 
-def test_dimensao_contribuicoes_parp_parpa_sem_red():
-    assert teste_parp_parpa_sem_red.dimensoes_contribuicoes()
+@pytest.mark.parametrize("parp", [teste_parp_parp,
+                                  teste_parp_parpa,
+                                  teste_parp_parpa_sem_red])
+def test_dimensao_contribuicoes_parp_parp(parp: TestesPARp):
+    assert parp.dimensoes_contribuicoes()
 
 
-def test_dimensao_correl_esp_anual_parp_parpa_sem_red():
-    assert teste_parp_parpa_sem_red.dimensoes_correl_esp_anual()
+@pytest.mark.parametrize("parp", [teste_parp_parp,
+                                  teste_parp_parpa,
+                                  teste_parp_parpa_sem_red])
+def test_dimensao_correl_esp_anual_parp_parp(parp: TestesPARp):
+    assert parp.dimensoes_correl_esp_anual()
 
 
-def test_dimensao_correl_esp_mensal_parp_parpa_sem_red():
-    assert teste_parp_parpa_sem_red.dimensoes_correl_esp_mensal()
+@pytest.mark.parametrize("parp", [teste_parp_parp,
+                                  teste_parp_parpa,
+                                  teste_parp_parpa_sem_red])
+def test_dimensao_correl_esp_mensal_parp_parp(parp: TestesPARp):
+    assert parp.dimensoes_correl_esp_mensal()
 
 # def test_eq_parp():
 #     leitor2 = LeituraPARp("tests/_arquivos")
