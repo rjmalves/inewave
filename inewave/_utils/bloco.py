@@ -1,4 +1,4 @@
-from typing import Callable, IO
+from typing import Callable, IO, Optional
 
 
 class Bloco:
@@ -11,13 +11,15 @@ class Bloco:
                  str_inicio: str,
                  str_final: str,
                  obrigatorio: bool,
-                 funcao_leitura: Callable[[IO,
-                                           str],
-                                          None]):
+                 funcao_leitura: Callable[[IO, str],
+                                          None],
+                 funcao_escrita: Optional[Callable[[IO, str],
+                                          None]] = None):
         self._str_inicio = str_inicio
         self._str_final = str_final
         self._obrigatorio = obrigatorio
         self._funcao_leitura = funcao_leitura
+        self._funcao_escrita = funcao_escrita
         self._encontrado = False
         self._lido = False
         self._linha_inicio = ""
@@ -43,6 +45,24 @@ class Bloco:
         """
         self._lido = True
         return self._funcao_leitura(arq,
+                                    self._linha_inicio)
+
+    def escreve_bloco(self, arq: IO) -> None:
+        """
+        """
+        msg_erro = f"Erro ao ler o bloco {self._linha_inicio}: "
+        val = True
+        if not self._lido:
+            msg_erro += "o bloco não foi lido."
+            val = False
+        elif self._funcao_escrita is None:
+            msg_erro += "não foi informado método para escrita."
+            val = False
+
+        if not val:
+            raise AttributeError(msg_erro)
+
+        return self._funcao_escrita(arq,
                                     self._linha_inicio)
 
     @property

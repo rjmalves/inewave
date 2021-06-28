@@ -197,7 +197,7 @@ class LeituraPARp(Leitura):
 
     # Override
     def _fim_arquivo(self, linha: str) -> bool:
-        return LeituraPARp.str_fim_parp in linha
+        return (LeituraPARp.str_fim_parp in linha or len(linha) == 0)
 
     # Override
     def le_arquivo(self, nome_arquivo="parp.dat") -> PARp:

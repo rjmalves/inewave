@@ -1,6 +1,6 @@
 # Rotinas de testes associadas ao arquivo parp.dat do NEWAVE
 from typing import Callable, List, Dict
-
+from copy import deepcopy
 import numpy as np  # type: ignore
 from inewave.config import MESES, REES
 from inewave.newave.parp import LeituraPARp
@@ -233,19 +233,21 @@ def test_dimensao_correl_esp_anual_parp_parp(parp: TestesPARp):
 def test_dimensao_correl_esp_mensal_parp_parp(parp: TestesPARp):
     assert parp.dimensoes_correl_esp_mensal()
 
-# def test_eq_parp():
-#     leitor2 = LeituraPARp("tests/_arquivos")
-#     leitor2.le_arquivo()
-#     assert leitor.parp == leitor2.parp
+
+@pytest.mark.parametrize("parp", [teste_parp_parp,
+                                  teste_parp_parpa,
+                                  teste_parp_parpa_sem_red])
+def test_eq_parp(parp: TestesPARp):
+    assert parp.parp == parp.parp
 
 
-# def test_neq_parp():
-#     leitor2 = LeituraPARp("tests/_arquivos")
-#     leitor2.le_arquivo()
-#     leitor2.parp.ordens_orig[1] = np.array([])
-#     assert leitor2.parp != leitor.parp
-#     assert leitor2.parp is not None
-
+@pytest.mark.parametrize("parp", [teste_parp_parp,
+                                  teste_parp_parpa,
+                                  teste_parp_parpa_sem_red])
+def test_neq_parp(parp: TestesPARp):
+    copia = deepcopy(parp.parp)
+    copia.ordens_orig[1] = np.array([])
+    assert copia != parp.parp
 
 # def test_series_energia_ree():
 #     series = leitor.parp.series_energia_ree(1)

@@ -1,6 +1,7 @@
-from inewave.config import REES
 from typing import Dict, List
 import numpy as np  # type: ignore
+
+from inewave.config import REES
 
 
 class PARp:
