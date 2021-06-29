@@ -21,6 +21,7 @@ class Bloco:
         self._funcao_leitura = funcao_leitura
         self._funcao_escrita = funcao_escrita
         self._encontrado = False
+        self._ordem = 0
         self._lido = False
         self._linha_inicio = ""
 
@@ -64,7 +65,7 @@ class Bloco:
 
         if self._funcao_escrita is not None:
             self._funcao_escrita(arq,
-                                self._linha_inicio)
+                                 self._linha_inicio)
 
     @property
     def concluido(self):
