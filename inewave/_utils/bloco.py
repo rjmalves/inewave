@@ -62,8 +62,9 @@ class Bloco:
         if not val:
             raise AttributeError(msg_erro)
 
-        return self._funcao_escrita(arq,
-                                    self._linha_inicio)
+        if self._funcao_escrita is not None:
+            self._funcao_escrita(arq,
+                                self._linha_inicio)
 
     @property
     def concluido(self):

@@ -67,7 +67,6 @@ class LeituraCaso(Leitura):
         """
         self.caso = Caso(self._caminho_arquivo)
 
-
     # Override
     def _fim_arquivo(self, linha: str) -> bool:
         return len(linha) == 0
