@@ -89,6 +89,9 @@ class LeituraArquivos(Leitura):
         self.usa_backup = True
         for i in range(len(self._nomes)):
             linha = self._le_linha_com_backup(arq)
+            # Confere se já terminou (possíveis \n ao final)
+            if len(linha) < 3:
+                break
             reg = RegistroAn(12)
             self._nomes[i] = reg.le_registro(linha, 30)
 
