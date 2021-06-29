@@ -37,8 +37,7 @@ class LeituraCaso(Leitura):
 
     def __init__(self,
                  diretorio: str):
-        super().__init__()
-        self.diretorio = diretorio
+        super().__init__(diretorio)
         # Caso default, depois é substituído
         self.caso = Caso("")
 
@@ -76,7 +75,7 @@ class LeituraCaso(Leitura):
         """
         Faz a leitura do arquivo `caso.dat`.
         """
-        self._le_arquivo_em_diretorio(self.diretorio,
+        self._le_arquivo_em_diretorio(self._diretorio,
                                       nome_arquivo)
         return self.caso
 

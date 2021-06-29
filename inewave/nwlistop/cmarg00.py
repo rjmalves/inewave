@@ -40,8 +40,7 @@ class LeituraCmarg00(Leitura):
 
     def __init__(self,
                  diretorio: str) -> None:
-        super().__init__()
-        self.diretorio = diretorio
+        super().__init__(diretorio)
         # Filtra apenas os cmarg00 que não são médios
         arquivos_temp = self._lista_arquivos_por_chave("cmarg00")
         self.arquivos = [a for a in arquivos_temp if "med" not in a]
@@ -51,7 +50,7 @@ class LeituraCmarg00(Leitura):
         """
         Lê os arquivos cmarg00x.out em um diretório.
         """
-        caminhos = [os.path.join(self.diretorio, f)
+        caminhos = [os.path.join(self._diretorio, f)
                     for f in self.arquivos]
         for a, c in zip(self.arquivos, caminhos):
             cmarg = self._le_arquivo(c)

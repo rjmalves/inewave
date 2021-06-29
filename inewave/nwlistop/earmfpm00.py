@@ -40,8 +40,7 @@ class LeituraEarmfpm00(Leitura):
 
     def __init__(self,
                  diretorio: str) -> None:
-        super().__init__()
-        self.diretorio = diretorio
+        super().__init__(diretorio)
         self.arquivos = self._lista_arquivos_por_chave("earmfpm00")
         self.earmfpms: Dict[str, Earmfpm00] = {}
 
@@ -49,7 +48,7 @@ class LeituraEarmfpm00(Leitura):
         """
         Lê os arquivos earmfpm00x.out em um diretório.
         """
-        caminhos = [os.path.join(self.diretorio, f)
+        caminhos = [os.path.join(self._diretorio, f)
                     for f in self.arquivos]
         for a, c in zip(self.arquivos, caminhos):
             earmfpm = self._le_arquivo(c)

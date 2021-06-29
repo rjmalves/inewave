@@ -1,4 +1,5 @@
-from typing import Callable, IO, Optional
+from abc import abstractmethod
+from typing import Any, Callable, IO, Optional
 
 
 class Bloco:
@@ -13,13 +14,15 @@ class Bloco:
                  obrigatorio: bool,
                  funcao_leitura: Callable[[IO, str],
                                           None],
-                 funcao_escrita: Optional[Callable[[IO, str],
-                                          None]] = None):
+                 funcao_escrita: Callable[[IO, str],
+                                          None],
+                 dados: Optional[Any] = None):
         self._str_inicio = str_inicio
         self._str_final = str_final
         self._obrigatorio = obrigatorio
         self._funcao_leitura = funcao_leitura
         self._funcao_escrita = funcao_escrita
+        self._dados = dados
         self._encontrado = False
         self._ordem = 0
         self._lido = False
@@ -32,40 +35,33 @@ class Bloco:
         return (self._str_inicio in linha
                 and not self._encontrado)
 
-    def inicia_bloco(self, linha: str) -> bool:
+    def inicia_bloco(self,
+                     linha: str,
+                     ordem: int) -> bool:
         """
         Inicia um bloco com uma linha.
         """
         if not self._encontrado:
             self._encontrado = True
             self._linha_inicio = linha
+            self._ordem = ordem
         return self._encontrado and not self._lido
 
-    def le_bloco(self, arq: IO) -> None:
+    def le_bloco(self,
+                 arq: IO) -> None:
         """
         """
         self._lido = True
         return self._funcao_leitura(arq,
                                     self._linha_inicio)
 
-    def escreve_bloco(self, arq: IO) -> None:
-        """
-        """
-        msg_erro = f"Erro ao ler o bloco {self._linha_inicio}: "
-        val = True
-        if not self._lido:
-            msg_erro += "o bloco não foi lido."
-            val = False
-        elif self._funcao_escrita is None:
-            msg_erro += "não foi informado método para escrita."
-            val = False
+    @abstractmethod
+    def le(self, arq: IO, cab=""):
+        pass
 
-        if not val:
-            raise AttributeError(msg_erro)
-
-        if self._funcao_escrita is not None:
-            self._funcao_escrita(arq,
-                                 self._linha_inicio)
+    @abstractmethod
+    def escreve(self, arq: IO):
+        pass
 
     @property
     def concluido(self):
@@ -77,3 +73,10 @@ class Bloco:
     @property
     def encontrado(self):
         return self._encontrado and not self._lido
+
+    @property
+    def dados(self) -> Any:
+        """
+        Retorna os dados lidos pelo bloco.
+        """
+        return self._dados

@@ -71,8 +71,7 @@ class LeituraPMO(Leitura):
 
     def __init__(self,
                  diretorio: str) -> None:
-        super().__init__()
-        self.diretorio = diretorio
+        super().__init__(diretorio)
         # PMO default, depois é substituído
         self.pmo = PMO(0,
                        0,
@@ -98,7 +97,7 @@ class LeituraPMO(Leitura):
         Faz a leitura do arquivo `pmo.dat`.
         """
         try:
-            caminho = os.path.join(self.diretorio, nome_arquivo)
+            caminho = os.path.join(self._diretorio, nome_arquivo)
             with open(caminho, "r") as arq:
                 self.pmo = self._le_pmo(arq)
                 return self.pmo

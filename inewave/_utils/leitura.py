@@ -1,20 +1,24 @@
 from abc import abstractmethod
-from typing import Any, IO, List
+from typing import Any, IO, List, Dict, Tuple
 import os
 from traceback import print_exc
 
 from inewave._utils.bloco import Bloco
-
+from .dadosarquivo import DadosArquivo
 
 class Leitura:
     """
     Classe com utilidades gerais para leitura de arquivos
     do NEWAVE.
     """
-    def __init__(self):
-        self.usa_backup = False
-        self.linha_backup = ""
-        self.diretorio = ""
+    def __init__(self,
+                 diretorio: str):
+        self._usa_backup = False
+        self._linha_backup = ""
+        self._diretorio = diretorio
+        self._linhas_fora_blocos: Dict[int, str] = {}
+        self._blocos: List[Bloco] = []
+        self._dados: Any = None
 
     def _le_linha_com_backup(self, arq: IO) -> str:
         """
@@ -22,12 +26,12 @@ class Leitura:
         um backup de leitura anterior sinalizado anteriormente.
         """
         linha = ""
-        if self.usa_backup:
-            self.usa_backup = False
-            linha = self.linha_backup
+        if self._usa_backup:
+            self._usa_backup = False
+            linha = self._linha_backup
         else:
             linha = arq.readline()
-            self.linha_backup = linha
+            self._linha_backup = linha
         return linha
 
     def _configura_backup(self):
@@ -35,17 +39,18 @@ class Leitura:
         Prepara a próxima leitura para ser uma feita a partir de um
         backup armazenado.
         """
-        self.usa_backup = True
+        self._usa_backup = True
 
     def _lista_arquivos_por_chave(self, chave: str) -> List[str]:
         """
         Retorna a lista de caminhos completos para os arquivos em um
         diretório, desde que tenham uma certa chave no nome.
         """
-        return [f for f in os.listdir(self.diretorio) if chave in f]
+        return [f for f in os.listdir(self._diretorio) if chave in f]
 
     def _verifica_inicio_blocos(self,
                                 linha: str,
+                                ordem: int,
                                 blocos: List[Bloco]) -> bool:
         """
         Verifica se a linha atual é a linha de início de algum
@@ -53,7 +58,9 @@ class Leitura:
         """
         for i, b in enumerate(blocos):
             if b.e_inicio_de_bloco(linha):
-                return b.inicia_bloco(linha)
+                return b.inicia_bloco(linha, ordem)
+
+        self._linhas_fora_blocos[ordem] = linha
         return False
 
     def _le_blocos_encontrados(self,
@@ -72,19 +79,20 @@ class Leitura:
         """
         Faz a leitura dos blocos de dados do arquivo.
         """
-        blocos = self._cria_blocos_leitura()
+        self._blocos = self._cria_blocos_leitura()
         self._inicia_variaveis_leitura()
         linha = ""
+        i = 0
         while True:
             # Decide se lê uma linha nova ou usa a última lida
             linha = self._le_linha_com_backup(arq)
-            self._verifica_inicio_blocos(linha, blocos)
-
             if self._fim_arquivo(linha):
                 self._prepara_dados_saida()
                 break
 
-            self._le_blocos_encontrados(arq, blocos)
+            self._verifica_inicio_blocos(linha, i, self._blocos)
+            self._le_blocos_encontrados(arq, self._blocos)
+            i += 1
 
     def _le_arquivo_em_diretorio(self,
                                  diretorio: str,
@@ -131,10 +139,20 @@ class Leitura:
         """
         pass
 
-    # @abstractmethod
-    def le_arquivo(self, nome_arquivo: str) -> Any:
+    def le_arquivo(self, nome_arquivo: str) -> DadosArquivo:
         """
         Método para ler um arquivo e retornar o objeto
         devido da classe em particular.
         """
-        pass
+        self._le_arquivo_em_diretorio(self._diretorio,
+                                      nome_arquivo)
+        return DadosArquivo(self._blocos,
+                            self._linhas_fora_blocos)
+
+    @property
+    def dados(self) -> Any:
+        """
+        Dados de leitura obtidos pelo blocos, organizados
+        para realizar a criação do objeto associado.
+        """
+        return self._dados

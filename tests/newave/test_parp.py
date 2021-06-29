@@ -3,8 +3,7 @@ from typing import Callable, List, Dict
 from copy import deepcopy
 import numpy as np  # type: ignore
 from inewave.config import MESES, REES
-from inewave.newave.parp import LeituraPARp
-from inewave.newave.modelos.parp import PARp
+from inewave.newave.parp import PARp
 from tests.newave import DIR_TESTES
 import pytest
 
@@ -142,21 +141,21 @@ class TestesPARp:
 
 
 # Testes com o parp.dat de um PMO sem PAR(p)-A
-parp_parp = LeituraPARp(DIR_TESTES).le_arquivo(ARQ_PARP)
+parp_parp = PARp.le_arquivo(DIR_TESTES, ARQ_PARP)
 teste_parp_parp = TestesPARp(parp_parp,
                              False,
                              2020,
                              60,
                              10)
 # Testes com o parp.dat de um PMO com PAR(p)-A
-parp_parpa = LeituraPARp(DIR_TESTES).le_arquivo(ARQ_PARPA)
+parp_parpa = PARp.le_arquivo(DIR_TESTES, ARQ_PARPA)
 teste_parp_parpa = TestesPARp(parp_parpa,
                               True,
                               2020,
                               50,
                               10)
 # Testes com o parp.dat de um PMO com PAR(p)-A sem Red. Ordem
-parp_parpa_sem_red = LeituraPARp(DIR_TESTES).le_arquivo(ARQ_PARPA_SEM_REDORDEM)
+parp_parpa_sem_red = PARp.le_arquivo(DIR_TESTES, ARQ_PARPA_SEM_REDORDEM)
 teste_parp_parpa_sem_red = TestesPARp(parp_parpa_sem_red,
                                       True,
                                       2020,

@@ -38,8 +38,7 @@ class LeituraNwlistcf(Leitura):
 
     def __init__(self,
                  diretorio: str) -> None:
-        super().__init__()
-        self.diretorio = diretorio
+        super().__init__(diretorio)
         self.nwlistcf = Nwlistcf({})
 
     def le_arquivo(self, nome_arquivo="nwlistcf.rel") -> Nwlistcf:
@@ -48,7 +47,7 @@ class LeituraNwlistcf(Leitura):
         """
         try:
             achou = False
-            caminho = os.path.join(self.diretorio, nome_arquivo)
+            caminho = os.path.join(self._diretorio, nome_arquivo)
             with open(caminho, "r") as arq:
                 while True:
                     linha = self._le_linha_com_backup(arq)

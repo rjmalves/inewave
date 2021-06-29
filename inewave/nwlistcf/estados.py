@@ -38,8 +38,7 @@ class LeituraEstados(Leitura):
 
     def __init__(self,
                  diretorio: str) -> None:
-        super().__init__()
-        self.diretorio = diretorio
+        super().__init__(diretorio)
         self.estados = Estados({})
 
     def le_arquivo(self, nome_arquivo="estados.rel") -> Estados:
@@ -47,7 +46,7 @@ class LeituraEstados(Leitura):
         Faz a leitura do arquivo `estados.rel`.
         """
         try:
-            caminho = os.path.join(self.diretorio, nome_arquivo)
+            caminho = os.path.join(self._diretorio, nome_arquivo)
             with open(caminho, "r") as arq:
                 while True:
                     linha = self._le_linha_com_backup(arq)

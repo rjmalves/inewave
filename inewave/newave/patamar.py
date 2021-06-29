@@ -39,8 +39,7 @@ class LeituraPatamar(Leitura):
 
     def __init__(self,
                  diretorio: str) -> None:
-        super().__init__()
-        self.diretorio = diretorio
+        super().__init__(diretorio)
         # Patamar default, depois é substituído
         self.patamar = Patamar(0, [], np.array([]))
 
@@ -49,7 +48,7 @@ class LeituraPatamar(Leitura):
         Realiza a leitura do arquivo `patamar.dat`.
         """
         try:
-            caminho = os.path.join(self.diretorio, nome_arquivo)
+            caminho = os.path.join(self._diretorio, nome_arquivo)
             with open(caminho, "r") as arq:
                 # Pula inicialmente duas linhas
                 # de número de patamares
