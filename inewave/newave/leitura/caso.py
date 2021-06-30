@@ -1,11 +1,9 @@
 # Imports do próprio módulo
 from inewave._utils.bloco import Bloco
 from inewave._utils.leitura import Leitura
-from inewave._utils.escrita import Escrita
 from inewave._utils.registros import RegistroAn
 # Imports de módulos externos
 from typing import IO, List
-import os
 
 
 class BlocoCaso(Bloco):
