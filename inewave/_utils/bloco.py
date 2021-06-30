@@ -13,7 +13,7 @@ class Bloco:
                  str_final: str,
                  obrigatorio: bool,
                  funcao_leitura: Callable[[IO, str],
-                                          None],
+                                          Optional[bool]],
                  funcao_escrita: Callable[[IO, str],
                                           None],
                  dados: Optional[Any] = None):
@@ -54,12 +54,11 @@ class Bloco:
         return self._encontrado and not self._lido
 
     def le_bloco(self,
-                 arq: IO) -> None:
+                 arq: IO) -> Optional[bool]:
         """
         """
         self._lido = True
-        return self._funcao_leitura(arq,
-                                    self._linha_inicio)
+        return self._funcao_leitura(arq)
 
     @abstractmethod
     def le(self, arq: IO, cab=""):

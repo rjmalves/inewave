@@ -70,10 +70,7 @@ class BlocoNomesArquivos(Bloco):
         self._dados = [""] * len(BlocoNomesArquivos.legendas)
 
     # Override
-    def le(self, arq: IO, cab=""):
-        """
-        Função para realizar a leitura.
-        """
+    def le(self, arq: IO):
         reg = RegistroAn(12)
         self._dados[0] = reg.le_registro(self._linha_inicio, 30)
         for i in range(len(self._dados)):
@@ -85,8 +82,7 @@ class BlocoNomesArquivos(Bloco):
             self._dados[i + 1] = reg.le_registro(linha, 30)
 
     # Override
-    def escreve(self,
-                arq: IO):
+    def escreve(self, arq: IO):
         for leg, nome in zip(BlocoNomesArquivos.legendas,
                              self._dados):
             arq.write(f"{leg} {nome}\n")

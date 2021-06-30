@@ -91,7 +91,12 @@ class Leitura:
                 break
 
             self._verifica_inicio_blocos(linha, i, self._blocos)
-            self._le_blocos_encontrados(arq, self._blocos)
+            # Caso a função de leitura retorne True, é configurado
+            #  o backup da linha atual.
+            bkp = self._le_blocos_encontrados(arq, self._blocos)
+            if bkp:
+                self._linha_backup = bkp
+                self._configura_backup()
             i += 1
 
     def _le_arquivo_em_diretorio(self,

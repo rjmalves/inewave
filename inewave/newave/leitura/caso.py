@@ -24,10 +24,7 @@ class BlocoCaso(Bloco):
 
         self._dados = ""
 
-    def le(self, arq: IO, cab: str = ""):
-        """
-        Lê o caminho para o arquivo `arquivos.dat`
-        """
+    def le(self, arq: IO):
         reg = RegistroAn(12)
         self._dados = reg.le_registro(self._linha_inicio, 0)
 

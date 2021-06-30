@@ -3,7 +3,10 @@ from inewave._utils.bloco import Bloco
 from inewave._utils.leitura import Leitura
 from inewave._utils.registros import RegistroAn, RegistroFn, RegistroIn
 from inewave._utils.dadosarquivo import DadosArquivo
-from inewave.config import MAX_ANOS_ESTUDO, MAX_CONFIGURACOES
+from inewave.config import MAX_ANOS_ESTUDO
+from inewave.config import MAX_MESES_ESTUDO
+from inewave.config import MAX_ANOS_HISTORICO
+from inewave.config import MAX_CONFIGURACOES
 from inewave.config import MESES, REES, ORDEM_MAX_PARP
 # Imports de módulos externos
 import numpy as np  # type: ignore
@@ -14,27 +17,316 @@ from typing import IO, Dict, List
 class BlocoSerieEnergiaREE(Bloco):
     """
     Bloco de informações do arquivo `parp.dat`
-    relativo às Séries de Energia por REE.
+    relativo às séries de energia por REE.
     """
     def __init__(self):
         super().__init__("SERIE  DE ENERGIAS DO REE",
+                         "CORRELOGRAMO",
+                         True,
+                         self.le,
+                         None)
+        self._dados = np.zeros((MAX_ANOS_HISTORICO,
+                                len(MESES) + 1,
+                                MAX_CONFIGURACOES))
+        self.__cfg = 0
+
+    # Override
+    def le(self, arq: IO):
+
+        def _identifica_cfg(linha: str):
+            """
+            Processa uma linha e extrai o número da configuração.
+            """
+            self.__cfg = int(linha.split(STR_CFG)[1][:-2].strip())
+
+        def _le_tabela_serie():
+            """
+            Lê a tabela de séries de energia de uma configuração.
+            """
+            # Variáveis auxiliares
+            cfg = self.__cfg  # PEP8
+            regi = RegistroIn(4)  # PEP8
+            regf = RegistroFn(9)  # PEP8
+            i_linha = 0
+            # Salta 1 linha
+            arq.readline()
+            # Lê a tabela
+            while True:
+                linha = arq.readline()
+                # Verifica se a tabela já acabou
+                if len(linha) < 3:  # Tolerância a caracteres especiais
+                    self._dados = self._dados[:i_linha, :, :]
+                    break
+                # Senão, lê mais uma linha
+                # Ano
+                self._dados[i_linha, 0, self.__cfg-1] = regi.le_registro(linha,
+                                                                         0)
+                # Energias de cada mês
+                self._dados[i_linha,
+                            1:,
+                            self.__cfg-1] = regf.le_linha_tabela(linha,
+                                                                 5,
+                                                                 2,
+                                                                 len(MESES))
+                i_linha += 1
+
+        STR_CFG = "CONFIGURACAO No."
+        ultima_cfg_lida = 0
+        # Identifica a primeira cfg no cabeçalho
+        _identifica_cfg(self._linha_inicio)
+        while True:
+            # Confere se a leitura não acabou
+            linha = arq.readline()
+            if self._str_final in linha:
+                self._dados = self._dados[:,
+                                          :,
+                                          :self.__cfg]
+                break
+            # Atualiza a última cfg quando for a linha devida
+            if STR_CFG in linha:
+                _identifica_cfg(linha)
+            # Se for um cabeçalho de tabela, começa a ler
+            if (linha[8:11] == "JAN" and
+                    self.__cfg != ultima_cfg_lida):
+                _le_tabela_serie()
+                ultima_cfg_lida = self.__cfg
+
+    # Override
+    def escreve(self, arq: IO):
+        pass
+
+
+class BlocoCorrelParcialREE(Bloco):
+    """
+    Bloco de informações do arquivo `parp.dat`
+    relativo às séries de autocorrelações parciais
+    das energias por REE.
+    """
+    def __init__(self):
+        super().__init__("CORRELOGRAMO PARCIAL DA SERIE DE ENERGIAS",
                          "",
                          True,
                          self.le,
                          None)
-        self._dados = np.zeros((MAX_ANOS_ESTUDO,
-                                len(MESES) + 1,
-                                MAX_CONFIGURACOES))
+        self._dados = np.zeros((MAX_ANOS_HISTORICO,
+                                len(MESES) + 1))
 
     # Override
-    def le(self, arq: IO, cab=""):
+    def le(self, arq: IO):
         pass
+
+    # Override
+    def escreve(self, arq: IO):
+        pass
+
+
+class BlocoOrdensFinaisCoefsREE(Bloco):
+    """
+    Bloco de informações do arquivo `parp.dat`
+    relativo às ordens finais ajustadas do modelo e aos
+    seus coeficientes por REE.
+    """
+    def __init__(self):
+        super().__init__("ORDEM FINAL DO MODELO AUTORREGRESSIVO",
+                         "SERIE DE RUIDOS",
+                         True,
+                         self.le,
+                         None)
+        self._dados = [
+                       np.zeros((MAX_ANOS_ESTUDO,
+                                 len(MESES) + 1),
+                                dtype=np.int32),
+                       np.zeros((MAX_MESES_ESTUDO,
+                                 ORDEM_MAX_PARP,
+                                 4))
+                      ]
+
+    # Override
+    def le(self, arq: IO):
+        pass
+
+    # Override
+    def escreve(self, arq: IO):
+        pass
+
+
+class BlocoOrdensOriginaisREE(Bloco):
+    """
+    Bloco de informações do arquivo `parp.dat`
+    relativo às ordens originais do modelo por REE.
+    """
+    def __init__(self):
+        super().__init__("ORDEM ORIGINAL DO MODELO AUTORREGRESSIVO",
+                         "",
+                         False,
+                         self.le,
+                         None)
+        self._dados = np.zeros((MAX_ANOS_ESTUDO,
+                                len(MESES) + 1),
+                               dtype=np.int32)
+
+    # Override
+    def le(self, arq: IO):
+        pass
+
+    # Override
+    def escreve(self, arq: IO):
+        pass
+
+
+class BlocoSerieMediaREE(Bloco):
+    """
+    Bloco de informações do arquivo `parp.dat`
+    relativo à série de média de 12 meses por REE.
+    """
+    def __init__(self):
+        super().__init__("SERIE MEDIA 12 MESES ",
+                         "CORRELACAO CRUZADA VARIAVEL ANUAL",
+                         True,
+                         self.le,
+                         None)
+        self._dados = np.zeros((MAX_ANOS_HISTORICO,
+                                len(MESES),
+                                MAX_ANOS_ESTUDO))
+        self.__ano = 0
+
+    # Override
+    def le(self, arq: IO):
+
+        def _identifica_ano_estudo(linha: str):
+            """
+            Identifica o ano de estudo em questão.
+            """
+            # Não pode usar uma leitura simples de registro
+            # pois pode ter "POS" no lugar
+            if STR_ANO in linha:
+                ano = linha.split(STR_ANO)[1].strip()
+                self.__ano = (ano if ano.isnumeric()
+                              else str(int(self.__ano) + 1))
+
+        def _le_tabela_media() -> bool:
+            """
+            Lê uma tabela de médias anuais.
+            """
+            # Variáveis auxiliares
+            reg = RegistroFn(9)
+            i_linha = 0
+            # Salta 1 linha
+            arq.readline()
+            # Lê a tabela
+            while True:
+                # Verifica se a tabela já acabou
+                linha = arq.readline()
+                if len(linha) < 3:  # Tolerância a caracteres especiais
+                    self._dados = self._dados[:i_linha, :, :]
+                    return True
+                # Senão, lê mais uma linha
+                self._dados[i_linha,
+                            :,
+                            i_ano] = reg.le_linha_tabela(linha,
+                                                         5,
+                                                         2,
+                                                         len(MESES))
+                i_linha += 1
+
+        # Variáveis auxiliares
+        STR_ANO = "ANO:"
+        i_ano = 0
+        ultimo_ano_lido = ""
+        # Identifica o primeiro ano no cabeçalho
+        _identifica_ano_estudo(self._linha_inicio)
+        while True:
+            # Confere se a leitura não acabou
+            linha = arq.readline()
+            if (self._str_final in linha):
+                self._dados = self._dados[:, :, :i_ano]
+                break
+            # Atualiza a detecção de uma nova tabela
+            _identifica_ano_estudo(linha)
+            # Se existe uma nova tabela, lê
+            if linha[8:11] == "JAN" and ultimo_ano_lido != self.__ano:
+                _le_tabela_media()
+                i_ano += 1
+                ultimo_ano_lido = self.__ano
+
+        return linha
 
     # Override
     def escreve(self,
                 arq: IO):
         pass
-        
+
+
+class BlocoCorrelCruzMediaREE(Bloco):
+    """
+    Bloco de informações do arquivo `parp.dat`
+    relativo às correlações cruzadas com a média por REE.
+    """
+    def __init__(self):
+        super().__init__("CORRELACAO CRUZADA VARIAVEL ANUAL",
+                         "",
+                         True,
+                         self.le,
+                         None)
+        self._dados = np.zeros((MAX_ANOS_HISTORICO,
+                                len(MESES) + 1))
+
+    # Override
+    def le(self, arq: IO):
+        pass
+
+    # Override
+    def escreve(self, arq: IO):
+        pass
+
+
+class BlocoCorrelEspAnual(Bloco):
+    """
+    Bloco de informações do arquivo `parp.dat`
+    relativo às correlações espaciais anuais.
+    """
+    def __init__(self):
+        super().__init__("CORRELACAO ESPACIAL HISTORICA ANUAL",
+                         "",
+                         True,
+                         self.le,
+                         None)
+        self._dados = np.zeros((len(REES),
+                                len(REES)))
+
+    # Override
+    def le(self, arq: IO):
+        pass
+
+    # Override
+    def escreve(self, arq: IO):
+        pass
+
+
+class BlocoCorrelEspMensal(Bloco):
+    """
+    Bloco de informações do arquivo `parp.dat`
+    relativo às correlações espaciais mensais.
+    """
+    def __init__(self):
+        super().__init__("CORRELACAO ESPACIAL HISTORICA MENSAL",
+                         "",
+                         True,
+                         self.le,
+                         None)
+        self._dados = np.zeros((len(REES),
+                                len(MESES),
+                                len(REES)))
+        self.__cfg = 0
+
+    # Override
+    def le(self, arq: IO):
+        pass
+
+    # Override
+    def escreve(self, arq: IO):
+        pass
+
 
 class LeituraPARp(Leitura):
     """
