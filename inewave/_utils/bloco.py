@@ -28,6 +28,12 @@ class Bloco:
         self._lido = False
         self._linha_inicio = ""
 
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, Bloco):
+            return False
+        bloco: Bloco = o
+        return self.dados == bloco.dados
+
     def e_inicio_de_bloco(self, linha: str) -> bool:
         """
         Verifica se uma linha é início do bloco.

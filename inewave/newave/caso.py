@@ -1,131 +1,73 @@
-# Imports do próprio módulo
-from inewave._utils.bloco import Bloco
-from inewave._utils.leitura import Leitura
+from inewave._utils.arquivo import Arquivo
+from inewave._utils.dadosarquivo import DadosArquivo
 from inewave._utils.escrita import Escrita
-from inewave._utils.registros import RegistroAn
-from inewave.newave.modelos.caso import Caso
-# Imports de módulos externos
-from typing import IO, List
-import os
+from inewave.newave.leitura.caso import BlocoCaso, LeituraCaso
 
 
-class LeituraCaso(Leitura):
+class Caso(Arquivo):
     """
-    Realiza a leitura do arquivo `caso.dat`
-    existente em um diretório de entradas do NEWAVE.
+    Armazena os dados de entrada do NEWAVE referentes ao arquivo
+    `caso.dat`.
 
-    Esta classe contém o conjunto de utilidades para ler
-    e interpretar os campos de um arquivo `caso.dat`, construindo
-    um objeto `Caso` cujas informações são as mesmas do caso.dat.
+    Esta classe lida com informações de entrada do NEWAVE e
+    que deve se referir ao caminho do `arquivos.dat`.
 
-    Este objeto existe para retirar do modelo de dados a complexidade
-    de iterar pelas linhas do arquivo, recortar colunas, converter
-    tipos de dados, dentre outras tarefas necessárias para a leitura.
+    **Parâmetros**
 
-    Uma vez realizada a leitura do arquivo, as informações são guardadas
-    internamente no atributo `caso`.
-
-    **Exemplos**
-
-    >>> diretorio = "~/documentos/.../deck"
-    >>> leitor = LeituraCaso(diretorio)
-    >>> leitor.le_arquivo()
-    # Ops, esqueci de pegar o objeto
-    >>> caso = leitor.caso
+    - caso: `str`
 
     """
 
     def __init__(self,
-                 diretorio: str):
-        super().__init__(diretorio)
-        # Caso default, depois é substituído
-        self.caso = Caso("")
+                 dados: DadosArquivo):
+        super().__init__(dados)
+        val = True
+        msg = "Erro na criação de Caso: "
+        if len(dados.blocos) == 1:
+            bloco = dados.blocos[0]
+            if isinstance(bloco, BlocoCaso):
+                self.__bloco = bloco
+            else:
+                msg += (f"O bloco deve ser do tipo {BlocoCaso}, " +
+                        f"mas foi fornecido do tipo {type(bloco)}")
+                val = False
+        else:
+            msg += f"Deve ser fornecido exatamente 1 bloco para Caso"
+            val = False
+        if not val:
+            raise TypeError(msg)
 
-    # Override
-    def _cria_blocos_leitura(self) -> List[Bloco]:
+    @classmethod
+    def le_arquivo(cls,
+                   diretorio: str,
+                   nome_arquivo="caso.dat") -> 'Caso':
         """
-        Cria a lista de blocos a serem lidos no arquivo caso.dat.
         """
-        caminho_arquivo = Bloco("", "",
-                                True,
-                                self._le_caminho_arquivos)
-        return [caminho_arquivo]
-
-    # Override
-    def _inicia_variaveis_leitura(self):
-        """
-        Inicia variáveis temporárias que são escritas durante
-        a leitura do arquivo.
-        """
-        self._caminho_arquivo = ""
-
-    # Override
-    def _prepara_dados_saida(self):
-        """
-        Trata os dados obtidos do arquivo para ser retornado.
-        """
-        self.caso = Caso(self._caminho_arquivo)
-
-    # Override
-    def _fim_arquivo(self, linha: str) -> bool:
-        return len(linha) == 0
-
-    # Override
-    def le_arquivo(self, nome_arquivo="caso.dat") -> Caso:
-        """
-        Faz a leitura do arquivo `caso.dat`.
-        """
-        self._le_arquivo_em_diretorio(self._diretorio,
-                                      nome_arquivo)
-        return self.caso
-
-    def _le_caminho_arquivos(self,
-                             arq: IO,
-                             cab: str = ""):
-        """
-        Lê o caminho para o arquivo `arquivos.dat`
-        """
-        self.usa_backup = True
-        linha = self._le_linha_com_backup(arq)
-        reg = RegistroAn(12)
-        self._caminho_arquivo = reg.le_registro(linha, 0)
-
-
-class EscritaCaso(Escrita):
-    """
-    Realiza a escrita do arquivo `caso.dat`
-    em um diretório de entradas do NEWAVE.
-
-    Esta classe contém o conjunto de utilidades para escrever os campos
-    de um arquivo caso.dat, a partir de um objeto `Caso`.
-
-    Este objeto existe para retirar do modelo de dados a complexidade
-    de armazenar as strings auxiliares do arquivo, desenhar tabelas, dentre
-    outras tarefas associadas à escrita.
-
-    Se o diretório de escrita não existir, ele será criado.
-
-    **Exemplos**
-
-    >>> diretorio = "~/documentos/.../deck"
-    >>> # caso é do tipo Caso
-    >>> escritor = EscritaCaso(diretorio)
-    >>> escritor.escreve_arquivo(caso)
-    """
-    def __init__(self, diretorio: str):
-        super().__init__()
-        self.diretorio = diretorio
+        leitor = LeituraCaso(diretorio)
+        r = leitor.le_arquivo(nome_arquivo)
+        return cls(r)
 
     def escreve_arquivo(self,
-                        caso: Caso,
+                        diretorio: str,
                         nome_arquivo="caso.dat"):
         """
-        Realiza a escrita de um arquivo `caso.dat`.
         """
-        # Confere se o diretório existe. Senão, cria.
-        if not os.path.exists(self.diretorio):
-            os.makedirs(self.diretorio)
-        # Inicia a escrita
-        caminho = os.path.join(self.diretorio, nome_arquivo)
-        with open(caminho, "w") as arq:
-            arq.write(caso.arquivo)
+        escritor = Escrita(diretorio)
+        escritor.escreve_arquivo(self._dados,
+                                 nome_arquivo)
+
+    @property
+    def arquivo(self) -> str:
+        """
+        Caminho para o arquivo `arquivos.dat` de entrada do NEWAVE.
+
+        **Retorna**
+
+        `str`
+
+        **Sobre**
+
+        Retorna o caminho completo (unix-like) para o arquivo que direciona
+        para os demais dados de entrada do NEWAVE.
+        """
+        return self.__bloco.dados

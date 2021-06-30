@@ -2,13 +2,39 @@
 from inewave._utils.bloco import Bloco
 from inewave._utils.leitura import Leitura
 from inewave._utils.registros import RegistroAn, RegistroFn, RegistroIn
+from inewave._utils.dadosarquivo import DadosArquivo
 from inewave.config import MAX_ANOS_ESTUDO, MAX_CONFIGURACOES
 from inewave.config import MESES, REES, ORDEM_MAX_PARP
 # Imports de módulos externos
 import numpy as np  # type: ignore
 from copy import copy
-from typing import IO, Dict, List, Tuple
+from typing import IO, Dict, List
 
+
+class BlocoSerieEnergiaREE(Bloco):
+    """
+    Bloco de informações do arquivo `parp.dat`
+    relativo às Séries de Energia por REE.
+    """
+    def __init__(self):
+        super().__init__("SERIE  DE ENERGIAS DO REE",
+                         "",
+                         True,
+                         self.le,
+                         None)
+        self._dados = np.zeros((MAX_ANOS_ESTUDO,
+                                len(MESES) + 1,
+                                MAX_CONFIGURACOES))
+
+    # Override
+    def le(self, arq: IO, cab=""):
+        pass
+
+    # Override
+    def escreve(self,
+                arq: IO):
+        pass
+        
 
 class LeituraPARp(Leitura):
     """
@@ -22,8 +48,8 @@ class LeituraPARp(Leitura):
     Este objeto existe para retirar do modelo de dados a complexidade
     de iterar pelas linhas do arquivo, recortar colunas, converter
     tipos de dados, dentre outras tarefas necessárias para a leitura.
-
     """
+
     # Marcadores de início dos blocos que são lidos
     str_inicio_serie = "SERIE  DE ENERGIAS DO REE"
     str_inicio_media = "SERIE MEDIA 12 MESES "
@@ -50,36 +76,44 @@ class LeituraPARp(Leitura):
         energia = Bloco(LeituraPARp.str_inicio_serie,
                         LeituraPARp.str_fim_serie,
                         True,
-                        self._le_series
+                        self._le_series,
+                        None
                         )
         correl_parcial = Bloco(LeituraPARp.str_inicio_correl_parc,
                                "",
                                True,
-                               self._le_correlograma)
+                               self._le_correlograma,
+                               None)
         ordens_finais_coefs = Bloco(LeituraPARp.str_inicio_ordens_f,
                                     LeituraPARp.str_fim_coefs,
                                     True,
-                                    self._le_ordens_finais_e_coefs)
+                                    self._le_ordens_finais_e_coefs,
+                                    None)
         ordens_originais = Bloco(LeituraPARp.str_inicio_ordens_o,
                                  "",
                                  False,
-                                 self._le_ordens_originais)
+                                 self._le_ordens_originais,
+                                 None)
         medias = Bloco(LeituraPARp.str_inicio_media,
                        "",
                        False,
-                       self._le_medias)
+                       self._le_medias,
+                       None)
         correl_cruz_media = Bloco(LeituraPARp.str_inicio_correl_cruz,
                                   "",
                                   False,
-                                  self._le_correl_cruzada_media)
+                                  self._le_correl_cruzada_media,
+                                  None)
         correl_esp_anual = Bloco(LeituraPARp.str_inicio_correl_esp_a,
                                  "",
                                  True,
-                                 self._le_correl_esp_anual)
+                                 self._le_correl_esp_anual,
+                                 None)
         correl_esp_mensal = Bloco(LeituraPARp.str_inicio_correl_esp_m,
                                   "",
                                   True,
-                                  self._le_correl_esp_mensal)
+                                  self._le_correl_esp_mensal,
+                                  None)
 
         # Repete os blocos para o número esperado de tabelas no arquivo
         series_energia = [copy(energia) for _ in range(len(REES))]
@@ -175,14 +209,14 @@ class LeituraPARp(Leitura):
         return (LeituraPARp.str_fim_parp in linha or len(linha) == 0)
 
     # Override
-    def le_arquivo(self, nome_arquivo: str) -> Tuple[List[Bloco],
-                                                     Dict[int, str]]:
+    def le_arquivo(self, nome_arquivo: str) -> DadosArquivo:
         """
         Faz a leitura do arquivo `parp.dat`.
         """
         self._le_arquivo_em_diretorio(self._diretorio,
                                       nome_arquivo)
-        return self._blocos, self._linhas_fora_blocos
+        return DadosArquivo(self._blocos,
+                            self._linhas_fora_blocos)
 
     def _le_series(self,
                    arq: IO,

@@ -1,10 +1,11 @@
-from inewave.newave.escrita.arquivos import EscritaArquivos
+from inewave._utils.arquivo import Arquivo
 from inewave._utils.dadosarquivo import DadosArquivo
 from inewave.newave.leitura.arquivos import BlocoNomesArquivos
 from inewave.newave.leitura.arquivos import LeituraArquivos
+from inewave._utils.escrita import Escrita
 
 
-class Arquivos:
+class Arquivos(Arquivo):
     """
     Armazena os dados de entrada do NEWAVE referentes ao arquivo
     `arquivos.dat`.
@@ -17,9 +18,8 @@ class Arquivos:
 
     def __init__(self,
                  dados: DadosArquivo):
-
+        super().__init__(dados)
         # Interpreta o resultado da leitura
-        self.__dados = dados
         val = True
         msg = "Erro na criação de Arquivos: "
         if len(dados.blocos) == 1:
@@ -35,28 +35,12 @@ class Arquivos:
             val = False
         if not val:
             raise TypeError(msg)
-            
-    def __eq__(self, o: object) -> bool:
-        """
-        A igualdade entre Arquivos avalia o único campo.
-        """
-        if not isinstance(o, Arquivos):
-            return False
-        arquivos: Arquivos = o
-        dif = False
-        for s1, s2 in zip(self.__slots__,
-                          arquivos.__slots__):
-            if s1 != s2 or getattr(self, s1) != getattr(arquivos, s2):
-                dif = True
-                break
-        return not dif
 
     @classmethod
     def le_arquivo(cls,
                    diretorio: str,
                    nome_arquivo="arquivos.dat") -> 'Arquivos':
         """
-        
         """
         leitor = LeituraArquivos(diretorio)
         r = leitor.le_arquivo(nome_arquivo)
@@ -67,8 +51,8 @@ class Arquivos:
                         nome_arquivo="arquivos.dat"):
         """
         """
-        escritor = EscritaArquivos(diretorio)
-        escritor.escreve_arquivo(self.__dados,
+        escritor = Escrita(diretorio)
+        escritor.escreve_arquivo(self._dados,
                                  nome_arquivo)
 
 

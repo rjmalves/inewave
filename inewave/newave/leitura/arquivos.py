@@ -87,16 +87,9 @@ class BlocoNomesArquivos(Bloco):
     # Override
     def escreve(self,
                 arq: IO):
-        """
-        Função para realizar a escrita.
-        """
         for leg, nome in zip(BlocoNomesArquivos.legendas,
                              self._dados):
             arq.write(f"{leg} {nome}\n")
-
-    @property
-    def dados(self) -> List[str]:
-        return super().dados
 
     
 class LeituraArquivos(Leitura):
@@ -111,12 +104,7 @@ class LeituraArquivos(Leitura):
     Este objeto existe para retirar do modelo de dados a complexidade
     de iterar pelas linhas do arquivo, recortar colunas, converter
     tipos de dados, dentre outras tarefas necessárias para a leitura.
-
-    **Exemplos**
-
     """
-
-    num_arquivos = 41
 
     def __init__(self,
                  diretorio: str):
@@ -143,8 +131,4 @@ class LeituraArquivos(Leitura):
         """
         Trata os dados obtidos do arquivo para ser retornado.
         """
-        self._dados = self._blocos[0].dados
-
-    # Override
-    def _fim_arquivo(self, linha: str) -> bool:
-        return len(linha) == 0
+        pass

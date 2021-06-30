@@ -130,14 +130,13 @@ class Leitura:
         """
         pass
 
-    @abstractmethod
     def _fim_arquivo(self, linha: str) -> bool:
         """
         Método que deve ser implementado para cada arquivo, com o
         conteúdo da linha que indica o fim do próprio, para impedir loops
         de leitura eterna.
         """
-        pass
+        return len(linha) == 0
 
     def le_arquivo(self, nome_arquivo: str) -> DadosArquivo:
         """
