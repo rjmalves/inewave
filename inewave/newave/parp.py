@@ -1,11 +1,22 @@
-from typing import Dict, List
+from typing import Dict, List, Type
 import numpy as np  # type: ignore
 
 from inewave.config import REES
+from inewave._utils.arquivo import Arquivo
+from inewave._utils.dadosarquivo import DadosArquivo
+from inewave._utils.bloco import Bloco
+from inewave.newave.leitura.parp import BlocoSerieEnergiaREE
+from inewave.newave.leitura.parp import BlocoCorrelParcialREE
+from inewave.newave.leitura.parp import BlocoOrdensFinaisCoefsREE
+from inewave.newave.leitura.parp import BlocoOrdensOriginaisREE
+from inewave.newave.leitura.parp import BlocoSerieMediaREE
+from inewave.newave.leitura.parp import BlocoCorrelCruzMediaREE
+from inewave.newave.leitura.parp import BlocoCorrelEspAnual
+from inewave.newave.leitura.parp import BlocoCorrelEspMensal
 from inewave.newave.leitura.parp import LeituraPARp
 
 
-class PARp:
+class PARp(Arquivo):
     """
     Armazena os dados de saída do NEWAVE referentes aos modelos e às
     séries sintéticas de energia geradas pelo PAR(p) e PAR(p)-A.
@@ -15,83 +26,27 @@ class PARp:
     cujas saídas devem ser compatíveis com as observadas através
     do NWLISTOP.
 
-    **Parâmetros**
-
-    - ordens_orig: `Dict[int, np.ndarray]`
-    - ordens_finais: `Dict[int, np.ndarray]`
-    - coeficientes: `Dict[int, np.ndarray]`
-    - series_energia: `Dict[int, np.ndarray]`
-    - correl_energia: `Dict[int, np.ndarray]`
-    - series_medias: `Dict[int, np.ndarray]`
-    - correl_media: `Dict[int, np.ndarray]`
-
     """
     def __init__(self,
-                 ordens_orig: Dict[int, np.ndarray],
-                 ordens_finais: Dict[int, np.ndarray],
-                 coeficientes: Dict[int, np.ndarray],
-                 series_energia: Dict[int, np.ndarray],
-                 correl_energia: Dict[int, np.ndarray],
-                 series_medias: Dict[int, np.ndarray],
-                 correl_media: Dict[int, np.ndarray],
-                 correl_e_anual: Dict[int, np.ndarray],
-                 correl_e_mensal: Dict[int, np.ndarray]):
-        self.ordens_orig = ordens_orig
-        self.ordens_finais = ordens_finais
-        self.coeficientes = coeficientes
-        self.series_energia = series_energia
-        self.correl_energia = correl_energia
-        self.series_medias = series_medias
-        self.correl_media = correl_media
-        self.correl_e_anual = correl_e_anual
-        self.correl_e_mensal = correl_e_mensal
+                 dados: DadosArquivo):
+        super().__init__(dados)
 
-    def __eq__(self, o: object) -> bool:
-        """
-        A igualdade entre PARp avalia todos os campos.
-        """
-        if not isinstance(o, PARp):
-            return False
-        parp: PARp = o
-        eq_ordens_o = all([np.array_equal(o1, o2)
-                           for (o1, o2) in zip(self.ordens_orig.values(),
-                                               parp.ordens_orig.values())])
-        eq_ordens_f = all([np.array_equal(o1, o2)
-                           for (o1, o2) in zip(self.ordens_finais.values(),
-                                               parp.ordens_finais.values())])
-        eq_coefs = all([np.array_equal(c1, c2)
-                        for (c1, c2) in zip(self.coeficientes.values(),
-                                            parp.coeficientes.values())])
-        eq_series_e = all([np.array_equal(s1, s2)
-                           for (s1, s2) in zip(self.series_energia.values(),
-                                               parp.series_energia.values())])
-        eq_correl_e = all([np.array_equal(s1, s2)
-                           for (s1, s2) in zip(self.correl_energia.values(),
-                                               parp.correl_energia.values())])
-        eq_medias_e = all([np.array_equal(s1, s2)
-                           for (s1, s2) in zip(self.series_medias.values(),
-                                               parp.series_medias.values())])
-        eq_correl_med = all([np.array_equal(s1, s2)
-                             for (s1, s2) in zip(self.correl_media.values(),
-                                                 parp.correl_media.values())])
-        eq_correl_a = all([np.array_equal(s1, s2)
-                           for (s1, s2) in zip(self.correl_e_anual.values(),
-                                               parp.correl_e_anual.values())])
-        eq_correl_m = all([np.array_equal(s1, s2)
-                           for (s1, s2) in zip(self.correl_e_mensal.values(),
-                                               parp.correl_e_mensal.values())])
-        return all([eq_ordens_o,
-                    eq_ordens_f,
-                    eq_coefs,
-                    eq_series_e,
-                    eq_correl_e,
-                    eq_medias_e,
-                    eq_correl_med,
-                    eq_correl_a,
-                    eq_correl_m])
+        self.__series_energia = self.__por_tipo(BlocoSerieEnergiaREE)
+        self.__correl_parcial = self.__por_tipo(BlocoCorrelParcialREE)
+        self.__ordens_finais_coefs = self.__por_tipo(BlocoOrdensFinaisCoefsREE)
+        self.__ordens_orig = self.__por_tipo(BlocoOrdensOriginaisREE)
+        self.__series_medias = self.__por_tipo(BlocoSerieMediaREE)
+        self.__correl_cruz = self.__por_tipo(BlocoCorrelCruzMediaREE)
+        self.__correl_esp_anual = self.__por_tipo(BlocoCorrelEspAnual)
+        self.__correl_esp_mensal = self.__por_tipo(BlocoCorrelEspMensal)
+
+    def __por_tipo(self,
+                          tipo: Type[Bloco]) -> List[Bloco]:
+        return [b for b in self._blocos if isinstance(b, tipo)]
 
     def series_energia_ree(self,
-                           ree: int) -> Dict[int, np.ndarray]:
+                           ree: int,
+                           configuracao: int) -> np.ndarray:
         """
         A tabela de séries de energia para todas as configurações
         de uma determinada REE, no mesmo formato do arquivo `parp.dat`,
@@ -100,24 +55,23 @@ class PARp:
         **Parâmetros**
 
         - ree: `int`
+        - configuracao: `int`
 
         **Retorna**
 
-        `Dict[int, np.ndarray]`
+        `np.ndarray`
 
         **Sobre**
 
-        O acesso é feito com [configuracao] e retorna um np.ndarray.
+        O acesso é feito com [ano, mes].
         """
-        dict_series: Dict[int, np.ndarray] = {}
-        n_configs = self.series_energia[ree].shape[2]
-        for c in range(n_configs):
-            dict_series[c + 1] = self.series_energia[ree][:, :, c][:, 1:]
-
-        return dict_series
+        return self.__series_energia[ree - 1].dados[:,
+                                                    1:,
+                                                    configuracao]
 
     def series_medias_ree(self,
-                          ree: int) -> Dict[int, np.ndarray]:
+                          ree: int,
+                          ano: int) -> np.ndarray:
         """
         A tabela de séries das médias anuais de energia para todos os anos
         de uma determinada REE, no mesmo formato do arquivo `parp.dat`.
@@ -128,22 +82,16 @@ class PARp:
 
         **Retorna**
 
-        `Dict[int, np.ndarray]`
+        `np.ndarray`
 
         **Sobre**
 
         O acesso é feito com [ano] e retorna um np.ndarray.
         """
-        dict_series: Dict[int, np.ndarray] = {}
-        anos = self.anos_estudo
-        for c, ano in enumerate(anos):
-            dict_series[ano] = self.series_medias[ree][:, :, c]
-
-        return dict_series
+        return self.__series_medias[ree - 1].dados[:, :, ano]
 
     def correlograma_energia_ree(self,
-                                 ree: int) -> Dict[int,
-                                                   np.ndarray]:
+                                 ree: int) -> np.ndarray:
         """
         A tabela de autocorrelações parciais da série de energia
         de uma determinada REE, no mesmo formato do arquivo `parp.dat`,
@@ -155,22 +103,16 @@ class PARp:
 
         **Retorna**
 
-        `Dict[int, np.ndarray]`
+        `np.ndarray`
 
         **Sobre**
 
-        O acesso é feito com [mes] e retorna um np.ndarray.
+        O acesso é feito com [mes, lag].
         """
-        dict_correl: Dict[int, np.ndarray] = {}
-        n_meses = self.correl_energia[ree].shape[0]
-        for m in range(n_meses):
-            dict_correl[m + 1] = self.correl_energia[ree][m, 1:]
-
-        return dict_correl
+        return self.__correl_parcial[ree - 1].dados[:, 1:]
 
     def correlograma_media_ree(self,
-                               ree: int) -> Dict[int,
-                                                 np.ndarray]:
+                               ree: int) -> np.ndarray:
         """
         A tabela de correlações cruzadas da série de médias anuais de
         energia com as séries de energia de uma determinada REE, no mesmo
@@ -182,21 +124,16 @@ class PARp:
 
         **Retorna**
 
-        `Dict[int, np.ndarray]`
+        `np.ndarray`
 
         **Sobre**
 
-        O acesso é feito com [mes] e retorna um np.ndarray.
+        O acesso é feito com [mes].
         """
-        dict_correl: Dict[int, np.ndarray] = {}
-        n_meses = self.correl_media[ree].shape[0]
-        for m in range(n_meses):
-            dict_correl[m + 1] = self.correl_media[ree][m, 1:]
-
-        return dict_correl
+        return self.__correl_parcial[ree - 1].dados[:, 1:]
 
     def ordens_originais_ree(self,
-                             ree: int) -> Dict[int, np.ndarray]:
+                             ree: int) -> np.ndarray:
         """
         A tabela de ordens originais do modelo PAR ou PAR-A
         de uma determinada REE, no mesmo formato do arquivo `parp.dat`,
@@ -208,19 +145,16 @@ class PARp:
 
         **Retorna**
 
-        `Dict[int, np.ndarray]`
+        `np.ndarray`
 
         **Sobre**
 
-        O acesso é feito com [ano] e retorna um np.ndarray.
+        O acesso é feito com [ano, mes].
         """
-        anos = self.anos_estudo
-        ordens = [self.ordens_orig[ree][i, 1:]
-                  for i in range(self.ordens_orig[ree].shape[0])]
-        return {a: o for a, o in zip(anos, ordens)}
+        return self.__ordens_orig[ree - 1].dados[:, 1:]
 
     def ordens_finais_ree(self,
-                          ree: int) -> Dict[int, np.ndarray]:
+                          ree: int) -> np.ndarray:
         """
         A tabela de ordens finais do modelo PAR ou PAR-A
         de uma determinada REE, no mesmo formato do arquivo `parp.dat`,
@@ -232,16 +166,13 @@ class PARp:
 
         **Retorna**
 
-        `Dict[int, np.ndarray]`
+        `np.ndarray`
 
         **Sobre**
 
-        O acesso é feito com [ano] e retorna um np.ndarray.
+        O acesso é feito com [ano, mes].
         """
-        anos = self.anos_estudo
-        ordens = [self.ordens_finais[ree][i, 1:]
-                  for i in range(self.ordens_finais[ree].shape[0])]
-        return {a: o for a, o in zip(anos, ordens)}
+        return self.__ordens_finais_coefs[ree - 1].dados[0][:, 1:]
 
     def coeficientes_ree(self,
                          ree: int) -> List[np.ndarray]:
@@ -262,29 +193,27 @@ class PARp:
         p + 1 coeficientes, e a última posição contém o
         coeficiente da componente anual.
         """
-        # Extrai os coeficientes regressivos
-        todos_coefs = self.coeficientes[ree][:, :, 0]
-        coefs: List[List[float]] = []
-        for i, c in enumerate(todos_coefs):
-            coefs.append([])
-            for co in c:
-                if co == 0.:
-                    break
-                coefs[i].append(co)
-        # Extrai os coeficientes da componente anual
-        coefs_anual = self.coeficientes[ree][:, :, 2]
-        for i, c in enumerate(coefs_anual):
-            if c[0] == 0:
-                break
-            coefs[i].append(c[0])
+        todos_coefs = self.__ordens_finais_coefs[ree - 1].dados[1]
+        coefs: List[np.ndarray] = []
+        meses, _, _ = todos_coefs.shape
+        for m in range(meses):
+            coefs_parp_ano = todos_coefs[m, :, 0]
+            nao_nulos = coefs_parp_ano[coefs_parp_ano != 0]
+            coef_parpa_ano = todos_coefs[m, 0, 2]
+            if coef_parpa_ano != 0:
+                c = np.concatenate([nao_nulos,
+                                    np.array([coef_parpa_ano])])
+            else:
+                c = nao_nulos
+            coefs.append(c)
 
-        return [np.array(c) for c in coefs]
+        return coefs
 
-    def contribuicoes_ree(self,
-                          ree: int) -> List[np.ndarray]:
+    def coeficientes_desvio_ree(self,
+                                ree: int) -> List[np.ndarray]:
         """
-        Lista de contribuições dos coeficientes dos modelos
-        PAR ou PAR-A.
+        Lista dos coeficientes dos modelos PAR ou PAR-A, multiplicados
+        pelos respectivos desvios-padrão de cada mês.
 
         **Parâmetros**
 
@@ -297,94 +226,70 @@ class PARp:
         **Sobre**
 
         No caso de um modelo PAR-A de ordem p, a lista possui
-        p + 1 contribuições, e a última posição contém a contribuição
-        do coeficiente da componente anual.
+        p + 1 coeficientes, e a última posição contém o coeficiente
+        da componente anual.
         """
-        # Extrai as contribuições dos coeficientes regressivos
-        todas_contrib = self.coeficientes[ree][:, :, 1]
-        contribs: List[List[float]] = []
-        for i, c in enumerate(todas_contrib):
-            contribs.append([])
-            for co in c:
-                if co == 0.:
-                    break
-                contribs[i].append(co)
-        # Extrai a contribuição do coeficiente da componente anual
-        contrib_anual = self.coeficientes[ree][:, :, 3]
-        for i, c in enumerate(contrib_anual):
-            contribs[i].append(c[0])
+        todos_coefs = self.__ordens_finais_coefs[ree - 1].dados[1]
+        coefs: List[np.ndarray] = []
+        meses, _, _ = todos_coefs.shape
+        for m in range(meses):
+            coefs_parp_ano = todos_coefs[m, :, 1]
+            nao_nulos = coefs_parp_ano[coefs_parp_ano != 0]
+            coef_parpa_ano = todos_coefs[m, 0, 3]
+            if coef_parpa_ano != 0:
+                c = np.concatenate([nao_nulos,
+                                    np.array([coef_parpa_ano])])
+            else:
+                c = nao_nulos
+            coefs.append(c)
 
-        return [np.array(c) for c in contribs]
+        return coefs
 
-    @property
-    def correlacoes_espaciais_anuais(self) -> Dict[int,
-                                                   Dict[int,
-                                                        Dict[int,
-                                                             float]]]:
+    def correlacoes_espaciais_anuais(self, configuracao: int) -> np.ndarray:
         """
         Correlações espaciais anuais para cada combinação de
-        REEs em cada configuração do sistema, da mesma maneira
-        encontrada no arquivo `parp.dat`.
+        REEs em cada configuração do sistema, de maneira ligeiramente
+        diferente da encontrada no NEWAVE (ver Sobre abaixo).
+
+        **Parâmetros**
+
+        - configuracao: `int`
 
         **Retorna**
 
-        `Dict[int, Dict[int, Dict[int, float]]]`
+        `np.ndarray`
 
         **Sobre**
 
-        O acesso é feito com `[configuracao][ree1][ree2]`, onde `ree1`
-        e `ree2` são inteiros de 1 ao número de REEs, indexados da mesma
-        maneira do NEWAVE (1 = SUDESTE, 2 = SUL...).
+        O acesso é feito com `[ree1, ree2]`, onde `ree1`
+        e `ree2` são inteiros de 0 ao número de REEs - 1, indexados da mesma
+        maneira do NEWAVE (0 = SUDESTE, 1 = SUL...).
         """
-        corrs = self.correl_e_anual
-        rees = range(1, len(REES) + 1)
-        corrs_anuais: Dict[int, Dict[int, Dict[int, float]]] = {}
-        for c in corrs.keys():
-            if c not in corrs_anuais.keys():
-                corrs_anuais[c] = {}
-            for ree1 in rees:
-                if ree1 not in corrs_anuais[c].keys():
-                    corrs_anuais[c][ree1] = {}
-                for ree2 in rees:
-                    corrs_anuais[c][ree1][ree2] = corrs[c][ree1-1,
-                                                           ree2-1]
-        return corrs_anuais
+        return self.__correl_esp_anual[configuracao - 1].dados
 
-    @property
-    def correlacoes_espaciais_mensais(self) -> Dict[int,
-                                                    Dict[int,
-                                                         Dict[int,
-                                                              np.ndarray]]]:
+    def correlacoes_espaciais_mensais(self,
+                                      configuracao: int,
+                                      mes: int) -> np.ndarray:
         """
         Correlações espaciais mensais para cada combinação de
         REEs em cada configuração do sistema, da mesma maneira
         encontrada no arquivo `parp.dat`.
 
+        **Parâmetros**
+
+        - mes: `int`
+
         **Retorna**
 
-        `Dict[int, Dict[int, Dict[int, np.ndarray]]]`
+        `np.ndarray`
 
         **Sobre**
 
-        O acesso é feito com `[configuracao][ree1][ree2]`, onde `ree1`
-        e `ree2` são inteiros de 1 ao número de REEs, indexados da mesma
-        maneira do NEWAVE (1 = SUDESTE, 2 = SUL...). É retornada a lista
-        com as correlações para todos os meses, ordenadas por mês.
+        O acesso é feito com `[mes][ree1][ree2]`, onde `ree1`
+        e `ree2` são inteiros de 0 ao número de REEs, indexados da mesma
+        maneira do NEWAVE (0 = SUDESTE, 1 = SUL...).
         """
-        corrs = self.correl_e_mensal
-        rees = range(1, len(REES) + 1)
-        corrs_mensais: Dict[int, Dict[int, Dict[int, np.ndarray]]] = {}
-        for c in corrs.keys():
-            if c not in corrs_mensais.keys():
-                corrs_mensais[c] = {}
-            for ree1 in rees:
-                if ree1 not in corrs_mensais[c].keys():
-                    corrs_mensais[c][ree1] = {}
-                for ree2 in rees:
-                    corrs_mensais[c][ree1][ree2] = corrs[c][ree1-1,
-                                                            :,
-                                                            ree2-1]
-        return corrs_mensais
+        return self.__correl_esp_mensal[configuracao - 1].dados[:, mes, :]
 
     @property
     def anos_historico(self) -> List[int]:
@@ -421,13 +326,5 @@ class PARp:
         
         """
         leitor = LeituraPARp(diretorio)
-        leitor.le_arquivo(nome_arquivo)
-        return cls(leitor.ordens_o,
-                   leitor.ordens_f,
-                   leitor.coefs,
-                   leitor.series,
-                   leitor.correl_p,
-                   leitor.medias,
-                   leitor.correl_c,
-                   leitor.correl_esp_a,
-                   leitor.correl_esp_m)
+        r = leitor.le_arquivo(nome_arquivo)
+        return cls(r)
