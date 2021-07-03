@@ -63,9 +63,7 @@ class BlocoNomesArquivos(Bloco):
 
         super().__init__(str_inicio,
                          str_final,
-                         obrigatorio,
-                         self.le,
-                         funcao_escrita=self.escreve)
+                         obrigatorio)
 
         self._dados = [""] * len(BlocoNomesArquivos.legendas)
 
@@ -87,7 +85,7 @@ class BlocoNomesArquivos(Bloco):
                              self._dados):
             arq.write(f"{leg} {nome}\n")
 
-    
+
 class LeituraArquivos(Leitura):
     """
     Realiza a leitura do arquivo `arquivos.dat`
@@ -113,18 +111,3 @@ class LeituraArquivos(Leitura):
         """
         nomes_arquivos = BlocoNomesArquivos("", "", True)
         return [nomes_arquivos]
-
-    # Override
-    def _inicia_variaveis_leitura(self):
-        """
-        Inicia variáveis temporárias que são escritas durante
-        a leitura do arquivo.
-        """
-        pass
-
-    # Override
-    def _prepara_dados_saida(self):
-        """
-        Trata os dados obtidos do arquivo para ser retornado.
-        """
-        pass

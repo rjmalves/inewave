@@ -3,6 +3,7 @@ from typing import Dict, List
 
 from.bloco import Bloco
 
+
 class DadosArquivo:
     """
     """

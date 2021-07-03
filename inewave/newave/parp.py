@@ -1,7 +1,6 @@
-from typing import Dict, List, Type
+from typing import List, Type
 import numpy as np  # type: ignore
 
-from inewave.config import REES
 from inewave._utils.arquivo import Arquivo
 from inewave._utils.dadosarquivo import DadosArquivo
 from inewave._utils.bloco import Bloco
@@ -40,8 +39,7 @@ class PARp(Arquivo):
         self.__correl_esp_anual = self.__por_tipo(BlocoCorrelEspAnual)
         self.__correl_esp_mensal = self.__por_tipo(BlocoCorrelEspMensal)
 
-    def __por_tipo(self,
-                          tipo: Type[Bloco]) -> List[Bloco]:
+    def __por_tipo(self, tipo: Type[Bloco]) -> List[Bloco]:
         return [b for b in self._blocos if isinstance(b, tipo)]
 
     def series_energia_ree(self,
@@ -128,9 +126,9 @@ class PARp(Arquivo):
 
         **Sobre**
 
-        O acesso é feito com [mes].
+        O acesso é feito com [mes, lag].
         """
-        return self.__correl_parcial[ree - 1].dados[:, 1:]
+        return self.__correl_cruz[ree - 1].dados[:, 1:]
 
     def ordens_originais_ree(self,
                              ree: int) -> np.ndarray:
@@ -292,39 +290,33 @@ class PARp(Arquivo):
         return self.__correl_esp_mensal[configuracao - 1].dados[:, mes, :]
 
     @property
-    def anos_historico(self) -> List[int]:
+    def anos_historico(self) -> np.ndarray:
         """
         A lista de anos do histórico associados às séries de
         energia.
 
         **Retorna**
 
-        `List[int]`
+        `np.ndarray`
         """
-        a = np.array(self.series_energia[1][:, :, 0][:, 0],
-                     dtype=np.int64)
-        return list(a)
+        return self.__series_energia[0].dados[:, 0, 0]
 
     @property
-    def anos_estudo(self) -> List[int]:
+    def anos_estudo(self) -> np.ndarray:
         """
         A lista de anos do estudo associados às tabelas de
         coeficientes e ordens dos modelos.
 
         **Retorna**
 
-        `List[int]`
+        `np.ndarray`
         """
-        a = np.array(self.ordens_finais[1][:, 0], dtype=np.int64)
-        return list(a)
+        return self.__ordens_finais_coefs[0].dados[0][:, 0]
 
     @classmethod
     def le_arquivo(cls,
                    diretorio: str,
                    nome_arquivo="parp.dat") -> 'PARp':
-        """
-        
-        """
         leitor = LeituraPARp(diretorio)
         r = leitor.le_arquivo(nome_arquivo)
         return cls(r)

@@ -2,7 +2,6 @@
 from inewave._utils.bloco import Bloco
 from inewave._utils.leitura import Leitura
 from inewave._utils.registros import RegistroAn, RegistroFn, RegistroIn
-from inewave._utils.dadosarquivo import DadosArquivo
 from inewave.config import MAX_ANOS_ESTUDO
 from inewave.config import MAX_MESES_ESTUDO
 from inewave.config import MAX_ANOS_HISTORICO
@@ -10,8 +9,7 @@ from inewave.config import MAX_CONFIGURACOES
 from inewave.config import MESES, REES, ORDEM_MAX_PARP
 # Imports de módulos externos
 import numpy as np  # type: ignore
-from copy import copy
-from typing import IO, Dict, List
+from typing import Hashable, IO, List
 
 
 class BlocoSerieEnergiaREE(Bloco):
@@ -26,9 +24,7 @@ class BlocoSerieEnergiaREE(Bloco):
     def __init__(self):
         super().__init__(BlocoSerieEnergiaREE.str_inicio,
                          BlocoSerieEnergiaREE.str_fim,
-                         True,
-                         self.le,
-                         None)
+                         True)
         self._dados = np.zeros((MAX_ANOS_HISTORICO,
                                 len(MESES) + 1,
                                 MAX_CONFIGURACOES))
@@ -48,7 +44,6 @@ class BlocoSerieEnergiaREE(Bloco):
             Lê a tabela de séries de energia de uma configuração.
             """
             # Variáveis auxiliares
-            cfg = self.__cfg  # PEP8
             regi = RegistroIn(4)  # PEP8
             regf = RegistroFn(9)  # PEP8
             i_linha = 0
@@ -113,9 +108,7 @@ class BlocoCorrelParcialREE(Bloco):
     def __init__(self):
         super().__init__(BlocoCorrelParcialREE.str_inicio,
                          BlocoCorrelParcialREE.str_fim,
-                         True,
-                         self.le,
-                         None)
+                         True)
         self._dados = np.zeros((MAX_MESES_ESTUDO,
                                 len(MESES)))
 
@@ -171,9 +164,7 @@ class BlocoOrdensFinaisCoefsREE(Bloco):
     def __init__(self):
         super().__init__(BlocoOrdensFinaisCoefsREE.str_inicio,
                          BlocoOrdensFinaisCoefsREE.str_fim,
-                         True,
-                         self.le,
-                         None)
+                         True)
         self._dados = [
                        np.zeros((MAX_ANOS_ESTUDO,
                                  len(MESES) + 1),
@@ -238,11 +229,11 @@ class BlocoOrdensFinaisCoefsREE(Bloco):
                     for o in range(2):
                         linha: str = arq.readline()
                         self._dados[1][i_coefs,
-                                    :ordem,
-                                    o] = regf.le_linha_tabela(linha,
-                                                                0,
-                                                                2,
-                                                                ordem)
+                                       :ordem,
+                                       o] = regf.le_linha_tabela(linha,
+                                                                 0,
+                                                                 2,
+                                                                 ordem)
 
                 def _le_coef_media():
                     """
@@ -253,9 +244,9 @@ class BlocoOrdensFinaisCoefsREE(Bloco):
                         if len(linha) < 3:
                             break
                         self._dados[1][i_coefs,
-                                    0,
-                                    o] = regf.le_registro(linha,
-                                                            0)
+                                       0,
+                                       o] = regf.le_registro(linha,
+                                                             0)
 
                 # Variaveis auxiliares
                 regf = RegistroFn(9)
@@ -293,9 +284,7 @@ class BlocoOrdensOriginaisREE(Bloco):
     def __init__(self):
         super().__init__(BlocoOrdensOriginaisREE.str_inicio,
                          BlocoOrdensOriginaisREE.str_fim,
-                         False,
-                         self.le,
-                         None)
+                         False)
         self._dados = np.zeros((MAX_ANOS_ESTUDO,
                                 len(MESES) + 1),
                                dtype=np.int32)
@@ -354,9 +343,7 @@ class BlocoSerieMediaREE(Bloco):
     def __init__(self):
         super().__init__(BlocoSerieMediaREE.str_inicio,
                          BlocoSerieMediaREE.str_fim,
-                         True,
-                         self.le,
-                         None)
+                         True)
         self._dados = np.zeros((MAX_ANOS_HISTORICO,
                                 len(MESES),
                                 MAX_ANOS_ESTUDO))
@@ -441,9 +428,7 @@ class BlocoCorrelCruzMediaREE(Bloco):
     def __init__(self):
         super().__init__(BlocoCorrelCruzMediaREE.str_inicio,
                          BlocoCorrelCruzMediaREE.str_fim,
-                         True,
-                         self.le,
-                         None)
+                         True)
         self._dados = np.zeros((MAX_ANOS_HISTORICO,
                                 len(MESES) + 1))
 
@@ -498,9 +483,7 @@ class BlocoCorrelEspAnual(Bloco):
     def __init__(self):
         super().__init__(BlocoCorrelEspAnual.str_inicio,
                          BlocoCorrelEspAnual.str_fim,
-                         True,
-                         self.le,
-                         None)
+                         True)
         self._dados = np.zeros((len(REES),
                                 len(REES)))
 
@@ -535,8 +518,8 @@ class BlocoCorrelEspAnual(Bloco):
             # Senão, lê mais uma linha
             correls = reg.le_linha_tabela(linha, 18, 6, len(MESES))
             self._dados[idx[i_ree],
-                       :] = _ordena_correls(correls,
-                                            idx)
+                        :] = _ordena_correls(correls,
+                                             idx)
             i_ree += 1
 
     # Override
@@ -556,9 +539,7 @@ class BlocoCorrelEspMensal(Bloco):
     def __init__(self):
         super().__init__(BlocoCorrelEspMensal.str_inicio,
                          BlocoCorrelEspMensal.str_fim,
-                         True,
-                         self.le,
-                         None)
+                         True)
         self._dados = np.zeros((len(REES),
                                 len(MESES),
                                 len(REES)))
@@ -613,8 +594,8 @@ class BlocoCorrelEspMensal(Bloco):
             # Verifica se a tabela já acabou
             linha: str = arq.readline()
             if (BlocoCorrelEspMensal.str_fim in linha or
-                BlocoCorrelEspAnual.str_inicio in linha or
-                len(linha) == 0):
+                    BlocoCorrelEspAnual.str_inicio in linha or
+                    len(linha) == 0):
                 break
 
             # Senão, procura e lê mais uma tabela
@@ -654,22 +635,22 @@ class LeituraPARp(Leitura):
         """
         Cria a lista de blocos a serem lidos no arquivo parp.dat.
         """
-        series_energia = [BlocoSerieEnergiaREE()
-                          for _ in range(len(REES))]
-        series_correls = [BlocoCorrelParcialREE()
-                          for _ in range(len(REES))]
-        ordens_finais_coefs = [BlocoOrdensFinaisCoefsREE()
-                               for _ in range(len(REES))]
-        ordens_originais = [BlocoOrdensOriginaisREE()
-                            for _ in range(len(REES))]
-        series_medias = [BlocoSerieMediaREE()
-                         for _ in range(len(REES))]
-        correls_cruzada_media = [BlocoCorrelCruzMediaREE()
-                                 for _ in range(len(REES))]
-        correls_esp_anuais = [BlocoCorrelEspAnual()
-                              for _ in range(MAX_CONFIGURACOES)]
-        correls_esp_mensais = [BlocoCorrelEspMensal()
-                               for _ in range(MAX_CONFIGURACOES)]
+        series_energia: List[Bloco] = [BlocoSerieEnergiaREE()
+                                       for _ in range(len(REES))]
+        series_correls: List[Bloco] = [BlocoCorrelParcialREE()
+                                       for _ in range(len(REES))]
+        ordens_finais_coefs: List[Bloco] = [BlocoOrdensFinaisCoefsREE()
+                                            for _ in range(len(REES))]
+        ordens_originais: List[Bloco] = [BlocoOrdensOriginaisREE()
+                                         for _ in range(len(REES))]
+        series_medias: List[Bloco] = [BlocoSerieMediaREE()
+                                      for _ in range(len(REES))]
+        correls_cruzada_media: List[Bloco] = [BlocoCorrelCruzMediaREE()
+                                              for _ in range(len(REES))]
+        correls_esp_anuais: List[Bloco] = [BlocoCorrelEspAnual()
+                                           for _ in range(MAX_CONFIGURACOES)]
+        correls_esp_mensais: List[Bloco] = [BlocoCorrelEspMensal()
+                                            for _ in range(MAX_CONFIGURACOES)]
 
         return (series_energia +
                 series_correls +
@@ -679,22 +660,6 @@ class LeituraPARp(Leitura):
                 correls_cruzada_media +
                 correls_esp_anuais +
                 correls_esp_mensais)
-
-    # Override
-    def _inicia_variaveis_leitura(self):
-        """
-        Inicia variáveis temporárias que são escritas durante
-        a leitura do arquivo.
-        """
-        pass
-
-    # Override
-    def _prepara_dados_saida(self):
-        """
-        Trata os dados obtidos do arquivo para ser retornado.
-        """
-        self._blocos = [b for b in self._blocos
-                        if b.concluido]
 
     # Override
     def _fim_arquivo(self, linha: str) -> bool:

@@ -32,7 +32,7 @@ class Caso(Arquivo):
                         f"mas foi fornecido do tipo {type(bloco)}")
                 val = False
         else:
-            msg += f"Deve ser fornecido exatamente 1 bloco para Caso"
+            msg += "Deve ser fornecido exatamente 1 bloco para Caso"
             val = False
         if not val:
             raise TypeError(msg)

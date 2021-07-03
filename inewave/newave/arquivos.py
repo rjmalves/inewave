@@ -31,7 +31,7 @@ class Arquivos(Arquivo):
                         f"mas foi fornecido do tipo {type(bloco)}")
                 val = False
         else:
-            msg += f"Deve ser fornecido exatamente 1 bloco para Arquivos"
+            msg += "Deve ser fornecido exatamente 1 bloco para Arquivos"
             val = False
         if not val:
             raise TypeError(msg)
@@ -54,7 +54,6 @@ class Arquivos(Arquivo):
         escritor = Escrita(diretorio)
         escritor.escreve_arquivo(self._dados,
                                  nome_arquivo)
-
 
     def __le_nome_por_indice(self, indice: int) -> str:
         return self.__bloco.dados[indice]
@@ -94,7 +93,7 @@ class Arquivos(Arquivo):
     @confhd.setter
     def confhd(self, arq: str):
         self.__atualiza_nome_por_indice(2, arq)
-    
+
     @property
     def modif(self) -> str:
         """
@@ -105,7 +104,7 @@ class Arquivos(Arquivo):
     @modif.setter
     def modif(self, arq: str):
         self.__atualiza_nome_por_indice(3, arq)
-    
+
     @property
     def conft(self) -> str:
         """
@@ -116,7 +115,7 @@ class Arquivos(Arquivo):
     @conft.setter
     def conft(self, arq: str):
         self.__atualiza_nome_por_indice(4, arq)
-    
+
     @property
     def term(self) -> str:
         """
@@ -138,7 +137,7 @@ class Arquivos(Arquivo):
     @clast.setter
     def clast(self, arq: str):
         self.__atualiza_nome_por_indice(6, arq)
-    
+
     @property
     def exph(self) -> str:
         """
@@ -149,7 +148,7 @@ class Arquivos(Arquivo):
     @exph.setter
     def exph(self, arq: str):
         self.__atualiza_nome_por_indice(7, arq)
-    
+
     @property
     def expt(self) -> str:
         """
@@ -160,7 +159,7 @@ class Arquivos(Arquivo):
     @expt.setter
     def expt(self, arq: str):
         self.__atualiza_nome_por_indice(8, arq)
-    
+
     @property
     def patamar(self) -> str:
         """
@@ -193,7 +192,7 @@ class Arquivos(Arquivo):
     @cortesh.setter
     def cortesh(self, arq: str):
         self.__atualiza_nome_por_indice(11, arq)
-    
+
     @property
     def pmo(self) -> str:
         """
@@ -204,7 +203,7 @@ class Arquivos(Arquivo):
     @pmo.setter
     def pmo(self, arq: str):
         self.__atualiza_nome_por_indice(12, arq)
-    
+
     @property
     def parp(self) -> str:
         """
@@ -215,7 +214,7 @@ class Arquivos(Arquivo):
     @parp.setter
     def parp(self, arq: str):
         self.__atualiza_nome_por_indice(13, arq)
-    
+
     @property
     def forward(self) -> str:
         """
@@ -226,7 +225,7 @@ class Arquivos(Arquivo):
     @forward.setter
     def forward(self, arq: str):
         self.__atualiza_nome_por_indice(14, arq)
-    
+
     @property
     def forwardh(self) -> str:
         """
@@ -237,7 +236,7 @@ class Arquivos(Arquivo):
     @forwardh.setter
     def forwardh(self, arq: str):
         self.__atualiza_nome_por_indice(15, arq)
-    
+
     @property
     def shist(self) -> str:
         """
@@ -248,7 +247,7 @@ class Arquivos(Arquivo):
     @shist.setter
     def shist(self, arq: str):
         self.__atualiza_nome_por_indice(16, arq)
-    
+
     @property
     def manutt(self) -> str:
         """
@@ -260,7 +259,7 @@ class Arquivos(Arquivo):
     @manutt.setter
     def manutt(self, arq: str):
         self.__atualiza_nome_por_indice(17, arq)
-    
+
     @property
     def newdesp(self) -> str:
         """
@@ -271,7 +270,7 @@ class Arquivos(Arquivo):
     @newdesp.setter
     def newdesp(self, arq: str):
         self.__atualiza_nome_por_indice(18, arq)
-    
+
     @property
     def vazpast(self) -> str:
         """
@@ -282,7 +281,7 @@ class Arquivos(Arquivo):
     @vazpast.setter
     def vazpast(self, arq: str):
         self.__atualiza_nome_por_indice(19, arq)
-    
+
     @property
     def itaipu(self) -> str:
         """
@@ -304,7 +303,7 @@ class Arquivos(Arquivo):
     @bid.setter
     def bid(self, arq: str):
         self.__atualiza_nome_por_indice(21, arq)
-    
+
     @property
     def c_adic(self) -> str:
         """
@@ -315,7 +314,7 @@ class Arquivos(Arquivo):
     @c_adic.setter
     def c_adic(self, arq: str):
         self.__atualiza_nome_por_indice(22, arq)
-    
+
     @property
     def perda(self) -> str:
         """
@@ -326,7 +325,7 @@ class Arquivos(Arquivo):
     @perda.setter
     def perda(self, arq: str):
         self.__atualiza_nome_por_indice(23, arq)
-    
+
     @property
     def gtminpat(self) -> str:
         """
@@ -338,7 +337,7 @@ class Arquivos(Arquivo):
     @gtminpat.setter
     def gtminpat(self, arq: str):
         self.__atualiza_nome_por_indice(24, arq)
-    
+
     @property
     def elnino(self) -> str:
         """
@@ -349,7 +348,7 @@ class Arquivos(Arquivo):
     @elnino.setter
     def elnino(self, arq: str):
         self.__atualiza_nome_por_indice(25, arq)
-    
+
     @property
     def ensoaux(self) -> str:
         """
@@ -360,7 +359,7 @@ class Arquivos(Arquivo):
     @ensoaux.setter
     def ensoaux(self, arq: str):
         self.__atualiza_nome_por_indice(26, arq)
-    
+
     @property
     def dsvagua(self) -> str:
         """
@@ -371,7 +370,7 @@ class Arquivos(Arquivo):
     @dsvagua.setter
     def dsvagua(self, arq: str):
         self.__atualiza_nome_por_indice(27, arq)
-    
+
     @property
     def penalid(self) -> str:
         """
@@ -382,7 +381,7 @@ class Arquivos(Arquivo):
     @penalid.setter
     def penalid(self, arq: str):
         self.__atualiza_nome_por_indice(28, arq)
-    
+
     @property
     def curva(self) -> str:
         """
@@ -394,7 +393,7 @@ class Arquivos(Arquivo):
     @curva.setter
     def curva(self, arq: str):
         self.__atualiza_nome_por_indice(29, arq)
-    
+
     @property
     def agrint(self) -> str:
         """
@@ -406,7 +405,7 @@ class Arquivos(Arquivo):
     @agrint.setter
     def agrint(self, arq: str):
         self.__atualiza_nome_por_indice(30, arq)
-    
+
     @property
     def adterm(self) -> str:
         """
@@ -418,7 +417,7 @@ class Arquivos(Arquivo):
     @adterm.setter
     def adterm(self, arq: str):
         self.__atualiza_nome_por_indice(31, arq)
-    
+
     @property
     def ghmin(self) -> str:
         """
@@ -429,7 +428,7 @@ class Arquivos(Arquivo):
     @ghmin.setter
     def ghmin(self, arq: str):
         self.__atualiza_nome_por_indice(32, arq)
-    
+
     @property
     def sar(self) -> str:
         """
@@ -440,7 +439,7 @@ class Arquivos(Arquivo):
     @sar.setter
     def sar(self, arq: str):
         self.__atualiza_nome_por_indice(33, arq)
-    
+
     @property
     def cvar(self) -> str:
         """
@@ -451,7 +450,7 @@ class Arquivos(Arquivo):
     @cvar.setter
     def cvar(self, arq: str):
         self.__atualiza_nome_por_indice(34, arq)
-    
+
     @property
     def ree(self) -> str:
         """
@@ -462,7 +461,7 @@ class Arquivos(Arquivo):
     @ree.setter
     def ree(self, arq: str):
         self.__atualiza_nome_por_indice(35, arq)
-    
+
     @property
     def re(self) -> str:
         """
@@ -473,7 +472,7 @@ class Arquivos(Arquivo):
     @re.setter
     def re(self, arq: str):
         self.__atualiza_nome_por_indice(36, arq)
-    
+
     @property
     def tecno(self) -> str:
         """
@@ -484,7 +483,7 @@ class Arquivos(Arquivo):
     @tecno.setter
     def tecno(self, arq: str):
         self.__atualiza_nome_por_indice(37, arq)
-    
+
     @property
     def abertura(self) -> str:
         """
@@ -495,7 +494,7 @@ class Arquivos(Arquivo):
     @abertura.setter
     def abertura(self, arq: str):
         self.__atualiza_nome_por_indice(38, arq)
-    
+
     @property
     def gee(self) -> str:
         """
@@ -506,7 +505,7 @@ class Arquivos(Arquivo):
     @gee.setter
     def gee(self, arq: str):
         self.__atualiza_nome_por_indice(39, arq)
-    
+
     @property
     def clasgas(self) -> str:
         """

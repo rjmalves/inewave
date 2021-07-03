@@ -16,9 +16,7 @@ class BlocoCaso(Bloco):
 
         super().__init__("",
                          "",
-                         True,
-                         self.le,
-                         funcao_escrita=self.escreve)
+                         True)
 
         self._dados = ""
 
@@ -28,7 +26,7 @@ class BlocoCaso(Bloco):
 
     def escreve(self, arq: IO):
         arq.write(self._dados)
-        
+
 
 class LeituraCaso(Leitura):
     """
@@ -54,18 +52,3 @@ class LeituraCaso(Leitura):
         Cria a lista de blocos a serem lidos no arquivo caso.dat.
         """
         return [BlocoCaso()]
-
-    # Override
-    def _inicia_variaveis_leitura(self):
-        """
-        Inicia variáveis temporárias que são escritas durante
-        a leitura do arquivo.
-        """
-        pass
-
-    # Override
-    def _prepara_dados_saida(self):
-        """
-        Trata os dados obtidos do arquivo para ser retornado.
-        """
-        pass

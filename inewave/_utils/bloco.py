@@ -1,5 +1,5 @@
 from abc import abstractmethod
-from typing import Any, Callable, IO, Optional
+from typing import Any, IO, Optional
 
 
 class Bloco:
@@ -11,18 +11,11 @@ class Bloco:
     def __init__(self,
                  str_inicio: str,
                  str_final: str,
-                 obrigatorio: bool,
-                 funcao_leitura: Callable[[IO, str],
-                                          Optional[bool]],
-                 funcao_escrita: Callable[[IO, str],
-                                          None],
-                 dados: Optional[Any] = None):
+                 obrigatorio: bool):
         self._str_inicio = str_inicio
         self._str_final = str_final
         self._obrigatorio = obrigatorio
-        self._funcao_leitura = funcao_leitura
-        self._funcao_escrita = funcao_escrita
-        self._dados = dados
+        self._dados: Any = None
         self._encontrado = False
         self._ordem = 0
         self._lido = False
@@ -58,10 +51,10 @@ class Bloco:
         """
         """
         self._lido = True
-        return self._funcao_leitura(arq)
+        return self.le(arq)
 
     @abstractmethod
-    def le(self, arq: IO, cab=""):
+    def le(self, arq: IO):
         pass
 
     @abstractmethod

@@ -1,7 +1,7 @@
 from .cortes import Cortes
 from .cortesh import CortesH
 from .pmo import PMO
-from .parp import PARp
+from inewave.newave.parp import PARp
 from .forward import Forward
 from .forwardh import ForwardH
 

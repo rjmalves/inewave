@@ -1,10 +1,11 @@
 from abc import abstractmethod
-from typing import Any, IO, List, Dict, Tuple
+from typing import Any, IO, List, Dict
 import os
 from traceback import print_exc
 
 from inewave._utils.bloco import Bloco
 from .dadosarquivo import DadosArquivo
+
 
 class Leitura:
     """
@@ -80,7 +81,6 @@ class Leitura:
         Faz a leitura dos blocos de dados do arquivo.
         """
         self._blocos = self._cria_blocos_leitura()
-        self._inicia_variaveis_leitura()
         linha = ""
         i = 0
         while True:
@@ -112,7 +112,7 @@ class Leitura:
         except Exception:
             print_exc()
 
-    # @abstractmethod
+    @abstractmethod
     def _cria_blocos_leitura(self) -> List[Bloco]:
         """
         Método que cria a lista de blocos a serem lidos no arquivo.
@@ -120,20 +120,12 @@ class Leitura:
         """
         pass
 
-    # @abstractmethod
-    def _inicia_variaveis_leitura(self):
-        """
-        Inicia variáveis temporárias que são escritas durante
-        a leitura do arquivo.
-        """
-        pass
-
-    # @abstractmethod
     def _prepara_dados_saida(self):
         """
         Trata os dados obtidos do arquivo para ser retornado.
         """
-        pass
+        self._blocos = [b for b in self._blocos
+                        if b.concluido]
 
     def _fim_arquivo(self, linha: str) -> bool:
         """
