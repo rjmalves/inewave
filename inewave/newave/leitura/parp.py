@@ -9,7 +9,7 @@ from inewave.config import MAX_CONFIGURACOES
 from inewave.config import MESES, REES, ORDEM_MAX_PARP
 # Imports de módulos externos
 import numpy as np  # type: ignore
-from typing import Hashable, IO, List
+from typing import IO, List
 
 
 class BlocoSerieEnergiaREE(Bloco):
