@@ -1,32 +1,28 @@
 # Rotinas de testes associadas ao arquivo dsvagua.dat do NEWAVE
-from inewave.newave.dsvagua import LeituraDSVAgua, EscritaDSVAgua
+from inewave.newave.dsvagua import DSVAgua
 
 
-leitor = LeituraDSVAgua("tests/_arquivos")
-leitor.le_arquivo()
+dsv = DSVAgua.le_arquivo("tests/_arquivos")
 
 
 def test_leitura():
-    assert leitor.dsvagua.tabela.shape[0] > 0
+    assert dsv.desvios.shape[0] > 0
 
 
 def test_escrita_e_leitura():
-    escritor = EscritaDSVAgua("tests/_saidas")
-    escritor.escreve_arquivo(leitor.dsvagua)
-    leitor2 = LeituraDSVAgua("tests/_saidas")
-    leitor2.le_arquivo()
-    assert leitor.dsvagua == leitor2.dsvagua
+    dsv.escreve_arquivo("tests/_saidas")
+    dsv2 = DSVAgua.le_arquivo("tests/_saidas")
+    assert dsv == dsv2
 
 
 def test_eq_dsvagua():
-    leitor2 = LeituraDSVAgua("tests/_arquivos")
-    leitor2.le_arquivo()
-    assert leitor2.dsvagua == leitor.dsvagua
+    dsv2 = DSVAgua.le_arquivo("tests/_arquivos")
+    assert dsv == dsv2
 
 
-def test_neq_dsvagua():
-    leitor2 = LeituraDSVAgua("tests/_arquivos")
-    leitor2.le_arquivo()
-    leitor2.dsvagua.tabela[0, 0] = 1e-6
-    assert leitor2.dsvagua != leitor.dsvagua
-    assert leitor2.dsvagua is not None
+# def test_neq_dsvagua():
+#     dsv2 = DSVAgua.le_arquivo("tests/_arquivos")
+#     dsv2.le_arquivo()
+#     dsv2.dsvagua.tabela[0, 0] = 1e-6
+#     assert dsv2.dsvagua != leitor.dsvagua
+#     assert dsv2.dsvagua is not None

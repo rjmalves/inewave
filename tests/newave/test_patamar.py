@@ -1,59 +1,39 @@
 # Rotinas de testes associadas ao arquivo patamar.dat do NEWAVE
-from inewave.newave.patamar import LeituraPatamar
-from inewave.config import MESES
+from inewave.newave.patamar import Patamar
+from inewave.config import MESES, NUM_PATAMARES
 import numpy as np  # type: ignore
 
 
 anos_estudo_teste = [1995, 1996, 1997, 1998, 1999]
-leitor = LeituraPatamar("tests/_arquivos")
-leitor.le_arquivo()
+pat = Patamar.le_arquivo("tests/_arquivos")
 
 
 def test_leitura():
-    assert leitor.patamar.num_patamares != 0
+    assert len(pat.anos_estudo) > 0
 
 
 def test_eq_patamar():
-    leitor2 = LeituraPatamar("tests/_arquivos")
-    leitor2.le_arquivo()
-    assert leitor.patamar == leitor2.patamar
+    pat2 = Patamar.le_arquivo("tests/_arquivos")
+    assert pat == pat2
 
 
 def test_neq_patamar():
-    leitor2 = LeituraPatamar("tests/_arquivos")
-    leitor2.le_arquivo()
-    leitor2.patamar.anos_estudo = []
-    assert leitor.patamar != leitor2.patamar
+    pat2 = Patamar.le_arquivo("tests/_arquivos")
+    pat2.anos_estudo = [1990, 1991, 1992, 1993, 1994]
+    assert pat != pat2
 
 
 def test_anos_estudo():
-    assert anos_estudo_teste == leitor.patamar.anos_estudo
-
-
-def test_leitura_tabela():
-    assert np.all(leitor.patamar.patamares >= 0.0)
+    assert anos_estudo_teste == pat.anos_estudo
 
 
 def test_patamar_por_ano():
-    patamares_ano = leitor.patamar.patamares_por_ano
+    patamares_ano = pat.patamares_por_ano
     assert anos_estudo_teste == list(patamares_ano.keys())
     # Verifica as dimensões de cada conjunto de patamares
     # e se todos os valores são maiores que 0
-    n_meses = len(MESES)
     for ano in anos_estudo_teste:
         p = patamares_ano[ano]
-        assert p.shape == (leitor.patamar.num_patamares,
-                           n_meses)
+        assert p.shape == (NUM_PATAMARES,
+                           len(MESES))
         assert np.all(p > 0.0)
-
-
-def test_patamar_por_ano_e_mes():
-    patamares_ano = leitor.patamar.patamares_por_ano_e_mes
-    assert anos_estudo_teste == list(patamares_ano.keys())
-    # Verifica as dimensões de cada conjunto de patamares
-    # e se todos os valores são maiores que 0
-    for ano in anos_estudo_teste:
-        for mes in range(1, len(MESES) + 1):
-            p = patamares_ano[ano][mes]
-            assert p.shape == (leitor.patamar.num_patamares,)
-            assert np.all(p > 0.0)

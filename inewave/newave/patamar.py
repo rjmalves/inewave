@@ -1,119 +1,116 @@
-# Imports do próprio módulo
-from inewave._utils.leitura import Leitura
-from inewave.config import MAX_ANOS_ESTUDO, NUM_PATAMARES, MESES
-from .modelos.patamar import Patamar
-# Imports de módulos externos
-import os
+from inewave.newave.leitura.patamar import BlocoDuracaoPatamar
+from inewave.newave.leitura.patamar import LeituraPatamar
+from inewave._utils.dadosarquivo import DadosArquivo
+from inewave._utils.arquivo import Arquivo
+from inewave._utils.escrita import Escrita
+from inewave.config import MESES, NUM_PATAMARES
+
+from typing import List, Dict
 import numpy as np  # type: ignore
-from traceback import print_exc
-from typing import IO, List, Tuple
 
 
-class LeituraPatamar(Leitura):
+class Patamar(Arquivo):
     """
-    Realiza a leitura do arquivo patamar.dat
-    existente em um diretório de entradas do NEWAVE.
+    Armazena os dados de entrada do NEWAVE referentes aos
+    patamares de carga por submercado.
 
-    Esta classe contém o conjunto de utilidades para ler
-    e interpretar os campos de um arquivo patamar.dat, construindo
-    um objeto `Patamar` cujas informações são as mesmas do patamar.dat.
+    Esta classe pode lidar com um número qualquer de patamares
+    de carga, desde que as informações fornecidas a ela por meio
+    da tabela de valores seja compatível com o parâmetro `num_patamares`
+    da mesma.
 
-    Este objeto existe para retirar do modelo de dados a complexidade
-    de iterar pelas linhas do arquivo, recortar colunas, converter
-    tipos de dados, dentre outras tarefas necessárias para a leitura.
-
-    Uma vez realizada a leitura do arquivo, as informações são guardadas
-    internamente no atributo `patamar`.
-
-    **Exemplos**
-
-    >>> diretorio = "~/documentos/.../deck"
-    >>> leitor = LeituraPatamar(diretorio)
-    >>> leitor.le_arquivo()
-    # Ops, esqueci de pegar o objeto
-    >>> patamar = leitor.patamar
+    A tabela de patamares de carga é armazenada através de uma array
+    em `NumPy`, para otimizar cálculos futuros e espaço ocupado
+    em memória. A tabela interna é transformada em dicionários
+    e outras estruturas de dados mais palpáveis através das propriedades
+    da própria classe.
 
     """
-
-    str_fim_patamares = "SUBSISTEMA"
-
     def __init__(self,
-                 diretorio: str) -> None:
-        super().__init__(diretorio)
-        # Patamar default, depois é substituído
-        self.patamar = Patamar(0, [], np.array([]))
+                 dados: DadosArquivo):
+        super().__init__(dados)
+        # Interpreta o resultado da leitura
+        val = True
+        msg = "Erro na criação de Patamar: "
+        if len(dados.blocos) == 1:
+            bloco = dados.blocos[0]
+            if isinstance(bloco, BlocoDuracaoPatamar):
+                self.__bloco = bloco
+            else:
+                msg += (f"O bloco deve ser do tipo {BlocoDuracaoPatamar}, " +
+                        f"mas foi fornecido do tipo {type(bloco)}")
+                val = False
+        else:
+            msg += "Deve ser fornecido exatamente 1 bloco para Patamar"
+            val = False
+        if not val:
+            raise TypeError(msg)
 
-    def le_arquivo(self, nome_arquivo="patamar.dat") -> Patamar:
+    @classmethod
+    def le_arquivo(cls,
+                   diretorio: str,
+                   nome_arquivo="patamar.dat") -> 'Patamar':
         """
-        Realiza a leitura do arquivo `patamar.dat`.
         """
-        try:
-            caminho = os.path.join(self._diretorio, nome_arquivo)
-            with open(caminho, "r") as arq:
-                # Pula inicialmente duas linhas
-                # de número de patamares
-                self._le_linha_com_backup(arq)
-                self._le_linha_com_backup(arq)
-                # A terceira linha tem o número de patamares
-                linha = self._le_linha_com_backup(arq)
-                num_pat = int(linha[1:3])
-                if num_pat != NUM_PATAMARES:
-                    raise Exception("Número de patamares incompatível")
-                # Em seguida, pula três linhas e inicia a leitura
-                # da tabela de patamares
-                self._le_linha_com_backup(arq)
-                self._le_linha_com_backup(arq)
-                self._le_linha_com_backup(arq)
-                # Lê a tabela de valores
-                anos, tabela = self._le_patamares(arq)
-                self.patamar = Patamar(NUM_PATAMARES, anos, tabela)
-                return self.patamar
-        except Exception:
-            print_exc()
-            return Patamar(0, [], np.array([]))
+        leitor = LeituraPatamar(diretorio)
+        r = leitor.le_arquivo(nome_arquivo)
+        return cls(r)
 
-    def _le_patamares(self, arq: IO) -> Tuple[List[int], np.ndarray]:
+    def escreve_arquivo(self,
+                        diretorio: str,
+                        nome_arquivo="patamar.dat"):
         """
-        Faz a leitura da tabela de patamares de carga.
         """
-        anos: List[int] = []
-        patamares = np.zeros((NUM_PATAMARES * MAX_ANOS_ESTUDO,
-                              len(MESES)))
-        n = 0
-        while True:
-            # Confere se a tabela já acabou
-            linha = self._le_linha_com_backup(arq)
-            self._configura_backup()
-            if LeituraPatamar.str_fim_patamares in linha:
-                # Retorna os anos de estudo e o recorte da tabela
-                # com os valores usados
-                return anos, patamares[:n*NUM_PATAMARES, :]
-            # Senão, lê mais um ano
-            a, p = self._le_patamares_ano(arq)
-            anos.append(a)
-            li = n * NUM_PATAMARES
+        escritor = Escrita(diretorio)
+        escritor.escreve_arquivo(self._dados,
+                                 nome_arquivo)
+
+    @property
+    def anos_estudo(self) -> np.ndarray:
+        """
+        Valores não-nulos da primeira coluna da tabela de duração
+         mensal dos patamares, que contém os anos de estudo.
+
+        **Retorna**
+
+        `np.ndarray`
+
+        **Sobre**
+
+        """
+        primeira_col = self.__bloco.dados[:, 0]
+        return np.array(primeira_col[primeira_col > 0],
+                        dtype=np.int64)
+
+    @anos_estudo.setter
+    def anos_estudo(self, anos: np.ndarray):
+        anos_espacados: np.ndarray = np.zeros((self.__bloco.dados.shape[0],),
+                                              dtype=np.float64)
+        if anos_espacados.shape[0] > self.__bloco.dados.shape[0]:
+            raise ValueError(f"Número de anos de estudo muito grande!")
+        anos_espacados[::NUM_PATAMARES] = anos
+        self.__bloco.dados[:, 0] = anos_espacados
+
+    @property
+    def patamares_por_ano(self) -> Dict[int, np.ndarray]:
+        """
+        Valores contidos na tabela de patamares, organizados
+        por ano.
+
+        **Retorna**
+
+        `Dict[int, np.ndarray]`
+
+        **Sobre**
+
+        O acesso é feito com [ano] e o valor fornecido
+        é uma array 2-D do `NumPy` com os valores dos patamares para todo
+        os meses de um ano, semelhante a uma linha do arquivo patamar.dat.
+        """
+        patamares_ano: Dict[int, np.ndarray] = {}
+        # Preenche com os valores
+        for i, a in enumerate(self.anos_estudo):
+            li = NUM_PATAMARES * i
             lf = li + NUM_PATAMARES
-            patamares[li:lf, :] = p
-            n += 1
-
-    def _le_patamares_ano(self, arq: IO) -> Tuple[int, np.ndarray]:
-        """
-        Lê os patamares de um ano na tabela de patamares.
-        """
-        patamares_ano = np.zeros((NUM_PATAMARES, len(MESES)))
-        cols = 6
-        ano = 0
-        for p in range(NUM_PATAMARES):
-            linha = self._le_linha_com_backup(arq)
-            if p == 0:
-                # Se é o primeiro patamar, extrai o ano
-                ano = int(linha[0:4])
-            col_i = 6
-            for m in range(len(MESES)):
-                col_f = col_i + cols
-                patamares_ano[p, m] = float(linha[col_i:col_f])
-                col_i = col_f + 2
-        return ano, patamares_ano
-
-    def _fim_arquivo(self, linha: str) -> bool:
-        return False
+            patamares_ano[a] = self.__bloco.dados[li:lf, 1:]
+        return patamares_ano
