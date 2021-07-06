@@ -2,7 +2,7 @@
 from inewave._utils.registros import RegistroFn, RegistroIn
 from inewave._utils.bloco import Bloco
 from inewave._utils.leitura import Leitura
-from inewave.config import MESES
+from inewave.config import MAX_ANOS_ESTUDO, MAX_UHES, MESES
 # Imports de módulos externos
 import numpy as np  # type: ignore
 from typing import IO, List
@@ -21,7 +21,7 @@ class BlocoDsvUHE(Bloco):
                          "",
                          True)
 
-        self._dados: np.ndarray = np.zeros((1500,
+        self._dados: np.ndarray = np.zeros((MAX_ANOS_ESTUDO * MAX_UHES,
                                            len(MESES) + 3),
                                            dtype=np.float64)
 

@@ -3,7 +3,6 @@ from inewave._utils.arquivo import Arquivo
 from inewave.newave.leitura.vazpast import BlocoVazPast, LeituraVazPast
 from inewave._utils.escrita import Escrita
 
-from typing import List
 import numpy as np  # type: ignore
 
 
@@ -52,20 +51,20 @@ class VazPast(Arquivo):
 
     @property
     def postos(self) -> np.ndarray:
-        return self.__bloco.dados[2][:, 0]
+        return self.__bloco._dados[2][:, 0]
 
     @postos.setter
     def postos(self, posto: np.ndarray):
         if posto.shape != self.postos.shape:
             raise ValueError("Deve ser atribuído o mesmo número de postos.")
-        self.__bloco.dados[2[:, 0]] = posto
+        self.__bloco._dados[2][:, 0] = posto
 
     @property
     def nomes_usinas(self) -> np.ndarray:
-        return self.__bloco.dados[2][:, 1]
+        return self.__bloco._dados[2][:, 1]
 
     @nomes_usinas.setter
     def nomes_usinas(self, nomes: np.ndarray):
         if nomes.shape != self.nomes_usinas.shape:
             raise ValueError("Deve ser atribuído o mesmo número de nomes.")
-        self.__bloco.dados[2[:, 1]] = nomes
+        self.__bloco._dados[2][:, 1] = nomes

@@ -14,6 +14,7 @@ class DSVAgua(Arquivo):
     que podem ser modificadas através do arquivo `dsvagua.dat`.
 
     """
+
     def __init__(self,
                  dados: DadosArquivo):
         super().__init__(dados)

@@ -25,6 +25,7 @@ class Arquivo:
         for b1, b2 in zip(self._blocos,
                           arquivos._blocos):
             if b1 != b2:
+                dif = True
                 break
         return not dif
 

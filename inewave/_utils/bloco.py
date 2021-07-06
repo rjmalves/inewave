@@ -78,3 +78,7 @@ class Bloco:
         Retorna os dados lidos pelo bloco.
         """
         return self._dados
+
+    @dados.setter
+    def dados(self, d: Any):
+        self._dados = d

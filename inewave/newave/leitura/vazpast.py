@@ -2,7 +2,7 @@
 from inewave._utils.registros import RegistroAn, RegistroFn, RegistroIn
 from inewave._utils.bloco import Bloco
 from inewave._utils.leitura import Leitura
-from inewave.config import MESES
+from inewave.config import MAX_UHES, MESES
 # Imports de módulos externos
 import numpy as np  # type: ignore
 from typing import IO, List
@@ -22,7 +22,7 @@ class BlocoVazPast(Bloco):
                          "",
                          True)
 
-        self._dados = [0, 0, np.zeros((300,
+        self._dados = [0, 0, np.zeros((MAX_UHES,
                                       len(MESES) + 2),
                                       dtype="<U11")]
 
