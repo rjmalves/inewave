@@ -1,6 +1,7 @@
 pytest
 pytest-cov
 numpy
+pandas
 flake8
 mypy
 sphinx

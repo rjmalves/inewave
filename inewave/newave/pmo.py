@@ -12,6 +12,7 @@ from inewave.newave.leitura.pmo import LeituraPMO
 
 from typing import Dict, List, Type
 import numpy as np  # type: ignore
+import pandas as pd  # type: ignore
 
 
 class EnergiasAfluentesPMO:
@@ -562,3 +563,112 @@ class PMO(Arquivo):
         for i, r in enumerate(REES):
             retas[r] = self.__mars[0].dados[:, :, i]
         return retas
+
+    @property
+    def convergencia(self) -> pd.DataFrame:
+        """
+        Tabela de convergência da execução do NEWAVE.
+
+        **Retorna**
+
+        `pandas.DataFrame`
+        """
+        df = pd.DataFrame(self.__convergencia[0].dados,
+                          columns=[
+                                   "Iteracao",
+                                   "Lim. Inferior",
+                                   "Zinf",
+                                   "Lim. Superior",
+                                   "Zsup",
+                                   "Delta Zinf",
+                                   "Zsup Iteracao",
+                                   "Tempo (s)"
+                                  ])
+        # Constroi o DataFrame a partir da tabela do NumPy
+        return df
+
+    @property
+    def risco_deficit_ens(self) -> pd.DataFrame:
+        """
+        Tabela de riscos de déficit e enegia não suprida (ENS).
+
+        **Retorna**
+
+        `pandas.DataFrame`
+        """
+        df = pd.DataFrame(self.__risco_deficit[0].dados,
+                          columns=[
+                                   "Ano",
+                                   "Risco (%) SE",
+                                   "EENS (MWMes) SE",
+                                   "Risco (%) S",
+                                   "EENS (MWMes) S",
+                                   "Risco (%) NE",
+                                   "EENS (MWMes) NE",
+                                   "Risco (%) N",
+                                   "EENS (MWMes) N"
+                                  ])
+        return df
+
+    @property
+    def custo_operacao_series_simuladas(self) -> pd.DataFrame:
+        """
+        Tabela de custos de operação categorizados para as
+        séries simuladas.
+
+        **Retorna**
+
+        `pandas.DataFrame`
+        """
+        df = pd.DataFrame(self.__custos[0].dados,
+                          columns=[
+                                   "Valor Esperado",
+                                   "Desvio Padrão do VE",
+                                   "(%)"
+                                  ])
+        indices = pd.Series(BlocoCustoOperacaoPMO.componentes_custo)
+        df.set_index(indices,
+                     inplace=True)
+        return df
+
+    @property
+    def valor_esperado_periodo_estudo(self) -> pd.DataFrame:
+        """
+        Tabela de custos de operação esperados para o período
+        de estudo.
+
+        **Retorna**
+
+        `pandas.DataFrame`
+        """
+        df = pd.DataFrame(self.__custos[1].dados,
+                          columns=[
+                                   "Valor Esperado",
+                                   "Desvio Padrão do VE",
+                                   "(%)"
+                                  ])
+        indices = pd.Series(BlocoCustoOperacaoPMO.componentes_custo)
+        df.set_index(indices,
+                     inplace=True)
+        return df
+
+    @property
+    def custo_operacao_referenciado_primeiro_mes(self) -> pd.DataFrame:
+        """
+        Tabela de custos de operação esperados para o período
+        de estudo, referenciados ao primeiro mês.
+
+        **Retorna**
+
+        `pandas.DataFrame`
+        """
+        df = pd.DataFrame(self.__custos[2].dados,
+                          columns=[
+                                   "Valor Esperado",
+                                   "Desvio Padrão do VE",
+                                   "(%)"
+                                  ])
+        indices = pd.Series(BlocoCustoOperacaoPMO.componentes_custo)
+        df.set_index(indices,
+                     inplace=True)
+        return df

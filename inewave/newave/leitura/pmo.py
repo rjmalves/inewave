@@ -467,8 +467,8 @@ class BlocoRiscoDeficitENSPMO(Bloco):
         arq.readline()
         # Variáveis auxiliares
         reg_ano = RegistroIn(4)
-        reg_risco = RegistroFn(5)
-        reg_eens = RegistroFn(7)
+        reg_risco = RegistroFn(6)
+        reg_eens = RegistroFn(8)
         i = 0
         while True:
             linha: str = arq.readline()
@@ -479,11 +479,11 @@ class BlocoRiscoDeficitENSPMO(Bloco):
             self._dados[i, 0] = reg_ano.le_registro(linha, 1)
             self._dados[i, 1::2] = reg_risco.le_linha_tabela(linha,
                                                              6,
-                                                             9,
+                                                             8,
                                                              len(SUBMERCADOS))
             self._dados[i, 2::2] = reg_eens.le_linha_tabela(linha,
                                                             12,
-                                                            7,
+                                                            6,
                                                             len(SUBMERCADOS))
             i += 1
 
@@ -497,6 +497,8 @@ class BlocoCustoOperacaoPMO(Bloco):
     Bloco de informações sobre os custos de operação categorizados
     existentes no arquivo `pmo.dat`.
     """
+
+    str_inicio = "PARCELA           V.ESPERADO  D.P. DO V.E."
 
     componentes_custo = [
                          "GERACAO TERMICA   ",
@@ -517,8 +519,8 @@ class BlocoCustoOperacaoPMO(Bloco):
                          "VIOLACAO EMIS. GEE"
                         ]
 
-    def __init__(self, str_inicio: str):
-        super().__init__(str_inicio,
+    def __init__(self):
+        super().__init__(BlocoCustoOperacaoPMO.str_inicio,
                          "",
                          True)
         self._dados = np.zeros((len(BlocoCustoOperacaoPMO.componentes_custo),
@@ -533,14 +535,7 @@ class BlocoCustoOperacaoPMO(Bloco):
 
     # Override
     def le(self, arq: IO):
-        # Procura o cabeçalho da tabela
-        inicio_tabela = "PARCELA           V.ESPERADO"
-        iniciou = False
-        linha = ""
-        while not iniciou:
-            linha = arq.readline()
-            iniciou = inicio_tabela in linha
-        # Se encontrou, salta uma linha
+        # Salta uma linha
         arq.readline()
         # Variáveis auxiliares
         reg_valores = RegistroFn(13)
@@ -593,9 +588,9 @@ class LeituraPMO(Leitura):
                              for _ in range(MAX_CONFIGURACOES)]
 
         custos = [
-                  BlocoCustoOperacaoPMO("CUSTO DE OPERACAO DAS"),
-                  BlocoCustoOperacaoPMO("VALOR ESPERADO PARA PERIODO"),
-                  BlocoCustoOperacaoPMO("CUSTO OPERACAO REFERENCIADO")
+                  BlocoCustoOperacaoPMO(),
+                  BlocoCustoOperacaoPMO(),
+                  BlocoCustoOperacaoPMO()
                  ]
 
         return ([BlocoEcoDgerPMO()] +
