@@ -581,21 +581,22 @@ class LeituraPMO(Leitura):
         """
         Cria a lista de blocos a serem lidos no arquivo parp.dat.
         """
+        eco_dger: List[Bloco] = [BlocoEcoDgerPMO()]
+        convergencia: List[Bloco] = [BlocoConvergenciaPMO()]
+        risco_deficit: List[Bloco] = [BlocoRiscoDeficitENSPMO()]
         configs_exp: List[Bloco] = [BlocoConfiguracoesExpansaoPMO()
                                     for _ in range(3)]
-
         mars: List[Bloco] = [BlocoMARSPMO()
                              for _ in range(MAX_CONFIGURACOES)]
+        custos: List[Bloco] = [
+                               BlocoCustoOperacaoPMO(),
+                               BlocoCustoOperacaoPMO(),
+                               BlocoCustoOperacaoPMO()
+                              ]
 
-        custos = [
-                  BlocoCustoOperacaoPMO(),
-                  BlocoCustoOperacaoPMO(),
-                  BlocoCustoOperacaoPMO()
-                 ]
-
-        return ([BlocoEcoDgerPMO()] +
-                [BlocoConvergenciaPMO()] +
-                [BlocoRiscoDeficitENSPMO()] +
+        return (eco_dger +
+                convergencia +
+                risco_deficit +
                 configs_exp +
                 mars +
                 custos)
