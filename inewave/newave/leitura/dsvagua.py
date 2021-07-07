@@ -25,6 +25,15 @@ class BlocoDsvUHE(Bloco):
                                            len(MESES) + 3),
                                            dtype=np.float64)
 
+    def __eq__(self, o: object) -> bool:
+        """
+        A igualdade entre EnergiaFioLiquidaREEPMO avalia todos os campos.
+        """
+        if not isinstance(o, BlocoDsvUHE):
+            return False
+        e: BlocoDsvUHE = o
+        return np.array_equal(self._dados, e._dados)
+
     # Override
     def le(self, arq: IO):
         # Variáveis auxiliares

@@ -609,14 +609,14 @@ class DGer(Arquivo):
         self.__escreve_por_tipo(BlocoTipoGeracaoENA, dado)
 
     @property
-    def risco_deficit(self) -> List[int]:
+    def risco_deficit(self) -> List[float]:
         """
         Configuração da linha número 45 do arquivo `dger.dat`.
         """
         return self.__le_por_tipo(BlocoRiscoDeficit)
 
     @risco_deficit.setter
-    def risco_deficit(self, dado: List[int]):
+    def risco_deficit(self, dado: List[float]):
         self.__escreve_por_tipo(BlocoRiscoDeficit, dado)
 
     @property

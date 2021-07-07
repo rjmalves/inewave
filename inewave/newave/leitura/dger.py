@@ -529,6 +529,13 @@ class BlocoNumAberturas(Bloco):
 
         self._dados = [0, 0]
 
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoNumAberturas):
+            return False
+        bloco: BlocoNumAberturas = o
+        return all([d1 == d2 for d1, d2 in zip(self._dados,
+                                               bloco._dados)])
+
     # Override
     def le(self, arq: IO):
         reg = RegistroIn(4)
@@ -621,6 +628,13 @@ class BlocoAnoInicialHistorico(Bloco):
 
         self._dados = [0, 0]
 
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoAnoInicialHistorico):
+            return False
+        bloco: BlocoAnoInicialHistorico = o
+        return all([d1 == d2 for d1, d2 in zip(self._dados,
+                                               bloco._dados)])
+
     # Override
     def le(self, arq: IO):
         reg = RegistroIn(4)
@@ -654,6 +668,13 @@ class BlocoCalculaVolInicial(Bloco):
 
         self._dados = [0, 0]
 
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoCalculaVolInicial):
+            return False
+        bloco: BlocoCalculaVolInicial = o
+        return all([d1 == d2 for d1, d2 in zip(self._dados,
+                                               bloco._dados)])
+
     # Override
     def le(self, arq: IO):
         reg = RegistroIn(4)
@@ -686,6 +707,13 @@ class BlocoVolInicialSubsistema(Bloco):
                          True)
 
         self._dados = np.zeros((len(SUBMERCADOS) + 1,), dtype=np.float64)
+
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoVolInicialSubsistema):
+            return False
+        bloco: BlocoVolInicialSubsistema = o
+        return all([d1 == d2 for d1, d2 in zip(self._dados,
+                                               bloco._dados)])
 
     # Override
     def le(self, arq: IO):
@@ -994,6 +1022,13 @@ class BlocoTendenciaHidrologica(Bloco):
                          True)
 
         self._dados = [0, 0]
+
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoTendenciaHidrologica):
+            return False
+        bloco: BlocoTendenciaHidrologica = o
+        return all([d1 == d2 for d1, d2 in zip(self._dados,
+                                               bloco._dados)])
 
     # Override
     def le(self, arq: IO):
@@ -1326,6 +1361,13 @@ class BlocoRiscoDeficit(Bloco):
                          True)
 
         self._dados = [0, 0]
+
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoRiscoDeficit):
+            return False
+        bloco: BlocoRiscoDeficit = o
+        return all([d1 == d2 for d1, d2 in zip(self._dados,
+                                               bloco._dados)])
 
     # Override
     def le(self, arq: IO):
@@ -1751,6 +1793,13 @@ class BlocoGerenciamentoPLs(Bloco):
 
         self._dados = [0, 0, 0, 0, 0]
 
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoGerenciamentoPLs):
+            return False
+        bloco: BlocoGerenciamentoPLs = o
+        return all([d1 == d2 for d1, d2 in zip(self._dados,
+                                               bloco._dados)])
+
     # Override
     def le(self, arq: IO):
         reg = RegistroIn(4)
@@ -1995,6 +2044,13 @@ class BlocoReamostragemCenarios(Bloco):
                          True)
 
         self._dados = [0, 0, 0]
+
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoReamostragemCenarios):
+            return False
+        bloco: BlocoReamostragemCenarios = o
+        return all([d1 == d2 for d1, d2 in zip(self._dados,
+                                               bloco._dados)])
 
     # Override
     def le(self, arq: IO):
@@ -2480,6 +2536,13 @@ class BlocoAfluenciaAnualPARp(Bloco):
                          True)
 
         self._dados = [0, 0]
+
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoAfluenciaAnualPARp):
+            return False
+        bloco: BlocoAfluenciaAnualPARp = o
+        return all([d1 == d2 for d1, d2 in zip(self._dados,
+                                               bloco._dados)])
 
     # Override
     def le(self, arq: IO):

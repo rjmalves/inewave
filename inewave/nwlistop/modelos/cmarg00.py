@@ -1,6 +1,6 @@
 from typing import Dict
 import numpy as np  # type: ignore
-from inewave.newave.modelos.patamar import Patamar
+from inewave.newave.patamar import Patamar
 from inewave.config import NUM_PATAMARES, NUM_CENARIOS, MESES
 
 

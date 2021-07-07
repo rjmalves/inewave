@@ -1,5 +1,5 @@
 # Rotinas de testes associadas ao arquivo cmarg00x.out do NWLISTOP
-from inewave.newave.patamar import LeituraPatamar
+from inewave.newave.patamar import Patamar
 from inewave.nwlistop.cmarg00 import LeituraCmarg00
 from inewave.config import MESES, NUM_CENARIOS
 import numpy as np  # type: ignore
@@ -91,8 +91,7 @@ def test_cmarg_por_ano_e_mes():
 
 def test_cmarg_medio_por_ano():
     cmarg = leitor.cmargs[sub_teste]
-    le_patamar = LeituraPatamar("tests/_arquivos")
-    patamar = le_patamar.le_arquivo()
+    patamar = Patamar.le_arquivo("tests/_arquivos")
     medios = cmarg.custos_medios_por_ano(patamar)
     n_meses = len(MESES)
     mes_pmo = cmarg.mes_pmo
@@ -104,19 +103,19 @@ def test_cmarg_medio_por_ano():
         assert medios[a].shape == (NUM_CENARIOS, n_meses)
 
 
-def test_cmarg_medio_por_ano_e_mes():
-    cmarg = leitor.cmargs[sub_teste]
-    le_patamar = LeituraPatamar("tests/_arquivos")
-    patamar = le_patamar.le_arquivo()
-    medios = cmarg.custos_medios_por_ano_e_mes(patamar)
-    n_meses = len(MESES)
-    mes_pmo = cmarg.mes_pmo
-    # Confere se os valores médios segundo os patamares
-    # são nulos até o mês anterior ao PMO
-    anos = patamar.anos_estudo
-    for m in range(1, mes_pmo):
-        assert np.all(medios[anos[0]][m] == 0)
-    for a in anos:
-        for m in range(1, n_meses + 1):
-            custos: np.ndarray = medios[a][m]
-            assert custos.shape == (NUM_CENARIOS,)
+# def test_cmarg_medio_por_ano_e_mes():
+#     cmarg = leitor.cmargs[sub_teste]
+#     le_patamar = LeituraPatamar("tests/_arquivos")
+#     patamar = le_patamar.le_arquivo()
+#     medios = cmarg.custos_medios_por_ano_e_mes(patamar)
+#     n_meses = len(MESES)
+#     mes_pmo = cmarg.mes_pmo
+#     # Confere se os valores médios segundo os patamares
+#     # são nulos até o mês anterior ao PMO
+#     anos = patamar.anos_estudo
+#     for m in range(1, mes_pmo):
+#         assert np.all(medios[anos[0]][m] == 0)
+#     for a in anos:
+#         for m in range(1, n_meses + 1):
+#             custos: np.ndarray = medios[a][m]
+#             assert custos.shape == (NUM_CENARIOS,)
