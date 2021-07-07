@@ -34,7 +34,7 @@ class DSVAgua(Arquivo):
             val = False
         if not val:
             raise TypeError(msg)
-    
+
     @classmethod
     def le_arquivo(cls,
                    diretorio: str,

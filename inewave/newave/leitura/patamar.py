@@ -47,14 +47,15 @@ class BlocoDuracaoPatamar(Bloco):
                 self._dados[i, 0] = reg_ano.le_registro(linha, 0)
             # Desvios
             self._dados[i, 1:] = reg_pat.le_linha_tabela(linha,
-                                                           6,
-                                                           2,
-                                                           len(MESES))
+                                                         6,
+                                                         2,
+                                                         len(MESES))
             i += 1
 
     # Override
     def escreve(self, arq: IO):
         n_meses = len(MESES)
+
         def escreve_patamares():
             lin_tab = self._dados.shape[0]
             for i in range(lin_tab):
@@ -72,9 +73,9 @@ class BlocoDuracaoPatamar(Bloco):
 
         # Escreve cabeçalhos
         titulos = ("      JAN     FEV     MAR     ABR     MAI     JUN     "
-                    + "JUL     AGO     SET     OUT     NOV     DEZ" + "\n")
+                   + "JUL     AGO     SET     OUT     NOV     DEZ" + "\n")
         cab = ("      X.XXXX  X.XXXX  X.XXXX  X.XXXX  X.XXXX  X.XXXX  "
-                + "X.XXXX  X.XXXX  X.XXXX  X.XXXX  X.XXXX  X.XXXX" + "\n")
+               + "X.XXXX  X.XXXX  X.XXXX  X.XXXX  X.XXXX  X.XXXX" + "\n")
         arq.write(f"{BlocoDuracaoPatamar.str_inicio}\n")
         arq.write(titulos)
         arq.write(cab)

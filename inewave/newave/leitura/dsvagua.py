@@ -59,6 +59,7 @@ class BlocoDsvUHE(Bloco):
     # Override
     def escreve(self, arq: IO):
         n_meses = len(MESES)
+
         def escreve_desvios():
             lin_tab = self._dados.shape[0]
             for i in range(lin_tab):
@@ -77,9 +78,9 @@ class BlocoDsvUHE(Bloco):
 
         # Escreve cabeçalhos
         titulos = ("ANO  USIN    JAN    FEV    MAR    ABR    MAI    JUN"
-                    + "    JUL    AGO    SET    OUT    NOV    DEZ" + "\n")
+                   + "    JUL    AGO    SET    OUT    NOV    DEZ" + "\n")
         cab = ("XXXX  XXX XXXX.X XXXX.X XXXX.X XXXX.X XXXX.X XXXX.X "
-                + "XXXX.X XXXX.X XXXX.X XXXX.X XXXX.X XXXX.X" + "\n")
+               + "XXXX.X XXXX.X XXXX.X XXXX.X XXXX.X XXXX.X" + "\n")
         arq.write(titulos)
         arq.write(cab)
         escreve_desvios()

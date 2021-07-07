@@ -151,9 +151,9 @@ class BlocoConfUHE(Bloco):
 
         # Escreve cabeçalhos
         titulos = (" NUM  NOME         POSTO JUS   REE V.INIC"
-                    + " U.EXIS MODIF INIC.HIST FIM HIST" + "\n")
+                   + " U.EXIS MODIF INIC.HIST FIM HIST" + "\n")
         cabecalhos = (" XXXX XXXXXXXXXXXX XXXX  XXXX XXXX XXX.XX"
-                        + " XXXX   XXXX     XXXX     XXXX" + "\n")
+                      + " XXXX   XXXX     XXXX     XXXX" + "\n")
         arq.write(titulos)
         arq.write(cabecalhos)
         # Escreve UHEs

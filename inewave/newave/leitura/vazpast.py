@@ -30,7 +30,6 @@ class BlocoVazPast(Bloco):
     def le(self, arq: IO):
         # Pula as duas primeiras linhas, com cabeçalhos
         arq.readline()
-        n_meses = len(MESES)
         # Extrai o mês e ano do estudo
         linha = arq.readline()
 

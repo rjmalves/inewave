@@ -3,9 +3,9 @@ from inewave.newave.leitura.patamar import LeituraPatamar
 from inewave._utils.dadosarquivo import DadosArquivo
 from inewave._utils.arquivo import Arquivo
 from inewave._utils.escrita import Escrita
-from inewave.config import MESES, NUM_PATAMARES
+from inewave.config import NUM_PATAMARES
 
-from typing import List, Dict
+from typing import Dict
 import numpy as np  # type: ignore
 
 
@@ -87,7 +87,7 @@ class Patamar(Arquivo):
         anos_espacados: np.ndarray = np.zeros((self.__bloco.dados.shape[0],),
                                               dtype=np.float64)
         if anos_espacados.shape[0] > self.__bloco.dados.shape[0]:
-            raise ValueError(f"Número de anos de estudo muito grande!")
+            raise ValueError("Número de anos de estudo muito grande!")
         anos_espacados[::NUM_PATAMARES] = anos
         self.__bloco.dados[:, 0] = anos_espacados
 

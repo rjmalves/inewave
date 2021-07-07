@@ -175,97 +175,97 @@ class BlocoOrdensFinaisCoefsREE(Bloco):
                       ]
         self.__ano = "0"
 
+    def __le_ordens(self, arq: IO) -> int:
+
+        def _identifica_ano_estudo(linha: str):
+            """
+            Identifica o ano de estudo em questão.
+            """
+            # Não pode usar uma leitura simples de registro
+            # pois pode ter "POS" no lugar
+            ano: str = linha[32:36]
+            self.__ano = (ano if ano.isnumeric()
+                          else str(int(self.__ano) + 1))
+
+        # Variáveis auxiliares
+        i_ano = 0
+        reg = RegistroIn(3)
+        # Salta 3 linhas
+        for _ in range(3):
+            arq.readline()
+        while True:
+            linha: str = arq.readline()
+            # Confere se a tabela já acabou
+            if len(linha) < 3:  # Tolerância a caracteres especiais
+                self._dados[0] = self._dados[0][:i_ano, :]
+                break
+            # Extrai o ano
+            _identifica_ano_estudo(linha)
+            self._dados[0][i_ano, 0] = int(self.__ano)
+            # As ordens de cada mês
+            self._dados[0][i_ano,
+                           1:] = reg.le_linha_tabela(linha,
+                                                     38,
+                                                     2,
+                                                     len(MESES))
+            i_ano += 1
+        return i_ano
+
+    def __le_coeficientes(self, arq: IO, n_anos: int):
+
+        def _le_tabela():
+
+            def _extrai_ordem_modelo(linha: str):
+                """
+                """
+                return int(linha.split("AR(")[1][:-2])
+
+            def _le_coefs_periodo():
+                """
+                """
+                for o in range(2):
+                    linha: str = arq.readline()
+                    self._dados[1][i_coefs,
+                                   :ordem,
+                                   o] = regf.le_linha_tabela(linha,
+                                                             0,
+                                                             2,
+                                                             ordem)
+
+            def _le_coef_media():
+                """
+                """
+                for o in range(2, 4):
+                    linha: str = arq.readline()
+                    # Se não possui dados de média, não lê
+                    if len(linha) < 3:
+                        break
+                    self._dados[1][i_coefs,
+                                   0,
+                                   o] = regf.le_registro(linha,
+                                                         0)
+
+            # Variaveis auxiliares
+            regf = RegistroFn(9)
+            linha = ""
+            # Procura pelo cabeçalho dos coeficientes do período
+            while "COEFICIENTES DA EQUACAO" not in linha:
+                linha: str = arq.readline()
+            ordem = _extrai_ordem_modelo(linha)
+            _le_coefs_periodo()
+            _le_coef_media()
+
+        n_periodos = n_anos * len(MESES)
+        for i_coefs in range(n_periodos):
+            _le_tabela()
+
+        self._dados[1] = self._dados[1][:n_periodos, :, :]
+
     # Override
     def le(self, arq: IO):
 
-        def le_ordens() -> int:
-
-            def _identifica_ano_estudo(linha: str):
-                """
-                Identifica o ano de estudo em questão.
-                """
-                # Não pode usar uma leitura simples de registro
-                # pois pode ter "POS" no lugar
-                ano: str = linha[32:36]
-                self.__ano = (ano if ano.isnumeric()
-                              else str(int(self.__ano) + 1))
-
-            # Variáveis auxiliares
-            i_ano = 0
-            reg = RegistroIn(3)
-            # Salta 3 linhas
-            for _ in range(3):
-                arq.readline()
-            while True:
-                linha: str = arq.readline()
-                # Confere se a tabela já acabou
-                if len(linha) < 3:  # Tolerância a caracteres especiais
-                    self._dados[0] = self._dados[0][:i_ano, :]
-                    break
-                # Extrai o ano
-                _identifica_ano_estudo(linha)
-                self._dados[0][i_ano, 0] = int(self.__ano)
-                # As ordens de cada mês
-                self._dados[0][i_ano,
-                               1:] = reg.le_linha_tabela(linha,
-                                                         38,
-                                                         2,
-                                                         len(MESES))
-                i_ano += 1
-            return i_ano
-
-        def le_coeficientes(n_anos: int):
-
-            def _le_tabela():
-
-                def _extrai_ordem_modelo(linha: str):
-                    """
-                    """
-                    return int(linha.split("AR(")[1][:-2])
-
-                def _le_coefs_periodo():
-                    """
-                    """
-                    for o in range(2):
-                        linha: str = arq.readline()
-                        self._dados[1][i_coefs,
-                                       :ordem,
-                                       o] = regf.le_linha_tabela(linha,
-                                                                 0,
-                                                                 2,
-                                                                 ordem)
-
-                def _le_coef_media():
-                    """
-                    """
-                    for o in range(2, 4):
-                        linha: str = arq.readline()
-                        # Se não possui dados de média, não lê
-                        if len(linha) < 3:
-                            break
-                        self._dados[1][i_coefs,
-                                       0,
-                                       o] = regf.le_registro(linha,
-                                                             0)
-
-                # Variaveis auxiliares
-                regf = RegistroFn(9)
-                linha = ""
-                # Procura pelo cabeçalho dos coeficientes do período
-                while "COEFICIENTES DA EQUACAO" not in linha:
-                    linha: str = arq.readline()
-                ordem = _extrai_ordem_modelo(linha)
-                _le_coefs_periodo()
-                _le_coef_media()
-
-            n_periodos = n_anos * len(MESES)
-            for i_coefs in range(n_periodos):
-                _le_tabela()
-
-            self._dados[1] = self._dados[1][:n_periodos, :, :]
-
-        nanos = le_ordens()
-        le_coeficientes(nanos)
+        nanos = self.__le_ordens(arq)
+        self.__le_coeficientes(arq, nanos)
 
     # Override
     def escreve(self, arq: IO):
