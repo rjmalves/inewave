@@ -1,5 +1,6 @@
 # Imports do próprio módulo
 from inewave.nwlistop.modelos.mediassin import MediasSIN
+from inewave._utils.bloco import Bloco
 from inewave._utils.leitura import Leitura
 from inewave.config import MAX_ANOS_ESTUDO, MESES
 from inewave.config import NUM_VARIAVEIS_MEDIAS
@@ -7,6 +8,7 @@ from inewave.config import NUM_VARIAVEIS_MEDIAS
 import os
 import csv
 import numpy as np  # type: ignore
+from typing import List
 from traceback import print_exc
 
 
@@ -40,6 +42,9 @@ class LeituraMediasSIN(Leitura):
         super().__init__(diretorio)
         # MediasSIN default, depois é substituído
         self.medias = MediasSIN(0, np.array([]))
+
+    def _cria_blocos_leitura(self) -> List[Bloco]:
+        pass
 
     def le_arquivo(self, nome_arquivo="MEDIAS-SIN.CSV") -> MediasSIN:
         """

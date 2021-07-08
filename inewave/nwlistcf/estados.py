@@ -1,12 +1,13 @@
 # Imports do próprio módulo
 from inewave.config import REES
+from inewave._utils.bloco import Bloco
 from inewave._utils.leitura import Leitura
 from .modelos.estados import Estados, RegistroEstado
 # Imports de módulos externos
 import os
 import numpy as np  # type: ignore
 from traceback import print_exc
-from typing import IO, Dict
+from typing import IO, Dict, List
 
 
 class LeituraEstados(Leitura):
@@ -40,6 +41,9 @@ class LeituraEstados(Leitura):
                  diretorio: str) -> None:
         super().__init__(diretorio)
         self.estados = Estados({})
+
+    def _cria_blocos_leitura(self) -> List[Bloco]:
+        pass
 
     def le_arquivo(self, nome_arquivo="estados.rel") -> Estados:
         """

@@ -42,7 +42,7 @@ class TestesPARp:
         return all(dims)
 
     @staticmethod
-    def _dimensoes_dict_cfg(func: Callable[[int],
+    def _dimensoes_dict_cfg(func: Callable[[int, int],
                                            np.ndarray],
                             num_cfgs: int,
                             dim_desejada: tuple) -> bool:

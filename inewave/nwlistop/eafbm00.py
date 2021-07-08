@@ -1,5 +1,6 @@
 # Imports do próprio módulo
 from inewave._utils.leitura import Leitura
+from inewave._utils.bloco import Bloco
 from inewave.config import NUM_CENARIOS
 from inewave.config import MESES, SUBMERCADOS
 from .modelos.eafbm00 import Eafbm00
@@ -7,7 +8,7 @@ from .modelos.eafbm00 import Eafbm00
 import os
 import numpy as np  # type: ignore
 from traceback import print_exc
-from typing import IO, Dict, Tuple
+from typing import IO, Dict, Tuple, List
 
 
 class LeituraEafbm00(Leitura):
@@ -41,6 +42,9 @@ class LeituraEafbm00(Leitura):
         super().__init__(diretorio)
         self.arquivos = self._lista_arquivos_por_chave("eafbm00")
         self.eafbms: Dict[str, Eafbm00] = {}
+
+    def _cria_blocos_leitura(self) -> List[Bloco]:
+        pass
 
     def le_arquivos(self) -> Dict[str, Eafbm00]:
         """

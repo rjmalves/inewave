@@ -1,5 +1,6 @@
 # Imports do próprio módulo
 from inewave._utils.leitura import Leitura
+from inewave._utils.bloco import Bloco
 from inewave.config import NUM_CENARIOS
 from inewave.config import NUM_PATAMARES, MESES, SUBMERCADOS
 from .modelos.cmarg00 import Cmarg00
@@ -7,7 +8,7 @@ from .modelos.cmarg00 import Cmarg00
 import os
 import numpy as np  # type: ignore
 from traceback import print_exc
-from typing import IO, Dict, Tuple
+from typing import IO, Dict, Tuple, List
 
 
 class LeituraCmarg00(Leitura):
@@ -45,6 +46,9 @@ class LeituraCmarg00(Leitura):
         arquivos_temp = self._lista_arquivos_por_chave("cmarg00")
         self.arquivos = [a for a in arquivos_temp if "med" not in a]
         self.cmargs: Dict[str, Cmarg00] = {}
+
+    def _cria_blocos_leitura(self) -> List[Bloco]:
+        pass
 
     def le_arquivos(self) -> Dict[str, Cmarg00]:
         """
