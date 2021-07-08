@@ -76,7 +76,8 @@ class Cmarg00:
         patamares_anos = patamar.patamares_por_ano
         # Confere se os anos de estudo do objeto Patamar fornecido
         # são os mesmos do cmarg00
-        if patamar.anos_estudo != list(self.custos_patamares.keys()):
+        if not np.array_equal(patamar.anos_estudo,
+                              np.array(list(self.custos_patamares.keys()))):
             raise Exception("Objeto Patamar incompatível com Cmarg00")
         # Inicializa a variável que irá conter os custos médios
         n_meses = len(MESES)

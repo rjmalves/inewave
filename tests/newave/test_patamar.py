@@ -24,7 +24,7 @@ def test_neq_patamar():
 
 
 def test_anos_estudo():
-    assert anos_estudo_teste == pat.anos_estudo
+    assert np.array_equal(anos_estudo_teste, pat.anos_estudo)
 
 
 def test_patamar_por_ano():

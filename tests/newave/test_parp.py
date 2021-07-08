@@ -1,5 +1,5 @@
 # Rotinas de testes associadas ao arquivo parp.dat do NEWAVE
-from typing import Callable, List, Dict
+from typing import Callable, List
 from copy import deepcopy
 import numpy as np  # type: ignore
 from inewave.config import MESES, REES
@@ -30,19 +30,30 @@ class TestesPARp:
 
     @staticmethod
     def _dimensoes_dict(func: Callable[[int],
-                                       Dict[int, np.ndarray]],
-                        num_chaves: int,
+                                       np.ndarray],
                         dim_desejada: tuple) -> bool:
         dims: List[bool] = []
         for i_ree, ree in enumerate(REES):
             # Variáveis auxiliares
-            elems = func(i_ree + 1)
-            chaves = list(elems.keys())
+            tabela = func(i_ree + 1)
             # Condição do teste
-            b = len(chaves) == num_chaves
-            for _, serie in elems.items():
-                b = b and serie.shape == dim_desejada
+            b = tabela.shape == dim_desejada
             dims.append(b)
+        return all(dims)
+
+    @staticmethod
+    def _dimensoes_dict_cfg(func: Callable[[int],
+                                           np.ndarray],
+                            num_cfgs: int,
+                            dim_desejada: tuple) -> bool:
+        dims: List[bool] = []
+        for i_ree, ree in enumerate(REES):
+            for cfg in range(num_cfgs):
+                # Variáveis auxiliares
+                tabela = func(i_ree + 1, cfg)
+                # Condição do teste
+                b = tabela.shape == dim_desejada
+                dims.append(b)
         return all(dims)
 
     @staticmethod
@@ -59,84 +70,68 @@ class TestesPARp:
         return all(dims)
 
     def dimensoes_series_energia(self) -> bool:
-        return self._dimensoes_dict(self.parp.series_energia_ree,
-                                    self.num_cfgs,
-                                    (self.ano_pmo - 2 - 1931 + 1,
-                                     len(MESES))
-                                    )
+        return self._dimensoes_dict_cfg(self.parp.series_energia_ree,
+                                        self.num_cfgs,
+                                        (self.ano_pmo - 2 - 1931 + 1,
+                                         len(MESES))
+                                        )
 
     def dimensoes_correl_energia(self) -> bool:
         return TestesPARp._dimensoes_dict(self.parp.correlograma_energia_ree,
-                                          self.num_anos_estudo * len(MESES),
-                                          (len(MESES) - 1,)
+                                          (self.num_anos_estudo * len(MESES),
+                                           len(MESES) - 1)
                                           )
 
     def dimensoes_ordens_finais(self) -> bool:
         return TestesPARp._dimensoes_dict(self.parp.ordens_finais_ree,
-                                          self.num_anos_estudo,
-                                          (len(MESES),)
+                                          (self.num_anos_estudo, len(MESES))
                                           )
 
     def dimensoes_ordens_originais(self) -> bool:
         return TestesPARp._dimensoes_dict(self.parp.ordens_originais_ree,
-                                          self.num_anos_estudo,
-                                          (len(MESES),)
+                                          (self.num_anos_estudo, len(MESES))
                                           )
 
     def dimensoes_coeficientes(self) -> bool:
         return TestesPARp._dimensoes_list(self.parp.coeficientes_ree,
                                           self.num_anos_estudo * len(MESES))
 
-    def dimensoes_contribuicoes(self) -> bool:
-        return TestesPARp._dimensoes_list(self.parp.contribuicoes_ree,
+    def dimensoes_coeficientes_desvio(self) -> bool:
+        return TestesPARp._dimensoes_list(self.parp.coeficientes_desvio_ree,
                                           self.num_anos_estudo * len(MESES))
 
     def dimensoes_correl_esp_anual(self) -> bool:
         dims: List[bool] = []
-        elems = self.parp.correlacoes_espaciais_anuais
-        cfgs = list(elems.keys())
-        b = len(cfgs) == self.num_cfgs
-        for cfg in cfgs:
-            chaves_rees = list(elems[cfg].keys())
-            b = b and len(chaves_rees) == len(REES)
-            for ree in chaves_rees:
-                chaves_internas_rees = list(elems[cfg][ree].keys())
-                b = b and len(chaves_internas_rees) == len(REES)
+        for cfg in range(self.num_cfgs):
+            elems = self.parp.correlacoes_espaciais_anuais(cfg)
+            b = elems.shape == (len(REES), len(REES))
             dims.append(b)
         return all(dims)
 
     def dimensoes_correl_esp_mensal(self) -> bool:
         dims: List[bool] = []
-        elems = self.parp.correlacoes_espaciais_mensais
-        cfgs = list(elems.keys())
-        b = len(cfgs) == self.num_cfgs
-        for cfg in cfgs:
-            chaves_rees = list(elems[cfg].keys())
-            b = b and len(chaves_rees) == len(REES)
-            for ree in chaves_rees:
-                chaves_internas_rees = list(elems[cfg][ree].keys())
-                b = b and len(chaves_internas_rees) == len(REES)
-                for ree_interna in chaves_internas_rees:
-                    correls = elems[cfg][ree][ree_interna]
-                    b = b and correls.shape == (len(MESES), )
-            dims.append(b)
+        for cfg in range(self.num_cfgs):
+            for mes in range(len(MESES)):
+                elems = self.parp.correlacoes_espaciais_mensais(cfg, mes)
+                b = elems.shape == (len(REES), len(REES))
+                dims.append(b)
         return all(dims)
 
     def dimensoes_series_medias(self) -> bool:
         if not self.usa_parpa:
             return True
-        return TestesPARp._dimensoes_dict(self.parp.series_medias_ree,
-                                          self.num_anos_estudo,
-                                          (self.ano_pmo - 2 - 1931 + 1,
-                                           len(MESES))
-                                          )
+        return TestesPARp._dimensoes_dict_cfg(self.parp.series_medias_ree,
+                                              self.num_anos_estudo,
+                                              (self.ano_pmo - 2 - 1931 + 1,
+                                               len(MESES))
+                                              )
 
     def dimensoes_correl_medias(self) -> bool:
         if not self.usa_parpa:
             return True
         return TestesPARp._dimensoes_dict(self.parp.correlograma_media_ree,
-                                          self.num_anos_estudo * len(MESES),
-                                          (len(MESES),)
+                                          (self.num_anos_estudo * len(MESES),
+                                           len(MESES))
                                           )
 
 
@@ -216,7 +211,7 @@ def test_dimensao_coeficientes_parp_parp(parp: TestesPARp):
                                   teste_parp_parpa,
                                   teste_parp_parpa_sem_red])
 def test_dimensao_contribuicoes_parp_parp(parp: TestesPARp):
-    assert parp.dimensoes_contribuicoes()
+    assert parp.dimensoes_coeficientes_desvio()
 
 
 @pytest.mark.parametrize("parp", [teste_parp_parp,
@@ -245,7 +240,7 @@ def test_eq_parp(parp: TestesPARp):
                                   teste_parp_parpa_sem_red])
 def test_neq_parp(parp: TestesPARp):
     copia = deepcopy(parp.parp)
-    copia.ordens_orig[1] = np.array([])
+    copia.anos_estudo = copia.anos_estudo + 1
     assert copia != parp.parp
 
 # def test_series_energia_ree():

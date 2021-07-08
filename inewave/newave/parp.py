@@ -313,6 +313,10 @@ class PARp(Arquivo):
         """
         return self.__ordens_finais_coefs[0].dados[0][:, 0]
 
+    @anos_estudo.setter
+    def anos_estudo(self, anos: np.ndarray):
+        self.__ordens_finais_coefs[0].dados[0][:, 0] = anos
+
     @classmethod
     def le_arquivo(cls,
                    diretorio: str,

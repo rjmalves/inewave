@@ -26,6 +26,13 @@ class BlocoVazPast(Bloco):
                                       len(MESES) + 2),
                                       dtype="<U11")]
 
+    def __eq__(self, o: object):
+        if not isinstance(o, BlocoVazPast):
+            return False
+        bloco: BlocoVazPast = o
+        return all([np.array_equal(d1, d2)
+                    for d1, d2 in zip(self._dados, bloco._dados)])
+
     # Override
     def le(self, arq: IO):
         # Pula as duas primeiras linhas, com cabeçalhos

@@ -26,6 +26,12 @@ class BlocoDuracaoPatamar(Bloco):
                                            len(MESES) + 1),
                                            dtype=np.float64)
 
+    def __eq__(self, o: object):
+        if not isinstance(o, BlocoDuracaoPatamar):
+            return False
+        bloco: BlocoDuracaoPatamar = o
+        return np.array_equal(self._dados, bloco._dados)
+
     # Override
     def le(self, arq: IO):
         # Variáveis auxiliares

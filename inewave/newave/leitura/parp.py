@@ -30,6 +30,12 @@ class BlocoSerieEnergiaREE(Bloco):
                                 MAX_CONFIGURACOES))
         self.__cfg = 0
 
+    def __eq__(self, o: object):
+        if not isinstance(o, BlocoSerieEnergiaREE):
+            return False
+        bloco: BlocoSerieEnergiaREE = o
+        return np.array_equal(self._dados, bloco._dados)
+
     # Override
     def le(self, arq: IO):
 
@@ -112,6 +118,12 @@ class BlocoCorrelParcialREE(Bloco):
         self._dados = np.zeros((MAX_MESES_ESTUDO,
                                 len(MESES)))
 
+    def __eq__(self, o: object):
+        if not isinstance(o, BlocoCorrelParcialREE):
+            return False
+        bloco: BlocoCorrelParcialREE = o
+        return np.array_equal(self._dados, bloco._dados)
+
     # Override
     def le(self, arq: IO):
         # Variáveis auxiliares
@@ -174,6 +186,13 @@ class BlocoOrdensFinaisCoefsREE(Bloco):
                                  4))
                       ]
         self.__ano = "0"
+
+    def __eq__(self, o: object):
+        if not isinstance(o, BlocoOrdensFinaisCoefsREE):
+            return False
+        bloco: BlocoOrdensFinaisCoefsREE = o
+        return all([np.array_equal(d1, d2)
+                    for d1, d2 in zip(self._dados, bloco._dados)])
 
     def __le_ordens(self, arq: IO) -> int:
 
@@ -290,6 +309,12 @@ class BlocoOrdensOriginaisREE(Bloco):
                                dtype=np.int32)
         self.__ano = "0"
 
+    def __eq__(self, o: object):
+        if not isinstance(o, BlocoOrdensOriginaisREE):
+            return False
+        bloco: BlocoOrdensOriginaisREE = o
+        return np.array_equal(self._dados, bloco._dados)
+
     # Override
     def le(self, arq: IO):
 
@@ -348,6 +373,12 @@ class BlocoSerieMediaREE(Bloco):
                                 len(MESES),
                                 MAX_ANOS_ESTUDO))
         self.__ano = 0
+
+    def __eq__(self, o: object):
+        if not isinstance(o, BlocoSerieMediaREE):
+            return False
+        bloco: BlocoSerieMediaREE = o
+        return np.array_equal(self._dados, bloco._dados)
 
     # Override
     def le(self, arq: IO):
@@ -432,6 +463,12 @@ class BlocoCorrelCruzMediaREE(Bloco):
         self._dados = np.zeros((MAX_ANOS_HISTORICO,
                                 len(MESES) + 1))
 
+    def __eq__(self, o: object):
+        if not isinstance(o, BlocoCorrelCruzMediaREE):
+            return False
+        bloco: BlocoCorrelCruzMediaREE = o
+        return np.array_equal(self._dados, bloco._dados)
+
     # Override
     def le(self, arq: IO):
         # Variáveis auxiliares
@@ -486,6 +523,12 @@ class BlocoCorrelEspAnual(Bloco):
                          True)
         self._dados = np.zeros((len(REES),
                                 len(REES)))
+
+    def __eq__(self, o: object):
+        if not isinstance(o, BlocoCorrelEspAnual):
+            return False
+        bloco: BlocoCorrelEspAnual = o
+        return np.array_equal(self._dados, bloco._dados)
 
     # Override
     def le(self, arq: IO):
@@ -543,6 +586,12 @@ class BlocoCorrelEspMensal(Bloco):
         self._dados = np.zeros((len(REES),
                                 len(MESES),
                                 len(REES)))
+
+    def __eq__(self, o: object):
+        if not isinstance(o, BlocoCorrelEspMensal):
+            return False
+        bloco: BlocoCorrelEspMensal = o
+        return np.array_equal(self._dados, bloco._dados)
 
     # Override
     def le(self, arq: IO):
