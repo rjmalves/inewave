@@ -41,8 +41,7 @@ class BlocoDsvUHE(Bloco):
         reg_usi = RegistroIn(3)
         reg_dsv = RegistroFn(6)
         reg_flag = RegistroIn(1)
-        # Pula as duas primeiras linhas, com cabeçalhos
-        arq.readline()
+        # Pula a linha com cabeçalhos
         arq.readline()
         i = 0
         while True:
@@ -80,7 +79,7 @@ class BlocoDsvUHE(Bloco):
                 # Desvios de cada mês
                 for j in range(n_meses):
                     v = self._dados[i, j + 2]
-                    linha += "{:4.2f}".format(v).rjust(6) + " "
+                    linha += "{:3.2f}".format(v).rjust(6) + " "
                 # Flag de usar desvio
                 linha += str(int(self._dados[i, -1])).rjust(4)
                 arq.write(linha + "\n")
