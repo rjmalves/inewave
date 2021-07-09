@@ -1,5 +1,5 @@
-from inewave.newave.leitura.confhd import BlocoConfUHE, UHEConfhd
-from inewave.newave.leitura.confhd import LeituraConfhd
+from inewave.newave.modelos.confhd import BlocoConfUHE, UHEConfhd
+from inewave.newave.modelos.confhd import LeituraConfhd
 from inewave._utils.dadosarquivo import DadosArquivo
 from inewave._utils.arquivo import Arquivo
 from inewave._utils.escrita import Escrita
