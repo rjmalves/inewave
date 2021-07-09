@@ -1,3 +1,4 @@
+from abc import abstractmethod
 from .dadosarquivo import DadosArquivo
 
 
@@ -36,3 +37,12 @@ class Arquivo:
     @property
     def _blocos(self):
         return self._dados.blocos
+
+    @classmethod
+    @abstractmethod
+    def le_arquivo(cls, diretorio: str, nome_arquivo="") -> 'Arquivo':
+        pass
+
+    @abstractmethod
+    def escreve_arquivo(self, diretorio: str, nome_arquivo=""):
+        pass

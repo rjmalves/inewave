@@ -4,6 +4,8 @@ from inewave.newave.modelos.arquivos import BlocoNomesArquivos
 from inewave.newave.modelos.arquivos import LeituraArquivos
 from inewave._utils.escrita import Escrita
 
+from typing import List
+
 
 class Arquivos(Arquivo):
     """
@@ -60,6 +62,19 @@ class Arquivos(Arquivo):
 
     def __atualiza_nome_por_indice(self, indice: int, nome: str):
         self.__bloco.dados[indice] = nome
+
+    @property
+    def arquivos(self) -> List[str]:
+        return [self.__le_nome_por_indice(i)
+                for i in range(len(self.__bloco.dados))]
+
+    @property
+    def arquivos_entrada(self) -> List[str]:
+        todos_indices = set(list(range(len(self.__bloco.dados))))
+        indices_saida = set([10, 11, 12, 13, 14, 15, 18])
+        indices_entrada = list(todos_indices.difference(indices_saida))
+        return [self.__le_nome_por_indice(i)
+                for i in indices_entrada]
 
     @property
     def dger(self) -> str:

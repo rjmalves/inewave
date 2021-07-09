@@ -1,13 +1,13 @@
 from inewave._utils.arquivo import Arquivo
 from inewave._utils.dadosarquivo import DadosArquivo
 from inewave._utils.escrita import Escrita
-from inewave.newave.modelos.sistema import LeituraSistema
+from inewave.newave.modelos.elnino import LeituraElNino
 
 
-class Sistema(Arquivo):
+class ElNino(Arquivo):
     """
-    Armazena os dados de entrada do NEWAVE referentes às configurações
-    dos subsistemas (submercados).
+    Armazena os dados de entrada do NEWAVE referentes ao fenômeno
+    El Niño.
 
     **Parâmetros**
 
@@ -21,16 +21,16 @@ class Sistema(Arquivo):
     @classmethod
     def le_arquivo(cls,
                    diretorio: str,
-                   nome_arquivo="sistema.dat") -> 'Sistema':
+                   nome_arquivo="elnino.dat") -> 'ElNino':
         """
         """
-        leitor = LeituraSistema(diretorio)
+        leitor = LeituraElNino(diretorio)
         r = leitor.le_arquivo(nome_arquivo)
         return cls(r)
 
     def escreve_arquivo(self,
                         diretorio: str,
-                        nome_arquivo="sistema.dat"):
+                        nome_arquivo="elnino.dat"):
         """
         """
         escritor = Escrita(diretorio)
