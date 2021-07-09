@@ -1,85 +1,640 @@
-# Imports do próprio módulo
-from inewave.nwlistop.modelos.mediasmerc import MediasMerc
-from inewave._utils.bloco import Bloco
-from inewave._utils.leitura import Leitura
-from inewave.config import MAX_ANOS_ESTUDO, MESES
-from inewave.config import NUM_VARIAVEIS_MEDIAS, SUBMERCADOS
-# Imports de módulos externos
-import os
-import csv
+from typing import Dict
 import numpy as np  # type: ignore
-from typing import List
-from traceback import print_exc
+import pandas as pd  # type: ignore
+
+from inewave.config import SUBMERCADOS, NUM_VARIAVEIS_MEDIAS
+from inewave.nwlistop.leitura.mediasmerc import LeituraMediasMerc
 
 
-class LeituraMediasMerc(Leitura):
+class MediasMerc:
     """
-    Realiza a leitura do arquivo MEDIAS-MERC.CSV
-    existente em um diretório de saídas do NEWAVE.
+    Armazena os dados das saídas referentes às médias de diversas variáveis
+    agrupadas por submercado.
 
-    Esta classe contém o conjunto de utilidades para ler
-    e interpretar os campos do arquivo MEDIAS-MERC.CSV, construindo um
-    objeto `MediasMerc` cujas informações são as mesmas do arquivo.
+    Esta classe lida com as informações de saída fornecidas pelo
+    NWLISTOP e reproduzidas nos `MEDIAS-MERC.CSV`.
 
-    Este objeto existe para retirar do modelo de dados a complexidade
-    de iterar pelas linhas do arquivo, recortar colunas, converter
-    tipos de dados, dentre outras tarefas necessárias para a leitura.
+    **Parâmetros**
 
-    Uma vez realizada a leitura do arquivo, as informações são guardadas
-    internamente no atributo `medias`.
-
-    **Exemplos**
-
-    >>> diretorio = "~/documentos/.../deck"
-    >>> leitor = LeituraMediasMerc(diretorio)
-    >>> leitor.le_arquivo()
-    # Ops, esqueci de pegar o objeto
-    >>> medias = leitor.medias
+    - mes_pmo: `int`
+    - tabela: `np.ndarray`
 
     """
     def __init__(self,
-                 diretorio: str) -> None:
-        super().__init__(diretorio)
-        # MediasMerc default, depois é substituído
-        self.medias = MediasMerc(0, np.array([]))
+                 dados: pd.DataFrame):
+        self.__dados = dados
 
-    def _cria_blocos_leitura(self) -> List[Bloco]:
-        pass
-
-    def le_arquivo(self, nome_arquivo="MEDIAS-MERC.CSV") -> MediasMerc:
+    def __eq__(self, o: object) -> bool:
         """
-        Lê um arquivo MEDIAS-MERC.CSV em um diretório.
+        A igualdade entre MediasMerc avalia todos os valores da tabela.
         """
-        try:
-            caminho = os.path.join(self._diretorio, nome_arquivo)
-            n_meses = len(MESES)
-            n_submercados = len(SUBMERCADOS)
-            linhas_medias = NUM_VARIAVEIS_MEDIAS * n_submercados
-            colunas_medias = MAX_ANOS_ESTUDO * n_meses
-            mes_pmo = 0
-            n_colunas = 0
-            with open(caminho, newline='') as arq:
-                leitor = csv.reader(arq, delimiter=",", quotechar='|')
-                tabela = np.zeros((linhas_medias, colunas_medias))
-                # Descobre o mês do PMO pela terceira coluna
-                # da primeira linha. Depois lê linha a linha.
-                primeira_linha = True
-                for i, linha in enumerate(leitor):
-                    if primeira_linha:
-                        mes_pmo = int(linha[2])
-                        n_colunas = len(linha) + mes_pmo - 4
-                        primeira_linha = False
-                        continue
-                    # Ignora as linhas após os dados dos submercados
-                    if i > linhas_medias:
-                        break
-                    linha_num = np.array([float(n) for n in linha[2:-1]])
-                    tabela[i - 1, mes_pmo-1:n_colunas] = linha_num
-                self.medias = MediasMerc(mes_pmo, tabela[:, :n_colunas])
-                return self.medias
-        except Exception:
-            print_exc()
-            return MediasMerc(0, np.array([]))
+        if not isinstance(o, MediasMerc):
+            return False
+        medias: MediasMerc = o
+        return self.dados.equals(medias.dados)
 
-    def _fim_arquivo(self, linha: str) -> bool:
-        return False
+    @property
+    def dados(self) -> pd.DataFrame:
+        return self.__dados
+
+    @dados.setter
+    def dados(self, d: pd.DataFrame) -> pd.DataFrame:
+        self.__dados = d
+
+    @classmethod
+    def le_arquivo(cls,
+                   diretorio: str,
+                   nome_arquivo="MEDIAS-MERC.CSV"):
+        return cls(LeituraMediasMerc(diretorio).le_arquivo(nome_arquivo))
+
+    def _extrai_variavel_tabela(self,
+                                indice_variavel: int) -> Dict[str,
+                                                              np.ndarray]:
+        """
+        Lógica para extrair uma variável qualquer da tabela de médias,
+        partindo do índice dela (num. da linha) dentro do seu submercado.
+        """
+        valores: Dict[str, np.ndarray] = {sub: np.array([])
+                                          for sub in SUBMERCADOS}
+        for i, sub in enumerate(SUBMERCADOS):
+            lin = NUM_VARIAVEIS_MEDIAS * i + indice_variavel
+            valores[sub] = self.__dados.iloc[lin, 1:].to_numpy()
+        return valores
+
+    @property
+    def energias_armazenadas_absolutas(self) -> Dict[str,
+                                                     np.ndarray]:
+        """
+        Energias armazenadas em valores absolutos (MWmed) para
+        cada um dos submercados.
+
+        **Retorna**
+
+        `Dict[str, np.ndarray]`
+
+        **Sobre**
+
+        A série histórica retornada é dividida
+        mensalmente, para todo o período de estudo.
+
+        """
+        return self._extrai_variavel_tabela(0)
+
+    @property
+    def energias_armazenadas_percentuais(self) -> Dict[str,
+                                                       np.ndarray]:
+        """
+        Energias armazenadas em valores em percentual da EARMax
+        para cada um dos submercados.
+
+        **Retorna**
+
+        `Dict[str, np.ndarray]`
+
+        **Sobre**
+
+        A série histórica retornada é dividida
+        mensalmente, para todo o período de estudo.
+
+        """
+        return self._extrai_variavel_tabela(1)
+
+    @property
+    def percentil_10_energias_armazenadas(self) -> Dict[str,
+                                                        np.ndarray]:
+        """
+        Valores para o percentil 10% da energia armazenada
+        para cada um dos submercados.
+
+        **Retorna**
+
+        `Dict[str, np.ndarray]`
+
+        **Sobre**
+
+        A série histórica retornada é dividida
+        mensalmente, para todo o período de estudo.
+        """
+        return self._extrai_variavel_tabela(2)
+
+    @property
+    def percentil_20_energias_armazenadas(self) -> Dict[str,
+                                                        np.ndarray]:
+        """
+        Valores para o percentil 20% da energia armazenada
+        para cada um dos submercados.
+
+        **Retorna**
+
+        `Dict[str, np.ndarray]`
+
+        **Sobre**
+
+        A série histórica retornada é dividida
+        mensalmente, para todo o período de estudo.
+        """
+        return self._extrai_variavel_tabela(3)
+
+    @property
+    def percentil_30_energias_armazenadas(self) -> Dict[str,
+                                                        np.ndarray]:
+        """
+        Valores para o percentil 30% da energia armazenada
+        para cada um dos submercados.
+
+        **Retorna**
+
+        `Dict[str, np.ndarray]`
+
+        **Sobre**
+
+        A série histórica retornada é dividida
+        mensalmente, para todo o período de estudo.
+        """
+        return self._extrai_variavel_tabela(4)
+
+    @property
+    def percentil_40_energias_armazenadas(self) -> Dict[str,
+                                                        np.ndarray]:
+        """
+        Valores para o percentil 40% da energia armazenada
+        para cada um dos submercados.
+
+        **Retorna**
+
+        `Dict[str, np.ndarray]`
+
+        **Sobre**
+
+        A série histórica retornada é dividida
+        mensalmente, para todo o período de estudo.
+        """
+        return self._extrai_variavel_tabela(5)
+
+    @property
+    def percentil_50_energias_armazenadas(self) -> Dict[str,
+                                                        np.ndarray]:
+        """
+        Valores para o percentil 50% da energia armazenada
+        para cada um dos submercados.
+
+        **Retorna**
+
+        `Dict[str, np.ndarray]`
+
+        **Sobre**
+
+        A série histórica retornada é dividida
+        mensalmente, para todo o período de estudo.
+        """
+        return self._extrai_variavel_tabela(6)
+
+    @property
+    def percentil_60_energias_armazenadas(self) -> Dict[str,
+                                                        np.ndarray]:
+        """
+        Valores para o percentil 60% da energia armazenada
+        para cada um dos submercados.
+
+        **Retorna**
+
+        `Dict[str, np.ndarray]`
+
+        **Sobre**
+
+        A série histórica retornada é dividida
+        mensalmente, para todo o período de estudo.
+        """
+        return self._extrai_variavel_tabela(7)
+
+    @property
+    def percentil_70_energias_armazenadas(self) -> Dict[str,
+                                                        np.ndarray]:
+        """
+        Valores para o percentil 70% da energia armazenada
+        para cada um dos submercados.
+
+        **Retorna**
+
+        `Dict[str, np.ndarray]`
+
+        **Sobre**
+
+        A série histórica retornada é dividida
+        mensalmente, para todo o período de estudo.
+        """
+        return self._extrai_variavel_tabela(8)
+
+    @property
+    def percentil_80_energias_armazenadas(self) -> Dict[str,
+                                                        np.ndarray]:
+        """
+        Valores para o percentil 80% da energia armazenada
+        para cada um dos submercados.
+
+        **Retorna**
+
+        `Dict[str, np.ndarray]`
+
+        **Sobre**
+
+        A série histórica retornada é dividida
+        mensalmente, para todo o período de estudo.
+        """
+        return self._extrai_variavel_tabela(9)
+
+    @property
+    def percentil_90_energias_armazenadas(self) -> Dict[str,
+                                                        np.ndarray]:
+        """
+        Valores para o percentil 90% da energia armazenada
+        para cada um dos submercados.
+
+        **Retorna**
+
+        `Dict[str, np.ndarray]`
+
+        **Sobre**
+
+        A série histórica retornada é dividida
+        mensalmente, para todo o período de estudo.
+        """
+        return self._extrai_variavel_tabela(10)
+
+    @property
+    def percentil_100_energias_armazenadas(self) -> Dict[str,
+                                                         np.ndarray]:
+        """
+        Valores para o percentil 100% da energia armazenada
+        para cada um dos submercados.
+
+        **Retorna**
+
+        `Dict[str, np.ndarray]`
+
+        **Sobre**
+
+        A série histórica retornada é dividida
+        mensalmente, para todo o período de estudo.
+        """
+        return self._extrai_variavel_tabela(11)
+
+    @property
+    def energia_natural_afluente(self) -> Dict[str,
+                                               np.ndarray]:
+        """
+        Energias naturais afluentes em valores absolutos (MWmed)
+        para cada um dos submercados.
+
+        **Retorna**
+
+        `Dict[str, np.ndarray]`
+
+        **Sobre**
+
+        A série histórica retornada é dividida
+        mensalmente, para todo o período de estudo.
+        """
+        return self._extrai_variavel_tabela(12)
+
+    @property
+    def energia_controlavel_corrigida(self) -> Dict[str,
+                                                    np.ndarray]:
+        """
+        Energias controláveis corrigidas em valores absolutos
+        (MWmed) para cada um dos submercados.
+
+        **Retorna**
+
+        `Dict[str, np.ndarray]`
+
+        **Sobre**
+
+        A série histórica retornada
+        é dividida mensalmente, para todo o período de estudo.
+        """
+        return self._extrai_variavel_tabela(13)
+
+    @property
+    def energia_fio_dagua_bruta(self) -> Dict[str,
+                                              np.ndarray]:
+        """
+        Energias fio d'água brutas em valores absolutos
+        (MWmed) para cada um dos submercados.
+
+        **Retorna**
+
+        `Dict[str, np.ndarray]`
+
+        **Sobre**
+
+        A série histórica retornada
+        é dividida mensalmente, para todo o período de estudo.
+        """
+        return self._extrai_variavel_tabela(14)
+
+    @property
+    def energia_fio_dagua_liquida(self) -> Dict[str,
+                                                np.ndarray]:
+        """
+        Energias fio d'água líquidas em valores absolutos
+        (MWmed) para cada um dos submercados.
+
+        **Retorna**
+
+        `Dict[str, np.ndarray]`
+
+        **Sobre**
+
+        A série histórica retornada
+        é dividida mensalmente, para todo o período de estudo.
+        """
+        return self._extrai_variavel_tabela(15)
+
+    @property
+    def geracao_hidraulica_maxima(self) -> Dict[str,
+                                                np.ndarray]:
+        """
+        Gerações hidráulicas máximas em valores absolutos
+        (MWmed) para cada um dos submercados.
+
+        **Retorna**
+
+        `Dict[str, np.ndarray]`
+
+        **Sobre**
+
+        A série histórica retornada
+        é dividida mensalmente, para todo o período de estudo.
+        """
+        return self._extrai_variavel_tabela(16)
+
+    @property
+    def geracao_hidraulica_total(self) -> Dict[str,
+                                               np.ndarray]:
+        """
+        Gerações hidráulicas totais em valores absolutos
+        (MWmed) para cada um dos submercados.
+
+        **Retorna**
+
+        `Dict[str, np.ndarray]`
+
+        **Sobre**
+
+        A série histórica retornada
+        é dividida mensalmente, para todo o período de estudo.
+        """
+        return self._extrai_variavel_tabela(18)
+
+    @property
+    def geracao_hidraulica_controlavel(self) -> Dict[str,
+                                                     np.ndarray]:
+        """
+        Gerações hidráulicas controláveis em valores absolutos
+        (MWmed) para cada um dos submercados.
+
+        **Retorna**
+
+        `Dict[str, np.ndarray]`
+
+        **Sobre**
+
+        A série histórica retornada
+        é dividida mensalmente, para todo o período de estudo.
+        """
+        return self._extrai_variavel_tabela(19)
+
+    @property
+    def geracao_hidraulica_fio_dagua_liquida(self) -> Dict[str,
+                                                           np.ndarray]:
+        """
+        Gerações hidráulicas fio d'água líquidas em valores
+        absolutos (MWmed) para cada um dos submercados.
+
+        **Retorna**
+
+        `Dict[str, np.ndarray]`
+
+        **Sobre**
+
+        A série histórica
+        retornada é dividida mensalmente, para todo o período de estudo.
+        """
+        return self._extrai_variavel_tabela(20)
+
+    @property
+    def geracao_eolica(self) -> Dict[str,
+                                     np.ndarray]:
+        """
+        Gerações eólicas em valores absolutos (MWmed) para cada um
+        dos submercados.
+
+        **Retorna**
+
+        `Dict[str, np.ndarray]`
+
+        **Sobre**
+
+        A série histórica retornada é dividida mensalmente,
+        para todo o período de estudo.
+        """
+        return self._extrai_variavel_tabela(21)
+
+    @property
+    def geracao_solar(self) -> Dict[str,
+                                    np.ndarray]:
+        """
+        Gerações solares em valores absolutos (MWmed) para cada um
+        dos submercados.
+
+        **Retorna**
+
+        `Dict[str, np.ndarray]`
+
+        **Sobre**
+
+        A série histórica retornada é dividida mensalmente,
+        para todo o período de estudo.
+        """
+        return self._extrai_variavel_tabela(22)
+
+    @property
+    def vertimento_total(self) -> Dict[str,
+                                       np.ndarray]:
+        """
+        Perdas por vertimento totais em valores absolutos (MWmed)
+        para cada um dos submercados.
+
+        **Retorna**
+
+        `Dict[str, np.ndarray]`
+
+        **Sobre**
+
+        A série histórica retornada é dividida
+        mensalmente, para todo o período de estudo.
+        """
+        return self._extrai_variavel_tabela(23)
+
+    @property
+    def vertimento_controlavel(self) -> Dict[str,
+                                             np.ndarray]:
+        """
+        Perdas por vertimento controlável em valores absolutos
+        (MWmed) para cada um dos submercados.
+
+        **Retorna**
+
+        `Dict[str, np.ndarray]`
+
+        **Sobre**
+
+        A série histórica retornada
+        é dividida mensalmente, para todo o período de estudo.
+        """
+        return self._extrai_variavel_tabela(24)
+
+    @property
+    def vertimento_fio_dagua(self) -> Dict[str,
+                                           np.ndarray]:
+        """
+        Perdas por vertimento fio d'água em valores absolutos
+        (MWmed) para cada um dos submercados.
+
+        **Retorna**
+
+        `Dict[str, np.ndarray]`
+
+        **Sobre**
+
+        A série histórica retornada
+        é dividida mensalmente, para todo o período de estudo.
+        """
+        return self._extrai_variavel_tabela(25)
+
+    @property
+    def vertimento_turbinavel(self) -> Dict[str,
+                                            np.ndarray]:
+        """
+        Vertimentos turbináveis em valores absolutos
+        (MWmed) para cada um dos submercados.
+
+        **Retorna**
+
+        `Dict[str, np.ndarray]`
+
+        **Sobre**
+
+        A série histórica retornada
+        é dividida mensalmente, para todo o período de estudo.
+        """
+        return self._extrai_variavel_tabela(26)
+
+    @property
+    def energia_evaporada(self) -> Dict[str,
+                                        np.ndarray]:
+        """
+        Perdas por energia evaporada em valores absolutos
+        (MWmed) para cada um dos submercados.
+
+        **Retorna**
+
+        `Dict[str, np.ndarray]`
+
+        **Sobre**
+
+        A série histórica retornada
+        é dividida mensalmente, para todo o período de estudo.
+        """
+        return self._extrai_variavel_tabela(40)
+
+    @property
+    def geracao_termica(self) -> Dict[str,
+                                      np.ndarray]:
+        """
+        Gerações de usinas termelétricas em valores absolutos
+        (MWmed) para cada um dos submercados.
+
+        **Retorna**
+
+        `Dict[str, np.ndarray]`
+
+        **Sobre**
+
+        A série histórica retornada
+        é dividida mensalmente, para todo o período de estudo.
+        """
+        return self._extrai_variavel_tabela(42)
+
+    @property
+    def deficit(self) -> Dict[str,
+                              np.ndarray]:
+        """
+        Déficits de carga em valores absolutos (MWmed) para cada um
+        dos submercados.
+
+        **Retorna**
+
+        `Dict[str, np.ndarray]`
+
+        **Sobre**
+
+        A série histórica retornada é dividida mensalmente,
+        para todo o período de estudo.
+        """
+        return self._extrai_variavel_tabela(43)
+
+    @property
+    def custo_marginal_operacao(self) -> Dict[str,
+                                              np.ndarray]:
+        """
+        Custos marginais de operação (R$) para cada um dos
+        submercados.
+
+        **Retorna**
+
+        `Dict[str, np.ndarray]`
+
+        **Sobre**
+
+        A série histórica retornada é dividida mensalmente,
+        para todo o período de estudo.
+        """
+        return self._extrai_variavel_tabela(45)
+
+    @property
+    def custo_deficit(self) -> Dict[str,
+                                    np.ndarray]:
+        """
+        Custos de déficit (R$) para cada um dos
+        submercados.
+
+        **Retorna**
+
+        `Dict[str, np.ndarray]`
+
+        **Sobre**
+
+        A série histórica retornada é dividida mensalmente,
+        para todo o período de estudo.
+        """
+        return self._extrai_variavel_tabela(46)
+
+    @property
+    def custo_termica(self) -> Dict[str,
+                                    np.ndarray]:
+        """
+        Custos de térmicas (R$) para cada um dos
+        submercados.
+
+        **Retorna**
+
+        `Dict[str, np.ndarray]`
+
+        **Sobre**
+
+        A série histórica retornada é dividida mensalmente,
+        para todo o período de estudo.
+        """
+        return self._extrai_variavel_tabela(47)
