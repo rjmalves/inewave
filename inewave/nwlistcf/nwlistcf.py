@@ -3,8 +3,8 @@ from typing import List
 from inewave._utils.escrita import Escrita
 from inewave._utils.arquivo import Arquivo
 from inewave._utils.dadosarquivo import DadosArquivo
-from inewave.nwlistcf.leitura.nwlistcf import LeituraNwlistcf
-from inewave.nwlistcf.leitura.nwlistcf import RegistroNwlistcf
+from inewave.nwlistcf.modelos.nwlistcf import LeituraNwlistcf
+from inewave.nwlistcf.modelos.nwlistcf import RegistroNwlistcf
 
 
 class Nwlistcf(Arquivo):

@@ -4,8 +4,8 @@ from typing import List
 from inewave._utils.escrita import Escrita
 from inewave._utils.arquivo import Arquivo
 from inewave._utils.dadosarquivo import DadosArquivo
-from inewave.nwlistcf.leitura.estados import LeituraEstados
-from inewave.nwlistcf.leitura.estados import RegistroEstado
+from inewave.nwlistcf.modelos.estados import LeituraEstados
+from inewave.nwlistcf.modelos.estados import RegistroEstado
 
 
 class Estados(Arquivo):

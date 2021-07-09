@@ -1,7 +1,7 @@
 from inewave._utils.arquivo import Arquivo
 from inewave._utils.dadosarquivo import DadosArquivo
-from inewave.newave.leitura.arquivos import BlocoNomesArquivos
-from inewave.newave.leitura.arquivos import LeituraArquivos
+from inewave.newave.modelos.arquivos import BlocoNomesArquivos
+from inewave.newave.modelos.arquivos import LeituraArquivos
 from inewave._utils.escrita import Escrita
 
 

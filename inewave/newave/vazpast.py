@@ -1,6 +1,6 @@
 from inewave._utils.dadosarquivo import DadosArquivo
 from inewave._utils.arquivo import Arquivo
-from inewave.newave.leitura.vazpast import BlocoVazPast, LeituraVazPast
+from inewave.newave.modelos.vazpast import BlocoVazPast, LeituraVazPast
 from inewave._utils.escrita import Escrita
 
 import numpy as np  # type: ignore

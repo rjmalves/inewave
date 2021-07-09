@@ -4,15 +4,15 @@ import numpy as np  # type: ignore
 from inewave._utils.arquivo import Arquivo
 from inewave._utils.dadosarquivo import DadosArquivo
 from inewave._utils.bloco import Bloco
-from inewave.newave.leitura.parp import BlocoSerieEnergiaREE
-from inewave.newave.leitura.parp import BlocoCorrelParcialREE
-from inewave.newave.leitura.parp import BlocoOrdensFinaisCoefsREE
-from inewave.newave.leitura.parp import BlocoOrdensOriginaisREE
-from inewave.newave.leitura.parp import BlocoSerieMediaREE
-from inewave.newave.leitura.parp import BlocoCorrelCruzMediaREE
-from inewave.newave.leitura.parp import BlocoCorrelEspAnual
-from inewave.newave.leitura.parp import BlocoCorrelEspMensal
-from inewave.newave.leitura.parp import LeituraPARp
+from inewave.newave.modelos.parp import BlocoSerieEnergiaREE
+from inewave.newave.modelos.parp import BlocoCorrelParcialREE
+from inewave.newave.modelos.parp import BlocoOrdensFinaisCoefsREE
+from inewave.newave.modelos.parp import BlocoOrdensOriginaisREE
+from inewave.newave.modelos.parp import BlocoSerieMediaREE
+from inewave.newave.modelos.parp import BlocoCorrelCruzMediaREE
+from inewave.newave.modelos.parp import BlocoCorrelEspAnual
+from inewave.newave.modelos.parp import BlocoCorrelEspMensal
+from inewave.newave.modelos.parp import LeituraPARp
 
 
 class PARp(Arquivo):

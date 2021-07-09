@@ -1,7 +1,7 @@
 import numpy as np  # type: ignore
 from inewave._utils.dadosarquivo import DadosArquivo
 from inewave._utils.arquivo import Arquivo
-from inewave.newave.leitura.dsvagua import BlocoDsvUHE, LeituraDSVAgua
+from inewave.newave.modelos.dsvagua import BlocoDsvUHE, LeituraDSVAgua
 from inewave._utils.escrita import Escrita
 
 

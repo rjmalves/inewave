@@ -2,13 +2,13 @@ from inewave.config import REES
 from inewave._utils.arquivo import Arquivo
 from inewave._utils.bloco import Bloco
 from inewave._utils.dadosarquivo import DadosArquivo
-from inewave.newave.leitura.pmo import BlocoEcoDgerPMO
-from inewave.newave.leitura.pmo import BlocoConvergenciaPMO
-from inewave.newave.leitura.pmo import BlocoConfiguracoesExpansaoPMO
-from inewave.newave.leitura.pmo import BlocoMARSPMO
-from inewave.newave.leitura.pmo import BlocoRiscoDeficitENSPMO
-from inewave.newave.leitura.pmo import BlocoCustoOperacaoPMO
-from inewave.newave.leitura.pmo import LeituraPMO
+from inewave.newave.modelos.pmo import BlocoEcoDgerPMO
+from inewave.newave.modelos.pmo import BlocoConvergenciaPMO
+from inewave.newave.modelos.pmo import BlocoConfiguracoesExpansaoPMO
+from inewave.newave.modelos.pmo import BlocoMARSPMO
+from inewave.newave.modelos.pmo import BlocoRiscoDeficitENSPMO
+from inewave.newave.modelos.pmo import BlocoCustoOperacaoPMO
+from inewave.newave.modelos.pmo import LeituraPMO
 
 from typing import Dict, List, Type
 import numpy as np  # type: ignore

@@ -1,5 +1,5 @@
-from inewave.newave.leitura.patamar import BlocoDuracaoPatamar
-from inewave.newave.leitura.patamar import LeituraPatamar
+from inewave.newave.modelos.patamar import BlocoDuracaoPatamar
+from inewave.newave.modelos.patamar import LeituraPatamar
 from inewave._utils.dadosarquivo import DadosArquivo
 from inewave._utils.arquivo import Arquivo
 from inewave._utils.escrita import Escrita
