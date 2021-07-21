@@ -22,6 +22,6 @@ def test_eq_confhd():
 
 def test_neq_confhd():
     conf2 = Confhd.le_arquivo("tests/_arquivos")
-    conf2.usinas[4].existente = False
+    conf2.usinas.iloc[0, 0] = -1
     assert conf2 != conf
     assert conf2 is not None

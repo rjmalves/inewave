@@ -124,3 +124,139 @@ class DeckEntrada:
     @property
     def arquivos(self) -> Arquivos:
         return self.__obtem_arquivo_por_indice(1)
+
+    @property
+    def dger(self) -> DGer:
+        return self.__obtem_arquivo_por_indice(2)
+
+    @property
+    def sistema(self) -> Sistema:
+        return self.__obtem_arquivo_por_indice(3)
+
+    @property
+    def confhd(self) -> Confhd:
+        return self.__obtem_arquivo_por_indice(4)
+
+    @property
+    def modif(self) -> Modif:
+        return self.__obtem_arquivo_por_indice(5)
+
+    @property
+    def conft(self) -> ConfT:
+        return self.__obtem_arquivo_por_indice(6)
+
+    @property
+    def term(self) -> Term:
+        return self.__obtem_arquivo_por_indice(7)
+
+    @property
+    def clast(self) -> ClasT:
+        return self.__obtem_arquivo_por_indice(8)
+
+    @property
+    def exph(self) -> Exph:
+        return self.__obtem_arquivo_por_indice(9)
+
+    @property
+    def expt(self) -> Expt:
+        return self.__obtem_arquivo_por_indice(10)
+
+    @property
+    def patamar(self) -> Patamar:
+        return self.__obtem_arquivo_por_indice(11)
+
+    @property
+    def shist(self) -> Shist:
+        return self.__obtem_arquivo_por_indice(12)
+
+    @property
+    def manutt(self) -> ManutT:
+        return self.__obtem_arquivo_por_indice(13)
+
+    @property
+    def vazpast(self) -> VazPast:
+        return self.__obtem_arquivo_por_indice(14)
+
+    @property
+    def itaipu(self) -> Itaipu:
+        return self.__obtem_arquivo_por_indice(15)
+
+    @property
+    def bid(self) -> BID:
+        return self.__obtem_arquivo_por_indice(16)
+
+    @property
+    def cadic(self) -> CAdic:
+        return self.__obtem_arquivo_por_indice(17)
+
+    @property
+    def perda(self) -> Perda:
+        return self.__obtem_arquivo_por_indice(18)
+
+    @property
+    def gtminpat(self) -> GTMinPat:
+        return self.__obtem_arquivo_por_indice(19)
+
+    @property
+    def elnino(self) -> ElNino:
+        return self.__obtem_arquivo_por_indice(20)
+
+    @property
+    def ensoaux(self) -> ENSOAux:
+        return self.__obtem_arquivo_por_indice(21)
+
+    @property
+    def dsvagua(self) -> DSVAgua:
+        return self.__obtem_arquivo_por_indice(22)
+
+    @property
+    def penalid(self) -> Penalid:
+        return self.__obtem_arquivo_por_indice(23)
+
+    @property
+    def curva(self) -> Curva:
+        return self.__obtem_arquivo_por_indice(24)
+
+    @property
+    def agrint(self) -> AgrInt:
+        return self.__obtem_arquivo_por_indice(25)
+
+    @property
+    def adterm(self) -> AdTerm:
+        return self.__obtem_arquivo_por_indice(26)
+
+    @property
+    def ghmin(self) -> GHMin:
+        return self.__obtem_arquivo_por_indice(27)
+
+    @property
+    def sar(self) -> SAR:
+        return self.__obtem_arquivo_por_indice(28)
+
+    @property
+    def cvar(self) -> CVAR:
+        return self.__obtem_arquivo_por_indice(29)
+
+    @property
+    def ree(self) -> REE:
+        return self.__obtem_arquivo_por_indice(30)
+
+    @property
+    def re(self) -> RE:
+        return self.__obtem_arquivo_por_indice(31)
+
+    @property
+    def tecno(self) -> Tecno:
+        return self.__obtem_arquivo_por_indice(32)
+
+    @property
+    def abertura(self) -> Abertura:
+        return self.__obtem_arquivo_por_indice(33)
+
+    @property
+    def gee(self) -> GEE:
+        return self.__obtem_arquivo_por_indice(34)
+
+    @property
+    def clasgas(self) -> ClasGas:
+        return self.__obtem_arquivo_por_indice(34)

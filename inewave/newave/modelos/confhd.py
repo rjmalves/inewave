@@ -4,75 +4,7 @@ from inewave._utils.bloco import Bloco
 from inewave._utils.leitura import Leitura
 # Imports de módulos externos
 from typing import IO, List
-
-
-class UHEConfhd:
-    """
-    Armazena dados de uma UHE conforme configurada no
-    arquivo `confhd.dat`.
-
-    **Parâmetros**
-
-    - numero: `int`
-    - nome: `str`
-    - posto: `int`
-    - jusante: `int`
-    - ree: `int`
-    - volume_inicial: `float`
-    - existente: `bool`
-    - modificada: `bool`
-    - numero: `int`
-    - inicio_historico: `int`
-    - fim_historico: `int`
-
-    """
-    __slots__ = ["numero",
-                 "nome",
-                 "posto",
-                 "jusante",
-                 "ree",
-                 "volume_inicial",
-                 "existente",
-                 "modificada",
-                 "inicio_historico",
-                 "fim_historico"]
-
-    def __init__(self,
-                 numero: int,
-                 nome: str,
-                 posto: int,
-                 jusante: int,
-                 ree: int,
-                 volume_inicial: float,
-                 existente: bool,
-                 modificada: bool,
-                 inicio_historico: int,
-                 fim_historico: int):
-        self.numero = numero
-        self.nome = nome
-        self.posto = posto
-        self.jusante = jusante
-        self.ree = ree
-        self.volume_inicial = volume_inicial
-        self.existente = existente
-        self.modificada = modificada
-        self.inicio_historico = inicio_historico
-        self.fim_historico = fim_historico
-
-    def __eq__(self, o: object) -> bool:
-        """
-        A igualdade entre UHEConfhd avalia todos os campos.
-        """
-        if not isinstance(o, UHEConfhd):
-            return False
-        uhe: UHEConfhd = o
-        dif = False
-        for s1, s2 in zip(self.__slots__,
-                          uhe.__slots__):
-            if s1 != s2 or getattr(self, s1) != getattr(uhe, s2):
-                dif = True
-                break
-        return not dif
+import pandas as pd  # type: ignore
 
 
 class BlocoConfUHE(Bloco):
@@ -88,10 +20,47 @@ class BlocoConfUHE(Bloco):
                          "",
                          True)
 
-        self._dados: List[UHEConfhd] = []
+        self._dados: pd.DataFrame = pd.DataFrame()
+
+    def __eq__(self, o: object):
+        if not isinstance(o, BlocoConfUHE):
+            return False
+        bloco: BlocoConfUHE = o
+        return self._dados.equals(bloco._dados)
 
     # Override
     def le(self, arq: IO):
+
+        def extrai_coluna_de_listas(listas: List[list],
+                                    coluna: int) -> list:
+            return [lista[coluna] for lista in listas]
+
+        def transforma_uhes_em_tabela() -> pd.DataFrame:
+            # Converte as informações de cada linha em colunas
+            col_num = extrai_coluna_de_listas(dados_uhes, 0)
+            col_nome = extrai_coluna_de_listas(dados_uhes, 1)
+            col_posto = extrai_coluna_de_listas(dados_uhes, 2)
+            col_jus = extrai_coluna_de_listas(dados_uhes, 3)
+            col_ree = extrai_coluna_de_listas(dados_uhes, 4)
+            col_vinic = extrai_coluna_de_listas(dados_uhes, 5)
+            col_exis = extrai_coluna_de_listas(dados_uhes, 6)
+            col_modif = extrai_coluna_de_listas(dados_uhes, 7)
+            col_inic_hist = extrai_coluna_de_listas(dados_uhes, 8)
+            col_fim_hist = extrai_coluna_de_listas(dados_uhes, 9)
+            dados = {
+                     "Número": col_num,
+                     "Nome": col_nome,
+                     "Posto": col_posto,
+                     "Jusante": col_jus,
+                     "REE": col_ree,
+                     "Volume Inicial": col_vinic,
+                     "Usina Existente": col_exis,
+                     "Modificada": col_modif,
+                     "Início do Histórico": col_inic_hist,
+                     "Fim do Histórico": col_fim_hist
+                    }
+            return pd.DataFrame(data=dados)
+
         # Salta a linha com "XXX"
         arq.readline()
         # Variáveis auxiliares
@@ -106,47 +75,50 @@ class BlocoConfUHE(Bloco):
         reg_inic_hist = RegistroIn(4)
         reg_fim_hist = RegistroIn(4)
         # Para cada usina, lê e processa as informações
+        dados_uhes: List[list] = []
         while True:
             linha = arq.readline()
             # Confere se terminaram as usinas
             if len(linha) < 3:
+                # Converte para df e salva na variável
+                self._dados = transforma_uhes_em_tabela()
                 break
-            uhe = UHEConfhd(reg_num.le_registro(linha, 1),
-                            reg_nome.le_registro(linha, 6),
-                            reg_posto.le_registro(linha, 19),
-                            reg_jus.le_registro(linha, 25),
-                            reg_ree.le_registro(linha, 30),
-                            reg_vinic.le_registro(linha, 35),
-                            bool(reg_exis.le_registro(linha, 42)),
-                            bool(reg_modif.le_registro(linha, 49)),
-                            reg_inic_hist.le_registro(linha, 58),
-                            reg_fim_hist.le_registro(linha, 67))
-            self._dados.append(uhe)
+            dados_uhe = [reg_num.le_registro(linha, 1),
+                         reg_nome.le_registro(linha, 6),
+                         reg_posto.le_registro(linha, 19),
+                         reg_jus.le_registro(linha, 25),
+                         reg_ree.le_registro(linha, 30),
+                         reg_vinic.le_registro(linha, 35),
+                         bool(reg_exis.le_registro(linha, 42)),
+                         bool(reg_modif.le_registro(linha, 49)),
+                         reg_inic_hist.le_registro(linha, 58),
+                         reg_fim_hist.le_registro(linha, 67)]
+            dados_uhes.append(dados_uhe)
 
     # Override
     def escreve(self, arq: IO):
-        def escreve_uhe(uhe: UHEConfhd):
+        def escreve_uhe(lin: pd.Series):
             linha = " "
             # Número
-            linha += str(uhe.numero).rjust(4) + " "
+            linha += str(lin[0]).rjust(4) + " "
             # Nome
-            linha += uhe.nome.ljust(12) + " "
+            linha += lin[1].ljust(12) + " "
             # Posto
-            linha += str(uhe.posto).rjust(4) + "  "
+            linha += str(lin[2]).rjust(4) + "  "
             # Jusante
-            linha += str(uhe.jusante).rjust(4) + " "
+            linha += str(lin[3]).rjust(4) + " "
             # REE
-            linha += str(uhe.ree).rjust(4) + " "
+            linha += str(lin[4]).rjust(4) + " "
             # Volume inicial
-            linha += "{:3.2f} ".format(uhe.volume_inicial).rjust(7)
+            linha += f"{float(lin[5]):3.2f} ".rjust(7)
             # Existente
-            linha += "  EX   " if uhe.existente else "  NE   "
+            linha += "  EX   " if lin[6] else "  NE   "
             # Modificada
-            linha += str(int(uhe.modificada)).rjust(4) + "     "
+            linha += str(int(lin[7])).rjust(4) + "     "
             # Início do histórico
-            linha += str(uhe.inicio_historico).rjust(4) + "     "
+            linha += str(lin[8]).rjust(4) + "     "
             # Fim do histórico
-            linha += str(uhe.fim_historico).rjust(4)
+            linha += str(lin[9]).rjust(4)
             arq.write(linha + "\n")
 
         # Escreve cabeçalhos
@@ -157,7 +129,7 @@ class BlocoConfUHE(Bloco):
         arq.write(titulos)
         arq.write(cabecalhos)
         # Escreve UHEs
-        for uhe in self._dados:
+        for _, uhe in self._dados.iterrows():
             escreve_uhe(uhe)
 
 
