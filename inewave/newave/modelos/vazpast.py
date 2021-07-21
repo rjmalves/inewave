@@ -5,6 +5,7 @@ from inewave._utils.leitura import Leitura
 from inewave.config import MAX_UHES, MESES
 # Imports de módulos externos
 import numpy as np  # type: ignore
+import pandas as pd  # type: ignore
 from typing import IO, List
 
 
@@ -22,16 +23,17 @@ class BlocoVazPast(Bloco):
                          "",
                          True)
 
-        self._dados = [0, 0, np.zeros((MAX_UHES,
-                                      len(MESES) + 2),
-                                      dtype="<U11")]
+        self._dados = [0, 0, pd.DataFrame]
 
     def __eq__(self, o: object):
         if not isinstance(o, BlocoVazPast):
             return False
         bloco: BlocoVazPast = o
-        return all([np.array_equal(d1, d2)
-                    for d1, d2 in zip(self._dados, bloco._dados)])
+        return all([
+                    self._dados[0] == bloco._dados[0],
+                    self._dados[1] == bloco._dados[1],
+                    self._dados[2].equals(bloco._dados[2])
+                   ])
 
     # Override
     def le(self, arq: IO):
@@ -42,25 +44,45 @@ class BlocoVazPast(Bloco):
 
         str_mes_plan, str_ano_plan = linha.split("ANOPLAN")
         self._dados[0] = int(str_mes_plan.split("=")[1].strip())
-        self.dados[1] = int(str_ano_plan.split("=")[1].strip())
+        self._dados[1] = int(str_ano_plan.split("=")[1].strip())
         # Variáveis auxiliares
         reg_posto = RegistroIn(3)
         reg_nome = RegistroAn(12)
         reg_vaz = RegistroFn(8)
         i = 0
+        postos: List[int] = []
+        nomes: List[str] = []
+        tabela = np.zeros((MAX_UHES, len(MESES)))
         while True:
             # Verifica se o arquivo acabou
             linha = arq.readline()
             if len(linha) < 3:
-                self._dados[2] = self._dados[2][:i, :]
+                tabela = tabela[:i, :]
+                self._dados[2] = pd.DataFrame(tabela)
+                meses = ["Janeiro",
+                         "Fevereiro",
+                         "Março",
+                         "Abril",
+                         "Maio",
+                         "Junho",
+                         "Julho",
+                         "Agosto",
+                         "Setembro",
+                         "Outubro",
+                         "Novembro",
+                         "Dezembro"]
+                self._dados[2].columns = meses
+                self._dados[2]["Posto"] = postos
+                self._dados[2]["Usina"] = nomes
+                self._dados[2] = self._dados[2][["Posto", "Usina"] + meses]
                 break
             # Senão, lê mais uma linha
-            self._dados[2][i, 0] = reg_posto.le_registro(linha, 2)
-            self._dados[2][i, 1] = reg_nome.le_registro(linha, 6)
-            self._dados[2][i, 2:] = reg_vaz.le_linha_tabela(linha,
-                                                            20,
-                                                            2,
-                                                            len(MESES))
+            postos.append(reg_posto.le_registro(linha, 2))
+            nomes.append(reg_nome.le_registro(linha, 6))
+            tabela[i, :] = reg_vaz.le_linha_tabela(linha,
+                                                   20,
+                                                   2,
+                                                   len(MESES))
             i += 1
 
     # Override
@@ -71,12 +93,12 @@ class BlocoVazPast(Bloco):
             for i in range(lin_tab):
                 linha = " "
                 # Posto
-                linha += str(self._dados[2][i, 0]).rjust(4) + " "
+                linha += str(self._dados[2].iloc[i, 0]).rjust(4) + " "
                 # Nome
-                linha += str(self._dados[2][i, 1]).ljust(12)
+                linha += str(self._dados[2].iloc[i, 1]).ljust(12)
                 # Vazoes de cada mês
                 for j in range(len(MESES)):
-                    v = self._dados[2][i, 2 + j]
+                    v = self._dados[2].iloc[i, 2 + j]
                     linha += " " + "{:6.2f}".format(float(v)).rjust(9)
                 arq.write(linha + "\n")
 
