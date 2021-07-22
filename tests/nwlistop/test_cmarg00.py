@@ -94,12 +94,9 @@ def test_cmarg_medio_por_ano():
     patamar = Patamar.le_arquivo("tests/_arquivos")
     medios = cmarg.custos_medios_por_ano(patamar)
     n_meses = len(MESES)
-    mes_pmo = cmarg.mes_pmo
     # Confere se os valores médios segundo os patamares
     # são nulos até o mês anterior ao PMO
-    anos = patamar.anos_estudo
-    assert np.all(medios[anos[0]][:, :mes_pmo-1] == 0)
-    for a in anos:
+    for a in patamar.anos_estudo:
         assert medios[a].shape == (NUM_CENARIOS, n_meses)
 
 

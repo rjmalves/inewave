@@ -2,7 +2,7 @@
 from inewave._utils.registros import RegistroAn, RegistroFn, RegistroIn
 from inewave._utils.bloco import Bloco
 from inewave._utils.leitura import Leitura
-from inewave.config import MAX_UHES, MESES
+from inewave.config import MAX_UHES, MESES, MESES_DF
 # Imports de módulos externos
 import numpy as np  # type: ignore
 import pandas as pd  # type: ignore
@@ -59,22 +59,10 @@ class BlocoVazPast(Bloco):
             if len(linha) < 3:
                 tabela = tabela[:i, :]
                 self._dados[2] = pd.DataFrame(tabela)
-                meses = ["Janeiro",
-                         "Fevereiro",
-                         "Março",
-                         "Abril",
-                         "Maio",
-                         "Junho",
-                         "Julho",
-                         "Agosto",
-                         "Setembro",
-                         "Outubro",
-                         "Novembro",
-                         "Dezembro"]
-                self._dados[2].columns = meses
+                self._dados[2].columns = MESES_DF
                 self._dados[2]["Posto"] = postos
                 self._dados[2]["Usina"] = nomes
-                self._dados[2] = self._dados[2][["Posto", "Usina"] + meses]
+                self._dados[2] = self._dados[2][["Posto", "Usina"] + MESES_DF]
                 break
             # Senão, lê mais uma linha
             postos.append(reg_posto.le_registro(linha, 2))

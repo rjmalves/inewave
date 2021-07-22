@@ -34,4 +34,16 @@ MESES = ["JANEIRO",
          "OUTUBRO",
          "NOVEMBRO",
          "DEZEMBRO"]
+MESES_DF = ["Janeiro",
+            "Fevereiro",
+            "Março",
+            "Abril",
+            "Maio",
+            "Junho",
+            "Julho",
+            "Agosto",
+            "Setembro",
+            "Outubro",
+            "Novembro",
+            "Dezembro"]
 MAX_MESES_ESTUDO = MAX_ANOS_ESTUDO * len(MESES)

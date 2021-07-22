@@ -1,12 +1,12 @@
-from inewave.newave.modelos.patamar import BlocoDuracaoPatamar
 from inewave.newave.modelos.patamar import LeituraPatamar
 from inewave._utils.dadosarquivo import DadosArquivo
 from inewave._utils.arquivo import Arquivo
 from inewave._utils.escrita import Escrita
-from inewave.config import NUM_PATAMARES
+from inewave.config import MESES_DF
 
 from typing import Dict
 import numpy as np  # type: ignore
+import pandas as pd  # type: ignore
 
 
 class Patamar(Arquivo):
@@ -32,16 +32,8 @@ class Patamar(Arquivo):
         # Interpreta o resultado da leitura
         val = True
         msg = "Erro na criação de Patamar: "
-        if len(dados.blocos) == 1:
-            bloco = dados.blocos[0]
-            if isinstance(bloco, BlocoDuracaoPatamar):
-                self.__bloco = bloco
-            else:
-                msg += (f"O bloco deve ser do tipo {BlocoDuracaoPatamar}, " +
-                        f"mas foi fornecido do tipo {type(bloco)}")
-                val = False
-        else:
-            msg += "Deve ser fornecido exatamente 1 bloco para Patamar"
+        if len(dados.blocos) != 3:
+            msg += "Devem ser fornecidos exatamente 2 blocos para Patamar"
             val = False
         if not val:
             raise TypeError(msg)
@@ -66,35 +58,63 @@ class Patamar(Arquivo):
                                  nome_arquivo)
 
     @property
-    def anos_estudo(self) -> np.ndarray:
+    def duracao_mensal_patamares(self) -> pd.DataFrame:
         """
-        Valores não-nulos da primeira coluna da tabela de duração
-         mensal dos patamares, que contém os anos de estudo.
+        Tabela de duração mensal dos patamares de carga.
 
         **Retorna**
 
-        `np.ndarray`
+        `pd.DataFrame`
 
         **Sobre**
 
         """
-        primeira_col = self.__bloco.dados[:, 0]
-        return np.array(primeira_col[primeira_col > 0],
-                        dtype=np.int64)
+        return self._blocos[0].dados
 
-    @anos_estudo.setter
-    def anos_estudo(self, anos: np.ndarray):
-        anos_espacados: np.ndarray = np.zeros((self.__bloco.dados.shape[0],),
-                                              dtype=np.float64)
-        if anos_espacados.shape[0] > self.__bloco.dados.shape[0]:
-            raise ValueError("Número de anos de estudo muito grande!")
-        anos_espacados[::NUM_PATAMARES] = anos
-        self.__bloco.dados[:, 0] = anos_espacados
+    @duracao_mensal_patamares.setter
+    def duracao_mensal_patamares(self, duracao: pd.DataFrame):
+        self._blocos[0].dados = duracao
+
+    @property
+    def carga_patamares(self) -> pd.DataFrame:
+        """
+        Tabela de carga em p.u. dos patamares de carga.
+
+        **Retorna**
+
+        `pd.DataFrame`
+
+        **Sobre**
+
+        """
+        return self._blocos[1].dados
+
+    @carga_patamares.setter
+    def carga_patamares(self, carga: pd.DataFrame):
+        self._blocos[1].dados = carga
+
+    @property
+    def intercambio_patamares(self) -> pd.DataFrame:
+        """
+        Tabela de intercambios em p.u. dos patamares de carga.
+
+        **Retorna**
+
+        `pd.DataFrame`
+
+        **Sobre**
+
+        """
+        return self._blocos[2].dados
+
+    @intercambio_patamares.setter
+    def intercambio_patamares(self, inter: pd.DataFrame):
+        self._blocos[2].dados = inter
 
     @property
     def patamares_por_ano(self) -> Dict[int, np.ndarray]:
         """
-        Valores contidos na tabela de patamares, organizados
+        Valores contidos na tabela de duração dos patamares, organizados
         por ano.
 
         **Retorna**
@@ -109,8 +129,22 @@ class Patamar(Arquivo):
         """
         patamares_ano: Dict[int, np.ndarray] = {}
         # Preenche com os valores
-        for i, a in enumerate(self.anos_estudo):
-            li = NUM_PATAMARES * i
-            lf = li + NUM_PATAMARES
-            patamares_ano[a] = self.__bloco.dados[li:lf, 1:]
+        duracoes = self.duracao_mensal_patamares
+        anos = self.anos_estudo
+        for i, a in enumerate(anos):
+            patamares_ano[a] = duracoes.loc[duracoes["Ano"] == a,
+                                            MESES_DF].to_numpy()
         return patamares_ano
+
+    @property
+    def anos_estudo(self) -> np.ndarray:
+        """
+        Lista com os anos de estudo descritos no Patamar.
+
+        **Retorna**
+
+        `np.ndarray`
+
+        """
+        duracoes = self.duracao_mensal_patamares
+        return np.array(list(set(list(duracoes["Ano"]))))

@@ -9,7 +9,7 @@ pat = Patamar.le_arquivo("tests/_arquivos")
 
 
 def test_leitura():
-    assert len(pat.anos_estudo) > 0
+    assert len(pat.duracao_mensal_patamares) > 0
 
 
 def test_eq_patamar():
@@ -19,12 +19,10 @@ def test_eq_patamar():
 
 def test_neq_patamar():
     pat2 = Patamar.le_arquivo("tests/_arquivos")
-    pat2.anos_estudo = [1990, 1991, 1992, 1993, 1994]
+    duracao_pats2 = pat2.duracao_mensal_patamares
+    duracao_pats2.iloc[0, 0] = 1970
+    pat2.duracao_mensal_patamares = duracao_pats2
     assert pat != pat2
-
-
-def test_anos_estudo():
-    assert np.array_equal(anos_estudo_teste, pat.anos_estudo)
 
 
 def test_patamar_por_ano():
