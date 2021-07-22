@@ -222,7 +222,7 @@ class BlocoCargaPatamarSubsistemas(Bloco):
 
 class BlocoIntercambioPatamarSubsistemas(Bloco):
     """
-    Bloco com a informação deintercâmbio (em p.u.) por patamar de carga
+    Bloco com a informação de intercâmbio (em p.u.) por patamar de carga
     e por mês/ano de estudo para cada subsistema.
     """
     str_inicio = "                             INTERCAMBIO(P.U.INTERC.MEDIO)"
