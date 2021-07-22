@@ -3,6 +3,8 @@ from inewave._utils.dadosarquivo import DadosArquivo
 from inewave._utils.escrita import Escrita
 from inewave.newave.modelos.adterm import LeituraAdTerm
 
+import pandas as pd  # type: ignore
+
 
 class AdTerm(Arquivo):
     """
@@ -36,3 +38,19 @@ class AdTerm(Arquivo):
         escritor = Escrita(diretorio)
         escritor.escreve_arquivo(self._dados,
                                  nome_arquivo)
+
+    @property
+    def despachos(self) -> pd.DataFrame:
+        """
+        Despachos antecipados das térmicas GNL.
+
+        **Retorna**
+
+        `pd.DataFrame`
+
+        """
+        return self._blocos[0].dados
+
+    @despachos.setter
+    def despachos(self, term: pd.DataFrame):
+        self._blocos[0].dados = term
