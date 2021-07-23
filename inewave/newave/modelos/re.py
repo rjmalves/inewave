@@ -43,7 +43,6 @@ class BlocoUsinasConjuntoRE(Bloco):
 
         # Variáveis auxiliares
         reg_conjunto = RegistroIn(3)
-        reg_usina = RegistroIn(3)
         # Pula uma linha, com cabeçalhos
         arq.readline()
         i = 0
@@ -58,7 +57,15 @@ class BlocoUsinasConjuntoRE(Bloco):
                 self._dados = converte_tabela_em_df()
                 break
             conjuntos.append(reg_conjunto.le_registro(linha, 0))
-            linha_tabela = reg_usina.le_linha_tabela(linha, 6, 1, 10)
+            col_i = 6
+            # Lê a linha conferindo quantas colunas tem
+            linha_tabela: List[int] = []
+            for j in range(1, 11):
+                col_f = col_i + 3
+                if col_f >= len(linha):
+                    break
+                linha_tabela.append(int(linha[col_i:col_f]))
+                col_i = col_f + 1
             for j, usi in enumerate(linha_tabela):
                 tabela[i, j] = usi
             i += 1

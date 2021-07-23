@@ -59,7 +59,7 @@ class BlocoCustoDeficitSistema(Bloco):
         # Pula a primeira linha, com cabeçalhos
         arq.readline()
         # Lê o número de patamares de déficit
-        num_pat = reg_num.le_registro(arq.readline(), 1)
+        num_pat = int(reg_num.le_registro(arq.readline(), 1))
         self._dados[0] = num_pat
         # Pula três linhas
         for _ in range(3):

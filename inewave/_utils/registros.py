@@ -77,9 +77,7 @@ class RegistroIn(Registro):
         Lê o conteúdo de um inteiro existente numa linha de um arquivo
         do NEWAVE e retorna o valor já convertido.
         """
-        val = linha[coluna_inicio:coluna_inicio+self.tamanho].strip()
-        if val.isnumeric():
-            return int(val)
+        return int(linha[coluna_inicio:coluna_inicio+self.tamanho].strip())
 
     def le_linha_tabela(self,
                         linha: str,
