@@ -7,3 +7,7 @@ e saída do NEWAVE.
 """
 
 __version__ = "0.0.29"
+
+from . import newave  # noqa
+from . import nwlistcf  # noqa
+from . import nwlistop  # noqa
