@@ -8,6 +8,7 @@ from inewave.config import MESES, SUBMERCADOS
 # Imports de módulos externos
 from datetime import timedelta
 import numpy as np  # type: ignore
+import pandas as pd  # type: ignore
 from typing import IO, List
 
 
@@ -280,8 +281,7 @@ class BlocoConvergenciaPMO(Bloco):
         super().__init__(BlocoConvergenciaPMO.str_inicio,
                          BlocoConvergenciaPMO.str_fim,
                          True)
-        self._dados = np.zeros((3 * MAX_ITERS, 8),
-                               dtype=np.float64)
+        self._dados: pd.DataFrame = pd.DataFrame()
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoConvergenciaPMO):
@@ -291,31 +291,42 @@ class BlocoConvergenciaPMO(Bloco):
 
     # Override
     def le(self, arq: IO):
+
+        def converte_tabela_em_df() -> pd.DataFrame:
+            df = pd.DataFrame(tabela)
+            df.columns = ["Iteração", "Lim. Inf. ZINF", "ZINF",
+                          "Lim. Sup. ZINF", "ZSUP", "Delta ZINF",
+                          "ZSUP Iteração", "Tempo (s)"]
+            return df
+
         # Salta as duas linhas iniciais
         arq.readline()
         arq.readline()
         # Variáveis auxiliares
         reg_iter = RegistroIn(4)
         reg_z = RegistroFn(22)
+        tabela = np.zeros((3 * MAX_ITERS, 8),
+                          dtype=np.float64)
         i = 0
         while True:
             linha: str = arq.readline()
             # Confere se já acabou
             if len(linha) < 3:
-                self._dados = self._dados[:i, :]
+                tabela = tabela[:i, :]
+                self._dados = converte_tabela_em_df()
                 break
             # Se não tem nada na coluna de iteração, ignora a linha
             if linha[4:9] == "     ":
                 continue
             # Lê a iteração
-            self._dados[i, 0] = reg_iter.le_registro(linha, 4)
+            tabela[i, 0] = reg_iter.le_registro(linha, 4)
             # Lê os limites e valores de zinf e zsup
-            self._dados[i, 1:5] = reg_z.le_linha_tabela(linha, 9, 1, 4)
+            tabela[i, 1:5] = reg_z.le_linha_tabela(linha, 9, 1, 4)
             # Lê delta z inf e zup iter se houver
             if linha[101:122].isnumeric():
-                self._dados[i, 5] = reg_z.le_registro(linha, 101)
+                tabela[i, 5] = reg_z.le_registro(linha, 101)
             if linha[123:144].isnumeric():
-                self._dados[i, 6] = reg_z.le_registro(linha, 123)
+                tabela[i, 6] = reg_z.le_registro(linha, 123)
             # Lê o tempo, convertendo para segundos, se houver
             if "min" in linha[153:168]:
                 tempo = linha[153:168]
@@ -323,7 +334,7 @@ class BlocoConvergenciaPMO(Bloco):
                 min = int(tempo.split("h")[1].split("min")[0])
                 s = float(tempo.split("min")[1].split("s")[0])
                 ts = timedelta(hours=h, minutes=min, seconds=s).total_seconds()
-                self._dados[i, 7] = ts
+                tabela[i, 7] = ts
             i += 1
 
     # Override
@@ -412,9 +423,10 @@ class BlocoMARSPMO(Bloco):
         ree = 0
         reg_ree = RegistroAn(10)
         reg_reta = RegistroFn(12)
+        rees_lidos = 0
         while True:
             linha: str = arq.readline()
-            if ree == len(REES) or BlocoMARSPMO.str_fim in linha:
+            if rees_lidos == len(REES) or BlocoMARSPMO.str_fim in linha:
                 break
             elif "REE:" in linha:
                 ree = REES.index(reg_ree.le_registro(linha, 6))
@@ -422,6 +434,7 @@ class BlocoMARSPMO(Bloco):
                 for _ in range(4):
                     arq.readline()
                 # Lê as retas disponíveis
+                rees_lidos += 1
                 for i in range(BlocoMARSPMO.MAX_RETAS_MARS):
                     linha = arq.readline()
                     if len(linha) > 3:

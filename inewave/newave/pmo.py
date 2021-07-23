@@ -571,21 +571,9 @@ class PMO(Arquivo):
 
         **Retorna**
 
-        `pandas.DataFrame`
+        `pd.DataFrame`
         """
-        df = pd.DataFrame(self.__convergencia[0].dados,
-                          columns=[
-                                   "Iteracao",
-                                   "Lim. Inferior",
-                                   "Zinf",
-                                   "Lim. Superior",
-                                   "Zsup",
-                                   "Delta Zinf",
-                                   "Zsup Iteracao",
-                                   "Tempo (s)"
-                                  ])
-        # Constroi o DataFrame a partir da tabela do NumPy
-        return df
+        return self.__convergencia[0].dados
 
     @property
     def risco_deficit_ens(self) -> pd.DataFrame:
