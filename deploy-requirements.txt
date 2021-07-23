@@ -2,7 +2,7 @@ pytest
 pytest-cov
 numpy
 pandas
-flake8
+pylama
 mypy
 sphinx
 sphinx-gallery
