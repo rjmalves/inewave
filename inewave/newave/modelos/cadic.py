@@ -22,13 +22,13 @@ class BlocoCargasAdicionaisSubsistema(Bloco):
                          "",
                          True)
 
-        self._dados = pd.DataFrame()
+        self._dados: pd.DataFrame = pd.DataFrame()
 
     def __eq__(self, o: object):
         if not isinstance(o, BlocoCargasAdicionaisSubsistema):
             return False
         bloco: BlocoCargasAdicionaisSubsistema = o
-        return self._dados[1].equals(bloco._dados[1])
+        return self._dados.equals(bloco._dados)
 
     # Override
     def le(self, arq: IO):
