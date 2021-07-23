@@ -13,6 +13,8 @@
   
   <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/gallery-binder.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/gallery-dataframe.css" type="text/css" />
@@ -33,6 +35,7 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
         <script src="../../../_static/underscore.js"></script>
         <script src="../../../_static/doctools.js"></script>
@@ -189,79 +192,12 @@
 <p>Os desvios para usos consuntivos da água no modelo NEWAVE, localizados no arquivo geralmente denominado
 dsvagua.dat, são armazenados na classe:</p>
 <dl class="py class">
-<dt id="inewave.newave.modelos.dsvagua.DSVAgua">
-<em class="property"><span class="pre">class</span> </em><code class="sig-name descname"><span class="pre">DSVAgua</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tabela</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">numpy.ndarray</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/newave/modelos/dsvagua.html#DSVAgua"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.modelos.dsvagua.DSVAgua" title="Link permanente para esta definição">¶</a></dt>
+<dt class="sig sig-object py" id="inewave.newave.dsvagua.DSVAgua">
+<em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">DSVAgua</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dados</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">inewave._utils.dadosarquivo.DadosArquivo</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/newave/dsvagua.html#DSVAgua"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.dsvagua.DSVAgua" title="Link permanente para esta definição">¶</a></dt>
 <dd><p>Armazena os dados de entrada do NEWAVE referentes aos
 desvios de água por usina.</p>
 <p>Esta classe lida com informações de entrada fornecidas ao NEWAVE e
 que podem ser modificadas através do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dsvagua.dat</span></code>.</p>
-<p><strong>Parâmetros</strong></p>
-<ul class="simple">
-<li><p>tabela: <code class="xref py py-obj docutils literal notranslate"><span class="pre">np.ndarray</span></code></p></li>
-</ul>
-</dd></dl>
-
-</div>
-<div class="section" id="leitura">
-<h2>Leitura<a class="headerlink" href="#leitura" title="Link permanente para este título">¶</a></h2>
-<p>A leitura do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dsvagua.dat</span></code> é feita através da classe <a class="reference internal" href="#inewave.newave.dsvagua.LeituraDSVAgua" title="inewave.newave.dsvagua.LeituraDSVAgua"><code class="xref py py-class docutils literal notranslate"><span class="pre">LeituraDSVAgua</span></code></a>.</p>
-<dl class="py class">
-<dt id="inewave.newave.dsvagua.LeituraDSVAgua">
-<em class="property"><span class="pre">class</span> </em><code class="sig-name descname"><span class="pre">LeituraDSVAgua</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">diretorio</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/newave/dsvagua.html#LeituraDSVAgua"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.dsvagua.LeituraDSVAgua" title="Link permanente para esta definição">¶</a></dt>
-<dd><p>Realiza a leitura do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dsvagua.dat</span></code>
-existente em um diretório de entradas do NEWAVE.</p>
-<p>Esta classe contém o conjunto de utilidades para ler
-e interpretar os campos de um arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dsvagua.dat</span></code>, construindo
-um objeto <code class="xref py py-obj docutils literal notranslate"><span class="pre">DSVAgua</span></code> cujas informações são as mesmas do <code class="xref py py-obj docutils literal notranslate"><span class="pre">dsvagua.dat</span></code>.</p>
-<p>Este objeto existe para retirar do modelo de dados a complexidade
-de iterar pelas linhas do arquivo, recortar colunas, converter
-tipos de dados, dentre outras tarefas necessárias para a leitura.</p>
-<p>Uma vez realizada a leitura do arquivo, as informações são guardadas
-internamente no atributo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dsvagua</span></code>.</p>
-<p><strong>Exemplos</strong></p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">diretorio</span> <span class="o">=</span> <span class="s2">&quot;~/documentos/.../deck&quot;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">leitor</span> <span class="o">=</span> <span class="n">LeituraDSVAgua</span><span class="p">(</span><span class="n">diretorio</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">leitor</span><span class="o">.</span><span class="n">le_arquivo</span><span class="p">()</span>
-<span class="go"># Ops, esqueci de pegar o objeto</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">dsv</span> <span class="o">=</span> <span class="n">leitor</span><span class="o">.</span><span class="n">dsvagua</span>
-</pre></div>
-</div>
-<dl class="py method">
-<dt id="inewave.newave.dsvagua.LeituraDSVAgua.le_arquivo">
-<code class="sig-name descname"><span class="pre">le_arquivo</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nome_arquivo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'dsvagua.dat'</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#inewave.newave.modelos.dsvagua.DSVAgua" title="inewave.newave.modelos.dsvagua.DSVAgua"><span class="pre">inewave.newave.modelos.dsvagua.DSVAgua</span></a><a class="reference internal" href="../../../_modules/inewave/newave/dsvagua.html#LeituraDSVAgua.le_arquivo"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.dsvagua.LeituraDSVAgua.le_arquivo" title="Link permanente para esta definição">¶</a></dt>
-<dd><p>Faz a leitura do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dsvagua.dat</span></code>.</p>
-</dd></dl>
-
-</dd></dl>
-
-</div>
-<div class="section" id="escrita">
-<h2>Escrita<a class="headerlink" href="#escrita" title="Link permanente para este título">¶</a></h2>
-<p>A escrita do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dsvagua.dat</span></code> é feita através da classe <a class="reference internal" href="#inewave.newave.dsvagua.EscritaDSVAgua" title="inewave.newave.dsvagua.EscritaDSVAgua"><code class="xref py py-class docutils literal notranslate"><span class="pre">EscritaDSVAgua</span></code></a>.</p>
-<dl class="py class">
-<dt id="inewave.newave.dsvagua.EscritaDSVAgua">
-<em class="property"><span class="pre">class</span> </em><code class="sig-name descname"><span class="pre">EscritaDSVAgua</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">diretorio</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/newave/dsvagua.html#EscritaDSVAgua"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.dsvagua.EscritaDSVAgua" title="Link permanente para esta definição">¶</a></dt>
-<dd><p>Realiza a escrita do arquivo dsvagua.dat
-em um diretório de entradas do NEWAVE.</p>
-<p>Esta classe contém o conjunto de utilidades para escrever os campos
-de um arquivo dsvagua.dat, a partir de um objeto <code class="xref py py-obj docutils literal notranslate"><span class="pre">DSVAgua</span></code>.</p>
-<p>Este objeto existe para retirar do modelo de dados a complexidade
-de armazenar as strings auxiliares do arquivo, desenhar tabelas, dentre
-outras tarefas associadas à escrita.</p>
-<p>Se o diretório de escrita não existir, ele será criado.</p>
-<p><strong>Exemplos</strong></p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">diretorio</span> <span class="o">=</span> <span class="s2">&quot;~/documentos/.../deck&quot;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># dsv é do tipo DSVAgua</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">escritor</span> <span class="o">=</span> <span class="n">EscritaDSVAgua</span><span class="p">(</span><span class="n">diretorio</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">escritor</span><span class="o">.</span><span class="n">escreve_arquivo</span><span class="p">(</span><span class="n">dsv</span><span class="p">)</span>
-</pre></div>
-</div>
-<dl class="py method">
-<dt id="inewave.newave.dsvagua.EscritaDSVAgua.escreve_arquivo">
-<code class="sig-name descname"><span class="pre">escreve_arquivo</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dsvagua</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#inewave.newave.modelos.dsvagua.DSVAgua" title="inewave.newave.modelos.dsvagua.DSVAgua"><span class="pre">inewave.newave.modelos.dsvagua.DSVAgua</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/newave/dsvagua.html#EscritaDSVAgua.escreve_arquivo"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.dsvagua.EscritaDSVAgua.escreve_arquivo" title="Link permanente para esta definição">¶</a></dt>
-<dd><p>Realiza a escrita de um arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dsvagua.dat</span></code>.</p>
-</dd></dl>
-
 </dd></dl>
 
 </div>
@@ -281,7 +217,7 @@ outras tarefas associadas à escrita.</p>
 
   <div role="contentinfo">
     <p>
-        &#169; Copyright 2021, Rogerio Alves.
+        &#169; Copyright 2021, Rogerio José Menezes Alves.
 
     </p>
   </div>

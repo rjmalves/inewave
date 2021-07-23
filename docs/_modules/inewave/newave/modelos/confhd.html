@@ -13,6 +13,8 @@
   
   <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../../_static/gallery.css" type="text/css" />
   <link rel="stylesheet" href="../../../../_static/gallery-binder.css" type="text/css" />
   <link rel="stylesheet" href="../../../../_static/gallery-dataframe.css" type="text/css" />
@@ -33,6 +35,7 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
         <script src="../../../../_static/jquery.js"></script>
         <script src="../../../../_static/underscore.js"></script>
         <script src="../../../../_static/doctools.js"></script>
@@ -157,109 +160,166 @@
            <div itemprop="articleBody">
             
   <h1>Código fonte para inewave.newave.modelos.confhd</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span>
+<span></span><span class="c1"># Imports do próprio módulo</span>
+<span class="kn">from</span> <span class="nn">inewave._utils.registros</span> <span class="kn">import</span> <span class="n">RegistroAn</span><span class="p">,</span> <span class="n">RegistroFn</span><span class="p">,</span> <span class="n">RegistroIn</span>
+<span class="kn">from</span> <span class="nn">inewave._utils.bloco</span> <span class="kn">import</span> <span class="n">Bloco</span>
+<span class="kn">from</span> <span class="nn">inewave._utils.leitura</span> <span class="kn">import</span> <span class="n">Leitura</span>
+<span class="c1"># Imports de módulos externos</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">IO</span><span class="p">,</span> <span class="n">List</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>  <span class="c1"># type: ignore</span>
 
 
-<span class="k">class</span> <span class="nc">UHEConfhd</span><span class="p">:</span>
+<span class="k">class</span> <span class="nc">BlocoConfUHE</span><span class="p">(</span><span class="n">Bloco</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Armazena dados de uma UHE conforme configurada no</span>
-<span class="sd">    arquivo `confhd.dat`.</span>
-
-<span class="sd">    **Parâmetros**</span>
-
-<span class="sd">    - numero: `int`</span>
-<span class="sd">    - nome: `str`</span>
-<span class="sd">    - posto: `int`</span>
-<span class="sd">    - jusante: `int`</span>
-<span class="sd">    - ree: `int`</span>
-<span class="sd">    - volume_inicial: `float`</span>
-<span class="sd">    - existente: `bool`</span>
-<span class="sd">    - modificada: `bool`</span>
-<span class="sd">    - numero: `int`</span>
-<span class="sd">    - inicio_historico: `int`</span>
-<span class="sd">    - fim_historico: `int`</span>
-
+<span class="sd">    Bloco de informações das usinas cadastradas</span>
+<span class="sd">    no arquivo do NEWAVE `confhd.dat`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;numero&quot;</span><span class="p">,</span>
-                 <span class="s2">&quot;nome&quot;</span><span class="p">,</span>
-                 <span class="s2">&quot;posto&quot;</span><span class="p">,</span>
-                 <span class="s2">&quot;jusante&quot;</span><span class="p">,</span>
-                 <span class="s2">&quot;ree&quot;</span><span class="p">,</span>
-                 <span class="s2">&quot;volume_inicial&quot;</span><span class="p">,</span>
-                 <span class="s2">&quot;existente&quot;</span><span class="p">,</span>
-                 <span class="s2">&quot;modificada&quot;</span><span class="p">,</span>
-                 <span class="s2">&quot;inicio_historico&quot;</span><span class="p">,</span>
-                 <span class="s2">&quot;fim_historico&quot;</span><span class="p">]</span>
+    <span class="n">str_inicio</span> <span class="o">=</span> <span class="s2">&quot;NUM  NOME&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">BlocoConfUHE</span><span class="o">.</span><span class="n">str_inicio</span><span class="p">,</span>
+                         <span class="s2">&quot;&quot;</span><span class="p">,</span>
+                         <span class="kc">True</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_dados</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">o</span><span class="p">:</span> <span class="nb">object</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="n">BlocoConfUHE</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="n">bloco</span><span class="p">:</span> <span class="n">BlocoConfUHE</span> <span class="o">=</span> <span class="n">o</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dados</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">bloco</span><span class="o">.</span><span class="n">_dados</span><span class="p">)</span>
+
+    <span class="c1"># Override</span>
+    <span class="k">def</span> <span class="nf">le</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arq</span><span class="p">:</span> <span class="n">IO</span><span class="p">):</span>
+
+        <span class="k">def</span> <span class="nf">extrai_coluna_de_listas</span><span class="p">(</span><span class="n">listas</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">list</span><span class="p">],</span>
+                                    <span class="n">coluna</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[</span><span class="n">lista</span><span class="p">[</span><span class="n">coluna</span><span class="p">]</span> <span class="k">for</span> <span class="n">lista</span> <span class="ow">in</span> <span class="n">listas</span><span class="p">]</span>
+
+        <span class="k">def</span> <span class="nf">transforma_uhes_em_tabela</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+            <span class="c1"># Converte as informações de cada linha em colunas</span>
+            <span class="n">col_num</span> <span class="o">=</span> <span class="n">extrai_coluna_de_listas</span><span class="p">(</span><span class="n">dados_uhes</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="n">col_nome</span> <span class="o">=</span> <span class="n">extrai_coluna_de_listas</span><span class="p">(</span><span class="n">dados_uhes</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">col_posto</span> <span class="o">=</span> <span class="n">extrai_coluna_de_listas</span><span class="p">(</span><span class="n">dados_uhes</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+            <span class="n">col_jus</span> <span class="o">=</span> <span class="n">extrai_coluna_de_listas</span><span class="p">(</span><span class="n">dados_uhes</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+            <span class="n">col_ree</span> <span class="o">=</span> <span class="n">extrai_coluna_de_listas</span><span class="p">(</span><span class="n">dados_uhes</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+            <span class="n">col_vinic</span> <span class="o">=</span> <span class="n">extrai_coluna_de_listas</span><span class="p">(</span><span class="n">dados_uhes</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+            <span class="n">col_exis</span> <span class="o">=</span> <span class="n">extrai_coluna_de_listas</span><span class="p">(</span><span class="n">dados_uhes</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+            <span class="n">col_modif</span> <span class="o">=</span> <span class="n">extrai_coluna_de_listas</span><span class="p">(</span><span class="n">dados_uhes</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span>
+            <span class="n">col_inic_hist</span> <span class="o">=</span> <span class="n">extrai_coluna_de_listas</span><span class="p">(</span><span class="n">dados_uhes</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
+            <span class="n">col_fim_hist</span> <span class="o">=</span> <span class="n">extrai_coluna_de_listas</span><span class="p">(</span><span class="n">dados_uhes</span><span class="p">,</span> <span class="mi">9</span><span class="p">)</span>
+            <span class="n">dados</span> <span class="o">=</span> <span class="p">{</span>
+                     <span class="s2">&quot;Número&quot;</span><span class="p">:</span> <span class="n">col_num</span><span class="p">,</span>
+                     <span class="s2">&quot;Nome&quot;</span><span class="p">:</span> <span class="n">col_nome</span><span class="p">,</span>
+                     <span class="s2">&quot;Posto&quot;</span><span class="p">:</span> <span class="n">col_posto</span><span class="p">,</span>
+                     <span class="s2">&quot;Jusante&quot;</span><span class="p">:</span> <span class="n">col_jus</span><span class="p">,</span>
+                     <span class="s2">&quot;REE&quot;</span><span class="p">:</span> <span class="n">col_ree</span><span class="p">,</span>
+                     <span class="s2">&quot;Volume Inicial&quot;</span><span class="p">:</span> <span class="n">col_vinic</span><span class="p">,</span>
+                     <span class="s2">&quot;Usina Existente&quot;</span><span class="p">:</span> <span class="n">col_exis</span><span class="p">,</span>
+                     <span class="s2">&quot;Modificada&quot;</span><span class="p">:</span> <span class="n">col_modif</span><span class="p">,</span>
+                     <span class="s2">&quot;Início do Histórico&quot;</span><span class="p">:</span> <span class="n">col_inic_hist</span><span class="p">,</span>
+                     <span class="s2">&quot;Fim do Histórico&quot;</span><span class="p">:</span> <span class="n">col_fim_hist</span>
+                    <span class="p">}</span>
+            <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">dados</span><span class="p">)</span>
+
+        <span class="c1"># Salta a linha com &quot;XXX&quot;</span>
+        <span class="n">arq</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
+        <span class="c1"># Variáveis auxiliares</span>
+        <span class="n">reg_num</span> <span class="o">=</span> <span class="n">RegistroIn</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+        <span class="n">reg_nome</span> <span class="o">=</span> <span class="n">RegistroAn</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span>
+        <span class="n">reg_posto</span> <span class="o">=</span> <span class="n">RegistroIn</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+        <span class="n">reg_jus</span> <span class="o">=</span> <span class="n">RegistroIn</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+        <span class="n">reg_ree</span> <span class="o">=</span> <span class="n">RegistroIn</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+        <span class="n">reg_vinic</span> <span class="o">=</span> <span class="n">RegistroFn</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
+        <span class="n">reg_exis</span> <span class="o">=</span> <span class="n">RegistroAn</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+        <span class="n">reg_modif</span> <span class="o">=</span> <span class="n">RegistroIn</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+        <span class="n">reg_inic_hist</span> <span class="o">=</span> <span class="n">RegistroIn</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+        <span class="n">reg_fim_hist</span> <span class="o">=</span> <span class="n">RegistroIn</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+        <span class="c1"># Para cada usina, lê e processa as informações</span>
+        <span class="n">dados_uhes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">list</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">linha</span> <span class="o">=</span> <span class="n">arq</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
+            <span class="c1"># Confere se terminaram as usinas</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">linha</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
+                <span class="c1"># Converte para df e salva na variável</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_dados</span> <span class="o">=</span> <span class="n">transforma_uhes_em_tabela</span><span class="p">()</span>
+                <span class="k">break</span>
+            <span class="n">dados_uhe</span> <span class="o">=</span> <span class="p">[</span><span class="n">reg_num</span><span class="o">.</span><span class="n">le_registro</span><span class="p">(</span><span class="n">linha</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+                         <span class="n">reg_nome</span><span class="o">.</span><span class="n">le_registro</span><span class="p">(</span><span class="n">linha</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span>
+                         <span class="n">reg_posto</span><span class="o">.</span><span class="n">le_registro</span><span class="p">(</span><span class="n">linha</span><span class="p">,</span> <span class="mi">19</span><span class="p">),</span>
+                         <span class="n">reg_jus</span><span class="o">.</span><span class="n">le_registro</span><span class="p">(</span><span class="n">linha</span><span class="p">,</span> <span class="mi">25</span><span class="p">),</span>
+                         <span class="n">reg_ree</span><span class="o">.</span><span class="n">le_registro</span><span class="p">(</span><span class="n">linha</span><span class="p">,</span> <span class="mi">30</span><span class="p">),</span>
+                         <span class="n">reg_vinic</span><span class="o">.</span><span class="n">le_registro</span><span class="p">(</span><span class="n">linha</span><span class="p">,</span> <span class="mi">35</span><span class="p">),</span>
+                         <span class="nb">bool</span><span class="p">(</span><span class="n">reg_exis</span><span class="o">.</span><span class="n">le_registro</span><span class="p">(</span><span class="n">linha</span><span class="p">,</span> <span class="mi">42</span><span class="p">)),</span>
+                         <span class="nb">bool</span><span class="p">(</span><span class="n">reg_modif</span><span class="o">.</span><span class="n">le_registro</span><span class="p">(</span><span class="n">linha</span><span class="p">,</span> <span class="mi">49</span><span class="p">)),</span>
+                         <span class="n">reg_inic_hist</span><span class="o">.</span><span class="n">le_registro</span><span class="p">(</span><span class="n">linha</span><span class="p">,</span> <span class="mi">58</span><span class="p">),</span>
+                         <span class="n">reg_fim_hist</span><span class="o">.</span><span class="n">le_registro</span><span class="p">(</span><span class="n">linha</span><span class="p">,</span> <span class="mi">67</span><span class="p">)]</span>
+            <span class="n">dados_uhes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dados_uhe</span><span class="p">)</span>
+
+    <span class="c1"># Override</span>
+    <span class="k">def</span> <span class="nf">escreve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arq</span><span class="p">:</span> <span class="n">IO</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">escreve_uhe</span><span class="p">(</span><span class="n">lin</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">):</span>
+            <span class="n">linha</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span>
+            <span class="c1"># Número</span>
+            <span class="n">linha</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">lin</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span>
+            <span class="c1"># Nome</span>
+            <span class="n">linha</span> <span class="o">+=</span> <span class="n">lin</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span>
+            <span class="c1"># Posto</span>
+            <span class="n">linha</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">lin</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;  &quot;</span>
+            <span class="c1"># Jusante</span>
+            <span class="n">linha</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">lin</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span>
+            <span class="c1"># REE</span>
+            <span class="n">linha</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">lin</span><span class="p">[</span><span class="mi">4</span><span class="p">])</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span>
+            <span class="c1"># Volume inicial</span>
+            <span class="n">linha</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">float</span><span class="p">(</span><span class="n">lin</span><span class="p">[</span><span class="mi">5</span><span class="p">])</span><span class="si">:</span><span class="s2">3.2f</span><span class="si">}</span><span class="s2"> &quot;</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>
+            <span class="c1"># Existente</span>
+            <span class="n">linha</span> <span class="o">+=</span> <span class="s2">&quot;  EX   &quot;</span> <span class="k">if</span> <span class="n">lin</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span> <span class="k">else</span> <span class="s2">&quot;  NE   &quot;</span>
+            <span class="c1"># Modificada</span>
+            <span class="n">linha</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">lin</span><span class="p">[</span><span class="mi">7</span><span class="p">]))</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;     &quot;</span>
+            <span class="c1"># Início do histórico</span>
+            <span class="n">linha</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">lin</span><span class="p">[</span><span class="mi">8</span><span class="p">])</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;     &quot;</span>
+            <span class="c1"># Fim do histórico</span>
+            <span class="n">linha</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">lin</span><span class="p">[</span><span class="mi">9</span><span class="p">])</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+            <span class="n">arq</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">linha</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Escreve cabeçalhos</span>
+        <span class="n">titulos</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot; NUM  NOME         POSTO JUS   REE V.INIC&quot;</span>
+                   <span class="o">+</span> <span class="s2">&quot; U.EXIS MODIF INIC.HIST FIM HIST&quot;</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">cabecalhos</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot; XXXX XXXXXXXXXXXX XXXX  XXXX XXXX XXX.XX&quot;</span>
+                      <span class="o">+</span> <span class="s2">&quot; XXXX   XXXX     XXXX     XXXX&quot;</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">arq</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">titulos</span><span class="p">)</span>
+        <span class="n">arq</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">cabecalhos</span><span class="p">)</span>
+        <span class="c1"># Escreve UHEs</span>
+        <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">uhe</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dados</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+            <span class="n">escreve_uhe</span><span class="p">(</span><span class="n">uhe</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="LeituraConfhd"><a class="viewcode-back" href="../../../../reference/newave/arquivos/confhd.html#inewave.newave.confhd.LeituraConfhd">[documentos]</a><span class="k">class</span> <span class="nc">LeituraConfhd</span><span class="p">(</span><span class="n">Leitura</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Realiza a leitura do arquivo `confhd.dat`</span>
+<span class="sd">    existente em um diretório de entradas do NEWAVE.</span>
+
+<span class="sd">    Esta classe contém o conjunto de utilidades para ler</span>
+<span class="sd">    e interpretar os campos de um arquivo `confhd.dat`, construindo</span>
+<span class="sd">    um objeto `Confhd` cujas informações são as mesmas do `confhd.dat`.</span>
+
+<span class="sd">    Este objeto existe para retirar do modelo de dados a complexidade</span>
+<span class="sd">    de iterar pelas linhas do arquivo, recortar colunas, converter</span>
+<span class="sd">    tipos de dados, dentre outras tarefas necessárias para a leitura.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                 <span class="n">numero</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-                 <span class="n">nome</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-                 <span class="n">posto</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-                 <span class="n">jusante</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-                 <span class="n">ree</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-                 <span class="n">volume_inicial</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-                 <span class="n">existente</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
-                 <span class="n">modificada</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
-                 <span class="n">inicio_historico</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-                 <span class="n">fim_historico</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">numero</span> <span class="o">=</span> <span class="n">numero</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">nome</span> <span class="o">=</span> <span class="n">nome</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">posto</span> <span class="o">=</span> <span class="n">posto</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">jusante</span> <span class="o">=</span> <span class="n">jusante</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ree</span> <span class="o">=</span> <span class="n">ree</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">volume_inicial</span> <span class="o">=</span> <span class="n">volume_inicial</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">existente</span> <span class="o">=</span> <span class="n">existente</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">modificada</span> <span class="o">=</span> <span class="n">modificada</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">inicio_historico</span> <span class="o">=</span> <span class="n">inicio_historico</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">fim_historico</span> <span class="o">=</span> <span class="n">fim_historico</span>
+                 <span class="n">diretorio</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">diretorio</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">o</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="c1"># Override</span>
+    <span class="k">def</span> <span class="nf">_cria_blocos_leitura</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Bloco</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        A igualdade entre UHEConfhd avalia todos os campos.</span>
+<span class="sd">        Cria a lista de blocos a serem lidos no arquivo confhd.dat.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="n">UHEConfhd</span><span class="p">):</span>
-            <span class="k">return</span> <span class="kc">False</span>
-        <span class="n">uhe</span><span class="p">:</span> <span class="n">UHEConfhd</span> <span class="o">=</span> <span class="n">o</span>
-        <span class="n">dif</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="k">for</span> <span class="n">s1</span><span class="p">,</span> <span class="n">s2</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__slots__</span><span class="p">,</span>
-                          <span class="n">uhe</span><span class="o">.</span><span class="vm">__slots__</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">s1</span> <span class="o">!=</span> <span class="n">s2</span> <span class="ow">or</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s1</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">uhe</span><span class="p">,</span> <span class="n">s2</span><span class="p">):</span>
-                <span class="n">dif</span> <span class="o">=</span> <span class="kc">True</span>
-                <span class="k">break</span>
-        <span class="k">return</span> <span class="ow">not</span> <span class="n">dif</span>
-
-
-<div class="viewcode-block" id="Confhd"><a class="viewcode-back" href="../../../../reference/newave/arquivos/confhd.html#inewave.newave.modelos.confhd.Confhd">[documentos]</a><span class="k">class</span> <span class="nc">Confhd</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Armazena os dados de entrada do NEWAVE referentes às</span>
-<span class="sd">    configurações das usinas hidrelétricas.</span>
-
-<span class="sd">    Esta classe lida com informações de entrada fornecidas ao NEWAVE e</span>
-<span class="sd">    que podem ser modificadas através do arquivo `modif.dat`.</span>
-
-<span class="sd">    **Parâmetros**</span>
-
-<span class="sd">    - usinas: `Dict[int, UHEConfhd]`</span>
-
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                 <span class="n">usinas</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">UHEConfhd</span><span class="p">]):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">usinas</span> <span class="o">=</span> <span class="n">usinas</span>
-
-    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">o</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        A igualdade entre Confhd avalia todas as usinas.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="n">Confhd</span><span class="p">):</span>
-            <span class="k">return</span> <span class="kc">False</span>
-        <span class="n">confhd</span><span class="p">:</span> <span class="n">Confhd</span> <span class="o">=</span> <span class="n">o</span>
-        <span class="n">dif</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="k">for</span> <span class="p">(</span><span class="n">n1</span><span class="p">,</span> <span class="n">uhe1</span><span class="p">),</span> <span class="p">(</span><span class="n">n2</span><span class="p">,</span> <span class="n">uhe2</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">usinas</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span>
-                                          <span class="n">confhd</span><span class="o">.</span><span class="n">usinas</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
-            <span class="k">if</span> <span class="n">n1</span> <span class="o">!=</span> <span class="n">n2</span> <span class="ow">or</span> <span class="n">uhe1</span> <span class="o">!=</span> <span class="n">uhe2</span><span class="p">:</span>
-                <span class="n">dif</span> <span class="o">=</span> <span class="kc">True</span>
-                <span class="k">break</span>
-        <span class="k">return</span> <span class="ow">not</span> <span class="n">dif</span></div>
+        <span class="n">uhes</span> <span class="o">=</span> <span class="n">BlocoConfUHE</span><span class="p">()</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">uhes</span><span class="p">]</span></div>
 </pre></div>
 
            </div>
@@ -271,7 +331,7 @@
 
   <div role="contentinfo">
     <p>
-        &#169; Copyright 2021, Rogerio Alves.
+        &#169; Copyright 2021, Rogerio José Menezes Alves.
 
     </p>
   </div>

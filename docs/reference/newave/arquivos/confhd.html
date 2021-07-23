@@ -13,6 +13,8 @@
   
   <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/gallery-binder.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/gallery-dataframe.css" type="text/css" />
@@ -33,6 +35,7 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
         <script src="../../../_static/underscore.js"></script>
         <script src="../../../_static/doctools.js"></script>
@@ -189,78 +192,21 @@
 <p>As configurações das hidrelétricas do NEWAVE, localizadas no arquivo geralmente denominado
 confhd.dat, são armazenadas na classe:</p>
 <dl class="py class">
-<dt id="inewave.newave.modelos.confhd.Confhd">
-<em class="property"><span class="pre">class</span> </em><code class="sig-name descname"><span class="pre">Confhd</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">usinas</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span> </span><span class="pre">inewave.newave.modelos.confhd.UHEConfhd</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/newave/modelos/confhd.html#Confhd"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.modelos.confhd.Confhd" title="Link permanente para esta definição">¶</a></dt>
+<dt class="sig sig-object py" id="inewave.newave.confhd.Confhd">
+<em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">Confhd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dados</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">inewave._utils.dadosarquivo.DadosArquivo</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/newave/confhd.html#Confhd"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.confhd.Confhd" title="Link permanente para esta definição">¶</a></dt>
 <dd><p>Armazena os dados de entrada do NEWAVE referentes às
 configurações das usinas hidrelétricas.</p>
 <p>Esta classe lida com informações de entrada fornecidas ao NEWAVE e
 que podem ser modificadas através do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">modif.dat</span></code>.</p>
-<p><strong>Parâmetros</strong></p>
-<ul class="simple">
-<li><p>usinas: <code class="xref py py-obj docutils literal notranslate"><span class="pre">Dict[int,</span> <span class="pre">UHEConfhd]</span></code></p></li>
-</ul>
-</dd></dl>
-
-</div>
-<div class="section" id="leitura">
-<h2>Leitura<a class="headerlink" href="#leitura" title="Link permanente para este título">¶</a></h2>
-<p>A leitura do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">confhd.dat</span></code> é feita através da classe <a class="reference internal" href="#inewave.newave.confhd.LeituraConfhd" title="inewave.newave.confhd.LeituraConfhd"><code class="xref py py-class docutils literal notranslate"><span class="pre">LeituraConfhd</span></code></a>.</p>
-<dl class="py class">
-<dt id="inewave.newave.confhd.LeituraConfhd">
-<em class="property"><span class="pre">class</span> </em><code class="sig-name descname"><span class="pre">LeituraConfhd</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">diretorio</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/newave/confhd.html#LeituraConfhd"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.confhd.LeituraConfhd" title="Link permanente para esta definição">¶</a></dt>
-<dd><p>Realiza a leitura do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">confhd.dat</span></code>
-existente em um diretório de entradas do NEWAVE.</p>
-<p>Esta classe contém o conjunto de utilidades para ler
-e interpretar os campos de um arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">confhd.dat</span></code>, construindo
-um objeto <code class="xref py py-obj docutils literal notranslate"><span class="pre">Confhd</span></code> cujas informações são as mesmas do <code class="xref py py-obj docutils literal notranslate"><span class="pre">confhd.dat</span></code>.</p>
-<p>Este objeto existe para retirar do modelo de dados a complexidade
-de iterar pelas linhas do arquivo, recortar colunas, converter
-tipos de dados, dentre outras tarefas necessárias para a leitura.</p>
-<p>Uma vez realizada a leitura do arquivo, as informações são guardadas
-internamente no atributo <code class="xref py py-obj docutils literal notranslate"><span class="pre">confhd</span></code>.</p>
-<p><strong>Exemplos</strong></p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">diretorio</span> <span class="o">=</span> <span class="s2">&quot;~/documentos/.../deck&quot;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">leitor</span> <span class="o">=</span> <span class="n">LeituraConfhd</span><span class="p">(</span><span class="n">diretorio</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">leitor</span><span class="o">.</span><span class="n">le_arquivo</span><span class="p">()</span>
-<span class="go"># Ops, esqueci de pegar o objeto</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">confhd</span> <span class="o">=</span> <span class="n">leitor</span><span class="o">.</span><span class="n">confhd</span>
-</pre></div>
-</div>
 <dl class="py method">
-<dt id="inewave.newave.confhd.LeituraConfhd.le_arquivo">
-<code class="sig-name descname"><span class="pre">le_arquivo</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nome_arquivo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'confhd.dat'</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#inewave.newave.modelos.confhd.Confhd" title="inewave.newave.modelos.confhd.Confhd"><span class="pre">inewave.newave.modelos.confhd.Confhd</span></a><a class="reference internal" href="../../../_modules/inewave/newave/confhd.html#LeituraConfhd.le_arquivo"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.confhd.LeituraConfhd.le_arquivo" title="Link permanente para esta definição">¶</a></dt>
-<dd><p>Faz a leitura do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">confhd.dat</span></code>.</p>
-</dd></dl>
+<dt class="sig sig-object py" id="inewave.newave.confhd.Confhd.escreve_arquivo">
+<span class="sig-name descname"><span class="pre">escreve_arquivo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">diretorio</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nome_arquivo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'confhd.dat'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/newave/confhd.html#Confhd.escreve_arquivo"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.confhd.Confhd.escreve_arquivo" title="Link permanente para esta definição">¶</a></dt>
+<dd></dd></dl>
 
-</dd></dl>
-
-</div>
-<div class="section" id="escrita">
-<h2>Escrita<a class="headerlink" href="#escrita" title="Link permanente para este título">¶</a></h2>
-<p>A escrita do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">confhd.dat</span></code> é feita através da classe <a class="reference internal" href="#inewave.newave.confhd.EscritaConfhd" title="inewave.newave.confhd.EscritaConfhd"><code class="xref py py-class docutils literal notranslate"><span class="pre">EscritaConfhd</span></code></a>.</p>
-<dl class="py class">
-<dt id="inewave.newave.confhd.EscritaConfhd">
-<em class="property"><span class="pre">class</span> </em><code class="sig-name descname"><span class="pre">EscritaConfhd</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">diretorio</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/newave/confhd.html#EscritaConfhd"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.confhd.EscritaConfhd" title="Link permanente para esta definição">¶</a></dt>
-<dd><p>Realiza a escrita do arquivo confhd.dat
-em um diretório de entradas do NEWAVE.</p>
-<p>Esta classe contém o conjunto de utilidades para escrever os campos
-de um arquivo confhd.dat, a partir de um objeto <code class="xref py py-obj docutils literal notranslate"><span class="pre">Confhd</span></code>.</p>
-<p>Este objeto existe para retirar do modelo de dados a complexidade
-de armazenar as strings auxiliares do arquivo, desenhar tabelas, dentre
-outras tarefas associadas à escrita.</p>
-<p>Se o diretório de escrita não existir, ele será criado.</p>
-<p><strong>Exemplos</strong></p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">diretorio</span> <span class="o">=</span> <span class="s2">&quot;~/documentos/.../deck&quot;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># confhd é do tipo Confhd</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">escritor</span> <span class="o">=</span> <span class="n">EscritaConfhd</span><span class="p">(</span><span class="n">diretorio</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">escritor</span><span class="o">.</span><span class="n">escreve_arquivo</span><span class="p">(</span><span class="n">confhd</span><span class="p">)</span>
-</pre></div>
-</div>
 <dl class="py method">
-<dt id="inewave.newave.confhd.EscritaConfhd.escreve_arquivo">
-<code class="sig-name descname"><span class="pre">escreve_arquivo</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">confhd</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#inewave.newave.modelos.confhd.Confhd" title="inewave.newave.modelos.confhd.Confhd"><span class="pre">inewave.newave.modelos.confhd.Confhd</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/newave/confhd.html#EscritaConfhd.escreve_arquivo"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.confhd.EscritaConfhd.escreve_arquivo" title="Link permanente para esta definição">¶</a></dt>
-<dd><p>Realiza a escrita de um arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">confhd.dat</span></code>.</p>
-</dd></dl>
+<dt class="sig sig-object py" id="inewave.newave.confhd.Confhd.le_arquivo">
+<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">le_arquivo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">diretorio</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nome_arquivo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'confhd.dat'</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#inewave.newave.confhd.Confhd" title="inewave.newave.confhd.Confhd"><span class="pre">inewave.newave.confhd.Confhd</span></a><a class="reference internal" href="../../../_modules/inewave/newave/confhd.html#Confhd.le_arquivo"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.confhd.Confhd.le_arquivo" title="Link permanente para esta definição">¶</a></dt>
+<dd></dd></dl>
 
 </dd></dl>
 
@@ -281,7 +227,7 @@ outras tarefas associadas à escrita.</p>
 
   <div role="contentinfo">
     <p>
-        &#169; Copyright 2021, Rogerio Alves.
+        &#169; Copyright 2021, Rogerio José Menezes Alves.
 
     </p>
   </div>

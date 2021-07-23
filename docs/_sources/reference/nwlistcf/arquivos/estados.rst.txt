@@ -4,7 +4,7 @@
 Estados Visitados pelo NEWAVE (estados.rel)
 =============================================
 
-.. currentmodule:: inewave.nwlistcf.modelos.estados
+.. currentmodule:: inewave.nwlistcf.estados
 
 Visão geral do modelo
 ======================
@@ -13,13 +13,4 @@ Os estados visitados pelo NEWAVE durante o cálculo da política de operação, 
 estados.rel, são armazenados na classe:
 
 .. autoclass:: Estados
-   :members:
-
-Leitura
-========
-.. currentmodule:: inewave.nwlistcf.estados
-
-A leitura do arquivo `estados.rel` é feita através da classe :class:`LeituraEstados`.
-
-.. autoclass:: LeituraEstados
    :members:

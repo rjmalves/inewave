@@ -16,11 +16,9 @@ O inewave oferece:
 
 - Meios para leitura dos arquivos de entrada e saída do NEWAVE e programas associados: NWLISTCF e NWLISTOP
 - Armazenamento e processamento de dados otimizados com o uso de `NumPy <https://numpy.org/>`_
+- Facilidades para estudo e análise dos dados utilizando DataFrames de `Pandas <https://pandas.pydata.org/pandas-docs/stable/index.html>`_
 - Dados estruturados em modelos com o uso do paradigma de orientação a objetos (OOP)
 - Utilidades de escritas dos arquivos de entrada do NEWAVE para elaboração automatizada de estudos
-
-Com *inewave* é possível ler os arquivos de texto, característicos do NEWAVE, e salvar as informações em `pickle <https://docs.python.org/3/library/pickle.html>`_, 
-para poupar processamento futuro e reduzir o tempo de execução.
 
 
 Documentação

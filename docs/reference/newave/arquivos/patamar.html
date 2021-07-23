@@ -13,6 +13,8 @@
   
   <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/gallery-binder.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/gallery-dataframe.css" type="text/css" />
@@ -33,6 +35,7 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
         <script src="../../../_static/underscore.js"></script>
         <script src="../../../_static/doctools.js"></script>
@@ -189,8 +192,8 @@
 <p>Os patamares de carga fornecidos ao NEWAVE, localizados no arquivo geralmente denominado
 patamar.dat, são armazenados na classe:</p>
 <dl class="py class">
-<dt id="inewave.newave.modelos.patamar.Patamar">
-<em class="property"><span class="pre">class</span> </em><code class="sig-name descname"><span class="pre">Patamar</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_patamares</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">anos_estudo</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">patamares</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">numpy.ndarray</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/newave/modelos/patamar.html#Patamar"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.modelos.patamar.Patamar" title="Link permanente para esta definição">¶</a></dt>
+<dt class="sig sig-object py" id="inewave.newave.patamar.Patamar">
+<em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">Patamar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dados</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">inewave._utils.dadosarquivo.DadosArquivo</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/newave/patamar.html#Patamar"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.patamar.Patamar" title="Link permanente para esta definição">¶</a></dt>
 <dd><p>Armazena os dados de entrada do NEWAVE referentes aos
 patamares de carga por submercado.</p>
 <p>Esta classe pode lidar com um número qualquer de patamares
@@ -202,16 +205,55 @@ em <code class="xref py py-obj docutils literal notranslate"><span class="pre">N
 em memória. A tabela interna é transformada em dicionários
 e outras estruturas de dados mais palpáveis através das propriedades
 da própria classe.</p>
-<p><strong>Parâmetros</strong></p>
-<ul class="simple">
-<li><p>num_patamares: <code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></p></li>
-<li><p>anos_estudo: <code class="xref py py-obj docutils literal notranslate"><span class="pre">List[int]</span></code></p></li>
-<li><p>paramares: <code class="xref py py-obj docutils literal notranslate"><span class="pre">np.ndarray</span></code></p></li>
-</ul>
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.patamar.Patamar.anos_estudo">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">anos_estudo</span></span><em class="property"><span class="pre">:</span> <span class="pre">numpy.ndarray</span></em><a class="headerlink" href="#inewave.newave.patamar.Patamar.anos_estudo" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Lista com os anos de estudo descritos no Patamar.</p>
+<p><strong>Retorna</strong></p>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">np.ndarray</span></code></p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.patamar.Patamar.carga_patamares">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">carga_patamares</span></span><em class="property"><span class="pre">:</span> <span class="pre">pandas.core.frame.DataFrame</span></em><a class="headerlink" href="#inewave.newave.patamar.Patamar.carga_patamares" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Tabela de carga em p.u. dos patamares de carga.</p>
+<p><strong>Retorna</strong></p>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pd.DataFrame</span></code></p>
+<p><strong>Sobre</strong></p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.patamar.Patamar.duracao_mensal_patamares">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">duracao_mensal_patamares</span></span><em class="property"><span class="pre">:</span> <span class="pre">pandas.core.frame.DataFrame</span></em><a class="headerlink" href="#inewave.newave.patamar.Patamar.duracao_mensal_patamares" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Tabela de duração mensal dos patamares de carga.</p>
+<p><strong>Retorna</strong></p>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pd.DataFrame</span></code></p>
+<p><strong>Sobre</strong></p>
+</dd></dl>
+
 <dl class="py method">
-<dt id="inewave.newave.modelos.patamar.Patamar.patamares_por_ano">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">patamares_por_ano</span></code><a class="headerlink" href="#inewave.newave.modelos.patamar.Patamar.patamares_por_ano" title="Link permanente para esta definição">¶</a></dt>
-<dd><p>Valores contidos na tabela de patamares, organizados
+<dt class="sig sig-object py" id="inewave.newave.patamar.Patamar.escreve_arquivo">
+<span class="sig-name descname"><span class="pre">escreve_arquivo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">diretorio</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nome_arquivo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'patamar.dat'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/newave/patamar.html#Patamar.escreve_arquivo"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.patamar.Patamar.escreve_arquivo" title="Link permanente para esta definição">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.patamar.Patamar.intercambio_patamares">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">intercambio_patamares</span></span><em class="property"><span class="pre">:</span> <span class="pre">pandas.core.frame.DataFrame</span></em><a class="headerlink" href="#inewave.newave.patamar.Patamar.intercambio_patamares" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Tabela de intercambios em p.u. dos patamares de carga.</p>
+<p><strong>Retorna</strong></p>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pd.DataFrame</span></code></p>
+<p><strong>Sobre</strong></p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="inewave.newave.patamar.Patamar.le_arquivo">
+<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">le_arquivo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">diretorio</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nome_arquivo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'patamar.dat'</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#inewave.newave.patamar.Patamar" title="inewave.newave.patamar.Patamar"><span class="pre">inewave.newave.patamar.Patamar</span></a><a class="reference internal" href="../../../_modules/inewave/newave/patamar.html#Patamar.le_arquivo"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.patamar.Patamar.le_arquivo" title="Link permanente para esta definição">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.patamar.Patamar.patamares_por_ano">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">patamares_por_ano</span></span><em class="property"><span class="pre">:</span> <span class="pre">Dict[int,</span> <span class="pre">numpy.ndarray]</span></em><a class="headerlink" href="#inewave.newave.patamar.Patamar.patamares_por_ano" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Valores contidos na tabela de duração dos patamares, organizados
 por ano.</p>
 <p><strong>Retorna</strong></p>
 <p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dict[int,</span> <span class="pre">np.ndarray]</span></code></p>
@@ -219,50 +261,6 @@ por ano.</p>
 <p>O acesso é feito com [ano] e o valor fornecido
 é uma array 2-D do <code class="xref py py-obj docutils literal notranslate"><span class="pre">NumPy</span></code> com os valores dos patamares para todo
 os meses de um ano, semelhante a uma linha do arquivo patamar.dat.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="inewave.newave.modelos.patamar.Patamar.patamares_por_ano_e_mes">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">patamares_por_ano_e_mes</span></code><a class="headerlink" href="#inewave.newave.modelos.patamar.Patamar.patamares_por_ano_e_mes" title="Link permanente para esta definição">¶</a></dt>
-<dd><p>Valores contidos na tabela de patamares, organizados por ano e mês.</p>
-<p><strong>Retorna</strong></p>
-<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dict[int,</span> <span class="pre">Dict[int,</span> <span class="pre">np.ndarray]]</span></code></p>
-<p><strong>Sobre</strong></p>
-<p>O acesso é feito com [ano][mes] e o valor fornecido
-é uma array do numpy com os valores para os patamares 1, 2, … .</p>
-</dd></dl>
-
-</dd></dl>
-
-</div>
-<div class="section" id="leitura">
-<h2>Leitura<a class="headerlink" href="#leitura" title="Link permanente para este título">¶</a></h2>
-<p>A leitura do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">patamar.dat</span></code> é feita através da classe <a class="reference internal" href="#inewave.newave.patamar.LeituraPatamar" title="inewave.newave.patamar.LeituraPatamar"><code class="xref py py-class docutils literal notranslate"><span class="pre">LeituraPatamar</span></code></a>.</p>
-<dl class="py class">
-<dt id="inewave.newave.patamar.LeituraPatamar">
-<em class="property"><span class="pre">class</span> </em><code class="sig-name descname"><span class="pre">LeituraPatamar</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">diretorio</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/newave/patamar.html#LeituraPatamar"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.patamar.LeituraPatamar" title="Link permanente para esta definição">¶</a></dt>
-<dd><p>Realiza a leitura do arquivo patamar.dat
-existente em um diretório de entradas do NEWAVE.</p>
-<p>Esta classe contém o conjunto de utilidades para ler
-e interpretar os campos de um arquivo patamar.dat, construindo
-um objeto <code class="xref py py-obj docutils literal notranslate"><span class="pre">Patamar</span></code> cujas informações são as mesmas do patamar.dat.</p>
-<p>Este objeto existe para retirar do modelo de dados a complexidade
-de iterar pelas linhas do arquivo, recortar colunas, converter
-tipos de dados, dentre outras tarefas necessárias para a leitura.</p>
-<p>Uma vez realizada a leitura do arquivo, as informações são guardadas
-internamente no atributo <code class="xref py py-obj docutils literal notranslate"><span class="pre">patamar</span></code>.</p>
-<p><strong>Exemplos</strong></p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">diretorio</span> <span class="o">=</span> <span class="s2">&quot;~/documentos/.../deck&quot;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">leitor</span> <span class="o">=</span> <span class="n">LeituraPatamar</span><span class="p">(</span><span class="n">diretorio</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">leitor</span><span class="o">.</span><span class="n">le_arquivo</span><span class="p">()</span>
-<span class="go"># Ops, esqueci de pegar o objeto</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">patamar</span> <span class="o">=</span> <span class="n">leitor</span><span class="o">.</span><span class="n">patamar</span>
-</pre></div>
-</div>
-<dl class="py method">
-<dt id="inewave.newave.patamar.LeituraPatamar.le_arquivo">
-<code class="sig-name descname"><span class="pre">le_arquivo</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nome_arquivo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'patamar.dat'</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#inewave.newave.modelos.patamar.Patamar" title="inewave.newave.modelos.patamar.Patamar"><span class="pre">inewave.newave.modelos.patamar.Patamar</span></a><a class="reference internal" href="../../../_modules/inewave/newave/patamar.html#LeituraPatamar.le_arquivo"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.patamar.LeituraPatamar.le_arquivo" title="Link permanente para esta definição">¶</a></dt>
-<dd><p>Realiza a leitura do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">patamar.dat</span></code>.</p>
 </dd></dl>
 
 </dd></dl>
@@ -284,7 +282,7 @@ internamente no atributo <code class="xref py py-obj docutils literal notranslat
 
   <div role="contentinfo">
     <p>
-        &#169; Copyright 2021, Rogerio Alves.
+        &#169; Copyright 2021, Rogerio José Menezes Alves.
 
     </p>
   </div>

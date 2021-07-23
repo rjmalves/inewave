@@ -21,22 +21,16 @@ o estudo em questão. Desta forma, não é recomendado importar todo o módulo `
 
 A importação recomendada é, por exemplo::
 
-    >>> from inewave.nwlistop.eafbm00 import LeituraEafbm00
-    >>> from inewave.nwlistop.mediasmerc import LeituraMediasMerc
-
-Em geral, os objetos de leitura são instanciados recebendo um único atributo, que é o diretório de leitura e possuem um dos dois métodos: ``le_arquivo()`` ou ``le_arquivos()``. 
-Os métodos de leitura, além de retornarem os objetos arquiridos dos arquivos de entrada de texto, também armazenam os dados internamente ao objeto de leitura.
+    >>> from inewave.nwlistop.eafbm00 import Eafbm00
+    >>> from inewave.nwlistop.mediasmerc import MediasMerc
 
 Para a leitura do arquivo `pmo.dat`::
 
-    >>> from inewave.newave.pmo import LeituraPMO
+    >>> from inewave.newave.pmo import PMO
     >>>
     >>> diretorio = "/home/usuario/..."
-    >>> leitor = LeituraPMO(diretorio)
-    >>> leitor.le_arquivo()
-    <inewave.newave.modelos.pmo.PMO object at 0x000001BC7663B340>
-    >>> leitor.pmo
-    <inewave.newave.modelos.pmo.PMO object at 0x000001BC7663B340>
+    >>> pmo = PMO.le_arquivo(diretorio)
+    <inewave.newave.pmo.PMO object at 0x000001BC7663B340>
 
 Para a leitura dos arquivos `cmarg00x.out`::
 

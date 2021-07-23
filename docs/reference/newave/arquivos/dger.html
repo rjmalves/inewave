@@ -13,6 +13,8 @@
   
   <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/gallery-binder.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/gallery-dataframe.css" type="text/css" />
@@ -33,6 +35,7 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
         <script src="../../../_static/underscore.js"></script>
         <script src="../../../_static/doctools.js"></script>
@@ -189,383 +192,533 @@
 <p>Os dados gerais de execução do NEWAVE, localizados no arquivo geralmente denominado
 dger.dat, são armazenados na classe:</p>
 <dl class="py class">
-<dt id="inewave.newave.modelos.dger.DGer">
-<em class="property"><span class="pre">class</span> </em><code class="sig-name descname"><span class="pre">DGer</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nome_estudo</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tipo_execucao</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#inewave.newave.modelos.dger.EnumTipoExecucao" title="inewave.newave.modelos.dger.EnumTipoExecucao"><span class="pre">inewave.newave.modelos.dger.EnumTipoExecucao</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">duracao_estagio_op</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_anos_estudo</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mes_inicio_pre_estudo</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mes_inicio_estudo</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ano_inicio_estudo</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_anos_pre_estudo</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_anos_pos_estudo</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_anos_pos_sim_final</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">imprime_dados_usinas</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">imprime_dados_mercados</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">imprime_dados_energias</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">imprime_dados_modelo</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">imprime_dados_rees</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_iteracoes</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_sim_forward</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_aberturas</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_series_sinteticas</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ordem_maxima_parp</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ano_inicial_vaz_historicas</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tamanho_arq_vaz_historicas</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#inewave.newave.modelos.dger.EnumTamanhoArquivoVazoes" title="inewave.newave.modelos.dger.EnumTamanhoArquivoVazoes"><span class="pre">inewave.newave.modelos.dger.EnumTamanhoArquivoVazoes</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">calcula_vol_inicial</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vol_inicial_subsistema</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tolerancia</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">taxa_de_desconto</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tipo_simulacao_final</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#inewave.newave.modelos.dger.EnumTipoSimulacaoFinal" title="inewave.newave.modelos.dger.EnumTipoSimulacaoFinal"><span class="pre">inewave.newave.modelos.dger.EnumTipoSimulacaoFinal</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">impressao_operacao</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#inewave.newave.modelos.dger.EnumImpressaoOperacao" title="inewave.newave.modelos.dger.EnumImpressaoOperacao"><span class="pre">inewave.newave.modelos.dger.EnumImpressaoOperacao</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">impressao_convergencia</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#inewave.newave.modelos.dger.EnumImpressaoConvergencia" title="inewave.newave.modelos.dger.EnumImpressaoConvergencia"><span class="pre">inewave.newave.modelos.dger.EnumImpressaoConvergencia</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">intervalo_gravacao_relatorio</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_interacoes</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">racionamento_preventivo</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">numero_anos_manutencao_UTEs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tendencia_hidrologica</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#inewave.newave.modelos.dger.EnumTendenciaHidrologica" title="inewave.newave.modelos.dger.EnumTendenciaHidrologica"><span class="pre">inewave.newave.modelos.dger.EnumTendenciaHidrologica</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">restricoes_itaipu</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bidding_demanda</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">perdas_transmissao</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">el_nino</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enso</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">duracao_patamar</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#inewave.newave.modelos.dger.EnumDuracaoPatamar" title="inewave.newave.modelos.dger.EnumDuracaoPatamar"><span class="pre">inewave.newave.modelos.dger.EnumDuracaoPatamar</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">considera_desvio_dagua</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">correcao_energia_desvio</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#inewave.newave.modelos.dger.EnumCorrecaoEnergiaDesvio" title="inewave.newave.modelos.dger.EnumCorrecaoEnergiaDesvio"><span class="pre">inewave.newave.modelos.dger.EnumCorrecaoEnergiaDesvio</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">considera_curva_aversao</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tipo_geracao_afluencias</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#inewave.newave.modelos.dger.EnumTipoGeracaoENAs" title="inewave.newave.modelos.dger.EnumTipoGeracaoENAs"><span class="pre">inewave.newave.modelos.dger.EnumTipoGeracaoENAs</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">profundidade_risco_deficit</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iteracao_sim_final</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">agrupamento_livre_interc</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">equaliza_penalidades_interc</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">representa_submotor</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#inewave.newave.modelos.dger.EnumRepresentacaoSubmotorizacao" title="inewave.newave.modelos.dger.EnumRepresentacaoSubmotorizacao"><span class="pre">inewave.newave.modelos.dger.EnumRepresentacaoSubmotorizacao</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">ordenacao_automatica_subsist</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">considera_cargas_adicionais</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delta_zsup</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delta_zinf</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">deltas_consecutivos</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">considera_despacho_gnl</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">modifica_auto_despacho_gnl</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">considera_ghmin</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sim_final_com_data</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gerenciador_externo</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comunicacao_dois_niveis</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">armazenamento_local_temp</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aloca_memoria_enas</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aloca_memoria_cortes</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sar</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cvar</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#inewave.newave.modelos.dger.EnumCVAR" title="inewave.newave.modelos.dger.EnumCVAR"><span class="pre">inewave.newave.modelos.dger.EnumCVAR</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">convergencia_minimo_zsup</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">desconsidera_vazao_minima</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">considera_restricoes_elet</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">selecao_cortes_benders</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">janela_selecao_cortes</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reamostragem</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tipo_reamostragem</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#inewave.newave.modelos.dger.EnumTipoReamostragem" title="inewave.newave.modelos.dger.EnumTipoReamostragem"><span class="pre">inewave.newave.modelos.dger.EnumTipoReamostragem</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">passo_reamostragem</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">considera_convergencia_no0</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">consulta_fcf</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">impressao_ena</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">impressao_cortes_ativos</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">representante_agregacao</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#inewave.newave.modelos.dger.EnumRepresentanteAgregacao" title="inewave.newave.modelos.dger.EnumRepresentanteAgregacao"><span class="pre">inewave.newave.modelos.dger.EnumRepresentanteAgregacao</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">matriz_corr_espacial</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#inewave.newave.modelos.dger.EnumMatrizCorrelacaoEspacial" title="inewave.newave.modelos.dger.EnumMatrizCorrelacaoEspacial"><span class="pre">inewave.newave.modelos.dger.EnumMatrizCorrelacaoEspacial</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">desconsidera_converg_estatist</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">momento_reamostragem</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#inewave.newave.modelos.dger.EnumMomentoReamostragem" title="inewave.newave.modelos.dger.EnumMomentoReamostragem"><span class="pre">inewave.newave.modelos.dger.EnumMomentoReamostragem</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">mantem_arquivos_ena</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inicio_teste_convergencia</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#inewave.newave.modelos.dger.EnumInicioTesteConvergencia" title="inewave.newave.modelos.dger.EnumInicioTesteConvergencia"><span class="pre">inewave.newave.modelos.dger.EnumInicioTesteConvergencia</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sazonaliza_vmint</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#inewave.newave.modelos.dger.EnumSazonaliza" title="inewave.newave.modelos.dger.EnumSazonaliza"><span class="pre">inewave.newave.modelos.dger.EnumSazonaliza</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sazonaliza_vmaxt</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#inewave.newave.modelos.dger.EnumSazonaliza" title="inewave.newave.modelos.dger.EnumSazonaliza"><span class="pre">inewave.newave.modelos.dger.EnumSazonaliza</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sazonaliza_vminp</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#inewave.newave.modelos.dger.EnumSazonaliza" title="inewave.newave.modelos.dger.EnumSazonaliza"><span class="pre">inewave.newave.modelos.dger.EnumSazonaliza</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sazonaliza_cfuga_cmont</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#inewave.newave.modelos.dger.EnumSazonaliza" title="inewave.newave.modelos.dger.EnumSazonaliza"><span class="pre">inewave.newave.modelos.dger.EnumSazonaliza</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">restricoes_gee</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">afluencia_anual_parp</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">,</span> </span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">incerteza_ger_eolica</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">incerteza_ger_solar</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">representacao_incerteza</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#inewave.newave.modelos.dger.EnumRepresentacaoIncerteza" title="inewave.newave.modelos.dger.EnumRepresentacaoIncerteza"><span class="pre">inewave.newave.modelos.dger.EnumRepresentacaoIncerteza</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">restricoes_fornecimento_gas</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/newave/modelos/dger.html#DGer"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.modelos.dger.DGer" title="Link permanente para esta definição">¶</a></dt>
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer">
+<em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">DGer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dados</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">inewave._utils.dadosarquivo.DadosArquivo</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/newave/dger.html#DGer"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.dger.DGer" title="Link permanente para esta definição">¶</a></dt>
 <dd><p>Classe para armazenar dados gerais de uma execução do NEWAVE.</p>
-<p>Os parâmetros são fornecidos ao construtor na mesma ordem em
-que são definidos no arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
-<p>Apesar disso, não é recomendado criar um arquivo com o construtor
-desta classe, e sim utilizar o método <a class="reference internal" href="#inewave.newave.modelos.dger.DGer.dger_padrao" title="inewave.newave.modelos.dger.DGer.dger_padrao"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DGer.dger_padrao()</span></code></a>,
-que fornece um objeto com valores em todos os campos,
-que podem ser modificados.</p>
-<p><strong>Parâmetros</strong></p>
-<ul class="simple">
-<li><p>nome_estudo : <code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></p></li>
-<li><p>tipo_execucao: <a class="reference internal" href="#inewave.newave.modelos.dger.EnumTipoExecucao" title="inewave.newave.modelos.dger.EnumTipoExecucao"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EnumTipoExecucao</span></code></a></p></li>
-<li><p>duracao_estagio_op: <code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></p></li>
-<li><p>num_anos_estudo: <code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>,</p></li>
-<li><p>mes_inicio_pre_estudo: <code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>,</p></li>
-<li><p>mes_inicio_estudo: <code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>,</p></li>
-<li><p>ano_inicio_estudo: <code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>,</p></li>
-<li><p>num_anos_pre_estudo: <code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>,</p></li>
-<li><p>num_anos_pos_estudo: <code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>,</p></li>
-<li><p>num_anos_pos_sim_final: <code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>,</p></li>
-<li><p>imprime_dados_usinas: <code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>,</p></li>
-<li><p>imprime_dados_mercados: <code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>,</p></li>
-<li><p>imprime_dados_energias: <code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>,</p></li>
-<li><p>imprime_dados_modelo: <code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>,</p></li>
-<li><p>imprime_dados_rees: <code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>,</p></li>
-<li><p>max_iteracoes: <code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>,</p></li>
-<li><p>num_sim_forward: <code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>,</p></li>
-<li><p>num_aberturas: <code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>,</p></li>
-<li><p>num_series_sinteticas: <code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>,</p></li>
-<li><p>ordem_maxima_parp: <code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>,</p></li>
-<li><p>ano_inicial_vaz_historicas: <code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>,</p></li>
-<li><p>tamanho_arq_vaz_historicas: <a class="reference internal" href="#inewave.newave.modelos.dger.EnumTamanhoArquivoVazoes" title="inewave.newave.modelos.dger.EnumTamanhoArquivoVazoes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EnumTamanhoArquivoVazoes</span></code></a>,</p></li>
-<li><p>calcula_vol_inicial: <code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>,</p></li>
-<li><p>vol_inicial_subsistema: <code class="xref py py-obj docutils literal notranslate"><span class="pre">List[float]</span></code>,</p></li>
-<li><p>tolerancia: <code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>,</p></li>
-<li><p>taxa_de_desconto: <code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>,</p></li>
-<li><p>tipo_simulacao_final: <a class="reference internal" href="#inewave.newave.modelos.dger.EnumTipoSimulacaoFinal" title="inewave.newave.modelos.dger.EnumTipoSimulacaoFinal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EnumTipoSimulacaoFinal</span></code></a>,</p></li>
-<li><p>impressao_operacao: <a class="reference internal" href="#inewave.newave.modelos.dger.EnumImpressaoOperacao" title="inewave.newave.modelos.dger.EnumImpressaoOperacao"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EnumImpressaoOperacao</span></code></a>,</p></li>
-<li><p>impressao_convergencia: <a class="reference internal" href="#inewave.newave.modelos.dger.EnumImpressaoConvergencia" title="inewave.newave.modelos.dger.EnumImpressaoConvergencia"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EnumImpressaoConvergencia</span></code></a>,</p></li>
-<li><p>intervalo_gravacao_relatorio: <code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>,</p></li>
-<li><p>min_interacoes: <code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>,</p></li>
-<li><p>racionamento_preventivo: <code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>,</p></li>
-<li><p>numero_anos_manutencao_UTEs: <code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>,</p></li>
-<li><p>tendencia_hidrologica: <a class="reference internal" href="#inewave.newave.modelos.dger.EnumTendenciaHidrologica" title="inewave.newave.modelos.dger.EnumTendenciaHidrologica"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EnumTendenciaHidrologica</span></code></a>,</p></li>
-<li><p>restricoes_itaipu: <code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>,</p></li>
-<li><p>bidding_demanda: <code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>,</p></li>
-<li><p>perdas_transmissao: <code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>,</p></li>
-<li><p>el_nino: <code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>,</p></li>
-<li><p>enso: <code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>,</p></li>
-<li><p>duracao_patamar: <a class="reference internal" href="#inewave.newave.modelos.dger.EnumDuracaoPatamar" title="inewave.newave.modelos.dger.EnumDuracaoPatamar"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EnumDuracaoPatamar</span></code></a>,</p></li>
-<li><p>considera_desvio_dagua: <code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>,</p></li>
-<li><p>correcao_energia_desvio: <a class="reference internal" href="#inewave.newave.modelos.dger.EnumCorrecaoEnergiaDesvio" title="inewave.newave.modelos.dger.EnumCorrecaoEnergiaDesvio"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EnumCorrecaoEnergiaDesvio</span></code></a>,</p></li>
-<li><p>considera_curva_aversao: <code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>,</p></li>
-<li><p>tipo_geracao_afluencias: <a class="reference internal" href="#inewave.newave.modelos.dger.EnumTipoGeracaoENAs" title="inewave.newave.modelos.dger.EnumTipoGeracaoENAs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EnumTipoGeracaoENAs</span></code></a>,</p></li>
-<li><p>profundidade_risco_deficit: <code class="xref py py-obj docutils literal notranslate"><span class="pre">Tuple[float,</span> <span class="pre">float]</span></code>,</p></li>
-<li><p>iteracao_sim_final: <code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>,</p></li>
-<li><p>agrupamento_livre_interc: <code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>,</p></li>
-<li><p>equaliza_penalidades_interc: <code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>,</p></li>
-<li><p>representa_submotor: <a class="reference internal" href="#inewave.newave.modelos.dger.EnumRepresentacaoSubmotorizacao" title="inewave.newave.modelos.dger.EnumRepresentacaoSubmotorizacao"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EnumRepresentacaoSubmotorizacao</span></code></a>,</p></li>
-<li><p>ordenacao_automatica_subsist: <code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>,</p></li>
-<li><p>considera_cargas_adicionais: <code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>,</p></li>
-<li><p>delta_zsup: <code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>,</p></li>
-<li><p>delta_zinf: <code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>,</p></li>
-<li><p>deltas_consecutivos: <code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>,</p></li>
-<li><p>considera_despacho_gnl: <code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>,</p></li>
-<li><p>modifica_auto_despacho_gnl: <code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>,</p></li>
-<li><p>considera_ghmin: <code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>,</p></li>
-<li><p>sim_final_com_data: <code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>,</p></li>
-<li><p>gerenciador_externo: <code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>,</p></li>
-<li><p>comunicacao_dois_niveis: <code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>,</p></li>
-<li><p>armazenamento_local_temp: <code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>,</p></li>
-<li><p>aloca_memoria_enas: <code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>,</p></li>
-<li><p>aloca_memoria_cortes: <code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>,</p></li>
-<li><p>sar: <code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>,</p></li>
-<li><p>cvar: <a class="reference internal" href="#inewave.newave.modelos.dger.EnumCVAR" title="inewave.newave.modelos.dger.EnumCVAR"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EnumCVAR</span></code></a>,</p></li>
-<li><p>convergencia_minimo_zsup: <code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>,</p></li>
-<li><p>desconsidera_vazao_minima: <code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>,</p></li>
-<li><p>considera_restricoes_elet: <code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>,</p></li>
-<li><p>selecao_cortes_benders: <code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>,</p></li>
-<li><p>janela_selecao_cortes: <code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>,</p></li>
-<li><p>reamostragem: <code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>,</p></li>
-<li><p>tipo_reamostragem: <a class="reference internal" href="#inewave.newave.modelos.dger.EnumTipoReamostragem" title="inewave.newave.modelos.dger.EnumTipoReamostragem"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EnumTipoReamostragem</span></code></a>,</p></li>
-<li><p>passo_reamostragem: <code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>,</p></li>
-<li><p>considera_convergencia_no0: <code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>,</p></li>
-<li><p>consulta_fcf: <code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>,</p></li>
-<li><p>impressao_ena: <code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>,</p></li>
-<li><p>impressao_cortes_ativos: <code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>,</p></li>
-<li><p>representante_agregacao: <a class="reference internal" href="#inewave.newave.modelos.dger.EnumRepresentanteAgregacao" title="inewave.newave.modelos.dger.EnumRepresentanteAgregacao"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EnumRepresentanteAgregacao</span></code></a>,</p></li>
-<li><p>matriz_corr_espacial: <a class="reference internal" href="#inewave.newave.modelos.dger.EnumMatrizCorrelacaoEspacial" title="inewave.newave.modelos.dger.EnumMatrizCorrelacaoEspacial"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EnumMatrizCorrelacaoEspacial</span></code></a>,</p></li>
-<li><p>desconsidera_converg_estatist: <code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>,</p></li>
-<li><p>momento_reamostragem: <a class="reference internal" href="#inewave.newave.modelos.dger.EnumMomentoReamostragem" title="inewave.newave.modelos.dger.EnumMomentoReamostragem"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EnumMomentoReamostragem</span></code></a>,</p></li>
-<li><p>mantem_arquivos_ena: <code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>,</p></li>
-<li><p>inicio_teste_convergencia: <a class="reference internal" href="#inewave.newave.modelos.dger.EnumInicioTesteConvergencia" title="inewave.newave.modelos.dger.EnumInicioTesteConvergencia"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EnumInicioTesteConvergencia</span></code></a></p></li>
-<li><p>sazonaliza_vmint: <a class="reference internal" href="#inewave.newave.modelos.dger.EnumSazonaliza" title="inewave.newave.modelos.dger.EnumSazonaliza"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EnumSazonaliza</span></code></a></p></li>
-<li><p>sazonaliza_vmaxt: <a class="reference internal" href="#inewave.newave.modelos.dger.EnumSazonaliza" title="inewave.newave.modelos.dger.EnumSazonaliza"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EnumSazonaliza</span></code></a></p></li>
-<li><p>sazonaliza_vminp: <a class="reference internal" href="#inewave.newave.modelos.dger.EnumSazonaliza" title="inewave.newave.modelos.dger.EnumSazonaliza"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EnumSazonaliza</span></code></a></p></li>
-<li><p>sazonaliza_cfuga_cmont: <a class="reference internal" href="#inewave.newave.modelos.dger.EnumSazonaliza" title="inewave.newave.modelos.dger.EnumSazonaliza"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EnumSazonaliza</span></code></a></p></li>
-<li><p>restricoes_gee: <code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></p></li>
-<li><p>afluencia_anual_parp: <code class="xref py py-obj docutils literal notranslate"><span class="pre">Tuple[bool,</span> <span class="pre">bool]</span></code></p></li>
-<li><p>incerteza_ger_eolica: <code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></p></li>
-<li><p>incerteza_ger_solar: <code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></p></li>
-<li><p>representacao_incerteza: <a class="reference internal" href="#inewave.newave.modelos.dger.EnumRepresentacaoIncerteza" title="inewave.newave.modelos.dger.EnumRepresentacaoIncerteza"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EnumRepresentacaoIncerteza</span></code></a></p></li>
-<li><p>restricoes_fornecimento_gas: <code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></p></li>
-</ul>
-<dl class="py method">
-<dt id="inewave.newave.modelos.dger.DGer.dger_padrao">
-<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">dger_padrao</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/newave/modelos/dger.html#DGer.dger_padrao"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.modelos.dger.DGer.dger_padrao" title="Link permanente para esta definição">¶</a></dt>
-<dd><p>Retorna um DGer padrão, com valores em todos os campos.</p>
-<p>Devido ao grande número de parâmetros do objeto DGer, este
-método se fez necessário para possibilitar a geração de objetos
-de dados gerais em larga escala sem precisar configurar cada um
-dos parâmetros necessários no construtor.</p>
-<p>Desta forma, um objeto DGer pode ser instanciado e ter apenas
-os parâmetros que forem de interesse do usuário modificados,
-facilitando a realização de estudos.</p>
-<p><strong>Exemplos</strong></p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dger_com_sar</span> <span class="o">=</span> <span class="n">DGer</span><span class="o">.</span><span class="n">dger_padrao</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">dger_padrao</span><span class="o">.</span><span class="n">sar</span><span class="p">)</span>
-<span class="go">False</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">dger_com_sar</span><span class="o">.</span><span class="n">sar</span> <span class="o">=</span> <span class="kc">True</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">dger_padrao</span><span class="o">.</span><span class="n">sar</span><span class="p">)</span>
-<span class="go">True</span>
-</pre></div>
-</div>
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.afluencia_anual_parp">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">afluencia_anual_parp</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#inewave.newave.dger.DGer.afluencia_anual_parp" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Configuração da linha número 83 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.agrupamento_livre">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">agrupamento_livre</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#inewave.newave.dger.DGer.agrupamento_livre" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Configuração da linha número 47 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.ano_inicial_historico">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">ano_inicial_historico</span></span><em class="property"><span class="pre">:</span> <span class="pre">List[int]</span></em><a class="headerlink" href="#inewave.newave.dger.DGer.ano_inicial_historico" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Configuração da linha número 21 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.ano_inicio_estudo">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">ano_inicio_estudo</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#inewave.newave.dger.DGer.ano_inicio_estudo" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Configuração da linha número 7 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.bid">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">bid</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#inewave.newave.dger.DGer.bid" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Configuração da linha número 36 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.calcula_volume_inicial">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">calcula_volume_inicial</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#inewave.newave.dger.DGer.calcula_volume_inicial" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Configuração da linha número 22 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.considera_carga_adicional">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">considera_carga_adicional</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#inewave.newave.dger.DGer.considera_carga_adicional" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Configuração da linha número 51 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.considera_ghmin">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">considera_ghmin</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#inewave.newave.dger.DGer.considera_ghmin" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Configuração da linha número 57 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.considera_zup_min_convergencia">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">considera_zup_min_convergencia</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#inewave.newave.dger.DGer.considera_zup_min_convergencia" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Configuração da linha número 62 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.consulta_fcf">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">consulta_fcf</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#inewave.newave.dger.DGer.consulta_fcf" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Configuração da linha número 69 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.converge_no_zero">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">converge_no_zero</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#inewave.newave.dger.DGer.converge_no_zero" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Configuração da linha número 68 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.correcao_desvio">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">correcao_desvio</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#inewave.newave.dger.DGer.correcao_desvio" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Configuração da linha número 42 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.curva_aversao">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">curva_aversao</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#inewave.newave.dger.DGer.curva_aversao" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Configuração da linha número 43 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.cvar">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">cvar</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#inewave.newave.dger.DGer.cvar" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Configuração da linha número 61 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.delta_zinf">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">delta_zinf</span></span><em class="property"><span class="pre">:</span> <span class="pre">float</span></em><a class="headerlink" href="#inewave.newave.dger.DGer.delta_zinf" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Configuração da linha número 53 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.delta_zsup">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">delta_zsup</span></span><em class="property"><span class="pre">:</span> <span class="pre">float</span></em><a class="headerlink" href="#inewave.newave.dger.DGer.delta_zsup" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Configuração da linha número 52 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.deltas_consecutivos">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">deltas_consecutivos</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#inewave.newave.dger.DGer.deltas_consecutivos" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Configuração da linha número 54 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.desconsidera_convergencia_estatistica">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">desconsidera_convergencia_estatistica</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#inewave.newave.dger.DGer.desconsidera_convergencia_estatistica" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Configuração da linha número 74 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.desconsidera_vazao_minima">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">desconsidera_vazao_minima</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#inewave.newave.dger.DGer.desconsidera_vazao_minima" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Configuração da linha número 63 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.despacho_antecipado_gnl">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">despacho_antecipado_gnl</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#inewave.newave.dger.DGer.despacho_antecipado_gnl" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Configuração da linha número 55 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.duracao_periodo">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">duracao_periodo</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#inewave.newave.dger.DGer.duracao_periodo" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Configuração da linha número 3 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.duracao_por_patamar">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">duracao_por_patamar</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#inewave.newave.dger.DGer.duracao_por_patamar" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Configuração da linha número 40 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.el_nino">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">el_nino</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#inewave.newave.dger.DGer.el_nino" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Configuração da linha número 38 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.enso">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">enso</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#inewave.newave.dger.DGer.enso" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Configuração da linha número 39 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.equalizacao_penal_itercambio">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">equalizacao_penal_itercambio</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#inewave.newave.dger.DGer.equalizacao_penal_itercambio" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Configuração da linha número 48 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="inewave.newave.modelos.dger.DGer.eq_eco_saida">
-<code class="sig-name descname"><span class="pre">eq_eco_saida</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">o</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="reference internal" href="../../../_modules/inewave/newave/modelos/dger.html#DGer.eq_eco_saida"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.modelos.dger.DGer.eq_eco_saida" title="Link permanente para esta definição">¶</a></dt>
-<dd><p>Compara o eco de saída do DGer em um <code class="xref py py-obj docutils literal notranslate"><span class="pre">pmo.dat</span></code> com o DGer
-dado como entrada.</p>
-<p>** Parâmetros **</p>
-<ul class="simple">
-<li><p>o: <a class="reference internal" href="#inewave.newave.modelos.dger.DGer" title="inewave.newave.modelos.dger.DGer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DGer</span></code></a></p></li>
-</ul>
-<p>** Sobre **</p>
-<p>A igualdade entre DGer no eco de saída ignora alguns
-campos.</p>
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.escreve_arquivo">
+<span class="sig-name descname"><span class="pre">escreve_arquivo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">diretorio</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nome_arquivo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'dger.dat'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/newave/dger.html#DGer.escreve_arquivo"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.dger.DGer.escreve_arquivo" title="Link permanente para esta definição">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.gerenciamento_pls">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">gerenciamento_pls</span></span><em class="property"><span class="pre">:</span> <span class="pre">List[int]</span></em><a class="headerlink" href="#inewave.newave.dger.DGer.gerenciamento_pls" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Configuração da linha número 59 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
 </dd></dl>
 
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.impressao_convergencia">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">impressao_convergencia</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#inewave.newave.dger.DGer.impressao_convergencia" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Configuração da linha número 29 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
 </dd></dl>
 
-</div>
-<div class="section" id="enumeradores-auxiliares">
-<h2>Enumeradores auxiliares<a class="headerlink" href="#enumeradores-auxiliares" title="Link permanente para este título">¶</a></h2>
-<p>Para armazenar completamente o conteúdo especificado no arquivo <code class="docutils literal notranslate"><span class="pre">dger.dat</span></code>
-são definidos enumeradores auxiliares:</p>
-<dl class="py class">
-<dt id="inewave.newave.modelos.dger.EnumTipoExecucao">
-<em class="property"><span class="pre">class</span> </em><code class="sig-name descname"><span class="pre">EnumTipoExecucao</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/newave/modelos/dger.html#EnumTipoExecucao"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.modelos.dger.EnumTipoExecucao" title="Link permanente para esta definição">¶</a></dt>
-<dd><ul class="simple">
-<li><p>COMPLETA:</p></li>
-<li><p>SIMULACAO_FINAL</p></li>
-</ul>
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.impressao_cortes_ativos_sim_final">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">impressao_cortes_ativos_sim_final</span></span><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><a class="headerlink" href="#inewave.newave.dger.DGer.impressao_cortes_ativos_sim_final" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Configuração da linha número 71 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
 </dd></dl>
 
-<dl class="py class">
-<dt id="inewave.newave.modelos.dger.EnumTipoSimulacaoFinal">
-<em class="property"><span class="pre">class</span> </em><code class="sig-name descname"><span class="pre">EnumTipoSimulacaoFinal</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/newave/modelos/dger.html#EnumTipoSimulacaoFinal"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.modelos.dger.EnumTipoSimulacaoFinal" title="Link permanente para esta definição">¶</a></dt>
-<dd><ul class="simple">
-<li><p>NAO_SIMULA</p></li>
-<li><p>SERIES_SINTETICAS</p></li>
-<li><p>SERIE_HISTORICA</p></li>
-<li><p>CONSISTENCIA_DADOS</p></li>
-</ul>
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.impressao_ena">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">impressao_ena</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#inewave.newave.dger.DGer.impressao_ena" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Configuração da linha número 70 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
 </dd></dl>
 
-<dl class="py class">
-<dt id="inewave.newave.modelos.dger.EnumImpressaoOperacao">
-<em class="property"><span class="pre">class</span> </em><code class="sig-name descname"><span class="pre">EnumImpressaoOperacao</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/newave/modelos/dger.html#EnumImpressaoOperacao"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.modelos.dger.EnumImpressaoOperacao" title="Link permanente para esta definição">¶</a></dt>
-<dd><ul class="simple">
-<li><p>SINOPSE</p></li>
-<li><p>OPERACAO_DETALHADA</p></li>
-</ul>
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.impressao_operacao">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">impressao_operacao</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#inewave.newave.dger.DGer.impressao_operacao" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Configuração da linha número 28 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
 </dd></dl>
 
-<dl class="py class">
-<dt id="inewave.newave.modelos.dger.EnumImpressaoConvergencia">
-<em class="property"><span class="pre">class</span> </em><code class="sig-name descname"><span class="pre">EnumImpressaoConvergencia</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/newave/modelos/dger.html#EnumImpressaoConvergencia"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.modelos.dger.EnumImpressaoConvergencia" title="Link permanente para esta definição">¶</a></dt>
-<dd><ul class="simple">
-<li><p>CONVERGENCIA_FINAL</p></li>
-<li><p>CONVERGENCIA_TOTAL</p></li>
-</ul>
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.imprime_dados">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">imprime_dados</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#inewave.newave.dger.DGer.imprime_dados" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Configuração da linha número 11 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
 </dd></dl>
 
-<dl class="py class">
-<dt id="inewave.newave.modelos.dger.EnumTamanhoArquivoVazoes">
-<em class="property"><span class="pre">class</span> </em><code class="sig-name descname"><span class="pre">EnumTamanhoArquivoVazoes</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/newave/modelos/dger.html#EnumTamanhoArquivoVazoes"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.modelos.dger.EnumTamanhoArquivoVazoes" title="Link permanente para esta definição">¶</a></dt>
-<dd><ul class="simple">
-<li><p>PALAVRAS_320</p></li>
-<li><p>PALAVRAS_600</p></li>
-</ul>
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.imprime_energias">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">imprime_energias</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#inewave.newave.dger.DGer.imprime_energias" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Configuração da linha número 13 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
 </dd></dl>
 
-<dl class="py class">
-<dt id="inewave.newave.modelos.dger.EnumTendenciaHidrologica">
-<em class="property"><span class="pre">class</span> </em><code class="sig-name descname"><span class="pre">EnumTendenciaHidrologica</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/newave/modelos/dger.html#EnumTendenciaHidrologica"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.modelos.dger.EnumTendenciaHidrologica" title="Link permanente para esta definição">¶</a></dt>
-<dd><ul class="simple">
-<li><p>NAO_LER</p></li>
-<li><p>LER_POR_REE</p></li>
-<li><p>LER_POR_POSTO</p></li>
-</ul>
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.imprime_mercados">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">imprime_mercados</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#inewave.newave.dger.DGer.imprime_mercados" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Configuração da linha número 12 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
 </dd></dl>
 
-<dl class="py class">
-<dt id="inewave.newave.modelos.dger.EnumDuracaoPatamar">
-<em class="property"><span class="pre">class</span> </em><code class="sig-name descname"><span class="pre">EnumDuracaoPatamar</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/newave/modelos/dger.html#EnumDuracaoPatamar"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.modelos.dger.EnumDuracaoPatamar" title="Link permanente para esta definição">¶</a></dt>
-<dd><ul class="simple">
-<li><p>SAZONAL</p></li>
-<li><p>VARIAVEL_POR_ANO</p></li>
-</ul>
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.imprime_modelo_estocastico">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">imprime_modelo_estocastico</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#inewave.newave.dger.DGer.imprime_modelo_estocastico" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Configuração da linha número 14 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
 </dd></dl>
 
-<dl class="py class">
-<dt id="inewave.newave.modelos.dger.EnumCorrecaoEnergiaDesvio">
-<em class="property"><span class="pre">class</span> </em><code class="sig-name descname"><span class="pre">EnumCorrecaoEnergiaDesvio</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/newave/modelos/dger.html#EnumCorrecaoEnergiaDesvio"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.modelos.dger.EnumCorrecaoEnergiaDesvio" title="Link permanente para esta definição">¶</a></dt>
-<dd><ul class="simple">
-<li><p>CONSTANTE</p></li>
-<li><p>VARIAVEL_COM_ARMAZENAMENTO</p></li>
-</ul>
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.imprime_subsistema">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">imprime_subsistema</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#inewave.newave.dger.DGer.imprime_subsistema" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Configuração da linha número 15 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
 </dd></dl>
 
-<dl class="py class">
-<dt id="inewave.newave.modelos.dger.EnumTipoGeracaoENAs">
-<em class="property"><span class="pre">class</span> </em><code class="sig-name descname"><span class="pre">EnumTipoGeracaoENAs</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/newave/modelos/dger.html#EnumTipoGeracaoENAs"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.modelos.dger.EnumTipoGeracaoENAs" title="Link permanente para esta definição">¶</a></dt>
-<dd><ul class="simple">
-<li><p>RESIDUOS_IGUAIS_FW_BW</p></li>
-<li><p>COMPENSACAO_CORR_CRUZADA_BW</p></li>
-<li><p>COMPENSACAO_CORR_CRUZADA_FW_BW</p></li>
-</ul>
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.incerteza_geracao_eolica">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">incerteza_geracao_eolica</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#inewave.newave.dger.DGer.incerteza_geracao_eolica" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Configuração da linha número 85 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
 </dd></dl>
 
-<dl class="py class">
-<dt id="inewave.newave.modelos.dger.EnumRepresentacaoSubmotorizacao">
-<em class="property"><span class="pre">class</span> </em><code class="sig-name descname"><span class="pre">EnumRepresentacaoSubmotorizacao</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/newave/modelos/dger.html#EnumRepresentacaoSubmotorizacao"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.modelos.dger.EnumRepresentacaoSubmotorizacao" title="Link permanente para esta definição">¶</a></dt>
-<dd><ul class="simple">
-<li><p>NAO_CONSIDERA</p></li>
-<li><p>SUBSISTEMA</p></li>
-<li><p>USINA</p></li>
-</ul>
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.incerteza_geracao_solar">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">incerteza_geracao_solar</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#inewave.newave.dger.DGer.incerteza_geracao_solar" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Configuração da linha número 86 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
 </dd></dl>
 
-<dl class="py class">
-<dt id="inewave.newave.modelos.dger.EnumCVAR">
-<em class="property"><span class="pre">class</span> </em><code class="sig-name descname"><span class="pre">EnumCVAR</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/newave/modelos/dger.html#EnumCVAR"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.modelos.dger.EnumCVAR" title="Link permanente para esta definição">¶</a></dt>
-<dd><ul class="simple">
-<li><p>NAO_CONSIDERA</p></li>
-<li><p>CONSTANTE_NO_TEMPO</p></li>
-<li><p>VARIAVEL_NO_TEMPO</p></li>
-</ul>
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.inicio_teste_convergencia">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">inicio_teste_convergencia</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#inewave.newave.dger.DGer.inicio_teste_convergencia" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Configuração da linha número 77 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
 </dd></dl>
 
-<dl class="py class">
-<dt id="inewave.newave.modelos.dger.EnumTipoReamostragem">
-<em class="property"><span class="pre">class</span> </em><code class="sig-name descname"><span class="pre">EnumTipoReamostragem</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/newave/modelos/dger.html#EnumTipoReamostragem"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.modelos.dger.EnumTipoReamostragem" title="Link permanente para esta definição">¶</a></dt>
-<dd><ul class="simple">
-<li><p>RECOMBINACAO</p></li>
-<li><p>PLENA</p></li>
-</ul>
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.intervalo_para_gravar">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">intervalo_para_gravar</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#inewave.newave.dger.DGer.intervalo_para_gravar" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Configuração da linha número 30 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
 </dd></dl>
 
-<dl class="py class">
-<dt id="inewave.newave.modelos.dger.EnumRepresentanteAgregacao">
-<em class="property"><span class="pre">class</span> </em><code class="sig-name descname"><span class="pre">EnumRepresentanteAgregacao</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/newave/modelos/dger.html#EnumRepresentanteAgregacao"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.modelos.dger.EnumRepresentanteAgregacao" title="Link permanente para esta definição">¶</a></dt>
-<dd><ul class="simple">
-<li><p>MAIS_PROXIMO</p></li>
-<li><p>CENTROIDE</p></li>
-</ul>
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.iteracao_para_simulacao_final">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">iteracao_para_simulacao_final</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#inewave.newave.dger.DGer.iteracao_para_simulacao_final" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Configuração da linha número 46 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
 </dd></dl>
 
-<dl class="py class">
-<dt id="inewave.newave.modelos.dger.EnumMatrizCorrelacaoEspacial">
-<em class="property"><span class="pre">class</span> </em><code class="sig-name descname"><span class="pre">EnumMatrizCorrelacaoEspacial</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/newave/modelos/dger.html#EnumMatrizCorrelacaoEspacial"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.modelos.dger.EnumMatrizCorrelacaoEspacial" title="Link permanente para esta definição">¶</a></dt>
-<dd><ul class="simple">
-<li><p>ANUAL</p></li>
-<li><p>MENSAL</p></li>
-</ul>
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.janela_de_cortes">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">janela_de_cortes</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#inewave.newave.dger.DGer.janela_de_cortes" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Configuração da linha número 66 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
 </dd></dl>
 
-<dl class="py class">
-<dt id="inewave.newave.modelos.dger.EnumMomentoReamostragem">
-<em class="property"><span class="pre">class</span> </em><code class="sig-name descname"><span class="pre">EnumMomentoReamostragem</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/newave/modelos/dger.html#EnumMomentoReamostragem"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.modelos.dger.EnumMomentoReamostragem" title="Link permanente para esta definição">¶</a></dt>
-<dd><ul class="simple">
-<li><p>BW_ITER_CORRESPONDENTE</p></li>
-<li><p>FW_ITER_CORRESPONDENTE</p></li>
-</ul>
-</dd></dl>
-
-<dl class="py class">
-<dt id="inewave.newave.modelos.dger.EnumInicioTesteConvergencia">
-<em class="property"><span class="pre">class</span> </em><code class="sig-name descname"><span class="pre">EnumInicioTesteConvergencia</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/newave/modelos/dger.html#EnumInicioTesteConvergencia"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.modelos.dger.EnumInicioTesteConvergencia" title="Link permanente para esta definição">¶</a></dt>
-<dd><ul class="simple">
-<li><p>PRIMEIRA_ITERACAO</p></li>
-<li><p>ITERACAO_MINIMA</p></li>
-</ul>
-</dd></dl>
-
-<dl class="py class">
-<dt id="inewave.newave.modelos.dger.EnumSazonaliza">
-<em class="property"><span class="pre">class</span> </em><code class="sig-name descname"><span class="pre">EnumSazonaliza</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/newave/modelos/dger.html#EnumSazonaliza"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.modelos.dger.EnumSazonaliza" title="Link permanente para esta definição">¶</a></dt>
-<dd><ul class="simple">
-<li><p>PRE_POS_NAO_SAZONAIS</p></li>
-<li><p>PRE_POS_SAZONAIS</p></li>
-</ul>
-</dd></dl>
-
-<dl class="py class">
-<dt id="inewave.newave.modelos.dger.EnumRepresentacaoIncerteza">
-<em class="property"><span class="pre">class</span> </em><code class="sig-name descname"><span class="pre">EnumRepresentacaoIncerteza</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/newave/modelos/dger.html#EnumRepresentacaoIncerteza"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.modelos.dger.EnumRepresentacaoIncerteza" title="Link permanente para esta definição">¶</a></dt>
-<dd><ul class="simple">
-<li><p>NAO_REPRESENTA</p></li>
-<li><p>HISTORICO</p></li>
-<li><p>PARAMETROS_DISTRIBUICAO</p></li>
-<li><p>CENARIOS</p></li>
-</ul>
-</dd></dl>
-
-</div>
-<div class="section" id="leitura">
-<h2>Leitura<a class="headerlink" href="#leitura" title="Link permanente para este título">¶</a></h2>
-<p>A leitura do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code> é feita através da classe <a class="reference internal" href="#inewave.newave.dger.LeituraDGer" title="inewave.newave.dger.LeituraDGer"><code class="xref py py-class docutils literal notranslate"><span class="pre">LeituraDGer</span></code></a>.</p>
-<dl class="py class">
-<dt id="inewave.newave.dger.LeituraDGer">
-<em class="property"><span class="pre">class</span> </em><code class="sig-name descname"><span class="pre">LeituraDGer</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">diretorio</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/newave/dger.html#LeituraDGer"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.dger.LeituraDGer" title="Link permanente para esta definição">¶</a></dt>
-<dd><p>Realiza a leitura do arquivo dger.dat
-existente em um diretório de entradas do NEWAVE.</p>
-<p>Esta classe contém o conjunto de utilidades para ler
-e interpretar os campos de um arquivo dger.dat, construindo
-um objeto <code class="xref py py-obj docutils literal notranslate"><span class="pre">DGer</span></code> cujas informações são as mesmas do dger.dat.</p>
-<p>Este objeto existe para retirar do modelo de dados a complexidade
-de iterar pelas linhas do arquivo, recortar colunas, converter
-tipos de dados, dentre outras tarefas necessárias para a leitura.</p>
-<p>Uma vez realizada a leitura do arquivo, as informações são guardadas
-internamente no atributo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger</span></code>.</p>
-<p><strong>Exemplos</strong></p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">diretorio</span> <span class="o">=</span> <span class="s2">&quot;~/documentos/.../deck&quot;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">leitor</span> <span class="o">=</span> <span class="n">LeituraDGer</span><span class="p">(</span><span class="n">diretorio</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">leitor</span><span class="o">.</span><span class="n">le_arquivo</span><span class="p">()</span>
-<span class="go"># Ops, esqueci de pegar o objeto</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">dger</span> <span class="o">=</span> <span class="n">leitor</span><span class="o">.</span><span class="n">dger</span>
-</pre></div>
-</div>
 <dl class="py method">
-<dt id="inewave.newave.dger.LeituraDGer.le_arquivo">
-<code class="sig-name descname"><span class="pre">le_arquivo</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nome_arquivo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'dger.dat'</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#inewave.newave.modelos.dger.DGer" title="inewave.newave.modelos.dger.DGer"><span class="pre">inewave.newave.modelos.dger.DGer</span></a><a class="reference internal" href="../../../_modules/inewave/newave/dger.html#LeituraDGer.le_arquivo"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.dger.LeituraDGer.le_arquivo" title="Link permanente para esta definição">¶</a></dt>
-<dd><p>Realiza a leitura do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.le_arquivo">
+<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">le_arquivo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">diretorio</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nome_arquivo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'dger.dat'</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#inewave.newave.dger.DGer" title="inewave.newave.dger.DGer"><span class="pre">inewave.newave.dger.DGer</span></a><a class="reference internal" href="../../../_modules/inewave/newave/dger.html#DGer.le_arquivo"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.dger.DGer.le_arquivo" title="Link permanente para esta definição">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.mantem_arquivos_energias">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">mantem_arquivos_energias</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#inewave.newave.dger.DGer.mantem_arquivos_energias" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Configuração da linha número 76 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
 </dd></dl>
 
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.matriz_correlacao_espacial">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">matriz_correlacao_espacial</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#inewave.newave.dger.DGer.matriz_correlacao_espacial" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Configuração da linha número 73 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
 </dd></dl>
 
-</div>
-<div class="section" id="escrita">
-<h2>Escrita<a class="headerlink" href="#escrita" title="Link permanente para este título">¶</a></h2>
-<p>A escrita do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code> é feita através da classe <a class="reference internal" href="#inewave.newave.dger.EscritaDGer" title="inewave.newave.dger.EscritaDGer"><code class="xref py py-class docutils literal notranslate"><span class="pre">EscritaDGer</span></code></a>.</p>
-<dl class="py class">
-<dt id="inewave.newave.dger.EscritaDGer">
-<em class="property"><span class="pre">class</span> </em><code class="sig-name descname"><span class="pre">EscritaDGer</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">diretorio</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/newave/dger.html#EscritaDGer"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.dger.EscritaDGer" title="Link permanente para esta definição">¶</a></dt>
-<dd><p>Realiza a escrita do arquivo dger.dat
-em um diretório de entradas do NEWAVE.</p>
-<p>Esta classe contém o conjunto de utilidades para escrever os campos
-de um arquivo dger.dat, a partir de um objeto <code class="xref py py-obj docutils literal notranslate"><span class="pre">DGer</span></code>.</p>
-<p>Este objeto existe para retirar do modelo de dados a complexidade
-de armazenar as strings auxiliares do arquivo, desenhar tabelas, dentre
-outras tarefas associadas à escrita.</p>
-<p>Se o diretório de escrita não existir, ele será criado.</p>
-<p><strong>Exemplos</strong></p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">diretorio</span> <span class="o">=</span> <span class="s2">&quot;~/documentos/.../deck&quot;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">dger</span> <span class="o">=</span> <span class="n">DGer</span><span class="o">.</span><span class="n">dger_padrao</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">escritor</span> <span class="o">=</span> <span class="n">EscritaDGer</span><span class="p">(</span><span class="n">diretorio</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">escritor</span><span class="o">.</span><span class="n">escreve_arquivo</span><span class="p">(</span><span class="n">dger</span><span class="p">)</span>
-</pre></div>
-</div>
-<dl class="py method">
-<dt id="inewave.newave.dger.EscritaDGer.escreve_arquivo">
-<code class="sig-name descname"><span class="pre">escreve_arquivo</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dger</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#inewave.newave.modelos.dger.DGer" title="inewave.newave.modelos.dger.DGer"><span class="pre">inewave.newave.modelos.dger.DGer</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/newave/dger.html#EscritaDGer.escreve_arquivo"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.dger.EscritaDGer.escreve_arquivo" title="Link permanente para esta definição">¶</a></dt>
-<dd><p>Realiza a escrita de um arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.mes_inicio_estudo">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">mes_inicio_estudo</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#inewave.newave.dger.DGer.mes_inicio_estudo" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Configuração da linha número 6 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.mes_inicio_pre_estudo">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">mes_inicio_pre_estudo</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#inewave.newave.dger.DGer.mes_inicio_pre_estudo" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Configuração da linha número 5 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.modif_automatica_adterm">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">modif_automatica_adterm</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#inewave.newave.dger.DGer.modif_automatica_adterm" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Configuração da linha número 56 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.momento_reamostragem">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">momento_reamostragem</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#inewave.newave.dger.DGer.momento_reamostragem" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Configuração da linha número 75 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.nome_caso">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">nome_caso</span></span><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><a class="headerlink" href="#inewave.newave.dger.DGer.nome_caso" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Configuração da linha número 1 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.num_aberturas">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">num_aberturas</span></span><em class="property"><span class="pre">:</span> <span class="pre">List[int]</span></em><a class="headerlink" href="#inewave.newave.dger.DGer.num_aberturas" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Configuração da linha número 18 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.num_anos_estudo">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">num_anos_estudo</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#inewave.newave.dger.DGer.num_anos_estudo" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Configuração da linha número 4 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.num_anos_manutencao_utes">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">num_anos_manutencao_utes</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#inewave.newave.dger.DGer.num_anos_manutencao_utes" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Configuração da linha número 33 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.num_anos_pos_estudo">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">num_anos_pos_estudo</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#inewave.newave.dger.DGer.num_anos_pos_estudo" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Configuração da linha número 9 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.num_anos_pos_sim_final">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">num_anos_pos_sim_final</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#inewave.newave.dger.DGer.num_anos_pos_sim_final" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Configuração da linha número 10 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.num_anos_pre_estudo">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">num_anos_pre_estudo</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#inewave.newave.dger.DGer.num_anos_pre_estudo" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Configuração da linha número 8 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.num_forwards">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">num_forwards</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#inewave.newave.dger.DGer.num_forwards" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Configuração da linha número 17 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.num_max_iteracoes">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">num_max_iteracoes</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#inewave.newave.dger.DGer.num_max_iteracoes" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Configuração da linha número 16 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.num_minimo_iteracoes">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">num_minimo_iteracoes</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#inewave.newave.dger.DGer.num_minimo_iteracoes" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Configuração da linha número 31 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.num_series_sinteticas">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">num_series_sinteticas</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#inewave.newave.dger.DGer.num_series_sinteticas" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Configuração da linha número 19 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.ordem_maxima_parp">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">ordem_maxima_parp</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#inewave.newave.dger.DGer.ordem_maxima_parp" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Configuração da linha número 20 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.ordenacao_automatica">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">ordenacao_automatica</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#inewave.newave.dger.DGer.ordenacao_automatica" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Configuração da linha número 50 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.outros_usos_da_agua">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">outros_usos_da_agua</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#inewave.newave.dger.DGer.outros_usos_da_agua" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Configuração da linha número 41 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.perdas_rede_transmissao">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">perdas_rede_transmissao</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#inewave.newave.dger.DGer.perdas_rede_transmissao" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Configuração da linha número 37 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.racionamento_preventivo">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">racionamento_preventivo</span></span><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><a class="headerlink" href="#inewave.newave.dger.DGer.racionamento_preventivo" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Configuração da linha número 32 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.reamostragem_cenarios">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">reamostragem_cenarios</span></span><em class="property"><span class="pre">:</span> <span class="pre">List[int]</span></em><a class="headerlink" href="#inewave.newave.dger.DGer.reamostragem_cenarios" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Configuração da linha número 67 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.representacao_agregacao">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">representacao_agregacao</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#inewave.newave.dger.DGer.representacao_agregacao" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Configuração da linha número 72 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.representacao_incertezas">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">representacao_incertezas</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#inewave.newave.dger.DGer.representacao_incertezas" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Configuração da linha número 87 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.representacao_submotorizacao">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">representacao_submotorizacao</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#inewave.newave.dger.DGer.representacao_submotorizacao" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Configuração da linha número 49 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.restricao_itaipu">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">restricao_itaipu</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#inewave.newave.dger.DGer.restricao_itaipu" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Configuração da linha número 35 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.restricoes_eletricas">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">restricoes_eletricas</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#inewave.newave.dger.DGer.restricoes_eletricas" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Configuração da linha número 64 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.restricoes_emissao_gee">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">restricoes_emissao_gee</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#inewave.newave.dger.DGer.restricoes_emissao_gee" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Configuração da linha número 82 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.restricoes_fornecimento_gas">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">restricoes_fornecimento_gas</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#inewave.newave.dger.DGer.restricoes_fornecimento_gas" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Configuração da linha número 84 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.risco_deficit">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">risco_deficit</span></span><em class="property"><span class="pre">:</span> <span class="pre">List[float]</span></em><a class="headerlink" href="#inewave.newave.dger.DGer.risco_deficit" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Configuração da linha número 45 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.sar">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">sar</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#inewave.newave.dger.DGer.sar" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Configuração da linha número 60 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.sazonaliza_cfuga_cmont">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">sazonaliza_cfuga_cmont</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#inewave.newave.dger.DGer.sazonaliza_cfuga_cmont" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Configuração da linha número 81 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.sazonaliza_vmaxt">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">sazonaliza_vmaxt</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#inewave.newave.dger.DGer.sazonaliza_vmaxt" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Configuração da linha número 79 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.sazonaliza_vminp">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">sazonaliza_vminp</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#inewave.newave.dger.DGer.sazonaliza_vminp" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Configuração da linha número 80 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.sazonaliza_vmint">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">sazonaliza_vmint</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#inewave.newave.dger.DGer.sazonaliza_vmint" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Configuração da linha número 78 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.selecao_de_cortes">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">selecao_de_cortes</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#inewave.newave.dger.DGer.selecao_de_cortes" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Configuração da linha número 65 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.simulacao_final_com_data">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">simulacao_final_com_data</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#inewave.newave.dger.DGer.simulacao_final_com_data" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Configuração da linha número 58 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.taxa_de_desconto">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">taxa_de_desconto</span></span><em class="property"><span class="pre">:</span> <span class="pre">float</span></em><a class="headerlink" href="#inewave.newave.dger.DGer.taxa_de_desconto" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Configuração da linha número 26 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.tendencia_hidrologica">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">tendencia_hidrologica</span></span><em class="property"><span class="pre">:</span> <span class="pre">List[int]</span></em><a class="headerlink" href="#inewave.newave.dger.DGer.tendencia_hidrologica" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Configuração da linha número 34 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.tipo_execucao">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">tipo_execucao</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#inewave.newave.dger.DGer.tipo_execucao" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Configuração da linha número 2 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.tipo_geracao_enas">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">tipo_geracao_enas</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#inewave.newave.dger.DGer.tipo_geracao_enas" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Configuração da linha número 44 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.tipo_simulacao_final">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">tipo_simulacao_final</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#inewave.newave.dger.DGer.tipo_simulacao_final" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Configuração da linha número 27 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.tolerancia">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">tolerancia</span></span><em class="property"><span class="pre">:</span> <span class="pre">float</span></em><a class="headerlink" href="#inewave.newave.dger.DGer.tolerancia" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Configuração da linha número 25 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.volume_inicial_por_subsistema">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">volume_inicial_por_subsistema</span></span><em class="property"><span class="pre">:</span> <span class="pre">List[float]</span></em><a class="headerlink" href="#inewave.newave.dger.DGer.volume_inicial_por_subsistema" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Configuração das linhas número 23 e 24 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
 </dd></dl>
 
 </dd></dl>
@@ -587,7 +740,7 @@ outras tarefas associadas à escrita.</p>
 
   <div role="contentinfo">
     <p>
-        &#169; Copyright 2021, Rogerio Alves.
+        &#169; Copyright 2021, Rogerio José Menezes Alves.
 
     </p>
   </div>

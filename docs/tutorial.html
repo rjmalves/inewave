@@ -13,6 +13,8 @@
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/gallery.css" type="text/css" />
   <link rel="stylesheet" href="_static/gallery-binder.css" type="text/css" />
   <link rel="stylesheet" href="_static/gallery-dataframe.css" type="text/css" />
@@ -33,6 +35,7 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
@@ -169,9 +172,9 @@
   <div class="section" id="tutorial">
 <h1>Tutorial<a class="headerlink" href="#tutorial" title="Link permanente para este título">¶</a></h1>
 <p>Este guia pode ser um bom ponto inicial para o uso do <em>inewave</em>. Como interface de desenvolvimento é recomendado
-usar algum editor com um <code class="xref py py-obj docutils literal notranslate"><span class="pre">language</span> <span class="pre">server</span></code> com um recurso de <code class="xref py py-obj docutils literal notranslate"><span class="pre">autocomplete</span></code> eficiente para Python, como o
+usar algum editor com um <code class="xref py py-obj docutils literal notranslate"><span class="pre">language</span> <span class="pre">server</span></code> com um recurso de sugestões automáticas eficiente para Python, como o
 <a class="reference external" href="https://code.visualstudio.com/">VSCode</a> com <a class="reference external" href="https://marketplace.visualstudio.com/items?itemName=ms-python.vscode-pylance">PyLance</a>
-ou a IDE específica <a class="reference external" href="https://www.jetbrains.com/pt-br/pycharm/download/">PyCharm</a>. O <code class="xref py py-obj docutils literal notranslate"><span class="pre">autocomplete</span></code> é essencial para fazer uso de todo o potencial do
+ou a IDE específica <a class="reference external" href="https://www.jetbrains.com/pt-br/pycharm/download/">PyCharm</a>. As sugestões automáticas são essenciais para fazer uso de todo o potencial do
 módulo <em>inewave</em>, além de auxiliar na escrita de códigos melhores.</p>
 <div class="section" id="leitura-alteracao-e-escrita-do-dger-dat">
 <h2>Leitura, alteração e escrita do dger.dat<a class="headerlink" href="#leitura-alteracao-e-escrita-do-dger-dat" title="Link permanente para este título">¶</a></h2>
@@ -182,15 +185,14 @@ $ /home/usuario/estudo/pmo_MM_AAAA/
 </div>
 <p>E neste diretório exista um arquivo <code class="docutils literal notranslate"><span class="pre">dger.dat</span></code>, então o conteúdo deste pode ser lido
 através do código:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">inewave.newave.dger</span> <span class="kn">import</span> <span class="n">LeituraDGer</span><span class="p">,</span> <span class="n">EscritaDGer</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">leitor</span> <span class="o">=</span> <span class="n">LeituraDGer</span><span class="p">(</span><span class="s2">&quot;/home/usuario/estudo/pmo_MM_AAAA/&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">dger</span> <span class="o">=</span> <span class="n">leitor</span><span class="o">.</span><span class="n">le_arquivo</span><span class="p">()</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">inewave.newave.dger</span> <span class="kn">import</span> <span class="n">DGer</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dger</span> <span class="o">=</span> <span class="n">DGer</span><span class="o">.</span><span class="n">le_arquivo</span><span class="p">(</span><span class="s2">&quot;/home/usuario/estudo/pmo_MM_AAAA/&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>É possível analisar todos os parâmetros existentes no arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dger</span><span class="o">.</span><span class="n">ano_inicio_estudo</span>
 <span class="go">1995</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">dger</span><span class="o">.</span><span class="n">imprime_dados_mercados</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dger</span><span class="o">.</span><span class="n">imprime_mercados</span>
 <span class="go">True</span>
 </pre></div>
 </div>
@@ -200,13 +202,12 @@ através do código:</p>
 um recurso de escrita, que pode ser usado na geração de novos decks.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dger</span><span class="o">.</span><span class="n">ano_inicio_estudo</span> <span class="o">=</span> <span class="mi">2000</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">dger</span><span class="o">.</span><span class="n">imprime_dados_mercados</span> <span class="o">=</span> <span class="kc">False</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">escritor</span> <span class="o">=</span> <span class="n">EscritaDGer</span><span class="p">(</span><span class="s2">&quot;/home/usuario/estudo/pmo_MM_AAAA/&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">escritor</span><span class="o">.</span><span class="n">escreve_arquivo</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">DGer</span><span class="o">.</span><span class="n">escreve_arquivo</span><span class="p">(</span><span class="s2">&quot;/home/usuario/estudo/pmo_MM_AAAA/&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Ao visualizar as diferenças entre os arquivos:</p>
 <a class="reference internal image-reference" href="_images/dger_diff.png"><img alt="_images/dger_diff.png" src="_images/dger_diff.png" style="width: 550px;" /></a>
-<p>Para mais informações, basta consultar a referência do objeto <a class="reference internal" href="reference/newave/arquivos/dger.html#inewave.newave.modelos.dger.DGer" title="inewave.newave.modelos.dger.DGer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DGer</span></code></a>.</p>
+<p>Para mais informações, basta consultar a referência do objeto <a class="reference internal" href="reference/newave/arquivos/dger.html#inewave.newave.dger.DGer" title="inewave.newave.dger.DGer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DGer</span></code></a>.</p>
 </div>
 <div class="section" id="realizando-a-leitura-do-pmo-dat">
 <h2>Realizando a leitura do pmo.dat<a class="headerlink" href="#realizando-a-leitura-do-pmo-dat" title="Link permanente para este título">¶</a></h2>
@@ -217,49 +218,29 @@ $ /home/usuario/estudo/pmo_MM_AAAA/
 </div>
 <p>E neste diretório exista um arquivo <code class="docutils literal notranslate"><span class="pre">pmo.dat</span></code>, então o conteúdo deste pode ser lido
 através do código:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">inewave.newave.pmo</span> <span class="kn">import</span> <span class="n">LeituraPMO</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">leitor</span> <span class="o">=</span> <span class="n">LeituraPMO</span><span class="p">(</span><span class="s2">&quot;/home/usuario/estudo/pmo_MM_AAAA/&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">pmo</span> <span class="o">=</span> <span class="n">leitor</span><span class="o">.</span><span class="n">le_arquivo</span><span class="p">()</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">inewave.newave.pmo</span> <span class="kn">import</span> <span class="n">PMO</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pmo</span> <span class="o">=</span> <span class="n">PMO</span><span class="o">.</span><span class="n">le_arquivo</span><span class="p">(</span><span class="s2">&quot;/home/usuario/estudo/pmo_MM_AAAA/&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>É então constrúido um objeto <a class="reference internal" href="reference/newave/arquivos/pmo.html#inewave.newave.modelos.pmo.PMO" title="inewave.newave.modelos.pmo.PMO"><code class="xref py py-class docutils literal notranslate"><span class="pre">PMO</span></code></a>, que fornece os dados do arquivo através de seus métodos:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pmo</span>
-<span class="go">&lt;inewave.newave.modelos.pmo.PMO object at 0x000001BC7663B340&gt;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">pmo</span><span class="o">.</span><span class="n">ano_pmo</span>
-<span class="go">1995</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">pmo</span><span class="o">.</span><span class="n">mes_pmo</span>
-<span class="go">5</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">pmo</span><span class="o">.</span><span class="n">versao_newave</span>
-<span class="go">&#39;27.4&#39;</span>
-</pre></div>
-</div>
-<p>Os dados extraídos pelo módulo encontram-se no cabeçalho do arquivo:</p>
-<a class="reference internal image-reference" href="_images/pmo_cabecalho.png"><img alt="_images/pmo_cabecalho.png" src="_images/pmo_cabecalho.png" style="width: 800px;" /></a>
-<p>É possível obter também outras informações sobre o arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">pmo.dat</span></code>, como o custo total de operação:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pmo</span><span class="o">.</span><span class="n">custo_series_simuladas</span>
-<span class="go">&lt;inewave.newave.modelos.pmo.CustoOperacaoPMO object at 0x0000023B14525640&gt;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">leitor</span><span class="o">.</span><span class="n">pmo</span><span class="o">.</span><span class="n">custo_series_simuladas</span><span class="o">.</span><span class="n">custos</span>
-<span class="go">[[1.895133e+04 1.292100e+02 9.082000e+01]</span>
-<span class="go">[2.228000e+01 2.228000e+01 1.100000e-01]</span>
-<span class="go">[8.800000e-01 1.000000e-02 0.000000e+00]</span>
-<span class="go">[0.000000e+00 0.000000e+00 0.000000e+00]</span>
-<span class="go">[1.010490e+03 9.999000e+01 4.840000e+00]</span>
-<span class="go">[0.000000e+00 0.000000e+00 0.000000e+00]</span>
-<span class="go">[7.061000e+01 1.486000e+01 3.400000e-01]</span>
-<span class="go">[1.837600e+02 2.226000e+01 8.800000e-01]</span>
-<span class="go">[0.000000e+00 0.000000e+00 0.000000e+00]</span>
-<span class="go">[1.530000e+00 1.000000e-02 1.000000e-02]</span>
-<span class="go">[0.000000e+00 0.000000e+00 0.000000e+00]</span>
-<span class="go">[1.150000e+00 1.000000e-02 1.000000e-02]</span>
-<span class="go">[6.257700e+02 1.387200e+02 3.000000e+00]</span>
-<span class="go">[0.000000e+00 0.000000e+00 0.000000e+00]</span>
-<span class="go">[0.000000e+00 0.000000e+00 0.000000e+00]</span>
-<span class="go">[0.000000e+00 0.000000e+00 0.000000e+00]]</span>
+<p>É então constrúido um objeto <a class="reference internal" href="reference/newave/arquivos/pmo.html#inewave.newave.pmo.PMO" title="inewave.newave.pmo.PMO"><code class="xref py py-class docutils literal notranslate"><span class="pre">PMO</span></code></a>, que fornece os dados do arquivo através de seus métodos:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pmo</span><span class="o">.</span><span class="n">convergencia</span>
+<span class="go">    Iteração  Lim. Inf. ZINF       ZINF  Lim. Sup. ZINF       ZSUP  Delta ZINF  ZSUP Iteração  Tempo (s)</span>
+<span class="go">0          1       125551.48  177576.03       151496.59  138918.50         0.0            0.0      103.0</span>
+<span class="go">1          1       120780.69  177576.03       156780.92  138918.50         0.0            0.0        0.0</span>
+<span class="go">2          1       111659.63  177576.03       137604.74  125026.65         0.0            0.0        0.0</span>
+<span class="go">3          2       125551.48  321359.37       151496.59  138918.50         0.0            0.0      122.0</span>
+<span class="go">4          2       120780.69  321359.37       156780.92  138918.50         0.0            0.0        0.0</span>
+<span class="go">..       ...             ...        ...             ...        ...         ...            ...        ...</span>
+<span class="go">91        31        74025.15  348963.75        88058.94   81322.01         0.0            0.0        0.0</span>
+<span class="go">92        31        67603.11  348963.75        78384.09   73189.81         0.0            0.0        0.0</span>
+<span class="go">93        32        75735.31  349073.00        86516.29   81322.01         0.0            0.0      277.0</span>
+<span class="go">94        32        74025.15  349073.00        88058.94   81322.01         0.0            0.0        0.0</span>
+<span class="go">95        32        67603.11  349073.00        78384.09   73189.81         0.0            0.0        0.0</span>
 </pre></div>
 </div>
 <p>Os dados extraídos pelo módulo encontram-se na respectiva tabela do arquivo:</p>
-<a class="reference internal image-reference" href="_images/pmo_custos_series.png"><img alt="_images/pmo_custos_series.png" src="_images/pmo_custos_series.png" style="width: 400px;" /></a>
-<p>Informações específicas de cada custo estão disponíveis através de propriedades do objeto. Maiores detalhes podem ser obtidos na referência do objeto <a class="reference internal" href="reference/newave/arquivos/pmo.html#inewave.newave.modelos.pmo.CustoOperacaoPMO" title="inewave.newave.modelos.pmo.CustoOperacaoPMO"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CustoOperacaoPMO</span></code></a>.</p>
+<a class="reference internal image-reference" href="_images/pmo_convergencia.png"><img alt="_images/pmo_convergencia.png" src="_images/pmo_convergencia.png" style="width: 600px;" /></a>
+<p>Maiores detalhes podem ser obtidos na referência do objeto <a class="reference internal" href="reference/newave/arquivos/pmo.html#inewave.newave.pmo.PMO" title="inewave.newave.pmo.PMO"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PMO</span></code></a>.</p>
 </div>
 <div class="section" id="realizando-a-leitura-do-earmfpm00x-out">
 <h2>Realizando a leitura do earmfpm00x.out<a class="headerlink" href="#realizando-a-leitura-do-earmfpm00x-out" title="Link permanente para este título">¶</a></h2>
@@ -303,29 +284,26 @@ $ /home/usuario/estudo/pmo_MM_AAAA/
 </div>
 <p>E neste diretório exista um arquivo <code class="docutils literal notranslate"><span class="pre">MEDIAS-SIN.CSV</span></code>, então o conteúdo deste pode ser lido
 através do código:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">inewave.nwlistop.mediassin</span> <span class="kn">import</span> <span class="n">LeituraMediasSIN</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">leitor</span> <span class="o">=</span> <span class="n">LeituraMediasSIN</span><span class="p">(</span><span class="s2">&quot;/home/usuario/estudo/pmo_MM_AAAA/&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">medias</span> <span class="o">=</span> <span class="n">leitor</span><span class="o">.</span><span class="n">le_arquivo</span><span class="p">()</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">inewave.nwlistop.mediassin</span> <span class="kn">import</span> <span class="n">MediasSIN</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">medias</span> <span class="o">=</span> <span class="n">MediasSIN</span><span class="o">.</span><span class="n">le_arquivo</span><span class="p">(</span><span class="s2">&quot;/home/usuario/estudo/pmo_MM_AAAA/&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>É então constrúido um objeto <a class="reference internal" href="reference/nwlistop/arquivos/mediassin.html#inewave.nwlistop.modelos.mediassin.MediasSIN" title="inewave.nwlistop.modelos.mediassin.MediasSIN"><code class="xref py py-class docutils literal notranslate"><span class="pre">MediasSIN</span></code></a>, que fornece os dados do arquivo através de seus métodos:</p>
+<p>É então constrúido um objeto <a class="reference internal" href="reference/nwlistop/arquivos/mediassin.html#inewave.nwlistop.mediassin.MediasSIN" title="inewave.nwlistop.mediassin.MediasSIN"><code class="xref py py-class docutils literal notranslate"><span class="pre">MediasSIN</span></code></a>, que fornece os dados do arquivo através de seus métodos:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">medias</span>
-<span class="go">&lt;inewave.nwlistop.modelos.mediassin.MediasSIN object at 0x00000166A7B59370&gt;</span>
+<span class="go">&lt;inewave.nwlistop.mediassin.MediasSIN object at 0x00000166A7B59370&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">meidas</span><span class="o">.</span><span class="n">energias_armazenadas_absolutas</span>
-<span class="go">[     0.        0.        0.        0.        0.        0.   120566.76</span>
-<span class="go"> 105553.39  87866.46  74628.94  67384.13  77175.59 103751.27 136444.19</span>
-<span class="go"> 164715.61 179063.05 183767.11 180670.34 170009.45 152021.25 133067.83</span>
-<span class="go"> 119809.86 113629.52 126772.7  154290.17 184992.48 209113.53 221483.92</span>
-<span class="go"> 225683.23 221905.92 209850.84 191386.5  170983.23 155676.92 148345.86</span>
-<span class="go"> 161091.2  185402.48 210185.28 228901.59 238740.84 241397.98 236743.05</span>
-<span class="go"> 221605.42 198691.84 173918.48 153725.42 141373.53 150448.61 174727.58</span>
-<span class="go"> 201001.23 222784.55 234152.59 238611.41 232602.72 216908.98 193381.59</span>
-<span class="go"> 168287.48 148162.03 136430.67 145501.89]</span>
+<span class="go"> [220084.42 233433.78 240735.14 241453.06 235079.45 222240.84 207280.77</span>
+<span class="go">  196712.95 189801.23 194836.73 212676.14 229302.66 244305.27 254792.92</span>
+<span class="go">  259826.38 259259.97 252486.23 238415.73 221549.73 208798.81 200677.28</span>
+<span class="go">  205599.06 222007.42 237158.7  249949.94 259642.58 264656.34 263249.5</span>
+<span class="go">  255866.48 241392.38 224162.03 210948.72 202249.97 205928.23 222097.14</span>
+<span class="go">  237495.98 251485.92 261095.86 265716.56 263798.31 256055.05 240889.86</span>
+<span class="go">  223191.25 208994.06 198852.64 202126.69]</span>
 </pre></div>
 </div>
 <p>Os dados extraídos pelo módulo encontram-se no arquivo:</p>
 <a class="reference internal image-reference" href="_images/mediassin.png"><img alt="_images/mediassin.png" src="_images/mediassin.png" style="width: 800px;" /></a>
-<p>Para maiores informações, basta consultar a referência <a class="reference internal" href="reference/nwlistop/arquivos/mediassin.html#inewave.nwlistop.modelos.mediassin.MediasSIN" title="inewave.nwlistop.modelos.mediassin.MediasSIN"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MediasSIN</span></code></a>.</p>
+<p>Para maiores informações, basta consultar a referência <a class="reference internal" href="reference/nwlistop/arquivos/mediassin.html#inewave.nwlistop.mediassin.MediasSIN" title="inewave.nwlistop.mediassin.MediasSIN"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MediasSIN</span></code></a>.</p>
 </div>
 </div>
 
@@ -343,7 +321,7 @@ através do código:</p>
 
   <div role="contentinfo">
     <p>
-        &#169; Copyright 2021, Rogerio Alves.
+        &#169; Copyright 2021, Rogerio José Menezes Alves.
 
     </p>
   </div>

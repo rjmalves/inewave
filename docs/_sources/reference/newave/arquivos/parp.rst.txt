@@ -4,7 +4,7 @@
 Acompanhamento do modelo PAR(p) (parp.dat)
 ==========================================
 
-.. currentmodule:: inewave.newave.modelos.parp
+.. currentmodule:: inewave.newave.parp
 
 Visão geral do modelo
 ======================
@@ -14,13 +14,4 @@ localizado no arquivo geralmente denominado
 parp.dat, é armazenado na classe:
 
 .. autoclass:: PARp
-   :members:
-
-Leitura
-========
-.. currentmodule:: inewave.newave.parp
-
-A leitura do arquivo `parp.dat` é feita através da classe :class:`LeituraPARp`.
-
-.. autoclass:: LeituraPARp
    :members:

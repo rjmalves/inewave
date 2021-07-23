@@ -297,6 +297,7 @@ class BlocoConvergenciaPMO(Bloco):
             df.columns = ["Iteração", "Lim. Inf. ZINF", "ZINF",
                           "Lim. Sup. ZINF", "ZSUP", "Delta ZINF",
                           "ZSUP Iteração", "Tempo (s)"]
+            df = df.astype({"Iteração": 'int32'})
             return df
 
         # Salta as duas linhas iniciais

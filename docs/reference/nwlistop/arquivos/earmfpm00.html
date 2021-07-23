@@ -13,6 +13,8 @@
   
   <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/gallery-binder.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/gallery-dataframe.css" type="text/css" />
@@ -33,6 +35,7 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
         <script src="../../../_static/underscore.js"></script>
         <script src="../../../_static/doctools.js"></script>
@@ -187,8 +190,8 @@
 <p>Os valores de energias armazenadas finais percentuais por submercado, localizados nos arquivos geralmente denominados
 earmfpm00x.out, onde x varia confomrme o submercado, são armazenados na classe:</p>
 <dl class="py class">
-<dt id="inewave.nwlistop.modelos.earmfpm00.Earmfpm00">
-<em class="property"><span class="pre">class</span> </em><code class="sig-name descname"><span class="pre">Earmfpm00</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mes_pmo</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ano_pmo</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">versao_newave</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">submercado</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">energias_armazenadas</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span> </span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/nwlistop/modelos/earmfpm00.html#Earmfpm00"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.nwlistop.modelos.earmfpm00.Earmfpm00" title="Link permanente para esta definição">¶</a></dt>
+<dt class="sig sig-object py" id="inewave.nwlistop.modelos.earmfpm00.Earmfpm00">
+<em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">Earmfpm00</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mes_pmo</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ano_pmo</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">versao_newave</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">submercado</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">energias_armazenadas</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span> </span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/nwlistop/modelos/earmfpm00.html#Earmfpm00"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.nwlistop.modelos.earmfpm00.Earmfpm00" title="Link permanente para esta definição">¶</a></dt>
 <dd><p>Armazena os dados das saídas referentes às energias
 armazenadas finais, por submercado e em % da energia armazenável máxima.</p>
 <p>Esta classe lida com as informações de saída fornecidas pelo
@@ -202,9 +205,9 @@ submercado em questão.</p>
 <li><p>submercado: <code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></p></li>
 <li><p>energias_armazenadas: <code class="xref py py-obj docutils literal notranslate"><span class="pre">Dict[int,</span> <span class="pre">np.ndarray]</span></code></p></li>
 </ul>
-<dl class="py method">
-<dt id="inewave.nwlistop.modelos.earmfpm00.Earmfpm00.energias_por_ano">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">energias_por_ano</span></code><a class="headerlink" href="#inewave.nwlistop.modelos.earmfpm00.Earmfpm00.energias_por_ano" title="Link permanente para esta definição">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.nwlistop.modelos.earmfpm00.Earmfpm00.energias_por_ano">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">energias_por_ano</span></span><em class="property"><span class="pre">:</span> <span class="pre">Dict[int,</span> <span class="pre">numpy.ndarray]</span></em><a class="headerlink" href="#inewave.nwlistop.modelos.earmfpm00.Earmfpm00.energias_por_ano" title="Link permanente para esta definição">¶</a></dt>
 <dd><p>Energias armazenadas para cada ano e em cada cenário, para
 todos os meses, organizadas primeiramente por ano.</p>
 <p><strong>Retorna</strong></p>
@@ -214,9 +217,9 @@ todos os meses, organizadas primeiramente por ano.</p>
 de EARM para todos os cenários e meses, naquele ano.</p>
 </dd></dl>
 
-<dl class="py method">
-<dt id="inewave.nwlistop.modelos.earmfpm00.Earmfpm00.energias_por_ano_e_cenario">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">energias_por_ano_e_cenario</span></code><a class="headerlink" href="#inewave.nwlistop.modelos.earmfpm00.Earmfpm00.energias_por_ano_e_cenario" title="Link permanente para esta definição">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.nwlistop.modelos.earmfpm00.Earmfpm00.energias_por_ano_e_cenario">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">energias_por_ano_e_cenario</span></span><em class="property"><span class="pre">:</span> <span class="pre">Dict[int,</span> <span class="pre">Dict[int,</span> <span class="pre">numpy.ndarray]]</span></em><a class="headerlink" href="#inewave.nwlistop.modelos.earmfpm00.Earmfpm00.energias_por_ano_e_cenario" title="Link permanente para esta definição">¶</a></dt>
 <dd><p>Energias armazenadas para cada ano e cenário, para todos os
 meses, organizadas primeiramente por ano.</p>
 <p><strong>Retorna</strong></p>
@@ -226,9 +229,9 @@ meses, organizadas primeiramente por ano.</p>
 valores de EARM para todos os meses, naquele ano e cenário.</p>
 </dd></dl>
 
-<dl class="py method">
-<dt id="inewave.nwlistop.modelos.earmfpm00.Earmfpm00.energias_por_ano_e_mes">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">energias_por_ano_e_mes</span></code><a class="headerlink" href="#inewave.nwlistop.modelos.earmfpm00.Earmfpm00.energias_por_ano_e_mes" title="Link permanente para esta definição">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.nwlistop.modelos.earmfpm00.Earmfpm00.energias_por_ano_e_mes">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">energias_por_ano_e_mes</span></span><em class="property"><span class="pre">:</span> <span class="pre">Dict[int,</span> <span class="pre">Dict[int,</span> <span class="pre">numpy.ndarray]]</span></em><a class="headerlink" href="#inewave.nwlistop.modelos.earmfpm00.Earmfpm00.energias_por_ano_e_mes" title="Link permanente para esta definição">¶</a></dt>
 <dd><p>Energias armazenadas para cada ano e mês em cada cenário,
 para todos os meses, organizadas primeiramente por ano.</p>
 <p><strong>Retorna</strong></p>
@@ -245,8 +248,8 @@ valores de EARM para todos os cenários, naquele ano e mês.</p>
 <h2>Leitura<a class="headerlink" href="#leitura" title="Link permanente para este título">¶</a></h2>
 <p>A leitura dos arquivos <code class="xref py py-obj docutils literal notranslate"><span class="pre">earmfpm00x.out</span></code> é feita através da classe <a class="reference internal" href="#inewave.nwlistop.earmfpm00.LeituraEarmfpm00" title="inewave.nwlistop.earmfpm00.LeituraEarmfpm00"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LeituraEarmfpm00</span></code></a>.</p>
 <dl class="py class">
-<dt id="inewave.nwlistop.earmfpm00.LeituraEarmfpm00">
-<em class="property"><span class="pre">class</span> </em><code class="sig-name descname"><span class="pre">LeituraEarmfpm00</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">diretorio</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/nwlistop/earmfpm00.html#LeituraEarmfpm00"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.nwlistop.earmfpm00.LeituraEarmfpm00" title="Link permanente para esta definição">¶</a></dt>
+<dt class="sig sig-object py" id="inewave.nwlistop.earmfpm00.LeituraEarmfpm00">
+<em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">LeituraEarmfpm00</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">diretorio</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/nwlistop/earmfpm00.html#LeituraEarmfpm00"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.nwlistop.earmfpm00.LeituraEarmfpm00" title="Link permanente para esta definição">¶</a></dt>
 <dd><p>Realiza a leitura dos arquivos earmfpm00x.out
 existentes em um diretório de saídas do NEWAVE.</p>
 <p>Esta classe contém o conjunto de utilidades para ler
@@ -266,8 +269,8 @@ internamente no atributo <code class="xref py py-obj docutils literal notranslat
 </pre></div>
 </div>
 <dl class="py method">
-<dt id="inewave.nwlistop.earmfpm00.LeituraEarmfpm00.le_arquivos">
-<code class="sig-name descname"><span class="pre">le_arquivos</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><a class="reference internal" href="#inewave.nwlistop.modelos.earmfpm00.Earmfpm00" title="inewave.nwlistop.modelos.earmfpm00.Earmfpm00"><span class="pre">inewave.nwlistop.modelos.earmfpm00.Earmfpm00</span></a><span class="p"><span class="pre">]</span></span><a class="reference internal" href="../../../_modules/inewave/nwlistop/earmfpm00.html#LeituraEarmfpm00.le_arquivos"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.nwlistop.earmfpm00.LeituraEarmfpm00.le_arquivos" title="Link permanente para esta definição">¶</a></dt>
+<dt class="sig sig-object py" id="inewave.nwlistop.earmfpm00.LeituraEarmfpm00.le_arquivos">
+<span class="sig-name descname"><span class="pre">le_arquivos</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><a class="reference internal" href="#inewave.nwlistop.modelos.earmfpm00.Earmfpm00" title="inewave.nwlistop.modelos.earmfpm00.Earmfpm00"><span class="pre">inewave.nwlistop.modelos.earmfpm00.Earmfpm00</span></a><span class="p"><span class="pre">]</span></span><a class="reference internal" href="../../../_modules/inewave/nwlistop/earmfpm00.html#LeituraEarmfpm00.le_arquivos"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.nwlistop.earmfpm00.LeituraEarmfpm00.le_arquivos" title="Link permanente para esta definição">¶</a></dt>
 <dd><p>Lê os arquivos earmfpm00x.out em um diretório.</p>
 </dd></dl>
 
@@ -290,7 +293,7 @@ internamente no atributo <code class="xref py py-obj docutils literal notranslat
 
   <div role="contentinfo">
     <p>
-        &#169; Copyright 2021, Rogerio Alves.
+        &#169; Copyright 2021, Rogerio José Menezes Alves.
 
     </p>
   </div>

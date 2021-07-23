@@ -13,6 +13,8 @@
   
   <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/gallery-binder.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/gallery-dataframe.css" type="text/css" />
@@ -33,6 +35,7 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
         <script src="../../../_static/underscore.js"></script>
         <script src="../../../_static/doctools.js"></script>
@@ -186,8 +189,8 @@
 <p>Os valores de médias para o SIN, localizados no arquivo geralmente denominado
 MEDIAS-SIN.CSV, são armazenados na classe:</p>
 <dl class="py class">
-<dt id="inewave.nwlistop.modelos.mediassin.MediasSIN">
-<em class="property"><span class="pre">class</span> </em><code class="sig-name descname"><span class="pre">MediasSIN</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mes_pmo</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tabela</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">numpy.ndarray</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/nwlistop/modelos/mediassin.html#MediasSIN"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.nwlistop.modelos.mediassin.MediasSIN" title="Link permanente para esta definição">¶</a></dt>
+<dt class="sig sig-object py" id="inewave.nwlistop.mediassin.MediasSIN">
+<em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">MediasSIN</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dados</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">pandas.core.frame.DataFrame</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/nwlistop/mediassin.html#MediasSIN"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.nwlistop.mediassin.MediasSIN" title="Link permanente para esta definição">¶</a></dt>
 <dd><p>Armazena os dados das saídas referentes às médias de diversas variáveis
 para o SIN.</p>
 <p>Esta classe lida com as informações de saída fornecidas pelo
@@ -197,9 +200,9 @@ NWLISTOP e reproduzidas nos <code class="xref py py-obj docutils literal notrans
 <li><p>mes_pmo: <code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></p></li>
 <li><p>tabela: <code class="xref py py-obj docutils literal notranslate"><span class="pre">np.ndarray</span></code></p></li>
 </ul>
-<dl class="py method">
-<dt id="inewave.nwlistop.modelos.mediassin.MediasSIN.custo_deficit">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">custo_deficit</span></code><a class="headerlink" href="#inewave.nwlistop.modelos.mediassin.MediasSIN.custo_deficit" title="Link permanente para esta definição">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.nwlistop.mediassin.MediasSIN.custo_deficit">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">custo_deficit</span></span><em class="property"><span class="pre">:</span> <span class="pre">numpy.ndarray</span></em><a class="headerlink" href="#inewave.nwlistop.mediassin.MediasSIN.custo_deficit" title="Link permanente para esta definição">¶</a></dt>
 <dd><p>Custos de déficit (MMR$).</p>
 <p><strong>Retorna</strong></p>
 <p><code class="xref py py-obj docutils literal notranslate"><span class="pre">np.ndarray</span></code></p>
@@ -208,9 +211,9 @@ NWLISTOP e reproduzidas nos <code class="xref py py-obj docutils literal notrans
 é dividida mensalmente, para todo o período de estudo.</p>
 </dd></dl>
 
-<dl class="py method">
-<dt id="inewave.nwlistop.modelos.mediassin.MediasSIN.custo_operacao_mx">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">custo_operacao_mx</span></code><a class="headerlink" href="#inewave.nwlistop.modelos.mediassin.MediasSIN.custo_operacao_mx" title="Link permanente para esta definição">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.nwlistop.mediassin.MediasSIN.custo_operacao_mx">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">custo_operacao_mx</span></span><em class="property"><span class="pre">:</span> <span class="pre">numpy.ndarray</span></em><a class="headerlink" href="#inewave.nwlistop.mediassin.MediasSIN.custo_operacao_mx" title="Link permanente para esta definição">¶</a></dt>
 <dd><p>Custos de operação MX (MMR$).</p>
 <p><strong>Retorna</strong></p>
 <p><code class="xref py py-obj docutils literal notranslate"><span class="pre">np.ndarray</span></code></p>
@@ -219,9 +222,9 @@ NWLISTOP e reproduzidas nos <code class="xref py py-obj docutils literal notrans
 retornada é dividida mensalmente, para todo o período de estudo.</p>
 </dd></dl>
 
-<dl class="py method">
-<dt id="inewave.nwlistop.modelos.mediassin.MediasSIN.custo_operacao_total">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">custo_operacao_total</span></code><a class="headerlink" href="#inewave.nwlistop.modelos.mediassin.MediasSIN.custo_operacao_total" title="Link permanente para esta definição">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.nwlistop.mediassin.MediasSIN.custo_operacao_total">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">custo_operacao_total</span></span><em class="property"><span class="pre">:</span> <span class="pre">numpy.ndarray</span></em><a class="headerlink" href="#inewave.nwlistop.mediassin.MediasSIN.custo_operacao_total" title="Link permanente para esta definição">¶</a></dt>
 <dd><p>Custos de operação totais (MMR$).</p>
 <p><strong>Retorna</strong></p>
 <p><code class="xref py py-obj docutils literal notranslate"><span class="pre">np.ndarray</span></code></p>
@@ -230,9 +233,9 @@ retornada é dividida mensalmente, para todo o período de estudo.</p>
 retornada é dividida mensalmente, para todo o período de estudo.</p>
 </dd></dl>
 
-<dl class="py method">
-<dt id="inewave.nwlistop.modelos.mediassin.MediasSIN.custo_operacao_violacao">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">custo_operacao_violacao</span></code><a class="headerlink" href="#inewave.nwlistop.modelos.mediassin.MediasSIN.custo_operacao_violacao" title="Link permanente para esta definição">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.nwlistop.mediassin.MediasSIN.custo_operacao_violacao">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">custo_operacao_violacao</span></span><em class="property"><span class="pre">:</span> <span class="pre">numpy.ndarray</span></em><a class="headerlink" href="#inewave.nwlistop.mediassin.MediasSIN.custo_operacao_violacao" title="Link permanente para esta definição">¶</a></dt>
 <dd><p>Custos de operação por violação (MMR$).</p>
 <p><strong>Retorna</strong></p>
 <p><code class="xref py py-obj docutils literal notranslate"><span class="pre">np.ndarray</span></code></p>
@@ -241,9 +244,9 @@ retornada é dividida mensalmente, para todo o período de estudo.</p>
 retornada é dividida mensalmente, para todo o período de estudo.</p>
 </dd></dl>
 
-<dl class="py method">
-<dt id="inewave.nwlistop.modelos.mediassin.MediasSIN.custo_termica">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">custo_termica</span></code><a class="headerlink" href="#inewave.nwlistop.modelos.mediassin.MediasSIN.custo_termica" title="Link permanente para esta definição">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.nwlistop.mediassin.MediasSIN.custo_termica">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">custo_termica</span></span><em class="property"><span class="pre">:</span> <span class="pre">numpy.ndarray</span></em><a class="headerlink" href="#inewave.nwlistop.mediassin.MediasSIN.custo_termica" title="Link permanente para esta definição">¶</a></dt>
 <dd><p>Custos de térmicas (MMR$).</p>
 <p><strong>Retorna</strong></p>
 <p><code class="xref py py-obj docutils literal notranslate"><span class="pre">np.ndarray</span></code></p>
@@ -252,9 +255,9 @@ retornada é dividida mensalmente, para todo o período de estudo.</p>
 é dividida mensalmente, para todo o período de estudo.</p>
 </dd></dl>
 
-<dl class="py method">
-<dt id="inewave.nwlistop.modelos.mediassin.MediasSIN.deficit">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">deficit</span></code><a class="headerlink" href="#inewave.nwlistop.modelos.mediassin.MediasSIN.deficit" title="Link permanente para esta definição">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.nwlistop.mediassin.MediasSIN.deficit">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">deficit</span></span><em class="property"><span class="pre">:</span> <span class="pre">numpy.ndarray</span></em><a class="headerlink" href="#inewave.nwlistop.mediassin.MediasSIN.deficit" title="Link permanente para esta definição">¶</a></dt>
 <dd><p>Déficits de carga em valores absolutos (MWmed).</p>
 <p><strong>Retorna</strong></p>
 <p><code class="xref py py-obj docutils literal notranslate"><span class="pre">np.ndarray</span></code></p>
@@ -263,9 +266,9 @@ retornada é dividida mensalmente, para todo o período de estudo.</p>
 para todo o período de estudo.</p>
 </dd></dl>
 
-<dl class="py method">
-<dt id="inewave.nwlistop.modelos.mediassin.MediasSIN.energia_controlavel_corrigida">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">energia_controlavel_corrigida</span></code><a class="headerlink" href="#inewave.nwlistop.modelos.mediassin.MediasSIN.energia_controlavel_corrigida" title="Link permanente para esta definição">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.nwlistop.mediassin.MediasSIN.energia_controlavel_corrigida">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">energia_controlavel_corrigida</span></span><em class="property"><span class="pre">:</span> <span class="pre">numpy.ndarray</span></em><a class="headerlink" href="#inewave.nwlistop.mediassin.MediasSIN.energia_controlavel_corrigida" title="Link permanente para esta definição">¶</a></dt>
 <dd><p>Energias controláveis corrigidas em valores absolutos
 (MWmed).</p>
 <p><strong>Retorna</strong></p>
@@ -275,9 +278,9 @@ para todo o período de estudo.</p>
 para todo o período de estudo.</p>
 </dd></dl>
 
-<dl class="py method">
-<dt id="inewave.nwlistop.modelos.mediassin.MediasSIN.energia_evaporada">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">energia_evaporada</span></code><a class="headerlink" href="#inewave.nwlistop.modelos.mediassin.MediasSIN.energia_evaporada" title="Link permanente para esta definição">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.nwlistop.mediassin.MediasSIN.energia_evaporada">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">energia_evaporada</span></span><em class="property"><span class="pre">:</span> <span class="pre">numpy.ndarray</span></em><a class="headerlink" href="#inewave.nwlistop.mediassin.MediasSIN.energia_evaporada" title="Link permanente para esta definição">¶</a></dt>
 <dd><p>Perdas por energia evaporada em valores absolutos
 (MWmed).</p>
 <p><strong>Retorna</strong></p>
@@ -287,9 +290,9 @@ para todo o período de estudo.</p>
 é dividida mensalmente, para todo o período de estudo.</p>
 </dd></dl>
 
-<dl class="py method">
-<dt id="inewave.nwlistop.modelos.mediassin.MediasSIN.energia_fio_dagua_bruta">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">energia_fio_dagua_bruta</span></code><a class="headerlink" href="#inewave.nwlistop.modelos.mediassin.MediasSIN.energia_fio_dagua_bruta" title="Link permanente para esta definição">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.nwlistop.mediassin.MediasSIN.energia_fio_dagua_bruta">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">energia_fio_dagua_bruta</span></span><em class="property"><span class="pre">:</span> <span class="pre">numpy.ndarray</span></em><a class="headerlink" href="#inewave.nwlistop.mediassin.MediasSIN.energia_fio_dagua_bruta" title="Link permanente para esta definição">¶</a></dt>
 <dd><p>Energias fio d’água brutas em valores absolutos
 (MWmed).</p>
 <p><strong>Retorna</strong></p>
@@ -299,9 +302,9 @@ para todo o período de estudo.</p>
 é dividida mensalmente, para todo o período de estudo.</p>
 </dd></dl>
 
-<dl class="py method">
-<dt id="inewave.nwlistop.modelos.mediassin.MediasSIN.energia_fio_dagua_liquida">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">energia_fio_dagua_liquida</span></code><a class="headerlink" href="#inewave.nwlistop.modelos.mediassin.MediasSIN.energia_fio_dagua_liquida" title="Link permanente para esta definição">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.nwlistop.mediassin.MediasSIN.energia_fio_dagua_liquida">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">energia_fio_dagua_liquida</span></span><em class="property"><span class="pre">:</span> <span class="pre">numpy.ndarray</span></em><a class="headerlink" href="#inewave.nwlistop.mediassin.MediasSIN.energia_fio_dagua_liquida" title="Link permanente para esta definição">¶</a></dt>
 <dd><p>Energias fio d’água líquidas em valores absolutos
 (MWmed).</p>
 <p><strong>Retorna</strong></p>
@@ -311,9 +314,9 @@ para todo o período de estudo.</p>
 é dividida mensalmente, para todo o período de estudo.</p>
 </dd></dl>
 
-<dl class="py method">
-<dt id="inewave.nwlistop.modelos.mediassin.MediasSIN.energia_natural_afluente">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">energia_natural_afluente</span></code><a class="headerlink" href="#inewave.nwlistop.modelos.mediassin.MediasSIN.energia_natural_afluente" title="Link permanente para esta definição">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.nwlistop.mediassin.MediasSIN.energia_natural_afluente">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">energia_natural_afluente</span></span><em class="property"><span class="pre">:</span> <span class="pre">numpy.ndarray</span></em><a class="headerlink" href="#inewave.nwlistop.mediassin.MediasSIN.energia_natural_afluente" title="Link permanente para esta definição">¶</a></dt>
 <dd><p>Energias naturais afluentes em valores absolutos (MWmed).</p>
 <p><strong>Retorna</strong></p>
 <p><code class="xref py py-obj docutils literal notranslate"><span class="pre">np.ndarray</span></code></p>
@@ -322,9 +325,9 @@ para todo o período de estudo.</p>
 mensalmente, para todo o período de estudo.</p>
 </dd></dl>
 
-<dl class="py method">
-<dt id="inewave.nwlistop.modelos.mediassin.MediasSIN.energias_armazenadas_absolutas">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">energias_armazenadas_absolutas</span></code><a class="headerlink" href="#inewave.nwlistop.modelos.mediassin.MediasSIN.energias_armazenadas_absolutas" title="Link permanente para esta definição">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.nwlistop.mediassin.MediasSIN.energias_armazenadas_absolutas">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">energias_armazenadas_absolutas</span></span><em class="property"><span class="pre">:</span> <span class="pre">numpy.ndarray</span></em><a class="headerlink" href="#inewave.nwlistop.mediassin.MediasSIN.energias_armazenadas_absolutas" title="Link permanente para esta definição">¶</a></dt>
 <dd><p>Energias armazenadas em valores absolutos (MWmed).</p>
 <p><strong>Retorna</strong></p>
 <p><code class="xref py py-obj docutils literal notranslate"><span class="pre">np.ndarray</span></code></p>
@@ -333,9 +336,9 @@ mensalmente, para todo o período de estudo.</p>
 para todo o período de estudo.</p>
 </dd></dl>
 
-<dl class="py method">
-<dt id="inewave.nwlistop.modelos.mediassin.MediasSIN.energias_armazenadas_percentuais">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">energias_armazenadas_percentuais</span></code><a class="headerlink" href="#inewave.nwlistop.modelos.mediassin.MediasSIN.energias_armazenadas_percentuais" title="Link permanente para esta definição">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.nwlistop.mediassin.MediasSIN.energias_armazenadas_percentuais">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">energias_armazenadas_percentuais</span></span><em class="property"><span class="pre">:</span> <span class="pre">numpy.ndarray</span></em><a class="headerlink" href="#inewave.nwlistop.mediassin.MediasSIN.energias_armazenadas_percentuais" title="Link permanente para esta definição">¶</a></dt>
 <dd><p>Energias armazenadas em valores em percentual da EARMax.</p>
 <p><strong>Retorna</strong></p>
 <p><code class="xref py py-obj docutils literal notranslate"><span class="pre">np.ndarray</span></code></p>
@@ -344,9 +347,9 @@ para todo o período de estudo.</p>
 mensalmente, para todo o período de estudo.</p>
 </dd></dl>
 
-<dl class="py method">
-<dt id="inewave.nwlistop.modelos.mediassin.MediasSIN.geracao_eolica">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">geracao_eolica</span></code><a class="headerlink" href="#inewave.nwlistop.modelos.mediassin.MediasSIN.geracao_eolica" title="Link permanente para esta definição">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.nwlistop.mediassin.MediasSIN.geracao_eolica">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">geracao_eolica</span></span><em class="property"><span class="pre">:</span> <span class="pre">numpy.ndarray</span></em><a class="headerlink" href="#inewave.nwlistop.mediassin.MediasSIN.geracao_eolica" title="Link permanente para esta definição">¶</a></dt>
 <dd><p>Gerações eólicas em valores absolutos (MWmed) para cada um
 dos submercados.</p>
 <p><strong>Retorna</strong></p>
@@ -356,9 +359,9 @@ dos submercados.</p>
 para todo o período de estudo.</p>
 </dd></dl>
 
-<dl class="py method">
-<dt id="inewave.nwlistop.modelos.mediassin.MediasSIN.geracao_hidraulica_controlavel">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">geracao_hidraulica_controlavel</span></code><a class="headerlink" href="#inewave.nwlistop.modelos.mediassin.MediasSIN.geracao_hidraulica_controlavel" title="Link permanente para esta definição">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.nwlistop.mediassin.MediasSIN.geracao_hidraulica_controlavel">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">geracao_hidraulica_controlavel</span></span><em class="property"><span class="pre">:</span> <span class="pre">numpy.ndarray</span></em><a class="headerlink" href="#inewave.nwlistop.mediassin.MediasSIN.geracao_hidraulica_controlavel" title="Link permanente para esta definição">¶</a></dt>
 <dd><p>Gerações hidráulicas controláveis em valores absolutos
 (MWmed).</p>
 <p><strong>Retorna</strong></p>
@@ -368,9 +371,9 @@ para todo o período de estudo.</p>
 é dividida mensalmente, para todo o período de estudo.</p>
 </dd></dl>
 
-<dl class="py method">
-<dt id="inewave.nwlistop.modelos.mediassin.MediasSIN.geracao_hidraulica_fio_dagua_liquida">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">geracao_hidraulica_fio_dagua_liquida</span></code><a class="headerlink" href="#inewave.nwlistop.modelos.mediassin.MediasSIN.geracao_hidraulica_fio_dagua_liquida" title="Link permanente para esta definição">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.nwlistop.mediassin.MediasSIN.geracao_hidraulica_fio_dagua_liquida">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">geracao_hidraulica_fio_dagua_liquida</span></span><em class="property"><span class="pre">:</span> <span class="pre">numpy.ndarray</span></em><a class="headerlink" href="#inewave.nwlistop.mediassin.MediasSIN.geracao_hidraulica_fio_dagua_liquida" title="Link permanente para esta definição">¶</a></dt>
 <dd><p>Gerações hidráulicas fio d’água líquidas em valores
 absolutos (MWmed).</p>
 <p><strong>Retorna</strong></p>
@@ -380,9 +383,9 @@ absolutos (MWmed).</p>
 retornada é dividida mensalmente, para todo o período de estudo.</p>
 </dd></dl>
 
-<dl class="py method">
-<dt id="inewave.nwlistop.modelos.mediassin.MediasSIN.geracao_hidraulica_maxima">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">geracao_hidraulica_maxima</span></code><a class="headerlink" href="#inewave.nwlistop.modelos.mediassin.MediasSIN.geracao_hidraulica_maxima" title="Link permanente para esta definição">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.nwlistop.mediassin.MediasSIN.geracao_hidraulica_maxima">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">geracao_hidraulica_maxima</span></span><em class="property"><span class="pre">:</span> <span class="pre">numpy.ndarray</span></em><a class="headerlink" href="#inewave.nwlistop.mediassin.MediasSIN.geracao_hidraulica_maxima" title="Link permanente para esta definição">¶</a></dt>
 <dd><p>Gerações hidráulicas máximas em valores absolutos
 (MWmed).</p>
 <p><strong>Retorna</strong></p>
@@ -392,9 +395,9 @@ retornada é dividida mensalmente, para todo o período de estudo.</p>
 é dividida mensalmente, para todo o período de estudo.</p>
 </dd></dl>
 
-<dl class="py method">
-<dt id="inewave.nwlistop.modelos.mediassin.MediasSIN.geracao_hidraulica_total">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">geracao_hidraulica_total</span></code><a class="headerlink" href="#inewave.nwlistop.modelos.mediassin.MediasSIN.geracao_hidraulica_total" title="Link permanente para esta definição">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.nwlistop.mediassin.MediasSIN.geracao_hidraulica_total">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">geracao_hidraulica_total</span></span><em class="property"><span class="pre">:</span> <span class="pre">numpy.ndarray</span></em><a class="headerlink" href="#inewave.nwlistop.mediassin.MediasSIN.geracao_hidraulica_total" title="Link permanente para esta definição">¶</a></dt>
 <dd><p>Gerações hidráulicas totais em valores absolutos
 (MWmed).</p>
 <p><strong>Retorna</strong></p>
@@ -404,9 +407,9 @@ retornada é dividida mensalmente, para todo o período de estudo.</p>
 é dividida mensalmente, para todo o período de estudo.</p>
 </dd></dl>
 
-<dl class="py method">
-<dt id="inewave.nwlistop.modelos.mediassin.MediasSIN.geracao_solar">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">geracao_solar</span></code><a class="headerlink" href="#inewave.nwlistop.modelos.mediassin.MediasSIN.geracao_solar" title="Link permanente para esta definição">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.nwlistop.mediassin.MediasSIN.geracao_solar">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">geracao_solar</span></span><em class="property"><span class="pre">:</span> <span class="pre">numpy.ndarray</span></em><a class="headerlink" href="#inewave.nwlistop.mediassin.MediasSIN.geracao_solar" title="Link permanente para esta definição">¶</a></dt>
 <dd><p>Gerações solares em valores absolutos (MWmed) para cada um
 dos submercados.</p>
 <p><strong>Retorna</strong></p>
@@ -416,9 +419,9 @@ dos submercados.</p>
 para todo o período de estudo.</p>
 </dd></dl>
 
-<dl class="py method">
-<dt id="inewave.nwlistop.modelos.mediassin.MediasSIN.geracao_termica">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">geracao_termica</span></code><a class="headerlink" href="#inewave.nwlistop.modelos.mediassin.MediasSIN.geracao_termica" title="Link permanente para esta definição">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.nwlistop.mediassin.MediasSIN.geracao_termica">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">geracao_termica</span></span><em class="property"><span class="pre">:</span> <span class="pre">numpy.ndarray</span></em><a class="headerlink" href="#inewave.nwlistop.mediassin.MediasSIN.geracao_termica" title="Link permanente para esta definição">¶</a></dt>
 <dd><p>Gerações de usinas termelétricas em valores absolutos
 (MWmed).</p>
 <p><strong>Retorna</strong></p>
@@ -428,9 +431,9 @@ para todo o período de estudo.</p>
 é dividida mensalmente, para todo o período de estudo.</p>
 </dd></dl>
 
-<dl class="py method">
-<dt id="inewave.nwlistop.modelos.mediassin.MediasSIN.percentil_100_energias_armazenadas">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">percentil_100_energias_armazenadas</span></code><a class="headerlink" href="#inewave.nwlistop.modelos.mediassin.MediasSIN.percentil_100_energias_armazenadas" title="Link permanente para esta definição">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.nwlistop.mediassin.MediasSIN.percentil_100_energias_armazenadas">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">percentil_100_energias_armazenadas</span></span><em class="property"><span class="pre">:</span> <span class="pre">numpy.ndarray</span></em><a class="headerlink" href="#inewave.nwlistop.mediassin.MediasSIN.percentil_100_energias_armazenadas" title="Link permanente para esta definição">¶</a></dt>
 <dd><p>Valores para o percentil 100% da energia armazenada.</p>
 <p><strong>Retorna</strong></p>
 <p><code class="xref py py-obj docutils literal notranslate"><span class="pre">np.ndarray</span></code></p>
@@ -439,9 +442,9 @@ para todo o período de estudo.</p>
 mensalmente, para todo o período de estudo.</p>
 </dd></dl>
 
-<dl class="py method">
-<dt id="inewave.nwlistop.modelos.mediassin.MediasSIN.percentil_10_energias_armazenadas">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">percentil_10_energias_armazenadas</span></code><a class="headerlink" href="#inewave.nwlistop.modelos.mediassin.MediasSIN.percentil_10_energias_armazenadas" title="Link permanente para esta definição">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.nwlistop.mediassin.MediasSIN.percentil_10_energias_armazenadas">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">percentil_10_energias_armazenadas</span></span><em class="property"><span class="pre">:</span> <span class="pre">numpy.ndarray</span></em><a class="headerlink" href="#inewave.nwlistop.mediassin.MediasSIN.percentil_10_energias_armazenadas" title="Link permanente para esta definição">¶</a></dt>
 <dd><p>Valores para o percentil 10% da energia armazenada.</p>
 <p><strong>Retorna</strong></p>
 <p><code class="xref py py-obj docutils literal notranslate"><span class="pre">np.ndarray</span></code></p>
@@ -450,9 +453,9 @@ mensalmente, para todo o período de estudo.</p>
 mensalmente, para todo o período de estudo.</p>
 </dd></dl>
 
-<dl class="py method">
-<dt id="inewave.nwlistop.modelos.mediassin.MediasSIN.percentil_20_energias_armazenadas">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">percentil_20_energias_armazenadas</span></code><a class="headerlink" href="#inewave.nwlistop.modelos.mediassin.MediasSIN.percentil_20_energias_armazenadas" title="Link permanente para esta definição">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.nwlistop.mediassin.MediasSIN.percentil_20_energias_armazenadas">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">percentil_20_energias_armazenadas</span></span><em class="property"><span class="pre">:</span> <span class="pre">numpy.ndarray</span></em><a class="headerlink" href="#inewave.nwlistop.mediassin.MediasSIN.percentil_20_energias_armazenadas" title="Link permanente para esta definição">¶</a></dt>
 <dd><p>Valores para o percentil 20% da energia armazenada.</p>
 <p><strong>Retorna</strong></p>
 <p><code class="xref py py-obj docutils literal notranslate"><span class="pre">np.ndarray</span></code></p>
@@ -461,9 +464,9 @@ mensalmente, para todo o período de estudo.</p>
 mensalmente, para todo o período de estudo.</p>
 </dd></dl>
 
-<dl class="py method">
-<dt id="inewave.nwlistop.modelos.mediassin.MediasSIN.percentil_30_energias_armazenadas">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">percentil_30_energias_armazenadas</span></code><a class="headerlink" href="#inewave.nwlistop.modelos.mediassin.MediasSIN.percentil_30_energias_armazenadas" title="Link permanente para esta definição">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.nwlistop.mediassin.MediasSIN.percentil_30_energias_armazenadas">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">percentil_30_energias_armazenadas</span></span><em class="property"><span class="pre">:</span> <span class="pre">numpy.ndarray</span></em><a class="headerlink" href="#inewave.nwlistop.mediassin.MediasSIN.percentil_30_energias_armazenadas" title="Link permanente para esta definição">¶</a></dt>
 <dd><p>Valores para o percentil 30% da energia armazenada.</p>
 <p><strong>Retorna</strong></p>
 <p><code class="xref py py-obj docutils literal notranslate"><span class="pre">np.ndarray</span></code></p>
@@ -472,9 +475,9 @@ mensalmente, para todo o período de estudo.</p>
 mensalmente, para todo o período de estudo.</p>
 </dd></dl>
 
-<dl class="py method">
-<dt id="inewave.nwlistop.modelos.mediassin.MediasSIN.percentil_40_energias_armazenadas">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">percentil_40_energias_armazenadas</span></code><a class="headerlink" href="#inewave.nwlistop.modelos.mediassin.MediasSIN.percentil_40_energias_armazenadas" title="Link permanente para esta definição">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.nwlistop.mediassin.MediasSIN.percentil_40_energias_armazenadas">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">percentil_40_energias_armazenadas</span></span><em class="property"><span class="pre">:</span> <span class="pre">numpy.ndarray</span></em><a class="headerlink" href="#inewave.nwlistop.mediassin.MediasSIN.percentil_40_energias_armazenadas" title="Link permanente para esta definição">¶</a></dt>
 <dd><p>Valores para o percentil 40% da energia armazenada.</p>
 <p><strong>Retorna</strong></p>
 <p><code class="xref py py-obj docutils literal notranslate"><span class="pre">np.ndarray</span></code></p>
@@ -483,9 +486,9 @@ mensalmente, para todo o período de estudo.</p>
 mensalmente, para todo o período de estudo.</p>
 </dd></dl>
 
-<dl class="py method">
-<dt id="inewave.nwlistop.modelos.mediassin.MediasSIN.percentil_50_energias_armazenadas">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">percentil_50_energias_armazenadas</span></code><a class="headerlink" href="#inewave.nwlistop.modelos.mediassin.MediasSIN.percentil_50_energias_armazenadas" title="Link permanente para esta definição">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.nwlistop.mediassin.MediasSIN.percentil_50_energias_armazenadas">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">percentil_50_energias_armazenadas</span></span><em class="property"><span class="pre">:</span> <span class="pre">numpy.ndarray</span></em><a class="headerlink" href="#inewave.nwlistop.mediassin.MediasSIN.percentil_50_energias_armazenadas" title="Link permanente para esta definição">¶</a></dt>
 <dd><p>Valores para o percentil 50% da energia armazenada.</p>
 <p><strong>Retorna</strong></p>
 <p><code class="xref py py-obj docutils literal notranslate"><span class="pre">np.ndarray</span></code></p>
@@ -494,9 +497,9 @@ mensalmente, para todo o período de estudo.</p>
 mensalmente, para todo o período de estudo.</p>
 </dd></dl>
 
-<dl class="py method">
-<dt id="inewave.nwlistop.modelos.mediassin.MediasSIN.percentil_60_energias_armazenadas">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">percentil_60_energias_armazenadas</span></code><a class="headerlink" href="#inewave.nwlistop.modelos.mediassin.MediasSIN.percentil_60_energias_armazenadas" title="Link permanente para esta definição">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.nwlistop.mediassin.MediasSIN.percentil_60_energias_armazenadas">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">percentil_60_energias_armazenadas</span></span><em class="property"><span class="pre">:</span> <span class="pre">numpy.ndarray</span></em><a class="headerlink" href="#inewave.nwlistop.mediassin.MediasSIN.percentil_60_energias_armazenadas" title="Link permanente para esta definição">¶</a></dt>
 <dd><p>Valores para o percentil 60% da energia armazenada.</p>
 <p><strong>Retorna</strong></p>
 <p><code class="xref py py-obj docutils literal notranslate"><span class="pre">np.ndarray</span></code></p>
@@ -505,9 +508,9 @@ mensalmente, para todo o período de estudo.</p>
 mensalmente, para todo o período de estudo.</p>
 </dd></dl>
 
-<dl class="py method">
-<dt id="inewave.nwlistop.modelos.mediassin.MediasSIN.percentil_70_energias_armazenadas">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">percentil_70_energias_armazenadas</span></code><a class="headerlink" href="#inewave.nwlistop.modelos.mediassin.MediasSIN.percentil_70_energias_armazenadas" title="Link permanente para esta definição">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.nwlistop.mediassin.MediasSIN.percentil_70_energias_armazenadas">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">percentil_70_energias_armazenadas</span></span><em class="property"><span class="pre">:</span> <span class="pre">numpy.ndarray</span></em><a class="headerlink" href="#inewave.nwlistop.mediassin.MediasSIN.percentil_70_energias_armazenadas" title="Link permanente para esta definição">¶</a></dt>
 <dd><p>Valores para o percentil 70% da energia armazenada.</p>
 <p><strong>Retorna</strong></p>
 <p><code class="xref py py-obj docutils literal notranslate"><span class="pre">np.ndarray</span></code></p>
@@ -516,9 +519,9 @@ mensalmente, para todo o período de estudo.</p>
 mensalmente, para todo o período de estudo.</p>
 </dd></dl>
 
-<dl class="py method">
-<dt id="inewave.nwlistop.modelos.mediassin.MediasSIN.percentil_80_energias_armazenadas">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">percentil_80_energias_armazenadas</span></code><a class="headerlink" href="#inewave.nwlistop.modelos.mediassin.MediasSIN.percentil_80_energias_armazenadas" title="Link permanente para esta definição">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.nwlistop.mediassin.MediasSIN.percentil_80_energias_armazenadas">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">percentil_80_energias_armazenadas</span></span><em class="property"><span class="pre">:</span> <span class="pre">numpy.ndarray</span></em><a class="headerlink" href="#inewave.nwlistop.mediassin.MediasSIN.percentil_80_energias_armazenadas" title="Link permanente para esta definição">¶</a></dt>
 <dd><p>Valores para o percentil 80% da energia armazenada.</p>
 <p><strong>Retorna</strong></p>
 <p><code class="xref py py-obj docutils literal notranslate"><span class="pre">np.ndarray</span></code></p>
@@ -527,9 +530,9 @@ mensalmente, para todo o período de estudo.</p>
 mensalmente, para todo o período de estudo.</p>
 </dd></dl>
 
-<dl class="py method">
-<dt id="inewave.nwlistop.modelos.mediassin.MediasSIN.percentil_90_energias_armazenadas">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">percentil_90_energias_armazenadas</span></code><a class="headerlink" href="#inewave.nwlistop.modelos.mediassin.MediasSIN.percentil_90_energias_armazenadas" title="Link permanente para esta definição">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.nwlistop.mediassin.MediasSIN.percentil_90_energias_armazenadas">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">percentil_90_energias_armazenadas</span></span><em class="property"><span class="pre">:</span> <span class="pre">numpy.ndarray</span></em><a class="headerlink" href="#inewave.nwlistop.mediassin.MediasSIN.percentil_90_energias_armazenadas" title="Link permanente para esta definição">¶</a></dt>
 <dd><p>Valores para o percentil 90% da energia armazenada.</p>
 <p><strong>Retorna</strong></p>
 <p><code class="xref py py-obj docutils literal notranslate"><span class="pre">np.ndarray</span></code></p>
@@ -538,9 +541,9 @@ mensalmente, para todo o período de estudo.</p>
 mensalmente, para todo o período de estudo.</p>
 </dd></dl>
 
-<dl class="py method">
-<dt id="inewave.nwlistop.modelos.mediassin.MediasSIN.vertimento_controlavel">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">vertimento_controlavel</span></code><a class="headerlink" href="#inewave.nwlistop.modelos.mediassin.MediasSIN.vertimento_controlavel" title="Link permanente para esta definição">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.nwlistop.mediassin.MediasSIN.vertimento_controlavel">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">vertimento_controlavel</span></span><em class="property"><span class="pre">:</span> <span class="pre">numpy.ndarray</span></em><a class="headerlink" href="#inewave.nwlistop.mediassin.MediasSIN.vertimento_controlavel" title="Link permanente para esta definição">¶</a></dt>
 <dd><p>Perdas por vertimento controlável em valores absolutos
 (MWmed).</p>
 <p><strong>Retorna</strong></p>
@@ -550,9 +553,9 @@ mensalmente, para todo o período de estudo.</p>
 é dividida mensalmente, para todo o período de estudo.</p>
 </dd></dl>
 
-<dl class="py method">
-<dt id="inewave.nwlistop.modelos.mediassin.MediasSIN.vertimento_fio_dagua">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">vertimento_fio_dagua</span></code><a class="headerlink" href="#inewave.nwlistop.modelos.mediassin.MediasSIN.vertimento_fio_dagua" title="Link permanente para esta definição">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.nwlistop.mediassin.MediasSIN.vertimento_fio_dagua">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">vertimento_fio_dagua</span></span><em class="property"><span class="pre">:</span> <span class="pre">numpy.ndarray</span></em><a class="headerlink" href="#inewave.nwlistop.mediassin.MediasSIN.vertimento_fio_dagua" title="Link permanente para esta definição">¶</a></dt>
 <dd><p>Perdas por vertimento fio d’água em valores absolutos
 (MWmed).</p>
 <p><strong>Retorna</strong></p>
@@ -562,9 +565,9 @@ mensalmente, para todo o período de estudo.</p>
 é dividida mensalmente, para todo o período de estudo.</p>
 </dd></dl>
 
-<dl class="py method">
-<dt id="inewave.nwlistop.modelos.mediassin.MediasSIN.vertimento_total">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">vertimento_total</span></code><a class="headerlink" href="#inewave.nwlistop.modelos.mediassin.MediasSIN.vertimento_total" title="Link permanente para esta definição">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.nwlistop.mediassin.MediasSIN.vertimento_total">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">vertimento_total</span></span><em class="property"><span class="pre">:</span> <span class="pre">numpy.ndarray</span></em><a class="headerlink" href="#inewave.nwlistop.mediassin.MediasSIN.vertimento_total" title="Link permanente para esta definição">¶</a></dt>
 <dd><p>Perdas por vertimento totais em valores absolutos (MWmed).</p>
 <p><strong>Retorna</strong></p>
 <p><code class="xref py py-obj docutils literal notranslate"><span class="pre">np.ndarray</span></code></p>
@@ -573,9 +576,9 @@ mensalmente, para todo o período de estudo.</p>
 mensalmente, para todo o período de estudo.</p>
 </dd></dl>
 
-<dl class="py method">
-<dt id="inewave.nwlistop.modelos.mediassin.MediasSIN.vertimento_turbinavel">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">vertimento_turbinavel</span></code><a class="headerlink" href="#inewave.nwlistop.modelos.mediassin.MediasSIN.vertimento_turbinavel" title="Link permanente para esta definição">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.nwlistop.mediassin.MediasSIN.vertimento_turbinavel">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">vertimento_turbinavel</span></span><em class="property"><span class="pre">:</span> <span class="pre">numpy.ndarray</span></em><a class="headerlink" href="#inewave.nwlistop.mediassin.MediasSIN.vertimento_turbinavel" title="Link permanente para esta definição">¶</a></dt>
 <dd><p>Vertimentos turbináveis em valores absolutos
 (MWmed).</p>
 <p><strong>Retorna</strong></p>
@@ -583,39 +586,6 @@ mensalmente, para todo o período de estudo.</p>
 <p><strong>Sobre</strong></p>
 <p>A série histórica retornada
 é dividida mensalmente, para todo o período de estudo.</p>
-</dd></dl>
-
-</dd></dl>
-
-</div>
-<div class="section" id="leitura">
-<h2>Leitura<a class="headerlink" href="#leitura" title="Link permanente para este título">¶</a></h2>
-<p>A leitura do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">MEDIAS-SIN.CSV</span></code> é feita através da classe <a class="reference internal" href="#inewave.nwlistop.mediassin.LeituraMediasSIN" title="inewave.nwlistop.mediassin.LeituraMediasSIN"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LeituraMediasSIN</span></code></a>.</p>
-<dl class="py class">
-<dt id="inewave.nwlistop.mediassin.LeituraMediasSIN">
-<em class="property"><span class="pre">class</span> </em><code class="sig-name descname"><span class="pre">LeituraMediasSIN</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">diretorio</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/nwlistop/mediassin.html#LeituraMediasSIN"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.nwlistop.mediassin.LeituraMediasSIN" title="Link permanente para esta definição">¶</a></dt>
-<dd><p>Realiza a leitura do arquivo MEDIAS-SIN.CSV
-existente em um diretório de saídas do NEWAVE.</p>
-<p>Esta classe contém o conjunto de utilidades para ler
-e interpretar os campos do arquivo MEDIAS-SIN.CSV, construindo um
-objeto <code class="xref py py-obj docutils literal notranslate"><span class="pre">MediasSIN</span></code> cujas informações são as mesmas do arquivo.</p>
-<p>Este objeto existe para retirar do modelo de dados a complexidade
-de iterar pelas linhas do arquivo, recortar colunas, converter
-tipos de dados, dentre outras tarefas necessárias para a leitura.</p>
-<p>Uma vez realizada a leitura do arquivo, as informações são guardadas
-internamente no atributo <code class="xref py py-obj docutils literal notranslate"><span class="pre">medias</span></code>.</p>
-<p><strong>Exemplos</strong></p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">diretorio</span> <span class="o">=</span> <span class="s2">&quot;~/documentos/.../deck&quot;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">leitor</span> <span class="o">=</span> <span class="n">LeituraMediasSIN</span><span class="p">(</span><span class="n">diretorio</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">leitor</span><span class="o">.</span><span class="n">le_arquivo</span><span class="p">()</span>
-<span class="go"># Ops, esqueci de pegar o objeto</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">medias</span> <span class="o">=</span> <span class="n">leitor</span><span class="o">.</span><span class="n">medias</span>
-</pre></div>
-</div>
-<dl class="py method">
-<dt id="inewave.nwlistop.mediassin.LeituraMediasSIN.le_arquivo">
-<code class="sig-name descname"><span class="pre">le_arquivo</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nome_arquivo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'MEDIAS-SIN.CSV'</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#inewave.nwlistop.modelos.mediassin.MediasSIN" title="inewave.nwlistop.modelos.mediassin.MediasSIN"><span class="pre">inewave.nwlistop.modelos.mediassin.MediasSIN</span></a><a class="reference internal" href="../../../_modules/inewave/nwlistop/mediassin.html#LeituraMediasSIN.le_arquivo"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.nwlistop.mediassin.LeituraMediasSIN.le_arquivo" title="Link permanente para esta definição">¶</a></dt>
-<dd><p>Lê um arquivo MEDIAS-SIN.CSV em um diretório.</p>
 </dd></dl>
 
 </dd></dl>
@@ -636,7 +606,7 @@ internamente no atributo <code class="xref py py-obj docutils literal notranslat
 
   <div role="contentinfo">
     <p>
-        &#169; Copyright 2021, Rogerio Alves.
+        &#169; Copyright 2021, Rogerio José Menezes Alves.
 
     </p>
   </div>

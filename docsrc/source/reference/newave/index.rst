@@ -7,8 +7,7 @@ NEWAVE
 A estrutura do *inewave* padroniza os objetos de interface existentes para cada um dos três módulos desenvolvidos. 
 A interface com o NEWAVE segue o padrão de implementar modelos para armazenar cada uma das informações existentes
 nos arquivos de entrada e saída, além de classes utilitárias para gerenciar com a leitura e interpretação das informações
-dos arquivos, bem como na geração de novos arquivos. As classes de leitura e escrita tem seus nomes padronizados, sendo estes
-``LeituraMODELO`` e ``EscritaMODELO``, onde ``MODELO`` varia conforma o arquivo do NEWAVE em questão.
+dos arquivos, bem como na geração de novos arquivos.
 
 Classes são nomeadas em ``CamelCase``, enquanto funções, métodos e variáveis recebem seus nomes em ``snake_case``.
 
@@ -17,26 +16,20 @@ Básico da interface NEWAVE
 ----------------------------
 
 É recomendado que a importação seja feita sempre de forma a utilizar somente os objetos que serão de fato necessários para 
-o estudo em questão. Desta forma, não é recomendado importar todo o módulo ``inewave.newave`` ou utilizar o `wildcard` ``*``.
+o estudo em questão. Desta forma, é permitido importar ``inewave.newave`` ou utilizar o `wildcard` ``*``. mas não recomendado.
 
 A importação recomendada é, por exemplo::
 
-    >>> from inewave.newave.dger import LeituraDGer, EscritaDGer
-    >>> from inewave.nwlistop.mediasmerc import LeituraMediasMerc
-
-Em geral, os objetos de leitura são instanciados recebendo um único atributo, que é o diretório de leitura e possuem um dos dois métodos: ``le_arquivo()`` ou ``le_arquivos()``. 
-Os métodos de leitura, além de retornarem os objetos arquiridos dos arquivos de entrada de texto, também armazenam os dados internamente ao objeto de leitura.
+    >>> from inewave.newave.dger import DGer
+    >>> from inewave.nwlistop.mediasmerc import MediasMerc
 
 Para a leitura do arquivo `pmo.dat`::
 
-    >>> from inewave.newave.pmo import LeituraPMO
+    >>> from inewave.newave.pmo import PMO
     >>>
     >>> diretorio = "/home/usuario/..."
-    >>> leitor = LeituraPMO(diretorio)
-    >>> leitor.le_arquivo()
-    <inewave.newave.modelos.pmo.PMO object at 0x000001BC7663B340>
-    >>> leitor.pmo
-    <inewave.newave.modelos.pmo.PMO object at 0x000001BC7663B340>
+    >>> pmo = PMO.le_arquivo(diretorio)
+    <inewave.newave.pmo.PMO object at 0x000001BC7663B340>
 
 Para a leitura dos arquivos `cmarg00x.out`::
 

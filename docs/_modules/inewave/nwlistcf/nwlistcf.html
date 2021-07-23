@@ -13,6 +13,8 @@
   
   <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/gallery-binder.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/gallery-dataframe.css" type="text/css" />
@@ -33,6 +35,7 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
         <script src="../../../_static/underscore.js"></script>
         <script src="../../../_static/doctools.js"></script>
@@ -157,129 +160,51 @@
            <div itemprop="articleBody">
             
   <h1>Código fonte para inewave.nwlistcf.nwlistcf</h1><div class="highlight"><pre>
-<span></span><span class="c1"># Imports do próprio módulo</span>
-<span class="kn">from</span> <span class="nn">inewave.config</span> <span class="kn">import</span> <span class="n">REES</span>
-<span class="kn">from</span> <span class="nn">inewave._utils.leitura</span> <span class="kn">import</span> <span class="n">Leitura</span>
-<span class="kn">from</span> <span class="nn">.modelos.nwlistcf</span> <span class="kn">import</span> <span class="n">Nwlistcf</span><span class="p">,</span> <span class="n">RegistroNwlistcf</span>
-<span class="c1"># Imports de módulos externos</span>
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>  <span class="c1"># type: ignore</span>
-<span class="kn">from</span> <span class="nn">traceback</span> <span class="kn">import</span> <span class="n">print_exc</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">IO</span><span class="p">,</span> <span class="n">Dict</span>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
+
+<span class="kn">from</span> <span class="nn">inewave._utils.escrita</span> <span class="kn">import</span> <span class="n">Escrita</span>
+<span class="kn">from</span> <span class="nn">inewave._utils.arquivo</span> <span class="kn">import</span> <span class="n">Arquivo</span>
+<span class="kn">from</span> <span class="nn">inewave._utils.dadosarquivo</span> <span class="kn">import</span> <span class="n">DadosArquivo</span>
+<span class="kn">from</span> <span class="nn">inewave.nwlistcf.modelos.nwlistcf</span> <span class="kn">import</span> <span class="n">LeituraNwlistcf</span>
+<span class="kn">from</span> <span class="nn">inewave.nwlistcf.modelos.nwlistcf</span> <span class="kn">import</span> <span class="n">RegistroNwlistcf</span>
 
 
-<div class="viewcode-block" id="LeituraNwlistcf"><a class="viewcode-back" href="../../../reference/nwlistcf/arquivos/nwlistcf.html#inewave.nwlistcf.nwlistcf.LeituraNwlistcf">[documentos]</a><span class="k">class</span> <span class="nc">LeituraNwlistcf</span><span class="p">(</span><span class="n">Leitura</span><span class="p">):</span>
+<div class="viewcode-block" id="Nwlistcf"><a class="viewcode-back" href="../../../reference/nwlistcf/arquivos/nwlistcf.html#inewave.nwlistcf.nwlistcf.Nwlistcf">[documentos]</a><span class="k">class</span> <span class="nc">Nwlistcf</span><span class="p">(</span><span class="n">Arquivo</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Realiza a leitura do arquivo nwlistcf.rel,</span>
-<span class="sd">    existente em um diretório de saídas do NWLISTCF.</span>
+<span class="sd">    Armazena os dados dos cortes construídos pelo NEWAVE existentes</span>
+<span class="sd">    no arquivo `nwlistcf.rel` do NWLISTCF.</span>
 
-<span class="sd">    Esta classe contém o conjunto de utilidades para ler</span>
-<span class="sd">    e interpretar os campos do arquivo nwlistcf.rel, construindo um</span>
-<span class="sd">    objeto `Nwlistcf` cujas informações são as mesmas do arquivo.</span>
+<span class="sd">    Esta classe armazena os cortes da FCF de cada uma das variáveis,</span>
+<span class="sd">    para cada registro e REE dentro do registro.</span>
 
-<span class="sd">    Este objeto existe para retirar do modelo de dados a complexidade</span>
-<span class="sd">    de iterar pelas linhas do arquivo, recortar colunas, converter</span>
-<span class="sd">    tipos de dados, dentre outras tarefas necessárias para a leitura.</span>
-
-<span class="sd">    Uma vez realizada a leitura do arquivo, as informações são guardadas</span>
-<span class="sd">    internamente no atributo `nwlistcf`.</span>
-
-<span class="sd">    **Exemplos**</span>
-
-<span class="sd">    &gt;&gt;&gt; diretorio = &quot;~/documentos/.../deck&quot;</span>
-<span class="sd">    &gt;&gt;&gt; leitor = LeituraNwlistcf(diretorio)</span>
-<span class="sd">    &gt;&gt;&gt; leitor.le_arquivo()</span>
-<span class="sd">    # Ops, esqueci de pegar o objeto</span>
-<span class="sd">    &gt;&gt;&gt; nwlist= leitor.nwlist</span>
+<span class="sd">    Cada registro possui um modelo próprio, armazenando os coeficientes</span>
+<span class="sd">    dos hiperplanos em uma array específica.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">str_inicio_periodo</span> <span class="o">=</span> <span class="s2">&quot;  PERIODO:      &quot;</span>
-
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                 <span class="n">diretorio</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">diretorio</span> <span class="o">=</span> <span class="n">diretorio</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">nwlistcf</span> <span class="o">=</span> <span class="n">Nwlistcf</span><span class="p">({})</span>
+                 <span class="n">dados</span><span class="p">:</span> <span class="n">DadosArquivo</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">dados</span><span class="p">)</span>
 
-<div class="viewcode-block" id="LeituraNwlistcf.le_arquivo"><a class="viewcode-back" href="../../../reference/nwlistcf/arquivos/nwlistcf.html#inewave.nwlistcf.nwlistcf.LeituraNwlistcf.le_arquivo">[documentos]</a>    <span class="k">def</span> <span class="nf">le_arquivo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nome_arquivo</span><span class="o">=</span><span class="s2">&quot;nwlistcf.rel&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Nwlistcf</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Faz a leitura do arquivo `nwlistcf.rel`.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">achou</span> <span class="o">=</span> <span class="kc">False</span>
-            <span class="n">caminho</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">diretorio</span><span class="p">,</span> <span class="n">nome_arquivo</span><span class="p">)</span>
-            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">caminho</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">arq</span><span class="p">:</span>
-                <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-                    <span class="n">linha</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
-                    <span class="c1"># Verifica se o arquivo acabou</span>
-                    <span class="k">if</span> <span class="n">achou</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">linha</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
-                        <span class="k">break</span>
-                    <span class="c1"># Verifica se a próxima linha indica um novo período</span>
-                    <span class="k">if</span> <span class="n">LeituraNwlistcf</span><span class="o">.</span><span class="n">str_inicio_periodo</span> <span class="ow">in</span> <span class="n">linha</span><span class="p">:</span>
-                        <span class="n">achou</span> <span class="o">=</span> <span class="kc">True</span>
-                        <span class="n">periodo</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">linha</span><span class="p">[</span><span class="mi">12</span><span class="p">:]</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
-                        <span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_periodo</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">nwlistcf</span><span class="o">.</span><span class="n">registros</span><span class="p">[</span><span class="n">periodo</span><span class="p">]</span> <span class="o">=</span> <span class="n">p</span>
-                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">nwlistcf</span>
-        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-            <span class="n">print_exc</span><span class="p">()</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">nwlistcf</span></div>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">le_arquivo</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span>
+                   <span class="n">diretorio</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                   <span class="n">nome_arquivo</span><span class="o">=</span><span class="s2">&quot;nwlistcf.rel&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;Nwlistcf&#39;</span><span class="p">:</span>
+        <span class="n">leitor</span> <span class="o">=</span> <span class="n">LeituraNwlistcf</span><span class="p">(</span><span class="n">diretorio</span><span class="p">)</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">leitor</span><span class="o">.</span><span class="n">le_arquivo</span><span class="p">(</span><span class="n">nome_arquivo</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_le_periodo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arq</span><span class="p">:</span> <span class="n">IO</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">RegistroNwlistcf</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Lê um período do arquivo nwlistcf.rel.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># Salta duas linhas para acessar a tabela</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
-        <span class="n">p</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">RegistroNwlistcf</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-            <span class="c1"># Verifica se a próxima linha é o início do</span>
-            <span class="c1"># próximo período ou é vazia</span>
-            <span class="n">linha</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
-            <span class="k">if</span> <span class="p">(</span><span class="n">LeituraNwlistcf</span><span class="o">.</span><span class="n">str_inicio_periodo</span> <span class="ow">in</span> <span class="n">linha</span>
-                    <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">linha</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">):</span>
-                <span class="k">break</span>
-            <span class="c1"># Senão, lê mais um registro</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_configura_backup</span><span class="p">()</span>
-            <span class="n">reg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_registro</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
-            <span class="n">p</span><span class="p">[</span><span class="n">reg</span><span class="o">.</span><span class="n">ireg</span><span class="p">]</span> <span class="o">=</span> <span class="n">reg</span>
+    <span class="k">def</span> <span class="nf">escreve_arquivo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                        <span class="n">diretorio</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                        <span class="n">nome_arquivo</span><span class="o">=</span><span class="s2">&quot;nwlistcf.rel&quot;</span><span class="p">):</span>
+        <span class="n">escritor</span> <span class="o">=</span> <span class="n">Escrita</span><span class="p">(</span><span class="n">diretorio</span><span class="p">)</span>
+        <span class="n">escritor</span><span class="o">.</span><span class="n">escreve_arquivo</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_dados</span><span class="p">,</span> <span class="n">nome_arquivo</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">p</span>
-
-    <span class="k">def</span> <span class="nf">_le_registro</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arq</span><span class="p">:</span> <span class="n">IO</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RegistroNwlistcf</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">primeira_linha</span> <span class="o">=</span> <span class="kc">True</span>
-        <span class="n">n_rees</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">REES</span><span class="p">)</span>
-        <span class="n">n_cols_tabela</span> <span class="o">=</span> <span class="mi">16</span>
-        <span class="n">ireg</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="n">rhs</span> <span class="o">=</span> <span class="mf">0.0</span>
-        <span class="n">tabela</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_rees</span><span class="p">,</span> <span class="n">n_cols_tabela</span><span class="p">))</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_rees</span><span class="p">):</span>
-            <span class="n">linha</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_le_linha_com_backup</span><span class="p">(</span><span class="n">arq</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">primeira_linha</span><span class="p">:</span>
-                <span class="n">primeira_linha</span> <span class="o">=</span> <span class="kc">False</span>
-                <span class="c1"># Extrai os campos específicos da primeira linha</span>
-                <span class="n">ireg</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">linha</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">10</span><span class="p">])</span>
-                <span class="n">rhs</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">linha</span><span class="p">[</span><span class="mi">15</span><span class="p">:</span><span class="mi">30</span><span class="p">])</span>
-            <span class="c1"># Preenche a tabela com os dados do registro</span>
-            <span class="n">ree</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">linha</span><span class="p">[</span><span class="mi">11</span><span class="p">:</span><span class="mi">14</span><span class="p">])</span>
-            <span class="n">ci</span> <span class="o">=</span> <span class="mi">31</span>
-            <span class="n">nc</span> <span class="o">=</span> <span class="mi">17</span>
-            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_cols_tabela</span><span class="p">):</span>
-                <span class="n">cf</span> <span class="o">=</span> <span class="n">ci</span> <span class="o">+</span> <span class="n">nc</span>
-                <span class="n">num_str</span> <span class="o">=</span> <span class="n">linha</span><span class="p">[</span><span class="n">ci</span><span class="p">:</span><span class="n">cf</span><span class="p">]</span>
-                <span class="n">valor</span> <span class="o">=</span> <span class="mf">0.0</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">num_str</span><span class="o">.</span><span class="n">isnumeric</span><span class="p">()</span> <span class="k">else</span> <span class="nb">float</span><span class="p">(</span><span class="n">num_str</span><span class="p">)</span>
-                <span class="n">tabela</span><span class="p">[</span><span class="n">ree</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">valor</span>
-                <span class="n">ci</span> <span class="o">=</span> <span class="n">cf</span> <span class="o">+</span> <span class="mi">1</span>
-
-        <span class="k">return</span> <span class="n">RegistroNwlistcf</span><span class="p">(</span><span class="n">ireg</span><span class="p">,</span>
-                                <span class="n">rhs</span><span class="p">,</span>
-                                <span class="n">tabela</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">_fim_arquivo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">linha</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">_fim_arquivo</span><span class="p">(</span><span class="n">linha</span><span class="p">)</span></div>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">registros</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">RegistroNwlistcf</span><span class="p">]:</span>
+        <span class="n">registros</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">RegistroNwlistcf</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_blocos</span><span class="p">:</span>
+            <span class="n">registros</span> <span class="o">+=</span> <span class="n">b</span><span class="o">.</span><span class="n">dados</span>
+        <span class="k">return</span> <span class="n">registros</span></div>
 </pre></div>
 
            </div>
@@ -291,7 +216,7 @@
 
   <div role="contentinfo">
     <p>
-        &#169; Copyright 2021, Rogerio Alves.
+        &#169; Copyright 2021, Rogerio José Menezes Alves.
 
     </p>
   </div>

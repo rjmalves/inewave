@@ -54,4 +54,4 @@ Procedimentos de teste
 
 O *inewave* realiza testes utilizando o pacote de testes de Python ``pytest``. Para maiores informações, é recomendado acessar a `página <https://pytest.org>`_.
 
-Além dos testes, o código também tem sua qualidade aferida com o uso de `flake8 <https://flake8.pycqa.org/en/latest/>`_ e `mypy <http://mypy-lang.org/>`_.
+Além dos testes, o código também tem sua qualidade aferida com o uso de `Pylama <https://pylama.readthedocs.io/en/latest//>`_ e `mypy <http://mypy-lang.org/>`_.

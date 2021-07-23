@@ -21,8 +21,8 @@ from inewave import __version__  # noqa: E402
 # -- Project information -----------------------------------------------------
 
 project = 'inewave'
-copyright = '2021, Rogerio Alves'
-author = 'Rogerio Alves'
+copyright = '2021, Rogerio José Menezes Alves'
+author = 'Rogerio José Menezes Alves'
 
 # The full version, including alpha/beta/rc tags
 release = __version__

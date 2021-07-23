@@ -13,6 +13,8 @@
   
   <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/gallery-binder.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/gallery-dataframe.css" type="text/css" />
@@ -33,6 +35,7 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
         <script src="../../../_static/underscore.js"></script>
         <script src="../../../_static/doctools.js"></script>
@@ -184,8 +187,8 @@
 <p>Os estados visitados pelo NEWAVE durante o cálculo da política de operação, localizados no arquivo geralmente denominado
 estados.rel, são armazenados na classe:</p>
 <dl class="py class">
-<dt id="inewave.nwlistcf.modelos.estados.Estados">
-<em class="property"><span class="pre">class</span> </em><code class="sig-name descname"><span class="pre">Estados</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">registros</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span> </span><span class="pre">inewave.nwlistcf.modelos.estados.RegistroEstado</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/nwlistcf/modelos/estados.html#Estados"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.nwlistcf.modelos.estados.Estados" title="Link permanente para esta definição">¶</a></dt>
+<dt class="sig sig-object py" id="inewave.nwlistcf.estados.Estados">
+<em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">Estados</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dados</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">inewave._utils.dadosarquivo.DadosArquivo</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/nwlistcf/estados.html#Estados"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.nwlistcf.estados.Estados" title="Link permanente para esta definição">¶</a></dt>
 <dd><p>Armazena os dados dos estados visitados pelo NEWAVE existentes
 no arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">estados.rel</span></code> do NWLISTCF.</p>
 <p>Esta classe armazena os estados de cada uma das variáveis envolvidas
@@ -193,43 +196,6 @@ no problema e da função objetivo, para cada registro e REE dentro
 do registro.</p>
 <p>Cada registro possui um modelo próprio, armazenando os estados das
 variáveis em uma array específica.</p>
-<p><strong>Parâmetros</strong></p>
-<ul class="simple">
-<li><p>registros: <code class="xref py py-obj docutils literal notranslate"><span class="pre">Dict[int,</span> <span class="pre">Dict[int,</span> <span class="pre">RegistroEstado]]</span></code></p></li>
-</ul>
-</dd></dl>
-
-</div>
-<div class="section" id="leitura">
-<h2>Leitura<a class="headerlink" href="#leitura" title="Link permanente para este título">¶</a></h2>
-<p>A leitura do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">estados.rel</span></code> é feita através da classe <a class="reference internal" href="#inewave.nwlistcf.estados.LeituraEstados" title="inewave.nwlistcf.estados.LeituraEstados"><code class="xref py py-class docutils literal notranslate"><span class="pre">LeituraEstados</span></code></a>.</p>
-<dl class="py class">
-<dt id="inewave.nwlistcf.estados.LeituraEstados">
-<em class="property"><span class="pre">class</span> </em><code class="sig-name descname"><span class="pre">LeituraEstados</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">diretorio</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/nwlistcf/estados.html#LeituraEstados"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.nwlistcf.estados.LeituraEstados" title="Link permanente para esta definição">¶</a></dt>
-<dd><p>Realiza a leitura do arquivo estados.rel,
-existente em um diretório de saídas do NWLISTCF.</p>
-<p>Esta classe contém o conjunto de utilidades para ler
-e interpretar os campos do arquivo estados.rel, construindo um
-objeto <code class="xref py py-obj docutils literal notranslate"><span class="pre">Estados</span></code> cujas informações são as mesmas do arquivo.</p>
-<p>Este objeto existe para retirar do modelo de dados a complexidade
-de iterar pelas linhas do arquivo, recortar colunas, converter
-tipos de dados, dentre outras tarefas necessárias para a leitura.</p>
-<p>Uma vez realizada a leitura do arquivo, as informações são guardadas
-internamente no atributo <code class="xref py py-obj docutils literal notranslate"><span class="pre">estados</span></code>.</p>
-<p><strong>Exemplos</strong></p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">diretorio</span> <span class="o">=</span> <span class="s2">&quot;~/documentos/.../deck&quot;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">leitor</span> <span class="o">=</span> <span class="n">LeituraEstados</span><span class="p">(</span><span class="n">diretorio</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">leitor</span><span class="o">.</span><span class="n">le_arquivo</span><span class="p">()</span>
-<span class="go"># Ops, esqueci de pegar o objeto</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">estados</span> <span class="o">=</span> <span class="n">leitor</span><span class="o">.</span><span class="n">estados</span>
-</pre></div>
-</div>
-<dl class="py method">
-<dt id="inewave.nwlistcf.estados.LeituraEstados.le_arquivo">
-<code class="sig-name descname"><span class="pre">le_arquivo</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nome_arquivo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'estados.rel'</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#inewave.nwlistcf.modelos.estados.Estados" title="inewave.nwlistcf.modelos.estados.Estados"><span class="pre">inewave.nwlistcf.modelos.estados.Estados</span></a><a class="reference internal" href="../../../_modules/inewave/nwlistcf/estados.html#LeituraEstados.le_arquivo"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.nwlistcf.estados.LeituraEstados.le_arquivo" title="Link permanente para esta definição">¶</a></dt>
-<dd><p>Faz a leitura do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">estados.rel</span></code>.</p>
-</dd></dl>
-
 </dd></dl>
 
 </div>
@@ -249,7 +215,7 @@ internamente no atributo <code class="xref py py-obj docutils literal notranslat
 
   <div role="contentinfo">
     <p>
-        &#169; Copyright 2021, Rogerio Alves.
+        &#169; Copyright 2021, Rogerio José Menezes Alves.
 
     </p>
   </div>

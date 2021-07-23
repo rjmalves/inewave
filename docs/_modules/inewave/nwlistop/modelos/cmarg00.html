@@ -13,6 +13,8 @@
   
   <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../../_static/gallery.css" type="text/css" />
   <link rel="stylesheet" href="../../../../_static/gallery-binder.css" type="text/css" />
   <link rel="stylesheet" href="../../../../_static/gallery-dataframe.css" type="text/css" />
@@ -33,6 +35,7 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
         <script src="../../../../_static/jquery.js"></script>
         <script src="../../../../_static/underscore.js"></script>
         <script src="../../../../_static/doctools.js"></script>
@@ -159,7 +162,7 @@
   <h1>Código fonte para inewave.nwlistop.modelos.cmarg00</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>  <span class="c1"># type: ignore</span>
-<span class="kn">from</span> <span class="nn">inewave.newave.modelos.patamar</span> <span class="kn">import</span> <span class="n">Patamar</span>
+<span class="kn">from</span> <span class="nn">inewave.newave.patamar</span> <span class="kn">import</span> <span class="n">Patamar</span>
 <span class="kn">from</span> <span class="nn">inewave.config</span> <span class="kn">import</span> <span class="n">NUM_PATAMARES</span><span class="p">,</span> <span class="n">NUM_CENARIOS</span><span class="p">,</span> <span class="n">MESES</span>
 
 
@@ -235,7 +238,8 @@
         <span class="n">patamares_anos</span> <span class="o">=</span> <span class="n">patamar</span><span class="o">.</span><span class="n">patamares_por_ano</span>
         <span class="c1"># Confere se os anos de estudo do objeto Patamar fornecido</span>
         <span class="c1"># são os mesmos do cmarg00</span>
-        <span class="k">if</span> <span class="n">patamar</span><span class="o">.</span><span class="n">anos_estudo</span> <span class="o">!=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">custos_patamares</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">array_equal</span><span class="p">(</span><span class="n">patamar</span><span class="o">.</span><span class="n">anos_estudo</span><span class="p">,</span>
+                              <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">custos_patamares</span><span class="o">.</span><span class="n">keys</span><span class="p">()))):</span>
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Objeto Patamar incompatível com Cmarg00&quot;</span><span class="p">)</span>
         <span class="c1"># Inicializa a variável que irá conter os custos médios</span>
         <span class="n">n_meses</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">MESES</span><span class="p">)</span>
@@ -412,7 +416,7 @@
 
   <div role="contentinfo">
     <p>
-        &#169; Copyright 2021, Rogerio Alves.
+        &#169; Copyright 2021, Rogerio José Menezes Alves.
 
     </p>
   </div>
