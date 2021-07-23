@@ -1,7 +1,7 @@
 .. _vazpast:
 
 ==========================================
-Vazões Anteriores ao Estudo (vazpast.dat)
+Tendência Hidrológica (vazpast.dat)
 ==========================================
 
 .. currentmodule:: inewave.newave.vazpast

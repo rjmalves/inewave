@@ -1,0 +1,264 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="pt-BR" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>inewave.newave.adterm &mdash; documentação inewave 0.0.29</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/gallery-binder.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/gallery-dataframe.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/gallery-rendered-html.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/translations.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Índice" href="../../../genindex.html" />
+    <link rel="search" title="Buscar" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> inewave
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Pesquisar documentos" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Instalação</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reference.html">Referência</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">inewave</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Código do módulo</a> &raquo;</li>
+        
+      <li>inewave.newave.adterm</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Código fonte para inewave.newave.adterm</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">inewave._utils.arquivo</span> <span class="kn">import</span> <span class="n">Arquivo</span>
+<span class="kn">from</span> <span class="nn">inewave._utils.dadosarquivo</span> <span class="kn">import</span> <span class="n">DadosArquivo</span>
+<span class="kn">from</span> <span class="nn">inewave._utils.escrita</span> <span class="kn">import</span> <span class="n">Escrita</span>
+<span class="kn">from</span> <span class="nn">inewave.newave.modelos.adterm</span> <span class="kn">import</span> <span class="n">LeituraAdTerm</span>
+
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>  <span class="c1"># type: ignore</span>
+
+
+<div class="viewcode-block" id="AdTerm"><a class="viewcode-back" href="../../../reference/newave/arquivos/adterm.html#inewave.newave.adterm.AdTerm">[documentos]</a><span class="k">class</span> <span class="nc">AdTerm</span><span class="p">(</span><span class="n">Arquivo</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Armazena os dados de entrada do NEWAVE referentes às térmicas de</span>
+<span class="sd">    despacho antecipado disponíveis.</span>
+
+<span class="sd">    **Parâmetros**</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">dados</span><span class="p">:</span> <span class="n">DadosArquivo</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">dados</span><span class="p">)</span>
+
+    <span class="c1"># Override</span>
+<div class="viewcode-block" id="AdTerm.le_arquivo"><a class="viewcode-back" href="../../../reference/newave/arquivos/adterm.html#inewave.newave.adterm.AdTerm.le_arquivo">[documentos]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">le_arquivo</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span>
+                   <span class="n">diretorio</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                   <span class="n">nome_arquivo</span><span class="o">=</span><span class="s2">&quot;adterm.dat&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;AdTerm&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">leitor</span> <span class="o">=</span> <span class="n">LeituraAdTerm</span><span class="p">(</span><span class="n">diretorio</span><span class="p">)</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">leitor</span><span class="o">.</span><span class="n">le_arquivo</span><span class="p">(</span><span class="n">nome_arquivo</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">r</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AdTerm.escreve_arquivo"><a class="viewcode-back" href="../../../reference/newave/arquivos/adterm.html#inewave.newave.adterm.AdTerm.escreve_arquivo">[documentos]</a>    <span class="k">def</span> <span class="nf">escreve_arquivo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                        <span class="n">diretorio</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                        <span class="n">nome_arquivo</span><span class="o">=</span><span class="s2">&quot;adterm.dat&quot;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">escritor</span> <span class="o">=</span> <span class="n">Escrita</span><span class="p">(</span><span class="n">diretorio</span><span class="p">)</span>
+        <span class="n">escritor</span><span class="o">.</span><span class="n">escreve_arquivo</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_dados</span><span class="p">,</span>
+                                 <span class="n">nome_arquivo</span><span class="p">)</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">despachos</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Despachos antecipados das térmicas GNL.</span>
+
+<span class="sd">        **Retorna**</span>
+
+<span class="sd">        `pd.DataFrame`</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_blocos</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">dados</span>
+
+    <span class="nd">@despachos</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">despachos</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">term</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_blocos</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">dados</span> <span class="o">=</span> <span class="n">term</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Rogerio José Menezes Alves.
+
+    </p>
+  </div>
+    
+    
+    
+    Compilado com <a href="https://www.sphinx-doc.org/">Sphinx</a> usando um
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">tema</a>
+    
+    fornecido por <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

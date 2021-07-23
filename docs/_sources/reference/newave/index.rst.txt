@@ -55,6 +55,11 @@ Arquivos
    :maxdepth: 2
 
    arquivos/dger
+   arquivos/adterm
+   arquivos/cadic
+   arquivos/curva
+   arquivos/re
+   arquivos/sistema
    arquivos/patamar
    arquivos/pmo
    arquivos/confhd

@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Tendência Hidrológica (vazpast.dat) &mdash; documentação inewave 0.0.29</title>
+  <title>Despacho Antecipado de Térmicas (adterm.dat) &mdash; documentação inewave 0.0.29</title>
   
 
   
@@ -46,8 +46,8 @@
     
     <link rel="index" title="Índice" href="../../../genindex.html" />
     <link rel="search" title="Buscar" href="../../../search.html" />
-    <link rel="next" title="Acompanhamento do modelo PAR(p) (parp.dat)" href="parp.html" />
-    <link rel="prev" title="Outros Usos da Água (dsvagua.dat)" href="dsvagua.html" /> 
+    <link rel="next" title="Cargas Adicionais (c_adic.dat)" href="cadic.html" />
+    <link rel="prev" title="Dados Gerais (dger.dat)" href="dger.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -100,7 +100,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../index.html#basico-da-interface-newave">Básico da interface NEWAVE</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="../index.html#arquivos">Arquivos</a><ul class="current">
 <li class="toctree-l4"><a class="reference internal" href="dger.html">Dados Gerais (dger.dat)</a></li>
-<li class="toctree-l4"><a class="reference internal" href="adterm.html">Despacho Antecipado de Térmicas (adterm.dat)</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Despacho Antecipado de Térmicas (adterm.dat)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="cadic.html">Cargas Adicionais (c_adic.dat)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="curva.html">Curva de Segurança dos Armazenamentos (curva.dat)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="re.html">Restrições Elétricas (re.dat)</a></li>
@@ -109,7 +109,7 @@
 <li class="toctree-l4"><a class="reference internal" href="pmo.html">Acompanhamento do Programa (pmo.dat)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="confhd.html">Configurações das Hidrelétricas (confhd.dat)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="dsvagua.html">Outros Usos da Água (dsvagua.dat)</a></li>
-<li class="toctree-l4 current"><a class="current reference internal" href="#">Tendência Hidrológica (vazpast.dat)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="vazpast.html">Tendência Hidrológica (vazpast.dat)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="parp.html">Acompanhamento do modelo PAR(p) (parp.dat)</a></li>
 </ul>
 </li>
@@ -171,13 +171,13 @@
         
           <li><a href="../index.html">NEWAVE</a> &raquo;</li>
         
-      <li>Tendência Hidrológica (vazpast.dat)</li>
+      <li>Despacho Antecipado de Térmicas (adterm.dat)</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="../../../_sources/reference/newave/arquivos/vazpast.rst.txt" rel="nofollow"> Ver código-fonte da página</a>
+            <a href="../../../_sources/reference/newave/arquivos/adterm.rst.txt" rel="nofollow"> Ver código-fonte da página</a>
           
         
       </li>
@@ -190,19 +190,36 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="tendencia-hidrologica-vazpast-dat">
-<span id="vazpast"></span><h1>Tendência Hidrológica (vazpast.dat)<a class="headerlink" href="#tendencia-hidrologica-vazpast-dat" title="Link permanente para este título">¶</a></h1>
+  <div class="section" id="despacho-antecipado-de-termicas-adterm-dat">
+<span id="adterm"></span><h1>Despacho Antecipado de Térmicas (adterm.dat)<a class="headerlink" href="#despacho-antecipado-de-termicas-adterm-dat" title="Link permanente para este título">¶</a></h1>
 <div class="section" id="visao-geral-do-modelo">
 <h2>Visão geral do modelo<a class="headerlink" href="#visao-geral-do-modelo" title="Link permanente para este título">¶</a></h2>
-<p>As vazões no ano anterior ao estudo fornecidos ao NEWAVE, localizadas no arquivo geralmente denominado
-vazpast.dat, são armazenadas na classe:</p>
+<p>As configurações do despacho de térmicas antecipadas do NEWAVE
+, localizados no arquivo geralmente denominado adterm.dat, são armazenados na classe:</p>
 <dl class="py class">
-<dt class="sig sig-object py" id="inewave.newave.vazpast.VazPast">
-<em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">VazPast</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dados</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">inewave._utils.dadosarquivo.DadosArquivo</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/newave/vazpast.html#VazPast"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.vazpast.VazPast" title="Link permanente para esta definição">¶</a></dt>
-<dd><p>Armazena os dados de entrada do NEWAVE referentes às
-vazões anteriores ao período de planejamento.</p>
-<p>Esta classe lida com informações de entrada fornecidas ao NEWAVE e
-que são usadas juntos das contidas no arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">vazoes.dat</span></code>.</p>
+<dt class="sig sig-object py" id="inewave.newave.adterm.AdTerm">
+<em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">AdTerm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dados</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">inewave._utils.dadosarquivo.DadosArquivo</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/newave/adterm.html#AdTerm"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.adterm.AdTerm" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Armazena os dados de entrada do NEWAVE referentes às térmicas de
+despacho antecipado disponíveis.</p>
+<p><strong>Parâmetros</strong></p>
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.adterm.AdTerm.despachos">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">despachos</span></span><em class="property"><span class="pre">:</span> <span class="pre">pandas.core.frame.DataFrame</span></em><a class="headerlink" href="#inewave.newave.adterm.AdTerm.despachos" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Despachos antecipados das térmicas GNL.</p>
+<p><strong>Retorna</strong></p>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pd.DataFrame</span></code></p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="inewave.newave.adterm.AdTerm.escreve_arquivo">
+<span class="sig-name descname"><span class="pre">escreve_arquivo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">diretorio</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nome_arquivo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'adterm.dat'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/newave/adterm.html#AdTerm.escreve_arquivo"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.adterm.AdTerm.escreve_arquivo" title="Link permanente para esta definição">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="inewave.newave.adterm.AdTerm.le_arquivo">
+<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">le_arquivo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">diretorio</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nome_arquivo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'adterm.dat'</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#inewave.newave.adterm.AdTerm" title="inewave.newave.adterm.AdTerm"><span class="pre">inewave.newave.adterm.AdTerm</span></a><a class="reference internal" href="../../../_modules/inewave/newave/adterm.html#AdTerm.le_arquivo"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.adterm.AdTerm.le_arquivo" title="Link permanente para esta definição">¶</a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 </div>
@@ -214,8 +231,8 @@ que são usadas juntos das contidas no arquivo <code class="xref py py-obj docut
           </div>
           <footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="parp.html" class="btn btn-neutral float-right" title="Acompanhamento do modelo PAR(p) (parp.dat)" accesskey="n" rel="next">Próximo <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-        <a href="dsvagua.html" class="btn btn-neutral float-left" title="Outros Usos da Água (dsvagua.dat)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Anterior</a>
+        <a href="cadic.html" class="btn btn-neutral float-right" title="Cargas Adicionais (c_adic.dat)" accesskey="n" rel="next">Próximo <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="dger.html" class="btn btn-neutral float-left" title="Dados Gerais (dger.dat)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Anterior</a>
     </div>
 
   <hr/>
