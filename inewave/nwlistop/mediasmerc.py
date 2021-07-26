@@ -3,7 +3,7 @@ import numpy as np  # type: ignore
 import pandas as pd  # type: ignore
 
 from inewave.config import SUBMERCADOS, NUM_VARIAVEIS_MEDIAS
-from inewave.nwlistop.leitura.mediasmerc import LeituraMediasMerc
+from inewave.nwlistop.modelos.mediasmerc import LeituraMediasMerc
 
 
 class MediasMerc:

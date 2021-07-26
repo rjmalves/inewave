@@ -1,6 +1,6 @@
 from inewave._utils.arquivo import Arquivo
 from inewave._utils.dadosarquivo import DadosArquivo
-from inewave.nwlistop.leitura.earmfpm00 import LeituraEarmfpm00
+from inewave.nwlistop.modelos.earmfpm00 import LeituraEarmfpm00
 
 import pandas as pd  # type: ignore
 

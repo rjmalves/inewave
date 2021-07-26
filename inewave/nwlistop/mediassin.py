@@ -1,7 +1,7 @@
 import numpy as np  # type: ignore
 import pandas as pd  # type: ignore
 
-from inewave.nwlistop.leitura.mediassin import LeituraMediasSIN
+from inewave.nwlistop.modelos.mediassin import LeituraMediasSIN
 
 
 class MediasSIN:
