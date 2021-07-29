@@ -10,26 +10,26 @@ import pandas as pd  # type: ignore
 from typing import IO, List
 
 
-class BlocoCmargPatamarAno(Bloco):
+class BlocoGeracaoTermicaTotalSIN(Bloco):
     """
-    Bloco com as informações das tabelas de custo marginal
-    por patamar e por mês/ano de estudo.
+    Bloco com as informações das tabelas de geração térmica total
+    para o SIN por patamar.
     """
-    str_inicio = "CUSTO MARGINAL DE DEMANDA ($/MWh)"
+    str_inicio = "GERACAO TERMICA TOTAL PARA O SIN (MWmes)"
     str_fim = ""
 
     def __init__(self):
 
-        super().__init__(BlocoCmargPatamarAno.str_inicio,
+        super().__init__(BlocoGeracaoTermicaTotalSIN.str_inicio,
                          "",
                          True)
 
-        self._dados = ["", pd.DataFrame()]
+        self._dados = pd.DataFrame()
 
     def __eq__(self, o: object):
-        if not isinstance(o, BlocoCmargPatamarAno):
+        if not isinstance(o, BlocoGeracaoTermicaTotalSIN):
             return False
-        bloco: BlocoCmargPatamarAno = o
+        bloco: BlocoGeracaoTermicaTotalSIN = o
         return all([
                     self._dados[0] == bloco.dados[0],
                     self._dados[1].equals(bloco._dados[1])
@@ -50,35 +50,34 @@ class BlocoCmargPatamarAno(Bloco):
         # Salta a primeira linha
         arq.readline()
         # Variáveis auxiliares
-        anos = np.zeros((NUM_CENARIOS * MAX_ANOS_ESTUDO * NUM_PATAMARES,),
+        anos = np.zeros((NUM_CENARIOS * MAX_ANOS_ESTUDO *
+                         (NUM_PATAMARES + 1),),
                         dtype=np.int64)
-        serie = np.zeros((NUM_CENARIOS * MAX_ANOS_ESTUDO * NUM_PATAMARES,),
+        serie = np.zeros((NUM_CENARIOS * MAX_ANOS_ESTUDO *
+                          (NUM_PATAMARES + 1),),
                          dtype=np.int64)
-        patamar = np.zeros((NUM_CENARIOS * MAX_ANOS_ESTUDO * NUM_PATAMARES,),
-                           dtype=np.int64)
-        tabela = np.zeros((NUM_CENARIOS * MAX_ANOS_ESTUDO * NUM_PATAMARES,
+        patamar = []
+        tabela = np.zeros((NUM_CENARIOS * MAX_ANOS_ESTUDO *
+                           (NUM_PATAMARES + 1),
                            len(MESES_DF) + 1))
-        reg_mercado = RegistroAn(12)
         reg_ano = RegistroIn(4)
         reg_serie = RegistroIn(4)
-        reg_patamar = RegistroIn(3)
+        reg_patamar = RegistroAn(5)
         reg_cmarg = RegistroFn(8)
         i = 0
         ano = 0
         # Identifica o submercado
-        self._dados[0] = reg_mercado.le_registro(self._linha_inicio, 70)
         while True:
             linha = arq.readline()
             # Confere se acabou
             if len(linha) == 0:
                 anos = anos[:i]
                 serie = serie[:i]
-                patamar = patamar[:i]
                 tabela = tabela[:i, :]
-                self._dados[1] = converte_tabela_em_df()
+                self._dados = converte_tabela_em_df()
                 break
             # Confere se acabou uma tabela
-            if "  MEDIA   " in linha:
+            if " MEDIA  " in linha:
                 ano = 0
             # Confere se começou uma tabela
             if "     ANO: " in linha:
@@ -92,9 +91,9 @@ class BlocoCmargPatamarAno(Bloco):
                     serie[i] = serie[i - 1]
                 else:
                     serie[i] = reg_serie.le_registro(linha, 2)
-                patamar[i] = reg_patamar.le_registro(linha, 8)
+                patamar.append(reg_patamar.le_registro(linha, 6))
                 tabela[i, :] = reg_cmarg.le_linha_tabela(linha,
-                                                         15,
+                                                         12,
                                                          1,
                                                          len(MESES) + 1)
                 i += 1
@@ -104,14 +103,14 @@ class BlocoCmargPatamarAno(Bloco):
         pass
 
 
-class LeituraCmarg00(Leitura):
+class LeituraGTTotSIN(Leitura):
     """
-    Realiza a leitura dos arquivos cmarg00x.out
+    Realiza a leitura dos arquivos gttotsin.out
     existentes em um diretório de saídas do NEWAVE.
 
     Esta classe contém o conjunto de utilidades para ler
-    e interpretar os campos de arquivos cmarg00x.out, construindo
-    objetos `Cmarg00` cujas informações são as mesmas dos arquivos.
+    e interpretar os campos de arquivos gttotsin.out, construindo
+    objetos `GTTotSIN` cujas informações são as mesmas dos arquivos.
 
     Este objeto existe para retirar do modelo de dados a complexidade
     de iterar pelas linhas do arquivo, recortar colunas, converter
@@ -123,4 +122,4 @@ class LeituraCmarg00(Leitura):
         super().__init__(diretorio)
 
     def _cria_blocos_leitura(self) -> List[Bloco]:
-        return [BlocoCmargPatamarAno()]
+        return [BlocoGeracaoTermicaTotalSIN()]
