@@ -1,17 +1,17 @@
 from inewave._utils.arquivo import Arquivo
 from inewave._utils.dadosarquivo import DadosArquivo
-from inewave.nwlistop.modelos.ghtotm00 import LeituraGHTotM00
+from inewave.nwlistop.modelos.ghtot00 import LeituraGHTot00
 
 import pandas as pd  # type: ignore
 
 
-class GHTotM00(Arquivo):
+class GHTot00(Arquivo):
     """
     Armazena os dados das saídas referentes à geração hidraulica total
     por patamar, por submercado.
 
     Esta classe lida com as informações de saída fornecidas pelo
-    NWLISTOP e reproduzidas nos `ghtotm00x.out`, onde x varia conforme o
+    NWLISTOP e reproduzidas nos `ghtot00x.out`, onde x varia conforme o
     submercado em questão.
 
     """
@@ -23,17 +23,17 @@ class GHTotM00(Arquivo):
     @classmethod
     def le_arquivo(cls,
                    diretorio: str,
-                   nome_arquivo="ghtotm001.out") -> 'GHTotM00':
+                   nome_arquivo="ghtot001.out") -> 'GHTot00':
         """
         """
-        leitor = LeituraGHTotM00(diretorio)
+        leitor = LeituraGHTot00(diretorio)
         r = leitor.le_arquivo(nome_arquivo)
         return cls(r)
 
     @property
-    def submercado(self) -> str:
+    def ree(self) -> str:
         """
-        Tabela com o submercado associado ao arquivo lido.
+        Tabela com a REE associado ao arquivo lido.
 
          **Retorna**
 

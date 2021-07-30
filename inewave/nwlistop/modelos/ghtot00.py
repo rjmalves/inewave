@@ -10,26 +10,26 @@ import pandas as pd  # type: ignore
 from typing import IO, List
 
 
-class BlocoGeracaoHidraulicaSubmercado(Bloco):
+class BlocoGeracaoHidraulicaREE(Bloco):
     """
     Bloco com as informações das tabelas de geração hidraulica
     por patamar e por mês/ano de estudo.
     """
-    str_inicio = "GERACAO HIDRAULICA TOTAL  (MWmes)"
+    str_inicio = "GERACAO HIDRAULICA TOTAL (MWmes)"
     str_fim = ""
 
     def __init__(self):
 
-        super().__init__(BlocoGeracaoHidraulicaSubmercado.str_inicio,
+        super().__init__(BlocoGeracaoHidraulicaREE.str_inicio,
                          "",
                          True)
 
         self._dados = ["", pd.DataFrame()]
 
     def __eq__(self, o: object):
-        if not isinstance(o, BlocoGeracaoHidraulicaSubmercado):
+        if not isinstance(o, BlocoGeracaoHidraulicaREE):
             return False
-        bloco: BlocoGeracaoHidraulicaSubmercado = o
+        bloco: BlocoGeracaoHidraulicaREE = o
         return all([
                     self._dados[0] == bloco.dados[0],
                     self._dados[1].equals(bloco._dados[1])
@@ -60,7 +60,7 @@ class BlocoGeracaoHidraulicaSubmercado(Bloco):
         tabela = np.zeros((NUM_CENARIOS * MAX_ANOS_ESTUDO *
                            (NUM_PATAMARES + 1),
                            len(MESES_DF) + 1))
-        reg_mercado = RegistroAn(12)
+        reg_ree = RegistroAn(12)
         reg_ano = RegistroIn(4)
         reg_serie = RegistroIn(4)
         reg_patamar = RegistroAn(5)
@@ -68,7 +68,7 @@ class BlocoGeracaoHidraulicaSubmercado(Bloco):
         i = 0
         ano = 0
         # Identifica o submercado
-        self._dados[0] = reg_mercado.le_registro(self._linha_inicio, 70)
+        self._dados[0] = reg_ree.le_registro(self._linha_inicio, 63)
         while True:
             linha = arq.readline()
             # Confere se acabou
@@ -105,14 +105,14 @@ class BlocoGeracaoHidraulicaSubmercado(Bloco):
         pass
 
 
-class LeituraGHTotM00(Leitura):
+class LeituraGHTot00(Leitura):
     """
-    Realiza a leitura dos arquivos ghtotm00x.out
+    Realiza a leitura dos arquivos ghtot00x.out
     existentes em um diretório de saídas do NEWAVE.
 
     Esta classe contém o conjunto de utilidades para ler
     e interpretar os campos de arquivos ghtotm00x.out, construindo
-    objetos `GHTotM00` cujas informações são as mesmas dos arquivos.
+    objetos `GHTot00` cujas informações são as mesmas dos arquivos.
 
     Este objeto existe para retirar do modelo de dados a complexidade
     de iterar pelas linhas do arquivo, recortar colunas, converter
@@ -124,4 +124,4 @@ class LeituraGHTotM00(Leitura):
         super().__init__(diretorio)
 
     def _cria_blocos_leitura(self) -> List[Bloco]:
-        return [BlocoGeracaoHidraulicaSubmercado()]
+        return [BlocoGeracaoHidraulicaREE()]
