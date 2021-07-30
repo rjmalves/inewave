@@ -95,7 +95,7 @@ class BlocoEnergiaArmazenadaFinalPercentual(Bloco):
         pass
 
 
-class LeituraEarmfpm00(Leitura):
+class LeituraEarmfpM00(Leitura):
     """
     Realiza a leitura dos arquivos earmfpm00x.out
     existentes em um diretório de saídas do NEWAVE.

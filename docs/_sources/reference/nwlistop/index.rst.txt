@@ -34,20 +34,28 @@ Para a leitura do arquivo `pmo.dat`::
 
 Para a leitura dos arquivos `cmarg00x.out`::
 
-    >>> from inewave.nwlistop.cmarg00 import LeituraCmarg00
+    >>> from inewave.nwlistop.cmarg00 import Cmarg00
     >>>
     >>> diretorio = "/home/usuario/..."
-    >>> leitor = LeituraCmarg00(diretorio)
-    >>> leitor.le_arquivos()
-    {'SUDESTE': <inewave.nwlistop.modelos.cmarg00.Cmarg00 object at 0x000001BC76692820>,
-    'SUL': <inewave.nwlistop.modelos.cmarg00.Cmarg00 object at 0x000001BC76692790>,
-    'NORDESTE': <inewave.nwlistop.modelos.cmarg00.Cmarg00 object at 0x000001BC76692910>,
-    'NORTE': <inewave.nwlistop.modelos.cmarg00.Cmarg00 object at 0x000001BC76692970>}
-    >>> leitor.cmargs
-    {'SUDESTE': <inewave.nwlistop.modelos.cmarg00.Cmarg00 object at 0x000001BC76692820>,
-    'SUL': <inewave.nwlistop.modelos.cmarg00.Cmarg00 object at 0x000001BC76692790>,
-    'NORDESTE': <inewave.nwlistop.modelos.cmarg00.Cmarg00 object at 0x000001BC76692910>,
-    'NORTE': <inewave.nwlistop.modelos.cmarg00.Cmarg00 object at 0x000001BC76692970>}
+    >>> cmarg = Cmarg00.le_arquivo(diretorio, "cmarg001.out")
+    >>> cmarg
+    <inewave.nwlistop.cmarg00.Cmarg00 object at 0x0000020BE9349E20>
+    >>> cmarg.custos
+            Ano  Série  Patamar  Janeiro  Fevereiro  Março  Abril    Maio   Junho    Julho  Agosto  Setembro  Outubro  Novembro  Dezembro   Média
+    0      2021      1        1     0.00       0.00   0.00   0.00    0.00    0.00   497.03  268.43    358.91   249.64    236.99    153.67  294.11
+    1      2021      1        2     0.00       0.00   0.00   0.00    0.00    0.00   497.03  268.43    358.91   249.64    236.99    153.67  294.11
+    2      2021      1        3     0.00       0.00   0.00   0.00    0.00    0.00   493.85  256.40    358.91   249.64    236.99    153.67  291.58
+    3      2021      2        1     0.00       0.00   0.00   0.00    0.00    0.00  1364.30  930.22    671.00  1018.98    544.53    509.76  839.80
+    4      2021      2        2     0.00       0.00   0.00   0.00    0.00    0.00  1364.30  930.22    671.00  1018.98    544.53    509.76  839.80
+    ...     ...    ...      ...      ...        ...    ...    ...     ...     ...      ...     ...       ...      ...       ...       ...     ...
+    29995  2025   1999        2    26.91      46.48  97.01  86.55  117.21  122.39   117.12   84.47    124.37   131.95    105.20     12.64   89.36
+    29996  2025   1999        3    26.91      46.48  97.01  86.54  117.21  122.39   115.47   84.47    124.37   131.95    105.20     12.64   89.22
+    29997  2025   2000        1     0.00       0.00   0.00   0.00   52.97   74.26    62.60   74.46     86.24    14.08      6.07      5.90   31.38
+    29998  2025   2000        2     0.00       0.00   0.00   0.00   52.97   74.26    62.60   74.46     86.24    14.08      6.07      5.90   31.38
+    29999  2025   2000        3     0.00       0.00   0.00   0.00   52.97   74.26    62.60   74.46     86.24    14.08      6.07      5.90   31.38
+
+    [30000 rows x 16 columns]
+
 
 Arquivos
 ---------
@@ -57,6 +65,11 @@ Arquivos
 
    arquivos/cmarg00
    arquivos/eafbm00
+   arquivos/earmfp00
    arquivos/earmfpm00
+   arquivos/ghtot00
+   arquivos/ghtotm00
+   arquivos/gttotsin
    arquivos/mediasmerc
    arquivos/mediassin
+   arquivos/vagua00

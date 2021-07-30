@@ -1,11 +1,11 @@
 from inewave._utils.arquivo import Arquivo
 from inewave._utils.dadosarquivo import DadosArquivo
-from inewave.nwlistop.modelos.earmfpm00 import LeituraEarmfpm00
+from inewave.nwlistop.modelos.earmfpm00 import LeituraEarmfpM00
 
 import pandas as pd  # type: ignore
 
 
-class Earmfpm00(Arquivo):
+class EarmfpM00(Arquivo):
     """
     Armazena os dados das saídas referentes às energias
     armazenadas finais, por submercado e em % da energia armazenável máxima.
@@ -22,10 +22,10 @@ class Earmfpm00(Arquivo):
     @classmethod
     def le_arquivo(cls,
                    diretorio: str,
-                   nome_arquivo="earmfpm001.out") -> 'Earmfpm00':
+                   nome_arquivo="earmfpm001.out") -> 'EarmfpM00':
         """
         """
-        leitor = LeituraEarmfpm00(diretorio)
+        leitor = LeituraEarmfpM00(diretorio)
         r = leitor.le_arquivo(nome_arquivo)
         return cls(r)
 

@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>NWLISTOP &mdash; documentação inewave 0.0.30</title>
+  <title>NWLISTOP &mdash; documentação inewave 0.0.31</title>
   
 
   
@@ -103,9 +103,14 @@
 <li class="toctree-l3"><a class="reference internal" href="#arquivos">Arquivos</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="arquivos/cmarg00.html">Custos Marginais (cmarg00x.out)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="arquivos/eafbm00.html">Energia Afluente Bruta por Submercado (eafbm00x.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="arquivos/earmfp00.html">Energia Armazenada Final Percentual por REE (earmfp00x.out)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="arquivos/earmfpm00.html">Energia Armazenada Final Percentual por Submercado (earmfpm00x.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="arquivos/ghtot00.html">Geração Hidráulica Total por REE (ghtot00x.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="arquivos/ghtotm00.html">Geração Hidráulica Total por Submercado (ghtotm00x.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="arquivos/gttotsin.html">Geração Térmica Total para o SIN (gttotsin.out)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="arquivos/mediasmerc.html">Médias por Submercado (MEDIAS-MERC.CSV)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="arquivos/mediassin.html">Médias SIN (MEDIAS-SIN.CSV)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="arquivos/vagua00.html">Valor da Água por REE (vagua00x.out)</a></li>
 </ul>
 </li>
 </ul>
@@ -207,20 +212,27 @@ o estudo em questão. Desta forma, não é recomendado importar todo o módulo <
 </pre></div>
 </div>
 <p>Para a leitura dos arquivos <code class="xref py py-obj docutils literal notranslate"><span class="pre">cmarg00x.out</span></code>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">inewave.nwlistop.cmarg00</span> <span class="kn">import</span> <span class="n">LeituraCmarg00</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">inewave.nwlistop.cmarg00</span> <span class="kn">import</span> <span class="n">Cmarg00</span>
 <span class="go">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">diretorio</span> <span class="o">=</span> <span class="s2">&quot;/home/usuario/...&quot;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">leitor</span> <span class="o">=</span> <span class="n">LeituraCmarg00</span><span class="p">(</span><span class="n">diretorio</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">leitor</span><span class="o">.</span><span class="n">le_arquivos</span><span class="p">()</span>
-<span class="go">{&#39;SUDESTE&#39;: &lt;inewave.nwlistop.modelos.cmarg00.Cmarg00 object at 0x000001BC76692820&gt;,</span>
-<span class="go">&#39;SUL&#39;: &lt;inewave.nwlistop.modelos.cmarg00.Cmarg00 object at 0x000001BC76692790&gt;,</span>
-<span class="go">&#39;NORDESTE&#39;: &lt;inewave.nwlistop.modelos.cmarg00.Cmarg00 object at 0x000001BC76692910&gt;,</span>
-<span class="go">&#39;NORTE&#39;: &lt;inewave.nwlistop.modelos.cmarg00.Cmarg00 object at 0x000001BC76692970&gt;}</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">leitor</span><span class="o">.</span><span class="n">cmargs</span>
-<span class="go">{&#39;SUDESTE&#39;: &lt;inewave.nwlistop.modelos.cmarg00.Cmarg00 object at 0x000001BC76692820&gt;,</span>
-<span class="go">&#39;SUL&#39;: &lt;inewave.nwlistop.modelos.cmarg00.Cmarg00 object at 0x000001BC76692790&gt;,</span>
-<span class="go">&#39;NORDESTE&#39;: &lt;inewave.nwlistop.modelos.cmarg00.Cmarg00 object at 0x000001BC76692910&gt;,</span>
-<span class="go">&#39;NORTE&#39;: &lt;inewave.nwlistop.modelos.cmarg00.Cmarg00 object at 0x000001BC76692970&gt;}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cmarg</span> <span class="o">=</span> <span class="n">Cmarg00</span><span class="o">.</span><span class="n">le_arquivo</span><span class="p">(</span><span class="n">diretorio</span><span class="p">,</span> <span class="s2">&quot;cmarg001.out&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cmarg</span>
+<span class="go">&lt;inewave.nwlistop.cmarg00.Cmarg00 object at 0x0000020BE9349E20&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cmarg</span><span class="o">.</span><span class="n">custos</span>
+<span class="go">        Ano  Série  Patamar  Janeiro  Fevereiro  Março  Abril    Maio   Junho    Julho  Agosto  Setembro  Outubro  Novembro  Dezembro   Média</span>
+<span class="go">0      2021      1        1     0.00       0.00   0.00   0.00    0.00    0.00   497.03  268.43    358.91   249.64    236.99    153.67  294.11</span>
+<span class="go">1      2021      1        2     0.00       0.00   0.00   0.00    0.00    0.00   497.03  268.43    358.91   249.64    236.99    153.67  294.11</span>
+<span class="go">2      2021      1        3     0.00       0.00   0.00   0.00    0.00    0.00   493.85  256.40    358.91   249.64    236.99    153.67  291.58</span>
+<span class="go">3      2021      2        1     0.00       0.00   0.00   0.00    0.00    0.00  1364.30  930.22    671.00  1018.98    544.53    509.76  839.80</span>
+<span class="go">4      2021      2        2     0.00       0.00   0.00   0.00    0.00    0.00  1364.30  930.22    671.00  1018.98    544.53    509.76  839.80</span>
+<span class="gp">... </span>    <span class="o">...</span>    <span class="o">...</span>      <span class="o">...</span>      <span class="o">...</span>        <span class="o">...</span>    <span class="o">...</span>    <span class="o">...</span>     <span class="o">...</span>     <span class="o">...</span>      <span class="o">...</span>     <span class="o">...</span>       <span class="o">...</span>      <span class="o">...</span>       <span class="o">...</span>       <span class="o">...</span>     <span class="o">...</span>
+<span class="go">29995  2025   1999        2    26.91      46.48  97.01  86.55  117.21  122.39   117.12   84.47    124.37   131.95    105.20     12.64   89.36</span>
+<span class="go">29996  2025   1999        3    26.91      46.48  97.01  86.54  117.21  122.39   115.47   84.47    124.37   131.95    105.20     12.64   89.22</span>
+<span class="go">29997  2025   2000        1     0.00       0.00   0.00   0.00   52.97   74.26    62.60   74.46     86.24    14.08      6.07      5.90   31.38</span>
+<span class="go">29998  2025   2000        2     0.00       0.00   0.00   0.00   52.97   74.26    62.60   74.46     86.24    14.08      6.07      5.90   31.38</span>
+<span class="go">29999  2025   2000        3     0.00       0.00   0.00   0.00   52.97   74.26    62.60   74.46     86.24    14.08      6.07      5.90   31.38</span>
+
+<span class="go">[30000 rows x 16 columns]</span>
 </pre></div>
 </div>
 </div>
@@ -230,17 +242,30 @@ o estudo em questão. Desta forma, não é recomendado importar todo o módulo <
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="arquivos/cmarg00.html">Custos Marginais (cmarg00x.out)</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="arquivos/cmarg00.html#visao-geral-do-modelo">Visão geral do modelo</a></li>
-<li class="toctree-l2"><a class="reference internal" href="arquivos/cmarg00.html#leitura">Leitura</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="arquivos/eafbm00.html">Energia Afluente Bruta por Submercado (eafbm00x.out)</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="arquivos/eafbm00.html#visao-geral-do-modelo">Visão geral do modelo</a></li>
-<li class="toctree-l2"><a class="reference internal" href="arquivos/eafbm00.html#leitura">Leitura</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="arquivos/earmfp00.html">Energia Armazenada Final Percentual por REE (earmfp00x.out)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="arquivos/earmfp00.html#visao-geral-do-modelo">Visão geral do modelo</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="arquivos/earmfpm00.html">Energia Armazenada Final Percentual por Submercado (earmfpm00x.out)</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="arquivos/earmfpm00.html#visao-geral-do-modelo">Visão geral do modelo</a></li>
-<li class="toctree-l2"><a class="reference internal" href="arquivos/earmfpm00.html#leitura">Leitura</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="arquivos/ghtot00.html">Geração Hidráulica Total por REE (ghtot00x.out)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="arquivos/ghtot00.html#visao-geral-do-modelo">Visão geral do modelo</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="arquivos/ghtotm00.html">Geração Hidráulica Total por Submercado (ghtotm00x.out)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="arquivos/ghtotm00.html#visao-geral-do-modelo">Visão geral do modelo</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="arquivos/gttotsin.html">Geração Térmica Total para o SIN (gttotsin.out)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="arquivos/gttotsin.html#visao-geral-do-modelo">Visão geral do modelo</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="arquivos/mediasmerc.html">Médias por Submercado (MEDIAS-MERC.CSV)</a><ul>
@@ -249,6 +274,10 @@ o estudo em questão. Desta forma, não é recomendado importar todo o módulo <
 </li>
 <li class="toctree-l1"><a class="reference internal" href="arquivos/mediassin.html">Médias SIN (MEDIAS-SIN.CSV)</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="arquivos/mediassin.html#visao-geral-do-modelo">Visão geral do modelo</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="arquivos/vagua00.html">Valor da Água por REE (vagua00x.out)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="arquivos/vagua00.html#visao-geral-do-modelo">Visão geral do modelo</a></li>
 </ul>
 </li>
 </ul>

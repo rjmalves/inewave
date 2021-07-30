@@ -1,11 +1,11 @@
 from inewave._utils.arquivo import Arquivo
 from inewave._utils.dadosarquivo import DadosArquivo
-from inewave.nwlistop.modelos.eafbm00 import LeituraEafbm00
+from inewave.nwlistop.modelos.eafbm00 import LeituraEafbM00
 
 import pandas as pd  # type: ignore
 
 
-class Eafbm00(Arquivo):
+class EafbM00(Arquivo):
     """
     Armazena os dados das saídas referentes às energias
     afluentes brutas, por submercado em valores absolutos.
@@ -23,10 +23,10 @@ class Eafbm00(Arquivo):
     @classmethod
     def le_arquivo(cls,
                    diretorio: str,
-                   nome_arquivo="eafbm001.out") -> 'Eafbm00':
+                   nome_arquivo="eafbm001.out") -> 'EafbM00':
         """
         """
-        leitor = LeituraEafbm00(diretorio)
+        leitor = LeituraEafbM00(diretorio)
         r = leitor.le_arquivo(nome_arquivo)
         return cls(r)
 

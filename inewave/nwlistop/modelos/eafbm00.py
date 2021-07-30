@@ -95,14 +95,14 @@ class BlocoEnergiaAfluenteTotalBruta(Bloco):
         pass
 
 
-class LeituraEafbm00(Leitura):
+class LeituraEafbM00(Leitura):
     """
     Realiza a leitura dos arquivos eafbm00x.out
     existentes em um diretório de saídas do NEWAVE.
 
     Esta classe contém o conjunto de utilidades para ler
     e interpretar os campos de arquivos eafbm00x.out, construindo
-    objetos `Eafbm00` cujas informações são as mesmas dos arquivos.
+    objetos `EafbM00` cujas informações são as mesmas dos arquivos.
 
     Este objeto existe para retirar do modelo de dados a complexidade
     de iterar pelas linhas do arquivo, recortar colunas, converter

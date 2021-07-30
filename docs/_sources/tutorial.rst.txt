@@ -100,26 +100,30 @@ Seja um sistema de arquivos no qual, dentro de um diretório cujo caminho é::
 E neste diretório exista um arquivo ``earmfpm001.out``, então o conteúdo deste pode ser lido 
 através do código::
 
-    >>> from inewave.nwlistop.earmfpm00 import LeituraEarmfpm00
-    >>> leitor = LeituraEarmfpm00("/home/usuario/estudo/pmo_MM_AAAA/")
-    >>> earm = leitor.le_arquivo()
+    >>> from inewave.nwlistop.earmfpm00 import EarmfpM00
+    >>> earm = EarmfpM00.le_arquivo("/home/usuario/estudo/pmo_MM_AAAA/", "earmfpm001.out")
 
-.. currentmodule:: inewave.nwlistop.modelos.earmfpm00
+.. currentmodule:: inewave.nwlistop.earmfpm00
 
-É então constrúido um objeto :class:`Earmfpm00`, que fornece os dados do arquivo através de seus métodos::
+É então constrúido um objeto :class:`EarmfpM00`, que fornece os dados do arquivo através de seus métodos::
 
     >>> earm
-    {'SUDESTE': <inewave.nwlistop.modelos.earmfpm00.Earmfpm00 object at 0x000001BA8C905DC0>}
-    >>> earm['SUDESTE'].ano_pmo
-    1995
-    >>> earm['SUDESTE'].energias_armazenadas[1995]
-    [[ 0.   0.   0.  ... 48.8 44.3 46.6]
-    [ 0.   0.   0.  ... 36.5 38.4 50.3]
-    [ 0.   0.   0.  ... 50.8 51.1 59.3]
-    ...
-    [ 0.   0.   0.  ... 76.2 70.7 70.3]
-    [ 0.   0.   0.  ... 41.  35.3 35.6]
-    [ 0.   0.   0.  ... 59.8 63.2 68.1]]
+    <inewave.nwlistop.earmfpm00.EarmfpM00 object at 0x0000020BF6FB7F40>
+    >>> earm.energias
+           Ano  Série  Janeiro  Fevereiro  Março  Abril  Maio  Junho  Julho  Agosto  Setembro  Outubro  Novembro  Dezembro  Média
+    0     2021      1      0.0        0.0    0.0    0.0   0.0    0.0   27.5    23.4      18.5     14.3      13.2      13.3   18.4
+    1     2021      2      0.0        0.0    0.0    0.0   0.0    0.0   24.5    19.1      16.1     12.3      10.4      10.7   15.5
+    2     2021      3      0.0        0.0    0.0    0.0   0.0    0.0   25.1    24.7      21.3     13.3      14.3      19.6   19.7
+    3     2021      4      0.0        0.0    0.0    0.0   0.0    0.0   27.3    23.2      18.9     14.3      12.4      16.5   18.8
+    4     2021      5      0.0        0.0    0.0    0.0   0.0    0.0   23.5    20.6      14.2     10.7       9.4      22.0   16.7
+    ...    ...    ...      ...        ...    ...    ...   ...    ...    ...     ...       ...      ...       ...       ...    ...
+    9995  2025   1996     90.7       93.2   96.5   97.1  98.6   98.6   94.4    89.5      81.1     66.2      60.6      58.7   85.4
+    9996  2025   1997     67.8       76.2   84.1   88.6  93.8   95.7   92.7    86.1      76.1     63.3      59.7      63.2   78.9
+    9997  2025   1998     72.1       80.2   87.6   94.4  97.3   96.7   91.9    81.6      70.9     58.8      49.0      51.6   77.7
+    9998  2025   1999     88.7       91.5   88.2   92.2  89.8   83.0   81.3    70.9      58.8     44.6      41.8      53.1   73.7
+    9999  2025   2000     90.6       93.2   96.4   99.1  98.5   93.9   87.0    79.6      67.6     63.0      66.4      77.7   84.4
+
+    [10000 rows x 15 columns]
 
 Os dados extraídos pelo módulo encontram-se no arquivo:
 
