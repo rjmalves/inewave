@@ -1,4 +1,4 @@
-.. _earmfpm00:
+.. _earmfp00:
 
 ====================================================================
 Energia Armazenada Final Percentual por REE (earmfp00x.out)
