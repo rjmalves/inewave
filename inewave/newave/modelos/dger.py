@@ -278,7 +278,7 @@ class BlocoNumAnosPosEstudoSimFinal(Bloco):
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
-    str_inicio = "IMPRIME DADOS"
+    str_inicio = "No. DE ANOS POS FINAL"
     str_fim = ""
 
     def __init__(self):
@@ -655,7 +655,7 @@ class BlocoCalculaVolInicial(Bloco):
     """
 
     str_inicio = "CALCULA VOL.INICIAL"
-    str_fim = "=USA REG 20 ; 1= CALCULA EARM. INICIAL"
+    str_fim = "0=USA REG 20 ; 1= CALCULA EARM. INICIAL"
 
     def __init__(self):
 
@@ -663,28 +663,24 @@ class BlocoCalculaVolInicial(Bloco):
                          BlocoCalculaVolInicial.str_fim,
                          True)
 
-        self._dados = [0, 0]
+        self._dados = 0
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoCalculaVolInicial):
             return False
         bloco: BlocoCalculaVolInicial = o
-        return all([d1 == d2 for d1, d2 in zip(self._dados,
-                                               bloco._dados)])
+        return self._dados == bloco._dados
 
     # Override
     def le(self, arq: IO):
-        reg = RegistroIn(4)
-        self._dados[0] = reg.le_registro(self._linha_inicio, 21)
-        reg_flag = RegistroIn(1)
-        self._dados[1] = reg_flag.le_registro(self._linha_inicio, 28)
+        reg = RegistroIn(1)
+        self._dados = reg.le_registro(self._linha_inicio, 24)
 
     # Override
     def escreve(self, arq: IO):
-        ano = str(self._dados[0]).rjust(4)
-        flag = str(self._dados[1]).rjust(4)
+        calcula = str(self._dados).rjust(4)
         linha = (f"{BlocoCalculaVolInicial.str_inicio.ljust(21)}" +
-                 f"{ano}{flag}{BlocoCalculaVolInicial.str_fim}\n")
+                 f"{calcula}   {BlocoCalculaVolInicial.str_fim}\n")
         arq.write(linha)
 
 
@@ -1108,7 +1104,7 @@ class BlocoPerdasTransmissao(Bloco):
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
-    str_inicio = "PERDAS REDE TRANS."
+    str_inicio = "PERDAS P/ TRANSMISSAO"
     str_fim = "(=0 NAO CONSIDERA, =1 CONSIDERA)"
 
     def __init__(self):
@@ -1116,7 +1112,6 @@ class BlocoPerdasTransmissao(Bloco):
         super().__init__(BlocoPerdasTransmissao.str_inicio,
                          BlocoPerdasTransmissao.str_fim,
                          True)
-
         self._dados = 0
 
     # Override
@@ -2001,7 +1996,7 @@ class BlocoJanelaCortes(Bloco):
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
-    str_inicio = "JANELA  DE CORTES"
+    str_inicio = "JANELA DE CORTES"
     str_fim = "(=0 NAO CONSIDERA , =1 CONSIDERA)"
 
     def __init__(self):
@@ -2705,6 +2700,7 @@ class LeituraDGer(Leitura):
                 BlocoDuracaoPeriodo(),
                 BlocoNumAnosEstudo(),
                 BlocoMesInicioPreEstudo(),
+                BlocoMesInicioEstudo(),
                 BlocoAnoInicioEstudo(),
                 BlocoNumAnosPreEstudo(),
                 BlocoNumAnosPosEstudo(),

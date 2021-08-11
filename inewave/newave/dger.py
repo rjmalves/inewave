@@ -796,14 +796,14 @@ class DGer(Arquivo):
         self.__escreve_por_tipo(BlocoCVAR, dado)
 
     @property
-    def considera_zup_min_convergencia(self) -> int:
+    def considera_zsup_min_convergencia(self) -> int:
         """
         Configuração da linha número 62 do arquivo `dger.dat`.
         """
         return self.__le_por_tipo(BlocoZSUPMinConvergencia)
 
-    @considera_zup_min_convergencia.setter
-    def considera_zup_min_convergencia(self, dado: int):
+    @considera_zsup_min_convergencia.setter
+    def considera_zsup_min_convergencia(self, dado: int):
         self.__escreve_por_tipo(BlocoZSUPMinConvergencia, dado)
 
     @property
