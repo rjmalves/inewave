@@ -527,27 +527,24 @@ class BlocoNumAberturas(Bloco):
                          BlocoNumAberturas.str_fim,
                          True)
 
-        self._dados = [0, 0]
+        self._dados = 0
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoNumAberturas):
             return False
         bloco: BlocoNumAberturas = o
-        return all([d1 == d2 for d1, d2 in zip(self._dados,
-                                               bloco._dados)])
+        return self._dados == bloco._dados
 
     # Override
     def le(self, arq: IO):
         reg = RegistroIn(4)
-        self._dados[0] = reg.le_registro(self._linha_inicio, 21)
-        self._dados[1] = reg.le_registro(self._linha_inicio, 26)
+        self._dados = reg.le_registro(self._linha_inicio, 21)
 
     # Override
     def escreve(self, arq: IO):
-        num_ab = str(self._dados[0]).rjust(4)
-        ab_var = str(self._dados[1]).zfill(4)
+        num_ab = str(self._dados).rjust(4)
         linha = (f"{BlocoNumAberturas.str_inicio.ljust(21)}" +
-                 f"{num_ab} {ab_var} {BlocoNumAberturas.str_fim}\n")
+                 f"{num_ab}\n")
         arq.write(linha)
 
 
