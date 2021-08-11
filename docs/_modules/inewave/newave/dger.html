@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>inewave.newave.dger &mdash; documentação inewave 0.0.29</title>
+  <title>inewave.newave.dger &mdash; documentação inewave 0.0.33</title>
   
 
   
@@ -958,14 +958,14 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">__escreve_por_tipo</span><span class="p">(</span><span class="n">BlocoCVAR</span><span class="p">,</span> <span class="n">dado</span><span class="p">)</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">considera_zup_min_convergencia</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">considera_zsup_min_convergencia</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Configuração da linha número 62 do arquivo `dger.dat`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__le_por_tipo</span><span class="p">(</span><span class="n">BlocoZSUPMinConvergencia</span><span class="p">)</span>
 
-    <span class="nd">@considera_zup_min_convergencia</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">considera_zup_min_convergencia</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dado</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="nd">@considera_zsup_min_convergencia</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">considera_zsup_min_convergencia</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dado</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__escreve_por_tipo</span><span class="p">(</span><span class="n">BlocoZSUPMinConvergencia</span><span class="p">,</span> <span class="n">dado</span><span class="p">)</span>
 
     <span class="nd">@property</span>
