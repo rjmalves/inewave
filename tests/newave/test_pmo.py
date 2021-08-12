@@ -19,6 +19,22 @@ def test_neq_pmo():
     assert pmo != pmo2
 
 
+def test_eafpast_tendencia_hidrologica():
+    eafs = pmo.eafpast_tendencia_hidrologica
+    assert eafs.shape[0] == 12
+    assert eafs.shape[1] == 13
+    assert eafs.iloc[0, 1] == 7196.96
+    assert eafs.iloc[-1, -1] == 544.91
+
+
+def test_eafpast_cfuga_medio():
+    eafs = pmo.eafpast_cfuga_medio
+    assert eafs.shape[0] == 12
+    assert eafs.shape[1] == 13
+    assert eafs.iloc[0, 1] == 7196.96
+    assert eafs.iloc[-1, -1] == 544.91
+
+
 def test_leitura_configs():
     configs = pmo.configuracoes_alteracao_potencia
     assert configs.shape[0] == 10

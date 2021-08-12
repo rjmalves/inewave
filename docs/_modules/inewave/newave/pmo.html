@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>inewave.newave.pmo &mdash; documentação inewave 0.0.29</title>
+  <title>inewave.newave.pmo &mdash; documentação inewave 0.0.35</title>
   
 
   
@@ -165,6 +165,8 @@
 <span class="kn">from</span> <span class="nn">inewave._utils.bloco</span> <span class="kn">import</span> <span class="n">Bloco</span>
 <span class="kn">from</span> <span class="nn">inewave._utils.dadosarquivo</span> <span class="kn">import</span> <span class="n">DadosArquivo</span>
 <span class="kn">from</span> <span class="nn">inewave.newave.modelos.pmo</span> <span class="kn">import</span> <span class="n">BlocoEcoDgerPMO</span>
+<span class="kn">from</span> <span class="nn">inewave.newave.modelos.pmo</span> <span class="kn">import</span> <span class="n">BlocoEafPastTendenciaHidrolPMO</span>
+<span class="kn">from</span> <span class="nn">inewave.newave.modelos.pmo</span> <span class="kn">import</span> <span class="n">BlocoEafPastCfugaMedioPMO</span>
 <span class="kn">from</span> <span class="nn">inewave.newave.modelos.pmo</span> <span class="kn">import</span> <span class="n">BlocoConvergenciaPMO</span>
 <span class="kn">from</span> <span class="nn">inewave.newave.modelos.pmo</span> <span class="kn">import</span> <span class="n">BlocoConfiguracoesExpansaoPMO</span>
 <span class="kn">from</span> <span class="nn">inewave.newave.modelos.pmo</span> <span class="kn">import</span> <span class="n">BlocoMARSPMO</span>
@@ -175,453 +177,6 @@
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Type</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>  <span class="c1"># type: ignore</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>  <span class="c1"># type: ignore</span>
-
-
-<span class="k">class</span> <span class="nc">EnergiasAfluentesPMO</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Armazena as informações de energias</span>
-<span class="sd">    afluentes anteriores ao estudo contidas no arquivo `pmo.dat`.</span>
-
-<span class="sd">    **Parâmetros**</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1"># TODO - estruturar as propriedades</span>
-        <span class="k">pass</span>
-
-    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">o</span><span class="p">:</span> <span class="nb">object</span><span class="p">):</span>
-        <span class="k">return</span> <span class="kc">True</span>
-
-
-<span class="k">class</span> <span class="nc">EnergiaFioLiquidaREEPMO</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Armazena as informações de energias a fio d&#39;água líquidas</span>
-<span class="sd">    para cada REE existentes no arquivo `pmo.dat`,</span>
-<span class="sd">    quando feita a simulação completa.</span>
-
-<span class="sd">    **Parâmetros**</span>
-
-<span class="sd">    - tabela: `np.ndarray`</span>
-
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                 <span class="n">tabela</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">tabela</span> <span class="o">=</span> <span class="n">tabela</span>
-
-    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">o</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        A igualdade entre EnergiaFioLiquidaREEPMO avalia todos os campos.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="n">EnergiaFioLiquidaREEPMO</span><span class="p">):</span>
-            <span class="k">return</span> <span class="kc">False</span>
-        <span class="n">e</span><span class="p">:</span> <span class="n">EnergiaFioLiquidaREEPMO</span> <span class="o">=</span> <span class="n">o</span>
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array_equal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tabela</span><span class="p">,</span> <span class="n">e</span><span class="o">.</span><span class="n">tabela</span><span class="p">)</span>
-
-
-<span class="k">class</span> <span class="nc">ConfiguracoesExpansaoPMO</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Armazena as informações das configurações válidas para cada</span>
-<span class="sd">    mês do estudo contidas no arquivo `pmo.dat`.</span>
-
-<span class="sd">    **Parâmetros**</span>
-
-<span class="sd">    - tabela: `np.ndarray`</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                 <span class="n">tabela</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">tabela</span> <span class="o">=</span> <span class="n">tabela</span>
-
-    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">o</span><span class="p">:</span> <span class="nb">object</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        A igualdade entre ConfiguracoesExpansaoPMO avalia todos os campos.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="n">ConfiguracoesExpansaoPMO</span><span class="p">):</span>
-            <span class="k">return</span> <span class="kc">False</span>
-        <span class="n">e</span><span class="p">:</span> <span class="n">ConfiguracoesExpansaoPMO</span> <span class="o">=</span> <span class="n">o</span>
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array_equal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tabela</span><span class="p">,</span> <span class="n">e</span><span class="o">.</span><span class="n">tabela</span><span class="p">)</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">configs_por_ano</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Configurações ativas para serem consideradas em cada</span>
-<span class="sd">        mês de estudo, organizada por ano.</span>
-
-<span class="sd">        **Retorna**</span>
-<span class="sd">        `Dict[int, np.ndarray]`</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">dict_configs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">for</span> <span class="n">lin</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tabela</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
-            <span class="n">dict_configs</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">tabela</span><span class="p">[</span><span class="n">lin</span><span class="p">,</span> <span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tabela</span><span class="p">[</span><span class="n">lin</span><span class="p">,</span> <span class="mi">1</span><span class="p">:]</span>
-
-        <span class="k">return</span> <span class="n">dict_configs</span>
-
-
-<span class="k">class</span> <span class="nc">RetasPerdasEngolimentoREEPMO</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Armazena as retas que modelam as perdas por engolimento</span>
-<span class="sd">    máximo para cada REE, existentes no arquivo `pmo.dat`, quando</span>
-<span class="sd">    feita a simulação completa.</span>
-
-<span class="sd">    **Parâmetros**</span>
-
-<span class="sd">    - tabela: `np.ndarray`</span>
-
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                 <span class="n">tabela</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">tabela</span> <span class="o">=</span> <span class="n">tabela</span>
-
-    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">o</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        A igualdade entre RetasPerdasEngolimentoREEPMO</span>
-<span class="sd">        avalia todos os campos.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="n">RetasPerdasEngolimentoREEPMO</span><span class="p">):</span>
-            <span class="k">return</span> <span class="kc">False</span>
-        <span class="n">e</span><span class="p">:</span> <span class="n">RetasPerdasEngolimentoREEPMO</span> <span class="o">=</span> <span class="n">o</span>
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array_equal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tabela</span><span class="p">,</span> <span class="n">e</span><span class="o">.</span><span class="n">tabela</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">funcao_perdas</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                      <span class="n">ree</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-                      <span class="n">energia_bruta</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Valor da função de perdas composta pelas retas</span>
-<span class="sd">        para um determinado valor de energia bruta fornecido.</span>
-
-<span class="sd">        **Parâmetros**</span>
-
-<span class="sd">        - ree: `int`</span>
-<span class="sd">        - energia_bruta: `float`</span>
-
-<span class="sd">        **Retorna**</span>
-<span class="sd">        `float`</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">n_lin</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tabela</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="c1"># Calcula o valor das três retas na ordenada dada e</span>
-        <span class="c1"># retorna o maior deles.</span>
-        <span class="n">energia</span> <span class="o">=</span> <span class="n">energia_bruta</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">n_lin</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
-        <span class="n">perdas</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tabela</span><span class="p">[</span><span class="n">ree</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">],</span>
-                                         <span class="n">energia</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">tabela</span><span class="p">[</span><span class="n">ree</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:,</span> <span class="mi">2</span><span class="p">]</span>
-        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">perdas</span><span class="p">))</span>
-
-
-<span class="k">class</span> <span class="nc">DemandaLiquidaEnergiaPMO</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Armazena as informações de demandas</span>
-<span class="sd">    líquidas de energia contidas no arquivo `pmo.dat`.</span>
-
-<span class="sd">    **Parâmetros**</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1"># TODO - estruturar as propriedades</span>
-        <span class="k">pass</span>
-
-
-<span class="k">class</span> <span class="nc">ConvergenciaPMO</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Armazena as informações do relatório de convergência do NEWAVE</span>
-<span class="sd">    existentes no arquivo `pmo.dat`.</span>
-
-<span class="sd">    **Parâmetros**</span>
-
-<span class="sd">    - anos_estudo: `List[int]`</span>
-<span class="sd">    - tabela: `np.ndarray`</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                 <span class="n">tabela</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">tabela</span> <span class="o">=</span> <span class="n">tabela</span>
-
-    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">o</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        A igualdade entre ConvergenciaPMO</span>
-<span class="sd">        avalia todos os campos.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="n">ConvergenciaPMO</span><span class="p">):</span>
-            <span class="k">return</span> <span class="kc">False</span>
-        <span class="n">e</span><span class="p">:</span> <span class="n">ConvergenciaPMO</span> <span class="o">=</span> <span class="n">o</span>
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array_equal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tabela</span><span class="p">,</span> <span class="n">e</span><span class="o">.</span><span class="n">tabela</span><span class="p">)</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">zinf</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Limite inferior da função objetivo na PDDE (Zinf).</span>
-
-<span class="sd">        **Retorna**</span>
-
-<span class="sd">        `Dict[int, List[float]]`</span>
-
-<span class="sd">        **Sobre**</span>
-
-<span class="sd">        O número de chaves do dicionário é igual ao de iterações.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">zinfs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">for</span> <span class="n">lin</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tabela</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
-            <span class="n">it</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tabela</span><span class="p">[</span><span class="n">lin</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
-            <span class="k">if</span> <span class="n">it</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">zinfs</span><span class="p">:</span>
-                <span class="n">zinfs</span><span class="p">[</span><span class="n">it</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="n">zinfs</span><span class="p">[</span><span class="n">it</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tabela</span><span class="p">[</span><span class="n">lin</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
-        <span class="k">return</span> <span class="n">zinfs</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">zsup</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Limite superior da função objetivo na PDDE (Zsup).</span>
-
-<span class="sd">        **Retorna**</span>
-
-<span class="sd">        `Dict[int, List[float]]`</span>
-
-<span class="sd">        **Sobre**</span>
-
-<span class="sd">        O número de chaves do dicionário é igual ao de iterações.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">zsups</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">for</span> <span class="n">lin</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tabela</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
-            <span class="n">it</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tabela</span><span class="p">[</span><span class="n">lin</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
-            <span class="k">if</span> <span class="n">it</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">zsups</span><span class="p">:</span>
-                <span class="n">zsups</span><span class="p">[</span><span class="n">it</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="n">zsups</span><span class="p">[</span><span class="n">it</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tabela</span><span class="p">[</span><span class="n">lin</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
-        <span class="k">return</span> <span class="n">zsups</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">tempos_execucao</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Tempo de execução de cada iteração em segundos.</span>
-
-<span class="sd">        **Retorna**</span>
-
-<span class="sd">        `List[float]`</span>
-
-<span class="sd">        **Sobre**</span>
-
-<span class="sd">        O número de elementos da lista é igual ao de iterações.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">tempos</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">ultima_it</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-        <span class="k">for</span> <span class="n">lin</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tabela</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
-            <span class="n">it</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tabela</span><span class="p">[</span><span class="n">lin</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
-            <span class="k">if</span> <span class="n">it</span> <span class="o">==</span> <span class="n">ultima_it</span><span class="p">:</span>
-                <span class="k">continue</span>
-            <span class="n">tempos</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tabela</span><span class="p">[</span><span class="n">lin</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">])</span>
-            <span class="n">ultima_it</span> <span class="o">=</span> <span class="n">it</span>
-        <span class="k">return</span> <span class="n">tempos</span>
-
-
-<span class="k">class</span> <span class="nc">RiscoDeficitENSPMO</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Armazena as informações risco de déficit e valores esperados</span>
-<span class="sd">    de energia não supridacontidas no arquivo `pmo.dat`.</span>
-
-<span class="sd">    **Parâmetros**</span>
-
-<span class="sd">    - anos_estudo: `List[int]`</span>
-<span class="sd">    - tabela: `np.ndarray`</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                 <span class="n">anos_estudo</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
-                 <span class="n">tabela</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
-        <span class="c1"># São impressos no pmo.dat os subsistemas em</span>
-        <span class="c1"># uma ordem pré-determinada</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">subsistemas</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;SUDESTE&quot;</span><span class="p">,</span>
-                            <span class="s2">&quot;SUL&quot;</span><span class="p">,</span>
-                            <span class="s2">&quot;NORDESTE&quot;</span><span class="p">,</span>
-                            <span class="s2">&quot;NORTE&quot;</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">anos_estudo</span> <span class="o">=</span> <span class="n">anos_estudo</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">tabela</span> <span class="o">=</span> <span class="n">tabela</span>
-
-    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">o</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        A igualdade entre RiscoDeficitENSPMO</span>
-<span class="sd">        avalia todos os campos.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="n">RiscoDeficitENSPMO</span><span class="p">):</span>
-            <span class="k">return</span> <span class="kc">False</span>
-        <span class="n">e</span><span class="p">:</span> <span class="n">RiscoDeficitENSPMO</span> <span class="o">=</span> <span class="n">o</span>
-        <span class="n">eq_anos</span> <span class="o">=</span> <span class="nb">all</span><span class="p">([</span><span class="n">a</span> <span class="o">==</span> <span class="n">b</span>
-                       <span class="k">for</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">anos_estudo</span><span class="p">,</span>
-                                         <span class="n">e</span><span class="o">.</span><span class="n">anos_estudo</span><span class="p">)])</span>
-        <span class="n">eq_tabela</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array_equal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tabela</span><span class="p">,</span> <span class="n">e</span><span class="o">.</span><span class="n">tabela</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">eq_anos</span> <span class="ow">and</span> <span class="n">eq_tabela</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">riscos_por_subsistema_e_ano</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span>
-                                                  <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span>
-                                                       <span class="nb">float</span><span class="p">]]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Riscos de déficit agrupados por</span>
-<span class="sd">        subsistema e ano de estudo.</span>
-
-<span class="sd">        **Retorna**</span>
-
-<span class="sd">        `Dict[str, Dict[int, float]]`</span>
-
-<span class="sd">        **Sobre**</span>
-
-<span class="sd">        O acesso é feito com</span>
-<span class="sd">        [sub][ano] e o valor fornecido é em percentual, de 0 a 100.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">riscos</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">sub</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">subsistemas</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">sub</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">riscos</span><span class="p">:</span>
-                <span class="n">riscos</span><span class="p">[</span><span class="n">sub</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
-            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">ano</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">anos_estudo</span><span class="p">):</span>
-                <span class="n">riscos</span><span class="p">[</span><span class="n">sub</span><span class="p">][</span><span class="n">ano</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tabela</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">j</span><span class="p">]</span>
-        <span class="k">return</span> <span class="n">riscos</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">ens_por_subsistema_e_ano</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span>
-                                               <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span>
-                                                    <span class="nb">float</span><span class="p">]]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Energias não supridas agrupadas por</span>
-<span class="sd">        subsistema e ano de estudo.</span>
-
-<span class="sd">        **Retorna**</span>
-
-<span class="sd">        `Dict[str, Dict[int, float]]`</span>
-
-<span class="sd">        **Sobre**</span>
-
-<span class="sd">        O acesso é feito com</span>
-<span class="sd">        [sub][ano] e o valor fornecido é em MWmes.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">energias</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">sub</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">subsistemas</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">sub</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">energias</span><span class="p">:</span>
-                <span class="n">energias</span><span class="p">[</span><span class="n">sub</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
-            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">ano</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">anos_estudo</span><span class="p">):</span>
-                <span class="n">energias</span><span class="p">[</span><span class="n">sub</span><span class="p">][</span><span class="n">ano</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tabela</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
-        <span class="k">return</span> <span class="n">energias</span>
-
-
-<span class="k">class</span> <span class="nc">CustoOperacaoPMO</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Armazena as informações do relatório</span>
-<span class="sd">    de custo de operação, disponível no arquivo `pmo.dat`.</span>
-
-<span class="sd">    Esta classe armazena uma das tabelas existentes ao final do arquivo</span>
-<span class="sd">    `pmo.dat`, contendo os custos, os desvios-padrão e a participação</span>
-<span class="sd">    em percentual de cada componente de custo.</span>
-
-<span class="sd">    A tabela de custos é armazenada através de uma array</span>
-<span class="sd">    em `NumPy`, para otimizar cálculos futuros e espaço ocupado</span>
-<span class="sd">    em memória. A tabela interna é transformada em dicionários</span>
-<span class="sd">    e outras estruturas de dados mais palpáveis através das propriedades</span>
-<span class="sd">    da própria classe.</span>
-
-<span class="sd">    **Parâmetros**</span>
-
-<span class="sd">    - custos: `np.ndarray`</span>
-
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                 <span class="n">custos</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">custos</span> <span class="o">=</span> <span class="n">custos</span>
-        <span class="c1"># TODO - fazer as @property de cada uma individualmente</span>
-
-        <span class="c1"># self.geracao_termica = geracao_termica</span>
-        <span class="c1"># self.deficit = deficit</span>
-        <span class="c1"># self.vertimento = vertimento</span>
-        <span class="c1"># self.excesso_energia = excesso_energia</span>
-        <span class="c1"># self.violacao_car = violacao_car</span>
-        <span class="c1"># self.violacao_sar = violacao_sar</span>
-        <span class="c1"># self.violacao_outro_usos = violacao_outro_usos</span>
-        <span class="c1"># self.violacao_evmin = violacao_evmin</span>
-        <span class="c1"># self.violacao_vzmin = violacao_vzmin</span>
-        <span class="c1"># self.intercambio = intercambio</span>
-        <span class="c1"># self.violacao_intercambio_min = violacao_intercambio_min</span>
-        <span class="c1"># self.vertimento_fio_nao_turbin = vertimento_fio_nao_turbin</span>
-        <span class="c1"># self.violacao_ghmin = violacao_ghmin</span>
-        <span class="c1"># self.violacao_ghmin_usina = violacao_ghmin_usina</span>
-        <span class="c1"># self.violacao_retirada = violacao_retirada</span>
-        <span class="c1"># self.violacao_emissao_gee = violacao_emissao_gee</span>
-
-    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">o</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        A igualdade entre CustoOperacaoPMO</span>
-<span class="sd">        avalia todos os campos.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="n">CustoOperacaoPMO</span><span class="p">):</span>
-            <span class="k">return</span> <span class="kc">False</span>
-        <span class="n">e</span><span class="p">:</span> <span class="n">CustoOperacaoPMO</span> <span class="o">=</span> <span class="n">o</span>
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array_equal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">custos</span><span class="p">,</span> <span class="n">e</span><span class="o">.</span><span class="n">custos</span><span class="p">)</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">geracao_termica</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Parcela do custo de operação devido à geração térmica,</span>
-<span class="sd">        em MMR$.</span>
-
-<span class="sd">        **Retorna**</span>
-
-<span class="sd">        `float`</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">custos</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">deficit</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Parcela do custo de operação devido ao déficit, em MMR$.</span>
-
-<span class="sd">        **Retorna**</span>
-
-<span class="sd">        `float`</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">custos</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">custos_seguranca</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Parcela do custo de operação devido a violações de segurança,</span>
-<span class="sd">        CAR e SAR, em MMR$.</span>
-
-<span class="sd">        **Retorna**</span>
-
-<span class="sd">        `float`</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">custos</span><span class="p">[</span><span class="mi">4</span><span class="p">:</span><span class="mi">6</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">custos_hidricos</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Parcela do custo de operação devido a violações de restrições</span>
-<span class="sd">        hídricas, EVmin, VZmin, GHmin, GHmin Usina e outros usos</span>
-<span class="sd">        da água, em MMR$.</span>
-
-<span class="sd">        **Retorna**</span>
-
-<span class="sd">        `float`</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">custos</span><span class="p">[</span><span class="mi">6</span><span class="p">:</span><span class="mi">9</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span> <span class="o">+</span>
-                <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">custos</span><span class="p">[</span><span class="mi">12</span><span class="p">:</span><span class="mi">14</span><span class="p">,</span> <span class="mi">0</span><span class="p">]))</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">outros_custos</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Parcela do custo de operação devido a violações e penalidades</span>
-<span class="sd">        de intercâmbio, intercâmbio mínimo, vertimento, vertimento</span>
-<span class="sd">        fio d&#39;água não turbinável, excesso de energia, emissão de GEE</span>
-<span class="sd">        e retirada, em MMR$.</span>
-
-<span class="sd">        **Retorna**</span>
-
-<span class="sd">        `float`</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">custos</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span> <span class="o">+</span>
-                <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">custos</span><span class="p">[</span><span class="mi">9</span><span class="p">:</span><span class="mi">12</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span> <span class="o">+</span>
-                <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">custos</span><span class="p">[</span><span class="mi">14</span><span class="p">:,</span> <span class="mi">0</span><span class="p">]))</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">custo_total</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Custo total de operação, em MMR$.</span>
-
-<span class="sd">        **Retorna**</span>
-
-<span class="sd">        `float`</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">custos</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">])</span>
 
 
 <div class="viewcode-block" id="PMO"><a class="viewcode-back" href="../../../reference/newave/arquivos/pmo.html#inewave.newave.pmo.PMO">[documentos]</a><span class="k">class</span> <span class="nc">PMO</span><span class="p">(</span><span class="n">Arquivo</span><span class="p">):</span>
@@ -642,6 +197,8 @@
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">dados</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">__eco_dger</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__por_tipo</span><span class="p">(</span><span class="n">BlocoEcoDgerPMO</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__eafpast_th</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__por_tipo</span><span class="p">(</span><span class="n">BlocoEafPastTendenciaHidrolPMO</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__eafpast_cfuga</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__por_tipo</span><span class="p">(</span><span class="n">BlocoEafPastCfugaMedioPMO</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__convergencia</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__por_tipo</span><span class="p">(</span><span class="n">BlocoConvergenciaPMO</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__configs_exp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__por_tipo</span><span class="p">(</span><span class="n">BlocoConfiguracoesExpansaoPMO</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__mars</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__por_tipo</span><span class="p">(</span><span class="n">BlocoMARSPMO</span><span class="p">)</span>
@@ -658,6 +215,40 @@
         <span class="n">leitor</span> <span class="o">=</span> <span class="n">LeituraPMO</span><span class="p">(</span><span class="n">diretorio</span><span class="p">)</span>
         <span class="n">r</span> <span class="o">=</span> <span class="n">leitor</span><span class="o">.</span><span class="n">le_arquivo</span><span class="p">(</span><span class="n">nome_arquivo</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">eafpast_tendencia_hidrologica</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Energias afluentes passadas por REE para análise da tendência</span>
+<span class="sd">        hidrológica, em relação à primeira configuração do sistema,</span>
+<span class="sd">        em MWmes.</span>
+
+<span class="sd">        **Retorna**</span>
+
+<span class="sd">        `pd.DataFrame`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__eafpast_th</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">dados</span>
+
+    <span class="nd">@eafpast_tendencia_hidrologica</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">eafpast_tendencia_hidrologica</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">eaf</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__eafpast_th</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">dados</span> <span class="o">=</span> <span class="n">eaf</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">eafpast_cfuga_medio</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Energias afluentes passadas por REE considerando canal de</span>
+<span class="sd">        fuga médio, em relação à primeira configuração do sistema,</span>
+<span class="sd">        em MWmes.</span>
+
+<span class="sd">        **Retorna**</span>
+
+<span class="sd">        `pd.DataFrame`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__eafpast_cfuga</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">dados</span>
+
+    <span class="nd">@eafpast_cfuga_medio</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">eafpast_cfuga_medio</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">eaf</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__eafpast_cfuga</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">dados</span> <span class="o">=</span> <span class="n">eaf</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">configuracoes_entrada_reservatorio</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>

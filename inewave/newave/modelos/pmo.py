@@ -4,7 +4,7 @@ from inewave._utils.registros import RegistroAn, RegistroFn, RegistroIn
 from inewave._utils.leitura import Leitura
 from inewave.config import MAX_ANOS_ESTUDO, MAX_CONFIGURACOES, MAX_ITERS
 from inewave.config import REES, NUM_CONFIGS_DGER
-from inewave.config import MESES, SUBMERCADOS
+from inewave.config import MESES, MESES_DF, SUBMERCADOS
 # Imports de módulos externos
 from datetime import timedelta
 import numpy as np  # type: ignore
@@ -262,6 +262,124 @@ class BlocoEcoDgerPMO(Bloco):
         i = __le_sim_nao(i)
         # Iteração de início do teste de convergência
         i = __le_numerico(i, 4)
+
+    # Override
+    def escreve(self, arq: IO):
+        pass
+
+
+class BlocoEafPastTendenciaHidrolPMO(Bloco):
+    """
+    Bloco de informações de afluências passadas para
+    tendência hidrológica localizado no arquivo `pmo.dat`.
+    """
+
+    str_inicio = "ENERGIAS AFLUENTES PASSADAS PARA A TENDENCIA HIDROLOGICA"
+    str_fim = ""
+
+    def __init__(self):
+        super().__init__(BlocoEafPastTendenciaHidrolPMO.str_inicio,
+                         BlocoEafPastTendenciaHidrolPMO.str_fim,
+                         True)
+        self._dados: pd.DataFrame = pd.DataFrame()
+
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoEafPastTendenciaHidrolPMO):
+            return False
+        bloco: BlocoEafPastTendenciaHidrolPMO = o
+        return self._dados.equals(bloco.dados)
+
+    # Override
+    def le(self, arq: IO):
+
+        def converte_tabela_em_df():
+            df = pd.DataFrame(tabela,
+                              columns=MESES_DF)
+            df["REE"] = rees
+            df = df[["REE"] + MESES_DF]
+            return df
+
+        # Pula as linhas iniciais
+        for _ in range(3):
+            arq.readline()
+        # Variáveis auxiliares
+        reg_sistema = RegistroAn(10)
+        reg_eaf = RegistroFn(8)
+        rees: List[str] = []
+        tabela = np.zeros((len(REES), len(MESES_DF)))
+        i = 0
+        while True:
+            linha: str = arq.readline()
+            # Confere se acabou
+            if "X-------" in linha:
+                self._dados = converte_tabela_em_df()
+                break
+            # Lê mais uma linha
+            rees.append(reg_sistema.le_registro(linha, 1))
+            tabela[i, :] = reg_eaf.le_linha_tabela(linha,
+                                                   14,
+                                                   3,
+                                                   len(MESES))
+            i += 1
+
+    # Override
+    def escreve(self, arq: IO):
+        pass
+
+
+class BlocoEafPastCfugaMedioPMO(Bloco):
+    """
+    Bloco de informações de afluências passadas para
+    tendência hidrológica localizado no arquivo `pmo.dat`.
+    """
+
+    str_inicio = "ENERGIAS AFLUENTES PASSADAS EM REFERENCIA A PRIMEIRA CONFIG"
+    str_fim = ""
+
+    def __init__(self):
+        super().__init__(BlocoEafPastCfugaMedioPMO.str_inicio,
+                         BlocoEafPastCfugaMedioPMO.str_fim,
+                         True)
+        self._dados: pd.DataFrame = pd.DataFrame()
+
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoEafPastCfugaMedioPMO):
+            return False
+        bloco: BlocoEafPastCfugaMedioPMO = o
+        return self._dados.equals(bloco.dados)
+
+    # Override
+    def le(self, arq: IO):
+
+        def converte_tabela_em_df():
+            df = pd.DataFrame(tabela,
+                              columns=MESES_DF)
+            df["REE"] = rees
+            df = df[["REE"] + MESES_DF]
+            return df
+
+        # Pula as linhas iniciais
+        for _ in range(3):
+            arq.readline()
+        # Variáveis auxiliares
+        reg_sistema = RegistroAn(10)
+        reg_eaf = RegistroFn(8)
+        rees: List[str] = []
+        tabela = np.zeros((len(REES), len(MESES_DF)))
+        i = 0
+        while True:
+            linha: str = arq.readline()
+            # Confere se acabou
+            if "X-------" in linha:
+                self._dados = converte_tabela_em_df()
+                break
+            # Lê mais uma linha
+            rees.append(reg_sistema.le_registro(linha, 1))
+            tabela[i, :] = reg_eaf.le_linha_tabela(linha,
+                                                   14,
+                                                   3,
+                                                   len(MESES))
+            i += 1
 
     # Override
     def escreve(self, arq: IO):
@@ -597,6 +715,8 @@ class LeituraPMO(Leitura):
         """
         # eco_dger: List[Bloco] = [BlocoEcoDgerPMO()]
         convergencia: List[Bloco] = [BlocoConvergenciaPMO()]
+        eafpast: List[Bloco] = [BlocoEafPastTendenciaHidrolPMO(),
+                                BlocoEafPastCfugaMedioPMO()]
         risco_deficit: List[Bloco] = [BlocoRiscoDeficitENSPMO()]
         configs_exp: List[Bloco] = [BlocoConfiguracoesExpansaoPMO()
                                     for _ in range(3)]
@@ -609,6 +729,7 @@ class LeituraPMO(Leitura):
                               ]
 
         return (convergencia +
+                eafpast +
                 risco_deficit +
                 configs_exp +
                 mars +

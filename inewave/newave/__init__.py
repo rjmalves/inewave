@@ -16,6 +16,7 @@ from .cvar import CVAR  # noqa
 from .deckentrada import DeckEntrada  # noqa
 from .dger import DGer  # noqa
 from .dsvagua import DSVAgua  # noqa
+from .eafpast import EafPast  # noqa
 from .elnino import ElNino  # noqa
 from .ensoaux import ENSOAux  # noqa
 from .exph import Exph  # noqa

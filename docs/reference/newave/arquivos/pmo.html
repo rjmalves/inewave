@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Acompanhamento do Programa (pmo.dat) &mdash; documentação inewave 0.0.34</title>
+  <title>Acompanhamento do Programa (pmo.dat) &mdash; documentação inewave 0.0.35</title>
   
 
   
@@ -110,6 +110,7 @@
 <li class="toctree-l4"><a class="reference internal" href="confhd.html">Configurações das Hidrelétricas (confhd.dat)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="dsvagua.html">Outros Usos da Água (dsvagua.dat)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="vazpast.html">Tendência Hidrológica (vazpast.dat)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="eafpast.html">Tendência Hidrológica por REE (eafpast.dat)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="parp.html">Acompanhamento do modelo PAR(p) (parp.dat)</a></li>
 </ul>
 </li>
@@ -257,6 +258,26 @@ de estudo, referenciados ao primeiro mês.</p>
 séries simuladas.</p>
 <p><strong>Retorna</strong></p>
 <p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.pmo.PMO.eafpast_cfuga_medio">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">eafpast_cfuga_medio</span></span><em class="property"><span class="pre">:</span> <span class="pre">pandas.core.frame.DataFrame</span></em><a class="headerlink" href="#inewave.newave.pmo.PMO.eafpast_cfuga_medio" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Energias afluentes passadas por REE considerando canal de
+fuga médio, em relação à primeira configuração do sistema,
+em MWmes.</p>
+<p><strong>Retorna</strong></p>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pd.DataFrame</span></code></p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.pmo.PMO.eafpast_tendencia_hidrologica">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">eafpast_tendencia_hidrologica</span></span><em class="property"><span class="pre">:</span> <span class="pre">pandas.core.frame.DataFrame</span></em><a class="headerlink" href="#inewave.newave.pmo.PMO.eafpast_tendencia_hidrologica" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Energias afluentes passadas por REE para análise da tendência
+hidrológica, em relação à primeira configuração do sistema,
+em MWmes.</p>
+<p><strong>Retorna</strong></p>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pd.DataFrame</span></code></p>
 </dd></dl>
 
 <dl class="py property">
