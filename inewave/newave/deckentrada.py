@@ -8,6 +8,7 @@ from .modif import Modif
 from .conft import ConfT
 from .term import Term
 from .clast import ClasT
+from .eafpast import EafPast
 from .exph import Exph
 from .expt import Expt
 from .patamar import Patamar
@@ -37,6 +38,7 @@ from .gee import GEE
 from .clasgas import ClasGas
 
 from typing import List, Type
+from os.path import join
 
 
 class DeckEntrada:
@@ -96,15 +98,30 @@ class DeckEntrada:
 
     @classmethod
     def le_deck(cls, diretorio: str):
+
+        def le_vazpast_eafpast(nome: str):
+            # Lê a primeira linha do arquivo
+            with open(join(diretorio, nome), "r") as arq:
+                # Se tiver a palavra "SISTEMA", é EafPast
+                if "SISTEMA" in arq.readline():
+                    arquivos_deck.append(EafPast.le_arquivo(diretorio, n))
+                else:
+                    arquivos_deck.append(VazPast.le_arquivo(diretorio, n))
+
         # Lê o arquivo caso.dat no diretorio, para saber os
         # nomes dos arquivos
         caso = Caso.le_arquivo(diretorio)
         # Lê o arquivos.dat no diretorio
         arquivos = Arquivos.le_arquivo(diretorio, caso.arquivo)
         # Lê os demais arquivos
-        arquivos_deck = [t.le_arquivo(diretorio, n) for t, n in
-                         zip(DeckEntrada.modelos_arquivos[2:],
-                             arquivos.arquivos_entrada)]
+        arquivos_deck: List[Arquivo] = []
+        for t, n in zip(DeckEntrada.modelos_arquivos[2:],
+                        arquivos.arquivos_entrada):
+            # Pro caso do VazPast, também pode ser EafPast
+            if t == VazPast:
+                le_vazpast_eafpast(n)
+            else:
+                arquivos_deck.append(t.le_arquivo(diretorio, n))
 
         return cls([caso, arquivos] + arquivos_deck)
 
@@ -174,7 +191,15 @@ class DeckEntrada:
         return self.__obtem_arquivo_por_indice(13)
 
     @property
+    def eafpast(self) -> EafPast:
+        if type(self.__obtem_arquivo_por_indice(14)) != EafPast:
+            raise ValueError("Arquivo Eafpast não fornecido")
+        return self.__obtem_arquivo_por_indice(14)
+
+    @property
     def vazpast(self) -> VazPast:
+        if type(self.__obtem_arquivo_por_indice(14)) != VazPast:
+            raise ValueError("Arquivo VazPast não fornecido")
         return self.__obtem_arquivo_por_indice(14)
 
     @property
