@@ -1,4 +1,4 @@
-.. _earmfpm00:
+.. _ghtot00:
 
 ====================================================================
 Geração Hidráulica Total por REE (ghtot00x.out)

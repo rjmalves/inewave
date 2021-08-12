@@ -1,4 +1,4 @@
-.. _earmfpm00:
+.. _gttotsin:
 
 ====================================================================
 Geração Térmica Total para o SIN (gttotsin.out)

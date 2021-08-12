@@ -65,4 +65,5 @@ Arquivos
    arquivos/confhd
    arquivos/dsvagua
    arquivos/vazpast
+   arquivos/eafpast
    arquivos/parp

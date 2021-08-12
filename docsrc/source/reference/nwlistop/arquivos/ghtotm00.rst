@@ -1,4 +1,4 @@
-.. _earmfpm00:
+.. _ghtotm00:
 
 ====================================================================
 Geração Hidráulica Total por Submercado (ghtotm00x.out)
