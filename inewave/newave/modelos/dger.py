@@ -746,13 +746,13 @@ class BlocoTolerancia(Bloco):
 
     # Override
     def le(self, arq: IO):
-        reg = RegistroFn(4)
+        reg = RegistroFn(5)
         self._dados = reg.le_registro(self._linha_inicio,
                                       21)
 
     # Override
     def escreve(self, arq: IO):
-        dado = str(f"{self._dados:2.1f}").rjust(4)
+        dado = str(f"{self._dados:2.1f}").rjust(5)
         linha = (f"{BlocoTolerancia.str_inicio.ljust(21)}" +
                  f"{dado}{BlocoTolerancia.str_fim}\n")
         arq.write(linha)
@@ -777,13 +777,13 @@ class BlocoTaxaDesconto(Bloco):
 
     # Override
     def le(self, arq: IO):
-        reg = RegistroFn(4)
+        reg = RegistroFn(5)
         self._dados = reg.le_registro(self._linha_inicio,
                                       21)
 
     # Override
     def escreve(self, arq: IO):
-        dado = str(f"{self._dados:2.1f}").rjust(4)
+        dado = str(f"{self._dados:2.1f}").rjust(5)
         linha = (f"{BlocoTaxaDesconto.str_inicio.ljust(21)}" +
                  f"{dado}{BlocoTaxaDesconto.str_fim}\n")
         arq.write(linha)
