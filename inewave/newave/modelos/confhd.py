@@ -89,7 +89,7 @@ class BlocoConfUHE(Bloco):
                          reg_jus.le_registro(linha, 25),
                          reg_ree.le_registro(linha, 30),
                          reg_vinic.le_registro(linha, 35),
-                         bool(reg_exis.le_registro(linha, 42)),
+                         reg_exis.le_registro(linha, 42),
                          bool(reg_modif.le_registro(linha, 49)),
                          reg_inic_hist.le_registro(linha, 58),
                          reg_fim_hist.le_registro(linha, 67)]
@@ -112,9 +112,9 @@ class BlocoConfUHE(Bloco):
             # Volume inicial
             linha += f"{float(lin[5]):3.2f} ".rjust(7)
             # Existente
-            linha += "  EX   " if lin[6] else "  NE   "
+            linha += f"{lin[6]}".rjust(4)
             # Modificada
-            linha += str(int(lin[7])).rjust(4) + "     "
+            linha += "   " + str(int(lin[7])).rjust(4) + "     "
             # Início do histórico
             linha += str(lin[8]).rjust(4) + "     "
             # Fim do histórico
