@@ -22,6 +22,10 @@ class LeituraMediasMerc(LeituraCSV):
         super().__init__(diretorio)
 
     def processa_dados_lidos(self):
+        # Remove os espaços dos índices
+        vars_atuais = list(self._dados.index)
+        vars_novas = [v.strip() for v in vars_atuais]
+        self._dados.index = vars_novas
         # Renomeia as colunas
         cols_atuais = list(self._dados.columns)
         cols_novas = [c.strip() for c in cols_atuais]
