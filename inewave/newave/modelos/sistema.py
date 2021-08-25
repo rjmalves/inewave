@@ -61,6 +61,8 @@ class BlocoCustoDeficitSistema(Bloco):
         # Lê o número de patamares de déficit
         num_pat = int(reg_num.le_registro(arq.readline(), 1))
         self._dados[0] = num_pat
+        # Sobrescreve para sempre ler 4 patamares
+        num_pat = 4
         # Pula três linhas
         for _ in range(3):
             arq.readline()
@@ -98,7 +100,7 @@ class BlocoCustoDeficitSistema(Bloco):
     def escreve(self, arq: IO):
 
         def escreve_custos():
-            npat = self._dados[0]
+            npat = 4  # self._dados[0]
             tabela = self._dados[1]
             lin_tab = tabela.shape[0]
             for i in range(lin_tab):
@@ -205,10 +207,13 @@ class BlocoIntercambioSistema(Bloco):
                 # Ano
                 anos.append(reg_ano.le_registro(linha, 0))
                 # Limites
-                tabela[i, :] = reg_lim.le_linha_tabela(linha,
-                                                       7,
-                                                       1,
-                                                       len(MESES))
+                ci = 7
+                nc = 7
+                for j in range(len(MESES)):
+                    cf = ci + nc
+                    if len(linha[ci:cf].strip()) > 0:
+                        tabela[i, j] = reg_lim.le_registro(linha, ci)
+                    ci = cf + 1
                 i += 1
 
     # Override
@@ -239,10 +244,13 @@ class BlocoIntercambioSistema(Bloco):
                     subsistema_para_anterior = subsistema_para
 
                 # Patamares de cada mês
-                linha = f"{self._dados.iloc[i, 0]}   "
+                linha = f"{self._dados.iloc[i, 0]}  "
                 for j in range(len(MESES)):
                     v = self._dados.iloc[i, j + 3]
-                    linha += " {:6.0f}".format(v).rjust(7)
+                    if v != 0:
+                        linha += " {:6.0f}.".format(v).rjust(8)
+                    else:
+                        linha += "        "
                 arq.write(linha + "\n")
 
         # Escreve cabeçalhos
@@ -318,10 +326,13 @@ class BlocoMercadoEnergiaSistema(Bloco):
                 # Subsistema
                 subsistema.append(subsistema_atual)
                 # Limites
-                tabela[i, :] = reg_merc.le_linha_tabela(linha,
-                                                        7,
-                                                        1,
-                                                        len(MESES))
+                ci = 7
+                nc = 7
+                for j in range(len(MESES)):
+                    cf = ci + nc
+                    if len(linha[ci:cf].strip()) > 0:
+                        tabela[i, j] = reg_merc.le_registro(linha, ci)
+                    ci = cf + 1
                 i += 1
 
     # Override
@@ -338,10 +349,13 @@ class BlocoMercadoEnergiaSistema(Bloco):
                     arq.write(" " + str(subsistema).rjust(3) + "\n")
                     subsistema_anterior = subsistema
                 # Mercados de cada mês
-                linha = f"{self._dados.iloc[i, 0].ljust(4)}   "
+                linha = f"{self._dados.iloc[i, 0].ljust(4)}  "
                 for j in range(len(MESES)):
                     v = self._dados.iloc[i, j + 2]
-                    linha += " {:6.0f}".format(v).rjust(7)
+                    if v != 0:
+                        linha += " {:6.0f}.".format(v).rjust(8)
+                    else:
+                        linha += "        "
                 arq.write(linha + "\n")
 
         # Escreve cabeçalhos
@@ -385,11 +399,16 @@ class BlocoGeracaoUsinasNaoSimuladasSistema(Bloco):
             df.columns = MESES_DF
             df["Ano"] = anos
             df["Subsistema"] = subsistema
-            df = df[["Ano", "Subsistema"] + MESES_DF]
+            df["Bloco"] = bloco
+            df["Tipo de Geração"] = tipo
+            df = df[["Ano", "Subsistema",
+                     "Bloco", "Tipo de Geração"] + MESES_DF]
             return df
 
         # Variáveis auxiliares
         reg_subsis = RegistroIn(3)
+        reg_bloco = RegistroIn(3)
+        reg_tipo = RegistroAn(3)
         reg_ano = RegistroIn(4)
         reg_ger = RegistroFn(7)
         # Pula duas linhas, com cabeçalhos
@@ -398,8 +417,12 @@ class BlocoGeracaoUsinasNaoSimuladasSistema(Bloco):
         i = 0
         anos = []
         subsistema = []
+        bloco = []
+        tipo = []
         subsistema_atual = 0
-        tabela = np.zeros((MAX_ANOS_ESTUDO * len(SUBMERCADOS),
+        bloco_atual = 0
+        tipo_atual = ""
+        tabela = np.zeros((MAX_ANOS_ESTUDO * len(SUBMERCADOS) * 5,
                           len(MESES)))
         while True:
             # Verifica se o arquivo acabou
@@ -409,18 +432,26 @@ class BlocoGeracaoUsinasNaoSimuladasSistema(Bloco):
                 self._dados = converte_tabela_em_df()
                 break
             # Senão, lê mais uma linha
-            if len(linha.strip()) < 5:
+            if len(linha.strip()) < 20:
                 subsistema_atual = reg_subsis.le_registro(linha, 1)
+                bloco_atual = reg_bloco.le_registro(linha, 6)
+                tipo_atual = reg_tipo.le_registro(linha, 11)
             else:
                 # Ano
                 anos.append(reg_ano.le_registro(linha, 0))
-                # Subsistema
+                # Subsistema, bloco e tipo do bloco
                 subsistema.append(subsistema_atual)
+                bloco.append(bloco_atual)
+                tipo.append(tipo_atual)
                 # Limites
-                tabela[i, :] = reg_ger.le_linha_tabela(linha,
-                                                       7,
-                                                       1,
-                                                       len(MESES))
+                ci = 7
+                nc = 7
+                for j in range(len(MESES)):
+                    cf = ci + nc
+                    if len(linha[ci:cf].strip()) > 0:
+                        tabela[i, j] = reg_ger.le_registro(linha, ci)
+                    ci = cf + 1
+
                 i += 1
 
     # Override
@@ -428,19 +459,28 @@ class BlocoGeracaoUsinasNaoSimuladasSistema(Bloco):
 
         def escreve_geracoes():
             lin_tab = self._dados.shape[0]
-            subsistema_anterior = 0
+            tipo_anterior = 0
             for i in range(lin_tab):
                 linha = ""
                 # Subsistema
                 subsistema = self._dados.iloc[i, 1]
-                if subsistema != subsistema_anterior:
-                    arq.write(" " + str(subsistema).rjust(3) + "\n")
-                    subsistema_anterior = subsistema
+                bloco = self._dados.iloc[i, 2]
+                tipo = self._dados.iloc[i, 3]
+                if tipo != tipo_anterior:
+                    arq.write(" " +
+                              str(subsistema).rjust(3) + "  " +
+                              str(bloco).rjust(3) + "  " +
+                              str(tipo).rjust(3) +
+                              "\n")
+                    tipo_anterior = tipo
                 # Mercados de cada mês
-                linha = f"{str(self._dados.iloc[i, 0]).ljust(4)}   "
+                linha = f"{str(self._dados.iloc[i, 0]).ljust(4)}  "
                 for j in range(len(MESES)):
-                    v = self._dados.iloc[i, j + 2]
-                    linha += " {:6.0f}".format(v).rjust(7)
+                    v = self._dados.iloc[i, j + 4]
+                    if v != 0:
+                        linha += " {:6.0f}.".format(v).rjust(8)
+                    else:
+                        linha += "        "
                 arq.write(linha + "\n")
 
         # Escreve cabeçalhos

@@ -13,7 +13,7 @@ class BlocoConfiguracoesPenalizacaoCurva(Bloco):
     Bloco com as informações de configurações de
     penalização da curva de volume mínimo.
     """
-    str_inicio = "TIPO DE PENALIZACAO DAS VIOLACOES"
+    str_inicio = ""
     str_fim = ""
 
     def __init__(self):
@@ -125,7 +125,7 @@ class BlocoCurvaSegurancaSubsistema(Bloco):
     Bloco com informações da curva de segurança de operação por mês/ano
     e por subsistema.
     """
-    str_inicio = "CURVA DE SEGURANCA (EM PERCENTUAL DE EARMX) Curva NT ONS"
+    str_inicio = "CURVA DE SEGURANCA"
     str_fim = "9999"
 
     def __init__(self):

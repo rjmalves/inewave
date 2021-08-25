@@ -22,7 +22,9 @@ class Escrita:
 
         ordem_blocos = [b._ordem for b in blocos]
         ordem_linhas = list(linhas.keys())
-        num_itens = max(ordem_blocos + ordem_linhas) + 1
+        ordens = ordem_blocos + ordem_linhas
+        num_ordens = max(ordens) if len(ordens) > 0 else 0
+        num_itens = num_ordens + 1
         for i in range(num_itens):
             if i in ordem_blocos:
                 blocos[ordem_blocos.index(i)].escreve(arq)

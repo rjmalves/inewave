@@ -630,7 +630,7 @@ class BlocoCustoOperacaoPMO(Bloco):
     existentes no arquivo `pmo.dat`.
     """
 
-    str_inicio = "PARCELA           V.ESPERADO  D.P. DO V.E."
+    str_inicio = "PARCELA           V.ESPERADO"
 
     componentes_custo = [
                          "GERACAO TERMICA   ",

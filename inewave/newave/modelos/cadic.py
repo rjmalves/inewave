@@ -82,10 +82,13 @@ class BlocoCargasAdicionaisSubsistema(Bloco):
                 nome_subsistema.append(nome_subsistema_atual)
                 razao_carga.append(razao_carga_atual)
                 # Limites
-                tabela[i, :] = reg_carga.le_linha_tabela(linha,
-                                                         7,
-                                                         1,
-                                                         len(MESES))
+                ci = 7
+                nc = 7
+                for j in range(len(MESES)):
+                    cf = ci + nc
+                    if len(linha[ci:cf].strip()) > 0:
+                        tabela[i, j] = reg_carga.le_registro(linha, ci)
+                    ci = cf + 1
                 i += 1
 
     # Override
@@ -112,14 +115,17 @@ class BlocoCargasAdicionaisSubsistema(Bloco):
                     razao_anterior = razao
                     linha = (" " + str(subsistema).rjust(3) +
                              "  " + str(nome).ljust(12) +
-                             "  " + str(razao).ljust(12))
+                             "  " + str(razao).rjust(12))
                     arq.write(linha + "\n")
                     subsistema_anterior = subsistema
                 # Mercados de cada mês
-                linha = f"{self._dados.iloc[i, 0].ljust(4)}   "
+                linha = f"{self._dados.iloc[i, 0].ljust(4)}  "
                 for j in range(len(MESES)):
                     v = self._dados.iloc[i, j + 4]
-                    linha += " {:6.0f}".format(v).rjust(7)
+                    if v == 0:
+                        linha += "        "
+                    else:
+                        linha += " " + "{:6.0f}.".format(v).rjust(7)
                 arq.write(linha + "\n")
 
         # Escreve cabeçalhos
