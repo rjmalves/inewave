@@ -442,9 +442,9 @@ class BlocoConvergenciaPMO(Bloco):
             # Lê os limites e valores de zinf e zsup
             tabela[i, 1:5] = reg_z.le_linha_tabela(linha, 9, 1, 4)
             # Lê delta z inf e zup iter se houver
-            if linha[101:122].isnumeric():
+            if len(linha[101:122].strip()) > 1:
                 tabela[i, 5] = reg_z.le_registro(linha, 101)
-            if linha[123:144].isnumeric():
+            if len(linha[123:144].strip()) > 1:
                 tabela[i, 6] = reg_z.le_registro(linha, 123)
             # Lê o tempo, convertendo para segundos, se houver
             if "min" in linha[153:168]:
