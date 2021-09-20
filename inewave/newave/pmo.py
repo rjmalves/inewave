@@ -10,6 +10,7 @@ from inewave.newave.modelos.pmo import BlocoConfiguracoesExpansaoPMO
 from inewave.newave.modelos.pmo import BlocoMARSPMO
 from inewave.newave.modelos.pmo import BlocoRiscoDeficitENSPMO
 from inewave.newave.modelos.pmo import BlocoCustoOperacaoPMO
+from inewave.newave.modelos.pmo import BlocoCustoOperacaoTotalPMO
 from inewave.newave.modelos.pmo import LeituraPMO
 
 from typing import Dict, List, Type
@@ -42,6 +43,7 @@ class PMO(Arquivo):
         self.__mars = self.__por_tipo(BlocoMARSPMO)
         self.__risco_deficit = self.__por_tipo(BlocoRiscoDeficitENSPMO)
         self.__custos = self.__por_tipo(BlocoCustoOperacaoPMO)
+        self.__custo_total = self.__por_tipo(BlocoCustoOperacaoTotalPMO)
 
     def __por_tipo(self, tipo: Type[Bloco]) -> List[Bloco]:
         return [b for b in self._blocos if isinstance(b, tipo)]
@@ -251,3 +253,27 @@ class PMO(Arquivo):
         df.set_index(indices,
                      inplace=True)
         return df
+
+    @property
+    def custo_operacao_total(self) -> float:
+        """
+        Custo de operacao total da SF.
+
+        **Retorna**
+
+        `float`
+        """
+        custo = self.__custo_total[0].dados
+        return custo[0]
+
+    @property
+    def desvio_custo_operacao_total(self) -> float:
+        """
+        Custo de operacao total da SF.
+
+        **Retorna**
+
+        `float`
+        """
+        custo = self.__custo_total[0].dados
+        return custo[1]

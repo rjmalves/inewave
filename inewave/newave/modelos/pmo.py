@@ -690,6 +690,39 @@ class BlocoCustoOperacaoPMO(Bloco):
         pass
 
 
+class BlocoCustoOperacaoTotalPMO(Bloco):
+    """
+    Bloco de informações sobre os custos de operação categorizados
+    existentes no arquivo `pmo.dat`.
+    """
+
+    str_inicio = "           VALOR ESPERADO TOTAL:"
+
+    def __init__(self):
+        super().__init__(BlocoCustoOperacaoTotalPMO.str_inicio,
+                         "",
+                         True)
+        self._dados = np.zeros((2,))
+
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoCustoOperacaoTotalPMO):
+            return False
+        bloco: BlocoCustoOperacaoTotalPMO = o
+        return np.array_equal(self._dados, bloco._dados)
+
+    # Override
+    def le(self, arq: IO):
+        linha = arq.readline()
+        # Variáveis auxiliares
+        reg_custo = RegistroFn(13)
+        self._dados[0] = reg_custo.le_registro(self._linha_inicio, 62)
+        self._dados[1] = reg_custo.le_registro(linha, 62)
+
+    # Override
+    def escreve(self, arq: IO):
+        pass
+
+
 class LeituraPMO(Leitura):
     """
     Realiza a leitura do arquivo pmo.dat
@@ -726,7 +759,8 @@ class LeituraPMO(Leitura):
         custos: List[Bloco] = [
                                BlocoCustoOperacaoPMO(),
                                BlocoCustoOperacaoPMO(),
-                               BlocoCustoOperacaoPMO()
+                               BlocoCustoOperacaoPMO(),
+                               BlocoCustoOperacaoTotalPMO()
                               ]
 
         return (convergencia +
