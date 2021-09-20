@@ -274,7 +274,8 @@ class BlocoEafPastTendenciaHidrolPMO(Bloco):
     tendência hidrológica localizado no arquivo `pmo.dat`.
     """
 
-    str_inicio = "ENERGIAS AFLUENTES PASSADAS PARA A TENDENCIA HIDROLOGICA"
+    str_inicio = ("ENERGIAS AFLUENTES PASSADAS PARA A TENDENCIA HIDROLOGICA" +
+                  " EM REFERENCIA A PRIMEIRA CONFIGURACAO DO SISTEMA (MWmes)")
     str_fim = ""
 
     def __init__(self):

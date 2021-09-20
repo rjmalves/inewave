@@ -5,6 +5,7 @@ import numpy as np  # type: ignore
 
 
 pmo = PMO.le_arquivo("tests/_arquivos")
+pmo_sf = PMO.le_arquivo("tests/_arquivos", "pmo_sf.dat")
 
 
 def test_eq_pmo():
