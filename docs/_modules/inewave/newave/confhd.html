@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>inewave.newave.confhd &mdash; documentação inewave 0.0.29</title>
+  <title>inewave.newave.confhd &mdash; documentação inewave 0.0.43</title>
   
 
   
@@ -219,7 +219,11 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">usinas</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__bloco</span><span class="o">.</span><span class="n">dados</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__bloco</span><span class="o">.</span><span class="n">dados</span>
+
+    <span class="nd">@usinas</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">usinas</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">d</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__bloco</span><span class="o">.</span><span class="n">dados</span> <span class="o">=</span> <span class="n">d</span></div>
 </pre></div>
 
            </div>

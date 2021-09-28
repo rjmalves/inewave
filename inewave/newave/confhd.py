@@ -58,3 +58,7 @@ class Confhd(Arquivo):
     @property
     def usinas(self) -> pd.DataFrame:
         return self.__bloco.dados
+
+    @usinas.setter
+    def usinas(self, d: pd.DataFrame):
+        self.__bloco.dados = d
