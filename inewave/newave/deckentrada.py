@@ -284,4 +284,4 @@ class DeckEntrada:
 
     @property
     def clasgas(self) -> ClasGas:
-        return self.__obtem_arquivo_por_indice(34)
+        return self.__obtem_arquivo_por_indice(35)

@@ -3,6 +3,9 @@ from inewave._utils.dadosarquivo import DadosArquivo
 from inewave._utils.escrita import Escrita
 from inewave.newave.modelos.cvar import LeituraCVAR
 
+from typing import List
+import pandas as pd  # type: ignore
+
 
 class CVAR(Arquivo):
     """
@@ -36,3 +39,27 @@ class CVAR(Arquivo):
         escritor = Escrita(diretorio)
         escritor.escreve_arquivo(self._dados,
                                  nome_arquivo)
+
+    @property
+    def valores_constantes(self) -> List[float]:
+        return self._blocos[0].dados
+
+    @valores_constantes.setter
+    def valores_constantes(self, d: List[float]):
+        self._blocos[0].dados = d
+
+    @property
+    def alfa_variavel(self) -> pd.DataFrame:
+        return self._blocos[1].dados
+
+    @alfa_variavel.setter
+    def alfa_variavel(self, d: pd.DataFrame):
+        self._blocos[1].dados = d
+
+    @property
+    def lambda_variavel(self) -> pd.DataFrame:
+        return self._blocos[2].dados
+
+    @lambda_variavel.setter
+    def lambda_variavel(self, d: pd.DataFrame):
+        self._blocos[2].dados = d

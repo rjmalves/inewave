@@ -323,17 +323,18 @@ class BlocoIntercambioPatamarSubsistemas(Bloco):
                     subsistema_de_anterior = subsistema_de
                     subsistema_para_anterior = subsistema_para
                     i_subsistema = 0
+                    arq.write(linha + "\n")
+                    linha = ""
+                # Ano
+                if i_subsistema % NUM_PATAMARES == 0:
+                    linha += "   " + str(self._dados.iloc[i, 0]).rjust(4)
                 else:
-                    # Ano
-                    if i_subsistema % NUM_PATAMARES == 0:
-                        linha += "   " + str(self._dados.iloc[i, 0]).rjust(4)
-                    else:
-                        linha += "       "
-                    i_subsistema += 1
-                    # Patamares de cada mês
-                    for j in range(len(MESES)):
-                        v = self._dados.iloc[i, j + 4]
-                        linha += "{:1.4f}".format(v).rjust(7)
+                    linha += "       "
+                i_subsistema += 1
+                # Patamares de cada mês
+                for j in range(len(MESES)):
+                    v = self._dados.iloc[i, j + 4]
+                    linha += "{:1.4f}".format(v).rjust(7)
                 arq.write(linha + "\n")
 
         # Escreve cabeçalhos
