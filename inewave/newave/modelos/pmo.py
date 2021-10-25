@@ -565,8 +565,8 @@ class BlocoMARSPMO(Bloco):
                 for k in range(1, j):
                     tabela_formatada = np.vstack([tabela_formatada,
                                                   tabela[:, :, k]])
-                rees = np.array(np.array(rees))
-                rees = np.repeat(np.array(rees),
+                rees = np.array(rees)
+                rees = np.repeat(rees,
                                  BlocoMARSPMO.MAX_RETAS_MARS)
                 retas = np.tile(retas, j)
                 _converte_tabela_em_df()
