@@ -544,7 +544,7 @@ class BlocoMARSPMO(Bloco):
             self._dados = pd.DataFrame(tabela_formatada,
                                        columns=colunas)
             self._dados["Reta"] = retas
-            self._dados["REE"] = rees
+            self._dados["REE"] = rees_a
             self._dados = self._dados[["REE", "Reta"] + colunas]
 
         # Variáveis auxiliares
