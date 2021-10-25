@@ -1,6 +1,5 @@
 # Rotinas de testes associadas ao arquivo pmo.dat do NEWAVE
 from inewave.newave.pmo import PMO
-from inewave.config import REES
 import numpy as np  # type: ignore
 
 
@@ -45,7 +44,7 @@ def test_leitura_configs():
 
 def test_leitura_retas_perdas():
     perdas = pmo.retas_perdas_engolimento
-    assert len(perdas.keys()) == len(REES)
+    assert perdas.iloc[0, 2] == 0.073282
 
 
 def test_leitura_convergencia():

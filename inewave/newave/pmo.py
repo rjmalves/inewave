@@ -1,4 +1,3 @@
-from inewave.config import REES
 from inewave._utils.arquivo import Arquivo
 from inewave._utils.bloco import Bloco
 from inewave._utils.dadosarquivo import DadosArquivo
@@ -13,7 +12,7 @@ from inewave.newave.modelos.pmo import BlocoCustoOperacaoPMO
 from inewave.newave.modelos.pmo import BlocoCustoOperacaoTotalPMO
 from inewave.newave.modelos.pmo import LeituraPMO
 
-from typing import Dict, List, Type
+from typing import List, Type
 import numpy as np  # type: ignore
 import pandas as pd  # type: ignore
 
@@ -139,7 +138,7 @@ class PMO(Arquivo):
         self.__configs_exp[2].dados = configs
 
     @property
-    def retas_perdas_engolimento(self) -> Dict[str, np.ndarray]:
+    def retas_perdas_engolimento(self) -> pd.DataFrame:
         """
         Retas ajustadas segundo o modelo MARS para corrigir a
         energia fio d'água com as perdas por engolimento máximo.
@@ -150,12 +149,9 @@ class PMO(Arquivo):
 
         **Retorna**
 
-        `np.ndarray`
+        `pd.DataFrame`
         """
-        retas: Dict[str, np.ndarray] = {}
-        for i, r in enumerate(REES):
-            retas[r] = self.__mars[0].dados[:, :, i]
-        return retas
+        return self.__mars[0].dados
 
     @property
     def convergencia(self) -> pd.DataFrame:

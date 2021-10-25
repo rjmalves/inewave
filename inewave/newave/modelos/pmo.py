@@ -3,7 +3,7 @@ from inewave._utils.bloco import Bloco
 from inewave._utils.registros import RegistroAn, RegistroFn, RegistroIn
 from inewave._utils.leitura import Leitura
 from inewave.config import MAX_ANOS_ESTUDO, MAX_CONFIGURACOES, MAX_ITERS
-from inewave.config import REES, NUM_CONFIGS_DGER
+from inewave.config import MAX_REES, NUM_CONFIGS_DGER
 from inewave.config import MESES, MESES_DF, SUBMERCADOS
 # Imports de módulos externos
 from datetime import timedelta
@@ -307,12 +307,13 @@ class BlocoEafPastTendenciaHidrolPMO(Bloco):
         reg_sistema = RegistroAn(10)
         reg_eaf = RegistroFn(8)
         rees: List[str] = []
-        tabela = np.zeros((len(REES), len(MESES_DF)))
+        tabela = np.zeros((MAX_REES, len(MESES_DF)))
         i = 0
         while True:
             linha: str = arq.readline()
             # Confere se acabou
             if "X-------" in linha:
+                tabela = tabela[:i, :]
                 self._dados = converte_tabela_em_df()
                 break
             # Lê mais uma linha
@@ -366,12 +367,13 @@ class BlocoEafPastCfugaMedioPMO(Bloco):
         reg_sistema = RegistroAn(10)
         reg_eaf = RegistroFn(8)
         rees: List[str] = []
-        tabela = np.zeros((len(REES), len(MESES_DF)))
+        tabela = np.zeros((MAX_REES, len(MESES_DF)))
         i = 0
         while True:
             linha: str = arq.readline()
             # Confere se acabou
             if "X-------" in linha:
+                tabela = tabela[:i, :]
                 self._dados = converte_tabela_em_df()
                 break
             # Lê mais uma linha
@@ -518,7 +520,7 @@ class BlocoMARSPMO(Bloco):
     """
 
     str_inicio = "PARAMETROS DAS RETAS DE PERDAS POR ENGOLIMENTO MAXIMO"
-    str_fim = 'CEPEL'
+    str_fim = 'ENERGIA FIO D"AGUA LIQUIDA (MWmes)   CONFIGURACAO'
 
     MAX_RETAS_MARS = 3
 
@@ -526,10 +528,7 @@ class BlocoMARSPMO(Bloco):
         super().__init__(BlocoMARSPMO.str_inicio,
                          BlocoMARSPMO.str_fim,
                          True)
-        self._dados = np.zeros((BlocoMARSPMO.MAX_RETAS_MARS,
-                                2,
-                                len(REES)),
-                               dtype=np.float64)
+        self._dados = pd.DataFrame()
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoMARSPMO):
@@ -539,31 +538,55 @@ class BlocoMARSPMO(Bloco):
 
     # Override
     def le(self, arq: IO):
+
+        def _converte_tabela_em_df():
+            colunas = ["Coef. Angular", "Constante"]
+            self._dados = pd.DataFrame(tabela_formatada,
+                                       columns=colunas)
+            self._dados["Reta"] = retas
+            self._dados["REE"] = rees
+            self._dados = self._dados[["REE", "Reta"] + colunas]
+
         # Variáveis auxiliares
-        ree = 0
+        retas = np.arange(1, BlocoMARSPMO.MAX_RETAS_MARS + 1)
+        rees: List[str] = []
+        j = 0
         reg_ree = RegistroAn(10)
         reg_reta = RegistroFn(12)
-        rees_lidos = 0
+        tabela = np.zeros((BlocoMARSPMO.MAX_RETAS_MARS,
+                           2,
+                           MAX_REES),
+                          dtype=np.float64)
         while True:
             linha: str = arq.readline()
-            if rees_lidos == len(REES) or BlocoMARSPMO.str_fim in linha:
+            if BlocoMARSPMO.str_fim in linha:
+                tabela = tabela[:, :, :j]
+                tabela_formatada = tabela[:, :, 0]
+                for k in range(1, j):
+                    tabela_formatada = np.vstack([tabela_formatada,
+                                                  tabela[:, :, k]])
+                rees = np.array(rees)
+                rees = np.repeat(rees, BlocoMARSPMO.MAX_RETAS_MARS)
+                retas = np.tile(retas, j)
+                _converte_tabela_em_df()
                 break
             elif "REE:" in linha:
-                ree = REES.index(reg_ree.le_registro(linha, 6))
+                ree = reg_ree.le_registro(linha, 6)
+                rees.append(ree)
                 # Salta linhas entre o título e os coeficientes
                 for _ in range(4):
                     arq.readline()
                 # Lê as retas disponíveis
-                rees_lidos += 1
                 for i in range(BlocoMARSPMO.MAX_RETAS_MARS):
                     linha = arq.readline()
                     if len(linha) > 3:
-                        self._dados[i,
-                                    :,
-                                    ree] = reg_reta.le_linha_tabela(linha,
-                                                                    14,
-                                                                    1,
-                                                                    2)
+                        tabela[i,
+                               :,
+                               j] = reg_reta.le_linha_tabela(linha,
+                                                             14,
+                                                             1,
+                                                             2)
+                j += 1
 
     # Override
     def escreve(self, arq: IO):

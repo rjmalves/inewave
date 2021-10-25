@@ -1,4 +1,4 @@
-from inewave.config import REES, MAX_ANOS_ESTUDO, MESES_DF
+from inewave.config import MAX_REES, MAX_ANOS_ESTUDO, MESES_DF
 from inewave._utils.registros import RegistroIn, RegistroFn
 from inewave._utils.bloco import Bloco
 from inewave._utils.leitura import Leitura
@@ -88,7 +88,7 @@ class BlocoPenalidadesViolacaoREECurva(Bloco):
         # Pula uma linha, com cabeçalhos
         arq.readline()
         i = 0
-        tabela = np.zeros((len(REES),
+        tabela = np.zeros((MAX_REES,
                           2))
         while True:
             # Verifica se o arquivo acabou
@@ -165,7 +165,7 @@ class BlocoCurvaSegurancaSubsistema(Bloco):
         subsistema = []
         subsistema_atual = 0
 
-        tabela = np.zeros((MAX_ANOS_ESTUDO * len(REES),
+        tabela = np.zeros((MAX_ANOS_ESTUDO * MAX_REES,
                           len(MESES_DF)))
         while True:
             # Verifica se o arquivo acabou
