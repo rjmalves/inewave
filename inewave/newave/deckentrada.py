@@ -53,8 +53,7 @@ class DeckEntrada:
 
     """
 
-    modelos_arquivos: List[Type[Arquivo]] = [
-                                             Caso,
+    modelos_arquivos: List[Type[Arquivo]] = [Caso,
                                              Arquivos,
                                              DGer,
                                              Sistema,
@@ -89,8 +88,7 @@ class DeckEntrada:
                                              Tecno,
                                              Abertura,
                                              GEE,
-                                             ClasGas
-                                            ]
+                                             ClasGas]
 
     def __init__(self,
                  arquivos: List[Arquivo]) -> None:

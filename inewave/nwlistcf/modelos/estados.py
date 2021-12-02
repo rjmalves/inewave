@@ -99,7 +99,7 @@ class RegistroEstado:
                 cf = ci + nc
                 num_str = linha[ci:cf]
                 valor = 0.0 if not num_str.isnumeric() else float(num_str)
-                tabela[ree-1, j] = valor
+                tabela[ree - 1, j] = valor
                 ci = cf + 1
 
         return cls(ireg,

@@ -30,10 +30,8 @@ class BlocoGeracaoHidraulicaREE(Bloco):
         if not isinstance(o, BlocoGeracaoHidraulicaREE):
             return False
         bloco: BlocoGeracaoHidraulicaREE = o
-        return all([
-                    self._dados[0] == bloco.dados[0],
-                    self._dados[1].equals(bloco._dados[1])
-                   ])
+        return all([self._dados[0] == bloco.dados[0],
+                    self._dados[1].equals(bloco._dados[1])])
 
     # Override
     def le(self, arq: IO):

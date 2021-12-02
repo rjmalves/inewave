@@ -47,8 +47,7 @@ class BlocoConfUHE(Bloco):
             col_modif = extrai_coluna_de_listas(dados_uhes, 7)
             col_inic_hist = extrai_coluna_de_listas(dados_uhes, 8)
             col_fim_hist = extrai_coluna_de_listas(dados_uhes, 9)
-            dados = {
-                     "Número": col_num,
+            dados = {"Número": col_num,
                      "Nome": col_nome,
                      "Posto": col_posto,
                      "Jusante": col_jus,
@@ -57,8 +56,7 @@ class BlocoConfUHE(Bloco):
                      "Usina Existente": col_exis,
                      "Modificada": col_modif,
                      "Início do Histórico": col_inic_hist,
-                     "Fim do Histórico": col_fim_hist
-                    }
+                     "Fim do Histórico": col_fim_hist}
             return pd.DataFrame(data=dados)
 
         # Salta a linha com "XXX"

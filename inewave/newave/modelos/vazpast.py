@@ -29,11 +29,9 @@ class BlocoVazPast(Bloco):
         if not isinstance(o, BlocoVazPast):
             return False
         bloco: BlocoVazPast = o
-        return all([
-                    self._dados[0] == bloco._dados[0],
+        return all([self._dados[0] == bloco._dados[0],
                     self._dados[1] == bloco._dados[1],
-                    self._dados[2].equals(bloco._dados[2])
-                   ])
+                    self._dados[2].equals(bloco._dados[2])])
 
     # Override
     def le(self, arq: IO):

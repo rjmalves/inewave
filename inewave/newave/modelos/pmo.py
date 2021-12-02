@@ -657,8 +657,7 @@ class BlocoCustoOperacaoPMO(Bloco):
 
     str_inicio = "PARCELA           V.ESPERADO"
 
-    componentes_custo = [
-                         "GERACAO TERMICA   ",
+    componentes_custo = ["GERACAO TERMICA   ",
                          "DEFICIT           ",
                          "VERTIMENTO        ",
                          "EXCESSO ENERGIA   ",
@@ -673,8 +672,7 @@ class BlocoCustoOperacaoPMO(Bloco):
                          "VIOLACAO GHMIN    ",
                          "VIOLACAO GHMINU   ",
                          "VIOLACAO RETIRADA ",
-                         "VIOLACAO EMIS. GEE"
-                        ]
+                         "VIOLACAO EMIS. GEE"]
 
     def __init__(self):
         super().__init__(BlocoCustoOperacaoPMO.str_inicio,
@@ -780,12 +778,10 @@ class LeituraPMO(Leitura):
                                     for _ in range(3)]
         mars: List[Bloco] = [BlocoMARSPMO()
                              for _ in range(MAX_CONFIGURACOES)]
-        custos: List[Bloco] = [
+        custos: List[Bloco] = [BlocoCustoOperacaoPMO(),
                                BlocoCustoOperacaoPMO(),
                                BlocoCustoOperacaoPMO(),
-                               BlocoCustoOperacaoPMO(),
-                               BlocoCustoOperacaoTotalPMO()
-                              ]
+                               BlocoCustoOperacaoTotalPMO()]
 
         return (convergencia +
                 eafpast +

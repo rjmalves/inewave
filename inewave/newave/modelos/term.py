@@ -49,14 +49,12 @@ class BlocoTermUTE(Bloco):
             for i in range(6, 6 + 13):
                 col_gtmin.append(extrai_coluna_de_listas(dados_utes,
                                                          i))
-            dados = {
-                     "Número": col_num,
+            dados = {"Número": col_num,
                      "Nome": col_nome,
                      "Potência Instalada": col_pot,
                      "FC Máximo": col_fcmx,
                      "TEIF": col_teif,
-                     "Indisponibilidade Programada": col_ip
-                    }
+                     "Indisponibilidade Programada": col_ip}
             for i in range(12):
                 dados[f"GT Min {MESES_DF[i]}"] = col_gtmin[i]
             dados["GT Min D+ Anos"] = col_gtmin[-1]

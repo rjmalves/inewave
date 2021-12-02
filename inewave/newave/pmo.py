@@ -174,8 +174,7 @@ class PMO(Arquivo):
         `pandas.DataFrame`
         """
         df = pd.DataFrame(self.__risco_deficit[0].dados,
-                          columns=[
-                                   "Ano",
+                          columns=["Ano",
                                    "Risco (%) SE",
                                    "EENS (MWMes) SE",
                                    "Risco (%) S",
@@ -183,8 +182,7 @@ class PMO(Arquivo):
                                    "Risco (%) NE",
                                    "EENS (MWMes) NE",
                                    "Risco (%) N",
-                                   "EENS (MWMes) N"
-                                  ])
+                                   "EENS (MWMes) N"])
         return df
 
     @property
@@ -198,11 +196,9 @@ class PMO(Arquivo):
         `pandas.DataFrame`
         """
         df = pd.DataFrame(self.__custos[0].dados,
-                          columns=[
-                                   "Valor Esperado",
+                          columns=["Valor Esperado",
                                    "Desvio Padrão do VE",
-                                   "(%)"
-                                  ])
+                                   "(%)"])
         indices = pd.Series(BlocoCustoOperacaoPMO.componentes_custo)
         df.set_index(indices,
                      inplace=True)
@@ -219,11 +215,9 @@ class PMO(Arquivo):
         `pandas.DataFrame`
         """
         df = pd.DataFrame(self.__custos[1].dados,
-                          columns=[
-                                   "Valor Esperado",
+                          columns=["Valor Esperado",
                                    "Desvio Padrão do VE",
-                                   "(%)"
-                                  ])
+                                   "(%)"])
         indices = pd.Series(BlocoCustoOperacaoPMO.componentes_custo)
         df.set_index(indices,
                      inplace=True)
@@ -240,11 +234,9 @@ class PMO(Arquivo):
         `pandas.DataFrame`
         """
         df = pd.DataFrame(self.__custos[2].dados,
-                          columns=[
-                                   "Valor Esperado",
+                          columns=["Valor Esperado",
                                    "Desvio Padrão do VE",
-                                   "(%)"
-                                  ])
+                                   "(%)"])
         indices = pd.Series(BlocoCustoOperacaoPMO.componentes_custo)
         df.set_index(indices,
                      inplace=True)

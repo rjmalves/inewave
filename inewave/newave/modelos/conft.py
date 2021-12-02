@@ -41,13 +41,11 @@ class BlocoConfUTE(Bloco):
             col_subsis = extrai_coluna_de_listas(dados_utes, 2)
             col_exis = extrai_coluna_de_listas(dados_utes, 3)
             col_clas = extrai_coluna_de_listas(dados_utes, 4)
-            dados = {
-                     "Número": col_num,
+            dados = {"Número": col_num,
                      "Nome": col_nome,
                      "Subsistema": col_subsis,
                      "Usina Existente": col_exis,
-                     "Classe": col_clas
-                    }
+                     "Classe": col_clas}
             return pd.DataFrame(data=dados)
 
         # Salta a linha com "XXX"

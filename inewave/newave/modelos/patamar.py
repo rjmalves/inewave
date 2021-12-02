@@ -314,10 +314,8 @@ class BlocoIntercambioPatamarSubsistemas(Bloco):
                 # Subsistemas de / para
                 subsistema_de = self._dados.iloc[i, 2]
                 subsistema_para = self._dados.iloc[i, 3]
-                if any([
-                        subsistema_de != subsistema_de_anterior,
-                        subsistema_para != subsistema_para_anterior
-                       ]):
+                if any([subsistema_de != subsistema_de_anterior,
+                        subsistema_para != subsistema_para_anterior]):
                     linha = (str(subsistema_de).rjust(4) +
                              str(subsistema_para).rjust(4))
                     subsistema_de_anterior = subsistema_de

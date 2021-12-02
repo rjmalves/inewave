@@ -45,7 +45,7 @@ class RegistroAn(Registro):
         Lê o conteúdo de uma string existente numa linha de um arquivo
         do NEWAVE e retorna o valor sem espaços adicionais.
         """
-        return linha[coluna_inicio:coluna_inicio+self.tamanho].strip()
+        return linha[coluna_inicio:coluna_inicio + self.tamanho].strip()
 
     def le_linha_tabela(self,
                         linha: str,
@@ -77,7 +77,7 @@ class RegistroIn(Registro):
         Lê o conteúdo de um inteiro existente numa linha de um arquivo
         do NEWAVE e retorna o valor já convertido.
         """
-        return int(linha[coluna_inicio:coluna_inicio+self.tamanho].strip())
+        return int(linha[coluna_inicio:coluna_inicio + self.tamanho].strip())
 
     def le_linha_tabela(self,
                         linha: str,
@@ -111,7 +111,7 @@ class RegistroFn(Registro):
         Lê o conteúdo de um número existente numa linha de um arquivo
         do NEWAVE e retorna o valor já convertido.
         """
-        return float(linha[coluna_inicio:coluna_inicio+self.tamanho])
+        return float(linha[coluna_inicio:coluna_inicio + self.tamanho])
 
     def le_linha_tabela(self,
                         linha: str,

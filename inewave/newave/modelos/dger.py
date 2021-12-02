@@ -2694,8 +2694,7 @@ class LeituraDGer(Leitura):
 
     # Override
     def _cria_blocos_leitura(self) -> List[Bloco]:
-        return [
-                BlocoNomeCaso(),
+        return [BlocoNomeCaso(),
                 BlocoTipoExecucao(),
                 BlocoDuracaoPeriodo(),
                 BlocoNumAnosEstudo(),
@@ -2780,5 +2779,4 @@ class LeituraDGer(Leitura):
                 BlocoRestricoesFornecGas(),
                 BlocoIncertezaGeracaoEolica(),
                 BlocoIncertezaGeracaoSolar(),
-                BlocoRepresentacaoIncerteza()
-               ]
+                BlocoRepresentacaoIncerteza()]

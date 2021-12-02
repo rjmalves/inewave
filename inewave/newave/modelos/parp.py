@@ -64,15 +64,16 @@ class BlocoSerieEnergiaREE(Bloco):
                     break
                 # Senão, lê mais uma linha
                 # Ano
-                self._dados[i_linha, 0, self.__cfg-1] = regi.le_registro(linha,
-                                                                         0)
+                self._dados[i_linha,
+                            0,
+                            self.__cfg - 1] = regi.le_registro(linha, 0)
                 # Energias de cada mês
                 self._dados[i_linha,
                             1:,
-                            self.__cfg-1] = regf.le_linha_tabela(linha,
-                                                                 5,
-                                                                 2,
-                                                                 len(MESES))
+                            self.__cfg - 1] = regf.le_linha_tabela(linha,
+                                                                   5,
+                                                                   2,
+                                                                   len(MESES))
                 i_linha += 1
 
         STR_CFG = "CONFIGURACAO No."
@@ -177,14 +178,12 @@ class BlocoOrdensFinaisCoefsREE(Bloco):
         super().__init__(BlocoOrdensFinaisCoefsREE.str_inicio,
                          BlocoOrdensFinaisCoefsREE.str_fim,
                          True)
-        self._dados = [
-                       np.zeros((MAX_ANOS_ESTUDO,
+        self._dados = [np.zeros((MAX_ANOS_ESTUDO,
                                  len(MESES) + 1),
                                 dtype=np.int32),
                        np.zeros((MAX_MESES_ESTUDO,
                                  ORDEM_MAX_PARP,
-                                 4))
-                      ]
+                                 4))]
         self.__ano = "0"
 
     def __eq__(self, o: object):

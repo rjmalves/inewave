@@ -28,10 +28,8 @@ class BlocoCustoDeficitSistema(Bloco):
         if not isinstance(o, BlocoCustoDeficitSistema):
             return False
         bloco: BlocoCustoDeficitSistema = o
-        return all([
-                    self._dados[0] == bloco._dados[0],
-                    self._dados[1].equals(bloco._dados[1])
-                   ])
+        return all([self._dados[0] == bloco._dados[0],
+                    self._dados[1].equals(bloco._dados[1])])
 
     # Override
     def le(self, arq: IO):
@@ -228,14 +226,10 @@ class BlocoIntercambioSistema(Bloco):
                 # Subsistemas de / para
                 subsistema_de = self._dados.iloc[i, 1]
                 subsistema_para = self._dados.iloc[i, 2]
-                if any([
-                        subsistema_de != subsistema_de_anterior,
-                        subsistema_para != subsistema_para_anterior
-                       ]):
-                    if not all([
-                                subsistema_de == subsistema_para_anterior,
-                                subsistema_para == subsistema_de_anterior
-                               ]):
+                if any([subsistema_de != subsistema_de_anterior,
+                        subsistema_para != subsistema_para_anterior]):
+                    if not all([subsistema_de == subsistema_para_anterior,
+                                subsistema_para == subsistema_de_anterior]):
                         linha = (str(subsistema_de).rjust(4) +
                                  str(subsistema_para).rjust(4) +
                                  "               0")

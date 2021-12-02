@@ -12,8 +12,7 @@ class BlocoNomesArquivos(Bloco):
     entrada do NEWAVE `arquivos.dat`.
     """
 
-    legendas = [
-                "DADOS GERAIS                :",
+    legendas = ["DADOS GERAIS                :",
                 "DADOS DOS SUBSIST/SUBMERCADO:",
                 "CONFIGURACAO HIDRAULICA     :",
                 "ALTERACAO DADOS USINAS HIDRO:",
@@ -53,8 +52,7 @@ class BlocoNomesArquivos(Bloco):
                 "ARQUIVO DE TECNOLOGIAS      :",
                 "DADOS DE ABERTURAS          :",
                 "ARQUIVO DE EMISSOES GEE     :",
-                "ARQUIVO DE RESTRICAO DE GAS :"
-               ]
+                "ARQUIVO DE RESTRICAO DE GAS :"]
 
     def __init__(self,
                  str_inicio: str,

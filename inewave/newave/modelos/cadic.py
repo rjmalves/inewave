@@ -105,11 +105,9 @@ class BlocoCargasAdicionaisSubsistema(Bloco):
                 subsistema = self._dados.iloc[i, 1]
                 nome = self._dados.iloc[i, 2]
                 razao = self._dados.iloc[i, 3]
-                if any([
-                        subsistema != subsistema_anterior,
+                if any([subsistema != subsistema_anterior,
                         nome != nome_anterior,
-                        razao != razao_anterior
-                       ]):
+                        razao != razao_anterior]):
                     subsistema_anterior = subsistema
                     nome_anterior = nome
                     razao_anterior = razao

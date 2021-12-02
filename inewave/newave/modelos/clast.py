@@ -45,16 +45,14 @@ class BlocoUTEClasT(Bloco):
             col_custo3 = extrai_coluna_de_listas(dados_utes, 5)
             col_custo4 = extrai_coluna_de_listas(dados_utes, 6)
             col_custo5 = extrai_coluna_de_listas(dados_utes, 7)
-            dados = {
-                     "Número": col_num,
+            dados = {"Número": col_num,
                      "Nome": col_nome,
                      "Tipo Combustível": col_tipo,
                      "Custo 1": col_custo1,
                      "Custo 2": col_custo2,
                      "Custo 3": col_custo3,
                      "Custo 4": col_custo4,
-                     "Custo 5": col_custo5
-                    }
+                     "Custo 5": col_custo5}
             return pd.DataFrame(data=dados)
 
         # Salta a linha com "XXX"
@@ -73,11 +71,9 @@ class BlocoUTEClasT(Bloco):
                 # Converte para df e salva na variável
                 self._dados = transforma_utes_em_tabela()
                 break
-            dados_ute = [
-                         reg_num.le_registro(linha, 1),
+            dados_ute = [reg_num.le_registro(linha, 1),
                          reg_nome.le_registro(linha, 6),
-                         reg_tipo.le_registro(linha, 19)
-                        ]
+                         reg_tipo.le_registro(linha, 19)]
             dados_ute += reg_custo.le_linha_tabela(linha, 30, 1, 5)
             dados_utes.append(dados_ute)
 
@@ -149,15 +145,13 @@ class BlocoModificacaoUTEClasT(Bloco):
             col_mes_fim = extrai_coluna_de_listas(dados_utes, 4)
             col_ano_fim = extrai_coluna_de_listas(dados_utes, 5)
             col_nome = extrai_coluna_de_listas(dados_utes, 6)
-            dados = {
-                     "Número": col_num,
+            dados = {"Número": col_num,
                      "Nome": col_nome,
                      "Custo": col_custo,
                      "Mês Início": col_mes_inic,
                      "Ano Início": col_ano_inic,
                      "Mês Fim": col_mes_fim,
-                     "Ano Fim": col_ano_fim,
-                    }
+                     "Ano Fim": col_ano_fim}
             return pd.DataFrame(data=dados)
 
         # Salta a linha com "XXX"
@@ -181,15 +175,13 @@ class BlocoModificacaoUTEClasT(Bloco):
             mes_fim = int(s_mes_fim) if s_mes_fim != "  " else None
             s_ano_fim = linha[29:33]
             ano_fim = int(s_ano_fim) if s_ano_fim != "    " else None
-            dados_ute = [
-                         reg_num.le_registro(linha, 1),
+            dados_ute = [reg_num.le_registro(linha, 1),
                          reg_custo.le_registro(linha, 8),
                          reg_mes.le_registro(linha, 17),
                          reg_ano.le_registro(linha, 20),
                          mes_fim,
                          ano_fim,
-                         reg_nome.le_registro(linha, 35)
-                        ]
+                         reg_nome.le_registro(linha, 35)]
             dados_utes.append(dados_ute)
 
     # Override
