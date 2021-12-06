@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>inewave.newave.pmo &mdash; documentação inewave 0.0.45</title>
+  <title>inewave.newave.pmo &mdash; documentação inewave 0.0.48</title>
   
 
   
@@ -336,8 +336,7 @@
 <span class="sd">        `pandas.DataFrame`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__risco_deficit</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">dados</span><span class="p">,</span>
-                          <span class="n">columns</span><span class="o">=</span><span class="p">[</span>
-                                   <span class="s2">&quot;Ano&quot;</span><span class="p">,</span>
+                          <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Ano&quot;</span><span class="p">,</span>
                                    <span class="s2">&quot;Risco (%) SE&quot;</span><span class="p">,</span>
                                    <span class="s2">&quot;EENS (MWMes) SE&quot;</span><span class="p">,</span>
                                    <span class="s2">&quot;Risco (%) S&quot;</span><span class="p">,</span>
@@ -345,8 +344,7 @@
                                    <span class="s2">&quot;Risco (%) NE&quot;</span><span class="p">,</span>
                                    <span class="s2">&quot;EENS (MWMes) NE&quot;</span><span class="p">,</span>
                                    <span class="s2">&quot;Risco (%) N&quot;</span><span class="p">,</span>
-                                   <span class="s2">&quot;EENS (MWMes) N&quot;</span>
-                                  <span class="p">])</span>
+                                   <span class="s2">&quot;EENS (MWMes) N&quot;</span><span class="p">])</span>
         <span class="k">return</span> <span class="n">df</span>
 
     <span class="nd">@property</span>
@@ -360,11 +358,9 @@
 <span class="sd">        `pandas.DataFrame`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__custos</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">dados</span><span class="p">,</span>
-                          <span class="n">columns</span><span class="o">=</span><span class="p">[</span>
-                                   <span class="s2">&quot;Valor Esperado&quot;</span><span class="p">,</span>
+                          <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Valor Esperado&quot;</span><span class="p">,</span>
                                    <span class="s2">&quot;Desvio Padrão do VE&quot;</span><span class="p">,</span>
-                                   <span class="s2">&quot;(%)&quot;</span>
-                                  <span class="p">])</span>
+                                   <span class="s2">&quot;(%)&quot;</span><span class="p">])</span>
         <span class="n">indices</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">BlocoCustoOperacaoPMO</span><span class="o">.</span><span class="n">componentes_custo</span><span class="p">)</span>
         <span class="n">df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="n">indices</span><span class="p">,</span>
                      <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -381,11 +377,9 @@
 <span class="sd">        `pandas.DataFrame`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__custos</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">dados</span><span class="p">,</span>
-                          <span class="n">columns</span><span class="o">=</span><span class="p">[</span>
-                                   <span class="s2">&quot;Valor Esperado&quot;</span><span class="p">,</span>
+                          <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Valor Esperado&quot;</span><span class="p">,</span>
                                    <span class="s2">&quot;Desvio Padrão do VE&quot;</span><span class="p">,</span>
-                                   <span class="s2">&quot;(%)&quot;</span>
-                                  <span class="p">])</span>
+                                   <span class="s2">&quot;(%)&quot;</span><span class="p">])</span>
         <span class="n">indices</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">BlocoCustoOperacaoPMO</span><span class="o">.</span><span class="n">componentes_custo</span><span class="p">)</span>
         <span class="n">df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="n">indices</span><span class="p">,</span>
                      <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -402,11 +396,9 @@
 <span class="sd">        `pandas.DataFrame`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__custos</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">dados</span><span class="p">,</span>
-                          <span class="n">columns</span><span class="o">=</span><span class="p">[</span>
-                                   <span class="s2">&quot;Valor Esperado&quot;</span><span class="p">,</span>
+                          <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Valor Esperado&quot;</span><span class="p">,</span>
                                    <span class="s2">&quot;Desvio Padrão do VE&quot;</span><span class="p">,</span>
-                                   <span class="s2">&quot;(%)&quot;</span>
-                                  <span class="p">])</span>
+                                   <span class="s2">&quot;(%)&quot;</span><span class="p">])</span>
         <span class="n">indices</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">BlocoCustoOperacaoPMO</span><span class="o">.</span><span class="n">componentes_custo</span><span class="p">)</span>
         <span class="n">df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="n">indices</span><span class="p">,</span>
                      <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
