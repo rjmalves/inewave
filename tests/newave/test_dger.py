@@ -10,8 +10,8 @@ def test_leitura():
 
 
 def test_nome_caso():
-    nome = ("PMO MAIO - 1995  23/04/1995 14:42:20" +
-            "  Niveis para 25/04 NW Versao 27")
+    nome = ("PMO JANEIRO - 2021  22/12/2020 12:43:55  Niveis " +
+            "para 26/12 NW Versao 27.5_CPAMP")
     assert dger.nome_caso == nome
 
 
@@ -32,11 +32,11 @@ def test_mes_inicio_pre():
 
 
 def test_mes_inicio_estudo():
-    assert dger.mes_inicio_estudo == 5
+    assert dger.mes_inicio_estudo == 1
 
 
 def test_ano_inicio_estudo():
-    assert dger.ano_inicio_estudo == 1995
+    assert dger.ano_inicio_estudo == 2021
 
 
 def test_num_anos_pre():
@@ -132,7 +132,7 @@ def test_num_minimo_iteracoes():
 
 
 def test_racionamento_preventivo():
-    assert dger.racionamento_preventivo == 1
+    assert dger.racionamento_preventivo == 0
 
 
 def test_num_anos_manutencao_utes():
@@ -284,7 +284,7 @@ def test_consulta_fcf():
 
 
 def test_impressao_ena():
-    assert dger.impressao_ena == 0
+    assert dger.impressao_ena == 1
 
 
 def test_impressao_cortes_ativos_sim_final():
@@ -336,23 +336,23 @@ def test_restricoes_emissao_gee():
 
 
 def test_afluencia_anual_parp():
-    assert dger.afluencia_anual_parp == [1, 0]
+    assert dger.afluencia_anual_parp == [3, 0]
 
 
 def test_restricoes_fornecimento_gas():
     assert dger.restricoes_fornecimento_gas == 0
 
 
-def test_incerteza_geracao_eolica():
-    assert dger.incerteza_geracao_eolica == 0
+def test_mem_calculo_cortes():
+    assert dger.memoria_calculo_cortes == 0
 
 
-def test_incerteza_geracao_solar():
-    assert dger.incerteza_geracao_solar == 0
+def test_geracao_eolica():
+    assert dger.geracao_eolica == [1, 0.0063]
 
 
-def test_representacao_incertezas():
-    assert dger.representacao_incertezas == 0
+def test_compensacao_correlacao_cruzada():
+    assert dger.compensacao_correlacao_cruzada == 1
 
 
 def test_escrita_e_leitura():

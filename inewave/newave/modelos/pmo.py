@@ -656,30 +656,11 @@ class BlocoCustoOperacaoPMO(Bloco):
 
     str_inicio = "PARCELA           V.ESPERADO"
 
-    componentes_custo = ["GERACAO TERMICA   ",
-                         "DEFICIT           ",
-                         "VERTIMENTO        ",
-                         "EXCESSO ENERGIA   ",
-                         "VIOLACAO CAR      ",
-                         "VIOLACAO SAR      ",
-                         "VIOL. OUTROS USOS ",
-                         "VIOLACAO EVMIN    ",
-                         "VIOLACAO VZMIN    ",
-                         "INTERCAMBIO       ",
-                         "VIOL. INTERC. MIN.",
-                         "VERT. FIO N. TURB.",
-                         "VIOLACAO GHMIN    ",
-                         "VIOLACAO GHMINU   ",
-                         "VIOLACAO RETIRADA ",
-                         "VIOLACAO EMIS. GEE"]
-
     def __init__(self):
         super().__init__(BlocoCustoOperacaoPMO.str_inicio,
                          "",
                          True)
-        self._dados = np.zeros((len(BlocoCustoOperacaoPMO.componentes_custo),
-                                3),
-                               dtype=np.float64)
+        self._dados = pd.DataFrame()
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoCustoOperacaoPMO):
@@ -692,18 +673,28 @@ class BlocoCustoOperacaoPMO(Bloco):
         # Salta uma linha
         arq.readline()
         # Variáveis auxiliares
+        reg_parcela = RegistroAn(18)
         reg_valores = RegistroFn(13)
         reg_percent = RegistroFn(7)
+        parcelas: List[str] = []
+        tabela = np.zeros((30, 3), dtype=np.float64)
         i = 0
         while True:
             linha = arq.readline()
             if "----------------" in linha:
+                cols = ["Valor Esperado",
+                        "Desvio Padrão do VE",
+                        "(%)"]
+                self._dados = pd.DataFrame(tabela[:i, :],
+                                           index=parcelas,
+                                           columns=cols)
                 break
-            self._dados[i, :2] = reg_valores.le_linha_tabela(linha,
-                                                             32,
-                                                             1,
-                                                             2)
-            self._dados[i, 2] = reg_percent.le_registro(linha, 60)
+            parcelas.append(reg_parcela.le_registro(linha, 13))
+            tabela[i, :2] = reg_valores.le_linha_tabela(linha,
+                                                        32,
+                                                        1,
+                                                        2)
+            tabela[i, 2] = reg_percent.le_registro(linha, 60)
             i += 1
 
     # Override

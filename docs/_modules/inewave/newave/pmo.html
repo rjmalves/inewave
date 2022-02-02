@@ -357,14 +357,7 @@
 
 <span class="sd">        `pandas.DataFrame`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__custos</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">dados</span><span class="p">,</span>
-                          <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Valor Esperado&quot;</span><span class="p">,</span>
-                                   <span class="s2">&quot;Desvio Padrão do VE&quot;</span><span class="p">,</span>
-                                   <span class="s2">&quot;(%)&quot;</span><span class="p">])</span>
-        <span class="n">indices</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">BlocoCustoOperacaoPMO</span><span class="o">.</span><span class="n">componentes_custo</span><span class="p">)</span>
-        <span class="n">df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="n">indices</span><span class="p">,</span>
-                     <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">df</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__custos</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">dados</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">valor_esperado_periodo_estudo</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
@@ -376,14 +369,7 @@
 
 <span class="sd">        `pandas.DataFrame`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__custos</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">dados</span><span class="p">,</span>
-                          <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Valor Esperado&quot;</span><span class="p">,</span>
-                                   <span class="s2">&quot;Desvio Padrão do VE&quot;</span><span class="p">,</span>
-                                   <span class="s2">&quot;(%)&quot;</span><span class="p">])</span>
-        <span class="n">indices</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">BlocoCustoOperacaoPMO</span><span class="o">.</span><span class="n">componentes_custo</span><span class="p">)</span>
-        <span class="n">df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="n">indices</span><span class="p">,</span>
-                     <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">df</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__custos</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">dados</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">custo_operacao_referenciado_primeiro_mes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
@@ -395,14 +381,7 @@
 
 <span class="sd">        `pandas.DataFrame`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__custos</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">dados</span><span class="p">,</span>
-                          <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Valor Esperado&quot;</span><span class="p">,</span>
-                                   <span class="s2">&quot;Desvio Padrão do VE&quot;</span><span class="p">,</span>
-                                   <span class="s2">&quot;(%)&quot;</span><span class="p">])</span>
-        <span class="n">indices</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">BlocoCustoOperacaoPMO</span><span class="o">.</span><span class="n">componentes_custo</span><span class="p">)</span>
-        <span class="n">df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="n">indices</span><span class="p">,</span>
-                     <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">df</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__custos</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">dados</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">custo_operacao_total</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>

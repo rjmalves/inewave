@@ -2519,7 +2519,13 @@ class BlocoAfluenciaAnualPARp(Bloco):
     """
 
     str_inicio = "AFLUENCIA ANUAL PARP"
-    str_fim = "(=0 NAO CONSIDERA , =1 CONSIDERA; REDUCAO DA ORDEM: =0 CONSIDERA,  =1 NAO CONSIDERA, =2 CONSIDERA COM IMPRESSAO RELATORIO)"  # noqa
+    str_fim = ("(=0 NAO CONSIDERA , =1 CONSIDERA. PDDE SEM ABRIR" +
+               " X NA DERIVACAO DOS CORTES, =2 CONSIDERA. PDDE ABRINDO" +
+               " X NA DERIVACAO DOS CORTES COM APROX. DE 1/6 X(t-1)" +
+               " PARA ENA(t-12), =3 CONSIDERA. PDDE EXATA COM 12 EIXOS" +
+               " PARA AS AFLUENCIAS PASSADAS; REDUCAO DA ORDEM: " +
+               "=0 CONSIDERA,  =1 NAO CONSIDERA, =2 CONSIDERA COM " +
+               "IMPRESSAO RELATORIO)")
 
     def __init__(self):
 
@@ -2584,19 +2590,20 @@ class BlocoRestricoesFornecGas(Bloco):
         arq.write(linha)
 
 
-class BlocoIncertezaGeracaoEolica(Bloco):
+class BlocoMemCalculoCortes(Bloco):
     """
-    Bloco com a escolha de habilitar ou não as incertezas na geração
-    eólica, existente no arquivo `dger.dat` do NEWAVE.
+    Bloco com a escolha de habilitar ou não a impressão da memória de
+    cálculo dos cortes de Benders.
     """
 
-    str_inicio = "INCERTEZA GER.EOLICA"
-    str_fim = "(=0 NAO CONSIDERA , =1 CONSIDERA)"
+    str_inicio = "MEM. CALCULO CORTES"
+    str_fim = ("(=0 NAO IMPRIME, =1 IMPRIME PARA ESCOLHA ESPECIFICADA" +
+               " NO ARQUIVO dbgcortes.dat)")
 
     def __init__(self):
 
-        super().__init__(BlocoIncertezaGeracaoEolica.str_inicio,
-                         BlocoIncertezaGeracaoEolica.str_fim,
+        super().__init__(BlocoMemCalculoCortes.str_inicio,
+                         BlocoMemCalculoCortes.str_fim,
                          True)
 
         self._dados = 0
@@ -2609,54 +2616,59 @@ class BlocoIncertezaGeracaoEolica(Bloco):
     # Override
     def escreve(self, arq: IO):
         dado = str(self._dados).rjust(4)
-        linha = (f"{BlocoIncertezaGeracaoEolica.str_inicio.ljust(21)}" +
-                 f"{dado}   {BlocoIncertezaGeracaoEolica.str_fim}\n")
+        linha = (f"{BlocoMemCalculoCortes.str_inicio.ljust(21)}" +
+                 f"{dado}   {BlocoMemCalculoCortes.str_fim}\n")
         arq.write(linha)
 
 
-class BlocoIncertezaGeracaoSolar(Bloco):
+class BlocoGeracaoEolica(Bloco):
     """
     Bloco com a escolha de habilitar ou não as incertezas na geração
-    solar, existente no arquivo `dger.dat` do NEWAVE.
+    eólica na geração de cenários, cálculo da política e simulação final,
+    e também a penalidade para corte de eólica.
     """
 
-    str_inicio = "INCERTEZA GER.SOLAR"
-    str_fim = "(=0 NAO CONSIDERA , =1 CONSIDERA)"
+    str_inicio = "GERACAO EOLICA"
+    str_fim = ("(=0 NAO CONSIDERA, =1 CONSIDERA; PENALIDADE DO CORTE " +
+               "DE GERACAO EOLICA)")
 
     def __init__(self):
 
-        super().__init__(BlocoIncertezaGeracaoSolar.str_inicio,
-                         BlocoIncertezaGeracaoSolar.str_fim,
+        super().__init__(BlocoGeracaoEolica.str_inicio,
+                         BlocoGeracaoEolica.str_fim,
                          True)
 
-        self._dados = 0
+        self._dados = [0, 0.0]
 
     # Override
     def le(self, arq: IO):
-        reg = RegistroIn(4)
-        self._dados = reg.le_registro(self._linha_inicio, 21)
+        reg_habilita = RegistroIn(4)
+        reg_penal = RegistroFn(8)
+        self._dados = [reg_habilita.le_registro(self._linha_inicio, 21),
+                       reg_penal.le_registro(self._linha_inicio, 26)]
 
     # Override
     def escreve(self, arq: IO):
-        dado = str(self._dados).rjust(4)
-        linha = (f"{BlocoIncertezaGeracaoSolar.str_inicio.ljust(21)}" +
-                 f"{dado}   {BlocoIncertezaGeracaoSolar.str_fim}\n")
+        habilita = str(self._dados[0]).rjust(4)
+        penal = f"{self._dados[1]:.4f}".ljust(8)
+        linha = (f"{BlocoGeracaoEolica.str_inicio.ljust(21)}" +
+                 f"{habilita} {penal}     {BlocoGeracaoEolica.str_fim}\n")
         arq.write(linha)
 
 
-class BlocoRepresentacaoIncerteza(Bloco):
+class BlocoCompensacaoCorrelacaoCruzada(Bloco):
     """
-    Bloco com a escolha da representação das incertezas,
-    existente no arquivo `dger.dat` do NEWAVE.
+    Bloco com a escolha da forma de compensação da correlação
+    cruzada nos cenários do NEWAVE.
     """
 
-    str_inicio = "REPRESENTACAO INCERT"
-    str_fim = "(=1 HISTORICO, =2 PARAMETROS DA DISTRIBUICAO, =3 CENARIOS)"
+    str_inicio = "COMP. COR. CRUZ."
+    str_fim = "(=0 CORR. SOMENTE AFL.; =1 CORR.AFL. E VENTOS; =2 NAO CORRIGE)"
 
     def __init__(self):
 
-        super().__init__(BlocoRepresentacaoIncerteza.str_inicio,
-                         BlocoRepresentacaoIncerteza.str_fim,
+        super().__init__(BlocoCompensacaoCorrelacaoCruzada.str_inicio,
+                         BlocoCompensacaoCorrelacaoCruzada.str_fim,
                          True)
 
         self._dados = 0
@@ -2669,8 +2681,8 @@ class BlocoRepresentacaoIncerteza(Bloco):
     # Override
     def escreve(self, arq: IO):
         dado = str(self._dados).rjust(4)
-        linha = (f"{BlocoRepresentacaoIncerteza.str_inicio.ljust(21)}" +
-                 f"{dado}   {BlocoRepresentacaoIncerteza.str_fim}\n")
+        linha = (f"{BlocoCompensacaoCorrelacaoCruzada.str_inicio.ljust(21)}" +
+                 f"{dado}   {BlocoCompensacaoCorrelacaoCruzada.str_fim}\n")
         arq.write(linha)
 
 
@@ -2777,6 +2789,6 @@ class LeituraDGer(Leitura):
                 BlocoRestricoesEmissaoGEE(),
                 BlocoAfluenciaAnualPARp(),
                 BlocoRestricoesFornecGas(),
-                BlocoIncertezaGeracaoEolica(),
-                BlocoIncertezaGeracaoSolar(),
-                BlocoRepresentacaoIncerteza()]
+                BlocoMemCalculoCortes(),
+                BlocoGeracaoEolica(),
+                BlocoCompensacaoCorrelacaoCruzada()]

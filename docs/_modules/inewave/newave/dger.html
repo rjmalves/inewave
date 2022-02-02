@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>inewave.newave.dger &mdash; documentação inewave 0.0.33</title>
+  <title>inewave.newave.dger &mdash; documentação inewave 0.0.48</title>
   
 
   
@@ -247,9 +247,9 @@
 <span class="kn">from</span> <span class="nn">inewave.newave.modelos.dger</span> <span class="kn">import</span> <span class="n">BlocoRestricoesEmissaoGEE</span>
 <span class="kn">from</span> <span class="nn">inewave.newave.modelos.dger</span> <span class="kn">import</span> <span class="n">BlocoAfluenciaAnualPARp</span>
 <span class="kn">from</span> <span class="nn">inewave.newave.modelos.dger</span> <span class="kn">import</span> <span class="n">BlocoRestricoesFornecGas</span>
-<span class="kn">from</span> <span class="nn">inewave.newave.modelos.dger</span> <span class="kn">import</span> <span class="n">BlocoIncertezaGeracaoEolica</span>
-<span class="kn">from</span> <span class="nn">inewave.newave.modelos.dger</span> <span class="kn">import</span> <span class="n">BlocoIncertezaGeracaoSolar</span>
-<span class="kn">from</span> <span class="nn">inewave.newave.modelos.dger</span> <span class="kn">import</span> <span class="n">BlocoRepresentacaoIncerteza</span>
+<span class="kn">from</span> <span class="nn">inewave.newave.modelos.dger</span> <span class="kn">import</span> <span class="n">BlocoMemCalculoCortes</span>
+<span class="kn">from</span> <span class="nn">inewave.newave.modelos.dger</span> <span class="kn">import</span> <span class="n">BlocoGeracaoEolica</span>
+<span class="kn">from</span> <span class="nn">inewave.newave.modelos.dger</span> <span class="kn">import</span> <span class="n">BlocoCompensacaoCorrelacaoCruzada</span>
 <span class="kn">from</span> <span class="nn">inewave.newave.modelos.dger</span> <span class="kn">import</span> <span class="n">LeituraDGer</span>
 
 
@@ -1213,37 +1213,37 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">__escreve_por_tipo</span><span class="p">(</span><span class="n">BlocoRestricoesFornecGas</span><span class="p">,</span> <span class="n">dado</span><span class="p">)</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">incerteza_geracao_eolica</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">memoria_calculo_cortes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Configuração da linha número 85 do arquivo `dger.dat`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__le_por_tipo</span><span class="p">(</span><span class="n">BlocoIncertezaGeracaoEolica</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__le_por_tipo</span><span class="p">(</span><span class="n">BlocoMemCalculoCortes</span><span class="p">)</span>
 
-    <span class="nd">@incerteza_geracao_eolica</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">incerteza_geracao_eolica</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dado</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__escreve_por_tipo</span><span class="p">(</span><span class="n">BlocoIncertezaGeracaoEolica</span><span class="p">,</span> <span class="n">dado</span><span class="p">)</span>
+    <span class="nd">@memoria_calculo_cortes</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">memoria_calculo_cortes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dado</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__escreve_por_tipo</span><span class="p">(</span><span class="n">BlocoMemCalculoCortes</span><span class="p">,</span> <span class="n">dado</span><span class="p">)</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">incerteza_geracao_solar</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">geracao_eolica</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Configuração da linha número 86 do arquivo `dger.dat`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__le_por_tipo</span><span class="p">(</span><span class="n">BlocoIncertezaGeracaoSolar</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__le_por_tipo</span><span class="p">(</span><span class="n">BlocoGeracaoEolica</span><span class="p">)</span>
 
-    <span class="nd">@incerteza_geracao_solar</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">incerteza_geracao_solar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dado</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__escreve_por_tipo</span><span class="p">(</span><span class="n">BlocoIncertezaGeracaoSolar</span><span class="p">,</span> <span class="n">dado</span><span class="p">)</span>
+    <span class="nd">@geracao_eolica</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">geracao_eolica</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dado</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__escreve_por_tipo</span><span class="p">(</span><span class="n">BlocoGeracaoEolica</span><span class="p">,</span> <span class="n">dado</span><span class="p">)</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">representacao_incertezas</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">compensacao_correlacao_cruzada</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Configuração da linha número 87 do arquivo `dger.dat`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__le_por_tipo</span><span class="p">(</span><span class="n">BlocoRepresentacaoIncerteza</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__le_por_tipo</span><span class="p">(</span><span class="n">BlocoCompensacaoCorrelacaoCruzada</span><span class="p">)</span>
 
-    <span class="nd">@representacao_incertezas</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">representacao_incertezas</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dado</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__escreve_por_tipo</span><span class="p">(</span><span class="n">BlocoRepresentacaoIncerteza</span><span class="p">,</span> <span class="n">dado</span><span class="p">)</span></div>
+    <span class="nd">@compensacao_correlacao_cruzada</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">compensacao_correlacao_cruzada</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dado</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__escreve_por_tipo</span><span class="p">(</span><span class="n">BlocoCompensacaoCorrelacaoCruzada</span><span class="p">,</span> <span class="n">dado</span><span class="p">)</span></div>
 </pre></div>
 
            </div>

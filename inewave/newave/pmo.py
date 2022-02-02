@@ -195,14 +195,7 @@ class PMO(Arquivo):
 
         `pandas.DataFrame`
         """
-        df = pd.DataFrame(self.__custos[0].dados,
-                          columns=["Valor Esperado",
-                                   "Desvio Padrão do VE",
-                                   "(%)"])
-        indices = pd.Series(BlocoCustoOperacaoPMO.componentes_custo)
-        df.set_index(indices,
-                     inplace=True)
-        return df
+        return self.__custos[0].dados
 
     @property
     def valor_esperado_periodo_estudo(self) -> pd.DataFrame:
@@ -214,14 +207,7 @@ class PMO(Arquivo):
 
         `pandas.DataFrame`
         """
-        df = pd.DataFrame(self.__custos[1].dados,
-                          columns=["Valor Esperado",
-                                   "Desvio Padrão do VE",
-                                   "(%)"])
-        indices = pd.Series(BlocoCustoOperacaoPMO.componentes_custo)
-        df.set_index(indices,
-                     inplace=True)
-        return df
+        return self.__custos[1].dados
 
     @property
     def custo_operacao_referenciado_primeiro_mes(self) -> pd.DataFrame:
@@ -233,14 +219,7 @@ class PMO(Arquivo):
 
         `pandas.DataFrame`
         """
-        df = pd.DataFrame(self.__custos[2].dados,
-                          columns=["Valor Esperado",
-                                   "Desvio Padrão do VE",
-                                   "(%)"])
-        indices = pd.Series(BlocoCustoOperacaoPMO.componentes_custo)
-        df.set_index(indices,
-                     inplace=True)
-        return df
+        return self.__custos[2].dados
 
     @property
     def custo_operacao_total(self) -> float:

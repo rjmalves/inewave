@@ -85,9 +85,9 @@ from inewave.newave.modelos.dger import BlocoSazonalizarCfugaCmont
 from inewave.newave.modelos.dger import BlocoRestricoesEmissaoGEE
 from inewave.newave.modelos.dger import BlocoAfluenciaAnualPARp
 from inewave.newave.modelos.dger import BlocoRestricoesFornecGas
-from inewave.newave.modelos.dger import BlocoIncertezaGeracaoEolica
-from inewave.newave.modelos.dger import BlocoIncertezaGeracaoSolar
-from inewave.newave.modelos.dger import BlocoRepresentacaoIncerteza
+from inewave.newave.modelos.dger import BlocoMemCalculoCortes
+from inewave.newave.modelos.dger import BlocoGeracaoEolica
+from inewave.newave.modelos.dger import BlocoCompensacaoCorrelacaoCruzada
 from inewave.newave.modelos.dger import LeituraDGer
 
 
@@ -1051,34 +1051,34 @@ class DGer(Arquivo):
         self.__escreve_por_tipo(BlocoRestricoesFornecGas, dado)
 
     @property
-    def incerteza_geracao_eolica(self) -> int:
+    def memoria_calculo_cortes(self) -> int:
         """
         Configuração da linha número 85 do arquivo `dger.dat`.
         """
-        return self.__le_por_tipo(BlocoIncertezaGeracaoEolica)
+        return self.__le_por_tipo(BlocoMemCalculoCortes)
 
-    @incerteza_geracao_eolica.setter
-    def incerteza_geracao_eolica(self, dado: int):
-        self.__escreve_por_tipo(BlocoIncertezaGeracaoEolica, dado)
+    @memoria_calculo_cortes.setter
+    def memoria_calculo_cortes(self, dado: int):
+        self.__escreve_por_tipo(BlocoMemCalculoCortes, dado)
 
     @property
-    def incerteza_geracao_solar(self) -> int:
+    def geracao_eolica(self) -> int:
         """
         Configuração da linha número 86 do arquivo `dger.dat`.
         """
-        return self.__le_por_tipo(BlocoIncertezaGeracaoSolar)
+        return self.__le_por_tipo(BlocoGeracaoEolica)
 
-    @incerteza_geracao_solar.setter
-    def incerteza_geracao_solar(self, dado: int):
-        self.__escreve_por_tipo(BlocoIncertezaGeracaoSolar, dado)
+    @geracao_eolica.setter
+    def geracao_eolica(self, dado: int):
+        self.__escreve_por_tipo(BlocoGeracaoEolica, dado)
 
     @property
-    def representacao_incertezas(self) -> int:
+    def compensacao_correlacao_cruzada(self) -> int:
         """
         Configuração da linha número 87 do arquivo `dger.dat`.
         """
-        return self.__le_por_tipo(BlocoRepresentacaoIncerteza)
+        return self.__le_por_tipo(BlocoCompensacaoCorrelacaoCruzada)
 
-    @representacao_incertezas.setter
-    def representacao_incertezas(self, dado: int):
-        self.__escreve_por_tipo(BlocoRepresentacaoIncerteza, dado)
+    @compensacao_correlacao_cruzada.setter
+    def compensacao_correlacao_cruzada(self, dado: int):
+        self.__escreve_por_tipo(BlocoCompensacaoCorrelacaoCruzada, dado)
