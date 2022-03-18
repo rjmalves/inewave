@@ -1,11 +1,11 @@
-from inewave._utils.arquivo import Arquivo
-from inewave._utils.dadosarquivo import DadosArquivo
+from inewave._utils.dadosarquivo import DadosArquivoBlocos
+from inewave._utils.arquivo import ArquivoBlocos
 from inewave.nwlistop.modelos.ghtot00 import LeituraGHTot00
 
 import pandas as pd  # type: ignore
 
 
-class GHTot00(Arquivo):
+class GHTot00(ArquivoBlocos):
     """
     Armazena os dados das saídas referentes à geração hidraulica total
     por patamar, por submercado.
@@ -15,17 +15,16 @@ class GHTot00(Arquivo):
     submercado em questão.
 
     """
-    def __init__(self,
-                 dados: DadosArquivo):
+
+    def __init__(self, dados: DadosArquivoBlocos):
         super().__init__(dados)
 
     # Override
     @classmethod
-    def le_arquivo(cls,
-                   diretorio: str,
-                   nome_arquivo="ghtot001.out") -> 'GHTot00':
-        """
-        """
+    def le_arquivo(
+        cls, diretorio: str, nome_arquivo="ghtot001.out"
+    ) -> "GHTot00":
+        """ """
         leitor = LeituraGHTot00(diretorio)
         r = leitor.le_arquivo(nome_arquivo)
         return cls(r)

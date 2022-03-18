@@ -1,8 +1,9 @@
 from inewave._utils.bloco import Bloco
 from typing import Any, Type, List
-from inewave._utils.arquivo import Arquivo
-from inewave._utils.dadosarquivo import DadosArquivo
-from inewave._utils.escrita import Escrita
+from inewave._utils.arquivo import ArquivoBlocos
+from inewave._utils.dadosarquivo import DadosArquivoBlocos
+from inewave._utils.escritablocos import EscritaBlocos
+
 from inewave.newave.modelos.dger import BlocoMesInicioEstudo, BlocoNomeCaso
 from inewave.newave.modelos.dger import BlocoTipoExecucao
 from inewave.newave.modelos.dger import BlocoDuracaoPeriodo
@@ -91,32 +92,26 @@ from inewave.newave.modelos.dger import BlocoCompensacaoCorrelacaoCruzada
 from inewave.newave.modelos.dger import LeituraDGer
 
 
-class DGer(Arquivo):
+class DGer(ArquivoBlocos):
     """
     Classe para armazenar dados gerais de uma execução do NEWAVE.
 
     """
-    def __init__(self, dados: DadosArquivo):
+
+    def __init__(self, dados: DadosArquivoBlocos):
         super().__init__(dados)
 
     @classmethod
-    def le_arquivo(cls,
-                   diretorio: str,
-                   nome_arquivo="dger.dat") -> 'DGer':
-        """
-        """
+    def le_arquivo(cls, diretorio: str, nome_arquivo="dger.dat") -> "DGer":
+        """ """
         leitor = LeituraDGer(diretorio)
         r = leitor.le_arquivo(nome_arquivo)
         return cls(r)
 
-    def escreve_arquivo(self,
-                        diretorio: str,
-                        nome_arquivo="dger.dat"):
-        """
-        """
-        escritor = Escrita(diretorio)
-        escritor.escreve_arquivo(self._dados,
-                                 nome_arquivo)
+    def escreve_arquivo(self, diretorio: str, nome_arquivo="dger.dat"):
+        """ """
+        escritor = EscritaBlocos(diretorio)
+        escritor.escreve_arquivo(self._dados, nome_arquivo)
 
     def __le_por_tipo(self, tipo: Type[Bloco]) -> Any:
         for d in self._dados.blocos:
@@ -125,9 +120,7 @@ class DGer(Arquivo):
         # Se não tem o dado, lança erro
         raise ValueError(f" Não foi encontrado o dado do tipo {tipo}")
 
-    def __escreve_por_tipo(self,
-                           tipo: Type[Bloco],
-                           dado: Any):
+    def __escreve_por_tipo(self, tipo: Type[Bloco], dado: Any):
         for d in self._dados.blocos:
             if isinstance(d, tipo):
                 d.dados = dado
@@ -903,8 +896,7 @@ class DGer(Arquivo):
 
     @impressao_cortes_ativos_sim_final.setter
     def impressao_cortes_ativos_sim_final(self, dado: str):
-        self.__escreve_por_tipo(BlocoImpressaoCortesAtivosSimFinal,
-                                dado)
+        self.__escreve_por_tipo(BlocoImpressaoCortesAtivosSimFinal, dado)
 
     @property
     def representacao_agregacao(self) -> int:
@@ -937,8 +929,7 @@ class DGer(Arquivo):
 
     @desconsidera_convergencia_estatistica.setter
     def desconsidera_convergencia_estatistica(self, dado: int):
-        self.__escreve_por_tipo(BlocoDesconsideraConvEstatistica,
-                                dado)
+        self.__escreve_por_tipo(BlocoDesconsideraConvEstatistica, dado)
 
     @property
     def momento_reamostragem(self) -> int:

@@ -1,7 +1,8 @@
 # Imports do próprio módulo
 from inewave._utils.registros import RegistroAn, RegistroFn, RegistroIn
 from inewave._utils.bloco import Bloco
-from inewave._utils.leitura import Leitura
+from inewave._utils.leiturablocos import LeituraBlocos
+
 # Imports de módulos externos
 from typing import IO, List
 import pandas as pd  # type: ignore
@@ -12,13 +13,12 @@ class BlocoConfUHE(Bloco):
     Bloco de informações das usinas cadastradas
     no arquivo do NEWAVE `confhd.dat`.
     """
+
     str_inicio = "NUM  NOME"
 
     def __init__(self):
 
-        super().__init__(BlocoConfUHE.str_inicio,
-                         "",
-                         True)
+        super().__init__(BlocoConfUHE.str_inicio, "", True)
 
         self._dados: pd.DataFrame = pd.DataFrame()
 
@@ -30,9 +30,7 @@ class BlocoConfUHE(Bloco):
 
     # Override
     def le(self, arq: IO):
-
-        def extrai_coluna_de_listas(listas: List[list],
-                                    coluna: int) -> list:
+        def extrai_coluna_de_listas(listas: List[list], coluna: int) -> list:
             return [lista[coluna] for lista in listas]
 
         def transforma_uhes_em_tabela() -> pd.DataFrame:
@@ -47,16 +45,18 @@ class BlocoConfUHE(Bloco):
             col_modif = extrai_coluna_de_listas(dados_uhes, 7)
             col_inic_hist = extrai_coluna_de_listas(dados_uhes, 8)
             col_fim_hist = extrai_coluna_de_listas(dados_uhes, 9)
-            dados = {"Número": col_num,
-                     "Nome": col_nome,
-                     "Posto": col_posto,
-                     "Jusante": col_jus,
-                     "REE": col_ree,
-                     "Volume Inicial": col_vinic,
-                     "Usina Existente": col_exis,
-                     "Modificada": col_modif,
-                     "Início do Histórico": col_inic_hist,
-                     "Fim do Histórico": col_fim_hist}
+            dados = {
+                "Número": col_num,
+                "Nome": col_nome,
+                "Posto": col_posto,
+                "Jusante": col_jus,
+                "REE": col_ree,
+                "Volume Inicial": col_vinic,
+                "Usina Existente": col_exis,
+                "Modificada": col_modif,
+                "Início do Histórico": col_inic_hist,
+                "Fim do Histórico": col_fim_hist,
+            }
             return pd.DataFrame(data=dados)
 
         # Salta a linha com "XXX"
@@ -81,16 +81,18 @@ class BlocoConfUHE(Bloco):
                 # Converte para df e salva na variável
                 self._dados = transforma_uhes_em_tabela()
                 break
-            dados_uhe = [reg_num.le_registro(linha, 1),
-                         reg_nome.le_registro(linha, 6),
-                         reg_posto.le_registro(linha, 19),
-                         reg_jus.le_registro(linha, 25),
-                         reg_ree.le_registro(linha, 30),
-                         reg_vinic.le_registro(linha, 35),
-                         reg_exis.le_registro(linha, 42),
-                         bool(reg_modif.le_registro(linha, 49)),
-                         reg_inic_hist.le_registro(linha, 58),
-                         reg_fim_hist.le_registro(linha, 67)]
+            dados_uhe = [
+                reg_num.le_registro(linha, 1),
+                reg_nome.le_registro(linha, 6),
+                reg_posto.le_registro(linha, 19),
+                reg_jus.le_registro(linha, 25),
+                reg_ree.le_registro(linha, 30),
+                reg_vinic.le_registro(linha, 35),
+                reg_exis.le_registro(linha, 42),
+                bool(reg_modif.le_registro(linha, 49)),
+                reg_inic_hist.le_registro(linha, 58),
+                reg_fim_hist.le_registro(linha, 67),
+            ]
             dados_uhes.append(dados_uhe)
 
     # Override
@@ -120,10 +122,16 @@ class BlocoConfUHE(Bloco):
             arq.write(linha + "\n")
 
         # Escreve cabeçalhos
-        titulos = (" NUM  NOME         POSTO JUS   REE V.INIC"
-                   + " U.EXIS MODIF INIC.HIST FIM HIST" + "\n")
-        cabecalhos = (" XXXX XXXXXXXXXXXX XXXX  XXXX XXXX XXX.XX"
-                      + " XXXX   XXXX     XXXX     XXXX" + "\n")
+        titulos = (
+            " NUM  NOME         POSTO JUS   REE V.INIC"
+            + " U.EXIS MODIF INIC.HIST FIM HIST"
+            + "\n"
+        )
+        cabecalhos = (
+            " XXXX XXXXXXXXXXXX XXXX  XXXX XXXX XXX.XX"
+            + " XXXX   XXXX     XXXX     XXXX"
+            + "\n"
+        )
         arq.write(titulos)
         arq.write(cabecalhos)
         # Escreve UHEs
@@ -131,7 +139,7 @@ class BlocoConfUHE(Bloco):
             escreve_uhe(uhe)
 
 
-class LeituraConfhd(Leitura):
+class LeituraConfhd(LeituraBlocos):
     """
     Realiza a leitura do arquivo `confhd.dat`
     existente em um diretório de entradas do NEWAVE.
@@ -145,8 +153,7 @@ class LeituraConfhd(Leitura):
     tipos de dados, dentre outras tarefas necessárias para a leitura.
     """
 
-    def __init__(self,
-                 diretorio: str) -> None:
+    def __init__(self, diretorio: str) -> None:
         super().__init__(diretorio)
 
     # Override

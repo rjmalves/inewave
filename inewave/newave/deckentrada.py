@@ -1,4 +1,4 @@
-from inewave._utils.arquivo import Arquivo
+from inewave._utils.arquivo import ArquivoBlocos
 from .caso import Caso
 from .arquivos import Arquivos
 from .dger import DGer
@@ -53,50 +53,50 @@ class DeckEntrada:
 
     """
 
-    modelos_arquivos: List[Type[Arquivo]] = [Caso,
-                                             Arquivos,
-                                             DGer,
-                                             Sistema,
-                                             Confhd,
-                                             Modif,
-                                             ConfT,
-                                             Term,
-                                             ClasT,
-                                             Exph,
-                                             Expt,
-                                             Patamar,
-                                             Shist,
-                                             ManutT,
-                                             VazPast,
-                                             Itaipu,
-                                             BID,
-                                             CAdic,
-                                             Perda,
-                                             GTMinPat,
-                                             ElNino,
-                                             ENSOAux,
-                                             DSVAgua,
-                                             Penalid,
-                                             Curva,
-                                             AgrInt,
-                                             AdTerm,
-                                             GHMin,
-                                             SAR,
-                                             CVAR,
-                                             REE,
-                                             RE,
-                                             Tecno,
-                                             Abertura,
-                                             GEE,
-                                             ClasGas]
+    modelos_arquivos: List[Type[ArquivoBlocos]] = [
+        Caso,
+        Arquivos,
+        DGer,
+        Sistema,
+        Confhd,
+        Modif,
+        ConfT,
+        Term,
+        ClasT,
+        Exph,
+        Expt,
+        Patamar,
+        Shist,
+        ManutT,
+        VazPast,
+        Itaipu,
+        BID,
+        CAdic,
+        Perda,
+        GTMinPat,
+        ElNino,
+        ENSOAux,
+        DSVAgua,
+        Penalid,
+        Curva,
+        AgrInt,
+        AdTerm,
+        GHMin,
+        SAR,
+        CVAR,
+        REE,
+        RE,
+        Tecno,
+        Abertura,
+        GEE,
+        ClasGas,
+    ]
 
-    def __init__(self,
-                 arquivos: List[Arquivo]) -> None:
+    def __init__(self, arquivos: List[ArquivoBlocos]) -> None:
         self.__arquivos_deck = arquivos
 
     @classmethod
     def le_deck(cls, diretorio: str):
-
         def le_vazpast_eafpast(nome: str):
             # Lê a primeira linha do arquivo
             with open(join(diretorio, nome), "r") as arq:
@@ -112,9 +112,10 @@ class DeckEntrada:
         # Lê o arquivos.dat no diretorio
         arquivos = Arquivos.le_arquivo(diretorio, caso.arquivo)
         # Lê os demais arquivos
-        arquivos_deck: List[Arquivo] = []
-        for t, n in zip(DeckEntrada.modelos_arquivos[2:],
-                        arquivos.arquivos_entrada):
+        arquivos_deck: List[ArquivoBlocos] = []
+        for t, n in zip(
+            DeckEntrada.modelos_arquivos[2:], arquivos.arquivos_entrada
+        ):
             # Pro caso do VazPast, também pode ser EafPast
             if t == VazPast:
                 le_vazpast_eafpast(n)

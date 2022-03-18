@@ -18,13 +18,15 @@ class DeckSaida:
 
     """
 
-    def __init__(self,
-                 cortes: Cortes,
-                 cortesh: CortesH,
-                 pmo: PMO,
-                 parp: PARp,
-                 forward: Forward,
-                 forwardh: ForwardH) -> None:
+    def __init__(
+        self,
+        cortes: Cortes,
+        cortesh: CortesH,
+        pmo: PMO,
+        parp: PARp,
+        forward: Forward,
+        forwardh: ForwardH,
+    ) -> None:
         self.cortes = cortes
         self.cortesh = cortesh
         self.pmo = pmo

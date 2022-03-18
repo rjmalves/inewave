@@ -5,16 +5,16 @@ import pandas as pd  # type: ignore
 from traceback import print_exc
 
 from inewave._utils.bloco import Bloco
-from .dadosarquivo import DadosArquivo
+from .dadosarquivo import DadosArquivoBlocos
 
 
-class Leitura:
+class LeituraBlocos:
     """
     Classe com utilidades gerais para leitura de arquivos
-    do NEWAVE.
+    do DECOMP.
     """
-    def __init__(self,
-                 diretorio: str):
+
+    def __init__(self, diretorio: str):
         self._usa_backup = False
         self._linha_backup = ""
         self._diretorio = diretorio
@@ -50,10 +50,9 @@ class Leitura:
         """
         return [f for f in os.listdir(self._diretorio) if chave in f]
 
-    def _verifica_inicio_blocos(self,
-                                linha: str,
-                                ordem: int,
-                                blocos: List[Bloco]) -> bool:
+    def _verifica_inicio_blocos(
+        self, linha: str, ordem: int, blocos: List[Bloco]
+    ) -> bool:
         """
         Verifica se a linha atual é a linha de início de algum
         dos blocos a serem lidos.
@@ -65,10 +64,7 @@ class Leitura:
         self._linhas_fora_blocos[ordem] = linha
         return False
 
-    def _le_blocos_encontrados(self,
-                               arq: IO,
-                               blocos: List[Bloco],
-                               *args):
+    def _le_blocos_encontrados(self, arq: IO, blocos: List[Bloco], *args):
         """
         Faz a leitura dos blocos encontrados até o momento e que
         ainda não foram lidos.
@@ -100,9 +96,9 @@ class Leitura:
                 self._configura_backup()
             i += 1
 
-    def _le_arquivo_em_diretorio(self,
-                                 diretorio: str,
-                                 nome_arquivo: str) -> None:
+    def _le_arquivo_em_diretorio(
+        self, diretorio: str, nome_arquivo: str
+    ) -> None:
         """
         Faz a leitura do arquivo em um diretorio.
         """
@@ -125,8 +121,7 @@ class Leitura:
         """
         Trata os dados obtidos do arquivo para ser retornado.
         """
-        self._blocos = [b for b in self._blocos
-                        if b.concluido]
+        self._blocos = [b for b in self._blocos if b.concluido]
 
     def _fim_arquivo(self, linha: str) -> bool:
         """
@@ -136,15 +131,13 @@ class Leitura:
         """
         return len(linha) == 0
 
-    def le_arquivo(self, nome_arquivo: str) -> DadosArquivo:
+    def le_arquivo(self, nome_arquivo: str) -> DadosArquivoBlocos:
         """
         Método para ler um arquivo e retornar o objeto
         devido da classe em particular.
         """
-        self._le_arquivo_em_diretorio(self._diretorio,
-                                      nome_arquivo)
-        return DadosArquivo(self._blocos,
-                            self._linhas_fora_blocos)
+        self._le_arquivo_em_diretorio(self._diretorio, nome_arquivo)
+        return DadosArquivoBlocos(self._blocos, self._linhas_fora_blocos)
 
     @property
     def dados(self) -> Any:
@@ -160,8 +153,8 @@ class LeituraCSV:
     Classe com utilidades gerais para leitura de arquivos
     .csv do NEWAVE.
     """
-    def __init__(self,
-                 diretorio: str):
+
+    def __init__(self, diretorio: str):
         self._diretorio = diretorio
         self._dados = pd.DataFrame()
 
@@ -169,14 +162,13 @@ class LeituraCSV:
         """
         Faz a leitura dos blocos de dados do arquivo.
         """
-        self._dados = pd.read_csv(caminho,
-                                  sep=",",
-                                  encoding="utf-8",
-                                  index_col=1)
+        self._dados = pd.read_csv(
+            caminho, sep=",", encoding="utf-8", index_col=1
+        )
 
-    def _le_arquivo_em_diretorio(self,
-                                 diretorio: str,
-                                 nome_arquivo: str) -> None:
+    def _le_arquivo_em_diretorio(
+        self, diretorio: str, nome_arquivo: str
+    ) -> None:
         """
         Faz a leitura do arquivo em um diretorio.
         """
@@ -192,14 +184,12 @@ class LeituraCSV:
         Método para ler um arquivo e retornar o objeto
         devido da classe em particular.
         """
-        self._le_arquivo_em_diretorio(self._diretorio,
-                                      nome_arquivo)
+        self._le_arquivo_em_diretorio(self._diretorio, nome_arquivo)
         return self._dados
 
     @abstractmethod
     def processa_dados_lidos(self):
-        """
-        """
+        """ """
         pass
 
     @property

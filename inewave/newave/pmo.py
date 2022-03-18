@@ -1,6 +1,6 @@
-from inewave._utils.arquivo import Arquivo
+from inewave._utils.arquivo import ArquivoBlocos
 from inewave._utils.bloco import Bloco
-from inewave._utils.dadosarquivo import DadosArquivo
+from inewave._utils.dadosarquivo import DadosArquivoBlocos
 from inewave.newave.modelos.pmo import BlocoEcoDgerPMO
 from inewave.newave.modelos.pmo import BlocoEafPastTendenciaHidrolPMO
 from inewave.newave.modelos.pmo import BlocoEafPastCfugaMedioPMO
@@ -17,7 +17,7 @@ import numpy as np  # type: ignore
 import pandas as pd  # type: ignore
 
 
-class PMO(Arquivo):
+class PMO(ArquivoBlocos):
     """
     Armazena os dados de entrada do NEWAVE referentes ao
     acompanhamento do programa.
@@ -30,8 +30,8 @@ class PMO(Arquivo):
     de execução intermediárias do programa.
 
     """
-    def __init__(self,
-                 dados: DadosArquivo):
+
+    def __init__(self, dados: DadosArquivoBlocos):
         super().__init__(dados)
 
         self.__eco_dger = self.__por_tipo(BlocoEcoDgerPMO)
@@ -48,9 +48,7 @@ class PMO(Arquivo):
         return [b for b in self._blocos if isinstance(b, tipo)]
 
     @classmethod
-    def le_arquivo(cls,
-                   diretorio: str,
-                   nome_arquivo="pmo.dat") -> 'PMO':
+    def le_arquivo(cls, diretorio: str, nome_arquivo="pmo.dat") -> "PMO":
         leitor = LeituraPMO(diretorio)
         r = leitor.le_arquivo(nome_arquivo)
         return cls(r)
@@ -173,16 +171,20 @@ class PMO(Arquivo):
 
         `pandas.DataFrame`
         """
-        df = pd.DataFrame(self.__risco_deficit[0].dados,
-                          columns=["Ano",
-                                   "Risco (%) SE",
-                                   "EENS (MWMes) SE",
-                                   "Risco (%) S",
-                                   "EENS (MWMes) S",
-                                   "Risco (%) NE",
-                                   "EENS (MWMes) NE",
-                                   "Risco (%) N",
-                                   "EENS (MWMes) N"])
+        df = pd.DataFrame(
+            self.__risco_deficit[0].dados,
+            columns=[
+                "Ano",
+                "Risco (%) SE",
+                "EENS (MWMes) SE",
+                "Risco (%) S",
+                "EENS (MWMes) S",
+                "Risco (%) NE",
+                "EENS (MWMes) NE",
+                "Risco (%) N",
+                "EENS (MWMes) N",
+            ],
+        )
         return df
 
     @property

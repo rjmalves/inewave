@@ -1,13 +1,14 @@
-from inewave._utils.arquivo import Arquivo
-from inewave._utils.dadosarquivo import DadosArquivo
-from inewave._utils.escrita import Escrita
+from inewave._utils.arquivo import ArquivoBlocos
+from inewave._utils.dadosarquivo import DadosArquivoBlocos
+from inewave._utils.escritablocos import EscritaBlocos
+
 from inewave.newave.modelos.curva import LeituraCurva
 
 import numpy as np  # type: ignore
 import pandas as pd  # type: ignore
 
 
-class Curva(Arquivo):
+class Curva(ArquivoBlocos):
     """
     Armazena os dados de entrada do NEWAVE referentes à curva para
     penalização por volume mínimo dos reservatórios.
@@ -16,29 +17,21 @@ class Curva(Arquivo):
 
     """
 
-    def __init__(self,
-                 dados: DadosArquivo) -> None:
+    def __init__(self, dados: DadosArquivoBlocos) -> None:
         super().__init__(dados)
 
     # Override
     @classmethod
-    def le_arquivo(cls,
-                   diretorio: str,
-                   nome_arquivo="curva.dat") -> 'Curva':
-        """
-        """
+    def le_arquivo(cls, diretorio: str, nome_arquivo="curva.dat") -> "Curva":
+        """ """
         leitor = LeituraCurva(diretorio)
         r = leitor.le_arquivo(nome_arquivo)
         return cls(r)
 
-    def escreve_arquivo(self,
-                        diretorio: str,
-                        nome_arquivo="curva.dat"):
-        """
-        """
-        escritor = Escrita(diretorio)
-        escritor.escreve_arquivo(self._dados,
-                                 nome_arquivo)
+    def escreve_arquivo(self, diretorio: str, nome_arquivo="curva.dat"):
+        """ """
+        escritor = EscritaBlocos(diretorio)
+        escritor.escreve_arquivo(self._dados, nome_arquivo)
 
     @property
     def configuracoes_penalizacao(self) -> np.ndarray:

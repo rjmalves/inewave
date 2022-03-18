@@ -39,4 +39,4 @@ jobs:
         python -m mypy .
     - name: Verificações de qualidade de código - linter PEP8
       run: |
-        python -m pylama .
+        python -m pylama --ignore E203 .

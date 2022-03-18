@@ -1,6 +1,6 @@
 from inewave.config import SUBMERCADOS, MESES, MESES_DF, MAX_ANOS_ESTUDO
 from inewave._utils.bloco import Bloco
-from inewave._utils.leitura import Leitura
+from inewave._utils.leiturablocos import LeituraBlocos
 from inewave._utils.registros import RegistroAn, RegistroIn, RegistroFn
 
 from typing import List, IO
@@ -13,14 +13,13 @@ class BlocoCustoDeficitSistema(Bloco):
     Bloco com informações sobre o custo de déficit por
     patamar de déficit e o número de patamares de déficit.
     """
+
     str_inicio = " NUMERO DE PATAMARES DE DEFICIT"
     str_fim = " 999"
 
     def __init__(self):
 
-        super().__init__(BlocoCustoDeficitSistema.str_inicio,
-                         "",
-                         True)
+        super().__init__(BlocoCustoDeficitSistema.str_inicio, "", True)
 
         self._dados = [0, pd.DataFrame()]
 
@@ -28,12 +27,15 @@ class BlocoCustoDeficitSistema(Bloco):
         if not isinstance(o, BlocoCustoDeficitSistema):
             return False
         bloco: BlocoCustoDeficitSistema = o
-        return all([self._dados[0] == bloco._dados[0],
-                    self._dados[1].equals(bloco._dados[1])])
+        return all(
+            [
+                self._dados[0] == bloco._dados[0],
+                self._dados[1].equals(bloco._dados[1]),
+            ]
+        )
 
     # Override
     def le(self, arq: IO):
-
         def converte_tabela_em_df() -> pd.DataFrame:
             df = pd.DataFrame(tabela)
             pats = [n for n in range(1, num_pat + 1)]
@@ -43,9 +45,11 @@ class BlocoCustoDeficitSistema(Bloco):
             df["Num. Subsistema"] = num_subsistemas
             df["Nome"] = nomes_subsistemas
             df["Fictício"] = ficticios
-            df = df[["Num. Subsistema", "Nome", "Fictício"] +
-                    cols_custo_pats +
-                    cols_corte_pats]
+            df = df[
+                ["Num. Subsistema", "Nome", "Fictício"]
+                + cols_custo_pats
+                + cols_corte_pats
+            ]
             return df
 
         # Variáveis auxiliares
@@ -67,21 +71,18 @@ class BlocoCustoDeficitSistema(Bloco):
         num_subsistemas = []
         nomes_subsistemas = []
         ficticios = []
-        tabela = np.zeros((len(SUBMERCADOS) + 1,
-                           2 * num_pat))
+        tabela = np.zeros((len(SUBMERCADOS) + 1, 2 * num_pat))
         for i in range(len(SUBMERCADOS)):
             linha: str = arq.readline()
             num_subsistemas.append(reg_num.le_registro(linha, 1))
             nomes_subsistemas.append(reg_nome_subsis.le_registro(linha, 5))
             ficticios.append(bool(reg_flag_ficticio.le_registro(linha, 17)))
-            tabela[i, :num_pat] = reg_custos.le_linha_tabela(linha,
-                                                             19,
-                                                             1,
-                                                             num_pat)
-            tabela[i, num_pat:] = reg_pu_corte.le_linha_tabela(linha,
-                                                               51,
-                                                               1,
-                                                               num_pat)
+            tabela[i, :num_pat] = reg_custos.le_linha_tabela(
+                linha, 19, 1, num_pat
+            )
+            tabela[i, num_pat:] = reg_pu_corte.le_linha_tabela(
+                linha, 51, 1, num_pat
+            )
         # Adiciona a linha do fictício
         linha = arq.readline()
         num_subsistemas.append(reg_num.le_registro(linha, 1))
@@ -96,7 +97,6 @@ class BlocoCustoDeficitSistema(Bloco):
 
     # Override
     def escreve(self, arq: IO):
-
         def escreve_custos():
             npat = 4  # self._dados[0]
             tabela = self._dados[1]
@@ -123,10 +123,14 @@ class BlocoCustoDeficitSistema(Bloco):
         arq.write(" XXX\n")
         arq.write(f" {str(self._dados[0]).rjust(3)}\n")
         arq.write(" CUSTO DO DEFICIT\n")
-        arq.write(" NUM|NOME SSIS.|    CUSTO DE DEFICIT POR PATAMAR" +
-                  "  | P.U. CORTE POR PATAMAR|\n")
-        arq.write(" XXX|XXXXXXXXXX| F|XXXX.XX XXXX.XX XXXX.XX XXXX.XX|" +
-                  "X.XXX X.XXX X.XXX X.XXX|\n")
+        arq.write(
+            " NUM|NOME SSIS.|    CUSTO DE DEFICIT POR PATAMAR"
+            + "  | P.U. CORTE POR PATAMAR|\n"
+        )
+        arq.write(
+            " XXX|XXXXXXXXXX| F|XXXX.XX XXXX.XX XXXX.XX XXXX.XX|"
+            + "X.XXX X.XXX X.XXX X.XXX|\n"
+        )
         escreve_custos()
         # Escreve a linha de terminação
         arq.write(f"{BlocoCustoDeficitSistema.str_fim}\n")
@@ -137,14 +141,13 @@ class BlocoIntercambioSistema(Bloco):
     Bloco com a informação de intercâmbio
     por mês/ano de estudo para cada subsistema.
     """
+
     str_inicio = " LIMITES DE INTERCAMBIO"
     str_fim = "999"
 
     def __init__(self):
 
-        super().__init__(BlocoIntercambioSistema.str_inicio,
-                         "",
-                         True)
+        super().__init__(BlocoIntercambioSistema.str_inicio, "", True)
 
         self._dados: pd.DataFrame = pd.DataFrame()
 
@@ -156,15 +159,13 @@ class BlocoIntercambioSistema(Bloco):
 
     # Override
     def le(self, arq: IO):
-
         def converte_tabela_em_df() -> pd.DataFrame:
             df = pd.DataFrame(tabela)
             df.columns = MESES_DF
             df["Ano"] = anos
             df["De Subsistema"] = subsistemas_de
             df["Para Subsistema"] = subsistemas_para
-            df = df[["Ano", "De Subsistema", "Para Subsistema"]
-                    + MESES_DF]
+            df = df[["Ano", "De Subsistema", "Para Subsistema"] + MESES_DF]
             return df
 
         # Variáveis auxiliares
@@ -179,10 +180,9 @@ class BlocoIntercambioSistema(Bloco):
         subsistemas_para = []
         subsis_de_atual = 0
         subsis_para_atual = 0
-        tabela = np.zeros((MAX_ANOS_ESTUDO *
-                           2 *
-                           len(SUBMERCADOS) ** 2,
-                          len(MESES)))
+        tabela = np.zeros(
+            (MAX_ANOS_ESTUDO * 2 * len(SUBMERCADOS) ** 2, len(MESES))
+        )
         while True:
             # Verifica se o arquivo acabou
             linha: str = arq.readline()
@@ -197,8 +197,10 @@ class BlocoIntercambioSistema(Bloco):
                 subsis_para_atual = int(linha[5:8].strip())
                 continue
             elif len(linha.strip()) < 5:
-                subsis_para_atual, subsis_de_atual = (subsis_de_atual,
-                                                      subsis_para_atual)
+                subsis_para_atual, subsis_de_atual = (
+                    subsis_de_atual,
+                    subsis_para_atual,
+                )
             else:
                 subsistemas_de.append(subsis_de_atual)
                 subsistemas_para.append(subsis_para_atual)
@@ -216,7 +218,6 @@ class BlocoIntercambioSistema(Bloco):
 
     # Override
     def escreve(self, arq: IO):
-
         def escreve_limites():
             lin_tab = self._dados.shape[0]
             subsistema_de_anterior = 0
@@ -226,13 +227,23 @@ class BlocoIntercambioSistema(Bloco):
                 # Subsistemas de / para
                 subsistema_de = self._dados.iloc[i, 1]
                 subsistema_para = self._dados.iloc[i, 2]
-                if any([subsistema_de != subsistema_de_anterior,
-                        subsistema_para != subsistema_para_anterior]):
-                    if not all([subsistema_de == subsistema_para_anterior,
-                                subsistema_para == subsistema_de_anterior]):
-                        linha = (str(subsistema_de).rjust(4) +
-                                 str(subsistema_para).rjust(4) +
-                                 "               0")
+                if any(
+                    [
+                        subsistema_de != subsistema_de_anterior,
+                        subsistema_para != subsistema_para_anterior,
+                    ]
+                ):
+                    if not all(
+                        [
+                            subsistema_de == subsistema_para_anterior,
+                            subsistema_para == subsistema_de_anterior,
+                        ]
+                    ):
+                        linha = (
+                            str(subsistema_de).rjust(4)
+                            + str(subsistema_para).rjust(4)
+                            + "               0"
+                        )
                     arq.write(linha + "\n")
                     subsistema_de_anterior = subsistema_de
                     subsistema_para_anterior = subsistema_para
@@ -250,8 +261,10 @@ class BlocoIntercambioSistema(Bloco):
         # Escreve cabeçalhos
         arq.write(f"{BlocoIntercambioSistema.str_inicio}\n")
         arq.write(" A   B   A->B    B->A\n")
-        cab = (" XXX XXX XJAN. XXXFEV. XXXMAR. XXXABR. XXXMAI." +
-               " XXXJUN. XXXJUL. XXXAGO. XXXSET. XXXOUT. XXXNOV. XXXDEZ.\n")
+        cab = (
+            " XXX XXX XJAN. XXXFEV. XXXMAR. XXXABR. XXXMAI."
+            + " XXXJUN. XXXJUL. XXXAGO. XXXSET. XXXOUT. XXXNOV. XXXDEZ.\n"
+        )
         arq.write(cab)
         escreve_limites()
         # Escreve a linha de terminação
@@ -263,14 +276,13 @@ class BlocoMercadoEnergiaSistema(Bloco):
     Bloco com a informação de mercado de energia
     por mês/ano de estudo para cada subsistema.
     """
+
     str_inicio = " MERCADO DE ENERGIA TOTAL"
     str_fim = "999"
 
     def __init__(self):
 
-        super().__init__(BlocoMercadoEnergiaSistema.str_inicio,
-                         "",
-                         True)
+        super().__init__(BlocoMercadoEnergiaSistema.str_inicio, "", True)
 
         self._dados: pd.DataFrame = pd.DataFrame()
 
@@ -282,7 +294,6 @@ class BlocoMercadoEnergiaSistema(Bloco):
 
     # Override
     def le(self, arq: IO):
-
         def converte_tabela_em_df() -> pd.DataFrame:
             df = pd.DataFrame(tabela)
             df.columns = MESES_DF
@@ -302,8 +313,7 @@ class BlocoMercadoEnergiaSistema(Bloco):
         anos = []
         subsistema = []
         subsistema_atual = 0
-        tabela = np.zeros((MAX_ANOS_ESTUDO * len(SUBMERCADOS),
-                          len(MESES)))
+        tabela = np.zeros((MAX_ANOS_ESTUDO * len(SUBMERCADOS), len(MESES)))
         while True:
             # Verifica se o arquivo acabou
             linha: str = arq.readline()
@@ -331,7 +341,6 @@ class BlocoMercadoEnergiaSistema(Bloco):
 
     # Override
     def escreve(self, arq: IO):
-
         def escreve_mercados():
             lin_tab = self._dados.shape[0]
             subsistema_anterior = 0
@@ -355,8 +364,10 @@ class BlocoMercadoEnergiaSistema(Bloco):
         # Escreve cabeçalhos
         arq.write(f"{BlocoMercadoEnergiaSistema.str_inicio}\n")
         arq.write(" XXX\n")
-        cab = ("       XXXJAN. XXXFEV. XXXMAR. XXXABR. XXXMAI. XXXJUN." +
-               " XXXJUL. XXXAGO. XXXSET. XXXOUT. XXXNOV. XXXDEZ.\n")
+        cab = (
+            "       XXXJAN. XXXFEV. XXXMAR. XXXABR. XXXMAI. XXXJUN."
+            + " XXXJUL. XXXAGO. XXXSET. XXXOUT. XXXNOV. XXXDEZ.\n"
+        )
         arq.write(cab)
         escreve_mercados()
         # Escreve a linha de terminação
@@ -368,14 +379,15 @@ class BlocoGeracaoUsinasNaoSimuladasSistema(Bloco):
     Bloco com a informação de geração das usinas não simuladas
     por mês/ano de estudo para cada subsistema.
     """
+
     str_inicio = " GERACAO DE USINAS NAO SIMULADAS"
     str_fim = "999"
 
     def __init__(self):
 
-        super().__init__(BlocoGeracaoUsinasNaoSimuladasSistema.str_inicio,
-                         "",
-                         True)
+        super().__init__(
+            BlocoGeracaoUsinasNaoSimuladasSistema.str_inicio, "", True
+        )
 
         self._dados: pd.DataFrame = pd.DataFrame()
 
@@ -387,7 +399,6 @@ class BlocoGeracaoUsinasNaoSimuladasSistema(Bloco):
 
     # Override
     def le(self, arq: IO):
-
         def converte_tabela_em_df() -> pd.DataFrame:
             df = pd.DataFrame(tabela)
             df.columns = MESES_DF
@@ -395,8 +406,9 @@ class BlocoGeracaoUsinasNaoSimuladasSistema(Bloco):
             df["Subsistema"] = subsistema
             df["Bloco"] = bloco
             df["Tipo de Geração"] = tipo
-            df = df[["Ano", "Subsistema",
-                     "Bloco", "Tipo de Geração"] + MESES_DF]
+            df = df[
+                ["Ano", "Subsistema", "Bloco", "Tipo de Geração"] + MESES_DF
+            ]
             return df
 
         # Variáveis auxiliares
@@ -416,8 +428,7 @@ class BlocoGeracaoUsinasNaoSimuladasSistema(Bloco):
         subsistema_atual = 0
         bloco_atual = 0
         tipo_atual = ""
-        tabela = np.zeros((MAX_ANOS_ESTUDO * len(SUBMERCADOS) * 5,
-                          len(MESES)))
+        tabela = np.zeros((MAX_ANOS_ESTUDO * len(SUBMERCADOS) * 5, len(MESES)))
         while True:
             # Verifica se o arquivo acabou
             linha: str = arq.readline()
@@ -450,7 +461,6 @@ class BlocoGeracaoUsinasNaoSimuladasSistema(Bloco):
 
     # Override
     def escreve(self, arq: IO):
-
         def escreve_geracoes():
             lin_tab = self._dados.shape[0]
             tipo_anterior = 0
@@ -461,11 +471,15 @@ class BlocoGeracaoUsinasNaoSimuladasSistema(Bloco):
                 bloco = self._dados.iloc[i, 2]
                 tipo = self._dados.iloc[i, 3]
                 if tipo != tipo_anterior:
-                    arq.write(" " +
-                              str(subsistema).rjust(3) + "  " +
-                              str(bloco).rjust(3) + "  " +
-                              str(tipo).rjust(3) +
-                              "\n")
+                    arq.write(
+                        " "
+                        + str(subsistema).rjust(3)
+                        + "  "
+                        + str(bloco).rjust(3)
+                        + "  "
+                        + str(tipo).rjust(3)
+                        + "\n"
+                    )
                     tipo_anterior = tipo
                 # Mercados de cada mês
                 linha = f"{str(self._dados.iloc[i, 0]).ljust(4)}  "
@@ -480,15 +494,17 @@ class BlocoGeracaoUsinasNaoSimuladasSistema(Bloco):
         # Escreve cabeçalhos
         arq.write(f"{BlocoGeracaoUsinasNaoSimuladasSistema.str_inicio}\n")
         arq.write(" XXX  XBL  XXXXXXXXXXXXXXXXXXXX  XTE\n")
-        cab = ("       XXXJAN. XXXFEV. XXXMAR. XXXABR. XXXMAI. XXXJUN." +
-               " XXXJUL. XXXAGO. XXXSET. XXXOUT. XXXNOV. XXXDEZ.\n")
+        cab = (
+            "       XXXJAN. XXXFEV. XXXMAR. XXXABR. XXXMAI. XXXJUN."
+            + " XXXJUL. XXXAGO. XXXSET. XXXOUT. XXXNOV. XXXDEZ.\n"
+        )
         arq.write(cab)
         escreve_geracoes()
         # Escreve a linha de terminação
         arq.write(f" {BlocoGeracaoUsinasNaoSimuladasSistema.str_fim}\n")
 
 
-class LeituraSistema(Leitura):
+class LeituraSistema(LeituraBlocos):
     """
     Realiza a leitura do arquivo `sistema.dat`
     existente em um diretório de entradas do NEWAVE.
@@ -502,8 +518,7 @@ class LeituraSistema(Leitura):
     tipos de dados, dentre outras tarefas necessárias para a leitura.
     """
 
-    def __init__(self,
-                 diretorio: str):
+    def __init__(self, diretorio: str):
         super().__init__(diretorio)
 
     # Override
@@ -511,7 +526,9 @@ class LeituraSistema(Leitura):
         """
         Cria a lista de blocos a serem lidos no arquivo sistema.dat.
         """
-        return [BlocoCustoDeficitSistema(),
-                BlocoIntercambioSistema(),
-                BlocoMercadoEnergiaSistema(),
-                BlocoGeracaoUsinasNaoSimuladasSistema()]
+        return [
+            BlocoCustoDeficitSistema(),
+            BlocoIntercambioSistema(),
+            BlocoMercadoEnergiaSistema(),
+            BlocoGeracaoUsinasNaoSimuladasSistema(),
+        ]

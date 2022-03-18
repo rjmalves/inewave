@@ -1,8 +1,9 @@
 # Imports do próprio módulo
 from inewave._utils.registros import RegistroAn, RegistroFn, RegistroIn
 from inewave._utils.bloco import Bloco
-from inewave._utils.leitura import Leitura
+from inewave._utils.leiturablocos import LeituraBlocos
 from inewave.config import MAX_UHES, MESES, MESES_DF
+
 # Imports de módulos externos
 import numpy as np  # type: ignore
 import pandas as pd  # type: ignore
@@ -15,13 +16,12 @@ class BlocoEafPast(Bloco):
     por REE, existentes no arquivo `eafpast.dat`
     do NEWAVE.
     """
+
     str_inicio = ""
 
     def __init__(self):
 
-        super().__init__(BlocoEafPast.str_inicio,
-                         "",
-                         True)
+        super().__init__(BlocoEafPast.str_inicio, "", True)
 
         self._dados = pd.DataFrame
 
@@ -58,15 +58,11 @@ class BlocoEafPast(Bloco):
             # Senão, lê mais uma linha
             nums.append(reg_num.le_registro(linha, 0))
             nomes.append(reg_nome.le_registro(linha, 5))
-            tabela[i, :] = reg_vaz.le_linha_tabela(linha,
-                                                   18,
-                                                   3,
-                                                   len(MESES))
+            tabela[i, :] = reg_vaz.le_linha_tabela(linha, 18, 3, len(MESES))
             i += 1
 
     # Override
     def escreve(self, arq: IO):
-
         def escreve_afluencias():
             lin_tab = self._dados.shape[0]
             for i in range(lin_tab):
@@ -82,18 +78,24 @@ class BlocoEafPast(Bloco):
                 arq.write(linha + "\n")
 
         # Escreve cabeçalhos
-        cabs = (" NUM SISTEMA        JAN        FEV        MAR        ABR" +
-                "        MAI        JUN        JUL        AGO        SET " +
-                "       OUT        NOV        DEZ" + "\n")
-        tabs = ("XXXX XXXXXXXXXX   XXXXX.XX   XXXXX.XX   XXXXX.XX   XXXXX." +
-                "XX   XXXXX.XX   XXXXX.XX   XXXXX.XX   XXXXX.XX   XXXXX.XX" +
-                "   XXXXX.XX   XXXXX.XX   XXXXX.XX" + "\n")
+        cabs = (
+            " NUM SISTEMA        JAN        FEV        MAR        ABR"
+            + "        MAI        JUN        JUL        AGO        SET "
+            + "       OUT        NOV        DEZ"
+            + "\n"
+        )
+        tabs = (
+            "XXXX XXXXXXXXXX   XXXXX.XX   XXXXX.XX   XXXXX.XX   XXXXX."
+            + "XX   XXXXX.XX   XXXXX.XX   XXXXX.XX   XXXXX.XX   XXXXX.XX"
+            + "   XXXXX.XX   XXXXX.XX   XXXXX.XX"
+            + "\n"
+        )
         arq.write(cabs)
         arq.write(tabs)
         escreve_afluencias()
 
 
-class LeituraEafPast(Leitura):
+class LeituraEafPast(LeituraBlocos):
     """
     Realiza a leitura do arquivo `eafpast.dat`
     existente em um diretório de entradas do NEWAVE.
@@ -108,8 +110,7 @@ class LeituraEafPast(Leitura):
 
     """
 
-    def __init__(self,
-                 diretorio: str) -> None:
+    def __init__(self, diretorio: str) -> None:
         super().__init__(diretorio)
 
     def _cria_blocos_leitura(self) -> List[Bloco]:

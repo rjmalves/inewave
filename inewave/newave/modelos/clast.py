@@ -1,6 +1,6 @@
 from inewave._utils.registros import RegistroAn, RegistroFn, RegistroIn
 from inewave._utils.bloco import Bloco
-from inewave._utils.leitura import Leitura
+from inewave._utils.leiturablocos import LeituraBlocos
 
 from typing import List, IO
 import pandas as pd  # type: ignore
@@ -11,14 +11,13 @@ class BlocoUTEClasT(Bloco):
     Bloco de informações das usinas cadastradas
     no arquivo do NEWAVE `clast.dat`.
     """
+
     str_inicio = "NUM  NOME CLASSE  TIPO COMB."
     str_fim = "9999"
 
     def __init__(self):
 
-        super().__init__(BlocoUTEClasT.str_inicio,
-                         "",
-                         True)
+        super().__init__(BlocoUTEClasT.str_inicio, "", True)
 
         self._dados: pd.DataFrame = pd.DataFrame()
 
@@ -30,9 +29,7 @@ class BlocoUTEClasT(Bloco):
 
     # Override
     def le(self, arq: IO):
-
-        def extrai_coluna_de_listas(listas: List[list],
-                                    coluna: int) -> list:
+        def extrai_coluna_de_listas(listas: List[list], coluna: int) -> list:
             return [lista[coluna] for lista in listas]
 
         def transforma_utes_em_tabela() -> pd.DataFrame:
@@ -45,14 +42,16 @@ class BlocoUTEClasT(Bloco):
             col_custo3 = extrai_coluna_de_listas(dados_utes, 5)
             col_custo4 = extrai_coluna_de_listas(dados_utes, 6)
             col_custo5 = extrai_coluna_de_listas(dados_utes, 7)
-            dados = {"Número": col_num,
-                     "Nome": col_nome,
-                     "Tipo Combustível": col_tipo,
-                     "Custo 1": col_custo1,
-                     "Custo 2": col_custo2,
-                     "Custo 3": col_custo3,
-                     "Custo 4": col_custo4,
-                     "Custo 5": col_custo5}
+            dados = {
+                "Número": col_num,
+                "Nome": col_nome,
+                "Tipo Combustível": col_tipo,
+                "Custo 1": col_custo1,
+                "Custo 2": col_custo2,
+                "Custo 3": col_custo3,
+                "Custo 4": col_custo4,
+                "Custo 5": col_custo5,
+            }
             return pd.DataFrame(data=dados)
 
         # Salta a linha com "XXX"
@@ -71,9 +70,11 @@ class BlocoUTEClasT(Bloco):
                 # Converte para df e salva na variável
                 self._dados = transforma_utes_em_tabela()
                 break
-            dados_ute = [reg_num.le_registro(linha, 1),
-                         reg_nome.le_registro(linha, 6),
-                         reg_tipo.le_registro(linha, 19)]
+            dados_ute = [
+                reg_num.le_registro(linha, 1),
+                reg_nome.le_registro(linha, 6),
+                reg_tipo.le_registro(linha, 19),
+            ]
             dados_ute += reg_custo.le_linha_tabela(linha, 30, 1, 5)
             dados_utes.append(dados_ute)
 
@@ -96,10 +97,16 @@ class BlocoUTEClasT(Bloco):
             arq.write(linha + "\n")
 
         # Escreve cabeçalhos
-        titulos = (" NUM  NOME CLASSE  TIPO COMB.  CUSTO   CUSTO" +
-                   "   CUSTO   CUSTO   CUSTO" + "\n")
-        cabecalhos = (" XXXX XXXXXXXXXXXX XXXXXXXXXX XXXX.XX XXXX.XX" +
-                      " XXXX.XX XXXX.XX XXXX.XX" + "\n")
+        titulos = (
+            " NUM  NOME CLASSE  TIPO COMB.  CUSTO   CUSTO"
+            + "   CUSTO   CUSTO   CUSTO"
+            + "\n"
+        )
+        cabecalhos = (
+            " XXXX XXXXXXXXXXXX XXXXXXXXXX XXXX.XX XXXX.XX"
+            + " XXXX.XX XXXX.XX XXXX.XX"
+            + "\n"
+        )
         arq.write(titulos)
         arq.write(cabecalhos)
         # Escreve UHEs
@@ -113,13 +120,12 @@ class BlocoModificacaoUTEClasT(Bloco):
     Bloco de modificações das informações das
     usinas cadastradas no arquivo do NEWAVE `clast.dat`.
     """
+
     str_inicio = " NUM     CUSTO"
 
     def __init__(self):
 
-        super().__init__(BlocoModificacaoUTEClasT.str_inicio,
-                         "",
-                         True)
+        super().__init__(BlocoModificacaoUTEClasT.str_inicio, "", True)
 
         self._dados: pd.DataFrame = pd.DataFrame()
 
@@ -131,9 +137,7 @@ class BlocoModificacaoUTEClasT(Bloco):
 
     # Override
     def le(self, arq: IO):
-
-        def extrai_coluna_de_listas(listas: List[list],
-                                    coluna: int) -> list:
+        def extrai_coluna_de_listas(listas: List[list], coluna: int) -> list:
             return [lista[coluna] for lista in listas]
 
         def transforma_utes_em_tabela() -> pd.DataFrame:
@@ -145,13 +149,15 @@ class BlocoModificacaoUTEClasT(Bloco):
             col_mes_fim = extrai_coluna_de_listas(dados_utes, 4)
             col_ano_fim = extrai_coluna_de_listas(dados_utes, 5)
             col_nome = extrai_coluna_de_listas(dados_utes, 6)
-            dados = {"Número": col_num,
-                     "Nome": col_nome,
-                     "Custo": col_custo,
-                     "Mês Início": col_mes_inic,
-                     "Ano Início": col_ano_inic,
-                     "Mês Fim": col_mes_fim,
-                     "Ano Fim": col_ano_fim}
+            dados = {
+                "Número": col_num,
+                "Nome": col_nome,
+                "Custo": col_custo,
+                "Mês Início": col_mes_inic,
+                "Ano Início": col_ano_inic,
+                "Mês Fim": col_mes_fim,
+                "Ano Fim": col_ano_fim,
+            }
             return pd.DataFrame(data=dados)
 
         # Salta a linha com "XXX"
@@ -175,13 +181,15 @@ class BlocoModificacaoUTEClasT(Bloco):
             mes_fim = int(s_mes_fim) if s_mes_fim != "  " else None
             s_ano_fim = linha[29:33]
             ano_fim = int(s_ano_fim) if s_ano_fim != "    " else None
-            dados_ute = [reg_num.le_registro(linha, 1),
-                         reg_custo.le_registro(linha, 8),
-                         reg_mes.le_registro(linha, 17),
-                         reg_ano.le_registro(linha, 20),
-                         mes_fim,
-                         ano_fim,
-                         reg_nome.le_registro(linha, 35)]
+            dados_ute = [
+                reg_num.le_registro(linha, 1),
+                reg_custo.le_registro(linha, 8),
+                reg_mes.le_registro(linha, 17),
+                reg_ano.le_registro(linha, 20),
+                mes_fim,
+                ano_fim,
+                reg_nome.le_registro(linha, 35),
+            ]
             dados_utes.append(dados_ute)
 
     # Override
@@ -211,8 +219,8 @@ class BlocoModificacaoUTEClasT(Bloco):
             arq.write(linha + "\n")
 
         # Escreve cabeçalhos
-        titulos = (" NUM     CUSTO" + "\n")
-        cabecalhos = (" XXXX   XXXX.XX  XX XXXX  XX XXXX" + "\n")
+        titulos = " NUM     CUSTO" + "\n"
+        cabecalhos = " XXXX   XXXX.XX  XX XXXX  XX XXXX" + "\n"
         arq.write(titulos)
         arq.write(cabecalhos)
         # Escreve UHEs
@@ -220,7 +228,7 @@ class BlocoModificacaoUTEClasT(Bloco):
             escreve_ute(ute)
 
 
-class LeituraClasT(Leitura):
+class LeituraClasT(LeituraBlocos):
     """
     Realiza a leitura do arquivo `clast.dat`
     existente em um diretório de entradas do NEWAVE.
@@ -234,8 +242,7 @@ class LeituraClasT(Leitura):
     tipos de dados, dentre outras tarefas necessárias para a leitura.
     """
 
-    def __init__(self,
-                 diretorio: str):
+    def __init__(self, diretorio: str):
         super().__init__(diretorio)
 
     # Override
@@ -243,5 +250,4 @@ class LeituraClasT(Leitura):
         """
         Cria a lista de blocos a serem lidos no arquivo clast.dat.
         """
-        return [BlocoUTEClasT(),
-                BlocoModificacaoUTEClasT()]
+        return [BlocoUTEClasT(), BlocoModificacaoUTEClasT()]

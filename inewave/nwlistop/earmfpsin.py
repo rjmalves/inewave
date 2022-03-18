@@ -1,11 +1,11 @@
-from inewave._utils.arquivo import Arquivo
-from inewave._utils.dadosarquivo import DadosArquivo
+from inewave._utils.dadosarquivo import DadosArquivoBlocos
+from inewave._utils.arquivo import ArquivoBlocos
 from inewave.nwlistop.modelos.earmfpsin import LeituraEarmfpSIN
 
 import pandas as pd  # type: ignore
 
 
-class EarmfpSIN(Arquivo):
+class EarmfpSIN(ArquivoBlocos):
     """
     Armazena os dados das saídas referentes às energias
     armazenadas finais, por submercado e em % da energia armazenável máxima.
@@ -14,17 +14,16 @@ class EarmfpSIN(Arquivo):
     NWLISTOP e reproduzidas nos `earmfpm00x.out`, onde x varia conforme o
     submercado em questão.
     """
-    def __init__(self,
-                 dados: DadosArquivo):
+
+    def __init__(self, dados: DadosArquivoBlocos):
         super().__init__(dados)
 
     # Override
     @classmethod
-    def le_arquivo(cls,
-                   diretorio: str,
-                   nome_arquivo="earmfpsin.out") -> 'EarmfpSIN':
-        """
-        """
+    def le_arquivo(
+        cls, diretorio: str, nome_arquivo="earmfpsin.out"
+    ) -> "EarmfpSIN":
+        """ """
         leitor = LeituraEarmfpSIN(diretorio)
         r = leitor.le_arquivo(nome_arquivo)
         return cls(r)

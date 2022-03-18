@@ -1,5 +1,5 @@
 from inewave._utils.bloco import Bloco
-from inewave._utils.leitura import Leitura
+from inewave._utils.leiturablocos import LeituraBlocos
 from inewave._utils.registros import RegistroAn, RegistroIn
 
 import pandas as pd  # type: ignore
@@ -11,13 +11,12 @@ class BlocoConfUTE(Bloco):
     Bloco de informações das usinas cadastradas
     no arquivo do NEWAVE `conft.dat`.
     """
+
     str_inicio = "NUM  NOME"
 
     def __init__(self):
 
-        super().__init__(BlocoConfUTE.str_inicio,
-                         "",
-                         True)
+        super().__init__(BlocoConfUTE.str_inicio, "", True)
 
         self._dados: pd.DataFrame = pd.DataFrame()
 
@@ -29,9 +28,7 @@ class BlocoConfUTE(Bloco):
 
     # Override
     def le(self, arq: IO):
-
-        def extrai_coluna_de_listas(listas: List[list],
-                                    coluna: int) -> list:
+        def extrai_coluna_de_listas(listas: List[list], coluna: int) -> list:
             return [lista[coluna] for lista in listas]
 
         def transforma_utes_em_tabela() -> pd.DataFrame:
@@ -41,11 +38,13 @@ class BlocoConfUTE(Bloco):
             col_subsis = extrai_coluna_de_listas(dados_utes, 2)
             col_exis = extrai_coluna_de_listas(dados_utes, 3)
             col_clas = extrai_coluna_de_listas(dados_utes, 4)
-            dados = {"Número": col_num,
-                     "Nome": col_nome,
-                     "Subsistema": col_subsis,
-                     "Usina Existente": col_exis,
-                     "Classe": col_clas}
+            dados = {
+                "Número": col_num,
+                "Nome": col_nome,
+                "Subsistema": col_subsis,
+                "Usina Existente": col_exis,
+                "Classe": col_clas,
+            }
             return pd.DataFrame(data=dados)
 
         # Salta a linha com "XXX"
@@ -65,11 +64,13 @@ class BlocoConfUTE(Bloco):
                 # Converte para df e salva na variável
                 self._dados = transforma_utes_em_tabela()
                 break
-            dados_ute = [reg_num.le_registro(linha, 1),
-                         reg_nome.le_registro(linha, 6),
-                         reg_subsis.le_registro(linha, 21),
-                         reg_exis.le_registro(linha, 30),
-                         reg_clas.le_registro(linha, 35)]
+            dados_ute = [
+                reg_num.le_registro(linha, 1),
+                reg_nome.le_registro(linha, 6),
+                reg_subsis.le_registro(linha, 21),
+                reg_exis.le_registro(linha, 30),
+                reg_clas.le_registro(linha, 35),
+            ]
             dados_utes.append(dados_ute)
 
     # Override
@@ -89,10 +90,8 @@ class BlocoConfUTE(Bloco):
             arq.write(linha + "\n")
 
         # Escreve cabeçalhos
-        titulos = (" NUM  NOME           SSIS  U.EXIS CLASSE"
-                   + "\n")
-        cabecalhos = (" XXXX XXXXXXXXXXXX   XXXX     XX   XXXX"
-                      + "\n")
+        titulos = " NUM  NOME           SSIS  U.EXIS CLASSE" + "\n"
+        cabecalhos = " XXXX XXXXXXXXXXXX   XXXX     XX   XXXX" + "\n"
         arq.write(titulos)
         arq.write(cabecalhos)
         # Escreve UHEs
@@ -100,7 +99,7 @@ class BlocoConfUTE(Bloco):
             escreve_ute(ute)
 
 
-class LeituraConfT(Leitura):
+class LeituraConfT(LeituraBlocos):
     """
     Realiza a leitura do arquivo `conft.dat`
     existente em um diretório de entradas do NEWAVE.
@@ -114,8 +113,7 @@ class LeituraConfT(Leitura):
     tipos de dados, dentre outras tarefas necessárias para a leitura.
     """
 
-    def __init__(self,
-                 diretorio: str):
+    def __init__(self, diretorio: str):
         super().__init__(diretorio)
 
     # Override

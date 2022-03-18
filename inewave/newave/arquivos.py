@@ -1,13 +1,14 @@
-from inewave._utils.arquivo import Arquivo
-from inewave._utils.dadosarquivo import DadosArquivo
+from inewave._utils.arquivo import ArquivoBlocos
+from inewave._utils.dadosarquivo import DadosArquivoBlocos
 from inewave.newave.modelos.arquivos import BlocoNomesArquivos
 from inewave.newave.modelos.arquivos import LeituraArquivos
-from inewave._utils.escrita import Escrita
+from inewave._utils.escritablocos import EscritaBlocos
+
 
 from typing import List
 
 
-class Arquivos(Arquivo):
+class Arquivos(ArquivoBlocos):
     """
     Armazena os dados de entrada do NEWAVE referentes ao arquivo
     `arquivos.dat`.
@@ -18,8 +19,7 @@ class Arquivos(Arquivo):
 
     """
 
-    def __init__(self,
-                 dados: DadosArquivo):
+    def __init__(self, dados: DadosArquivoBlocos):
         super().__init__(dados)
         # Interpreta o resultado da leitura
         val = True
@@ -29,8 +29,10 @@ class Arquivos(Arquivo):
             if isinstance(bloco, BlocoNomesArquivos):
                 self.__bloco = bloco
             else:
-                msg += (f"O bloco deve ser do tipo {BlocoNomesArquivos}, " +
-                        f"mas foi fornecido do tipo {type(bloco)}")
+                msg += (
+                    f"O bloco deve ser do tipo {BlocoNomesArquivos}, "
+                    + f"mas foi fornecido do tipo {type(bloco)}"
+                )
                 val = False
         else:
             msg += "Deve ser fornecido exatamente 1 bloco para Arquivos"
@@ -39,23 +41,18 @@ class Arquivos(Arquivo):
             raise TypeError(msg)
 
     @classmethod
-    def le_arquivo(cls,
-                   diretorio: str,
-                   nome_arquivo="arquivos.dat") -> 'Arquivos':
-        """
-        """
+    def le_arquivo(
+        cls, diretorio: str, nome_arquivo="arquivos.dat"
+    ) -> "Arquivos":
+        """ """
         leitor = LeituraArquivos(diretorio)
         r = leitor.le_arquivo(nome_arquivo)
         return cls(r)
 
-    def escreve_arquivo(self,
-                        diretorio: str,
-                        nome_arquivo="arquivos.dat"):
-        """
-        """
-        escritor = Escrita(diretorio)
-        escritor.escreve_arquivo(self._dados,
-                                 nome_arquivo)
+    def escreve_arquivo(self, diretorio: str, nome_arquivo="arquivos.dat"):
+        """ """
+        escritor = EscritaBlocos(diretorio)
+        escritor.escreve_arquivo(self._dados, nome_arquivo)
 
     def __le_nome_por_indice(self, indice: int) -> str:
         return self.__bloco.dados[indice]
@@ -65,16 +62,17 @@ class Arquivos(Arquivo):
 
     @property
     def arquivos(self) -> List[str]:
-        return [self.__le_nome_por_indice(i)
-                for i in range(len(self.__bloco.dados))]
+        return [
+            self.__le_nome_por_indice(i)
+            for i in range(len(self.__bloco.dados))
+        ]
 
     @property
     def arquivos_entrada(self) -> List[str]:
         todos_indices = set(list(range(len(self.__bloco.dados))))
         indices_saida = set([10, 11, 12, 13, 14, 15, 18])
         indices_entrada = list(todos_indices.difference(indices_saida))
-        return [self.__le_nome_por_indice(i)
-                for i in indices_entrada]
+        return [self.__le_nome_por_indice(i) for i in indices_entrada]
 
     @property
     def dger(self) -> str:

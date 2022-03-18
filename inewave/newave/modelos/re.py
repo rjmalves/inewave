@@ -1,6 +1,6 @@
 from inewave.config import MAX_RES
 from inewave._utils.bloco import Bloco
-from inewave._utils.leitura import Leitura
+from inewave._utils.leiturablocos import LeituraBlocos
 from inewave._utils.registros import RegistroFn, RegistroIn
 
 from typing import List, IO
@@ -13,14 +13,13 @@ class BlocoUsinasConjuntoRE(Bloco):
     Bloco com informações das usinas pertencentes a cada conjunto
     de restrições elétricas por conjunto de RE.
     """
+
     str_inicio = "RES   USINAS PERTENCENTES AO CONJUNTO"
     str_fim = "999"
 
     def __init__(self):
 
-        super().__init__(BlocoUsinasConjuntoRE.str_inicio,
-                         "",
-                         True)
+        super().__init__(BlocoUsinasConjuntoRE.str_inicio, "", True)
 
         self._dados: pd.DataFrame = pd.DataFrame()
 
@@ -32,7 +31,6 @@ class BlocoUsinasConjuntoRE(Bloco):
 
     # Override
     def le(self, arq: IO):
-
         def converte_tabela_em_df() -> pd.DataFrame:
             df = pd.DataFrame(tabela)
             cols_usinas = [f"Usina {i}" for i in range(1, 11)]
@@ -51,8 +49,7 @@ class BlocoUsinasConjuntoRE(Bloco):
         while True:
             # Verifica se o arquivo acabou
             linha: str = arq.readline()
-            if (BlocoUsinasConjuntoRE.str_fim
-               == linha.strip()):
+            if BlocoUsinasConjuntoRE.str_fim == linha.strip():
                 tabela = tabela[:i, :]
                 self._dados = converte_tabela_em_df()
                 break
@@ -72,7 +69,6 @@ class BlocoUsinasConjuntoRE(Bloco):
 
     # Override
     def escreve(self, arq: IO):
-
         def escreve_conjuntos():
             lin_tab = self._dados.shape[0]
             for i in range(lin_tab):
@@ -97,14 +93,13 @@ class BlocoConfiguracaoRestricoesRE(Bloco):
     Bloco com informações de configuração das restrições elétricas
     para cada conjunto de usinas.
     """
+
     str_inicio = "RES MM/AAAA MM/AAAA P       RESTRICAO"
     str_fim = "999"
 
     def __init__(self):
 
-        super().__init__(BlocoConfiguracaoRestricoesRE.str_inicio,
-                         "",
-                         True)
+        super().__init__(BlocoConfiguracaoRestricoesRE.str_inicio, "", True)
 
         self._dados: pd.DataFrame = pd.DataFrame()
 
@@ -116,11 +111,16 @@ class BlocoConfiguracaoRestricoesRE(Bloco):
 
     # Override
     def le(self, arq: IO):
-
         def converte_tabela_em_df() -> pd.DataFrame:
             df = pd.DataFrame(tabela)
-            df.columns = ["Conjunto", "Mês Início", "Ano Início",
-                          "Mês Fim", "Ano Fim", "Flag P"]
+            df.columns = [
+                "Conjunto",
+                "Mês Início",
+                "Ano Início",
+                "Mês Fim",
+                "Ano Fim",
+                "Flag P",
+            ]
             df["Restrição"] = restricoes
             df["Motivo"] = motivos
             return df
@@ -140,8 +140,7 @@ class BlocoConfiguracaoRestricoesRE(Bloco):
         while True:
             # Verifica se o arquivo acabou
             linha: str = arq.readline()
-            if (BlocoUsinasConjuntoRE.str_fim
-               == linha.strip()):
+            if BlocoUsinasConjuntoRE.str_fim == linha.strip():
                 tabela = tabela[:i, :]
                 self._dados = converte_tabela_em_df()
                 break
@@ -157,7 +156,6 @@ class BlocoConfiguracaoRestricoesRE(Bloco):
 
     # Override
     def escreve(self, arq: IO):
-
         def escreve_restricoes():
             lin_tab = self._dados.shape[0]
             for i in range(lin_tab):
@@ -179,7 +177,7 @@ class BlocoConfiguracaoRestricoesRE(Bloco):
         arq.write(f"{BlocoConfiguracaoRestricoesRE.str_fim}\n")
 
 
-class LeituraRE(Leitura):
+class LeituraRE(LeituraBlocos):
     """
     Realiza a leitura do arquivo `re.dat`
     existente em um diretório de entradas do NEWAVE.
@@ -193,8 +191,7 @@ class LeituraRE(Leitura):
     tipos de dados, dentre outras tarefas necessárias para a leitura.
     """
 
-    def __init__(self,
-                 diretorio: str):
+    def __init__(self, diretorio: str):
         super().__init__(diretorio)
 
     # Override
@@ -202,5 +199,4 @@ class LeituraRE(Leitura):
         """
         Cria a lista de blocos a serem lidos no arquivo re.dat.
         """
-        return [BlocoUsinasConjuntoRE(),
-                BlocoConfiguracaoRestricoesRE()]
+        return [BlocoUsinasConjuntoRE(), BlocoConfiguracaoRestricoesRE()]

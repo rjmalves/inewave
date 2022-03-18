@@ -12,8 +12,8 @@ class MediasMerc:
     NWLISTOP e reproduzidas nos `MEDIAS-MERC.CSV`.
 
     """
-    def __init__(self,
-                 dados: pd.DataFrame):
+
+    def __init__(self, dados: pd.DataFrame):
         self.__dados = dados
 
     def __eq__(self, o: object) -> bool:
@@ -34,7 +34,5 @@ class MediasMerc:
         self.__dados = d
 
     @classmethod
-    def le_arquivo(cls,
-                   diretorio: str,
-                   nome_arquivo="MEDIAS-MERC.CSV"):
+    def le_arquivo(cls, diretorio: str, nome_arquivo="MEDIAS-MERC.CSV"):
         return cls(LeituraMediasMerc(diretorio).le_arquivo(nome_arquivo))

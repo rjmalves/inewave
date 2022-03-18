@@ -1,10 +1,11 @@
 # Imports do próprio módulo
 from inewave._utils.bloco import Bloco
 from inewave._utils.registros import RegistroAn, RegistroFn, RegistroIn
-from inewave._utils.leitura import Leitura
+from inewave._utils.leiturablocos import LeituraBlocos
 from inewave.config import MAX_ANOS_ESTUDO, MAX_CONFIGURACOES, MAX_ITERS
 from inewave.config import MAX_REES, NUM_CONFIGS_DGER
 from inewave.config import MESES, MESES_DF, SUBMERCADOS
+
 # Imports de módulos externos
 from datetime import timedelta
 import numpy as np  # type: ignore
@@ -22,98 +23,97 @@ class BlocoEcoDgerPMO(Bloco):
     str_fim = "CEPEL"
 
     nomes_params = [
-                    "DURACAO DE CADA PERIODO DE OPERACAO",
-                    "NUMERO DE ANOS DO HORIZONTE DE ESTUDO",
-                    "MES INICIAL DO PERIODO DE PRE-ESTUDO",
-                    "MES INICIAL DO PERIODO DE ESTUDO",
-                    "ANO INICIAL DO PERIODO DE ESTUDO",
-                    "NUMERO DE ANOS QUE PRECEDEM O HORIZONTE DE ESTUDO",
-                    "NUMERO DE ANOS QUE SUCEDEM O HORIZONTE DE ESTUDO",
-                    "NUMERO DE ANOS DO POS NA SIMULACAO FINAL",
-                    "IMPRIME DADOS DAS USINAS",
-                    "IMPRIME DADOS DE MERCADO",
-                    "IMPRIME DADOS DE ENERGIAS",
-                    "IMPRIME PARAMETROS DO MODELO DE ENERGIA",
-                    "IMPRIME PARAMETROS DO RESERVATORIO EQUIVALENTE",
-                    "IMPRIME DETALHAMENTO DA OPERACAO",
-                    "IMPRIME DETALHAMENTO DO CALCULO DA POLITICA",
-                    "IMPRIME RESULTADOS DA CONVERGENCIA",
-                    "NUMERO MAXIMO DE ITERACOES",
-                    "NUMERO DE SIMULACOES",
-                    "NUMERO DE ABERTURAS",
-                    "ORDEM MAXIMA DO MODELO DE ENERGIAS AFLUENTES PAR(P)",
-                    "ANO INICIAL DO HISTORICO DE VAZOES",
-                    "CALCULA VOLUME INICIAL",
-                    "TOLERANCIA PARA CONVERGENCIA",
-                    "TAXA DE DESCONTO ANUAL (%)",
-                    "TOTAL DE SERIES SIMULADAS GRAVADAS",
-                    "NUMERO MINIMO DE ITERACOES PARA CONVERGENCIA",
-                    "ADOCAO DE RACIONAMENTO PREVENTIVO (SIM.FINAL)",
-                    "LIDA DO ARQUIVO DE MANUTENCOES",
-                    "ADOCAO DE TENDENCIA HIDROLOGICA (POLITICA)",
-                    "ADOCAO DE TENDENCIA HIDROLOGICA (SIMULACAO FINAL)",
-                    "CONSIDERA OUTROS USOS DA AGUA",
-                    "OUTROS USOS DA AGUA VARIAVEL COM A ENERGIA ARMAZENADA",
-                    "CONSIDERA CURVA GUIA DE SEGURANCA/VMINP",
-                    "TAMANHO DA AMOSTRA PARA PROCESSO DE AGREGACAO:",
-                    "REPRESENTANTE NO PROCESSO DE AGREGACAO:",
-                    "MATRIZ DE CORRELACAO ESPACIAL CONSIDERADA:",
-                    "DESCONSIDERA CRITERIO DE CONV. ESTATISTICO",
-                    "VOLUME MINIMO COM DATA SAZONAL NOS PERIODOS ESTATICOS",
-                    "VOLUME MAXIMO COM DATA SAZONAL NOS PERIODOS ESTATICOS",
-                    "VOLUME MAXIMO PENAL. SAZONAL NOS PERIODOS ESTATICOS",
-                    "CFUGA E CMONT SAZONAIS NOS PERIODOS ESTATICOS",
-                    " - CENARIOS DE ENERGIA:",
-                    " - CORTES ATIVOS:",
-                    "MANTEM OS ARQUIVOS DE ENERGIAS APOS EXECUCAO:",
-                    "MOMENTO DE REAMOSTRAGEM:",
-                    "CONSIDERA VERIFICACAO AUTOMATICA DA ORDEM DO MODELO PARP:",  # noqa
-                    "ITERACAO DE INICIO DO TESTE DE CONVERGENCIA",
-                    "PROF. DE MERCADO PARA CALCULO DO RISCO DE DEFICIT",
-                    "CONSIDERA AGRUPAMENTO DE INTERCAMBIOS",
-                    "CONSIDERA EQUALIZACAO DE PENALIDADES DE INTERCAMBIOS",
-                    "CONSIDERA SUBMOTORIZACAO SAZONAL",
-                    "CONSIDERA ORDENACAO AUTOMATICA REEs, SUBSISTEMAS E TERMICAS",  # noqa
-                    "CONSIDERA CARGAS ADICIONAIS",
-                    "  - DELTA DE ZSUP",
-                    "  - DELTA DE ZINF",
-                    "  - NUMERO DE DELTAS DE ZINF CONSECUTIVOS",
-                    "  - MINIMO ZSUP",
-                    "CONSIDERA ANTECIPACAO DE GERACAO TERMOELETRICA",
-                    "ANTECIPACAO DE GERACAO TERMOELETRICA",
-                    "CONSIDERA GERACAO HIDRAULICA MINIMA",
-                    "CONSIDERA GERENCIAMENTO EXTERNO DE PROCESSOS",
-                    "CONSIDERA COMUNICACAO EM DOIS NIVEIS",
-                    "CONSIDERA ARMAZENAMENTO LOCAL DE ARQUIVOS",
-                    "CONSIDERA ALOCACAO DE ENERGIA EM MEMORIA",
-                    "CONSIDERA ALOCACAO DE CORTES EM MEMORIA",
-                    "CONSIDERA SUPERFICIE DE AVERSAO A RISCO (SAR)",
-                    "CONSIDERA MECANISMO DE AVERSAO AO RISCO (CVAR)",
-                    "DESCONSIDERA VAZAO MINIMA",
-                    "CONSIDERA RESTRICOES ELETRICAS NO REE",
-                    "CONSIDERA PERDAS NA REDE DE TRANSMISSAO",
-                    "CONSIDERA SELECAO DE CORTES DE BENDERS",
-                    "CONSIDERA JANELA DE CORTES DE BENDERS",
-                    "IMPRIME ESTADOS QUE GERARAM OS CORTES",
-                    "CONSIDERA REAMOSTRAGEM DE CENARIOS",
-                    "     PASSO DA REAMOSTRAGEM:",
-                    "     TIPO DA REAMOSTRAGEM :",
-                    "CONSIDERA ZINF CALCULADO NO NO ZERO",
-                    "REALIZA ACESSO A FCF PARA CONVERGENCIA",
-                    "CONSIDERA AFLUENCIA ANUAL NOS MODELOS",
-                    "CONSIDERA RESTRICOES DE LIMITES DE EMISSAO DE GEE",
-                    "CONSIDERA RESTRICOES DE FORNECIMENTO DE GAS",
-                    "CONSIDERACAO DA INCERTEZA NA GERACAO EOLICA",
-                    "CONSIDERACAO DA INCERTEZA NA GERACAO SOLAR",
-                    "CONSIDERA DEPENDENCIA TEMPORAL DAS AFLUENCIAS NA PDDE"
-                   ]
+        "DURACAO DE CADA PERIODO DE OPERACAO",
+        "NUMERO DE ANOS DO HORIZONTE DE ESTUDO",
+        "MES INICIAL DO PERIODO DE PRE-ESTUDO",
+        "MES INICIAL DO PERIODO DE ESTUDO",
+        "ANO INICIAL DO PERIODO DE ESTUDO",
+        "NUMERO DE ANOS QUE PRECEDEM O HORIZONTE DE ESTUDO",
+        "NUMERO DE ANOS QUE SUCEDEM O HORIZONTE DE ESTUDO",
+        "NUMERO DE ANOS DO POS NA SIMULACAO FINAL",
+        "IMPRIME DADOS DAS USINAS",
+        "IMPRIME DADOS DE MERCADO",
+        "IMPRIME DADOS DE ENERGIAS",
+        "IMPRIME PARAMETROS DO MODELO DE ENERGIA",
+        "IMPRIME PARAMETROS DO RESERVATORIO EQUIVALENTE",
+        "IMPRIME DETALHAMENTO DA OPERACAO",
+        "IMPRIME DETALHAMENTO DO CALCULO DA POLITICA",
+        "IMPRIME RESULTADOS DA CONVERGENCIA",
+        "NUMERO MAXIMO DE ITERACOES",
+        "NUMERO DE SIMULACOES",
+        "NUMERO DE ABERTURAS",
+        "ORDEM MAXIMA DO MODELO DE ENERGIAS AFLUENTES PAR(P)",
+        "ANO INICIAL DO HISTORICO DE VAZOES",
+        "CALCULA VOLUME INICIAL",
+        "TOLERANCIA PARA CONVERGENCIA",
+        "TAXA DE DESCONTO ANUAL (%)",
+        "TOTAL DE SERIES SIMULADAS GRAVADAS",
+        "NUMERO MINIMO DE ITERACOES PARA CONVERGENCIA",
+        "ADOCAO DE RACIONAMENTO PREVENTIVO (SIM.FINAL)",
+        "LIDA DO ARQUIVO DE MANUTENCOES",
+        "ADOCAO DE TENDENCIA HIDROLOGICA (POLITICA)",
+        "ADOCAO DE TENDENCIA HIDROLOGICA (SIMULACAO FINAL)",
+        "CONSIDERA OUTROS USOS DA AGUA",
+        "OUTROS USOS DA AGUA VARIAVEL COM A ENERGIA ARMAZENADA",
+        "CONSIDERA CURVA GUIA DE SEGURANCA/VMINP",
+        "TAMANHO DA AMOSTRA PARA PROCESSO DE AGREGACAO:",
+        "REPRESENTANTE NO PROCESSO DE AGREGACAO:",
+        "MATRIZ DE CORRELACAO ESPACIAL CONSIDERADA:",
+        "DESCONSIDERA CRITERIO DE CONV. ESTATISTICO",
+        "VOLUME MINIMO COM DATA SAZONAL NOS PERIODOS ESTATICOS",
+        "VOLUME MAXIMO COM DATA SAZONAL NOS PERIODOS ESTATICOS",
+        "VOLUME MAXIMO PENAL. SAZONAL NOS PERIODOS ESTATICOS",
+        "CFUGA E CMONT SAZONAIS NOS PERIODOS ESTATICOS",
+        " - CENARIOS DE ENERGIA:",
+        " - CORTES ATIVOS:",
+        "MANTEM OS ARQUIVOS DE ENERGIAS APOS EXECUCAO:",
+        "MOMENTO DE REAMOSTRAGEM:",
+        "CONSIDERA VERIFICACAO AUTOMATICA DA ORDEM DO MODELO PARP:",  # noqa
+        "ITERACAO DE INICIO DO TESTE DE CONVERGENCIA",
+        "PROF. DE MERCADO PARA CALCULO DO RISCO DE DEFICIT",
+        "CONSIDERA AGRUPAMENTO DE INTERCAMBIOS",
+        "CONSIDERA EQUALIZACAO DE PENALIDADES DE INTERCAMBIOS",
+        "CONSIDERA SUBMOTORIZACAO SAZONAL",
+        "CONSIDERA ORDENACAO AUTOMATICA REEs, SUBSISTEMAS E TERMICAS",  # noqa
+        "CONSIDERA CARGAS ADICIONAIS",
+        "  - DELTA DE ZSUP",
+        "  - DELTA DE ZINF",
+        "  - NUMERO DE DELTAS DE ZINF CONSECUTIVOS",
+        "  - MINIMO ZSUP",
+        "CONSIDERA ANTECIPACAO DE GERACAO TERMOELETRICA",
+        "ANTECIPACAO DE GERACAO TERMOELETRICA",
+        "CONSIDERA GERACAO HIDRAULICA MINIMA",
+        "CONSIDERA GERENCIAMENTO EXTERNO DE PROCESSOS",
+        "CONSIDERA COMUNICACAO EM DOIS NIVEIS",
+        "CONSIDERA ARMAZENAMENTO LOCAL DE ARQUIVOS",
+        "CONSIDERA ALOCACAO DE ENERGIA EM MEMORIA",
+        "CONSIDERA ALOCACAO DE CORTES EM MEMORIA",
+        "CONSIDERA SUPERFICIE DE AVERSAO A RISCO (SAR)",
+        "CONSIDERA MECANISMO DE AVERSAO AO RISCO (CVAR)",
+        "DESCONSIDERA VAZAO MINIMA",
+        "CONSIDERA RESTRICOES ELETRICAS NO REE",
+        "CONSIDERA PERDAS NA REDE DE TRANSMISSAO",
+        "CONSIDERA SELECAO DE CORTES DE BENDERS",
+        "CONSIDERA JANELA DE CORTES DE BENDERS",
+        "IMPRIME ESTADOS QUE GERARAM OS CORTES",
+        "CONSIDERA REAMOSTRAGEM DE CENARIOS",
+        "     PASSO DA REAMOSTRAGEM:",
+        "     TIPO DA REAMOSTRAGEM :",
+        "CONSIDERA ZINF CALCULADO NO NO ZERO",
+        "REALIZA ACESSO A FCF PARA CONVERGENCIA",
+        "CONSIDERA AFLUENCIA ANUAL NOS MODELOS",
+        "CONSIDERA RESTRICOES DE LIMITES DE EMISSAO DE GEE",
+        "CONSIDERA RESTRICOES DE FORNECIMENTO DE GAS",
+        "CONSIDERACAO DA INCERTEZA NA GERACAO EOLICA",
+        "CONSIDERACAO DA INCERTEZA NA GERACAO SOLAR",
+        "CONSIDERA DEPENDENCIA TEMPORAL DAS AFLUENCIAS NA PDDE",
+    ]
 
     def __init__(self):
-        super().__init__(BlocoEcoDgerPMO.str_inicio,
-                         BlocoEcoDgerPMO.str_fim,
-                         True)
-        self._dados = np.zeros((NUM_CONFIGS_DGER,),
-                               dtype=np.float64)
+        super().__init__(
+            BlocoEcoDgerPMO.str_inicio, BlocoEcoDgerPMO.str_fim, True
+        )
+        self._dados = np.zeros((NUM_CONFIGS_DGER,), dtype=np.float64)
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoEcoDgerPMO):
@@ -123,7 +123,6 @@ class BlocoEcoDgerPMO(Bloco):
 
     # Override
     def le(self, arq: IO):
-
         def __le_eco_config(digitos: int) -> str:
             """
             Lê o eco de uma configuração, pulando uma linha em seguida.
@@ -278,9 +277,11 @@ class BlocoEafPastTendenciaHidrolPMO(Bloco):
     str_fim = ""
 
     def __init__(self):
-        super().__init__(BlocoEafPastTendenciaHidrolPMO.str_inicio,
-                         BlocoEafPastTendenciaHidrolPMO.str_fim,
-                         True)
+        super().__init__(
+            BlocoEafPastTendenciaHidrolPMO.str_inicio,
+            BlocoEafPastTendenciaHidrolPMO.str_fim,
+            True,
+        )
         self._dados: pd.DataFrame = pd.DataFrame()
 
     def __eq__(self, o: object) -> bool:
@@ -291,10 +292,8 @@ class BlocoEafPastTendenciaHidrolPMO(Bloco):
 
     # Override
     def le(self, arq: IO):
-
         def converte_tabela_em_df():
-            df = pd.DataFrame(tabela,
-                              columns=MESES_DF)
+            df = pd.DataFrame(tabela, columns=MESES_DF)
             df["REE"] = rees
             df = df[["REE"] + MESES_DF]
             return df
@@ -317,10 +316,7 @@ class BlocoEafPastTendenciaHidrolPMO(Bloco):
                 break
             # Lê mais uma linha
             rees.append(reg_sistema.le_registro(linha, 1))
-            tabela[i, :] = reg_eaf.le_linha_tabela(linha,
-                                                   14,
-                                                   3,
-                                                   len(MESES))
+            tabela[i, :] = reg_eaf.le_linha_tabela(linha, 14, 3, len(MESES))
             i += 1
 
     # Override
@@ -338,9 +334,11 @@ class BlocoEafPastCfugaMedioPMO(Bloco):
     str_fim = ""
 
     def __init__(self):
-        super().__init__(BlocoEafPastCfugaMedioPMO.str_inicio,
-                         BlocoEafPastCfugaMedioPMO.str_fim,
-                         True)
+        super().__init__(
+            BlocoEafPastCfugaMedioPMO.str_inicio,
+            BlocoEafPastCfugaMedioPMO.str_fim,
+            True,
+        )
         self._dados: pd.DataFrame = pd.DataFrame()
 
     def __eq__(self, o: object) -> bool:
@@ -351,10 +349,8 @@ class BlocoEafPastCfugaMedioPMO(Bloco):
 
     # Override
     def le(self, arq: IO):
-
         def converte_tabela_em_df():
-            df = pd.DataFrame(tabela,
-                              columns=MESES_DF)
+            df = pd.DataFrame(tabela, columns=MESES_DF)
             df["REE"] = rees
             df = df[["REE"] + MESES_DF]
             return df
@@ -377,10 +373,7 @@ class BlocoEafPastCfugaMedioPMO(Bloco):
                 break
             # Lê mais uma linha
             rees.append(reg_sistema.le_registro(linha, 1))
-            tabela[i, :] = reg_eaf.le_linha_tabela(linha,
-                                                   14,
-                                                   3,
-                                                   len(MESES))
+            tabela[i, :] = reg_eaf.le_linha_tabela(linha, 14, 3, len(MESES))
             i += 1
 
     # Override
@@ -398,9 +391,9 @@ class BlocoConvergenciaPMO(Bloco):
     str_fim = ""
 
     def __init__(self):
-        super().__init__(BlocoConvergenciaPMO.str_inicio,
-                         BlocoConvergenciaPMO.str_fim,
-                         True)
+        super().__init__(
+            BlocoConvergenciaPMO.str_inicio, BlocoConvergenciaPMO.str_fim, True
+        )
         self._dados: pd.DataFrame = pd.DataFrame()
 
     def __eq__(self, o: object) -> bool:
@@ -411,13 +404,19 @@ class BlocoConvergenciaPMO(Bloco):
 
     # Override
     def le(self, arq: IO):
-
         def converte_tabela_em_df() -> pd.DataFrame:
             df = pd.DataFrame(tabela)
-            df.columns = ["Iteração", "Lim. Inf. ZINF", "ZINF",
-                          "Lim. Sup. ZINF", "ZSUP", "Delta ZINF",
-                          "ZSUP Iteração", "Tempo (s)"]
-            df = df.astype({"Iteração": 'int32'})
+            df.columns = [
+                "Iteração",
+                "Lim. Inf. ZINF",
+                "ZINF",
+                "Lim. Sup. ZINF",
+                "ZSUP",
+                "Delta ZINF",
+                "ZSUP Iteração",
+                "Tempo (s)",
+            ]
+            df = df.astype({"Iteração": "int32"})
             return df
 
         # Salta as duas linhas iniciais
@@ -426,8 +425,7 @@ class BlocoConvergenciaPMO(Bloco):
         # Variáveis auxiliares
         reg_iter = RegistroIn(4)
         reg_z = RegistroFn(22)
-        tabela = np.zeros((3 * MAX_ITERS, 8),
-                          dtype=np.float64)
+        tabela = np.zeros((3 * MAX_ITERS, 8), dtype=np.float64)
         i = 0
         while True:
             linha: str = arq.readline()
@@ -473,11 +471,14 @@ class BlocoConfiguracoesExpansaoPMO(Bloco):
     str_fim = ""
 
     def __init__(self):
-        super().__init__(BlocoConfiguracoesExpansaoPMO.str_inicio,
-                         BlocoConfiguracoesExpansaoPMO.str_fim,
-                         True)
-        self._dados = np.zeros((MAX_ANOS_ESTUDO, len(MESES) + 1),
-                               dtype=np.int64)
+        super().__init__(
+            BlocoConfiguracoesExpansaoPMO.str_inicio,
+            BlocoConfiguracoesExpansaoPMO.str_fim,
+            True,
+        )
+        self._dados = np.zeros(
+            (MAX_ANOS_ESTUDO, len(MESES) + 1), dtype=np.int64
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoConfiguracoesExpansaoPMO):
@@ -500,10 +501,9 @@ class BlocoConfiguracoesExpansaoPMO(Bloco):
                 self._dados = self._dados[:i, :]
                 break
             # Lê mais uma linha
-            self._dados[i, :] = reg.le_linha_tabela(linha,
-                                                    5,
-                                                    1,
-                                                    len(MESES) + 1)
+            self._dados[i, :] = reg.le_linha_tabela(
+                linha, 5, 1, len(MESES) + 1
+            )
             i += 1
 
     # Override
@@ -524,9 +524,7 @@ class BlocoMARSPMO(Bloco):
     MAX_RETAS_MARS = 3
 
     def __init__(self):
-        super().__init__(BlocoMARSPMO.str_inicio,
-                         BlocoMARSPMO.str_fim,
-                         True)
+        super().__init__(BlocoMARSPMO.str_inicio, BlocoMARSPMO.str_fim, True)
         self._dados = pd.DataFrame()
 
     def __eq__(self, o: object) -> bool:
@@ -537,11 +535,9 @@ class BlocoMARSPMO(Bloco):
 
     # Override
     def le(self, arq: IO):
-
         def _converte_tabela_em_df():
             colunas = ["Coef. Angular", "Constante"]
-            self._dados = pd.DataFrame(tabela_formatada,
-                                       columns=colunas)
+            self._dados = pd.DataFrame(tabela_formatada, columns=colunas)
             self._dados["Reta"] = retas
             self._dados["REE"] = rees_a
             self._dados = self._dados[["REE", "Reta"] + colunas]
@@ -552,21 +548,20 @@ class BlocoMARSPMO(Bloco):
         j = 0
         reg_ree = RegistroAn(10)
         reg_reta = RegistroFn(12)
-        tabela = np.zeros((BlocoMARSPMO.MAX_RETAS_MARS,
-                           2,
-                           MAX_REES),
-                          dtype=np.float64)
+        tabela = np.zeros(
+            (BlocoMARSPMO.MAX_RETAS_MARS, 2, MAX_REES), dtype=np.float64
+        )
         while True:
             linha: str = arq.readline()
             if BlocoMARSPMO.str_fim in linha:
                 tabela = tabela[:, :, :j]
                 tabela_formatada = tabela[:, :, 0]
                 for k in range(1, j):
-                    tabela_formatada = np.vstack([tabela_formatada,
-                                                  tabela[:, :, k]])
+                    tabela_formatada = np.vstack(
+                        [tabela_formatada, tabela[:, :, k]]
+                    )
                 rees_a = np.array(rees)
-                rees_a = np.repeat(rees_a,
-                                   BlocoMARSPMO.MAX_RETAS_MARS)
+                rees_a = np.repeat(rees_a, BlocoMARSPMO.MAX_RETAS_MARS)
                 retas = np.tile(retas, j)
                 _converte_tabela_em_df()
                 break
@@ -580,12 +575,9 @@ class BlocoMARSPMO(Bloco):
                 for i in range(BlocoMARSPMO.MAX_RETAS_MARS):
                     linha = arq.readline()
                     if len(linha) > 3:
-                        tabela[i,
-                               :,
-                               j] = reg_reta.le_linha_tabela(linha,
-                                                             14,
-                                                             1,
-                                                             2)
+                        tabela[i, :, j] = reg_reta.le_linha_tabela(
+                            linha, 14, 1, 2
+                        )
                 j += 1
 
     # Override
@@ -603,12 +595,14 @@ class BlocoRiscoDeficitENSPMO(Bloco):
     str_fim = ""
 
     def __init__(self):
-        super().__init__(BlocoRiscoDeficitENSPMO.str_inicio,
-                         BlocoRiscoDeficitENSPMO.str_fim,
-                         True)
-        self._dados = np.zeros((MAX_ANOS_ESTUDO,
-                                2 * len(SUBMERCADOS) + 1),
-                               dtype=np.float64)
+        super().__init__(
+            BlocoRiscoDeficitENSPMO.str_inicio,
+            BlocoRiscoDeficitENSPMO.str_fim,
+            True,
+        )
+        self._dados = np.zeros(
+            (MAX_ANOS_ESTUDO, 2 * len(SUBMERCADOS) + 1), dtype=np.float64
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoRiscoDeficitENSPMO):
@@ -633,14 +627,12 @@ class BlocoRiscoDeficitENSPMO(Bloco):
                 self._dados = self._dados[:i, :]
                 break
             self._dados[i, 0] = reg_ano.le_registro(linha, 1)
-            self._dados[i, 1::2] = reg_risco.le_linha_tabela(linha,
-                                                             6,
-                                                             8,
-                                                             len(SUBMERCADOS))
-            self._dados[i, 2::2] = reg_eens.le_linha_tabela(linha,
-                                                            12,
-                                                            6,
-                                                            len(SUBMERCADOS))
+            self._dados[i, 1::2] = reg_risco.le_linha_tabela(
+                linha, 6, 8, len(SUBMERCADOS)
+            )
+            self._dados[i, 2::2] = reg_eens.le_linha_tabela(
+                linha, 12, 6, len(SUBMERCADOS)
+            )
             i += 1
 
     # Override
@@ -657,9 +649,7 @@ class BlocoCustoOperacaoPMO(Bloco):
     str_inicio = "PARCELA           V.ESPERADO"
 
     def __init__(self):
-        super().__init__(BlocoCustoOperacaoPMO.str_inicio,
-                         "",
-                         True)
+        super().__init__(BlocoCustoOperacaoPMO.str_inicio, "", True)
         self._dados = pd.DataFrame()
 
     def __eq__(self, o: object) -> bool:
@@ -682,18 +672,13 @@ class BlocoCustoOperacaoPMO(Bloco):
         while True:
             linha = arq.readline()
             if "----------------" in linha:
-                cols = ["Valor Esperado",
-                        "Desvio Padrão do VE",
-                        "(%)"]
-                self._dados = pd.DataFrame(tabela[:i, :],
-                                           index=parcelas,
-                                           columns=cols)
+                cols = ["Valor Esperado", "Desvio Padrão do VE", "(%)"]
+                self._dados = pd.DataFrame(
+                    tabela[:i, :], index=parcelas, columns=cols
+                )
                 break
             parcelas.append(reg_parcela.le_registro(linha, 13))
-            tabela[i, :2] = reg_valores.le_linha_tabela(linha,
-                                                        32,
-                                                        1,
-                                                        2)
+            tabela[i, :2] = reg_valores.le_linha_tabela(linha, 32, 1, 2)
             tabela[i, 2] = reg_percent.le_registro(linha, 60)
             i += 1
 
@@ -711,9 +696,7 @@ class BlocoCustoOperacaoTotalPMO(Bloco):
     str_inicio = "           VALOR ESPERADO TOTAL:"
 
     def __init__(self):
-        super().__init__(BlocoCustoOperacaoTotalPMO.str_inicio,
-                         "",
-                         True)
+        super().__init__(BlocoCustoOperacaoTotalPMO.str_inicio, "", True)
         self._dados = np.zeros((2,))
 
     def __eq__(self, o: object) -> bool:
@@ -735,7 +718,7 @@ class BlocoCustoOperacaoTotalPMO(Bloco):
         pass
 
 
-class LeituraPMO(Leitura):
+class LeituraPMO(LeituraBlocos):
     """
     Realiza a leitura do arquivo pmo.dat
     existente em um diretório de saídas do NEWAVE.
@@ -750,8 +733,7 @@ class LeituraPMO(Leitura):
 
     """
 
-    def __init__(self,
-                 diretorio: str) -> None:
+    def __init__(self, diretorio: str) -> None:
         super().__init__(diretorio)
 
     # Override
@@ -761,21 +743,27 @@ class LeituraPMO(Leitura):
         """
         # eco_dger: List[Bloco] = [BlocoEcoDgerPMO()]
         convergencia: List[Bloco] = [BlocoConvergenciaPMO()]
-        eafpast: List[Bloco] = [BlocoEafPastTendenciaHidrolPMO(),
-                                BlocoEafPastCfugaMedioPMO()]
+        eafpast: List[Bloco] = [
+            BlocoEafPastTendenciaHidrolPMO(),
+            BlocoEafPastCfugaMedioPMO(),
+        ]
         risco_deficit: List[Bloco] = [BlocoRiscoDeficitENSPMO()]
-        configs_exp: List[Bloco] = [BlocoConfiguracoesExpansaoPMO()
-                                    for _ in range(3)]
-        mars: List[Bloco] = [BlocoMARSPMO()
-                             for _ in range(MAX_CONFIGURACOES)]
-        custos: List[Bloco] = [BlocoCustoOperacaoPMO(),
-                               BlocoCustoOperacaoPMO(),
-                               BlocoCustoOperacaoPMO(),
-                               BlocoCustoOperacaoTotalPMO()]
+        configs_exp: List[Bloco] = [
+            BlocoConfiguracoesExpansaoPMO() for _ in range(3)
+        ]
+        mars: List[Bloco] = [BlocoMARSPMO() for _ in range(MAX_CONFIGURACOES)]
+        custos: List[Bloco] = [
+            BlocoCustoOperacaoPMO(),
+            BlocoCustoOperacaoPMO(),
+            BlocoCustoOperacaoPMO(),
+            BlocoCustoOperacaoTotalPMO(),
+        ]
 
-        return (convergencia +
-                eafpast +
-                risco_deficit +
-                configs_exp +
-                mars +
-                custos)
+        return (
+            convergencia
+            + eafpast
+            + risco_deficit
+            + configs_exp
+            + mars
+            + custos
+        )

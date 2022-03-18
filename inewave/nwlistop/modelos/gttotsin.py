@@ -1,9 +1,10 @@
 # Imports do próprio módulo
-from inewave._utils.leitura import Leitura
+from inewave._utils.leiturablocos import LeituraBlocos
 from inewave._utils.bloco import Bloco
 from inewave._utils.registros import RegistroAn, RegistroFn, RegistroIn
 from inewave.config import MAX_ANOS_ESTUDO, MESES_DF, NUM_CENARIOS
 from inewave.config import NUM_PATAMARES, MESES
+
 # Imports de módulos externos
 import numpy as np  # type: ignore
 import pandas as pd  # type: ignore
@@ -15,14 +16,13 @@ class BlocoGeracaoTermicaTotalSIN(Bloco):
     Bloco com as informações das tabelas de geração térmica total
     para o SIN por patamar.
     """
+
     str_inicio = "GERACAO TERMICA TOTAL PARA O SIN (MWmes)"
     str_fim = ""
 
     def __init__(self):
 
-        super().__init__(BlocoGeracaoTermicaTotalSIN.str_inicio,
-                         "",
-                         True)
+        super().__init__(BlocoGeracaoTermicaTotalSIN.str_inicio, "", True)
 
         self._dados = pd.DataFrame()
 
@@ -30,12 +30,15 @@ class BlocoGeracaoTermicaTotalSIN(Bloco):
         if not isinstance(o, BlocoGeracaoTermicaTotalSIN):
             return False
         bloco: BlocoGeracaoTermicaTotalSIN = o
-        return all([self._dados[0] == bloco.dados[0],
-                    self._dados[1].equals(bloco._dados[1])])
+        return all(
+            [
+                self._dados[0] == bloco.dados[0],
+                self._dados[1].equals(bloco._dados[1]),
+            ]
+        )
 
     # Override
     def le(self, arq: IO):
-
         def converte_tabela_em_df() -> pd.DataFrame:
             df = pd.DataFrame(tabela)
             df.columns = MESES_DF + ["Média"]
@@ -48,16 +51,21 @@ class BlocoGeracaoTermicaTotalSIN(Bloco):
         # Salta a primeira linha
         arq.readline()
         # Variáveis auxiliares
-        anos = np.zeros((NUM_CENARIOS * MAX_ANOS_ESTUDO *
-                         (NUM_PATAMARES + 1),),
-                        dtype=np.int64)
-        serie = np.zeros((NUM_CENARIOS * MAX_ANOS_ESTUDO *
-                          (NUM_PATAMARES + 1),),
-                         dtype=np.int64)
+        anos = np.zeros(
+            (NUM_CENARIOS * MAX_ANOS_ESTUDO * (NUM_PATAMARES + 1),),
+            dtype=np.int64,
+        )
+        serie = np.zeros(
+            (NUM_CENARIOS * MAX_ANOS_ESTUDO * (NUM_PATAMARES + 1),),
+            dtype=np.int64,
+        )
         patamar = []
-        tabela = np.zeros((NUM_CENARIOS * MAX_ANOS_ESTUDO *
-                           (NUM_PATAMARES + 1),
-                           len(MESES_DF) + 1))
+        tabela = np.zeros(
+            (
+                NUM_CENARIOS * MAX_ANOS_ESTUDO * (NUM_PATAMARES + 1),
+                len(MESES_DF) + 1,
+            )
+        )
         reg_ano = RegistroIn(4)
         reg_serie = RegistroIn(4)
         reg_patamar = RegistroAn(5)
@@ -90,10 +98,9 @@ class BlocoGeracaoTermicaTotalSIN(Bloco):
                 else:
                     serie[i] = reg_serie.le_registro(linha, 2)
                 patamar.append(reg_patamar.le_registro(linha, 6))
-                tabela[i, :] = reg_cmarg.le_linha_tabela(linha,
-                                                         12,
-                                                         1,
-                                                         len(MESES) + 1)
+                tabela[i, :] = reg_cmarg.le_linha_tabela(
+                    linha, 12, 1, len(MESES) + 1
+                )
                 i += 1
 
     # Override
@@ -101,7 +108,7 @@ class BlocoGeracaoTermicaTotalSIN(Bloco):
         pass
 
 
-class LeituraGTTotSIN(Leitura):
+class LeituraGTTotSIN(LeituraBlocos):
     """
     Realiza a leitura dos arquivos gttotsin.out
     existentes em um diretório de saídas do NEWAVE.
@@ -115,8 +122,7 @@ class LeituraGTTotSIN(Leitura):
     tipos de dados, dentre outras tarefas necessárias para a leitura.
     """
 
-    def __init__(self,
-                 diretorio: str) -> None:
+    def __init__(self, diretorio: str) -> None:
         super().__init__(diretorio)
 
     def _cria_blocos_leitura(self) -> List[Bloco]:

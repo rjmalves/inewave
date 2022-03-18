@@ -1,5 +1,5 @@
 from inewave._utils.bloco import Bloco
-from inewave._utils.leitura import Leitura
+from inewave._utils.leiturablocos import LeituraBlocos
 from inewave._utils.registros import RegistroAn
 from inewave._utils.registros import RegistroIn
 from inewave._utils.registros import RegistroFn
@@ -14,13 +14,12 @@ class BlocoTermUTE(Bloco):
     Bloco de informações das classes de usinas térmicas
     existentes no arquivo do NEWAVE `term.dat`.
     """
+
     str_inicio = "NUM NOME"
 
     def __init__(self):
 
-        super().__init__(BlocoTermUTE.str_inicio,
-                         "",
-                         True)
+        super().__init__(BlocoTermUTE.str_inicio, "", True)
 
         self._dados: pd.DataFrame = pd.DataFrame()
 
@@ -32,9 +31,7 @@ class BlocoTermUTE(Bloco):
 
     # Override
     def le(self, arq: IO):
-
-        def extrai_coluna_de_listas(listas: List[list],
-                                    coluna: int) -> list:
+        def extrai_coluna_de_listas(listas: List[list], coluna: int) -> list:
             return [lista[coluna] for lista in listas]
 
         def transforma_utes_em_tabela() -> pd.DataFrame:
@@ -47,14 +44,15 @@ class BlocoTermUTE(Bloco):
             col_ip = extrai_coluna_de_listas(dados_utes, 5)
             col_gtmin: List[list] = []
             for i in range(6, 6 + 13):
-                col_gtmin.append(extrai_coluna_de_listas(dados_utes,
-                                                         i))
-            dados = {"Número": col_num,
-                     "Nome": col_nome,
-                     "Potência Instalada": col_pot,
-                     "FC Máximo": col_fcmx,
-                     "TEIF": col_teif,
-                     "Indisponibilidade Programada": col_ip}
+                col_gtmin.append(extrai_coluna_de_listas(dados_utes, i))
+            dados = {
+                "Número": col_num,
+                "Nome": col_nome,
+                "Potência Instalada": col_pot,
+                "FC Máximo": col_fcmx,
+                "TEIF": col_teif,
+                "Indisponibilidade Programada": col_ip,
+            }
             for i in range(12):
                 dados[f"GT Min {MESES_DF[i]}"] = col_gtmin[i]
             dados["GT Min D+ Anos"] = col_gtmin[-1]
@@ -79,21 +77,19 @@ class BlocoTermUTE(Bloco):
                 # Converte para df e salva na variável
                 self._dados = transforma_utes_em_tabela()
                 break
-            dados_ute = [reg_num.le_registro(linha, 1),
-                         reg_nome.le_registro(linha, 5),
-                         reg_pot.le_registro(linha, 19),
-                         reg_fcmx.le_registro(linha, 25),
-                         reg_teif.le_registro(linha, 31),
-                         reg_ip.le_registro(linha, 38)]
-            dados_ute += reg_gtmin.le_linha_tabela(linha,
-                                                   45,
-                                                   1,
-                                                   13)
+            dados_ute = [
+                reg_num.le_registro(linha, 1),
+                reg_nome.le_registro(linha, 5),
+                reg_pot.le_registro(linha, 19),
+                reg_fcmx.le_registro(linha, 25),
+                reg_teif.le_registro(linha, 31),
+                reg_ip.le_registro(linha, 38),
+            ]
+            dados_ute += reg_gtmin.le_linha_tabela(linha, 45, 1, 13)
             dados_utes.append(dados_ute)
 
     # Override
     def escreve(self, arq: IO):
-
         def formata_num(n: float, digitos: int) -> str:
             f = f"{n:.2f}"
             if len(f) > digitos:
@@ -123,14 +119,20 @@ class BlocoTermUTE(Bloco):
             arq.write(linha + "\n")
 
         # Escreve cabeçalhos
-        titulos = (" NUM NOME          POT  FCMX    TEIF   IP"
-                   + "    <-------------------- GTMIN PARA O PRIM"
-                   + "EIRO ANO DE ESTUDO ------------------------|"
-                   + "D+ ANOS" + "\n")
-        cabecalhos = (" XXX XXXXXXXXXXXX  XXXX. XXX.  XXX.XX XXX.X"
-                      + "X JAN.XX FEV.XX MAR.XX ABR.XX MAI.XX JUN.XX"
-                      + " JUL.XX AGO.XX SET.XX OUT.XX NOV.XX DEZ.XX X"
-                      + "XX.XX" + "\n")
+        titulos = (
+            " NUM NOME          POT  FCMX    TEIF   IP"
+            + "    <-------------------- GTMIN PARA O PRIM"
+            + "EIRO ANO DE ESTUDO ------------------------|"
+            + "D+ ANOS"
+            + "\n"
+        )
+        cabecalhos = (
+            " XXX XXXXXXXXXXXX  XXXX. XXX.  XXX.XX XXX.X"
+            + "X JAN.XX FEV.XX MAR.XX ABR.XX MAI.XX JUN.XX"
+            + " JUL.XX AGO.XX SET.XX OUT.XX NOV.XX DEZ.XX X"
+            + "XX.XX"
+            + "\n"
+        )
         arq.write(titulos)
         arq.write(cabecalhos)
         # Escreve UHEs
@@ -138,7 +140,7 @@ class BlocoTermUTE(Bloco):
             escreve_ute(ute)
 
 
-class LeituraTerm(Leitura):
+class LeituraTerm(LeituraBlocos):
     """
     Realiza a leitura do arquivo `term.dat`
     existente em um diretório de entradas do NEWAVE.
@@ -152,8 +154,7 @@ class LeituraTerm(Leitura):
     tipos de dados, dentre outras tarefas necessárias para a leitura.
     """
 
-    def __init__(self,
-                 diretorio: str):
+    def __init__(self, diretorio: str):
         super().__init__(diretorio)
 
     # Override

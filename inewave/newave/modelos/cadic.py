@@ -1,6 +1,6 @@
 from inewave.config import SUBMERCADOS, MESES, MESES_DF, MAX_ANOS_ESTUDO
 from inewave._utils.bloco import Bloco
-from inewave._utils.leitura import Leitura
+from inewave._utils.leiturablocos import LeituraBlocos
 from inewave._utils.registros import RegistroAn, RegistroIn, RegistroFn
 
 from typing import List, IO
@@ -13,14 +13,13 @@ class BlocoCargasAdicionaisSubsistema(Bloco):
     Bloco com informações de cargas adicionais por mês/ano
     e por subsistema.
     """
+
     str_inicio = ""
     str_fim = "999"
 
     def __init__(self):
 
-        super().__init__(BlocoCargasAdicionaisSubsistema.str_inicio,
-                         "",
-                         True)
+        super().__init__(BlocoCargasAdicionaisSubsistema.str_inicio, "", True)
 
         self._dados: pd.DataFrame = pd.DataFrame()
 
@@ -32,7 +31,6 @@ class BlocoCargasAdicionaisSubsistema(Bloco):
 
     # Override
     def le(self, arq: IO):
-
         def converte_tabela_em_df() -> pd.DataFrame:
             df = pd.DataFrame(tabela)
             df.columns = MESES_DF
@@ -40,8 +38,10 @@ class BlocoCargasAdicionaisSubsistema(Bloco):
             df["Num. Subsistema"] = subsistema
             df["Nome Subsistema"] = nome_subsistema
             df["Razão Carga"] = razao_carga
-            df = df[["Ano", "Num. Subsistema",
-                     "Nome Subsistema", "Razão Carga"] + MESES_DF]
+            df = df[
+                ["Ano", "Num. Subsistema", "Nome Subsistema", "Razão Carga"]
+                + MESES_DF
+            ]
             return df
 
         # Variáveis auxiliares
@@ -60,8 +60,7 @@ class BlocoCargasAdicionaisSubsistema(Bloco):
         nome_subsistema_atual = ""
         razao_carga = []
         razao_carga_atual = ""
-        tabela = np.zeros((MAX_ANOS_ESTUDO * len(SUBMERCADOS),
-                          len(MESES)))
+        tabela = np.zeros((MAX_ANOS_ESTUDO * len(SUBMERCADOS), len(MESES)))
         while True:
             # Verifica se o arquivo acabou
             linha: str = arq.readline()
@@ -93,7 +92,6 @@ class BlocoCargasAdicionaisSubsistema(Bloco):
 
     # Override
     def escreve(self, arq: IO):
-
         def escreve_cargas():
             lin_tab = self._dados.shape[0]
             subsistema_anterior = 0
@@ -105,15 +103,24 @@ class BlocoCargasAdicionaisSubsistema(Bloco):
                 subsistema = self._dados.iloc[i, 1]
                 nome = self._dados.iloc[i, 2]
                 razao = self._dados.iloc[i, 3]
-                if any([subsistema != subsistema_anterior,
+                if any(
+                    [
+                        subsistema != subsistema_anterior,
                         nome != nome_anterior,
-                        razao != razao_anterior]):
+                        razao != razao_anterior,
+                    ]
+                ):
                     subsistema_anterior = subsistema
                     nome_anterior = nome
                     razao_anterior = razao
-                    linha = (" " + str(subsistema).rjust(3) +
-                             "  " + str(nome).ljust(12) +
-                             "  " + str(razao).rjust(12))
+                    linha = (
+                        " "
+                        + str(subsistema).rjust(3)
+                        + "  "
+                        + str(nome).ljust(12)
+                        + "  "
+                        + str(razao).rjust(12)
+                    )
                     arq.write(linha + "\n")
                     subsistema_anterior = subsistema
                 # Mercados de cada mês
@@ -128,15 +135,17 @@ class BlocoCargasAdicionaisSubsistema(Bloco):
 
         # Escreve cabeçalhos
         arq.write(" XXX\n")
-        cab = ("       XXXJAN. XXXFEV. XXXMAR. XXXABR. XXXMAI. XXXJUN." +
-               " XXXJUL. XXXAGO. XXXSET. XXXOUT. XXXNOV. XXXDEZ.\n")
+        cab = (
+            "       XXXJAN. XXXFEV. XXXMAR. XXXABR. XXXMAI. XXXJUN."
+            + " XXXJUL. XXXAGO. XXXSET. XXXOUT. XXXNOV. XXXDEZ.\n"
+        )
         arq.write(cab)
         escreve_cargas()
         # Escreve a linha de terminação
         arq.write(f" {BlocoCargasAdicionaisSubsistema.str_fim}\n")
 
 
-class LeituraCAdic(Leitura):
+class LeituraCAdic(LeituraBlocos):
     """
     Realiza a leitura do arquivo `cadic.dat`
     existente em um diretório de entradas do NEWAVE.
@@ -150,8 +159,7 @@ class LeituraCAdic(Leitura):
     tipos de dados, dentre outras tarefas necessárias para a leitura.
     """
 
-    def __init__(self,
-                 diretorio: str):
+    def __init__(self, diretorio: str):
         super().__init__(diretorio)
 
     # Override

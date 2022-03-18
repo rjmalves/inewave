@@ -1,7 +1,8 @@
 from inewave.newave.modelos.patamar import LeituraPatamar
-from inewave._utils.dadosarquivo import DadosArquivo
-from inewave._utils.arquivo import Arquivo
-from inewave._utils.escrita import Escrita
+from inewave._utils.dadosarquivo import DadosArquivoBlocos
+from inewave._utils.arquivo import ArquivoBlocos
+from inewave._utils.escritablocos import EscritaBlocos
+
 from inewave.config import MESES_DF
 
 from typing import Dict
@@ -9,7 +10,7 @@ import numpy as np  # type: ignore
 import pandas as pd  # type: ignore
 
 
-class Patamar(Arquivo):
+class Patamar(ArquivoBlocos):
     """
     Armazena os dados de entrada do NEWAVE referentes aos
     patamares de carga por submercado.
@@ -26,8 +27,8 @@ class Patamar(Arquivo):
     da própria classe.
 
     """
-    def __init__(self,
-                 dados: DadosArquivo):
+
+    def __init__(self, dados: DadosArquivoBlocos):
         super().__init__(dados)
         # Interpreta o resultado da leitura
         val = True
@@ -39,23 +40,18 @@ class Patamar(Arquivo):
             raise TypeError(msg)
 
     @classmethod
-    def le_arquivo(cls,
-                   diretorio: str,
-                   nome_arquivo="patamar.dat") -> 'Patamar':
-        """
-        """
+    def le_arquivo(
+        cls, diretorio: str, nome_arquivo="patamar.dat"
+    ) -> "Patamar":
+        """ """
         leitor = LeituraPatamar(diretorio)
         r = leitor.le_arquivo(nome_arquivo)
         return cls(r)
 
-    def escreve_arquivo(self,
-                        diretorio: str,
-                        nome_arquivo="patamar.dat"):
-        """
-        """
-        escritor = Escrita(diretorio)
-        escritor.escreve_arquivo(self._dados,
-                                 nome_arquivo)
+    def escreve_arquivo(self, diretorio: str, nome_arquivo="patamar.dat"):
+        """ """
+        escritor = EscritaBlocos(diretorio)
+        escritor.escreve_arquivo(self._dados, nome_arquivo)
 
     @property
     def duracao_mensal_patamares(self) -> pd.DataFrame:
@@ -132,8 +128,9 @@ class Patamar(Arquivo):
         duracoes = self.duracao_mensal_patamares
         anos = self.anos_estudo
         for i, a in enumerate(anos):
-            patamares_ano[a] = duracoes.loc[duracoes["Ano"] == a,
-                                            MESES_DF].to_numpy()
+            patamares_ano[a] = duracoes.loc[
+                duracoes["Ano"] == a, MESES_DF
+            ].to_numpy()
         return patamares_ano
 
     @property

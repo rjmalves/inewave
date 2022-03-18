@@ -1,8 +1,9 @@
 # Imports do próprio módulo
 from inewave._utils.registros import RegistroAn, RegistroFn, RegistroIn
 from inewave._utils.bloco import Bloco
-from inewave._utils.leitura import Leitura
+from inewave._utils.leiturablocos import LeituraBlocos
 from inewave.config import MAX_UHES, MESES, MESES_DF
+
 # Imports de módulos externos
 import numpy as np  # type: ignore
 import pandas as pd  # type: ignore
@@ -15,13 +16,12 @@ class BlocoVazPast(Bloco):
     por usina, existentes no arquivo `vazpast.dat`
     do NEWAVE.
     """
+
     str_inicio = ""
 
     def __init__(self):
 
-        super().__init__(BlocoVazPast.str_inicio,
-                         "",
-                         True)
+        super().__init__(BlocoVazPast.str_inicio, "", True)
 
         self._dados = [0, 0, pd.DataFrame]
 
@@ -29,9 +29,13 @@ class BlocoVazPast(Bloco):
         if not isinstance(o, BlocoVazPast):
             return False
         bloco: BlocoVazPast = o
-        return all([self._dados[0] == bloco._dados[0],
-                    self._dados[1] == bloco._dados[1],
-                    self._dados[2].equals(bloco._dados[2])])
+        return all(
+            [
+                self._dados[0] == bloco._dados[0],
+                self._dados[1] == bloco._dados[1],
+                self._dados[2].equals(bloco._dados[2]),
+            ]
+        )
 
     # Override
     def le(self, arq: IO):
@@ -65,15 +69,11 @@ class BlocoVazPast(Bloco):
             # Senão, lê mais uma linha
             postos.append(reg_posto.le_registro(linha, 2))
             nomes.append(reg_nome.le_registro(linha, 6))
-            tabela[i, :] = reg_vaz.le_linha_tabela(linha,
-                                                   20,
-                                                   2,
-                                                   len(MESES))
+            tabela[i, :] = reg_vaz.le_linha_tabela(linha, 20, 2, len(MESES))
             i += 1
 
     # Override
     def escreve(self, arq: IO):
-
         def escreve_desvios():
             lin_tab = self._dados[2].shape[0]
             for i in range(lin_tab):
@@ -89,7 +89,7 @@ class BlocoVazPast(Bloco):
                 arq.write(linha + "\n")
 
         # Escreve cabeçalhos
-        dummy = ("********* DUMMY" + "\n")
+        dummy = "********* DUMMY" + "\n"
         arq.write(dummy)
         arq.write(dummy)
         ano_mes = " "
@@ -99,7 +99,7 @@ class BlocoVazPast(Bloco):
         escreve_desvios()
 
 
-class LeituraVazPast(Leitura):
+class LeituraVazPast(LeituraBlocos):
     """
     Realiza a leitura do arquivo `vazpast.dat`
     existente em um diretório de entradas do NEWAVE.
@@ -114,8 +114,7 @@ class LeituraVazPast(Leitura):
 
     """
 
-    def __init__(self,
-                 diretorio: str) -> None:
+    def __init__(self, diretorio: str) -> None:
         super().__init__(diretorio)
 
     def _cria_blocos_leitura(self) -> List[Bloco]:

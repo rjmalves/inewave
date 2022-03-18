@@ -1,11 +1,11 @@
-from inewave._utils.arquivo import Arquivo
-from inewave._utils.dadosarquivo import DadosArquivo
+from inewave._utils.dadosarquivo import DadosArquivoBlocos
+from inewave._utils.arquivo import ArquivoBlocos
 from inewave.nwlistop.modelos.earmfp00 import LeituraEarmfp00
 
 import pandas as pd  # type: ignore
 
 
-class Earmfp00(Arquivo):
+class Earmfp00(ArquivoBlocos):
     """
     Armazena os dados das saídas referentes às armazenadas finais,
     por REE em valores absolutos.
@@ -15,17 +15,16 @@ class Earmfp00(Arquivo):
     REE em questão.
 
     """
-    def __init__(self,
-                 dados: DadosArquivo):
+
+    def __init__(self, dados: DadosArquivoBlocos):
         super().__init__(dados)
 
     # Override
     @classmethod
-    def le_arquivo(cls,
-                   diretorio: str,
-                   nome_arquivo="earmfp001.out") -> 'Earmfp00':
-        """
-        """
+    def le_arquivo(
+        cls, diretorio: str, nome_arquivo="earmfp001.out"
+    ) -> "Earmfp00":
+        """ """
         leitor = LeituraEarmfp00(diretorio)
         r = leitor.le_arquivo(nome_arquivo)
         return cls(r)

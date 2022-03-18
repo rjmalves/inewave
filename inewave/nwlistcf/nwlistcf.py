@@ -1,13 +1,14 @@
 from typing import List
 
-from inewave._utils.escrita import Escrita
-from inewave._utils.arquivo import Arquivo
-from inewave._utils.dadosarquivo import DadosArquivo
+from inewave._utils.escritablocos import EscritaBlocos
+
+from inewave._utils.dadosarquivo import DadosArquivoBlocos
+from inewave._utils.arquivo import ArquivoBlocos
 from inewave.nwlistcf.modelos.nwlistcf import LeituraNwlistcf
 from inewave.nwlistcf.modelos.nwlistcf import RegistroNwlistcf
 
 
-class Nwlistcf(Arquivo):
+class Nwlistcf(ArquivoBlocos):
     """
     Armazena os dados dos cortes construídos pelo NEWAVE existentes
     no arquivo `nwlistcf.rel` do NWLISTCF.
@@ -19,22 +20,20 @@ class Nwlistcf(Arquivo):
     dos hiperplanos em uma array específica.
 
     """
-    def __init__(self,
-                 dados: DadosArquivo):
+
+    def __init__(self, dados: DadosArquivoBlocos):
         super().__init__(dados)
 
     @classmethod
-    def le_arquivo(cls,
-                   diretorio: str,
-                   nome_arquivo="nwlistcf.rel") -> 'Nwlistcf':
+    def le_arquivo(
+        cls, diretorio: str, nome_arquivo="nwlistcf.rel"
+    ) -> "Nwlistcf":
         leitor = LeituraNwlistcf(diretorio)
         r = leitor.le_arquivo(nome_arquivo)
         return cls(r)
 
-    def escreve_arquivo(self,
-                        diretorio: str,
-                        nome_arquivo="nwlistcf.rel"):
-        escritor = Escrita(diretorio)
+    def escreve_arquivo(self, diretorio: str, nome_arquivo="nwlistcf.rel"):
+        escritor = EscritaBlocos(diretorio)
         escritor.escreve_arquivo(self._dados, nome_arquivo)
 
     @property

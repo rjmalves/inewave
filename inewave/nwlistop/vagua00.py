@@ -1,11 +1,11 @@
-from inewave._utils.arquivo import Arquivo
-from inewave._utils.dadosarquivo import DadosArquivo
+from inewave._utils.dadosarquivo import DadosArquivoBlocos
+from inewave._utils.arquivo import ArquivoBlocos
 from inewave.nwlistop.modelos.vagua00 import LeituraVAgua00
 
 import pandas as pd  # type: ignore
 
 
-class VAgua00(Arquivo):
+class VAgua00(ArquivoBlocos):
     """
     Armazena os dados das saídas referentes aos valores da água
     por REE.
@@ -15,17 +15,16 @@ class VAgua00(Arquivo):
     REE em questão.
 
     """
-    def __init__(self,
-                 dados: DadosArquivo):
+
+    def __init__(self, dados: DadosArquivoBlocos):
         super().__init__(dados)
 
     # Override
     @classmethod
-    def le_arquivo(cls,
-                   diretorio: str,
-                   nome_arquivo="vagua001.out") -> 'VAgua00':
-        """
-        """
+    def le_arquivo(
+        cls, diretorio: str, nome_arquivo="vagua001.out"
+    ) -> "VAgua00":
+        """ """
         leitor = LeituraVAgua00(diretorio)
         r = leitor.le_arquivo(nome_arquivo)
         return cls(r)

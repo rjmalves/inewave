@@ -1,7 +1,8 @@
 # Imports do próprio módulo
 from inewave._utils.bloco import Bloco
-from inewave._utils.leitura import Leitura
+from inewave._utils.leiturablocos import LeituraBlocos
 from inewave._utils.registros import RegistroAn
+
 # Imports de módulos externos
 from typing import IO, List
 
@@ -14,9 +15,7 @@ class BlocoCaso(Bloco):
 
     def __init__(self):
 
-        super().__init__("",
-                         "",
-                         True)
+        super().__init__("", "", True)
 
         self._dados = ""
 
@@ -28,7 +27,7 @@ class BlocoCaso(Bloco):
         arq.write(self._dados)
 
 
-class LeituraCaso(Leitura):
+class LeituraCaso(LeituraBlocos):
     """
     Realiza a leitura do arquivo `caso.dat`
     existente em um diretório de entradas do NEWAVE.
@@ -42,8 +41,7 @@ class LeituraCaso(Leitura):
     tipos de dados, dentre outras tarefas necessárias para a leitura.
     """
 
-    def __init__(self,
-                 diretorio: str):
+    def __init__(self, diretorio: str):
         super().__init__(diretorio)
 
     # Override

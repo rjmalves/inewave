@@ -1,10 +1,10 @@
 from inewave._utils.bloco import Bloco
-from inewave._utils.leitura import Leitura
+from inewave._utils.leiturablocos import LeituraBlocos
 
 from typing import List
 
 
-class LeituraGEE(Leitura):
+class LeituraGEE(LeituraBlocos):
     """
     Realiza a leitura do arquivo `gee.dat`
     existente em um diretório de entradas do NEWAVE.
@@ -18,8 +18,7 @@ class LeituraGEE(Leitura):
     tipos de dados, dentre outras tarefas necessárias para a leitura.
     """
 
-    def __init__(self,
-                 diretorio: str):
+    def __init__(self, diretorio: str):
         super().__init__(diretorio)
 
     # Override

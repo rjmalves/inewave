@@ -1,7 +1,8 @@
 # Imports do próprio módulo
 from inewave.config import MAX_ITERS, REES
 from inewave._utils.bloco import Bloco
-from inewave._utils.leitura import Leitura
+from inewave._utils.leiturablocos import LeituraBlocos
+
 # Imports de módulos externos
 import numpy as np  # type: ignore
 from typing import IO, List
@@ -19,22 +20,16 @@ class RegistroNwlistcf:
 
     """
 
-    __slots__ = ["ireg",
-                 "rhs",
-                 "tabela"]
+    __slots__ = ["ireg", "rhs", "tabela"]
 
-    def __init__(self,
-                 ireg: int,
-                 rhs: float,
-                 tabela: np.ndarray):
+    def __init__(self, ireg: int, rhs: float, tabela: np.ndarray):
         self.ireg = ireg
         self.rhs = rhs
         self.tabela = tabela
 
     @classmethod
-    def le_registro(cls, primeira_linha: str, arq: IO) -> 'RegistroNwlistcf':
-        """
-        """
+    def le_registro(cls, primeira_linha: str, arq: IO) -> "RegistroNwlistcf":
+        """ """
         primeira = True
         n_rees = len(REES)
         n_cols_tabela = 16
@@ -75,9 +70,7 @@ class RegistroNwlistcf:
         eq_rhs = self.rhs == reg.rhs
         eq_tab = np.array_equal(self.tabela, reg.tabela)
 
-        return all([eq_ireg,
-                    eq_rhs,
-                    eq_tab])
+        return all([eq_ireg, eq_rhs, eq_tab])
 
 
 class BlocoPeriodoNwlistcf(Bloco):
@@ -85,13 +78,12 @@ class BlocoPeriodoNwlistcf(Bloco):
     Bloco com informações dos cortes de um período,
     existentes no arquivo `nwlistcf.rel` do NWLISTCF.
     """
+
     str_inicio = "  PERIODO:  "
 
     def __init__(self):
 
-        super().__init__(BlocoPeriodoNwlistcf.str_inicio,
-                         "",
-                         False)
+        super().__init__(BlocoPeriodoNwlistcf.str_inicio, "", False)
 
         self._dados: List[RegistroNwlistcf] = []
 
@@ -99,8 +91,7 @@ class BlocoPeriodoNwlistcf(Bloco):
         if not isinstance(o, BlocoPeriodoNwlistcf):
             return False
         bloco: BlocoPeriodoNwlistcf = o
-        return all([d1 == d2
-                    for d1, d2 in zip(self._dados, bloco._dados)])
+        return all([d1 == d2 for d1, d2 in zip(self._dados, bloco._dados)])
 
     # Override
     def le(self, arq: IO):
@@ -111,8 +102,7 @@ class BlocoPeriodoNwlistcf(Bloco):
             # Verifica se a próxima linha é o início do
             # próximo período ou é vazia
             linha = arq.readline()
-            if (BlocoPeriodoNwlistcf.str_inicio in linha
-                    or len(linha) < 2):
+            if BlocoPeriodoNwlistcf.str_inicio in linha or len(linha) < 2:
                 break
             # Senão, lê mais um registro
             reg = RegistroNwlistcf.le_registro(linha, arq)
@@ -125,7 +115,7 @@ class BlocoPeriodoNwlistcf(Bloco):
         pass
 
 
-class LeituraNwlistcf(Leitura):
+class LeituraNwlistcf(LeituraBlocos):
     """
     Realiza a leitura do arquivo nwlistcf.rel,
     existente em um diretório de saídas do NWLISTCF.
@@ -139,12 +129,11 @@ class LeituraNwlistcf(Leitura):
     tipos de dados, dentre outras tarefas necessárias para a leitura.
 
     """
+
     str_inicio_periodo = "  PERIODO:      "
 
-    def __init__(self,
-                 diretorio: str) -> None:
+    def __init__(self, diretorio: str) -> None:
         super().__init__(diretorio)
 
     def _cria_blocos_leitura(self) -> List[Bloco]:
-        return [BlocoPeriodoNwlistcf()
-                for _ in range(MAX_ITERS)]
+        return [BlocoPeriodoNwlistcf() for _ in range(MAX_ITERS)]

@@ -10,8 +10,10 @@ def test_leitura():
 
 
 def test_nome_caso():
-    nome = ("PMO JANEIRO - 2021  22/12/2020 12:43:55  Niveis " +
-            "para 26/12 NW Versao 27.5_CPAMP")
+    nome = (
+        "PMO JANEIRO - 2021  22/12/2020 12:43:55  Niveis "
+        + "para 26/12 NW Versao 27.5_CPAMP"
+    )
     assert dger.nome_caso == nome
 
 

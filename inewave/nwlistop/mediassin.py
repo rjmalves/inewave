@@ -12,8 +12,8 @@ class MediasSIN:
     NWLISTOP e reproduzidas nos `MEDIAS-SIN.CSV`.
 
     """
-    def __init__(self,
-                 dados: pd.DataFrame):
+
+    def __init__(self, dados: pd.DataFrame):
         self.__dados = dados
 
     def __eq__(self, o: object) -> bool:
@@ -34,7 +34,5 @@ class MediasSIN:
         self.__dados = d
 
     @classmethod
-    def le_arquivo(cls,
-                   diretorio: str,
-                   nome_arquivo="MEDIAS-SIN.CSV"):
+    def le_arquivo(cls, diretorio: str, nome_arquivo="MEDIAS-SIN.CSV"):
         return cls(LeituraMediasSIN(diretorio).le_arquivo(nome_arquivo))

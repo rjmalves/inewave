@@ -1,13 +1,14 @@
 from inewave.newave.modelos.confhd import BlocoConfUHE
 from inewave.newave.modelos.confhd import LeituraConfhd
-from inewave._utils.dadosarquivo import DadosArquivo
-from inewave._utils.arquivo import Arquivo
-from inewave._utils.escrita import Escrita
+from inewave._utils.dadosarquivo import DadosArquivoBlocos
+from inewave._utils.arquivo import ArquivoBlocos
+from inewave._utils.escritablocos import EscritaBlocos
+
 
 import pandas as pd  # type: ignore
 
 
-class Confhd(Arquivo):
+class Confhd(ArquivoBlocos):
     """
     Armazena os dados de entrada do NEWAVE referentes às
     configurações das usinas hidrelétricas.
@@ -16,8 +17,8 @@ class Confhd(Arquivo):
     que podem ser modificadas através do arquivo `modif.dat`.
 
     """
-    def __init__(self,
-                 dados: DadosArquivo):
+
+    def __init__(self, dados: DadosArquivoBlocos):
         super().__init__(dados)
         # Interpreta o resultado da leitura
         val = True
@@ -27,8 +28,10 @@ class Confhd(Arquivo):
             if isinstance(bloco, BlocoConfUHE):
                 self.__bloco = bloco
             else:
-                msg += (f"O bloco deve ser do tipo {BlocoConfUHE}, " +
-                        f"mas foi fornecido do tipo {type(bloco)}")
+                msg += (
+                    f"O bloco deve ser do tipo {BlocoConfUHE}, "
+                    + f"mas foi fornecido do tipo {type(bloco)}"
+                )
                 val = False
         else:
             msg += "Deve ser fornecido exatamente 1 bloco para Confhd"
@@ -37,23 +40,16 @@ class Confhd(Arquivo):
             raise TypeError(msg)
 
     @classmethod
-    def le_arquivo(cls,
-                   diretorio: str,
-                   nome_arquivo="confhd.dat") -> 'Confhd':
-        """
-        """
+    def le_arquivo(cls, diretorio: str, nome_arquivo="confhd.dat") -> "Confhd":
+        """ """
         leitor = LeituraConfhd(diretorio)
         r = leitor.le_arquivo(nome_arquivo)
         return cls(r)
 
-    def escreve_arquivo(self,
-                        diretorio: str,
-                        nome_arquivo="confhd.dat"):
-        """
-        """
-        escritor = Escrita(diretorio)
-        escritor.escreve_arquivo(self._dados,
-                                 nome_arquivo)
+    def escreve_arquivo(self, diretorio: str, nome_arquivo="confhd.dat"):
+        """ """
+        escritor = EscritaBlocos(diretorio)
+        escritor.escreve_arquivo(self._dados, nome_arquivo)
 
     @property
     def usinas(self) -> pd.DataFrame:

@@ -1,11 +1,11 @@
-from inewave._utils.arquivo import Arquivo
-from inewave._utils.dadosarquivo import DadosArquivo
+from inewave._utils.dadosarquivo import DadosArquivoBlocos
+from inewave._utils.arquivo import ArquivoBlocos
 from inewave.nwlistop.modelos.cmarg00med import LeituraCmarg00med
 
 import pandas as pd  # type: ignore
 
 
-class Cmarg00med(Arquivo):
+class Cmarg00med(ArquivoBlocos):
     """
     Armazena os dados das saídas referentes aos custos marginais de
     operação médios entre os patamares.
@@ -14,17 +14,16 @@ class Cmarg00med(Arquivo):
     NWLISTOP e reproduzidas nos `cmarg00x-med.out`, onde x varia conforme o
     submercado em questão.
     """
-    def __init__(self,
-                 dados: DadosArquivo):
+
+    def __init__(self, dados: DadosArquivoBlocos):
         super().__init__(dados)
 
     # Override
     @classmethod
-    def le_arquivo(cls,
-                   diretorio: str,
-                   nome_arquivo="cmarg001-med.out") -> 'Cmarg00med':
-        """
-        """
+    def le_arquivo(
+        cls, diretorio: str, nome_arquivo="cmarg001-med.out"
+    ) -> "Cmarg00med":
+        """ """
         leitor = LeituraCmarg00med(diretorio)
         r = leitor.le_arquivo(nome_arquivo)
         return cls(r)

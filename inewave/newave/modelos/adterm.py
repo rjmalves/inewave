@@ -1,5 +1,5 @@
 from inewave._utils.bloco import Bloco
-from inewave._utils.leitura import Leitura
+from inewave._utils.leiturablocos import LeituraBlocos
 from inewave._utils.registros import RegistroAn, RegistroIn, RegistroFn
 from inewave.config import MAX_LAG_ADTERM, MAX_UTES, NUM_PATAMARES
 
@@ -12,14 +12,13 @@ class BlocoUTEsAdTerm(Bloco):
     """
     Bloco com os despachos antecipados das UTEs por patamar.
     """
+
     str_inicio = ""
     str_fim = "9999"
 
     def __init__(self):
 
-        super().__init__(BlocoUTEsAdTerm.str_inicio,
-                         "",
-                         True)
+        super().__init__(BlocoUTEsAdTerm.str_inicio, "", True)
 
         self._dados: pd.DataFrame = pd.DataFrame()
 
@@ -31,7 +30,6 @@ class BlocoUTEsAdTerm(Bloco):
 
     # Override
     def le(self, arq: IO):
-
         def converte_tabela_em_df() -> pd.DataFrame:
             df = pd.DataFrame(tabela)
             pats = [n for n in range(1, NUM_PATAMARES + 1)]
@@ -56,8 +54,7 @@ class BlocoUTEsAdTerm(Bloco):
         iute_atual = 0
         nome_ute_atual = ""
         lag_leitura = 1
-        tabela = np.zeros((MAX_UTES * MAX_LAG_ADTERM,
-                           NUM_PATAMARES))
+        tabela = np.zeros((MAX_UTES * MAX_LAG_ADTERM, NUM_PATAMARES))
         while True:
             # Verifica se o arquivo acabou
             linha: str = arq.readline()
@@ -76,16 +73,14 @@ class BlocoUTEsAdTerm(Bloco):
                 nomes_utes.append(nome_ute_atual)
                 lags_utes.append(lag_leitura)
                 # Patamares
-                tabela[i, :] = reg_despacho.le_linha_tabela(linha,
-                                                            24,
-                                                            2,
-                                                            NUM_PATAMARES)
+                tabela[i, :] = reg_despacho.le_linha_tabela(
+                    linha, 24, 2, NUM_PATAMARES
+                )
                 lag_leitura += 1
                 i += 1
 
     # Override
     def escreve(self, arq: IO):
-
         def escreve_termicas():
             tabela = self._dados
             lin_tab = tabela.shape[0]
@@ -95,16 +90,20 @@ class BlocoUTEsAdTerm(Bloco):
                 lag = tabela.iloc[i, 2]
                 if lag == 1:
                     # Descobre o número de lags da UTE
-                    lag_ute = tabela.loc[tabela["Índice UTE"] == iute,
-                                         "Índice UTE"].shape[0]
-                    linha_ute = (f" {str(iute).rjust(4)}  " +
-                                 f"{str(nome).ljust(12)}  {lag_ute}")
+                    lag_ute = tabela.loc[
+                        tabela["Índice UTE"] == iute, "Índice UTE"
+                    ].shape[0]
+                    linha_ute = (
+                        f" {str(iute).rjust(4)}  "
+                        + f"{str(nome).ljust(12)}  {lag_ute}"
+                    )
                     arq.write(linha_ute + "\n")
 
                 # Despachos
                 linha = "                      "
-                despachos = len([c for c in list(self._dados.columns)
-                                 if "Patamar" in c])
+                despachos = len(
+                    [c for c in list(self._dados.columns) if "Patamar" in c]
+                )
                 for j in range(despachos):
                     v = tabela.iloc[i, j + 3]
                     linha += "  " + "{:7.2f}".format(v).rjust(10)
@@ -112,8 +111,11 @@ class BlocoUTEsAdTerm(Bloco):
 
         # Escreve cabeçalhos
         titulos = " IUTE  NOME TERMICA LAG" + "\n"
-        cab = (" XXXX  XXXXXXXXXXXX  X  XXXXXXX.XX" +
-               "  XXXXXXX.XX  XXXXXXX.XX" + "\n")
+        cab = (
+            " XXXX  XXXXXXXXXXXX  X  XXXXXXX.XX"
+            + "  XXXXXXX.XX  XXXXXXX.XX"
+            + "\n"
+        )
         arq.write(titulos)
         arq.write(cab)
         escreve_termicas()
@@ -121,7 +123,7 @@ class BlocoUTEsAdTerm(Bloco):
         arq.write(f" {BlocoUTEsAdTerm.str_fim}\n")
 
 
-class LeituraAdTerm(Leitura):
+class LeituraAdTerm(LeituraBlocos):
     """
     Realiza a leitura do arquivo `adterm.dat`
     existente em um diretório de entradas do NEWAVE.
@@ -135,8 +137,7 @@ class LeituraAdTerm(Leitura):
     tipos de dados, dentre outras tarefas necessárias para a leitura.
     """
 
-    def __init__(self,
-                 diretorio: str):
+    def __init__(self, diretorio: str):
         super().__init__(diretorio)
 
     # Override

@@ -1,5 +1,6 @@
 # Imports do próprio módulo
-from inewave._utils.leitura import LeituraCSV
+from inewave._utils.leituracsv import LeituraCSV
+
 # Imports de módulos externos
 
 
@@ -17,8 +18,8 @@ class LeituraMediasMerc(LeituraCSV):
     tipos de dados, dentre outras tarefas necessárias para a leitura.
 
     """
-    def __init__(self,
-                 diretorio: str) -> None:
+
+    def __init__(self, diretorio: str) -> None:
         super().__init__(diretorio)
 
     def processa_dados_lidos(self):
@@ -32,8 +33,7 @@ class LeituraMediasMerc(LeituraCSV):
         cols_novas[0] = "Submercado"
         self._dados.columns = cols_novas
         # Exclui a última coluna (em branco)
-        self._dados.drop(columns=[cols_novas[-1]],
-                         inplace=True)
+        self._dados.drop(columns=[cols_novas[-1]], inplace=True)
         # Substitui os elementos da primeira coluna pelos submercados
         mapa_termos = {0: "SIN", 1: "SE", 2: "S", 3: "NE", 4: "N"}
         nova_coluna = [mapa_termos[i] for i in self._dados["Submercado"]]

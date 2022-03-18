@@ -1,12 +1,13 @@
-from inewave._utils.arquivo import Arquivo
-from inewave._utils.dadosarquivo import DadosArquivo
-from inewave._utils.escrita import Escrita
+from inewave._utils.dadosarquivo import DadosArquivoBlocos
+from inewave._utils.arquivo import ArquivoBlocos
+from inewave._utils.escritablocos import EscritaBlocos
+
 from inewave.newave.modelos.sistema import LeituraSistema
 
 import pandas as pd  # type: ignore
 
 
-class Sistema(Arquivo):
+class Sistema(ArquivoBlocos):
     """
     Armazena os dados de entrada do NEWAVE referentes às configurações
     dos subsistemas (submercados).
@@ -15,29 +16,23 @@ class Sistema(Arquivo):
 
     """
 
-    def __init__(self,
-                 dados: DadosArquivo) -> None:
+    def __init__(self, dados: DadosArquivoBlocos) -> None:
         super().__init__(dados)
 
     # Override
     @classmethod
-    def le_arquivo(cls,
-                   diretorio: str,
-                   nome_arquivo="sistema.dat") -> 'Sistema':
-        """
-        """
+    def le_arquivo(
+        cls, diretorio: str, nome_arquivo="sistema.dat"
+    ) -> "Sistema":
+        """ """
         leitor = LeituraSistema(diretorio)
         r = leitor.le_arquivo(nome_arquivo)
         return cls(r)
 
-    def escreve_arquivo(self,
-                        diretorio: str,
-                        nome_arquivo="sistema.dat"):
-        """
-        """
-        escritor = Escrita(diretorio)
-        escritor.escreve_arquivo(self._dados,
-                                 nome_arquivo)
+    def escreve_arquivo(self, diretorio: str, nome_arquivo="sistema.dat"):
+        """ """
+        escritor = EscritaBlocos(diretorio)
+        escritor.escreve_arquivo(self._dados, nome_arquivo)
 
     @property
     def custo_deficit(self) -> pd.DataFrame:
@@ -56,8 +51,7 @@ class Sistema(Arquivo):
 
     @custo_deficit.setter
     def custo_deficit(self, custo: pd.DataFrame):
-        """
-        """
+        """ """
         self._blocos[0].dados[1] = custo
 
     @property
@@ -77,8 +71,7 @@ class Sistema(Arquivo):
 
     @limites_intercambio.setter
     def limites_intercambio(self, limite: pd.DataFrame):
-        """
-        """
+        """ """
         self._blocos[1].dados = limite
 
     @property
@@ -98,8 +91,7 @@ class Sistema(Arquivo):
 
     @mercado_energia.setter
     def mercado_energia(self, merc: pd.DataFrame):
-        """
-        """
+        """ """
         self._blocos[2].dados = merc
 
     @property
@@ -119,8 +111,6 @@ class Sistema(Arquivo):
         return self._blocos[3].dados
 
     @geracao_usinas_nao_simuladas.setter
-    def geracao_usinas_nao_simuladas(self,
-                                     ger: pd.DataFrame):
-        """
-        """
+    def geracao_usinas_nao_simuladas(self, ger: pd.DataFrame):
+        """ """
         self._blocos[3].dados = ger

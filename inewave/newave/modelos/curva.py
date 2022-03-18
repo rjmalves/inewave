@@ -1,7 +1,7 @@
 from inewave.config import MAX_REES, MAX_ANOS_ESTUDO, MESES_DF
 from inewave._utils.registros import RegistroIn, RegistroFn
 from inewave._utils.bloco import Bloco
-from inewave._utils.leitura import Leitura
+from inewave._utils.leiturablocos import LeituraBlocos
 
 from typing import List, IO
 import numpy as np  # type: ignore
@@ -13,17 +13,17 @@ class BlocoConfiguracoesPenalizacaoCurva(Bloco):
     Bloco com as informações de configurações de
     penalização da curva de volume mínimo.
     """
+
     str_inicio = ""
     str_fim = ""
 
     def __init__(self):
 
-        super().__init__(BlocoConfiguracoesPenalizacaoCurva.str_inicio,
-                         "",
-                         True)
+        super().__init__(
+            BlocoConfiguracoesPenalizacaoCurva.str_inicio, "", True
+        )
 
-        self._dados: np.ndarray = np.zeros((3,),
-                                           dtype=np.int64)
+        self._dados: np.ndarray = np.zeros((3,), dtype=np.int64)
 
     def __eq__(self, o: object):
         if not isinstance(o, BlocoConfiguracoesPenalizacaoCurva):
@@ -35,15 +35,18 @@ class BlocoConfiguracoesPenalizacaoCurva(Bloco):
     def le(self, arq: IO):
         reg = RegistroIn(3)
         linha = arq.readline()
-        self._dados = np.array(reg.le_linha_tabela(linha, 1, 1, 3),
-                               dtype=np.int64)
+        self._dados = np.array(
+            reg.le_linha_tabela(linha, 1, 1, 3), dtype=np.int64
+        )
         return
 
     # Override
     def escreve(self, arq: IO):
-        cab = (" XXX XXX XXX (TIPO DE PENALIZACAO DAS VIOLACOES: 0-FIXA" +
-               " 1-MAXIMA; MES DE PENALIZACAO;VMINOP SAZONAL NO PRE/POS:" +
-               " 0-NAO CONSIDERA 1-CONSIDERA)")
+        cab = (
+            " XXX XXX XXX (TIPO DE PENALIZACAO DAS VIOLACOES: 0-FIXA"
+            + " 1-MAXIMA; MES DE PENALIZACAO;VMINOP SAZONAL NO PRE/POS:"
+            + " 0-NAO CONSIDERA 1-CONSIDERA)"
+        )
         arq.write(cab + "\n")
         linha = ""
         for d in self._dados:
@@ -56,14 +59,13 @@ class BlocoPenalidadesViolacaoREECurva(Bloco):
     Bloco com informações das penalidades por violação para cada
     ree.
     """
+
     str_inicio = "SISTEMA   CUSTO"
     str_fim = "999"
 
     def __init__(self):
 
-        super().__init__(BlocoPenalidadesViolacaoREECurva.str_inicio,
-                         "",
-                         True)
+        super().__init__(BlocoPenalidadesViolacaoREECurva.str_inicio, "", True)
 
         self._dados: pd.DataFrame = pd.DataFrame()
 
@@ -75,11 +77,10 @@ class BlocoPenalidadesViolacaoREECurva(Bloco):
 
     # Override
     def le(self, arq: IO):
-
         def converte_tabela_em_df() -> pd.DataFrame:
             df = pd.DataFrame(tabela)
             df.columns = ["Subsistema", "Custo"]
-            df = df.astype({"Subsistema": 'int32'})
+            df = df.astype({"Subsistema": "int32"})
             return df
 
         # Variáveis auxiliares
@@ -88,13 +89,11 @@ class BlocoPenalidadesViolacaoREECurva(Bloco):
         # Pula uma linha, com cabeçalhos
         arq.readline()
         i = 0
-        tabela = np.zeros((MAX_REES,
-                          2))
+        tabela = np.zeros((MAX_REES, 2))
         while True:
             # Verifica se o arquivo acabou
             linha: str = arq.readline()
-            if (BlocoPenalidadesViolacaoREECurva.str_fim
-               == linha.strip()):
+            if BlocoPenalidadesViolacaoREECurva.str_fim == linha.strip():
                 tabela = tabela[:i, :]
                 self._dados = converte_tabela_em_df()
                 break
@@ -104,7 +103,6 @@ class BlocoPenalidadesViolacaoREECurva(Bloco):
 
     # Override
     def escreve(self, arq: IO):
-
         def escreve_custos():
             lin_tab = self._dados.shape[0]
             for i in range(lin_tab):
@@ -125,14 +123,13 @@ class BlocoCurvaSegurancaSubsistema(Bloco):
     Bloco com informações da curva de segurança de operação por mês/ano
     e por subsistema.
     """
+
     str_inicio = "CURVA DE SEGURANCA"
     str_fim = "9999"
 
     def __init__(self):
 
-        super().__init__(BlocoCurvaSegurancaSubsistema.str_inicio,
-                         "",
-                         True)
+        super().__init__(BlocoCurvaSegurancaSubsistema.str_inicio, "", True)
 
         self._dados: pd.DataFrame = pd.DataFrame()
 
@@ -144,7 +141,6 @@ class BlocoCurvaSegurancaSubsistema(Bloco):
 
     # Override
     def le(self, arq: IO):
-
         def converte_tabela_em_df() -> pd.DataFrame:
             df = pd.DataFrame(tabela)
             df.columns = MESES_DF
@@ -165,8 +161,7 @@ class BlocoCurvaSegurancaSubsistema(Bloco):
         subsistema = []
         subsistema_atual = 0
 
-        tabela = np.zeros((MAX_ANOS_ESTUDO * MAX_REES,
-                          len(MESES_DF)))
+        tabela = np.zeros((MAX_ANOS_ESTUDO * MAX_REES, len(MESES_DF)))
         while True:
             # Verifica se o arquivo acabou
             linha: str = arq.readline()
@@ -183,15 +178,13 @@ class BlocoCurvaSegurancaSubsistema(Bloco):
                 # Subsistema
                 subsistema.append(subsistema_atual)
                 # Limites
-                tabela[i, :] = reg_curva.le_linha_tabela(linha,
-                                                         6,
-                                                         1,
-                                                         len(MESES_DF))
+                tabela[i, :] = reg_curva.le_linha_tabela(
+                    linha, 6, 1, len(MESES_DF)
+                )
                 i += 1
 
     # Override
     def escreve(self, arq: IO):
-
         def escreve_curva():
             lin_tab = self._dados.shape[0]
             subsistema_anterior = 0
@@ -214,15 +207,17 @@ class BlocoCurvaSegurancaSubsistema(Bloco):
         # Escreve cabeçalhos
         arq.write(f" {BlocoCurvaSegurancaSubsistema.str_inicio}\n")
         arq.write(" XXX\n")
-        cab = ("      JAN.X FEV.X MAR.X ABR.X MAI.X JUN.X JUL.X" +
-               " AGO.X SET.X OUT.X NOV.X DEZ.X\n")
+        cab = (
+            "      JAN.X FEV.X MAR.X ABR.X MAI.X JUN.X JUL.X"
+            + " AGO.X SET.X OUT.X NOV.X DEZ.X\n"
+        )
         arq.write(cab)
         escreve_curva()
         # Escreve a linha de terminação
         arq.write(f"{BlocoCurvaSegurancaSubsistema.str_fim}\n")
 
 
-class LeituraCurva(Leitura):
+class LeituraCurva(LeituraBlocos):
     """
     Realiza a leitura do arquivo `curva.dat`
     existente em um diretório de entradas do NEWAVE.
@@ -236,8 +231,7 @@ class LeituraCurva(Leitura):
     tipos de dados, dentre outras tarefas necessárias para a leitura.
     """
 
-    def __init__(self,
-                 diretorio: str):
+    def __init__(self, diretorio: str):
         super().__init__(diretorio)
 
     # Override
@@ -245,6 +239,8 @@ class LeituraCurva(Leitura):
         """
         Cria a lista de blocos a serem lidos no arquivo curva.dat.
         """
-        return [BlocoConfiguracoesPenalizacaoCurva(),
-                BlocoPenalidadesViolacaoREECurva(),
-                BlocoCurvaSegurancaSubsistema()]
+        return [
+            BlocoConfiguracoesPenalizacaoCurva(),
+            BlocoPenalidadesViolacaoREECurva(),
+            BlocoCurvaSegurancaSubsistema(),
+        ]

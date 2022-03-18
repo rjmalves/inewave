@@ -1,11 +1,11 @@
-from inewave._utils.arquivo import Arquivo
-from inewave._utils.dadosarquivo import DadosArquivo
+from inewave._utils.dadosarquivo import DadosArquivoBlocos
+from inewave._utils.arquivo import ArquivoBlocos
 from inewave.nwlistop.modelos.gttotsin import LeituraGTTotSIN
 
 import pandas as pd  # type: ignore
 
 
-class GTTotSIN(Arquivo):
+class GTTotSIN(ArquivoBlocos):
     """
     Armazena os dados das saídas referentes à geração térmica total
     por patamar, para o SIN.
@@ -14,17 +14,16 @@ class GTTotSIN(Arquivo):
     NWLISTOP e reproduzidas nos `gttotsin.out`.
 
     """
-    def __init__(self,
-                 dados: DadosArquivo):
+
+    def __init__(self, dados: DadosArquivoBlocos):
         super().__init__(dados)
 
     # Override
     @classmethod
-    def le_arquivo(cls,
-                   diretorio: str,
-                   nome_arquivo="gttotsin.out") -> 'GTTotSIN':
-        """
-        """
+    def le_arquivo(
+        cls, diretorio: str, nome_arquivo="gttotsin.out"
+    ) -> "GTTotSIN":
+        """ """
         leitor = LeituraGTTotSIN(diretorio)
         r = leitor.le_arquivo(nome_arquivo)
         return cls(r)

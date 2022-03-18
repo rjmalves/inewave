@@ -1,7 +1,7 @@
 # Imports do próprio módulo
 from inewave._utils.registros import RegistroFn, RegistroIn
 from inewave._utils.bloco import Bloco
-from inewave._utils.leitura import Leitura
+from inewave._utils.leiturablocos import LeituraBlocos
 from inewave.config import MAX_ANOS_ESTUDO
 from inewave.config import MESES
 from inewave.config import MESES_DF
@@ -19,14 +19,13 @@ class BlocoDuracaoPatamar(Bloco):
     Bloco com a duração de cada patamar por mês
     de estudo, extraído do arquivo `patamar.dat`.
     """
+
     str_inicio = "ANO   DURACAO MENSAL DOS PATAMARES DE CARGA"
     str_fim = "SUBSISTEMA"
 
     def __init__(self):
 
-        super().__init__(BlocoDuracaoPatamar.str_inicio,
-                         "",
-                         True)
+        super().__init__(BlocoDuracaoPatamar.str_inicio, "", True)
 
         self._dados: pd.DataFrame = pd.DataFrame()
 
@@ -38,7 +37,6 @@ class BlocoDuracaoPatamar(Bloco):
 
     # Override
     def le(self, arq: IO):
-
         def converte_tabela_em_df() -> pd.DataFrame:
             pats = [n for n in range(1, NUM_PATAMARES + 1)]
             coluna_pats = pats * int(i / NUM_PATAMARES)
@@ -57,8 +55,7 @@ class BlocoDuracaoPatamar(Bloco):
         arq.readline()
         i = 0
         anos = []
-        tabela = np.zeros((MAX_ANOS_ESTUDO * NUM_PATAMARES,
-                          len(MESES)))
+        tabela = np.zeros((MAX_ANOS_ESTUDO * NUM_PATAMARES, len(MESES)))
         while True:
             # Verifica se o arquivo acabou
             linha = arq.readline()
@@ -73,15 +70,11 @@ class BlocoDuracaoPatamar(Bloco):
             else:
                 anos.append(anos[-1])
             # Patamares
-            tabela[i, :] = reg_pat.le_linha_tabela(linha,
-                                                   6,
-                                                   2,
-                                                   len(MESES))
+            tabela[i, :] = reg_pat.le_linha_tabela(linha, 6, 2, len(MESES))
             i += 1
 
     # Override
     def escreve(self, arq: IO):
-
         def escreve_patamares():
             lin_tab = self._dados.shape[0]
             for i in range(lin_tab):
@@ -98,10 +91,16 @@ class BlocoDuracaoPatamar(Bloco):
                 arq.write(linha + "\n")
 
         # Escreve cabeçalhos
-        titulos = ("      JAN     FEV     MAR     ABR     MAI     JUN     "
-                   + "JUL     AGO     SET     OUT     NOV     DEZ" + "\n")
-        cab = ("      X.XXXX  X.XXXX  X.XXXX  X.XXXX  X.XXXX  X.XXXX  "
-               + "X.XXXX  X.XXXX  X.XXXX  X.XXXX  X.XXXX  X.XXXX" + "\n")
+        titulos = (
+            "      JAN     FEV     MAR     ABR     MAI     JUN     "
+            + "JUL     AGO     SET     OUT     NOV     DEZ"
+            + "\n"
+        )
+        cab = (
+            "      X.XXXX  X.XXXX  X.XXXX  X.XXXX  X.XXXX  X.XXXX  "
+            + "X.XXXX  X.XXXX  X.XXXX  X.XXXX  X.XXXX  X.XXXX"
+            + "\n"
+        )
         arq.write(f"{BlocoDuracaoPatamar.str_inicio}\n")
         arq.write(titulos)
         arq.write(cab)
@@ -115,14 +114,13 @@ class BlocoCargaPatamarSubsistemas(Bloco):
     Bloco com a informação de carga (em p.u.) por patamar de carga
     e por mês/ano de estudo para cada subsistema.
     """
+
     str_inicio = "    ANO                       CARGA(P.U.DEMANDA MED.)"
     str_fim = "9999"
 
     def __init__(self):
 
-        super().__init__(BlocoCargaPatamarSubsistemas.str_inicio,
-                         "",
-                         True)
+        super().__init__(BlocoCargaPatamarSubsistemas.str_inicio, "", True)
 
         self._dados: pd.DataFrame = pd.DataFrame()
 
@@ -134,7 +132,6 @@ class BlocoCargaPatamarSubsistemas(Bloco):
 
     # Override
     def le(self, arq: IO):
-
         def converte_tabela_em_df() -> pd.DataFrame:
             pats = [n for n in range(1, NUM_PATAMARES + 1)]
             coluna_pats = pats * int(i / NUM_PATAMARES)
@@ -155,8 +152,9 @@ class BlocoCargaPatamarSubsistemas(Bloco):
         anos = []
         subsistemas = []
         subsistema_atual = 0
-        tabela = np.zeros((MAX_ANOS_ESTUDO * NUM_PATAMARES * len(SUBMERCADOS),
-                          len(MESES)))
+        tabela = np.zeros(
+            (MAX_ANOS_ESTUDO * NUM_PATAMARES * len(SUBMERCADOS), len(MESES))
+        )
         while True:
             # Verifica se o arquivo acabou
             linha: str = arq.readline()
@@ -176,15 +174,11 @@ class BlocoCargaPatamarSubsistemas(Bloco):
             else:
                 anos.append(anos[-1])
             # Patamares
-            tabela[i, :] = reg_pat.le_linha_tabela(linha,
-                                                   8,
-                                                   1,
-                                                   len(MESES))
+            tabela[i, :] = reg_pat.le_linha_tabela(linha, 8, 1, len(MESES))
             i += 1
 
     # Override
     def escreve(self, arq: IO):
-
         def escreve_patamares():
             lin_tab = self._dados.shape[0]
             subsistema_anterior = 0
@@ -212,8 +206,11 @@ class BlocoCargaPatamarSubsistemas(Bloco):
                 arq.write(linha + "\n")
 
         # Escreve cabeçalhos
-        cab = ("   XXXX X.XXXX X.XXXX X.XXXX X.XXXX X.XXXX X.XXXX"
-               + " X.XXXX X.XXXX X.XXXX X.XXXX X.XXXX X.XXXX" + "\n")
+        cab = (
+            "   XXXX X.XXXX X.XXXX X.XXXX X.XXXX X.XXXX X.XXXX"
+            + " X.XXXX X.XXXX X.XXXX X.XXXX X.XXXX X.XXXX"
+            + "\n"
+        )
         arq.write(f"{BlocoCargaPatamarSubsistemas.str_inicio}\n")
         arq.write(cab)
         escreve_patamares()
@@ -226,14 +223,15 @@ class BlocoIntercambioPatamarSubsistemas(Bloco):
     Bloco com a informação de intercâmbio (em p.u.) por patamar de carga
     e por mês/ano de estudo para cada subsistema.
     """
+
     str_inicio = "                             INTERCAMBIO(P.U.INTERC.MEDIO)"
     str_fim = "9999"
 
     def __init__(self):
 
-        super().__init__(BlocoIntercambioPatamarSubsistemas.str_inicio,
-                         "",
-                         True)
+        super().__init__(
+            BlocoIntercambioPatamarSubsistemas.str_inicio, "", True
+        )
 
         self._dados: pd.DataFrame = pd.DataFrame()
 
@@ -245,7 +243,6 @@ class BlocoIntercambioPatamarSubsistemas(Bloco):
 
     # Override
     def le(self, arq: IO):
-
         def converte_tabela_em_df() -> pd.DataFrame:
             pats = [n for n in range(1, NUM_PATAMARES + 1)]
             coluna_pats = pats * int(i / NUM_PATAMARES)
@@ -255,8 +252,10 @@ class BlocoIntercambioPatamarSubsistemas(Bloco):
             df["Patamar"] = coluna_pats
             df["De Subsistema"] = subsistemas_de
             df["Para Subsistema"] = subsistemas_para
-            df = df[["Ano", "Patamar", "De Subsistema", "Para Subsistema"]
-                    + MESES_DF]
+            df = df[
+                ["Ano", "Patamar", "De Subsistema", "Para Subsistema"]
+                + MESES_DF
+            ]
             return df
 
         # Variáveis auxiliares
@@ -270,10 +269,12 @@ class BlocoIntercambioPatamarSubsistemas(Bloco):
         subsistemas_para = []
         subsistema_de_atual = 0
         subsistema_para_atual = 0
-        tabela = np.zeros((MAX_ANOS_ESTUDO *
-                           NUM_PATAMARES *
-                           len(SUBMERCADOS) ** 2,
-                          len(MESES)))
+        tabela = np.zeros(
+            (
+                MAX_ANOS_ESTUDO * NUM_PATAMARES * len(SUBMERCADOS) ** 2,
+                len(MESES),
+            )
+        )
         while True:
             # Verifica se o arquivo acabou
             linha: str = arq.readline()
@@ -295,15 +296,11 @@ class BlocoIntercambioPatamarSubsistemas(Bloco):
             else:
                 anos.append(anos[-1])
             # Patamares
-            tabela[i, :] = reg_pat.le_linha_tabela(linha,
-                                                   8,
-                                                   1,
-                                                   len(MESES))
+            tabela[i, :] = reg_pat.le_linha_tabela(linha, 8, 1, len(MESES))
             i += 1
 
     # Override
     def escreve(self, arq: IO):
-
         def escreve_patamares():
             lin_tab = self._dados.shape[0]
             subsistema_de_anterior = 0
@@ -314,10 +311,15 @@ class BlocoIntercambioPatamarSubsistemas(Bloco):
                 # Subsistemas de / para
                 subsistema_de = self._dados.iloc[i, 2]
                 subsistema_para = self._dados.iloc[i, 3]
-                if any([subsistema_de != subsistema_de_anterior,
-                        subsistema_para != subsistema_para_anterior]):
-                    linha = (str(subsistema_de).rjust(4) +
-                             str(subsistema_para).rjust(4))
+                if any(
+                    [
+                        subsistema_de != subsistema_de_anterior,
+                        subsistema_para != subsistema_para_anterior,
+                    ]
+                ):
+                    linha = str(subsistema_de).rjust(4) + str(
+                        subsistema_para
+                    ).rjust(4)
                     subsistema_de_anterior = subsistema_de
                     subsistema_para_anterior = subsistema_para
                     i_subsistema = 0
@@ -336,8 +338,11 @@ class BlocoIntercambioPatamarSubsistemas(Bloco):
                 arq.write(linha + "\n")
 
         # Escreve cabeçalhos
-        cab = ("   XXXX X.XXXX X.XXXX X.XXXX X.XXXX X.XXXX X.XXXX"
-               + " X.XXXX X.XXXX X.XXXX X.XXXX X.XXXX X.XXXX" + "\n")
+        cab = (
+            "   XXXX X.XXXX X.XXXX X.XXXX X.XXXX X.XXXX X.XXXX"
+            + " X.XXXX X.XXXX X.XXXX X.XXXX X.XXXX X.XXXX"
+            + "\n"
+        )
         arq.write(f"{BlocoIntercambioPatamarSubsistemas.str_inicio}\n")
         arq.write(cab)
         escreve_patamares()
@@ -345,7 +350,7 @@ class BlocoIntercambioPatamarSubsistemas(Bloco):
         arq.write(f" {BlocoIntercambioPatamarSubsistemas.str_fim}\n")
 
 
-class LeituraPatamar(Leitura):
+class LeituraPatamar(LeituraBlocos):
     """
     Realiza a leitura do arquivo patamar.dat
     existente em um diretório de entradas do NEWAVE.
@@ -360,12 +365,13 @@ class LeituraPatamar(Leitura):
 
     """
 
-    def __init__(self,
-                 diretorio: str) -> None:
+    def __init__(self, diretorio: str) -> None:
         super().__init__(diretorio)
 
     # Override
     def _cria_blocos_leitura(self) -> List[Bloco]:
-        return [BlocoDuracaoPatamar(),
-                BlocoCargaPatamarSubsistemas(),
-                BlocoIntercambioPatamarSubsistemas()]
+        return [
+            BlocoDuracaoPatamar(),
+            BlocoCargaPatamarSubsistemas(),
+            BlocoIntercambioPatamarSubsistemas(),
+        ]

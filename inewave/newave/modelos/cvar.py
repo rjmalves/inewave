@@ -1,5 +1,5 @@
 from inewave._utils.bloco import Bloco
-from inewave._utils.leitura import Leitura
+from inewave._utils.leiturablocos import LeituraBlocos
 from inewave.config import MAX_ANOS_ESTUDO, MESES_DF
 from inewave._utils.registros import RegistroAn, RegistroFn  # typer: ignore
 
@@ -12,14 +12,13 @@ class BlocoValoresConstantesCVAR(Bloco):
     """
     Bloco com valores dos parâmetros ALFA e LAMBDA constantes.
     """
+
     str_inicio = "VALORES CONSTANTE NO TEMPO"
     str_fim = ""
 
     def __init__(self):
 
-        super().__init__(BlocoValoresConstantesCVAR.str_inicio,
-                         "",
-                         True)
+        super().__init__(BlocoValoresConstantesCVAR.str_inicio, "", True)
 
         self._dados: List[float] = []
 
@@ -44,25 +43,26 @@ class BlocoValoresConstantesCVAR(Bloco):
         # Escreve cabeçalhos
         arq.write(f"{BlocoValoresConstantesCVAR.str_inicio}\n")
         arq.write("       ALF.x  LBD.x\n")
-        arq.write("       " +
-                  f"{round(self._dados[0], 1)}".rjust(5) +
-                  "  " +
-                  f"{round(self._dados[1], 1)}".rjust(5) +
-                  "\n")
+        arq.write(
+            "       "
+            + f"{round(self._dados[0], 1)}".rjust(5)
+            + "  "
+            + f"{round(self._dados[1], 1)}".rjust(5)
+            + "\n"
+        )
 
 
 class BlocoAlfaVariavelCVAR(Bloco):
     """
     Bloco com informações do parâmetro ALFA variável no tempo.
     """
+
     str_inicio = "VALORES DE ALFA VARIAVEIS NO TEMPO"
     str_fim = "VALORES DE LAMBDA VARIAVEIS NO TEMPO"
 
     def __init__(self):
 
-        super().__init__(BlocoAlfaVariavelCVAR.str_inicio,
-                         "",
-                         True)
+        super().__init__(BlocoAlfaVariavelCVAR.str_inicio, "", True)
 
         self._dados: pd.DataFrame = pd.DataFrame()
 
@@ -74,7 +74,6 @@ class BlocoAlfaVariavelCVAR(Bloco):
 
     # Override
     def le(self, arq: IO):
-
         def converte_tabela_em_df() -> pd.DataFrame:
             df = pd.DataFrame(tabela)
             df.columns = MESES_DF
@@ -87,8 +86,7 @@ class BlocoAlfaVariavelCVAR(Bloco):
         reg_tabela = RegistroFn(5)
         i = 0
         anos = []
-        tabela = np.zeros((MAX_ANOS_ESTUDO,
-                          len(MESES_DF)))
+        tabela = np.zeros((MAX_ANOS_ESTUDO, len(MESES_DF)))
         # Pula uma linha, com cabeçalhos
         arq.readline()
         while True:
@@ -103,16 +101,14 @@ class BlocoAlfaVariavelCVAR(Bloco):
             # Ano
             anos.append(reg_ano.le_registro(linha, 0))
             # Tabela
-            tabela[i, :] = reg_tabela.le_linha_tabela(linha,
-                                                      7,
-                                                      2,
-                                                      len(MESES_DF))
+            tabela[i, :] = reg_tabela.le_linha_tabela(
+                linha, 7, 2, len(MESES_DF)
+            )
             i += 1
         return linha
 
     # Override
     def escreve(self, arq: IO):
-
         def escreve_tabela():
             for _, lin in self._dados.iterrows():
                 linha = ""
@@ -127,8 +123,10 @@ class BlocoAlfaVariavelCVAR(Bloco):
 
         # Escreve cabeçalhos
         arq.write(f"{BlocoAlfaVariavelCVAR.str_inicio}\n")
-        arq.write("       JAN.X  FEV.X  MAR.X  ABR.X  MAI.X  JUN.X" +
-                  "  JUL.X  AGO.X  SET.X  OUT.X  NOV.X  DEZ.X\n")
+        arq.write(
+            "       JAN.X  FEV.X  MAR.X  ABR.X  MAI.X  JUN.X"
+            + "  JUL.X  AGO.X  SET.X  OUT.X  NOV.X  DEZ.X\n"
+        )
         escreve_tabela()
 
 
@@ -136,14 +134,13 @@ class BlocoLambdaVariavelCVAR(Bloco):
     """
     Bloco com informações do parâmetro LAMBDA variável no tempo.
     """
+
     str_inicio = "VALORES DE LAMBDA VARIAVEIS NO TEMPO"
     str_fim = ""
 
     def __init__(self):
 
-        super().__init__(BlocoLambdaVariavelCVAR.str_inicio,
-                         "",
-                         True)
+        super().__init__(BlocoLambdaVariavelCVAR.str_inicio, "", True)
 
         self._dados: pd.DataFrame = pd.DataFrame()
 
@@ -155,7 +152,6 @@ class BlocoLambdaVariavelCVAR(Bloco):
 
     # Override
     def le(self, arq: IO):
-
         def converte_tabela_em_df() -> pd.DataFrame:
             df = pd.DataFrame(tabela)
             df.columns = MESES_DF
@@ -168,8 +164,7 @@ class BlocoLambdaVariavelCVAR(Bloco):
         reg_tabela = RegistroFn(5)
         i = 0
         anos = []
-        tabela = np.zeros((MAX_ANOS_ESTUDO,
-                          len(MESES_DF)))
+        tabela = np.zeros((MAX_ANOS_ESTUDO, len(MESES_DF)))
         # Pula uma linha, com cabeçalhos
         arq.readline()
         while True:
@@ -184,16 +179,14 @@ class BlocoLambdaVariavelCVAR(Bloco):
             # Ano
             anos.append(reg_ano.le_registro(linha, 0))
             # Tabela
-            tabela[i, :] = reg_tabela.le_linha_tabela(linha,
-                                                      7,
-                                                      2,
-                                                      len(MESES_DF))
+            tabela[i, :] = reg_tabela.le_linha_tabela(
+                linha, 7, 2, len(MESES_DF)
+            )
             i += 1
         return linha
 
     # Override
     def escreve(self, arq: IO):
-
         def escreve_tabela():
             for _, lin in self._dados.iterrows():
                 linha = ""
@@ -208,12 +201,14 @@ class BlocoLambdaVariavelCVAR(Bloco):
 
         # Escreve cabeçalhos
         arq.write(f"{BlocoLambdaVariavelCVAR.str_inicio}\n")
-        arq.write("       JAN.X  FEV.X  MAR.X  ABR.X  MAI.X  JUN.X" +
-                  "  JUL.X  AGO.X  SET.X  OUT.X  NOV.X  DEZ.X\n")
+        arq.write(
+            "       JAN.X  FEV.X  MAR.X  ABR.X  MAI.X  JUN.X"
+            + "  JUL.X  AGO.X  SET.X  OUT.X  NOV.X  DEZ.X\n"
+        )
         escreve_tabela()
 
 
-class LeituraCVAR(Leitura):
+class LeituraCVAR(LeituraBlocos):
     """
     Realiza a leitura do arquivo `cvar.dat`
     existente em um diretório de entradas do NEWAVE.
@@ -227,8 +222,7 @@ class LeituraCVAR(Leitura):
     tipos de dados, dentre outras tarefas necessárias para a leitura.
     """
 
-    def __init__(self,
-                 diretorio: str):
+    def __init__(self, diretorio: str):
         super().__init__(diretorio)
 
     # Override
@@ -236,6 +230,8 @@ class LeituraCVAR(Leitura):
         """
         Cria a lista de blocos a serem lidos no arquivo cvar.dat.
         """
-        return [BlocoValoresConstantesCVAR(),
-                BlocoAlfaVariavelCVAR(),
-                BlocoLambdaVariavelCVAR()]
+        return [
+            BlocoValoresConstantesCVAR(),
+            BlocoAlfaVariavelCVAR(),
+            BlocoLambdaVariavelCVAR(),
+        ]

@@ -32,6 +32,5 @@ def test_patamar_por_ano():
     # e se todos os valores são maiores que 0
     for ano in anos_estudo_teste:
         p = patamares_ano[ano]
-        assert p.shape == (NUM_PATAMARES,
-                           len(MESES))
+        assert p.shape == (NUM_PATAMARES, len(MESES))
         assert np.all(p > 0.0)

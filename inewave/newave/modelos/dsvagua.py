@@ -1,8 +1,9 @@
 # Imports do próprio módulo
 from inewave._utils.registros import RegistroFn, RegistroIn
 from inewave._utils.bloco import Bloco
-from inewave._utils.leitura import Leitura
+from inewave._utils.leiturablocos import LeituraBlocos
 from inewave.config import MAX_ANOS_ESTUDO, MAX_UHES, MESES
+
 # Imports de módulos externos
 import numpy as np  # type: ignore
 from typing import IO, List
@@ -13,17 +14,16 @@ class BlocoDsvUHE(Bloco):
     Bloco de informações do desvio de água por
     usina no arquivo do NEWAVE `dsvagua.dat`.
     """
+
     str_inicio = ""
 
     def __init__(self):
 
-        super().__init__(BlocoDsvUHE.str_inicio,
-                         "",
-                         True)
+        super().__init__(BlocoDsvUHE.str_inicio, "", True)
 
-        self._dados: np.ndarray = np.zeros((MAX_ANOS_ESTUDO * MAX_UHES,
-                                           len(MESES) + 3),
-                                           dtype=np.float64)
+        self._dados: np.ndarray = np.zeros(
+            (MAX_ANOS_ESTUDO * MAX_UHES, len(MESES) + 3), dtype=np.float64
+        )
 
     def __eq__(self, o: object) -> bool:
         """
@@ -56,10 +56,9 @@ class BlocoDsvUHE(Bloco):
             # Usina
             self._dados[i, 1] = reg_usi.le_registro(linha, 6)
             # Desvios
-            self._dados[i, 2:-1] = reg_dsv.le_linha_tabela(linha,
-                                                           10,
-                                                           1,
-                                                           len(MESES))
+            self._dados[i, 2:-1] = reg_dsv.le_linha_tabela(
+                linha, 10, 1, len(MESES)
+            )
             # Flag
             self._dados[i, -1] = reg_flag.le_registro(linha, 97)
             i += 1
@@ -85,10 +84,16 @@ class BlocoDsvUHE(Bloco):
                 arq.write(linha + "\n")
 
         # Escreve cabeçalhos
-        titulos = ("ANO  USIN    JAN    FEV    MAR    ABR    MAI    JUN"
-                   + "    JUL    AGO    SET    OUT    NOV    DEZ" + "\n")
-        cab = ("XXXX  XXX XXXX.X XXXX.X XXXX.X XXXX.X XXXX.X XXXX.X "
-               + "XXXX.X XXXX.X XXXX.X XXXX.X XXXX.X XXXX.X" + "\n")
+        titulos = (
+            "ANO  USIN    JAN    FEV    MAR    ABR    MAI    JUN"
+            + "    JUL    AGO    SET    OUT    NOV    DEZ"
+            + "\n"
+        )
+        cab = (
+            "XXXX  XXX XXXX.X XXXX.X XXXX.X XXXX.X XXXX.X XXXX.X "
+            + "XXXX.X XXXX.X XXXX.X XXXX.X XXXX.X XXXX.X"
+            + "\n"
+        )
         arq.write(titulos)
         arq.write(cab)
         escreve_desvios()
@@ -96,7 +101,7 @@ class BlocoDsvUHE(Bloco):
         arq.write("9999\n")
 
 
-class LeituraDSVAgua(Leitura):
+class LeituraDSVAgua(LeituraBlocos):
     """
     Realiza a leitura do arquivo `dsvagua.dat`
     existente em um diretório de entradas do NEWAVE.
@@ -111,8 +116,7 @@ class LeituraDSVAgua(Leitura):
 
     """
 
-    def __init__(self,
-                 diretorio: str) -> None:
+    def __init__(self, diretorio: str) -> None:
         super().__init__(diretorio)
 
     def _cria_blocos_leitura(self) -> List[Bloco]:

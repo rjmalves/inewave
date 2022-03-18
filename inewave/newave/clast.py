@@ -1,12 +1,13 @@
-from inewave._utils.arquivo import Arquivo
-from inewave._utils.dadosarquivo import DadosArquivo
-from inewave._utils.escrita import Escrita
+from inewave._utils.arquivo import ArquivoBlocos
+from inewave._utils.dadosarquivo import DadosArquivoBlocos
+from inewave._utils.escritablocos import EscritaBlocos
+
 from inewave.newave.modelos.clast import LeituraClasT
 
 import pandas as pd  # type: ignore
 
 
-class ClasT(Arquivo):
+class ClasT(ArquivoBlocos):
     """
     Armazena os dados de entrada do NEWAVE referentes às classes de
     usinas térmicas.
@@ -15,29 +16,21 @@ class ClasT(Arquivo):
 
     """
 
-    def __init__(self,
-                 dados: DadosArquivo) -> None:
+    def __init__(self, dados: DadosArquivoBlocos) -> None:
         super().__init__(dados)
 
     # Override
     @classmethod
-    def le_arquivo(cls,
-                   diretorio: str,
-                   nome_arquivo="clast.dat") -> 'ClasT':
-        """
-        """
+    def le_arquivo(cls, diretorio: str, nome_arquivo="clast.dat") -> "ClasT":
+        """ """
         leitor = LeituraClasT(diretorio)
         r = leitor.le_arquivo(nome_arquivo)
         return cls(r)
 
-    def escreve_arquivo(self,
-                        diretorio: str,
-                        nome_arquivo="clast.dat"):
-        """
-        """
-        escritor = Escrita(diretorio)
-        escritor.escreve_arquivo(self._dados,
-                                 nome_arquivo)
+    def escreve_arquivo(self, diretorio: str, nome_arquivo="clast.dat"):
+        """ """
+        escritor = EscritaBlocos(diretorio)
+        escritor.escreve_arquivo(self._dados, nome_arquivo)
 
     @property
     def usinas(self) -> pd.DataFrame:

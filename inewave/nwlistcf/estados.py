@@ -1,14 +1,15 @@
 from typing import List
 
 
-from inewave._utils.escrita import Escrita
-from inewave._utils.arquivo import Arquivo
-from inewave._utils.dadosarquivo import DadosArquivo
+from inewave._utils.escritablocos import EscritaBlocos
+
+from inewave._utils.dadosarquivo import DadosArquivoBlocos
+from inewave._utils.arquivo import ArquivoBlocos
 from inewave.nwlistcf.modelos.estados import LeituraEstados
 from inewave.nwlistcf.modelos.estados import RegistroEstado
 
 
-class Estados(Arquivo):
+class Estados(ArquivoBlocos):
     """
     Armazena os dados dos estados visitados pelo NEWAVE existentes
     no arquivo `estados.rel` do NWLISTCF.
@@ -21,22 +22,20 @@ class Estados(Arquivo):
     variáveis em uma array específica.
 
     """
-    def __init__(self,
-                 dados: DadosArquivo):
+
+    def __init__(self, dados: DadosArquivoBlocos):
         super().__init__(dados)
 
     @classmethod
-    def le_arquivo(cls,
-                   diretorio: str,
-                   nome_arquivo="estados.rel") -> 'Estados':
+    def le_arquivo(
+        cls, diretorio: str, nome_arquivo="estados.rel"
+    ) -> "Estados":
         leitor = LeituraEstados(diretorio)
         r = leitor.le_arquivo(nome_arquivo)
         return cls(r)
 
-    def escreve_arquivo(self,
-                        diretorio: str,
-                        nome_arquivo="estados.rel"):
-        escritor = Escrita(diretorio)
+    def escreve_arquivo(self, diretorio: str, nome_arquivo="estados.rel"):
+        escritor = EscritaBlocos(diretorio)
         escritor.escreve_arquivo(self._dados, nome_arquivo)
 
     @property
