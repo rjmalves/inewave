@@ -16,11 +16,6 @@ jobs:
     - name: Instala os requisitos do módulo
       run: |
         python -m pip install -r deploy-requirements.txt
-    - name: Obtém os arquivos de teste
-      run: |
-        ${{ secrets.DOWNLOAD_TEST_FILES }}
-        unzip -u _arquivos.zip -d ./tests
-        rm _arquivos.zip
     - name: Executa os testes do pacote
       run: |
         python -m pytest --cov=inewave tests/
