@@ -28,7 +28,7 @@ class RegistroNEWAVE:
         Verifica se uma linha é início do registro.
         """
         return (
-            self._mnemonico in linha[0:2]
+            self._mnemonico in linha[1:9]
             and linha[0] != "&"
             and not self._encontrado
         )

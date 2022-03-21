@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>inewave.nwlistop.mediassin &mdash; documentação inewave 0.0.36</title>
+  <title>inewave.nwlistop.mediassin &mdash; documentação inewave 0.0.50</title>
   
 
   
@@ -174,8 +174,8 @@
 <span class="sd">    NWLISTOP e reproduzidas nos `MEDIAS-SIN.CSV`.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                 <span class="n">dados</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dados</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__dados</span> <span class="o">=</span> <span class="n">dados</span>
 
     <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">o</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
@@ -196,9 +196,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">__dados</span> <span class="o">=</span> <span class="n">d</span>
 
     <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">le_arquivo</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span>
-                   <span class="n">diretorio</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-                   <span class="n">nome_arquivo</span><span class="o">=</span><span class="s2">&quot;MEDIAS-SIN.CSV&quot;</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">le_arquivo</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">diretorio</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">nome_arquivo</span><span class="o">=</span><span class="s2">&quot;MEDIAS-SIN.CSV&quot;</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">LeituraMediasSIN</span><span class="p">(</span><span class="n">diretorio</span><span class="p">)</span><span class="o">.</span><span class="n">le_arquivo</span><span class="p">(</span><span class="n">nome_arquivo</span><span class="p">))</span></div>
 </pre></div>
 

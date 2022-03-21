@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>inewave.newave.parp &mdash; documentação inewave 0.0.34</title>
+  <title>inewave.newave.parp &mdash; documentação inewave 0.0.50</title>
   
 
   
@@ -163,8 +163,8 @@
 <span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Type</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>  <span class="c1"># type: ignore</span>
 
-<span class="kn">from</span> <span class="nn">inewave._utils.arquivo</span> <span class="kn">import</span> <span class="n">Arquivo</span>
-<span class="kn">from</span> <span class="nn">inewave._utils.dadosarquivo</span> <span class="kn">import</span> <span class="n">DadosArquivo</span>
+<span class="kn">from</span> <span class="nn">inewave._utils.dadosarquivo</span> <span class="kn">import</span> <span class="n">DadosArquivoBlocos</span>
+<span class="kn">from</span> <span class="nn">inewave._utils.arquivo</span> <span class="kn">import</span> <span class="n">ArquivoBlocos</span>
 <span class="kn">from</span> <span class="nn">inewave._utils.bloco</span> <span class="kn">import</span> <span class="n">Bloco</span>
 <span class="kn">from</span> <span class="nn">inewave.newave.modelos.parp</span> <span class="kn">import</span> <span class="n">BlocoSerieEnergiaREE</span>
 <span class="kn">from</span> <span class="nn">inewave.newave.modelos.parp</span> <span class="kn">import</span> <span class="n">BlocoCorrelParcialREE</span>
@@ -177,7 +177,7 @@
 <span class="kn">from</span> <span class="nn">inewave.newave.modelos.parp</span> <span class="kn">import</span> <span class="n">LeituraPARp</span>
 
 
-<div class="viewcode-block" id="PARp"><a class="viewcode-back" href="../../../reference/newave/arquivos/parp.html#inewave.newave.parp.PARp">[documentos]</a><span class="k">class</span> <span class="nc">PARp</span><span class="p">(</span><span class="n">Arquivo</span><span class="p">):</span>
+<div class="viewcode-block" id="PARp"><a class="viewcode-back" href="../../../reference/newave/arquivos/parp.html#inewave.newave.parp.PARp">[documentos]</a><span class="k">class</span> <span class="nc">PARp</span><span class="p">(</span><span class="n">ArquivoBlocos</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Armazena os dados de saída do NEWAVE referentes aos modelos e às</span>
 <span class="sd">    séries sintéticas de energia geradas pelo PAR(p) e PAR(p)-A.</span>
@@ -188,8 +188,8 @@
 <span class="sd">    do NWLISTOP.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                 <span class="n">dados</span><span class="p">:</span> <span class="n">DadosArquivo</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dados</span><span class="p">:</span> <span class="n">DadosArquivoBlocos</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">dados</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">__series_energia</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__por_tipo</span><span class="p">(</span><span class="n">BlocoSerieEnergiaREE</span><span class="p">)</span>
@@ -204,9 +204,7 @@
     <span class="k">def</span> <span class="nf">__por_tipo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tipo</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">Bloco</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Bloco</span><span class="p">]:</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">b</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_blocos</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">tipo</span><span class="p">)]</span>
 
-<div class="viewcode-block" id="PARp.series_energia_ree"><a class="viewcode-back" href="../../../reference/newave/arquivos/parp.html#inewave.newave.parp.PARp.series_energia_ree">[documentos]</a>    <span class="k">def</span> <span class="nf">series_energia_ree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                           <span class="n">ree</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-                           <span class="n">configuracao</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<div class="viewcode-block" id="PARp.series_energia_ree"><a class="viewcode-back" href="../../../reference/newave/arquivos/parp.html#inewave.newave.parp.PARp.series_energia_ree">[documentos]</a>    <span class="k">def</span> <span class="nf">series_energia_ree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ree</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">configuracao</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        A tabela de séries de energia para todas as configurações</span>
 <span class="sd">        de uma determinada REE, no mesmo formato do arquivo `parp.dat`,</span>
@@ -225,13 +223,9 @@
 
 <span class="sd">        O acesso é feito com [ano, mes].</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__series_energia</span><span class="p">[</span><span class="n">ree</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">dados</span><span class="p">[:,</span>
-                                                    <span class="mi">1</span><span class="p">:,</span>
-                                                    <span class="n">configuracao</span><span class="p">]</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__series_energia</span><span class="p">[</span><span class="n">ree</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">dados</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:,</span> <span class="n">configuracao</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="PARp.series_medias_ree"><a class="viewcode-back" href="../../../reference/newave/arquivos/parp.html#inewave.newave.parp.PARp.series_medias_ree">[documentos]</a>    <span class="k">def</span> <span class="nf">series_medias_ree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                          <span class="n">ree</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-                          <span class="n">ano</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<div class="viewcode-block" id="PARp.series_medias_ree"><a class="viewcode-back" href="../../../reference/newave/arquivos/parp.html#inewave.newave.parp.PARp.series_medias_ree">[documentos]</a>    <span class="k">def</span> <span class="nf">series_medias_ree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ree</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">ano</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        A tabela de séries das médias anuais de energia para todos os anos</span>
 <span class="sd">        de uma determinada REE, no mesmo formato do arquivo `parp.dat`.</span>
@@ -250,8 +244,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__series_medias</span><span class="p">[</span><span class="n">ree</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">dados</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">ano</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="PARp.correlograma_energia_ree"><a class="viewcode-back" href="../../../reference/newave/arquivos/parp.html#inewave.newave.parp.PARp.correlograma_energia_ree">[documentos]</a>    <span class="k">def</span> <span class="nf">correlograma_energia_ree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                                 <span class="n">ree</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<div class="viewcode-block" id="PARp.correlograma_energia_ree"><a class="viewcode-back" href="../../../reference/newave/arquivos/parp.html#inewave.newave.parp.PARp.correlograma_energia_ree">[documentos]</a>    <span class="k">def</span> <span class="nf">correlograma_energia_ree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ree</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        A tabela de autocorrelações parciais da série de energia</span>
 <span class="sd">        de uma determinada REE, no mesmo formato do arquivo `parp.dat`,</span>
@@ -271,8 +264,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__correl_parcial</span><span class="p">[</span><span class="n">ree</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">dados</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:]</span></div>
 
-<div class="viewcode-block" id="PARp.correlograma_media_ree"><a class="viewcode-back" href="../../../reference/newave/arquivos/parp.html#inewave.newave.parp.PARp.correlograma_media_ree">[documentos]</a>    <span class="k">def</span> <span class="nf">correlograma_media_ree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                               <span class="n">ree</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<div class="viewcode-block" id="PARp.correlograma_media_ree"><a class="viewcode-back" href="../../../reference/newave/arquivos/parp.html#inewave.newave.parp.PARp.correlograma_media_ree">[documentos]</a>    <span class="k">def</span> <span class="nf">correlograma_media_ree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ree</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        A tabela de correlações cruzadas da série de médias anuais de</span>
 <span class="sd">        energia com as séries de energia de uma determinada REE, no mesmo</span>
@@ -292,8 +284,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__correl_cruz</span><span class="p">[</span><span class="n">ree</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">dados</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:]</span></div>
 
-<div class="viewcode-block" id="PARp.ordens_originais_ree"><a class="viewcode-back" href="../../../reference/newave/arquivos/parp.html#inewave.newave.parp.PARp.ordens_originais_ree">[documentos]</a>    <span class="k">def</span> <span class="nf">ordens_originais_ree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                             <span class="n">ree</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<div class="viewcode-block" id="PARp.ordens_originais_ree"><a class="viewcode-back" href="../../../reference/newave/arquivos/parp.html#inewave.newave.parp.PARp.ordens_originais_ree">[documentos]</a>    <span class="k">def</span> <span class="nf">ordens_originais_ree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ree</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        A tabela de ordens originais do modelo PAR ou PAR-A</span>
 <span class="sd">        de uma determinada REE, no mesmo formato do arquivo `parp.dat`,</span>
@@ -313,8 +304,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__ordens_orig</span><span class="p">[</span><span class="n">ree</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">dados</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:]</span></div>
 
-<div class="viewcode-block" id="PARp.ordens_finais_ree"><a class="viewcode-back" href="../../../reference/newave/arquivos/parp.html#inewave.newave.parp.PARp.ordens_finais_ree">[documentos]</a>    <span class="k">def</span> <span class="nf">ordens_finais_ree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                          <span class="n">ree</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<div class="viewcode-block" id="PARp.ordens_finais_ree"><a class="viewcode-back" href="../../../reference/newave/arquivos/parp.html#inewave.newave.parp.PARp.ordens_finais_ree">[documentos]</a>    <span class="k">def</span> <span class="nf">ordens_finais_ree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ree</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        A tabela de ordens finais do modelo PAR ou PAR-A</span>
 <span class="sd">        de uma determinada REE, no mesmo formato do arquivo `parp.dat`,</span>
@@ -334,8 +324,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__ordens_finais_coefs</span><span class="p">[</span><span class="n">ree</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">dados</span><span class="p">[</span><span class="mi">0</span><span class="p">][:,</span> <span class="mi">1</span><span class="p">:]</span></div>
 
-<div class="viewcode-block" id="PARp.coeficientes_ree"><a class="viewcode-back" href="../../../reference/newave/arquivos/parp.html#inewave.newave.parp.PARp.coeficientes_ree">[documentos]</a>    <span class="k">def</span> <span class="nf">coeficientes_ree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                         <span class="n">ree</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+<div class="viewcode-block" id="PARp.coeficientes_ree"><a class="viewcode-back" href="../../../reference/newave/arquivos/parp.html#inewave.newave.parp.PARp.coeficientes_ree">[documentos]</a>    <span class="k">def</span> <span class="nf">coeficientes_ree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ree</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Lista de coeficientes dos modelos PAR ou PAR-A.</span>
 
@@ -361,16 +350,14 @@
             <span class="n">nao_nulos</span> <span class="o">=</span> <span class="n">coefs_parp_ano</span><span class="p">[</span><span class="n">coefs_parp_ano</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">]</span>
             <span class="n">coef_parpa_ano</span> <span class="o">=</span> <span class="n">todos_coefs</span><span class="p">[</span><span class="n">m</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
             <span class="k">if</span> <span class="n">coef_parpa_ano</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="n">c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">nao_nulos</span><span class="p">,</span>
-                                    <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">coef_parpa_ano</span><span class="p">])])</span>
+                <span class="n">c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">nao_nulos</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">coef_parpa_ano</span><span class="p">])])</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">c</span> <span class="o">=</span> <span class="n">nao_nulos</span>
             <span class="n">coefs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">coefs</span></div>
 
-<div class="viewcode-block" id="PARp.coeficientes_desvio_ree"><a class="viewcode-back" href="../../../reference/newave/arquivos/parp.html#inewave.newave.parp.PARp.coeficientes_desvio_ree">[documentos]</a>    <span class="k">def</span> <span class="nf">coeficientes_desvio_ree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                                <span class="n">ree</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+<div class="viewcode-block" id="PARp.coeficientes_desvio_ree"><a class="viewcode-back" href="../../../reference/newave/arquivos/parp.html#inewave.newave.parp.PARp.coeficientes_desvio_ree">[documentos]</a>    <span class="k">def</span> <span class="nf">coeficientes_desvio_ree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ree</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Lista dos coeficientes dos modelos PAR ou PAR-A, multiplicados</span>
 <span class="sd">        pelos respectivos desvios-padrão de cada mês.</span>
@@ -397,8 +384,7 @@
             <span class="n">nao_nulos</span> <span class="o">=</span> <span class="n">coefs_parp_ano</span><span class="p">[</span><span class="n">coefs_parp_ano</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">]</span>
             <span class="n">coef_parpa_ano</span> <span class="o">=</span> <span class="n">todos_coefs</span><span class="p">[</span><span class="n">m</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
             <span class="k">if</span> <span class="n">coef_parpa_ano</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="n">c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">nao_nulos</span><span class="p">,</span>
-                                    <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">coef_parpa_ano</span><span class="p">])])</span>
+                <span class="n">c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">nao_nulos</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">coef_parpa_ano</span><span class="p">])])</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">c</span> <span class="o">=</span> <span class="n">nao_nulos</span>
             <span class="n">coefs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
@@ -427,9 +413,9 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__correl_esp_anual</span><span class="p">[</span><span class="n">configuracao</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">dados</span></div>
 
-<div class="viewcode-block" id="PARp.correlacoes_espaciais_mensais"><a class="viewcode-back" href="../../../reference/newave/arquivos/parp.html#inewave.newave.parp.PARp.correlacoes_espaciais_mensais">[documentos]</a>    <span class="k">def</span> <span class="nf">correlacoes_espaciais_mensais</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                                      <span class="n">configuracao</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-                                      <span class="n">mes</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<div class="viewcode-block" id="PARp.correlacoes_espaciais_mensais"><a class="viewcode-back" href="../../../reference/newave/arquivos/parp.html#inewave.newave.parp.PARp.correlacoes_espaciais_mensais">[documentos]</a>    <span class="k">def</span> <span class="nf">correlacoes_espaciais_mensais</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">configuracao</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">mes</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Correlações espaciais mensais para cada combinação de</span>
 <span class="sd">        REEs em cada configuração do sistema, da mesma maneira</span>
@@ -480,9 +466,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">__ordens_finais_coefs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">dados</span><span class="p">[</span><span class="mi">0</span><span class="p">][:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">anos</span>
 
     <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">le_arquivo</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span>
-                   <span class="n">diretorio</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-                   <span class="n">nome_arquivo</span><span class="o">=</span><span class="s2">&quot;parp.dat&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;PARp&#39;</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">le_arquivo</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">diretorio</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">nome_arquivo</span><span class="o">=</span><span class="s2">&quot;parp.dat&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;PARp&quot;</span><span class="p">:</span>
         <span class="n">leitor</span> <span class="o">=</span> <span class="n">LeituraPARp</span><span class="p">(</span><span class="n">diretorio</span><span class="p">)</span>
         <span class="n">r</span> <span class="o">=</span> <span class="n">leitor</span><span class="o">.</span><span class="n">le_arquivo</span><span class="p">(</span><span class="n">nome_arquivo</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">r</span><span class="p">)</span></div>

@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>inewave.nwlistcf.estados &mdash; documentação inewave 0.0.29</title>
+  <title>inewave.nwlistcf.estados &mdash; documentação inewave 0.0.50</title>
   
 
   
@@ -163,14 +163,15 @@
 <span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
 
 
-<span class="kn">from</span> <span class="nn">inewave._utils.escrita</span> <span class="kn">import</span> <span class="n">Escrita</span>
-<span class="kn">from</span> <span class="nn">inewave._utils.arquivo</span> <span class="kn">import</span> <span class="n">Arquivo</span>
-<span class="kn">from</span> <span class="nn">inewave._utils.dadosarquivo</span> <span class="kn">import</span> <span class="n">DadosArquivo</span>
+<span class="kn">from</span> <span class="nn">inewave._utils.escritablocos</span> <span class="kn">import</span> <span class="n">EscritaBlocos</span>
+
+<span class="kn">from</span> <span class="nn">inewave._utils.dadosarquivo</span> <span class="kn">import</span> <span class="n">DadosArquivoBlocos</span>
+<span class="kn">from</span> <span class="nn">inewave._utils.arquivo</span> <span class="kn">import</span> <span class="n">ArquivoBlocos</span>
 <span class="kn">from</span> <span class="nn">inewave.nwlistcf.modelos.estados</span> <span class="kn">import</span> <span class="n">LeituraEstados</span>
 <span class="kn">from</span> <span class="nn">inewave.nwlistcf.modelos.estados</span> <span class="kn">import</span> <span class="n">RegistroEstado</span>
 
 
-<div class="viewcode-block" id="Estados"><a class="viewcode-back" href="../../../reference/nwlistcf/arquivos/estados.html#inewave.nwlistcf.estados.Estados">[documentos]</a><span class="k">class</span> <span class="nc">Estados</span><span class="p">(</span><span class="n">Arquivo</span><span class="p">):</span>
+<div class="viewcode-block" id="Estados"><a class="viewcode-back" href="../../../reference/nwlistcf/arquivos/estados.html#inewave.nwlistcf.estados.Estados">[documentos]</a><span class="k">class</span> <span class="nc">Estados</span><span class="p">(</span><span class="n">ArquivoBlocos</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Armazena os dados dos estados visitados pelo NEWAVE existentes</span>
 <span class="sd">    no arquivo `estados.rel` do NWLISTCF.</span>
@@ -183,22 +184,20 @@
 <span class="sd">    variáveis em uma array específica.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                 <span class="n">dados</span><span class="p">:</span> <span class="n">DadosArquivo</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dados</span><span class="p">:</span> <span class="n">DadosArquivoBlocos</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">dados</span><span class="p">)</span>
 
     <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">le_arquivo</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span>
-                   <span class="n">diretorio</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-                   <span class="n">nome_arquivo</span><span class="o">=</span><span class="s2">&quot;estados.rel&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;Estados&#39;</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">le_arquivo</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span> <span class="n">diretorio</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">nome_arquivo</span><span class="o">=</span><span class="s2">&quot;estados.rel&quot;</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Estados&quot;</span><span class="p">:</span>
         <span class="n">leitor</span> <span class="o">=</span> <span class="n">LeituraEstados</span><span class="p">(</span><span class="n">diretorio</span><span class="p">)</span>
         <span class="n">r</span> <span class="o">=</span> <span class="n">leitor</span><span class="o">.</span><span class="n">le_arquivo</span><span class="p">(</span><span class="n">nome_arquivo</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">escreve_arquivo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                        <span class="n">diretorio</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-                        <span class="n">nome_arquivo</span><span class="o">=</span><span class="s2">&quot;estados.rel&quot;</span><span class="p">):</span>
-        <span class="n">escritor</span> <span class="o">=</span> <span class="n">Escrita</span><span class="p">(</span><span class="n">diretorio</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">escreve_arquivo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">diretorio</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">nome_arquivo</span><span class="o">=</span><span class="s2">&quot;estados.rel&quot;</span><span class="p">):</span>
+        <span class="n">escritor</span> <span class="o">=</span> <span class="n">EscritaBlocos</span><span class="p">(</span><span class="n">diretorio</span><span class="p">)</span>
         <span class="n">escritor</span><span class="o">.</span><span class="n">escreve_arquivo</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_dados</span><span class="p">,</span> <span class="n">nome_arquivo</span><span class="p">)</span>
 
     <span class="nd">@property</span>

@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>inewave.newave.dger &mdash; documentação inewave 0.0.48</title>
+  <title>inewave.newave.dger &mdash; documentação inewave 0.0.50</title>
   
 
   
@@ -162,9 +162,10 @@
   <h1>Código fonte para inewave.newave.dger</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">inewave._utils.bloco</span> <span class="kn">import</span> <span class="n">Bloco</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span> <span class="n">List</span>
-<span class="kn">from</span> <span class="nn">inewave._utils.arquivo</span> <span class="kn">import</span> <span class="n">Arquivo</span>
-<span class="kn">from</span> <span class="nn">inewave._utils.dadosarquivo</span> <span class="kn">import</span> <span class="n">DadosArquivo</span>
-<span class="kn">from</span> <span class="nn">inewave._utils.escrita</span> <span class="kn">import</span> <span class="n">Escrita</span>
+<span class="kn">from</span> <span class="nn">inewave._utils.arquivo</span> <span class="kn">import</span> <span class="n">ArquivoBlocos</span>
+<span class="kn">from</span> <span class="nn">inewave._utils.dadosarquivo</span> <span class="kn">import</span> <span class="n">DadosArquivoBlocos</span>
+<span class="kn">from</span> <span class="nn">inewave._utils.escritablocos</span> <span class="kn">import</span> <span class="n">EscritaBlocos</span>
+
 <span class="kn">from</span> <span class="nn">inewave.newave.modelos.dger</span> <span class="kn">import</span> <span class="n">BlocoMesInicioEstudo</span><span class="p">,</span> <span class="n">BlocoNomeCaso</span>
 <span class="kn">from</span> <span class="nn">inewave.newave.modelos.dger</span> <span class="kn">import</span> <span class="n">BlocoTipoExecucao</span>
 <span class="kn">from</span> <span class="nn">inewave.newave.modelos.dger</span> <span class="kn">import</span> <span class="n">BlocoDuracaoPeriodo</span>
@@ -253,32 +254,26 @@
 <span class="kn">from</span> <span class="nn">inewave.newave.modelos.dger</span> <span class="kn">import</span> <span class="n">LeituraDGer</span>
 
 
-<div class="viewcode-block" id="DGer"><a class="viewcode-back" href="../../../reference/newave/arquivos/dger.html#inewave.newave.dger.DGer">[documentos]</a><span class="k">class</span> <span class="nc">DGer</span><span class="p">(</span><span class="n">Arquivo</span><span class="p">):</span>
+<div class="viewcode-block" id="DGer"><a class="viewcode-back" href="../../../reference/newave/arquivos/dger.html#inewave.newave.dger.DGer">[documentos]</a><span class="k">class</span> <span class="nc">DGer</span><span class="p">(</span><span class="n">ArquivoBlocos</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Classe para armazenar dados gerais de uma execução do NEWAVE.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dados</span><span class="p">:</span> <span class="n">DadosArquivo</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dados</span><span class="p">:</span> <span class="n">DadosArquivoBlocos</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">dados</span><span class="p">)</span>
 
 <div class="viewcode-block" id="DGer.le_arquivo"><a class="viewcode-back" href="../../../reference/newave/arquivos/dger.html#inewave.newave.dger.DGer.le_arquivo">[documentos]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">le_arquivo</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span>
-                   <span class="n">diretorio</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-                   <span class="n">nome_arquivo</span><span class="o">=</span><span class="s2">&quot;dger.dat&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;DGer&#39;</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">le_arquivo</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">diretorio</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">nome_arquivo</span><span class="o">=</span><span class="s2">&quot;dger.dat&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;DGer&quot;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
         <span class="n">leitor</span> <span class="o">=</span> <span class="n">LeituraDGer</span><span class="p">(</span><span class="n">diretorio</span><span class="p">)</span>
         <span class="n">r</span> <span class="o">=</span> <span class="n">leitor</span><span class="o">.</span><span class="n">le_arquivo</span><span class="p">(</span><span class="n">nome_arquivo</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">r</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="DGer.escreve_arquivo"><a class="viewcode-back" href="../../../reference/newave/arquivos/dger.html#inewave.newave.dger.DGer.escreve_arquivo">[documentos]</a>    <span class="k">def</span> <span class="nf">escreve_arquivo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                        <span class="n">diretorio</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-                        <span class="n">nome_arquivo</span><span class="o">=</span><span class="s2">&quot;dger.dat&quot;</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">escritor</span> <span class="o">=</span> <span class="n">Escrita</span><span class="p">(</span><span class="n">diretorio</span><span class="p">)</span>
-        <span class="n">escritor</span><span class="o">.</span><span class="n">escreve_arquivo</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_dados</span><span class="p">,</span>
-                                 <span class="n">nome_arquivo</span><span class="p">)</span></div>
+<div class="viewcode-block" id="DGer.escreve_arquivo"><a class="viewcode-back" href="../../../reference/newave/arquivos/dger.html#inewave.newave.dger.DGer.escreve_arquivo">[documentos]</a>    <span class="k">def</span> <span class="nf">escreve_arquivo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">diretorio</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">nome_arquivo</span><span class="o">=</span><span class="s2">&quot;dger.dat&quot;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
+        <span class="n">escritor</span> <span class="o">=</span> <span class="n">EscritaBlocos</span><span class="p">(</span><span class="n">diretorio</span><span class="p">)</span>
+        <span class="n">escritor</span><span class="o">.</span><span class="n">escreve_arquivo</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_dados</span><span class="p">,</span> <span class="n">nome_arquivo</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">__le_por_tipo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tipo</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">Bloco</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dados</span><span class="o">.</span><span class="n">blocos</span><span class="p">:</span>
@@ -287,9 +282,7 @@
         <span class="c1"># Se não tem o dado, lança erro</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; Não foi encontrado o dado do tipo </span><span class="si">{</span><span class="n">tipo</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">__escreve_por_tipo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                           <span class="n">tipo</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">Bloco</span><span class="p">],</span>
-                           <span class="n">dado</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__escreve_por_tipo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tipo</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">Bloco</span><span class="p">],</span> <span class="n">dado</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dados</span><span class="o">.</span><span class="n">blocos</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">tipo</span><span class="p">):</span>
                 <span class="n">d</span><span class="o">.</span><span class="n">dados</span> <span class="o">=</span> <span class="n">dado</span>
@@ -1065,8 +1058,7 @@
 
     <span class="nd">@impressao_cortes_ativos_sim_final</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span> <span class="nf">impressao_cortes_ativos_sim_final</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dado</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__escreve_por_tipo</span><span class="p">(</span><span class="n">BlocoImpressaoCortesAtivosSimFinal</span><span class="p">,</span>
-                                <span class="n">dado</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__escreve_por_tipo</span><span class="p">(</span><span class="n">BlocoImpressaoCortesAtivosSimFinal</span><span class="p">,</span> <span class="n">dado</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">representacao_agregacao</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
@@ -1099,8 +1091,7 @@
 
     <span class="nd">@desconsidera_convergencia_estatistica</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span> <span class="nf">desconsidera_convergencia_estatistica</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dado</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__escreve_por_tipo</span><span class="p">(</span><span class="n">BlocoDesconsideraConvEstatistica</span><span class="p">,</span>
-                                <span class="n">dado</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__escreve_por_tipo</span><span class="p">(</span><span class="n">BlocoDesconsideraConvEstatistica</span><span class="p">,</span> <span class="n">dado</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">momento_reamostragem</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>

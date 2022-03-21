@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>inewave.nwlistop.cmarg00 &mdash; documentação inewave 0.0.31</title>
+  <title>inewave.nwlistop.cmarg00 &mdash; documentação inewave 0.0.50</title>
   
 
   
@@ -160,14 +160,14 @@
            <div itemprop="articleBody">
             
   <h1>Código fonte para inewave.nwlistop.cmarg00</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">inewave._utils.arquivo</span> <span class="kn">import</span> <span class="n">Arquivo</span>
-<span class="kn">from</span> <span class="nn">inewave._utils.dadosarquivo</span> <span class="kn">import</span> <span class="n">DadosArquivo</span>
+<span></span><span class="kn">from</span> <span class="nn">inewave._utils.dadosarquivo</span> <span class="kn">import</span> <span class="n">DadosArquivoBlocos</span>
+<span class="kn">from</span> <span class="nn">inewave._utils.arquivo</span> <span class="kn">import</span> <span class="n">ArquivoBlocos</span>
 <span class="kn">from</span> <span class="nn">inewave.nwlistop.modelos.cmarg00</span> <span class="kn">import</span> <span class="n">LeituraCmarg00</span>
 
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>  <span class="c1"># type: ignore</span>
 
 
-<div class="viewcode-block" id="Cmarg00"><a class="viewcode-back" href="../../../reference/nwlistop/arquivos/cmarg00.html#inewave.nwlistop.cmarg00.Cmarg00">[documentos]</a><span class="k">class</span> <span class="nc">Cmarg00</span><span class="p">(</span><span class="n">Arquivo</span><span class="p">):</span>
+<div class="viewcode-block" id="Cmarg00"><a class="viewcode-back" href="../../../reference/nwlistop/arquivos/cmarg00.html#inewave.nwlistop.cmarg00.Cmarg00">[documentos]</a><span class="k">class</span> <span class="nc">Cmarg00</span><span class="p">(</span><span class="n">ArquivoBlocos</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Armazena os dados das saídas referentes aos custos marginais de operação</span>
 <span class="sd">    por patamar, por submercado.</span>
@@ -177,17 +177,16 @@
 <span class="sd">    submercado em questão.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                 <span class="n">dados</span><span class="p">:</span> <span class="n">DadosArquivo</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dados</span><span class="p">:</span> <span class="n">DadosArquivoBlocos</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">dados</span><span class="p">)</span>
 
     <span class="c1"># Override</span>
 <div class="viewcode-block" id="Cmarg00.le_arquivo"><a class="viewcode-back" href="../../../reference/nwlistop/arquivos/cmarg00.html#inewave.nwlistop.cmarg00.Cmarg00.le_arquivo">[documentos]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">le_arquivo</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span>
-                   <span class="n">diretorio</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-                   <span class="n">nome_arquivo</span><span class="o">=</span><span class="s2">&quot;cmarg001.out&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;Cmarg00&#39;</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">le_arquivo</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span> <span class="n">diretorio</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">nome_arquivo</span><span class="o">=</span><span class="s2">&quot;cmarg001.out&quot;</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Cmarg00&quot;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
         <span class="n">leitor</span> <span class="o">=</span> <span class="n">LeituraCmarg00</span><span class="p">(</span><span class="n">diretorio</span><span class="p">)</span>
         <span class="n">r</span> <span class="o">=</span> <span class="n">leitor</span><span class="o">.</span><span class="n">le_arquivo</span><span class="p">(</span><span class="n">nome_arquivo</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">r</span><span class="p">)</span></div>

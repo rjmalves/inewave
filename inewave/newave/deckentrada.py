@@ -59,7 +59,7 @@ class DeckEntrada:
         DGer,
         Sistema,
         Confhd,
-        Modif,
+        Modif,  # type: ignore
         ConfT,
         Term,
         ClasT,

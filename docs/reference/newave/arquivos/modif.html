@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Cortes da Função de Custo Futuro (nwlistcf.rel) &mdash; documentação inewave 0.0.50</title>
+  <title>Modificações das Hidrelétricas (modif.dat) &mdash; documentação inewave 0.0.50</title>
   
 
   
@@ -45,9 +45,7 @@
 
     
     <link rel="index" title="Índice" href="../../../genindex.html" />
-    <link rel="search" title="Buscar" href="../../../search.html" />
-    <link rel="next" title="NWLISTOP" href="../../nwlistop/index.html" />
-    <link rel="prev" title="Estados Visitados pelo NEWAVE (estados.rel)" href="estados.html" /> 
+    <link rel="search" title="Buscar" href="../../../search.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -92,23 +90,10 @@
               
             
             
-              <ul class="current">
+              <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../install.html">Instalação</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial.html">Tutorial</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../../../reference.html">Referência</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="../../newave/index.html">NEWAVE</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="../index.html">NWLISTCF</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="../index.html#basico-da-interface-nwlistcf">Básico da interface NWLISTCF</a></li>
-<li class="toctree-l3 current"><a class="reference internal" href="../index.html#arquivos">Arquivos</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="estados.html">Estados Visitados pelo NEWAVE (estados.rel)</a></li>
-<li class="toctree-l4 current"><a class="current reference internal" href="#">Cortes da Função de Custo Futuro (nwlistcf.rel)</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../../nwlistop/index.html">NWLISTOP</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reference.html">Referência</a></li>
 </ul>
 
             
@@ -157,17 +142,13 @@
     
       <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
         
-          <li><a href="../../../reference.html">Referência</a> &raquo;</li>
-        
-          <li><a href="../index.html">NWLISTCF</a> &raquo;</li>
-        
-      <li>Cortes da Função de Custo Futuro (nwlistcf.rel)</li>
+      <li>Modificações das Hidrelétricas (modif.dat)</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="../../../_sources/reference/nwlistcf/arquivos/nwlistcf.rst.txt" rel="nofollow"> Ver código-fonte da página</a>
+            <a href="../../../_sources/reference/newave/arquivos/modif.rst.txt" rel="nofollow"> Ver código-fonte da página</a>
           
         
       </li>
@@ -180,21 +161,28 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="cortes-da-funcao-de-custo-futuro-nwlistcf-rel">
-<span id="nwlistcf"></span><h1>Cortes da Função de Custo Futuro (nwlistcf.rel)<a class="headerlink" href="#cortes-da-funcao-de-custo-futuro-nwlistcf-rel" title="Link permanente para este título">¶</a></h1>
+  <div class="section" id="modificacoes-das-hidreletricas-modif-dat">
+<span id="modif"></span><h1>Modificações das Hidrelétricas (modif.dat)<a class="headerlink" href="#modificacoes-das-hidreletricas-modif-dat" title="Link permanente para este título">¶</a></h1>
 <div class="section" id="visao-geral-do-modelo">
 <h2>Visão geral do modelo<a class="headerlink" href="#visao-geral-do-modelo" title="Link permanente para este título">¶</a></h2>
-<p>Os cortes que determinam a função de custo futuro do NEWAVE, localizados no arquivo geralmente denominado
-nwlistcf.rel, são armazenados na classe:</p>
+<p>As modificações nas configurações das hidrelétricas do NEWAVE, localizadas no arquivo geralmente denominado
+modif.dat, são armazenadas na classe:</p>
 <dl class="py class">
-<dt class="sig sig-object py" id="inewave.nwlistcf.nwlistcf.Nwlistcf">
-<em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">Nwlistcf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dados</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">inewave._utils.dadosarquivo.DadosArquivoBlocos</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/nwlistcf/nwlistcf.html#Nwlistcf"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.nwlistcf.nwlistcf.Nwlistcf" title="Link permanente para esta definição">¶</a></dt>
-<dd><p>Armazena os dados dos cortes construídos pelo NEWAVE existentes
-no arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">nwlistcf.rel</span></code> do NWLISTCF.</p>
-<p>Esta classe armazena os cortes da FCF de cada uma das variáveis,
-para cada registro e REE dentro do registro.</p>
-<p>Cada registro possui um modelo próprio, armazenando os coeficientes
-dos hiperplanos em uma array específica.</p>
+<dt class="sig sig-object py" id="inewave.newave.modif.Modif">
+<em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">Modif</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dados</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">inewave._utils.dadosarquivo.DadosArquivoRegistros</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/newave/modif.html#Modif"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.modif.Modif" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Armazena os dados de entrada do NEWAVE referentes às alterações nas
+configurações das usinas hidroelétricas.</p>
+<p><strong>Parâmetros</strong></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="inewave.newave.modif.Modif.escreve_arquivo">
+<span class="sig-name descname"><span class="pre">escreve_arquivo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">diretorio</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nome_arquivo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'modif.dat'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/newave/modif.html#Modif.escreve_arquivo"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.modif.Modif.escreve_arquivo" title="Link permanente para esta definição">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="inewave.newave.modif.Modif.le_arquivo">
+<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">le_arquivo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">diretorio</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nome_arquivo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'modif.dat'</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#inewave.newave.modif.Modif" title="inewave.newave.modif.Modif"><span class="pre">inewave.newave.modif.Modif</span></a><a class="reference internal" href="../../../_modules/inewave/newave/modif.html#Modif.le_arquivo"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.modif.Modif.le_arquivo" title="Link permanente para esta definição">¶</a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 </div>
@@ -205,10 +193,6 @@ dos hiperplanos em uma array específica.</p>
            
           </div>
           <footer>
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="../../nwlistop/index.html" class="btn btn-neutral float-right" title="NWLISTOP" accesskey="n" rel="next">Próximo <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-        <a href="estados.html" class="btn btn-neutral float-left" title="Estados Visitados pelo NEWAVE (estados.rel)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Anterior</a>
-    </div>
 
   <hr/>
 
