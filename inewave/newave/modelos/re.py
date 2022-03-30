@@ -59,7 +59,7 @@ class BlocoUsinasConjuntoRE(Bloco):
             linha_tabela: List[int] = []
             for j in range(1, 11):
                 col_f = col_i + 3
-                if col_f >= len(linha):
+                if len(linha[col_i:col_f].strip()) > 0:
                     break
                 linha_tabela.append(int(linha[col_i:col_f]))
                 col_i = col_f + 1
