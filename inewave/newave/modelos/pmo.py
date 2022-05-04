@@ -1,297 +1,55 @@
 # Imports do próprio módulo
-from inewave._utils.bloco import Bloco
-from inewave._utils.registros import RegistroAn, RegistroFn, RegistroIn
-from inewave._utils.leiturablocos import LeituraBlocos
-from inewave.config import MAX_ANOS_ESTUDO, MAX_CONFIGURACOES, MAX_ITERS
-from inewave.config import MAX_REES, NUM_CONFIGS_DGER
-from inewave.config import MESES, MESES_DF, SUBMERCADOS
+
+from inewave.config import MAX_ANOS_ESTUDO, MAX_ITERS, MAX_MESES_ESTUDO
+from inewave.config import MAX_REES
+from inewave.config import MESES_DF
 
 # Imports de módulos externos
+from cfinterface.components.block import Block
+from cfinterface.components.line import Line
+from cfinterface.components.field import Field
+from cfinterface.components.integerfield import IntegerField
+from cfinterface.components.literalfield import LiteralField
+from cfinterface.components.floatfield import FloatField
 from datetime import timedelta
 import numpy as np  # type: ignore
 import pandas as pd  # type: ignore
-from typing import IO, List
+from typing import IO, List, Optional
 
 
-class BlocoEcoDgerPMO(Bloco):
-    """
-    Bloco de informações de eco dos dados gerais de execução
-    existentes no arquivo `pmo.dat`.
-    """
-
-    str_inicio = "  DADOS GERAIS"
-    str_fim = "CEPEL"
-
-    nomes_params = [
-        "DURACAO DE CADA PERIODO DE OPERACAO",
-        "NUMERO DE ANOS DO HORIZONTE DE ESTUDO",
-        "MES INICIAL DO PERIODO DE PRE-ESTUDO",
-        "MES INICIAL DO PERIODO DE ESTUDO",
-        "ANO INICIAL DO PERIODO DE ESTUDO",
-        "NUMERO DE ANOS QUE PRECEDEM O HORIZONTE DE ESTUDO",
-        "NUMERO DE ANOS QUE SUCEDEM O HORIZONTE DE ESTUDO",
-        "NUMERO DE ANOS DO POS NA SIMULACAO FINAL",
-        "IMPRIME DADOS DAS USINAS",
-        "IMPRIME DADOS DE MERCADO",
-        "IMPRIME DADOS DE ENERGIAS",
-        "IMPRIME PARAMETROS DO MODELO DE ENERGIA",
-        "IMPRIME PARAMETROS DO RESERVATORIO EQUIVALENTE",
-        "IMPRIME DETALHAMENTO DA OPERACAO",
-        "IMPRIME DETALHAMENTO DO CALCULO DA POLITICA",
-        "IMPRIME RESULTADOS DA CONVERGENCIA",
-        "NUMERO MAXIMO DE ITERACOES",
-        "NUMERO DE SIMULACOES",
-        "NUMERO DE ABERTURAS",
-        "ORDEM MAXIMA DO MODELO DE ENERGIAS AFLUENTES PAR(P)",
-        "ANO INICIAL DO HISTORICO DE VAZOES",
-        "CALCULA VOLUME INICIAL",
-        "TOLERANCIA PARA CONVERGENCIA",
-        "TAXA DE DESCONTO ANUAL (%)",
-        "TOTAL DE SERIES SIMULADAS GRAVADAS",
-        "NUMERO MINIMO DE ITERACOES PARA CONVERGENCIA",
-        "ADOCAO DE RACIONAMENTO PREVENTIVO (SIM.FINAL)",
-        "LIDA DO ARQUIVO DE MANUTENCOES",
-        "ADOCAO DE TENDENCIA HIDROLOGICA (POLITICA)",
-        "ADOCAO DE TENDENCIA HIDROLOGICA (SIMULACAO FINAL)",
-        "CONSIDERA OUTROS USOS DA AGUA",
-        "OUTROS USOS DA AGUA VARIAVEL COM A ENERGIA ARMAZENADA",
-        "CONSIDERA CURVA GUIA DE SEGURANCA/VMINP",
-        "TAMANHO DA AMOSTRA PARA PROCESSO DE AGREGACAO:",
-        "REPRESENTANTE NO PROCESSO DE AGREGACAO:",
-        "MATRIZ DE CORRELACAO ESPACIAL CONSIDERADA:",
-        "DESCONSIDERA CRITERIO DE CONV. ESTATISTICO",
-        "VOLUME MINIMO COM DATA SAZONAL NOS PERIODOS ESTATICOS",
-        "VOLUME MAXIMO COM DATA SAZONAL NOS PERIODOS ESTATICOS",
-        "VOLUME MAXIMO PENAL. SAZONAL NOS PERIODOS ESTATICOS",
-        "CFUGA E CMONT SAZONAIS NOS PERIODOS ESTATICOS",
-        " - CENARIOS DE ENERGIA:",
-        " - CORTES ATIVOS:",
-        "MANTEM OS ARQUIVOS DE ENERGIAS APOS EXECUCAO:",
-        "MOMENTO DE REAMOSTRAGEM:",
-        "CONSIDERA VERIFICACAO AUTOMATICA DA ORDEM DO MODELO PARP:",  # noqa
-        "ITERACAO DE INICIO DO TESTE DE CONVERGENCIA",
-        "PROF. DE MERCADO PARA CALCULO DO RISCO DE DEFICIT",
-        "CONSIDERA AGRUPAMENTO DE INTERCAMBIOS",
-        "CONSIDERA EQUALIZACAO DE PENALIDADES DE INTERCAMBIOS",
-        "CONSIDERA SUBMOTORIZACAO SAZONAL",
-        "CONSIDERA ORDENACAO AUTOMATICA REEs, SUBSISTEMAS E TERMICAS",  # noqa
-        "CONSIDERA CARGAS ADICIONAIS",
-        "  - DELTA DE ZSUP",
-        "  - DELTA DE ZINF",
-        "  - NUMERO DE DELTAS DE ZINF CONSECUTIVOS",
-        "  - MINIMO ZSUP",
-        "CONSIDERA ANTECIPACAO DE GERACAO TERMOELETRICA",
-        "ANTECIPACAO DE GERACAO TERMOELETRICA",
-        "CONSIDERA GERACAO HIDRAULICA MINIMA",
-        "CONSIDERA GERENCIAMENTO EXTERNO DE PROCESSOS",
-        "CONSIDERA COMUNICACAO EM DOIS NIVEIS",
-        "CONSIDERA ARMAZENAMENTO LOCAL DE ARQUIVOS",
-        "CONSIDERA ALOCACAO DE ENERGIA EM MEMORIA",
-        "CONSIDERA ALOCACAO DE CORTES EM MEMORIA",
-        "CONSIDERA SUPERFICIE DE AVERSAO A RISCO (SAR)",
-        "CONSIDERA MECANISMO DE AVERSAO AO RISCO (CVAR)",
-        "DESCONSIDERA VAZAO MINIMA",
-        "CONSIDERA RESTRICOES ELETRICAS NO REE",
-        "CONSIDERA PERDAS NA REDE DE TRANSMISSAO",
-        "CONSIDERA SELECAO DE CORTES DE BENDERS",
-        "CONSIDERA JANELA DE CORTES DE BENDERS",
-        "IMPRIME ESTADOS QUE GERARAM OS CORTES",
-        "CONSIDERA REAMOSTRAGEM DE CENARIOS",
-        "     PASSO DA REAMOSTRAGEM:",
-        "     TIPO DA REAMOSTRAGEM :",
-        "CONSIDERA ZINF CALCULADO NO NO ZERO",
-        "REALIZA ACESSO A FCF PARA CONVERGENCIA",
-        "CONSIDERA AFLUENCIA ANUAL NOS MODELOS",
-        "CONSIDERA RESTRICOES DE LIMITES DE EMISSAO DE GEE",
-        "CONSIDERA RESTRICOES DE FORNECIMENTO DE GAS",
-        "CONSIDERACAO DA INCERTEZA NA GERACAO EOLICA",
-        "CONSIDERACAO DA INCERTEZA NA GERACAO SOLAR",
-        "CONSIDERA DEPENDENCIA TEMPORAL DAS AFLUENCIAS NA PDDE",
-    ]
-
-    def __init__(self):
-        super().__init__(
-            BlocoEcoDgerPMO.str_inicio, BlocoEcoDgerPMO.str_fim, True
-        )
-        self._dados = np.zeros((NUM_CONFIGS_DGER,), dtype=np.float64)
-
-    def __eq__(self, o: object) -> bool:
-        if not isinstance(o, BlocoEcoDgerPMO):
-            return False
-        bloco: BlocoEcoDgerPMO = o
-        return np.array_equal(self._dados, bloco._dados)
-
-    # Override
-    def le(self, arq: IO):
-        def __le_eco_config(digitos: int) -> str:
-            """
-            Lê o eco de uma configuração, pulando uma linha em seguida.
-            """
-            linha: str = arq.readline()
-            arq.readline()
-            return linha.strip()[-digitos:].strip()
-
-        def __le_sim_nao(i: int) -> int:
-            """
-            Interpreta os campos de configurações SIM e NAO.
-            """
-            dado = __le_eco_config(4)
-            if "SIM" in dado:
-                self._dados[i] = 1.0
-            elif "NAO" in dado:
-                self._dados[i] = 0.0
-            else:
-                raise ValueError(f"Valor {dado} inválido para SIM ou NAO")
-            return i + 1
-
-        def __le_numerico(i: int, digitos: int) -> int:
-            dado = __le_eco_config(digitos)
-            self._dados[i] = float(dado)
-            return i + 1
-
-        # Pula as duas primeiras linhas
-        arq.readline()
-        arq.readline()
-        # Variáveis auxiliares
-        i = 0
-        # Duração de cada período de operação
-        i = __le_numerico(i, 3)
-        # Número de anos do horizonte
-        i = __le_numerico(i, 3)
-        # Mês inicial do pré-estudo
-        i = __le_numerico(i, 3)
-        # Mês inicial do estudo
-        i = __le_numerico(i, 3)
-        # Ano inicial do estudo
-        i = __le_numerico(i, 6)
-        # Anos pre estudo
-        i = __le_numerico(i, 3)
-        # Anos pos estudo
-        i = __le_numerico(i, 3)
-        # Anos pos estudos na sim. final
-        i = __le_numerico(i, 3)
-        # Imprime dados usinas
-        i = __le_sim_nao(i)
-        # Imprime dados mercado
-        i = __le_sim_nao(i)
-        # Imprime dados energias
-        i = __le_sim_nao(i)
-        # Imprime parametros modelo energia
-        i = __le_sim_nao(i)
-        # Imprime parametros reservatorio equivalente
-        i = __le_sim_nao(i)
-        # Imprime detalhamento da operação
-        i = __le_sim_nao(i)
-        # Imprime detalhamento calc. política
-        i = __le_sim_nao(i)
-        # Imprime resultados convergência
-        i = __le_sim_nao(i)
-        # Max. iterações
-        i = __le_numerico(i, 4)
-        # Num. forwards
-        i = __le_numerico(i, 6)
-        # Num. aberturas
-        i = __le_numerico(i, 6)
-        # Ordem máxima PAR(p)
-        i = __le_numerico(i, 4)
-        # Ano inicial histórico
-        i = __le_numerico(i, 6)
-        # Calcula vol. inic.
-        i = __le_sim_nao(i)
-        arq.readline()
-        # Tolerância convergência
-        i = __le_numerico(i, 6)
-        # Taxa de desconto
-        i = __le_numerico(i, 9)
-        # Séries simuladas gravadas
-        arq.readline()
-        i = __le_numerico(i, 6)
-        arq.readline()
-        # Min. iterações
-        i = __le_numerico(i, 6)
-        # Racionamento preventivo
-        i = __le_sim_nao(i)
-        # Num. anos com manut. térmicas
-        arq.readline()
-        i = __le_numerico(i, 3)
-        # Tendência hidrológica (política)
-        i = __le_sim_nao(i)
-        # Tendência hidrológica (sim. final)
-        i = __le_sim_nao(i)
-        # Considera desvio de agua
-        i = __le_sim_nao(i)
-        # Outros usos variável com EARM
-        i = __le_sim_nao(i)
-        # Considera curva (VminP)
-        i = __le_sim_nao(i)
-        # Tamanho da amostra para agregação
-        arq.readline()
-        i = __le_numerico(i, 7)
-        # Representante no processo
-        repr = 1.0 if "CENTROIDE" in __le_eco_config(10) else 0.0
-        self._dados[i] = repr
-        i += 1
-        # Matriz de correlação considerada
-        corr = 0.0 if "ANUAL" in __le_eco_config(6) else 0.0
-        self._dados[i] = corr
-        i += 1
-        # Desconsidera critério de convergência
-        i = __le_sim_nao(i)
-        # Vol. min. sazonal nos períodos estáticos
-        i = __le_sim_nao(i)
-        # Vol. max. sazonal nos períodos estáticos
-        i = __le_sim_nao(i)
-        # Vol. max. penal. sazonal os períodos estáticos
-        i = __le_sim_nao(i)
-        # Cfuga e Cmont sazonais nos períodos estáticos
-        i = __le_sim_nao(i)
-        # Imprime cenários energia
-        arq.readline()
-        self._dados[i] = 0.0 if "NAO" in arq.readline()[-5].strip() else 1.0
-        i += 1
-        # Imprime cortes ativos
-        i = __le_sim_nao(i)
-        # Mantém energias após execução
-        i = __le_sim_nao(i)
-        # Momento de reamostragem
-        self._dados[i] = 1.0 if "FORWARD" in arq.readline().strip() else 0.0
-        arq.readline()
-        i += 1
-        # Considera redução da ordem PAR(p)
-        i = __le_sim_nao(i)
-        # Iteração de início do teste de convergência
-        i = __le_numerico(i, 4)
-
-    # Override
-    def escreve(self, arq: IO):
-        pass
-
-
-class BlocoEafPastTendenciaHidrolPMO(Bloco):
+class BlocoEafPastTendenciaHidrolPMO(Block):
     """
     Bloco de informações de afluências passadas para
     tendência hidrológica localizado no arquivo `pmo.dat`.
     """
 
-    str_inicio = "ENERGIAS AFLUENTES PASSADAS PARA A TENDENCIA HIDROLOGICA"
-    str_fim = ""
+    BEGIN_PATTERN = "ENERGIAS AFLUENTES PASSADAS PARA A TENDENCIA HIDROLOGICA"
+    END_PATTERN = ""
 
-    def __init__(self):
-        super().__init__(
-            BlocoEafPastTendenciaHidrolPMO.str_inicio,
-            BlocoEafPastTendenciaHidrolPMO.str_fim,
-            True,
-        )
-        self._dados: pd.DataFrame = pd.DataFrame()
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        ree_field: List[Field] = [LiteralField(10, 1)]
+        ena_fields: List[Field] = [
+            FloatField(11, 11 * (i + 1), 2) for i in range(len(MESES_DF))
+        ]
+        self.__line = Line(ree_field + ena_fields)
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoEafPastTendenciaHidrolPMO):
             return False
         bloco: BlocoEafPastTendenciaHidrolPMO = o
-        return self._dados.equals(bloco.dados)
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
+            return False
+        else:
+            return self.data.equals(bloco.data)
 
     # Override
-    def le(self, arq: IO):
+    def read(self, file: IO):
         def converte_tabela_em_df():
             df = pd.DataFrame(tabela, columns=MESES_DF)
             df["REE"] = rees
@@ -299,56 +57,62 @@ class BlocoEafPastTendenciaHidrolPMO(Bloco):
             return df
 
         # Pula as linhas iniciais
-        for _ in range(3):
-            arq.readline()
+        for _ in range(4):
+            file.readline()
+
         # Variáveis auxiliares
-        reg_sistema = RegistroAn(10)
-        reg_eaf = RegistroFn(8)
         rees: List[str] = []
         tabela = np.zeros((MAX_REES, len(MESES_DF)))
         i = 0
         while True:
-            linha: str = arq.readline()
+            linha = file.readline()
             # Confere se acabou
             if "X-------" in linha:
                 tabela = tabela[:i, :]
-                self._dados = converte_tabela_em_df()
+                self.data = converte_tabela_em_df()
                 break
-            # Lê mais uma linha
-            rees.append(reg_sistema.le_registro(linha, 1))
-            tabela[i, :] = reg_eaf.le_linha_tabela(linha, 14, 3, len(MESES))
+            # Senão, processa os dados
+            dados_linha: list = self.__line.read(linha)
+            rees.append(dados_linha[0])
+            tabela[i, :] = dados_linha[1:]
             i += 1
 
-    # Override
-    def escreve(self, arq: IO):
-        pass
 
-
-class BlocoEafPastCfugaMedioPMO(Bloco):
+class BlocoEafPastCfugaMedioPMO(Block):
     """
     Bloco de informações de afluências passadas para
     tendência hidrológica localizado no arquivo `pmo.dat`.
     """
 
-    str_inicio = "ENERGIAS AFLUENTES PASSADAS EM REFERENCIA A PRIMEIRA CONFIG"
-    str_fim = ""
+    BEGIN_PATTERN = (
+        "ENERGIAS AFLUENTES PASSADAS EM REFERENCIA A PRIMEIRA CONFIG"
+    )
+    END_PATTERN = ""
 
-    def __init__(self):
-        super().__init__(
-            BlocoEafPastCfugaMedioPMO.str_inicio,
-            BlocoEafPastCfugaMedioPMO.str_fim,
-            True,
-        )
-        self._dados: pd.DataFrame = pd.DataFrame()
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        ree_field: List[Field] = [LiteralField(10, 1)]
+        ena_fields: List[Field] = [
+            FloatField(11, 11 * (i + 1), 2) for i in range(len(MESES_DF))
+        ]
+        self.__line = Line(ree_field + ena_fields)
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoEafPastCfugaMedioPMO):
             return False
         bloco: BlocoEafPastCfugaMedioPMO = o
-        return self._dados.equals(bloco.dados)
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
+            return False
+        else:
+            return self.data.equals(bloco.data)
 
     # Override
-    def le(self, arq: IO):
+    def read(self, file: IO):
         def converte_tabela_em_df():
             df = pd.DataFrame(tabela, columns=MESES_DF)
             df["REE"] = rees
@@ -356,54 +120,61 @@ class BlocoEafPastCfugaMedioPMO(Bloco):
             return df
 
         # Pula as linhas iniciais
-        for _ in range(3):
-            arq.readline()
+        for _ in range(4):
+            file.readline()
+
         # Variáveis auxiliares
-        reg_sistema = RegistroAn(10)
-        reg_eaf = RegistroFn(8)
         rees: List[str] = []
         tabela = np.zeros((MAX_REES, len(MESES_DF)))
         i = 0
         while True:
-            linha: str = arq.readline()
+            linha = file.readline()
             # Confere se acabou
             if "X-------" in linha:
                 tabela = tabela[:i, :]
-                self._dados = converte_tabela_em_df()
+                self.data = converte_tabela_em_df()
                 break
-            # Lê mais uma linha
-            rees.append(reg_sistema.le_registro(linha, 1))
-            tabela[i, :] = reg_eaf.le_linha_tabela(linha, 14, 3, len(MESES))
+            # Senão, processa os dados
+            dados_linha: list = self.__line.read(linha)
+            rees.append(dados_linha[0])
+            tabela[i, :] = dados_linha[1:]
             i += 1
 
-    # Override
-    def escreve(self, arq: IO):
-        pass
 
-
-class BlocoConvergenciaPMO(Bloco):
+class BlocoConvergenciaPMO(Block):
     """
     Bloco com as informações de convergência do NEWAVE obtidas
     no arquivo `pmo.dat`.
     """
 
-    str_inicio = "    ITER               LIM.INF.        "
-    str_fim = ""
+    BEGIN_PATTERN = "    ITER               LIM.INF.        "
+    END_PATTERN = ""
 
-    def __init__(self):
-        super().__init__(
-            BlocoConvergenciaPMO.str_inicio, BlocoConvergenciaPMO.str_fim, True
-        )
-        self._dados: pd.DataFrame = pd.DataFrame()
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        # Cria a estrutura de uma linha da tabela
+        iter_field: List[Field] = [IntegerField(4, 4)]
+        conv_fields: List[Field] = [
+            FloatField(23, 9 + 23 * i, 2) for i in range(6)
+        ]
+        self.__line = Line(iter_field + conv_fields)
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoConvergenciaPMO):
             return False
         bloco: BlocoConvergenciaPMO = o
-        return np.array_equal(self._dados, bloco._dados)
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
+            return False
+        else:
+            return self.data.equals(bloco.data)
 
     # Override
-    def le(self, arq: IO):
+    def read(self, file: IO):
         def converte_tabela_em_df() -> pd.DataFrame:
             df = pd.DataFrame(tabela)
             df.columns = [
@@ -414,356 +185,326 @@ class BlocoConvergenciaPMO(Bloco):
                 "ZSUP",
                 "Delta ZINF",
                 "ZSUP Iteração",
-                "Tempo (s)",
             ]
-            df = df.astype({"Iteração": "int32"})
+            df = df.astype({"Iteração": "int64"})
+            df["Tempo"] = tempos
             return df
 
         # Salta as duas linhas iniciais
-        arq.readline()
-        arq.readline()
+        for _ in range(3):
+            file.readline()
         # Variáveis auxiliares
-        reg_iter = RegistroIn(4)
-        reg_z = RegistroFn(22)
-        tabela = np.zeros((3 * MAX_ITERS, 8), dtype=np.float64)
+        tabela = np.zeros((3 * MAX_ITERS, 7), dtype=np.float64)
+        tempos: List[Optional[timedelta]] = []
         i = 0
         while True:
-            linha: str = arq.readline()
+            linha: str = file.readline()
             # Confere se já acabou
             if len(linha) < 3:
                 tabela = tabela[:i, :]
-                self._dados = converte_tabela_em_df()
+                self.data = converte_tabela_em_df()
                 break
             # Se não tem nada na coluna de iteração, ignora a linha
             if linha[4:9] == "     ":
                 continue
-            # Lê a iteração
-            tabela[i, 0] = reg_iter.le_registro(linha, 4)
-            # Lê os limites e valores de zinf e zsup
-            tabela[i, 1:5] = reg_z.le_linha_tabela(linha, 9, 1, 4)
-            # Lê delta z inf e zup iter se houver
-            if len(linha[101:122].strip()) > 1:
-                tabela[i, 5] = reg_z.le_registro(linha, 101)
-            if len(linha[123:144].strip()) > 1:
-                tabela[i, 6] = reg_z.le_registro(linha, 123)
-            # Lê o tempo, convertendo para segundos, se houver
+            # Senão, lê a linha
+            tabela[i, :] = self.__line.read(linha)
+            # Lê o tempo, que tem formato personalizado
             if "min" in linha[153:168]:
                 tempo = linha[153:168]
                 h = int(tempo.split("h")[0])
                 min = int(tempo.split("h")[1].split("min")[0])
                 s = float(tempo.split("min")[1].split("s")[0])
-                ts = timedelta(hours=h, minutes=min, seconds=s).total_seconds()
-                tabela[i, 7] = ts
+                ts = timedelta(hours=h, minutes=min, seconds=s)
+                tempos.append(ts)
+            else:
+                tempos.append(None)
             i += 1
 
-    # Override
-    def escreve(self, arq: IO):
-        pass
 
-
-class BlocoConfiguracoesExpansaoPMO(Bloco):
+class BlocoConfiguracoesExpansaoPMO(Block):
     """
     Bloco de informações sobre as configurações de expansão
     do sistema existentes no arquivo `pmo.dat`.
     """
 
-    str_inicio = "CONFIGURACOES POR"
-    str_fim = ""
+    BEGIN_PATTERN = "CONFIGURACOES POR"
+    END_PATTERN = ""
 
-    def __init__(self):
-        super().__init__(
-            BlocoConfiguracoesExpansaoPMO.str_inicio,
-            BlocoConfiguracoesExpansaoPMO.str_fim,
-            True,
-        )
-        self._dados = np.zeros(
-            (MAX_ANOS_ESTUDO, len(MESES) + 1), dtype=np.int64
-        )
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        # Cria a estrutura de uma linha da tabela
+        self.__line = Line([IntegerField(6, 6 * (i + 1)) for i in range(13)])
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoConfiguracoesExpansaoPMO):
             return False
         bloco: BlocoConfiguracoesExpansaoPMO = o
-        return np.array_equal(self.dados, bloco.dados)
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
+            return False
+        else:
+            return self.data.equals(bloco.data)
 
     # Override
-    def le(self, arq: IO):
+    def read(self, file: IO):
+        def converte_tabela_em_df():
+            df = pd.DataFrame(tabela, columns=["Ano"] + MESES_DF)
+            return df
+
         # Pula as linhas iniciais
-        for _ in range(5):
-            arq.readline()
+        for _ in range(6):
+            file.readline()
         # Variáveis auxiliares
-        reg = RegistroIn(5)
+        tabela = np.zeros((MAX_ANOS_ESTUDO, len(MESES_DF) + 1), dtype=np.int64)
         i = 0
         while True:
-            linha: str = arq.readline()
+            linha: str = file.readline()
             # Confere se acabou
             if len(linha) < 3:
-                self._dados = self._dados[:i, :]
+                self.data = converte_tabela_em_df()
                 break
             # Lê mais uma linha
-            self._dados[i, :] = reg.le_linha_tabela(
-                linha, 5, 1, len(MESES) + 1
-            )
+            tabela[i, :] = self.__line.read(linha)
             i += 1
 
-    # Override
-    def escreve(self, arq: IO):
-        pass
 
-
-class BlocoMARSPMO(Bloco):
+class BlocoMARSPMO(Block):
     """
     Bloco de informações sobre o modelo MARS ajustado
     para as retas de perdas por engolimento máximo
     existentes no arquivo `pmo.dat`.
     """
 
-    str_inicio = "PARAMETROS DAS RETAS DE PERDAS POR ENGOLIMENTO MAXIMO"
-    str_fim = 'ENERGIA FIO D"AGUA LIQUIDA (MWmes)   CONFIGURACAO'
+    BEGIN_PATTERN = "PARAMETROS DAS RETAS DE PERDAS POR ENGOLIMENTO MAXIMO"
+    END_PATTERN = 'ENERGIA FIO D"AGUA LIQUIDA|CEPEL'
 
     MAX_RETAS_MARS = 3
 
-    def __init__(self):
-        super().__init__(BlocoMARSPMO.str_inicio, BlocoMARSPMO.str_fim, True)
-        self._dados = pd.DataFrame()
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        # Cria a estrutura de uma linha da tabela
+        self.__line = Line(
+            [
+                IntegerField(12, 1),
+                FloatField(12, 14, 5, format="E"),
+                FloatField(12, 27, 5, format="E"),
+            ]
+        )
+        self.__ree_field = LiteralField(10, 6)
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoMARSPMO):
             return False
         bloco: BlocoMARSPMO = o
-        return np.array_equal(self._dados, bloco._dados)
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
+            return False
+        else:
+            return self.data.equals(bloco.data)
 
     # Override
-    def le(self, arq: IO):
-        def _converte_tabela_em_df():
-            colunas = ["Coef. Angular", "Constante"]
-            self._dados = pd.DataFrame(tabela_formatada, columns=colunas)
-            self._dados["Reta"] = retas
-            self._dados["REE"] = rees_a
-            self._dados = self._dados[["REE", "Reta"] + colunas]
+    def read(self, file: IO):
+        def converte_tabela_em_df():
+            colunas = ["Reta", "Coeficiente Angular", "Constante"]
+            df = pd.DataFrame(tabela, columns=colunas)
+            df["REE"] = rees
+            df = df[["REE"] + colunas]
+            df = df.astype({"Reta": "int64"})
+            return df
 
         # Variáveis auxiliares
-        retas = np.arange(1, BlocoMARSPMO.MAX_RETAS_MARS + 1)
+        ree_atual = ""
         rees: List[str] = []
-        j = 0
-        reg_ree = RegistroAn(10)
-        reg_reta = RegistroFn(12)
         tabela = np.zeros(
-            (BlocoMARSPMO.MAX_RETAS_MARS, 2, MAX_REES), dtype=np.float64
+            (BlocoMARSPMO.MAX_RETAS_MARS * MAX_REES * MAX_MESES_ESTUDO, 3),
+            dtype=np.float64,
         )
+        i = 0
         while True:
-            linha: str = arq.readline()
-            if BlocoMARSPMO.str_fim in linha:
-                tabela = tabela[:, :, :j]
-                tabela_formatada = tabela[:, :, 0]
-                for k in range(1, j):
-                    tabela_formatada = np.vstack(
-                        [tabela_formatada, tabela[:, :, k]]
-                    )
-                rees_a = np.array(rees)
-                rees_a = np.repeat(rees_a, BlocoMARSPMO.MAX_RETAS_MARS)
-                retas = np.tile(retas, j)
-                _converte_tabela_em_df()
+            linha: str = file.readline()
+            if self.ends(linha):
+                tabela = tabela[:i, :]
+                self.data = converte_tabela_em_df()
                 break
             elif "REE:" in linha:
-                ree = reg_ree.le_registro(linha, 6)
-                rees.append(ree)
-                # Salta linhas entre o título e os coeficientes
-                for _ in range(4):
-                    arq.readline()
-                # Lê as retas disponíveis
-                for i in range(BlocoMARSPMO.MAX_RETAS_MARS):
-                    linha = arq.readline()
-                    if len(linha) > 3:
-                        tabela[i, :, j] = reg_reta.le_linha_tabela(
-                            linha, 14, 1, 2
-                        )
-                j += 1
-
-    # Override
-    def escreve(self, arq: IO):
-        pass
+                ree_atual = self.__ree_field.read(linha)
+            else:
+                dados_linha = self.__line.read(linha)
+                if dados_linha[0] is not None:
+                    rees.append(ree_atual)
+                    tabela[i, :] = dados_linha
+                    i += 1
 
 
-class BlocoRiscoDeficitENSPMO(Bloco):
+class BlocoRiscoDeficitENSPMO(Block):
     """
     Bloco de informações sobre os riscos de déficit e
     ENS (energia não suprida) existentes no arquivo `pmo.dat`.
     """
 
-    str_inicio = " ANO  RISCO   EENS  RISCO"
-    str_fim = ""
-
-    def __init__(self):
-        super().__init__(
-            BlocoRiscoDeficitENSPMO.str_inicio,
-            BlocoRiscoDeficitENSPMO.str_fim,
-            True,
-        )
-        self._dados = np.zeros(
-            (MAX_ANOS_ESTUDO, 2 * len(SUBMERCADOS) + 1), dtype=np.float64
-        )
+    BEGIN_PATTERN = "RISCO ANUAL DE DEFICIT E E\(ENS\) \(%\)"  # noqa
+    END_PATTERN = ""
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoRiscoDeficitENSPMO):
             return False
         bloco: BlocoRiscoDeficitENSPMO = o
-        return np.array_equal(self._dados, bloco._dados)
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
+            return False
+        else:
+            return self.data.equals(bloco.data)
 
     # Override
-    def le(self, arq: IO):
-        # Pula as duas linhas iniciais
-        arq.readline()
-        arq.readline()
+    def read(self, file: IO):
+        def converte_tabela_em_df() -> pd.DataFrame:
+            df = pd.DataFrame(tabela)
+            cols = ["Ano"]
+            for sub in subsistemas:
+                cols += [f"Risco - {sub}", f"EENS - {sub}"]
+            df.columns = cols
+            df = df.astype({"Ano": "int64"})
+            return df
+
+        # Pula as três linhas iniciais
+        for _ in range(3):
+            file.readline()
+        # Identifica os subsistemas em questão e constroi
+        # a estrutura da linha da tabela a ser lida
+        subsistemas = [
+            s.strip() for s in file.readline().split(" ") if len(s) > 1
+        ]
+        # Pula três linhas adicionais
+        for _ in range(3):
+            file.readline()
+        campos: List[Field] = [IntegerField(4, 1)]
+        ultima_coluna = 6
+        for _ in subsistemas:
+            campos.append(FloatField(6, ultima_coluna, 2))
+            ultima_coluna += 6
+            campos.append(FloatField(8, ultima_coluna, 2))
+            ultima_coluna += 8
+        self.__line = Line(campos)
         # Variáveis auxiliares
-        reg_ano = RegistroIn(4)
-        reg_risco = RegistroFn(6)
-        reg_eens = RegistroFn(8)
+        tabela = np.zeros((MAX_ANOS_ESTUDO, 2 * len(subsistemas) + 1))
         i = 0
         while True:
-            linha: str = arq.readline()
+            linha: str = file.readline()
             # Confere se acabou
             if len(linha) < 3:
-                self._dados = self._dados[:i, :]
+                tabela = tabela[:i, :]
+                self.data = converte_tabela_em_df()
                 break
-            self._dados[i, 0] = reg_ano.le_registro(linha, 1)
-            self._dados[i, 1::2] = reg_risco.le_linha_tabela(
-                linha, 6, 8, len(SUBMERCADOS)
-            )
-            self._dados[i, 2::2] = reg_eens.le_linha_tabela(
-                linha, 12, 6, len(SUBMERCADOS)
-            )
+            tabela[i, :] = self.__line.read(linha)
             i += 1
 
-    # Override
-    def escreve(self, arq: IO):
-        pass
 
-
-class BlocoCustoOperacaoPMO(Bloco):
+class BlocoCustoOperacaoPMO(Block):
     """
     Bloco de informações sobre os custos de operação categorizados
     existentes no arquivo `pmo.dat`.
     """
 
-    str_inicio = "PARCELA           V.ESPERADO"
+    BEGIN_PATTERN = "PARCELA           V.ESPERADO"
+    END_PATTERN = ""
 
-    def __init__(self):
-        super().__init__(BlocoCustoOperacaoPMO.str_inicio, "", True)
-        self._dados = pd.DataFrame()
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        # Cria a estrutura de uma linha da tabela
+        self.__line = Line(
+            [
+                LiteralField(18, 13),
+                FloatField(13, 32, 2),
+                FloatField(13, 46, 2),
+                FloatField(7, 60, 2),
+            ]
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoCustoOperacaoPMO):
             return False
         bloco: BlocoCustoOperacaoPMO = o
-        return np.array_equal(self._dados, bloco._dados)
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
+            return False
+        else:
+            return self.data.equals(bloco.data)
 
     # Override
-    def le(self, arq: IO):
-        # Salta uma linha
-        arq.readline()
-        # Variáveis auxiliares
-        reg_parcela = RegistroAn(18)
-        reg_valores = RegistroFn(13)
-        reg_percent = RegistroFn(7)
+    def read(self, file: IO):
+        def converte_tabela_em_df() -> pd.DataFrame:
+            cols = ["Valor Esperado", "Desvio Padrão do VE", "(%)"]
+            df = pd.DataFrame(tabela, columns=cols)
+            df["Parcela"] = parcelas
+            df = df[["Parcela"] + cols]
+            return df
+
+        # Salta duas linhas
+        for _ in range(2):
+            file.readline()
         parcelas: List[str] = []
         tabela = np.zeros((30, 3), dtype=np.float64)
         i = 0
         while True:
-            linha = arq.readline()
+            linha = file.readline()
             if "----------------" in linha:
-                cols = ["Valor Esperado", "Desvio Padrão do VE", "(%)"]
-                self._dados = pd.DataFrame(
-                    tabela[:i, :], index=parcelas, columns=cols
-                )
+                tabela = tabela[:i, :]
+                self.data = converte_tabela_em_df()
                 break
-            parcelas.append(reg_parcela.le_registro(linha, 13))
-            tabela[i, :2] = reg_valores.le_linha_tabela(linha, 32, 1, 2)
-            tabela[i, 2] = reg_percent.le_registro(linha, 60)
+            dados_linha = self.__line.read(linha)
+            parcelas.append(dados_linha[0])
+            tabela[i, :] = dados_linha[1:]
             i += 1
 
-    # Override
-    def escreve(self, arq: IO):
-        pass
 
-
-class BlocoCustoOperacaoTotalPMO(Bloco):
+class BlocoCustoOperacaoTotalPMO(Block):
     """
     Bloco de informações sobre os custos de operação categorizados
     existentes no arquivo `pmo.dat`.
     """
 
-    str_inicio = "           VALOR ESPERADO TOTAL:"
+    BEGIN_PATTERN = "           VALOR ESPERADO TOTAL:"
+    END_PATTERN = ""
 
-    def __init__(self):
-        super().__init__(BlocoCustoOperacaoTotalPMO.str_inicio, "", True)
-        self._dados = np.zeros((2,))
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        # Cria a estrutura de uma linha da tabela
+        self.__line = Line([FloatField(24, 50, 2)])
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoCustoOperacaoTotalPMO):
             return False
         bloco: BlocoCustoOperacaoTotalPMO = o
-        return np.array_equal(self._dados, bloco._dados)
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return all([sd == d for sd, d in zip(self.data, bloco.data)])
 
     # Override
-    def le(self, arq: IO):
-        linha = arq.readline()
-        # Variáveis auxiliares
-        reg_custo = RegistroFn(13)
-        self._dados[0] = reg_custo.le_registro(self._linha_inicio, 62)
-        self._dados[1] = reg_custo.le_registro(linha, 62)
-
-    # Override
-    def escreve(self, arq: IO):
-        pass
-
-
-class LeituraPMO(LeituraBlocos):
-    """
-    Realiza a leitura do arquivo pmo.dat
-    existente em um diretório de saídas do NEWAVE.
-
-    Esta classe contém o conjunto de utilidades para ler
-    e interpretar os campos de um arquivo pmo.dat, construindo
-    um objeto `PMO` cujas informações são as mesmas do pmo.dat.
-
-    Este objeto existe para retirar do modelo de dados a complexidade
-    de iterar pelas linhas do arquivo, recortar colunas, converter
-    tipos de dados, dentre outras tarefas necessárias para a leitura.
-
-    """
-
-    def __init__(self, diretorio: str) -> None:
-        super().__init__(diretorio)
-
-    # Override
-    def _cria_blocos_leitura(self) -> List[Bloco]:
-        """
-        Cria a lista de blocos a serem lidos no arquivo parp.dat.
-        """
-        # eco_dger: List[Bloco] = [BlocoEcoDgerPMO()]
-        convergencia: List[Bloco] = [BlocoConvergenciaPMO()]
-        eafpast: List[Bloco] = [
-            BlocoEafPastTendenciaHidrolPMO(),
-            BlocoEafPastCfugaMedioPMO(),
-        ]
-        risco_deficit: List[Bloco] = [BlocoRiscoDeficitENSPMO()]
-        configs_exp: List[Bloco] = [
-            BlocoConfiguracoesExpansaoPMO() for _ in range(3)
-        ]
-        mars: List[Bloco] = [BlocoMARSPMO() for _ in range(MAX_CONFIGURACOES)]
-        custos: List[Bloco] = [
-            BlocoCustoOperacaoPMO(),
-            BlocoCustoOperacaoPMO(),
-            BlocoCustoOperacaoPMO(),
-            BlocoCustoOperacaoTotalPMO(),
-        ]
-
-        return (
-            convergencia
-            + eafpast
-            + risco_deficit
-            + configs_exp
-            + mars
-            + custos
-        )
+    def read(self, file: IO):
+        data = [0, 0]
+        for i in range(2):
+            data[i] = self.__line.read(file.readline())[0]
+        self.data = data

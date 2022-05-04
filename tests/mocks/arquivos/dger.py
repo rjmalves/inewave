@@ -1,0 +1,4 @@
+MockRegistroNomeEstudo = ""
+MockRegistroTipoExecucao = ""
+MockBlocoValoresAlfaVariaveis = []
+MockBlocoValoresLambdaVariaveis = []

@@ -1,7 +1,3 @@
-from inewave._utils.arquivo import ArquivoBlocos
-from inewave._utils.bloco import Bloco
-from inewave._utils.dadosarquivo import DadosArquivoBlocos
-from inewave.newave.modelos.pmo import BlocoEcoDgerPMO
 from inewave.newave.modelos.pmo import BlocoEafPastTendenciaHidrolPMO
 from inewave.newave.modelos.pmo import BlocoEafPastCfugaMedioPMO
 from inewave.newave.modelos.pmo import BlocoConvergenciaPMO
@@ -10,14 +6,14 @@ from inewave.newave.modelos.pmo import BlocoMARSPMO
 from inewave.newave.modelos.pmo import BlocoRiscoDeficitENSPMO
 from inewave.newave.modelos.pmo import BlocoCustoOperacaoPMO
 from inewave.newave.modelos.pmo import BlocoCustoOperacaoTotalPMO
-from inewave.newave.modelos.pmo import LeituraPMO
 
-from typing import List, Type
-import numpy as np  # type: ignore
+from cfinterface.components.block import Block
+from cfinterface.files.blockfile import BlockFile
+from typing import Type, TypeVar, Optional, Any
 import pandas as pd  # type: ignore
 
 
-class PMO(ArquivoBlocos):
+class PMO(BlockFile):
     """
     Armazena os dados de entrada do NEWAVE referentes ao
     acompanhamento do programa.
@@ -31,30 +27,86 @@ class PMO(ArquivoBlocos):
 
     """
 
-    def __init__(self, dados: DadosArquivoBlocos):
-        super().__init__(dados)
+    T = TypeVar("T")
 
-        self.__eco_dger = self.__por_tipo(BlocoEcoDgerPMO)
-        self.__eafpast_th = self.__por_tipo(BlocoEafPastTendenciaHidrolPMO)
-        self.__eafpast_cfuga = self.__por_tipo(BlocoEafPastCfugaMedioPMO)
-        self.__convergencia = self.__por_tipo(BlocoConvergenciaPMO)
-        self.__configs_exp = self.__por_tipo(BlocoConfiguracoesExpansaoPMO)
-        self.__mars = self.__por_tipo(BlocoMARSPMO)
-        self.__risco_deficit = self.__por_tipo(BlocoRiscoDeficitENSPMO)
-        self.__custos = self.__por_tipo(BlocoCustoOperacaoPMO)
-        self.__custo_total = self.__por_tipo(BlocoCustoOperacaoTotalPMO)
-
-    def __por_tipo(self, tipo: Type[Bloco]) -> List[Bloco]:
-        return [b for b in self._blocos if isinstance(b, tipo)]
+    BLOCKS = [
+        BlocoEafPastTendenciaHidrolPMO,
+        BlocoEafPastCfugaMedioPMO,
+        BlocoConvergenciaPMO,
+        BlocoConfiguracoesExpansaoPMO,
+        BlocoMARSPMO,
+        BlocoRiscoDeficitENSPMO,
+        BlocoCustoOperacaoPMO,
+        BlocoCustoOperacaoTotalPMO,
+    ]
 
     @classmethod
     def le_arquivo(cls, diretorio: str, nome_arquivo="pmo.dat") -> "PMO":
-        leitor = LeituraPMO(diretorio)
-        r = leitor.le_arquivo(nome_arquivo)
-        return cls(r)
+        return cls.read(diretorio, nome_arquivo)
+
+    def __bloco_por_tipo(self, bloco: Type[T], indice: int) -> Optional[T]:
+        """
+        Obtém um gerador de blocos de um tipo, se houver algum no arquivo.
+
+        :param bloco: Um tipo de bloco para ser lido
+        :type bloco: T
+        :param indice: O índice do bloco a ser acessado, dentre os do tipo
+        :type indice: int
+        :return: O gerador de blocos, se houver
+        :rtype: Optional[Generator[T], None, None]
+        """
+        try:
+            return next(
+                b
+                for i, b in enumerate(self.data.of_type(bloco))
+                if i == indice
+            )
+        except StopIteration:
+            return None
+
+    def __extrai_dados_se_existe(
+        self, bloco: Type[Block], indice: int = 0
+    ) -> Optional[Any]:
+        """
+        Obtém os dados de um bloco se este existir dentre os blocos do arquivo.
+
+        :param bloco: O tipo do bloco cujos dados serão extraídos
+        :type bloco: Type[T]
+        :param indice: Qual dos blocos do tipo será acessado
+        :type indice: int, optional
+        :return: Os dados do bloco, se existirem
+        :rtype: Any
+        """
+        b = self.__bloco_por_tipo(bloco, indice)
+        if b is not None:
+            return b.data
+        return None
+
+    # def __atribui_dados_se_existe(
+    #     self, bloco: Type[Block], valor: Any, indice: int = 0
+    # ):
+    #     """
+    #     Atribui dados em um bloco existente. Retorna um erro se
+    #     o bloco não existir.
+
+    #     :param bloco: O tipo do bloco cujos dados serão extraídos
+    #     :type bloco: Type[T]
+    #     :param valor: O valor a ser atribuído
+    #     :type valor: Any
+    #     :param indice: Qual dos blocos do tipo será acessado
+    #     :type indice: int, optional
+    #     """
+    #     b = self.__bloco_por_tipo(bloco, indice)
+    #     if b is not None:
+    #         b.data = valor
+    #     else:
+    #         raise ValueError(
+    #             f"Bloco do tipo {bloco.__name__} na posição"
+    #             + f" {indice} não encontrado"
+    #         )
 
     @property
-    def eafpast_tendencia_hidrologica(self) -> pd.DataFrame:
+    def eafpast_tendencia_hidrologica(self) -> Optional[pd.DataFrame]:
         """
         Energias afluentes passadas por REE para análise da tendência
         hidrológica, em relação à primeira configuração do sistema,
@@ -62,16 +114,16 @@ class PMO(ArquivoBlocos):
 
         **Retorna**
 
-        `pd.DataFrame`
+        `Optional[pd.DataFrame]`
         """
-        return self.__eafpast_th[0].dados
+        return self.__extrai_dados_se_existe(BlocoEafPastTendenciaHidrolPMO)
 
-    @eafpast_tendencia_hidrologica.setter
-    def eafpast_tendencia_hidrologica(self, eaf: pd.DataFrame):
-        self.__eafpast_th[0].dados = eaf
+    # @eafpast_tendencia_hidrologica.setter
+    # def eafpast_tendencia_hidrologica(self, eaf: pd.DataFrame):
+    #     self.__atribui_dados_se_existe(BlocoEafPastTendenciaHidrolPMO, eaf)
 
     @property
-    def eafpast_cfuga_medio(self) -> pd.DataFrame:
+    def eafpast_cfuga_medio(self) -> Optional[pd.DataFrame]:
         """
         Energias afluentes passadas por REE considerando canal de
         fuga médio, em relação à primeira configuração do sistema,
@@ -79,170 +131,157 @@ class PMO(ArquivoBlocos):
 
         **Retorna**
 
-        `pd.DataFrame`
+        `Optional[pd.DataFrame]`
         """
-        return self.__eafpast_cfuga[0].dados
+        return self.__extrai_dados_se_existe(BlocoEafPastCfugaMedioPMO)
 
-    @eafpast_cfuga_medio.setter
-    def eafpast_cfuga_medio(self, eaf: pd.DataFrame):
-        self.__eafpast_cfuga[0].dados = eaf
+    # @eafpast_cfuga_medio.setter
+    # def eafpast_cfuga_medio(self, eaf: pd.DataFrame):
+    #     self.__atribui_dados_se_existe(BlocoEafPastCfugaMedioPMO, eaf)
 
     @property
-    def configuracoes_entrada_reservatorio(self) -> np.ndarray:
+    def configuracoes_entrada_reservatorio(self) -> Optional[pd.DataFrame]:
         """
         Configurações do sistema em cada período devido a entrada
         de reservatórios e/ou potência de base.
 
         **Retorna**
 
-        `np.ndarray`
+        `Optional[pd.DataFrame]`
         """
-        return self.__configs_exp[0].dados
+        return self.__extrai_dados_se_existe(BlocoConfiguracoesExpansaoPMO, 0)
 
-    @configuracoes_entrada_reservatorio.setter
-    def configuracoes_entrada_reservatorio(self, configs: np.ndarray):
-        self.__configs_exp[0].dados = configs
+    # @configuracoes_entrada_reservatorio.setter
+    # def configuracoes_entrada_reservatorio(self, cfg: pd.DataFrame):
+    #     self.__atribui_dados_se_existe(BlocoConfiguracoesExpansaoPMO, cfg, 0)
 
     @property
-    def configuracoes_alteracao_potencia(self) -> np.ndarray:
+    def configuracoes_alteracao_potencia(self) -> Optional[pd.DataFrame]:
         """
         Configurações do sistema em cada período devido a alterações
         de potência.
 
         **Retorna**
 
-        `np.ndarray`
+        `Optional[pd.DataFrame]`
         """
-        return self.__configs_exp[1].dados
+        return self.__extrai_dados_se_existe(BlocoConfiguracoesExpansaoPMO, 1)
 
-    @configuracoes_alteracao_potencia.setter
-    def configuracoes_alteracao_potencia(self, configs: np.ndarray):
-        self.__configs_exp[1].dados = configs
+    # @configuracoes_alteracao_potencia.setter
+    # def configuracoes_alteracao_potencia(self, cfg: pd.DataFrame):
+    #     self.__atribui_dados_se_existe(BlocoConfiguracoesExpansaoPMO, cfg, 1)
 
     @property
-    def configuracoes_qualquer_modificacao(self) -> np.ndarray:
+    def configuracoes_qualquer_modificacao(self) -> Optional[pd.DataFrame]:
         """
         Configurações do sistema em cada período devido a alterações
         de potência.
 
         **Retorna**
 
-        `np.ndarray`
+        `Optional[pd.DataFrame]`
         """
-        return self.__configs_exp[2].dados
+        return self.__extrai_dados_se_existe(BlocoConfiguracoesExpansaoPMO, 2)
 
-    @configuracoes_qualquer_modificacao.setter
-    def configuracoes_qualquer_modificacao(self, configs: np.ndarray):
-        self.__configs_exp[2].dados = configs
+    # @configuracoes_qualquer_modificacao.setter
+    # def configuracoes_qualquer_modificacao(self, cfg: pd.DataFrame):
+    #     self.__atribui_dados_se_existe(BlocoConfiguracoesExpansaoPMO, cfg, 2)
 
-    @property
-    def retas_perdas_engolimento(self) -> pd.DataFrame:
+    def retas_perdas_engolimento(self, estagio: int) -> Optional[pd.DataFrame]:
         """
         Retas ajustadas segundo o modelo MARS para corrigir a
         energia fio d'água com as perdas por engolimento máximo.
 
-        OBS:
-        Retorna apenas o modelo ajustado para a configuração do
-        primeiro período de estudo (temporariamente).
-
         **Retorna**
 
-        `pd.DataFrame`
+        `Optional[pd.DataFrame]`
         """
-        return self.__mars[0].dados
+        return self.__extrai_dados_se_existe(BlocoMARSPMO, estagio - 1)
 
     @property
-    def convergencia(self) -> pd.DataFrame:
+    def convergencia(self) -> Optional[pd.DataFrame]:
         """
         Tabela de convergência da execução do NEWAVE.
 
         **Retorna**
 
-        `pd.DataFrame`
+        `Optional[pd.DataFrame]`
         """
-        return self.__convergencia[0].dados
+        return self.__extrai_dados_se_existe(BlocoConvergenciaPMO)
 
     @property
-    def risco_deficit_ens(self) -> pd.DataFrame:
+    def risco_deficit_ens(self) -> Optional[pd.DataFrame]:
         """
         Tabela de riscos de déficit e enegia não suprida (ENS).
 
         **Retorna**
 
-        `pandas.DataFrame`
+        `Optional[pd.DataFrame]`
         """
-        df = pd.DataFrame(
-            self.__risco_deficit[0].dados,
-            columns=[
-                "Ano",
-                "Risco (%) SE",
-                "EENS (MWMes) SE",
-                "Risco (%) S",
-                "EENS (MWMes) S",
-                "Risco (%) NE",
-                "EENS (MWMes) NE",
-                "Risco (%) N",
-                "EENS (MWMes) N",
-            ],
-        )
-        return df
+        return self.__extrai_dados_se_existe(BlocoRiscoDeficitENSPMO)
 
     @property
-    def custo_operacao_series_simuladas(self) -> pd.DataFrame:
+    def custo_operacao_series_simuladas(self) -> Optional[pd.DataFrame]:
         """
         Tabela de custos de operação categorizados para as
         séries simuladas.
 
         **Retorna**
 
-        `pandas.DataFrame`
+        `Optional[pd.DataFrame]`
         """
-        return self.__custos[0].dados
+        return self.__extrai_dados_se_existe(BlocoCustoOperacaoPMO, 0)
 
     @property
-    def valor_esperado_periodo_estudo(self) -> pd.DataFrame:
+    def valor_esperado_periodo_estudo(self) -> Optional[pd.DataFrame]:
         """
         Tabela de custos de operação esperados para o período
         de estudo.
 
         **Retorna**
 
-        `pandas.DataFrame`
+        `Optional[pd.DataFrame]`
         """
-        return self.__custos[1].dados
+        return self.__extrai_dados_se_existe(BlocoCustoOperacaoPMO, 1)
 
     @property
-    def custo_operacao_referenciado_primeiro_mes(self) -> pd.DataFrame:
+    def custo_operacao_referenciado_primeiro_mes(
+        self,
+    ) -> Optional[pd.DataFrame]:
         """
         Tabela de custos de operação esperados para o período
         de estudo, referenciados ao primeiro mês.
 
         **Retorna**
 
-        `pandas.DataFrame`
+        `Optional[pd.DataFrame]`
         """
-        return self.__custos[2].dados
+        return self.__extrai_dados_se_existe(BlocoCustoOperacaoPMO, 2)
 
     @property
-    def custo_operacao_total(self) -> float:
+    def custo_operacao_total(self) -> Optional[float]:
         """
         Custo de operacao total da SF.
 
         **Retorna**
 
-        `float`
+        `Optional[float]`
         """
-        custo = self.__custo_total[0].dados
-        return custo[0]
+        b = self.__extrai_dados_se_existe(BlocoCustoOperacaoTotalPMO)
+        if isinstance(b, list):
+            return b[0]
+        return None
 
     @property
-    def desvio_custo_operacao_total(self) -> float:
+    def desvio_custo_operacao_total(self) -> Optional[float]:
         """
         Custo de operacao total da SF.
 
         **Retorna**
 
-        `float`
+        `Optional[float]`
         """
-        custo = self.__custo_total[0].dados
-        return custo[1]
+        b = self.__extrai_dados_se_existe(BlocoCustoOperacaoTotalPMO)
+        if isinstance(b, list):
+            return b[1]
+        return None

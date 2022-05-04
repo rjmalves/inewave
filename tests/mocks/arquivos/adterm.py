@@ -1,0 +1,15 @@
+MockBlocoUTEAdTerm = [
+    " IUTE  NOME TERMICA LAG\n",
+    " XXXX  XXXXXXXXXXXX  X  XXXXXXX.XX  XXXXXXX.XX  XXXXXXX.XX\n",
+    "   86  ST.CRUZ NOVA  2  \n",
+    "                            230.70      226.50      221.60  \n",
+    "                             79.50       75.60       70.90  \n",
+    "   15  LINHARES      2  \n",
+    "                            185.50      190.00      195.40  \n",
+    "                             90.70       84.60       77.40  \n",
+    "  224  P. SERGIPE I  2  \n",
+    "                              0.00        0.00        0.00  \n",
+    "                              0.00        0.00        0.00  \n",
+    " 9999\n",
+    "",
+]

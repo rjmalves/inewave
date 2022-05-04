@@ -17,6 +17,7 @@ NUM_CENARIOS = 2000
 MAX_ANOS_ESTUDO = 10
 MAX_ANOS_HISTORICO = 120
 MAX_CONFIGURACOES = 60
+MAX_SUBMERCADOS = 10
 MAX_ITERS = 200
 MAX_UHES = 300
 MAX_UTES = 300
@@ -55,5 +56,19 @@ MESES_DF = [
     "Outubro",
     "Novembro",
     "Dezembro",
+]
+MESES_ABREV = [
+    "JAN",
+    "FEV",
+    "MAR",
+    "ABR",
+    "MAI",
+    "JUN",
+    "JUL",
+    "AGO",
+    "SET",
+    "OUT",
+    "NOV",
+    "DEZ",
 ]
 MAX_MESES_ESTUDO = MAX_ANOS_ESTUDO * len(MESES)

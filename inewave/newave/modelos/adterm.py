@@ -1,148 +1,122 @@
-from inewave._utils.bloco import Bloco
-from inewave._utils.leiturablocos import LeituraBlocos
-from inewave._utils.registros import RegistroAn, RegistroIn, RegistroFn
-from inewave.config import MAX_LAG_ADTERM, MAX_UTES, NUM_PATAMARES
+from inewave.config import MAX_LAG_ADTERM, MAX_UTES
 
+from cfinterface.components.section import Section
+from cfinterface.components.line import Line
+from cfinterface.components.integerfield import IntegerField
+from cfinterface.components.literalfield import LiteralField
+from cfinterface.components.floatfield import FloatField
 from typing import List, IO
 import numpy as np  # type: ignore
 import pandas as pd  # type: ignore
 
 
-class BlocoUTEsAdTerm(Bloco):
+class BlocoUTEAdTerm(Section):
     """
     Bloco com os despachos antecipados das UTEs por patamar.
     """
 
-    str_inicio = ""
-    str_fim = "9999"
+    FIM_BLOCO = " 9999"
 
-    def __init__(self):
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha_ute = Line(
+            [IntegerField(4, 1), LiteralField(12, 7), IntegerField(1, 21)]
+        )
+        self.__linha_despachos = Line([])
+        self.__cabecalhos: List[str] = []
 
-        super().__init__(BlocoUTEsAdTerm.str_inicio, "", True)
-
-        self._dados: pd.DataFrame = pd.DataFrame()
-
-    def __eq__(self, o: object):
-        if not isinstance(o, BlocoUTEsAdTerm):
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoUTEAdTerm):
             return False
-        bloco: BlocoUTEsAdTerm = o
-        return self._dados.equals(bloco._dados)
+        bloco: BlocoUTEAdTerm = o
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
+            return False
+        else:
+            return self.data.equals(bloco.data)
 
     # Override
-    def le(self, arq: IO):
-        def converte_tabela_em_df() -> pd.DataFrame:
-            df = pd.DataFrame(tabela)
-            pats = [n for n in range(1, NUM_PATAMARES + 1)]
-            cols_pats = [f"Patamar {p}" for p in pats]
-            df.columns = cols_pats
-            df["Índice UTE"] = iutes
-            df["Nome"] = nomes_utes
-            df["Lag"] = lags_utes
-            df = df[["Índice UTE", "Nome", "Lag"] + cols_pats]
+    def read(self, file: IO):
+        def converte_tabela_em_df():
+            cols = [f"Patamar {i}" for i in range(1, n_pat + 1)]
+            df = pd.DataFrame(tabela, columns=cols)
+            df["Código UTE"] = codigo_utes
+            df["Nome UTE"] = nome_utes
+            df["Lag"] = lag_utes
+            df = df[["Código UTE", "Nome UTE", "Lag"] + cols]
             return df
 
+        # Salta as linhas adicionais
+        for _ in range(2):
+            self.__cabecalhos.append(file.readline())
+
+        # Obtem o número de patamares e constroi a linha de despachos
+        n_pat = len(
+            [
+                s.strip()
+                for s in self.__cabecalhos[1].split(" ")
+                if "XXXXXXX.XX" in s
+            ]
+        )
+        self.__linha_despachos = Line(
+            [FloatField(12, 22 + 12 * i, 2) for i in range(n_pat)]
+        )
+
         # Variáveis auxiliares
-        reg_iute = RegistroIn(4)
-        reg_nome = RegistroAn(12)
-        reg_despacho = RegistroFn(10)
-        # Pula as duas primeiras linhas, com cabeçalhos
-        arq.readline()
+        codigo_utes: List[int] = []
+        nome_utes: List[str] = []
+        lag_utes: List[int] = []
+        codigo_atual = 0
+        nome_atual = ""
+        lag_atual = 0
+        tabela = np.zeros((MAX_UTES * MAX_LAG_ADTERM, n_pat))
         i = 0
-        iutes = []
-        nomes_utes = []
-        lags_utes = []
-        iute_atual = 0
-        nome_ute_atual = ""
-        lag_leitura = 1
-        tabela = np.zeros((MAX_UTES * MAX_LAG_ADTERM, NUM_PATAMARES))
         while True:
-            # Verifica se o arquivo acabou
-            linha: str = arq.readline()
-            if BlocoUTEsAdTerm.str_fim in linha:
-                tabela = tabela[:i, :]
-                self._dados = converte_tabela_em_df()
+            linha = file.readline()
+            # Confere se acabou
+            if len(linha) < 3:
                 break
-            # Senão, lê mais uma linha
-            # Ano
-            if linha[1:5].strip().isnumeric():
-                iute_atual = reg_iute.le_registro(linha, 1)
-                nome_ute_atual = reg_nome.le_registro(linha, 7)
-                lag_leitura = 1
-            else:
-                iutes.append(iute_atual)
-                nomes_utes.append(nome_ute_atual)
-                lags_utes.append(lag_leitura)
-                # Patamares
-                tabela[i, :] = reg_despacho.le_linha_tabela(
-                    linha, 24, 2, NUM_PATAMARES
+            if BlocoUTEAdTerm.FIM_BLOCO in linha:
+                tabela = tabela[:i, :]
+                self.data = converte_tabela_em_df()
+                break
+            # Senão, confere se é uma linha de UTE ou despacho
+            if len(linha[:5].strip()) > 0:
+                codigo_atual, nome_atual, lag_atual = self.__linha_ute.read(
+                    linha
                 )
-                lag_leitura += 1
+            else:
+                tabela[i, :] = self.__linha_despachos.read(linha)
+                codigo_utes.append(codigo_atual)
+                nome_utes.append(nome_atual)
+                lag_utes.append(lag_atual)
                 i += 1
 
     # Override
-    def escreve(self, arq: IO):
-        def escreve_termicas():
-            tabela = self._dados
-            lin_tab = tabela.shape[0]
-            for i in range(lin_tab):
-                iute = tabela.iloc[i, 0]
-                nome = tabela.iloc[i, 1]
-                lag = tabela.iloc[i, 2]
-                if lag == 1:
-                    # Descobre o número de lags da UTE
-                    lag_ute = tabela.loc[
-                        tabela["Índice UTE"] == iute, "Índice UTE"
-                    ].shape[0]
-                    linha_ute = (
-                        f" {str(iute).rjust(4)}  "
-                        + f"{str(nome).ljust(12)}  {lag_ute}"
+    def write(self, file: IO):
+        for linha in self.__cabecalhos:
+            file.write(linha)
+        if not isinstance(self.data, pd.DataFrame):
+            raise ValueError("Dados do adterm.dat não foram lidos com sucesso")
+
+        ultima_ute = 0
+        cols_despachos = [c for c in list(self.data.columns) if "Patamar" in c]
+        for _, linha in self.data.iterrows():
+            linha_lida: pd.Series = linha
+            if linha_lida["Código UTE"] != ultima_ute:
+                ultima_ute = linha_lida["Código UTE"]
+                file.write(
+                    self.__linha_ute.write(
+                        linha_lida[["Código UTE", "Nome UTE", "Lag"]].tolist()
                     )
-                    arq.write(linha_ute + "\n")
-
-                # Despachos
-                linha = "                      "
-                despachos = len(
-                    [c for c in list(self._dados.columns) if "Patamar" in c]
                 )
-                for j in range(despachos):
-                    v = tabela.iloc[i, j + 3]
-                    linha += "  " + "{:7.2f}".format(v).rjust(10)
-                arq.write(linha + "\n")
-
-        # Escreve cabeçalhos
-        titulos = " IUTE  NOME TERMICA LAG" + "\n"
-        cab = (
-            " XXXX  XXXXXXXXXXXX  X  XXXXXXX.XX"
-            + "  XXXXXXX.XX  XXXXXXX.XX"
-            + "\n"
-        )
-        arq.write(titulos)
-        arq.write(cab)
-        escreve_termicas()
-        # Escreve a linha de terminação
-        arq.write(f" {BlocoUTEsAdTerm.str_fim}\n")
-
-
-class LeituraAdTerm(LeituraBlocos):
-    """
-    Realiza a leitura do arquivo `adterm.dat`
-    existente em um diretório de entradas do NEWAVE.
-
-    Esta classe contém o conjunto de utilidades para ler
-    e interpretar os campos de um arquivo `adterm.dat`, construindo
-    um objeto `AdTerm` cujas informações são as mesmas do adterm.dat.
-
-    Este objeto existe para retirar do modelo de dados a complexidade
-    de iterar pelas linhas do arquivo, recortar colunas, converter
-    tipos de dados, dentre outras tarefas necessárias para a leitura.
-    """
-
-    def __init__(self, diretorio: str):
-        super().__init__(diretorio)
-
-    # Override
-    def _cria_blocos_leitura(self) -> List[Bloco]:
-        """
-        Cria a lista de blocos a serem lidos no arquivo adterm.dat.
-        """
-        return [BlocoUTEsAdTerm()]
+            file.write(
+                self.__linha_despachos.write(
+                    linha_lida[cols_despachos].tolist()
+                )
+            )
+        file.write(BlocoUTEAdTerm.FIM_BLOCO + "\n")

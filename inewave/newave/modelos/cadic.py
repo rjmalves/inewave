@@ -1,170 +1,142 @@
-from inewave.config import SUBMERCADOS, MESES, MESES_DF, MAX_ANOS_ESTUDO
-from inewave._utils.bloco import Bloco
-from inewave._utils.leiturablocos import LeituraBlocos
-from inewave._utils.registros import RegistroAn, RegistroIn, RegistroFn
+from inewave.config import (
+    MAX_ANOS_ESTUDO,
+    MAX_SUBMERCADOS,
+    MESES_DF,
+)
 
+from cfinterface.components.section import Section
+from cfinterface.components.line import Line
+from cfinterface.components.field import Field
+from cfinterface.components.integerfield import IntegerField
+from cfinterface.components.literalfield import LiteralField
+from cfinterface.components.floatfield import FloatField
 from typing import List, IO
 import numpy as np  # type: ignore
 import pandas as pd  # type: ignore
 
 
-class BlocoCargasAdicionaisSubsistema(Bloco):
+class BlocoCargasAdicionais(Section):
     """
     Bloco com informações de cargas adicionais por mês/ano
     e por subsistema.
     """
 
-    str_inicio = ""
-    str_fim = "999"
+    FIM_BLOCO = " 999"
 
-    def __init__(self):
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha_subsis = Line(
+            [IntegerField(3, 1), LiteralField(10, 6), LiteralField(12, 21)]
+        )
+        campo_ano: List[Field] = [LiteralField(4, 0)]
+        campos_cargas: List[Field] = [
+            FloatField(8, 6 + 8 * i, 0) for i in range(len(MESES_DF))
+        ]
+        self.__linha_cargas = Line(campo_ano + campos_cargas)
+        self.__cabecalhos: List[str] = []
 
-        super().__init__(BlocoCargasAdicionaisSubsistema.str_inicio, "", True)
-
-        self._dados: pd.DataFrame = pd.DataFrame()
-
-    def __eq__(self, o: object):
-        if not isinstance(o, BlocoCargasAdicionaisSubsistema):
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoCargasAdicionais):
             return False
-        bloco: BlocoCargasAdicionaisSubsistema = o
-        return self._dados.equals(bloco._dados)
+        bloco: BlocoCargasAdicionais = o
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
+            return False
+        else:
+            return self.data.equals(bloco.data)
 
     # Override
-    def le(self, arq: IO):
-        def converte_tabela_em_df() -> pd.DataFrame:
-            df = pd.DataFrame(tabela)
-            df.columns = MESES_DF
+    def read(self, file: IO):
+        def converte_tabela_em_df():
+            df = pd.DataFrame(tabela, columns=MESES_DF)
+            df["Código Subsistema"] = codigo_subsis
+            df["Nome Subsistema"] = nome_subsis
+            df["Razão"] = razao
             df["Ano"] = anos
-            df["Num. Subsistema"] = subsistema
-            df["Nome Subsistema"] = nome_subsistema
-            df["Razão Carga"] = razao_carga
             df = df[
-                ["Ano", "Num. Subsistema", "Nome Subsistema", "Razão Carga"]
+                ["Código Subsistema", "Nome Subsistema", "Razão", "Ano"]
                 + MESES_DF
             ]
             return df
 
+        # Salta as linhas adicionais
+        for _ in range(2):
+            self.__cabecalhos.append(file.readline())
+
         # Variáveis auxiliares
-        reg_subsis = RegistroIn(3)
-        reg_nome_subsis = RegistroAn(12)
-        reg_razao_carga = RegistroAn(12)
-        reg_ano = RegistroAn(4)
-        reg_carga = RegistroFn(7)
-        # Pula uma linha, com cabeçalhos
-        arq.readline()
+        codigo_subsis: List[int] = []
+        nome_subsis: List[str] = []
+        razao: List[str] = []
+        anos: List[str] = []
+        codigo_atual = 0
+        nome_atual = ""
+        razao_atual = ""
+        tabela = np.zeros((MAX_ANOS_ESTUDO * MAX_SUBMERCADOS, len(MESES_DF)))
         i = 0
-        anos = []
-        subsistema = []
-        nome_subsistema = []
-        subsistema_atual = 0
-        nome_subsistema_atual = ""
-        razao_carga = []
-        razao_carga_atual = ""
-        tabela = np.zeros((MAX_ANOS_ESTUDO * len(SUBMERCADOS), len(MESES)))
         while True:
-            # Verifica se o arquivo acabou
-            linha: str = arq.readline()
-            if BlocoCargasAdicionaisSubsistema.str_fim == linha.strip():
-                tabela = tabela[:i, :]
-                self._dados = converte_tabela_em_df()
+            linha = file.readline()
+            # Confere se acabou
+            if len(linha) < 3:
                 break
-            # Senão, lê mais uma linha
-            if len(linha.strip()) < 40:
-                subsistema_atual = reg_subsis.le_registro(linha, 1)
-                nome_subsistema_atual = reg_nome_subsis.le_registro(linha, 6)
-                razao_carga_atual = reg_razao_carga.le_registro(linha, 20)
+            if BlocoCargasAdicionais.FIM_BLOCO in linha:
+                tabela = tabela[:i, :]
+                self.data = converte_tabela_em_df()
+                break
+            if len(linha.strip()) < 80:
+                (
+                    codigo_atual,
+                    nome_atual,
+                    razao_atual,
+                ) = self.__linha_subsis.read(linha)
             else:
-                # Ano
-                anos.append(reg_ano.le_registro(linha, 0))
-                # Subsistema
-                subsistema.append(subsistema_atual)
-                nome_subsistema.append(nome_subsistema_atual)
-                razao_carga.append(razao_carga_atual)
-                # Limites
-                ci = 7
-                nc = 7
-                for j in range(len(MESES)):
-                    cf = ci + nc
-                    if len(linha[ci:cf].strip()) > 0:
-                        tabela[i, j] = reg_carga.le_registro(linha, ci)
-                    ci = cf + 1
+                dados = self.__linha_cargas.read(linha)
+                tabela[i, :] = dados[1:]
+                codigo_subsis.append(codigo_atual)
+                nome_subsis.append(nome_atual)
+                razao.append(razao_atual)
+                anos.append(dados[0])
                 i += 1
 
     # Override
-    def escreve(self, arq: IO):
-        def escreve_cargas():
-            lin_tab = self._dados.shape[0]
-            subsistema_anterior = 0
-            nome_anterior = ""
-            razao_anterior = ""
-            for i in range(lin_tab):
-                linha = ""
-                # Subsistema
-                subsistema = self._dados.iloc[i, 1]
-                nome = self._dados.iloc[i, 2]
-                razao = self._dados.iloc[i, 3]
-                if any(
-                    [
-                        subsistema != subsistema_anterior,
-                        nome != nome_anterior,
-                        razao != razao_anterior,
-                    ]
-                ):
-                    subsistema_anterior = subsistema
-                    nome_anterior = nome
-                    razao_anterior = razao
-                    linha = (
-                        " "
-                        + str(subsistema).rjust(3)
-                        + "  "
-                        + str(nome).ljust(12)
-                        + "  "
-                        + str(razao).rjust(12)
+    def write(self, file: IO):
+        for linha in self.__cabecalhos:
+            file.write(linha)
+        ultimo_codigo = 0
+        ultimo_subsis = ""
+        ultima_razao = ""
+        if not isinstance(self.data, pd.DataFrame):
+            raise ValueError("Dados do c_adic.dat não foram lidos com sucesso")
+
+        for _, linha in self.data.iterrows():
+            linha_lida: pd.Series = linha
+            if any(
+                [
+                    linha_lida["Código Subsistema"] != ultimo_codigo,
+                    linha_lida["Nome Subsistema"] != ultimo_subsis,
+                    linha_lida["Razão"] != ultima_razao,
+                ]
+            ):
+                ultimo_codigo = linha_lida["Código Subsistema"]
+                ultimo_subsis = linha_lida["Nome Subsistema"]
+                ultima_razao = linha_lida["Razão"]
+                file.write(
+                    self.__linha_subsis.write(
+                        linha_lida[
+                            [
+                                "Código Subsistema",
+                                "Nome Subsistema",
+                                "Razão",
+                            ]
+                        ].tolist()
                     )
-                    arq.write(linha + "\n")
-                    subsistema_anterior = subsistema
-                # Mercados de cada mês
-                linha = f"{self._dados.iloc[i, 0].ljust(4)}  "
-                for j in range(len(MESES)):
-                    v = self._dados.iloc[i, j + 4]
-                    if v == 0:
-                        linha += "        "
-                    else:
-                        linha += " " + "{:6.0f}.".format(v).rjust(7)
-                arq.write(linha + "\n")
-
-        # Escreve cabeçalhos
-        arq.write(" XXX\n")
-        cab = (
-            "       XXXJAN. XXXFEV. XXXMAR. XXXABR. XXXMAI. XXXJUN."
-            + " XXXJUL. XXXAGO. XXXSET. XXXOUT. XXXNOV. XXXDEZ.\n"
-        )
-        arq.write(cab)
-        escreve_cargas()
-        # Escreve a linha de terminação
-        arq.write(f" {BlocoCargasAdicionaisSubsistema.str_fim}\n")
-
-
-class LeituraCAdic(LeituraBlocos):
-    """
-    Realiza a leitura do arquivo `cadic.dat`
-    existente em um diretório de entradas do NEWAVE.
-
-    Esta classe contém o conjunto de utilidades para ler
-    e interpretar os campos de um arquivo `cadic.dat`, construindo
-    um objeto `CAdic` cujas informações são as mesmas do cadic.dat.
-
-    Este objeto existe para retirar do modelo de dados a complexidade
-    de iterar pelas linhas do arquivo, recortar colunas, converter
-    tipos de dados, dentre outras tarefas necessárias para a leitura.
-    """
-
-    def __init__(self, diretorio: str):
-        super().__init__(diretorio)
-
-    # Override
-    def _cria_blocos_leitura(self) -> List[Bloco]:
-        """
-        Cria a lista de blocos a serem lidos no arquivo cadic.dat.
-        """
-        return [BlocoCargasAdicionaisSubsistema()]
+                )
+            file.write(
+                self.__linha_cargas.write(
+                    linha_lida[["Ano"] + MESES_DF].tolist()
+                )
+            )
+        file.write(BlocoCargasAdicionais.FIM_BLOCO)
