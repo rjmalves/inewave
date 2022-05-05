@@ -1,121 +1,87 @@
-# Imports do próprio módulo
-from inewave._utils.registros import RegistroAn, RegistroFn, RegistroIn
-from inewave._utils.bloco import Bloco
-from inewave._utils.leiturablocos import LeituraBlocos
-from inewave.config import MAX_UHES, MESES, MESES_DF
-
-# Imports de módulos externos
-import numpy as np  # type: ignore
+from cfinterface.components.section import Section
+from cfinterface.components.line import Line
+from cfinterface.components.literalfield import LiteralField
+from cfinterface.components.integerfield import IntegerField
+from cfinterface.components.floatfield import FloatField
+from typing import List, IO
 import pandas as pd  # type: ignore
-from typing import IO, List
+import numpy as np  # type: ignore
+
+from inewave.config import MAX_UHES, MESES_DF
 
 
-class BlocoVazPast(Bloco):
+class BlocoVazPast(Section):
     """
     Bloco de informações de vazões passadas
     por usina, existentes no arquivo `vazpast.dat`
     do NEWAVE.
     """
 
-    str_inicio = ""
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [IntegerField(4, 1), LiteralField(12, 6)]
+            + [FloatField(10, 18 + 10 * i, 2) for i in range(len(MESES_DF))]
+        )
+        self.__cabecalhos: List[str] = []
 
-    def __init__(self):
-
-        super().__init__(BlocoVazPast.str_inicio, "", True)
-
-        self._dados = [0, 0, pd.DataFrame]
-
-    def __eq__(self, o: object):
+    def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoVazPast):
             return False
         bloco: BlocoVazPast = o
-        return all(
+        if not all(
             [
-                self._dados[0] == bloco._dados[0],
-                self._dados[1] == bloco._dados[1],
-                self._dados[2].equals(bloco._dados[2]),
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
             ]
-        )
+        ):
+            return False
+        else:
+            return self.data.equals(bloco.data)
 
     # Override
-    def le(self, arq: IO):
-        # Pula as duas primeiras linhas, com cabeçalhos
-        arq.readline()
-        # Extrai o mês e ano do estudo
-        linha = arq.readline()
+    def read(self, file: IO):
+        def converte_tabela_em_df() -> pd.DataFrame:
+            cols = ["Índice"] + MESES_DF
+            df = pd.DataFrame(
+                tabela,
+                columns=cols,
+            )
+            df["Usina"] = usinas
+            df = df.astype({"Índice": "int64"})
+            df = df[["Índice", "Usina"] + MESES_DF]
+            return df
 
-        str_mes_plan, str_ano_plan = linha.split("ANOPLAN")
-        self._dados[0] = int(str_mes_plan.split("=")[1].strip())
-        self._dados[1] = int(str_ano_plan.split("=")[1].strip())
-        # Variáveis auxiliares
-        reg_posto = RegistroIn(3)
-        reg_nome = RegistroAn(12)
-        reg_vaz = RegistroFn(8)
+        # Salta as linhas adicionais
+        for _ in range(3):
+            self.__cabecalhos.append(file.readline())
+
         i = 0
-        postos: List[int] = []
-        nomes: List[str] = []
-        tabela = np.zeros((MAX_UHES, len(MESES)))
+        tabela = np.zeros((MAX_UHES, len(MESES_DF) + 1))
+        usinas: List[str] = []
         while True:
-            # Verifica se o arquivo acabou
-            linha = arq.readline()
+            linha = file.readline()
+            # Confere se terminaram as usinas
             if len(linha) < 3:
-                tabela = tabela[:i, :]
-                self._dados[2] = pd.DataFrame(tabela)
-                self._dados[2].columns = MESES_DF
-                self._dados[2]["Posto"] = postos
-                self._dados[2]["Usina"] = nomes
-                self._dados[2] = self._dados[2][["Posto", "Usina"] + MESES_DF]
+                # Converte para df e salva na variável
+                if i > 0:
+                    tabela = tabela[:i, :]
+                    self.data = converte_tabela_em_df()
                 break
-            # Senão, lê mais uma linha
-            postos.append(reg_posto.le_registro(linha, 2))
-            nomes.append(reg_nome.le_registro(linha, 6))
-            tabela[i, :] = reg_vaz.le_linha_tabela(linha, 20, 2, len(MESES))
+            dados = self.__linha.read(linha)
+            tabela[i, 0] = dados[0]
+            usinas.append(dados[1])
+            tabela[i, 1:] = dados[2:]
             i += 1
 
     # Override
-    def escreve(self, arq: IO):
-        def escreve_desvios():
-            lin_tab = self._dados[2].shape[0]
-            for i in range(lin_tab):
-                linha = " "
-                # Posto
-                linha += str(self._dados[2].iloc[i, 0]).rjust(4) + " "
-                # Nome
-                linha += str(self._dados[2].iloc[i, 1]).ljust(12)
-                # Vazoes de cada mês
-                for j in range(len(MESES)):
-                    v = self._dados[2].iloc[i, 2 + j]
-                    linha += " " + "{:6.2f}".format(float(v)).rjust(9)
-                arq.write(linha + "\n")
+    def write(self, file: IO):
+        for linha in self.__cabecalhos:
+            file.write(linha)
+        if not isinstance(self.data, pd.DataFrame):
+            raise ValueError(
+                "Dados do vazpast.dat não foram lidos com sucesso"
+            )
 
-        # Escreve cabeçalhos
-        dummy = "********* DUMMY" + "\n"
-        arq.write(dummy)
-        arq.write(dummy)
-        ano_mes = " "
-        ano_mes += f"MESPLAN={str(self._dados[0]).rjust(13)}"
-        ano_mes += f"  ANOPLAN={str(self._dados[1]).rjust(13)}"
-        arq.write(ano_mes + "\n")
-        escreve_desvios()
-
-
-class LeituraVazPast(LeituraBlocos):
-    """
-    Realiza a leitura do arquivo `vazpast.dat`
-    existente em um diretório de entradas do NEWAVE.
-
-    Esta classe contém o conjunto de utilidades para ler
-    e interpretar os campos de um arquivo `vazpast.dat`, construindo
-    um objeto `VazPast` cujas informações são as mesmas do `vazpast.dat`.
-
-    Este objeto existe para retirar do modelo de dados a complexidade
-    de iterar pelas linhas do arquivo, recortar colunas, converter
-    tipos de dados, dentre outras tarefas necessárias para a leitura.
-
-    """
-
-    def __init__(self, diretorio: str) -> None:
-        super().__init__(diretorio)
-
-    def _cria_blocos_leitura(self) -> List[Bloco]:
-        return [BlocoVazPast()]
+        for _, lin in self.data.iterrows():
+            file.write(self.__linha.write(lin.tolist()))

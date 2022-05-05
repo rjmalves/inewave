@@ -1,16 +1,17 @@
-from inewave.newave.modelos.patamar import LeituraPatamar
-from inewave._utils.dadosarquivo import DadosArquivoBlocos
-from inewave._utils.arquivo import ArquivoBlocos
-from inewave._utils.escritablocos import EscritaBlocos
+from inewave.newave.modelos.patamar import (
+    BlocoNumeroPatamares,
+    BlocoDuracaoPatamar,
+    BlocoCargaPatamar,
+    BlocoIntercambioPatamarSubsistemas,
+    BlocoUsinasNaoSimuladas,
+)
 
-from inewave.config import MESES_DF
-
-from typing import Dict
-import numpy as np  # type: ignore
+from cfinterface.files.sectionfile import SectionFile
+from typing import Type, TypeVar, Optional
 import pandas as pd  # type: ignore
 
 
-class Patamar(ArquivoBlocos):
+class Patamar(SectionFile):
     """
     Armazena os dados de entrada do NEWAVE referentes aos
     patamares de carga por submercado.
@@ -25,123 +26,141 @@ class Patamar(ArquivoBlocos):
     em memória. A tabela interna é transformada em dicionários
     e outras estruturas de dados mais palpáveis através das propriedades
     da própria classe.
-
     """
 
-    def __init__(self, dados: DadosArquivoBlocos):
-        super().__init__(dados)
-        # Interpreta o resultado da leitura
-        val = True
-        msg = "Erro na criação de Patamar: "
-        if len(dados.blocos) != 3:
-            msg += "Devem ser fornecidos exatamente 2 blocos para Patamar"
-            val = False
-        if not val:
-            raise TypeError(msg)
+    T = TypeVar("T")
+
+    SECTIONS = [
+        BlocoNumeroPatamares,
+        BlocoDuracaoPatamar,
+        BlocoIntercambioPatamarSubsistemas,
+        BlocoUsinasNaoSimuladas,
+    ]
+
+    def __init__(self, data=...) -> None:
+        super().__init__(data)
 
     @classmethod
     def le_arquivo(
         cls, diretorio: str, nome_arquivo="patamar.dat"
     ) -> "Patamar":
-        """ """
-        leitor = LeituraPatamar(diretorio)
-        r = leitor.le_arquivo(nome_arquivo)
-        return cls(r)
+        return cls.read(diretorio, nome_arquivo)
 
     def escreve_arquivo(self, diretorio: str, nome_arquivo="patamar.dat"):
-        """ """
-        escritor = EscritaBlocos(diretorio)
-        escritor.escreve_arquivo(self._dados, nome_arquivo)
+        self.write(diretorio, nome_arquivo)
+
+    def __bloco_por_tipo(self, bloco: Type[T], indice: int) -> Optional[T]:
+        """
+        Obtém um gerador de blocos de um tipo, se houver algum no arquivo.
+
+        :param bloco: Um tipo de bloco para ser lido
+        :type bloco: T
+        :param indice: O índice do bloco a ser acessado, dentre os do tipo
+        :type indice: int
+        :return: O gerador de blocos, se houver
+        :rtype: Optional[Generator[T], None, None]
+        """
+        try:
+            return next(
+                b
+                for i, b in enumerate(self.data.of_type(bloco))
+                if i == indice
+            )
+        except StopIteration:
+            return None
 
     @property
-    def duracao_mensal_patamares(self) -> pd.DataFrame:
+    def numero_patamares(self) -> Optional[int]:
         """
-        Tabela de duração mensal dos patamares de carga.
+        O número de patamares utilizado no estudo.
 
-        **Retorna**
-
-        `pd.DataFrame`
-
-        **Sobre**
-
+        :return: O número de patamares como um inteiro
+        :rtype: Optional[int]
         """
-        return self._blocos[0].dados
+        b = self.__bloco_por_tipo(BlocoNumeroPatamares, 0)
+        if b is not None:
+            return b.data
+        return None
+
+    @numero_patamares.setter
+    def numero_patamares(self, n: int):
+        b = self.__bloco_por_tipo(BlocoNumeroPatamares, 0)
+        if b is not None:
+            b.data = n
+
+    @property
+    def duracao_mensal_patamares(self) -> Optional[pd.DataFrame]:
+        """
+        Tabela com a duração mensal de cada patamar no horizonte
+        de estudo.
+
+        :return: A duração por mês em um DataFrame.
+        :rtype: Optional[pd.DataFrame]
+        """
+        b = self.__bloco_por_tipo(BlocoDuracaoPatamar, 0)
+        if b is not None:
+            return b.data
+        return None
 
     @duracao_mensal_patamares.setter
-    def duracao_mensal_patamares(self, duracao: pd.DataFrame):
-        self._blocos[0].dados = duracao
+    def duracao_mensal_patamares(self, df: pd.DataFrame):
+        b = self.__bloco_por_tipo(BlocoDuracaoPatamar, 0)
+        if b is not None:
+            b.data = df
 
     @property
-    def carga_patamares(self) -> pd.DataFrame:
+    def carga_patamares(self) -> Optional[pd.DataFrame]:
         """
-        Tabela de carga em p.u. dos patamares de carga.
+        Tabela com a carga em P.U. por patamar.
 
-        **Retorna**
-
-        `pd.DataFrame`
-
-        **Sobre**
-
+        :return: A carga por mês em um DataFrame.
+        :rtype: Optional[pd.DataFrame]
         """
-        return self._blocos[1].dados
+        b = self.__bloco_por_tipo(BlocoCargaPatamar, 0)
+        if b is not None:
+            return b.data
+        return None
 
     @carga_patamares.setter
-    def carga_patamares(self, carga: pd.DataFrame):
-        self._blocos[1].dados = carga
+    def carga_patamares(self, df: pd.DataFrame):
+        b = self.__bloco_por_tipo(BlocoCargaPatamar, 0)
+        if b is not None:
+            b.data = df
 
     @property
-    def intercambio_patamares(self) -> pd.DataFrame:
+    def intercambio_patamares(self) -> Optional[pd.DataFrame]:
         """
-        Tabela de intercambios em p.u. dos patamares de carga.
+        Tabela com a correção em P.U. do intercâmbio por patamar.
 
-        **Retorna**
-
-        `pd.DataFrame`
-
-        **Sobre**
-
+        :return: A carga por mês em um DataFrame.
+        :rtype: Optional[pd.DataFrame]
         """
-        return self._blocos[2].dados
+        b = self.__bloco_por_tipo(BlocoIntercambioPatamarSubsistemas, 0)
+        if b is not None:
+            return b.data
+        return None
 
     @intercambio_patamares.setter
-    def intercambio_patamares(self, inter: pd.DataFrame):
-        self._blocos[2].dados = inter
+    def intercambio_patamares(self, df: pd.DataFrame):
+        b = self.__bloco_por_tipo(BlocoIntercambioPatamarSubsistemas, 0)
+        if b is not None:
+            b.data = df
 
     @property
-    def patamares_por_ano(self) -> Dict[int, np.ndarray]:
+    def usinas_nao_simuladas(self) -> Optional[pd.DataFrame]:
         """
-        Valores contidos na tabela de duração dos patamares, organizados
-        por ano.
+        Tabela com os fatores das usinas não simuladas em P.U.
 
-        **Retorna**
-
-        `Dict[int, np.ndarray]`
-
-        **Sobre**
-
-        O acesso é feito com [ano] e o valor fornecido
-        é uma array 2-D do `NumPy` com os valores dos patamares para todo
-        os meses de um ano, semelhante a uma linha do arquivo patamar.dat.
+        :return: Os valores por mês em um DataFrame.
+        :rtype: Optional[pd.DataFrame]
         """
-        patamares_ano: Dict[int, np.ndarray] = {}
-        # Preenche com os valores
-        duracoes = self.duracao_mensal_patamares
-        anos = self.anos_estudo
-        for i, a in enumerate(anos):
-            patamares_ano[a] = duracoes.loc[
-                duracoes["Ano"] == a, MESES_DF
-            ].to_numpy()
-        return patamares_ano
+        b = self.__bloco_por_tipo(BlocoUsinasNaoSimuladas, 0)
+        if b is not None:
+            return b.data
+        return None
 
-    @property
-    def anos_estudo(self) -> np.ndarray:
-        """
-        Lista com os anos de estudo descritos no Patamar.
-
-        **Retorna**
-
-        `np.ndarray`
-
-        """
-        duracoes = self.duracao_mensal_patamares
-        return np.array(list(set(list(duracoes["Ano"]))))
+    @usinas_nao_simuladas.setter
+    def usinas_nao_simuladas(self, df: pd.DataFrame):
+        b = self.__bloco_por_tipo(BlocoUsinasNaoSimuladas, 0)
+        if b is not None:
+            b.data = df

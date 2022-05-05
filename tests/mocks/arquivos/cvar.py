@@ -26,3 +26,9 @@ MockBlocoValoresLambdaVariaveis = [
     " 2021   10.0   10.0   10.0   10.0   10.0   10.0   10.0   10.0   10.0   10.0   10.0   10.0\n",
     "POS     10.0   10.0   10.0   10.0   10.0   10.0   10.0   10.0   10.0   10.0   10.0   10.0\n",
 ]
+
+MockCVAR = (
+    MockBlocoValoresConstantes
+    + MockBlocoValoresAlfaVariaveis
+    + MockBlocoValoresLambdaVariaveis
+)

@@ -1,13 +1,11 @@
-from inewave._utils.dadosarquivo import DadosArquivoBlocos
-from inewave._utils.arquivo import ArquivoBlocos
-from inewave.newave.modelos.vazpast import BlocoVazPast, LeituraVazPast
-from inewave._utils.escritablocos import EscritaBlocos
+from inewave.newave.modelos.vazpast import BlocoVazPast
 
-
+from cfinterface.files.sectionfile import SectionFile
+from typing import Type, TypeVar, Optional
 import pandas as pd  # type: ignore
 
 
-class VazPast(ArquivoBlocos):
+class VazPast(SectionFile):
     """
     Armazena os dados de entrada do NEWAVE referentes às
     vazões anteriores ao período de planejamento.
@@ -17,43 +15,56 @@ class VazPast(ArquivoBlocos):
 
     """
 
-    def __init__(self, dados: DadosArquivoBlocos):
-        super().__init__(dados)
-        # Interpreta o resultado da leitura
-        val = True
-        msg = "Erro na criação de VazPast: "
-        if len(dados.blocos) == 1:
-            bloco = dados.blocos[0]
-            if isinstance(bloco, BlocoVazPast):
-                self.__bloco = bloco
-            else:
-                msg += (
-                    f"O bloco deve ser do tipo {BlocoVazPast}, "
-                    + f"mas foi fornecido do tipo {type(bloco)}"
-                )
-                val = False
-        else:
-            msg += "Deve ser fornecido exatamente 1 bloco para VazPast"
-            val = False
-        if not val:
-            raise TypeError(msg)
+    T = TypeVar("T")
+
+    SECTIONS = [BlocoVazPast]
+
+    def __init__(self, data=...) -> None:
+        super().__init__(data)
 
     @classmethod
     def le_arquivo(
         cls, diretorio: str, nome_arquivo="vazpast.dat"
     ) -> "VazPast":
-        leitor = LeituraVazPast(diretorio)
-        r = leitor.le_arquivo(nome_arquivo)
-        return cls(r)
+        return cls.read(diretorio, nome_arquivo)
 
     def escreve_arquivo(self, diretorio: str, nome_arquivo="vazpast.dat"):
-        escritor = EscritaBlocos(diretorio)
-        escritor.escreve_arquivo(self._dados, nome_arquivo)
+        self.write(diretorio, nome_arquivo)
+
+    def __bloco_por_tipo(self, bloco: Type[T], indice: int) -> Optional[T]:
+        """
+        Obtém um gerador de blocos de um tipo, se houver algum no arquivo.
+
+        :param bloco: Um tipo de bloco para ser lido
+        :type bloco: T
+        :param indice: O índice do bloco a ser acessado, dentre os do tipo
+        :type indice: int
+        :return: O gerador de blocos, se houver
+        :rtype: Optional[Generator[T], None, None]
+        """
+        try:
+            return next(
+                b
+                for i, b in enumerate(self.data.of_type(bloco))
+                if i == indice
+            )
+        except StopIteration:
+            return None
 
     @property
-    def tendencia(self) -> pd.DataFrame:
-        return self.__bloco._dados[2]
+    def tendencia(self) -> Optional[pd.DataFrame]:
+        """
+        Tabela com a tendência hidrológica por REE.
+
+        :return: A tabela como um DataFrame
+        :rtype: Optional[pd.DataFrame]
+        """
+        b = self.__bloco_por_tipo(BlocoVazPast, 0)
+        if b is not None:
+            return b.data
+        return None
 
     @tendencia.setter
     def tendencia(self, df: pd.DataFrame):
-        self.__bloco._dados[2] = df
+        b = self.__bloco_por_tipo(BlocoVazPast, 0)
+        b.data = df

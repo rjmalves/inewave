@@ -51,10 +51,30 @@ MockBlocoCurvaSeguranca = [
     "9999\n",
 ]
 
-MockProcessoIterativoEtapa2 = [
+MockMaximoIteracoesProcessoIterativoEtapa2 = [
     "PROCESSO ITERATIVO DA ETAPA 2 DO MECANISMO DE AVERSAO AO RISCO\n",
     "NUM. MAXIMO DE ITERACOES         0     (SE = 0 -> NAO USA PROC. ITERATIVO DA ETAPA 2)\n",
+]
+
+MockIteracaoAPartirProcessoIterativoEtapa2 = [
     "ITERACAO A PARTIR               10\n",
+]
+
+MockToleranciaProcessoIterativoEtapa2 = [
     "TOLERANCIA P/ PROCESSO       0.010     (EM % DA PENALIDADE DE REFERENCIA)\n",
+]
+
+MockImpressaoRelatorioProcessoIterativoEtapa2 = [
     "IMPRESSAO DE RELATORIO           0     (=0 NAO IMPRIME; =1 IMPRIME)\n",
 ]
+
+
+MockCurva = (
+    MockBlockTipoPenalizacao
+    + MockBlocoCustoPorSistema
+    + MockBlocoCurvaSeguranca
+    + MockMaximoIteracoesProcessoIterativoEtapa2
+    + MockIteracaoAPartirProcessoIterativoEtapa2
+    + MockToleranciaProcessoIterativoEtapa2
+    + MockImpressaoRelatorioProcessoIterativoEtapa2
+)

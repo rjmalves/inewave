@@ -1,117 +1,87 @@
-# Imports do próprio módulo
-from inewave._utils.registros import RegistroAn, RegistroFn, RegistroIn
-from inewave._utils.bloco import Bloco
-from inewave._utils.leiturablocos import LeituraBlocos
-from inewave.config import MAX_UHES, MESES, MESES_DF
-
-# Imports de módulos externos
-import numpy as np  # type: ignore
+from cfinterface.components.section import Section
+from cfinterface.components.line import Line
+from cfinterface.components.literalfield import LiteralField
+from cfinterface.components.integerfield import IntegerField
+from cfinterface.components.floatfield import FloatField
+from typing import List, IO
 import pandas as pd  # type: ignore
-from typing import IO, List
+import numpy as np  # type: ignore
+
+from inewave.config import MAX_REES, MESES_DF
 
 
-class BlocoEafPast(Bloco):
+class BlocoEafPast(Section):
     """
     Bloco de informações de vazões passadas
     por REE, existentes no arquivo `eafpast.dat`
     do NEWAVE.
     """
 
-    str_inicio = ""
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [IntegerField(4, 0), LiteralField(10, 5)]
+            + [FloatField(11, 15 + 11 * i, 2) for i in range(len(MESES_DF))]
+        )
+        self.__cabecalhos: List[str] = []
 
-    def __init__(self):
-
-        super().__init__(BlocoEafPast.str_inicio, "", True)
-
-        self._dados = pd.DataFrame
-
-    def __eq__(self, o: object):
+    def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoEafPast):
             return False
         bloco: BlocoEafPast = o
-        return self._dados.equals(bloco._dados)
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
+            return False
+        else:
+            return self.data.equals(bloco.data)
 
     # Override
-    def le(self, arq: IO):
-        # Pula as duas primeiras linhas, com cabeçalhos
-        arq.readline()
+    def read(self, file: IO):
+        def converte_tabela_em_df() -> pd.DataFrame:
+            cols = ["Índice"] + MESES_DF
+            df = pd.DataFrame(
+                tabela,
+                columns=cols,
+            )
+            df["REE"] = rees
+            df = df.astype({"Índice": "int64"})
+            df = df[["Índice", "REE"] + MESES_DF]
+            return df
 
-        # Variáveis auxiliares
-        reg_num = RegistroIn(4)
-        reg_nome = RegistroAn(10)
-        reg_vaz = RegistroFn(8)
+        # Salta as linhas adicionais
+        for _ in range(2):
+            self.__cabecalhos.append(file.readline())
+
         i = 0
-        nums: List[int] = []
-        nomes: List[str] = []
-        tabela = np.zeros((MAX_UHES, len(MESES)))
+        tabela = np.zeros((MAX_REES, len(MESES_DF) + 1))
+        rees: List[str] = []
         while True:
-            # Verifica se o arquivo acabou
-            linha = arq.readline()
+            linha = file.readline()
+            # Confere se terminaram as usinas
             if len(linha) < 3:
-                tabela = tabela[:i, :]
-                self._dados = pd.DataFrame(tabela)
-                self._dados.columns = MESES_DF
-                self._dados["Índice"] = nums
-                self._dados["REE"] = nomes
-                self._dados = self._dados[["Índice", "REE"] + MESES_DF]
+                # Converte para df e salva na variável
+                if i > 0:
+                    tabela = tabela[:i, :]
+                    self.data = converte_tabela_em_df()
                 break
-            # Senão, lê mais uma linha
-            nums.append(reg_num.le_registro(linha, 0))
-            nomes.append(reg_nome.le_registro(linha, 5))
-            tabela[i, :] = reg_vaz.le_linha_tabela(linha, 18, 3, len(MESES))
+            dados = self.__linha.read(linha)
+            tabela[i, 0] = dados[0]
+            rees.append(dados[1])
+            tabela[i, 1:] = dados[2:]
             i += 1
 
     # Override
-    def escreve(self, arq: IO):
-        def escreve_afluencias():
-            lin_tab = self._dados.shape[0]
-            for i in range(lin_tab):
-                linha = ""
-                # Numero
-                linha += str(self._dados.iloc[i, 0]).rjust(4) + " "
-                # REE
-                linha += str(self._dados.iloc[i, 1]).ljust(10)
-                # Vazoes de cada mês
-                for j in range(len(MESES)):
-                    v = self._dados.iloc[i, 2 + j]
-                    linha += "   " + "{:5.2f}".format(float(v)).rjust(8)
-                arq.write(linha + "\n")
+    def write(self, file: IO):
+        for linha in self.__cabecalhos:
+            file.write(linha)
+        if not isinstance(self.data, pd.DataFrame):
+            raise ValueError(
+                "Dados do eafpast.dat não foram lidos com sucesso"
+            )
 
-        # Escreve cabeçalhos
-        cabs = (
-            " NUM SISTEMA        JAN        FEV        MAR        ABR"
-            + "        MAI        JUN        JUL        AGO        SET "
-            + "       OUT        NOV        DEZ"
-            + "\n"
-        )
-        tabs = (
-            "XXXX XXXXXXXXXX   XXXXX.XX   XXXXX.XX   XXXXX.XX   XXXXX."
-            + "XX   XXXXX.XX   XXXXX.XX   XXXXX.XX   XXXXX.XX   XXXXX.XX"
-            + "   XXXXX.XX   XXXXX.XX   XXXXX.XX"
-            + "\n"
-        )
-        arq.write(cabs)
-        arq.write(tabs)
-        escreve_afluencias()
-
-
-class LeituraEafPast(LeituraBlocos):
-    """
-    Realiza a leitura do arquivo `eafpast.dat`
-    existente em um diretório de entradas do NEWAVE.
-
-    Esta classe contém o conjunto de utilidades para ler
-    e interpretar os campos de um arquivo `rafpast.dat`, construindo
-    um objeto `EafPast` cujas informações são as mesmas do `eafpast.dat`.
-
-    Este objeto existe para retirar do modelo de dados a complexidade
-    de iterar pelas linhas do arquivo, recortar colunas, converter
-    tipos de dados, dentre outras tarefas necessárias para a leitura.
-
-    """
-
-    def __init__(self, diretorio: str) -> None:
-        super().__init__(diretorio)
-
-    def _cria_blocos_leitura(self) -> List[Bloco]:
-        return [BlocoEafPast()]
+        for _, lin in self.data.iterrows():
+            file.write(self.__linha.write(lin.tolist()))

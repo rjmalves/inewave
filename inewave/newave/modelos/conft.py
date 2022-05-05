@@ -1,33 +1,46 @@
-from inewave._utils.bloco import Bloco
-from inewave._utils.leiturablocos import LeituraBlocos
-from inewave._utils.registros import RegistroAn, RegistroIn
-
-import pandas as pd  # type: ignore
+from cfinterface.components.section import Section
+from cfinterface.components.line import Line
+from cfinterface.components.integerfield import IntegerField
+from cfinterface.components.literalfield import LiteralField
 from typing import List, IO
+import pandas as pd  # type: ignore
 
 
-class BlocoConfUTE(Bloco):
+class BlocoConfUTE(Section):
     """
     Bloco de informações das usinas cadastradas
     no arquivo do NEWAVE `conft.dat`.
     """
 
-    str_inicio = "NUM  NOME"
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha_ute = Line(
+            [
+                IntegerField(4, 1),
+                LiteralField(12, 6),
+                IntegerField(4, 21),
+                LiteralField(2, 30),
+                IntegerField(4, 35),
+            ]
+        )
+        self.__cabecalhos: List[str] = []
 
-    def __init__(self):
-
-        super().__init__(BlocoConfUTE.str_inicio, "", True)
-
-        self._dados: pd.DataFrame = pd.DataFrame()
-
-    def __eq__(self, o: object):
+    def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoConfUTE):
             return False
         bloco: BlocoConfUTE = o
-        return self._dados.equals(bloco._dados)
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
+            return False
+        else:
+            return self.data.equals(bloco.data)
 
     # Override
-    def le(self, arq: IO):
+    def read(self, file: IO):
         def extrai_coluna_de_listas(listas: List[list], coluna: int) -> list:
             return [lista[coluna] for lista in listas]
 
@@ -47,78 +60,29 @@ class BlocoConfUTE(Bloco):
             }
             return pd.DataFrame(data=dados)
 
-        # Salta a linha com "XXX"
-        arq.readline()
-        # Variáveis auxiliares
-        reg_num = RegistroIn(4)
-        reg_nome = RegistroAn(12)
-        reg_subsis = RegistroAn(4)
-        reg_exis = RegistroAn(2)
-        reg_clas = RegistroIn(4)
+        # Salta as linhas adicionais
+        for _ in range(2):
+            self.__cabecalhos.append(file.readline())
+
         # Para cada usina, lê e processa as informações
         dados_utes: List[list] = []
         while True:
-            linha = arq.readline()
+            linha = file.readline()
             # Confere se terminaram as usinas
             if len(linha) < 3:
                 # Converte para df e salva na variável
-                self._dados = transforma_utes_em_tabela()
+                if len(dados_utes) > 0:
+                    self.data = transforma_utes_em_tabela()
                 break
-            dados_ute = [
-                reg_num.le_registro(linha, 1),
-                reg_nome.le_registro(linha, 6),
-                reg_subsis.le_registro(linha, 21),
-                reg_exis.le_registro(linha, 30),
-                reg_clas.le_registro(linha, 35),
-            ]
+            dados_ute = self.__linha_ute.read(linha)
             dados_utes.append(dados_ute)
 
     # Override
-    def escreve(self, arq: IO):
-        def escreve_ute(lin: pd.Series):
-            linha = " "
-            # Número
-            linha += str(lin[0]).rjust(4) + " "
-            # Nome
-            linha += str(lin[1]).ljust(12) + "   "
-            # Subsistema
-            linha += str(lin[2]).rjust(4) + "     "
-            # Existente
-            linha += str(lin[3]) + "   "
-            # Classe
-            linha += str(lin[4]).rjust(4)
-            arq.write(linha + "\n")
+    def write(self, file: IO):
+        for linha in self.__cabecalhos:
+            file.write(linha)
+        if not isinstance(self.data, pd.DataFrame):
+            raise ValueError("Dados do conft.dat não foram lidos com sucesso")
 
-        # Escreve cabeçalhos
-        titulos = " NUM  NOME           SSIS  U.EXIS CLASSE" + "\n"
-        cabecalhos = " XXXX XXXXXXXXXXXX   XXXX     XX   XXXX" + "\n"
-        arq.write(titulos)
-        arq.write(cabecalhos)
-        # Escreve UHEs
-        for _, ute in self._dados.iterrows():
-            escreve_ute(ute)
-
-
-class LeituraConfT(LeituraBlocos):
-    """
-    Realiza a leitura do arquivo `conft.dat`
-    existente em um diretório de entradas do NEWAVE.
-
-    Esta classe contém o conjunto de utilidades para ler
-    e interpretar os campos de um arquivo `conft.dat`, construindo
-    um objeto `ConfT` cujas informações são as mesmas do conft.dat.
-
-    Este objeto existe para retirar do modelo de dados a complexidade
-    de iterar pelas linhas do arquivo, recortar colunas, converter
-    tipos de dados, dentre outras tarefas necessárias para a leitura.
-    """
-
-    def __init__(self, diretorio: str):
-        super().__init__(diretorio)
-
-    # Override
-    def _cria_blocos_leitura(self) -> List[Bloco]:
-        """
-        Cria a lista de blocos a serem lidos no arquivo conft.dat.
-        """
-        return [BlocoConfUTE()]
+        for _, lin in self.data.iterrows():
+            file.write(self.__linha_ute.write(lin.tolist()))

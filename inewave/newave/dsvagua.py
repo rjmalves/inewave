@@ -1,11 +1,11 @@
-import numpy as np  # type: ignore
-from inewave._utils.dadosarquivo import DadosArquivoBlocos
-from inewave._utils.arquivo import ArquivoBlocos
-from inewave.newave.modelos.dsvagua import BlocoDsvUHE, LeituraDSVAgua
-from inewave._utils.escritablocos import EscritaBlocos
+from inewave.newave.modelos.dsvagua import BlocoDsvUHE
+
+from cfinterface.files.sectionfile import SectionFile
+from typing import Type, TypeVar, Optional
+import pandas as pd  # type: ignore
 
 
-class DSVAgua(ArquivoBlocos):
+class DSVAgua(SectionFile):
     """
     Armazena os dados de entrada do NEWAVE referentes aos
     desvios de água por usina.
@@ -15,39 +15,51 @@ class DSVAgua(ArquivoBlocos):
 
     """
 
-    def __init__(self, dados: DadosArquivoBlocos):
-        super().__init__(dados)
-        # Interpreta o resultado da leitura
-        val = True
-        msg = "Erro na criação de DSVAgua: "
-        if len(dados.blocos) == 1:
-            bloco = dados.blocos[0]
-            if isinstance(bloco, BlocoDsvUHE):
-                self.__bloco = bloco
-            else:
-                msg += (
-                    f"O bloco deve ser do tipo {BlocoDsvUHE}, "
-                    + f"mas foi fornecido do tipo {type(bloco)}"
-                )
-                val = False
-        else:
-            msg += "Deve ser fornecido exatamente 1 bloco para DSVAgua"
-            val = False
-        if not val:
-            raise TypeError(msg)
+    T = TypeVar("T")
+
+    SECTIONS = [BlocoDsvUHE]
+
+    def __init__(self, data=...) -> None:
+        super().__init__(data)
 
     @classmethod
     def le_arquivo(
         cls, diretorio: str, nome_arquivo="dsvagua.dat"
     ) -> "DSVAgua":
-        leitor = LeituraDSVAgua(diretorio)
-        r = leitor.le_arquivo(nome_arquivo)
-        return cls(r)
+        return cls.read(diretorio, nome_arquivo)
 
     def escreve_arquivo(self, diretorio: str, nome_arquivo="dsvagua.dat"):
-        escritor = EscritaBlocos(diretorio)
-        escritor.escreve_arquivo(self._dados, nome_arquivo)
+        self.write(diretorio, nome_arquivo)
+
+    def __bloco_por_tipo(self, bloco: Type[T], indice: int) -> Optional[T]:
+        """
+        Obtém um gerador de blocos de um tipo, se houver algum no arquivo.
+
+        :param bloco: Um tipo de bloco para ser lido
+        :type bloco: T
+        :param indice: O índice do bloco a ser acessado, dentre os do tipo
+        :type indice: int
+        :return: O gerador de blocos, se houver
+        :rtype: Optional[Generator[T], None, None]
+        """
+        try:
+            return next(
+                b
+                for i, b in enumerate(self.data.of_type(bloco))
+                if i == indice
+            )
+        except StopIteration:
+            return None
 
     @property
-    def desvios(self) -> np.ndarray:
-        return self.__bloco.dados
+    def desvios(self) -> Optional[pd.DataFrame]:
+        """
+        Tabela com os desvios de água por usina e por estágio.
+
+        :return: A tabela como um DataFrame
+        :rtype: Optional[pd.DataFrame]
+        """
+        b = self.__bloco_por_tipo(BlocoDsvUHE, 0)
+        if b is not None:
+            return b.data
+        return None

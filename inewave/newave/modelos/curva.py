@@ -1,246 +1,404 @@
-from inewave.config import MAX_REES, MAX_ANOS_ESTUDO, MESES_DF
-from inewave._utils.registros import RegistroIn, RegistroFn
-from inewave._utils.bloco import Bloco
-from inewave._utils.leiturablocos import LeituraBlocos
+from inewave.config import MAX_ANOS_ESTUDO, MAX_SUBMERCADOS, MESES_DF
 
+from cfinterface.components.section import Section
+from cfinterface.components.line import Line
+from cfinterface.components.integerfield import IntegerField
+from cfinterface.components.floatfield import FloatField
+from cfinterface.components.literalfield import LiteralField
 from typing import List, IO
-import numpy as np  # type: ignore
 import pandas as pd  # type: ignore
+import numpy as np  # type: ignore
 
 
-class BlocoConfiguracoesPenalizacaoCurva(Bloco):
+class BlocoConfiguracoesPenalizacaoCurva(Section):
     """
-    Bloco com as informações de configurações de
-    penalização da curva de volume mínimo.
+    Bloco de informações das usinas cadastradas
+    no arquivo do NEWAVE `conft.dat`.
     """
 
-    str_inicio = ""
-    str_fim = ""
-
-    def __init__(self):
-
-        super().__init__(
-            BlocoConfiguracoesPenalizacaoCurva.str_inicio, "", True
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [
+                IntegerField(3, 1),
+                IntegerField(3, 5),
+                IntegerField(3, 9),
+            ]
         )
+        self.__cabecalhos: List[str] = []
 
-        self._dados: np.ndarray = np.zeros((3,), dtype=np.int64)
-
-    def __eq__(self, o: object):
+    def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoConfiguracoesPenalizacaoCurva):
             return False
         bloco: BlocoConfiguracoesPenalizacaoCurva = o
-        return np.array_equal(self._dados, bloco._dados)
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
 
     # Override
-    def le(self, arq: IO):
-        reg = RegistroIn(3)
-        linha = arq.readline()
-        self._dados = np.array(
-            reg.le_linha_tabela(linha, 1, 1, 3), dtype=np.int64
-        )
-        return
+    def read(self, file: IO):
+        self.__cabecalhos.append(file.readline())
+
+        self.data = self.__linha.read(file.readline())
 
     # Override
-    def escreve(self, arq: IO):
-        cab = (
-            " XXX XXX XXX (TIPO DE PENALIZACAO DAS VIOLACOES: 0-FIXA"
-            + " 1-MAXIMA; MES DE PENALIZACAO;VMINOP SAZONAL NO PRE/POS:"
-            + " 0-NAO CONSIDERA 1-CONSIDERA)"
-        )
-        arq.write(cab + "\n")
-        linha = ""
-        for d in self._dados:
-            linha += f" {str(d).rjust(3)}"
-        arq.write(linha + "\n")
+    def write(self, file: IO):
+        for linha in self.__cabecalhos:
+            file.write(linha)
+        if not isinstance(self.data, list):
+            raise ValueError("Dados do curva.dat não foram lidos com sucesso")
+        file.write(self.__linha.write(self.data))
 
 
-class BlocoPenalidadesViolacaoREECurva(Bloco):
+class BlocoPenalidadesViolacaoREECurva(Section):
     """
     Bloco com informações das penalidades por violação para cada
-    ree.
+    REE.
     """
 
-    str_inicio = "SISTEMA   CUSTO"
-    str_fim = "999"
+    FIM_BLOCO = " 999"
 
-    def __init__(self):
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [
+                IntegerField(3, 1),
+                FloatField(7, 11, 2),
+            ]
+        )
+        self.__cabecalhos: List[str] = []
 
-        super().__init__(BlocoPenalidadesViolacaoREECurva.str_inicio, "", True)
-
-        self._dados: pd.DataFrame = pd.DataFrame()
-
-    def __eq__(self, o: object):
+    def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoPenalidadesViolacaoREECurva):
             return False
         bloco: BlocoPenalidadesViolacaoREECurva = o
-        return self._dados.equals(bloco._dados)
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
+            return False
+        else:
+            return self.data.equals(bloco.data)
 
     # Override
-    def le(self, arq: IO):
-        def converte_tabela_em_df() -> pd.DataFrame:
-            df = pd.DataFrame(tabela)
-            df.columns = ["Subsistema", "Custo"]
-            df = df.astype({"Subsistema": "int32"})
+    def read(self, file: IO):
+        def converte_tabela_em_df():
+            df = pd.DataFrame(tabela, columns=["Sistema", "Custo"])
+            df = df.astype({"Sistema": "int64"})
             return df
 
-        # Variáveis auxiliares
-        reg_subsis = RegistroIn(3)
-        reg_custo = RegistroFn(7)
-        # Pula uma linha, com cabeçalhos
-        arq.readline()
+        # Salta as linhas adicionais
+        for _ in range(2):
+            self.__cabecalhos.append(file.readline())
+
         i = 0
-        tabela = np.zeros((MAX_REES, 2))
+        tabela = np.zeros((MAX_SUBMERCADOS, 2))
         while True:
-            # Verifica se o arquivo acabou
-            linha: str = arq.readline()
-            if BlocoPenalidadesViolacaoREECurva.str_fim == linha.strip():
-                tabela = tabela[:i, :]
-                self._dados = converte_tabela_em_df()
+            linha = file.readline()
+            # Confere se terminaram
+            if (
+                len(linha) < 3
+                or BlocoPenalidadesViolacaoREECurva.FIM_BLOCO in linha
+            ):
+                # Converte para df e salva na variável
+                if i > 0:
+                    tabela = tabela[:i, :]
+                    self.data = converte_tabela_em_df()
                 break
-            tabela[i, 0] = reg_subsis.le_registro(linha, 1)
-            tabela[i, 1] = reg_custo.le_registro(linha, 11)
+            tabela[i, :] = self.__linha.read(linha)
             i += 1
 
     # Override
-    def escreve(self, arq: IO):
-        def escreve_custos():
-            lin_tab = self._dados.shape[0]
-            for i in range(lin_tab):
-                linha = f" {str(int(self._dados.iloc[i, 0])).zfill(3)}"
-                linha += f"       {self._dados.iloc[i, 1]:4.2f}"
-                arq.write(linha + "\n")
+    def write(self, file: IO):
+        for linha in self.__cabecalhos:
+            file.write(linha)
+        if not isinstance(self.data, pd.DataFrame):
+            raise ValueError("Dados do curva.dat não foram lidos com sucesso")
 
-        # Escreve cabeçalhos
-        arq.write(f" {BlocoPenalidadesViolacaoREECurva.str_inicio}\n")
-        arq.write(" XXX       XXXX.XX\n")
-        escreve_custos()
-        # Escreve a linha de terminação
-        arq.write(f" {BlocoPenalidadesViolacaoREECurva.str_fim}\n")
+        for _, lin in self.data.iterrows():
+            file.write(
+                self.__linha.write([int(lin["Sistema"])] + [lin["Custo"]])
+            )
+        file.write(BlocoPenalidadesViolacaoREECurva.FIM_BLOCO + "\n")
 
 
-class BlocoCurvaSegurancaSubsistema(Bloco):
+class BlocoCurvaSegurancaSubsistema(Section):
     """
     Bloco com informações da curva de segurança de operação por mês/ano
     e por subsistema.
     """
 
-    str_inicio = "CURVA DE SEGURANCA"
-    str_fim = "9999"
+    FIM_BLOCO = "9999"
 
-    def __init__(self):
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha_subsis = Line([IntegerField(3, 1)])
+        self.__linha = Line(
+            [IntegerField(4, 0)]
+            + [FloatField(5, i * 6 + 6, 1) for i in range(len(MESES_DF))]
+        )
+        self.__cabecalhos: List[str] = []
 
-        super().__init__(BlocoCurvaSegurancaSubsistema.str_inicio, "", True)
-
-        self._dados: pd.DataFrame = pd.DataFrame()
-
-    def __eq__(self, o: object):
+    def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoCurvaSegurancaSubsistema):
             return False
         bloco: BlocoCurvaSegurancaSubsistema = o
-        return self._dados.equals(bloco._dados)
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
+            return False
+        else:
+            return self.data.equals(bloco.data)
 
     # Override
-    def le(self, arq: IO):
-        def converte_tabela_em_df() -> pd.DataFrame:
-            df = pd.DataFrame(tabela)
-            df.columns = MESES_DF
-            df["Ano"] = anos
-            df["REE"] = subsistema
-            df = df[["Ano", "REE"] + MESES_DF]
+    def read(self, file: IO):
+        def converte_tabela_em_df():
+            df = pd.DataFrame(tabela, columns=["REE", "Ano"] + MESES_DF)
+            df = df.astype({"REE": "int64", "Ano": "int64"})
             return df
 
-        # Variáveis auxiliares
-        reg_subsis = RegistroIn(3)
-        reg_ano = RegistroIn(4)
-        reg_curva = RegistroFn(5)
-        # Pula duas linhas, com cabeçalhos
-        arq.readline()
-        arq.readline()
-        i = 0
-        anos = []
-        subsistema = []
-        subsistema_atual = 0
+        # Salta as linhas adicionais
+        for _ in range(3):
+            self.__cabecalhos.append(file.readline())
 
-        tabela = np.zeros((MAX_ANOS_ESTUDO * MAX_REES, len(MESES_DF)))
+        i = 0
+        subsis_atual = 0
+        tabela = np.zeros(
+            (MAX_SUBMERCADOS * MAX_ANOS_ESTUDO, len(MESES_DF) + 2)
+        )
         while True:
-            # Verifica se o arquivo acabou
-            linha: str = arq.readline()
-            if BlocoCurvaSegurancaSubsistema.str_fim == linha.strip():
-                tabela = tabela[:i, :]
-                self._dados = converte_tabela_em_df()
+            linha = file.readline()
+            # Confere se terminaram
+            if (
+                len(linha) < 3
+                or BlocoCurvaSegurancaSubsistema.FIM_BLOCO in linha
+            ):
+                # Converte para df e salva na variável
+                if i > 0:
+                    tabela = tabela[:i, :]
+                    self.data = converte_tabela_em_df()
                 break
-            # Senão, lê mais uma linha
-            if len(linha.strip()) < 10:
-                subsistema_atual = reg_subsis.le_registro(linha, 1)
+            # Confere se é uma linha de subsistema ou tabela
+            if len(linha) < 10:
+                subsis_atual = self.__linha_subsis.read(linha)[0]
             else:
-                # Ano
-                anos.append(reg_ano.le_registro(linha, 0))
-                # Subsistema
-                subsistema.append(subsistema_atual)
-                # Limites
-                tabela[i, :] = reg_curva.le_linha_tabela(
-                    linha, 6, 1, len(MESES_DF)
-                )
+                tabela[i, 0] = subsis_atual
+                tabela[i, 1:] = self.__linha.read(linha)
                 i += 1
 
     # Override
-    def escreve(self, arq: IO):
-        def escreve_curva():
-            lin_tab = self._dados.shape[0]
-            subsistema_anterior = 0
-            for i in range(lin_tab):
-                linha = ""
-                # Subsistema
-                subsistema = self._dados.iloc[i, 1]
-                if subsistema != subsistema_anterior:
-                    subsistema_anterior = subsistema
-                    linha = " " + str(subsistema).rjust(3)
-                    arq.write(linha + "\n")
-                    subsistema_anterior = subsistema
-                # Curva de cada mês
-                linha = f"{str(self._dados.iloc[i, 0]).ljust(4)} "
-                for j in range(len(MESES_DF)):
-                    v = self._dados.iloc[i, j + 2]
-                    linha += " " + "{:3.1f}".format(v).rjust(5)
-                arq.write(linha + "\n")
+    def write(self, file: IO):
+        for linha in self.__cabecalhos:
+            file.write(linha)
+        if not isinstance(self.data, pd.DataFrame):
+            raise ValueError("Dados do curva.dat não foram lidos com sucesso")
 
-        # Escreve cabeçalhos
-        arq.write(f" {BlocoCurvaSegurancaSubsistema.str_inicio}\n")
-        arq.write(" XXX\n")
-        cab = (
-            "      JAN.X FEV.X MAR.X ABR.X MAI.X JUN.X JUL.X"
-            + " AGO.X SET.X OUT.X NOV.X DEZ.X\n"
+        ultimo_ree = 0
+        for _, linha in self.data.iterrows():
+            linha_lida: pd.Series = linha
+            if linha_lida["REE"] != ultimo_ree:
+                ultimo_ree = linha_lida["REE"]
+                file.write(self.__linha_subsis.write([int(ultimo_ree)]))
+            file.write(
+                self.__linha.write(
+                    [int(linha["Ano"])] + linha_lida[MESES_DF].tolist()
+                )
+            )
+
+        file.write(BlocoCurvaSegurancaSubsistema.FIM_BLOCO + "\n")
+
+
+class BlocoMaximoIteracoesProcessoIterativoEtapa2(Section):
+    """
+    Bloco com informações do número máximo de iterações da
+    segunda etapa do processo iterativo no cálculo da curva de aversão.
+    """
+
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(26, 0), IntegerField(6, 28), LiteralField(46, 39)]
         )
-        arq.write(cab)
-        escreve_curva()
-        # Escreve a linha de terminação
-        arq.write(f"{BlocoCurvaSegurancaSubsistema.str_fim}\n")
+        self.__cabecalhos: List[str] = []
+        self.__campo: str = ""
+        self.__comentario: str = ""
 
-
-class LeituraCurva(LeituraBlocos):
-    """
-    Realiza a leitura do arquivo `curva.dat`
-    existente em um diretório de entradas do NEWAVE.
-
-    Esta classe contém o conjunto de utilidades para ler
-    e interpretar os campos de um arquivo `curva.dat`, construindo
-    um objeto `Curva` cujas informações são as mesmas do curva.dat.
-
-    Este objeto existe para retirar do modelo de dados a complexidade
-    de iterar pelas linhas do arquivo, recortar colunas, converter
-    tipos de dados, dentre outras tarefas necessárias para a leitura.
-    """
-
-    def __init__(self, diretorio: str):
-        super().__init__(diretorio)
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoMaximoIteracoesProcessoIterativoEtapa2):
+            return False
+        bloco: BlocoMaximoIteracoesProcessoIterativoEtapa2 = o
+        if not all(
+            [
+                isinstance(self.data, int),
+                isinstance(o.data, int),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
 
     # Override
-    def _cria_blocos_leitura(self) -> List[Bloco]:
-        """
-        Cria a lista de blocos a serem lidos no arquivo curva.dat.
-        """
-        return [
-            BlocoConfiguracoesPenalizacaoCurva(),
-            BlocoPenalidadesViolacaoREECurva(),
-            BlocoCurvaSegurancaSubsistema(),
-        ]
+    def read(self, file: IO):
+
+        # Salta as linhas adicionais
+        self.__cabecalhos.append(file.readline())
+
+        self.__campo, self.data, self.__comentario = self.__linha.read(
+            file.readline()
+        )
+
+    # Override
+    def write(self, file: IO):
+        for linha in self.__cabecalhos:
+            file.write(linha)
+        if not isinstance(self.data, int):
+            raise ValueError("Dados do curva.dat não foram lidos com sucesso")
+
+        file.write(
+            self.__linha.write([self.__campo, self.data, self.__comentario])
+        )
+
+
+class BlocoIteracaoAPartirProcessoIterativoEtapa2(Section):
+    """
+    Bloco com informações da iteração a partir da qual ocorre a
+    segunda etapa do processo iterativo no cálculo da curva de aversão.
+    """
+
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(26, 0), IntegerField(6, 28), LiteralField(46, 39)]
+        )
+        self.__campo: str = ""
+        self.__comentario: str = ""
+
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoIteracaoAPartirProcessoIterativoEtapa2):
+            return False
+        bloco: BlocoIteracaoAPartirProcessoIterativoEtapa2 = o
+        if not all(
+            [
+                isinstance(self.data, int),
+                isinstance(o.data, int),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
+
+    # Override
+    def read(self, file: IO):
+
+        self.__campo, self.data, self.__comentario = self.__linha.read(
+            file.readline()
+        )
+
+    # Override
+    def write(self, file: IO):
+        if not isinstance(self.data, int):
+            raise ValueError("Dados do curva.dat não foram lidos com sucesso")
+
+        file.write(
+            self.__linha.write([self.__campo, self.data, self.__comentario])
+        )
+
+
+class BlocoToleranciaProcessoIterativoEtapa2(Section):
+    """
+    Bloco com informações da tolerância para a
+    segunda etapa do processo iterativo no cálculo da curva de aversão.
+    """
+
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(26, 0), FloatField(6, 28, 3), LiteralField(46, 39)]
+        )
+        self.__campo: str = ""
+        self.__comentario: str = ""
+
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoToleranciaProcessoIterativoEtapa2):
+            return False
+        bloco: BlocoToleranciaProcessoIterativoEtapa2 = o
+        if not all(
+            [
+                isinstance(self.data, float),
+                isinstance(o.data, float),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
+
+    # Override
+    def read(self, file: IO):
+
+        self.__campo, self.data, self.__comentario = self.__linha.read(
+            file.readline()
+        )
+
+    # Override
+    def write(self, file: IO):
+        if not isinstance(self.data, float):
+            raise ValueError("Dados do curva.dat não foram lidos com sucesso")
+
+        file.write(
+            self.__linha.write([self.__campo, self.data, self.__comentario])
+        )
+
+
+class BlocoImpressaoRelatorioProcessoIterativoEtapa2(Section):
+    """
+    Bloco com informações da impressão de relatório na
+    segunda etapa do processo iterativo no cálculo da curva de aversão.
+    """
+
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(26, 0), IntegerField(6, 28), LiteralField(46, 39)]
+        )
+        self.__campo: str = ""
+        self.__comentario: str = ""
+
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoImpressaoRelatorioProcessoIterativoEtapa2):
+            return False
+        bloco: BlocoImpressaoRelatorioProcessoIterativoEtapa2 = o
+        if not all(
+            [
+                isinstance(self.data, int),
+                isinstance(o.data, int),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
+
+    # Override
+    def read(self, file: IO):
+        self.__campo, self.data, self.__comentario = self.__linha.read(
+            file.readline()
+        )
+
+    # Override
+    def write(self, file: IO):
+        if not isinstance(self.data, int):
+            raise ValueError("Dados do curva.dat não foram lidos com sucesso")
+
+        file.write(
+            self.__linha.write([self.__campo, self.data, self.__comentario])
+        )

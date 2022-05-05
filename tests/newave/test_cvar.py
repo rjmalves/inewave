@@ -1,28 +1,109 @@
 # Rotinas de testes associadas ao arquivo cvar.dat do NEWAVE
-from inewave.newave.cvar import CVAR
+from inewave.newave.modelos.cvar import (
+    BlocoValoresConstantesCVAR,
+    BlocoAlfaVariavelNoTempo,
+    BlocoLambdaVariavelNoTempo,
+)
 
-cvar = CVAR.le_arquivo("tests/_arquivos")
-
-
-def test_leitura():
-    assert len(cvar.valores_constantes) > 0
-    assert len(cvar.alfa_variavel) > 0
-    assert len(cvar.lambda_variavel) > 0
+from inewave.newave import CVAR
 
 
-def test_escrita_e_leitura():
-    cvar.escreve_arquivo("tests/_saidas")
-    cvar2 = CVAR.le_arquivo("tests/_saidas")
-    assert cvar == cvar2
+from tests.mocks.mock_open import mock_open
+from unittest.mock import MagicMock, patch
+
+from tests.mocks.arquivos.cvar import (
+    MockBlocoValoresConstantes,
+    MockBlocoValoresAlfaVariaveis,
+    MockBlocoValoresLambdaVariaveis,
+    MockCVAR,
+)
+
+
+def test_bloco_valores_constantes_cvar():
+
+    m: MagicMock = mock_open(read_data="".join(MockBlocoValoresConstantes))
+    b = BlocoValoresConstantesCVAR()
+    with patch("builtins.open", m):
+        with open("", "") as fp:
+            b.read(fp)
+
+    assert b.data == [50.0, 40.0]
+
+
+def test_bloco_alfa_variavel_cvar():
+
+    m: MagicMock = mock_open(read_data="".join(MockBlocoValoresAlfaVariaveis))
+    b = BlocoAlfaVariavelNoTempo()
+    with patch("builtins.open", m):
+        with open("", "") as fp:
+            b.read(fp)
+
+    assert b.data.iloc[0, 0] == "2017"
+    assert b.data.iloc[-1, -1] == 5.0
+
+
+def test_bloco_lambda_variavel_cvar():
+
+    m: MagicMock = mock_open(
+        read_data="".join(MockBlocoValoresLambdaVariaveis)
+    )
+    b = BlocoLambdaVariavelNoTempo()
+    with patch("builtins.open", m):
+        with open("", "") as fp:
+            b.read(fp)
+
+    assert b.data.iloc[0, 0] == "2017"
+    assert b.data.iloc[-1, -1] == 10.0
+
+
+def test_atributos_encontrados_cvar():
+    m: MagicMock = mock_open(read_data="".join(MockCVAR))
+    with patch("builtins.open", m):
+        ad = CVAR.le_arquivo("")
+        assert ad.valores_constantes != [None, None]
+        assert ad.alfa_variavel is not None
+        assert ad.lambda_variavel is not None
+
+
+def test_atributos_nao_encontrados_cvar():
+    m: MagicMock = mock_open(read_data="")
+    with patch("builtins.open", m):
+        ad = CVAR.le_arquivo("")
+        assert ad.valores_constantes == [None, None]
+        assert ad.alfa_variavel is None
+        assert ad.lambda_variavel is None
 
 
 def test_eq_cvar():
-    cvar2 = CVAR.le_arquivo("tests/_arquivos")
-    assert cvar == cvar2
+    m: MagicMock = mock_open(read_data="".join(MockCVAR))
+    with patch("builtins.open", m):
+        cf1 = CVAR.le_arquivo("")
+        cf2 = CVAR.le_arquivo("")
+        assert cf1 == cf2
 
 
-def test_neq_cvar():
-    cvar2 = CVAR.le_arquivo("tests/_arquivos")
-    cvar2.valores_constantes = [0, 0]
-    assert cvar2 != cvar
-    assert cvar2 is not None
+def test_neq_curva():
+    m: MagicMock = mock_open(read_data="".join(MockCVAR))
+    with patch("builtins.open", m):
+        cf1 = CVAR.le_arquivo("")
+        cf2 = CVAR.le_arquivo("")
+        cf2.valores_constantes = [0, 0]
+        assert cf1 != cf2
+
+
+def test_leitura_escrita_cvar():
+    m_leitura: MagicMock = mock_open(read_data="".join(MockCVAR))
+    with patch("builtins.open", m_leitura):
+        cf1 = CVAR.le_arquivo("")
+    m_escrita: MagicMock = mock_open(read_data="")
+    with patch("builtins.open", m_escrita):
+        cf1.escreve_arquivo("", "")
+        # Recupera o que foi escrito
+        chamadas = m_escrita.mock_calls
+        linhas_escritas = [
+            chamadas[i].args[0] for i in range(3, len(chamadas) - 1)
+        ]
+    m_releitura: MagicMock = mock_open(read_data="".join(linhas_escritas))
+    with patch("builtins.open", m_releitura):
+        cf2 = CVAR.le_arquivo("")
+        assert cf1 == cf2

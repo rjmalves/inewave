@@ -297,7 +297,6 @@ MockBlocoIntercambioSubsistemas = [
     "9999\n",
 ]
 MockBlocoUsinasNaoSimuladas = [
-    "9999\n",
     " SBM  BLOCO\n",
     " XXX XXX\n",
     "    ANO                 BLOCO DE USINAS NAO SIMULADAS (P.U. MONTANTE MED.)\n",

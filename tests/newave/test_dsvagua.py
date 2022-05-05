@@ -1,28 +1,72 @@
 # Rotinas de testes associadas ao arquivo dsvagua.dat do NEWAVE
-from inewave.newave.dsvagua import DSVAgua
+from inewave.newave.modelos.dsvagua import BlocoDsvUHE
+
+from inewave.newave import DSVAgua
 
 
-dsv = DSVAgua.le_arquivo("tests/_arquivos")
+from tests.mocks.mock_open import mock_open
+from unittest.mock import MagicMock, patch
+
+from tests.mocks.arquivos.dsvagua import MockBlocoDesviosAgua
 
 
-def test_leitura():
-    assert dsv.desvios.shape[0] > 0
+def test_bloco_desvios_dsvagua():
+
+    m: MagicMock = mock_open(read_data="".join(MockBlocoDesviosAgua))
+    b = BlocoDsvUHE()
+    with patch("builtins.open", m):
+        with open("", "") as fp:
+            b.read(fp)
+
+    assert b.data.shape[0] == 1045
+    assert b.data.iloc[0, 0] == 2020
+    assert b.data.iloc[-1, 0] == 2024
 
 
-def test_escrita_e_leitura():
-    dsv.escreve_arquivo("tests/_saidas")
-    dsv2 = DSVAgua.le_arquivo("tests/_saidas")
-    assert dsv == dsv2
+def test_atributos_encontrados_dsvagua():
+    m: MagicMock = mock_open(read_data="".join(MockBlocoDesviosAgua))
+    with patch("builtins.open", m):
+        ad = DSVAgua.le_arquivo("")
+        assert ad.desvios is not None
+
+
+def test_atributos_nao_encontrados_dsvagua():
+    m: MagicMock = mock_open(read_data="")
+    with patch("builtins.open", m):
+        ad = DSVAgua.le_arquivo("")
+        assert ad.desvios is None
 
 
 def test_eq_dsvagua():
-    dsv2 = DSVAgua.le_arquivo("tests/_arquivos")
-    assert dsv == dsv2
+    m: MagicMock = mock_open(read_data="".join(MockBlocoDesviosAgua))
+    with patch("builtins.open", m):
+        cf1 = DSVAgua.le_arquivo("")
+        cf2 = DSVAgua.le_arquivo("")
+        assert cf1 == cf2
 
 
-# def test_neq_dsvagua():
-#     dsv2 = DSVAgua.le_arquivo("tests/_arquivos")
-#     dsv2.le_arquivo()
-#     dsv2.dsvagua.tabela[0, 0] = 1e-6
-#     assert dsv2.dsvagua != leitor.dsvagua
-#     assert dsv2.dsvagua is not None
+def test_neq_dsvagua():
+    m: MagicMock = mock_open(read_data="".join(MockBlocoDesviosAgua))
+    with patch("builtins.open", m):
+        cf1 = DSVAgua.le_arquivo("")
+        cf2 = DSVAgua.le_arquivo("")
+        cf2.desvios.iloc[0, 0] = -1
+        assert cf1 != cf2
+
+
+def test_leitura_escrita_dsvagua():
+    m_leitura: MagicMock = mock_open(read_data="".join(MockBlocoDesviosAgua))
+    with patch("builtins.open", m_leitura):
+        cf1 = DSVAgua.le_arquivo("")
+    m_escrita: MagicMock = mock_open(read_data="")
+    with patch("builtins.open", m_escrita):
+        cf1.escreve_arquivo("", "")
+        # Recupera o que foi escrito
+        chamadas = m_escrita.mock_calls
+        linhas_escritas = [
+            chamadas[i].args[0] for i in range(3, len(chamadas) - 1)
+        ]
+    m_releitura: MagicMock = mock_open(read_data="".join(linhas_escritas))
+    with patch("builtins.open", m_releitura):
+        cf2 = DSVAgua.le_arquivo("")
+        assert cf1 == cf2
