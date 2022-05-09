@@ -6,7 +6,6 @@ MockBlocoNumeroPatamaresDeficit = [
 ]
 
 MockBlocoCustoDeficit = [
-    "   1\n",
     " CUSTO DO DEFICIT\n",
     " NUM|NOME SSIS.|    CUSTO DE DEFICIT POR PATAMAR  | P.U. CORTE POR PATAMAR|\n",
     " XXX|XXXXXXXXXX| F|XXXX.XX XXXX.XX XXXX.XX XXXX.XX|X.XXX X.XXX X.XXX X.XXX|\n",

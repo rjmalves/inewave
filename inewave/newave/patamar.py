@@ -16,16 +16,6 @@ class Patamar(SectionFile):
     Armazena os dados de entrada do NEWAVE referentes aos
     patamares de carga por submercado.
 
-    Esta classe pode lidar com um número qualquer de patamares
-    de carga, desde que as informações fornecidas a ela por meio
-    da tabela de valores seja compatível com o parâmetro `num_patamares`
-    da mesma.
-
-    A tabela de patamares de carga é armazenada através de uma array
-    em `NumPy`, para otimizar cálculos futuros e espaço ocupado
-    em memória. A tabela interna é transformada em dicionários
-    e outras estruturas de dados mais palpáveis através das propriedades
-    da própria classe.
     """
 
     T = TypeVar("T")
@@ -33,6 +23,7 @@ class Patamar(SectionFile):
     SECTIONS = [
         BlocoNumeroPatamares,
         BlocoDuracaoPatamar,
+        BlocoCargaPatamar,
         BlocoIntercambioPatamarSubsistemas,
         BlocoUsinasNaoSimuladas,
     ]

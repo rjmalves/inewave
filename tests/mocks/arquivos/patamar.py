@@ -2,7 +2,6 @@ MockBlocoNumeroPatamares = [
     " NUMERO DE PATAMARES\n",
     " XX\n",
     "  3\n",
-    "ANO   DURACAO MENSAL DOS PATAMARES DE CARGA\n",
 ]
 MockBlocoDuracaoMensalPatamares = [
     "ANO   DURACAO MENSAL DOS PATAMARES DE CARGA\n",
@@ -562,7 +561,7 @@ MockBlocoUsinasNaoSimuladas = [
 
 MockPatamar = (
     MockBlocoNumeroPatamares
-    + MockBlocoDuracaoMensalPatamares
+    + MockBlocoDuracaoMensalPatamares[:-1]
     + MockBlocoCargaSubsistema
     + MockBlocoIntercambioSubsistemas
     + MockBlocoUsinasNaoSimuladas

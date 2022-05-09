@@ -1,534 +1,551 @@
-from inewave.config import SUBMERCADOS, MESES, MESES_DF, MAX_ANOS_ESTUDO
-from inewave._utils.bloco import Bloco
-from inewave._utils.leiturablocos import LeituraBlocos
-from inewave._utils.registros import RegistroAn, RegistroIn, RegistroFn
+from inewave.config import MAX_ANOS_ESTUDO, MAX_SUBMERCADOS, MESES_DF
 
+from cfinterface.components.section import Section
+from cfinterface.components.line import Line
+from cfinterface.components.literalfield import LiteralField
+from cfinterface.components.integerfield import IntegerField
+from cfinterface.components.floatfield import FloatField
 from typing import List, IO
-import numpy as np  # type: ignore
 import pandas as pd  # type: ignore
+import numpy as np  # type: ignore
 
 
-class BlocoCustoDeficitSistema(Bloco):
+class BlocoNumeroPatamaresDeficit(Section):
+    """
+    Bloco com o número de patamares de déficit considerados.
+    """
+
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [
+                IntegerField(3, 1),
+            ]
+        )
+        self.__cabecalhos: List[str] = []
+
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoNumeroPatamaresDeficit):
+            return False
+        bloco: BlocoNumeroPatamaresDeficit = o
+        if not all(
+            [
+                isinstance(self.data, int),
+                isinstance(o.data, int),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
+
+    # Override
+    def read(self, file: IO):
+        for _ in range(3):
+            self.__cabecalhos.append(file.readline())
+
+        self.data = self.__linha.read(file.readline())[0]
+
+    # Override
+    def write(self, file: IO):
+        for linha in self.__cabecalhos:
+            file.write(linha)
+        if not isinstance(self.data, int):
+            raise ValueError(
+                "Dados do sistema.dat não foram lidos com sucesso"
+            )
+        file.write(self.__linha.write([self.data]))
+
+
+class BlocoCustosDeficit(Section):
     """
     Bloco com informações sobre o custo de déficit por
     patamar de déficit e o número de patamares de déficit.
     """
 
-    str_inicio = " NUMERO DE PATAMARES DE DEFICIT"
-    str_fim = " 999"
+    FIM_BLOCO = " 999"
 
-    def __init__(self):
-
-        super().__init__(BlocoCustoDeficitSistema.str_inicio, "", True)
-
-        self._dados = [0, pd.DataFrame()]
-
-    def __eq__(self, o: object):
-        if not isinstance(o, BlocoCustoDeficitSistema):
-            return False
-        bloco: BlocoCustoDeficitSistema = o
-        return all(
-            [
-                self._dados[0] == bloco._dados[0],
-                self._dados[1].equals(bloco._dados[1]),
-            ]
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [IntegerField(3, 1)]
+            + [LiteralField(13, 5)]
+            + [IntegerField(1, 17)]
+            + [FloatField(7, 19 + i * 8, 2) for i in range(4)]
+            + [FloatField(5, 51 + i * 6, 3) for i in range(4)]
         )
+        self.__cabecalhos: List[str] = []
+
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoCustosDeficit):
+            return False
+        bloco: BlocoCustosDeficit = o
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
+            return False
+        else:
+            return self.data.equals(bloco.data)
 
     # Override
-    def le(self, arq: IO):
-        def converte_tabela_em_df() -> pd.DataFrame:
-            df = pd.DataFrame(tabela)
-            pats = [n for n in range(1, num_pat + 1)]
-            cols_custo_pats = [f"Custo Pat. {p}" for p in pats]
-            cols_corte_pats = [f"Corte Pat. {p}" for p in pats]
-            df.columns = cols_custo_pats + cols_corte_pats
-            df["Num. Subsistema"] = num_subsistemas
-            df["Nome"] = nomes_subsistemas
-            df["Fictício"] = ficticios
-            df = df[
-                ["Num. Subsistema", "Nome", "Fictício"]
-                + cols_custo_pats
-                + cols_corte_pats
+    def read(self, file: IO):
+        def converte_tabela_em_df():
+            cols = [f"Custo Pat. {p}" for p in range(1, 5)] + [
+                f"Corte Pat. {p}" for p in range(1, 5)
             ]
+            df = pd.DataFrame(
+                tabela, columns=["Num. Subsistema", "Fictício"] + cols
+            )
+            df["Nome"] = subsistemas
+            df = df[["Num. Subsistema", "Nome", "Fictício"] + cols]
+            df = df.astype({"Num. Subsistema": "int64", "Fictício": "int64"})
             return df
 
-        # Variáveis auxiliares
-        reg_num = RegistroIn(3)
-        reg_nome_subsis = RegistroAn(10)
-        reg_flag_ficticio = RegistroIn(1)
-        reg_custos = RegistroFn(7)
-        reg_pu_corte = RegistroFn(5)
-        # Pula a primeira linha, com cabeçalhos
-        arq.readline()
-        # Lê o número de patamares de déficit
-        num_pat = int(reg_num.le_registro(arq.readline(), 1))
-        self._dados[0] = num_pat
-        # Sobrescreve para sempre ler 4 patamares
-        num_pat = 4
-        # Pula três linhas
+        # Salta as linhas adicionais
         for _ in range(3):
-            arq.readline()
-        num_subsistemas = []
-        nomes_subsistemas = []
-        ficticios = []
-        tabela = np.zeros((len(SUBMERCADOS) + 1, 2 * num_pat))
-        for i in range(len(SUBMERCADOS)):
-            linha: str = arq.readline()
-            num_subsistemas.append(reg_num.le_registro(linha, 1))
-            nomes_subsistemas.append(reg_nome_subsis.le_registro(linha, 5))
-            ficticios.append(bool(reg_flag_ficticio.le_registro(linha, 17)))
-            tabela[i, :num_pat] = reg_custos.le_linha_tabela(
-                linha, 19, 1, num_pat
-            )
-            tabela[i, num_pat:] = reg_pu_corte.le_linha_tabela(
-                linha, 51, 1, num_pat
-            )
-        # Adiciona a linha do fictício
-        linha = arq.readline()
-        num_subsistemas.append(reg_num.le_registro(linha, 1))
-        nomes_subsistemas.append(reg_nome_subsis.le_registro(linha, 5))
-        ficticios.append(bool(reg_flag_ficticio.le_registro(linha, 17)))
+            self.__cabecalhos.append(file.readline())
 
-        self._dados[1] = converte_tabela_em_df()
-
-        # Confirma se terminou
-        if BlocoCustoDeficitSistema.str_fim not in arq.readline():
-            raise ValueError("Arquivo sistema.dat inválido")
+        i = 0
+        subsistemas: List[str] = []
+        tabela = np.zeros((MAX_SUBMERCADOS, 10))
+        while True:
+            linha = file.readline()
+            # Confere se terminaram
+            if len(linha) < 3 or BlocoCustosDeficit.FIM_BLOCO in linha:
+                # Converte para df e salva na variável
+                if i > 0:
+                    tabela = tabela[:i, :]
+                    self.data = converte_tabela_em_df()
+                break
+            # Confere se é uma linha de subsistema ou tabela
+            else:
+                dados = self.__linha.read(linha)
+                tabela[i, 0] = dados[0]
+                subsistemas.append(dados[1])
+                tabela[i, 1:] = dados[2:]
+                i += 1
 
     # Override
-    def escreve(self, arq: IO):
-        def escreve_custos():
-            npat = 4  # self._dados[0]
-            tabela = self._dados[1]
-            lin_tab = tabela.shape[0]
-            for i in range(lin_tab):
-                linha = ""
-                num = tabela.iloc[i, 0]
-                nome = tabela.iloc[i, 1]
-                fict = int(tabela.iloc[i, 2])
-                linha += f" {str(num).ljust(3)}"
-                linha += f" {str(nome).ljust(10)}"
-                linha += f"  {str(fict)}"
-                if num < len(SUBMERCADOS) + 1:
-                    for j in range(npat):
-                        custo = tabela.iloc[i, j + 3]
-                        linha += " " + f"{custo:4.2f}".rjust(7)
-                    for j in range(npat):
-                        corte = tabela.iloc[i, j + npat + 3]
-                        linha += " " + f"{corte:1.3f}".rjust(5)
-                arq.write(linha + "\n")
+    def write(self, file: IO):
+        for linha in self.__cabecalhos:
+            file.write(linha)
+        if not isinstance(self.data, pd.DataFrame):
+            raise ValueError(
+                "Dados do sistema.dat não foram lidos com sucesso"
+            )
 
-        # Escreve cabeçalhos
-        arq.write(f"{BlocoCustoDeficitSistema.str_inicio}\n")
-        arq.write(" XXX\n")
-        arq.write(f" {str(self._dados[0]).rjust(3)}\n")
-        arq.write(" CUSTO DO DEFICIT\n")
-        arq.write(
-            " NUM|NOME SSIS.|    CUSTO DE DEFICIT POR PATAMAR"
-            + "  | P.U. CORTE POR PATAMAR|\n"
-        )
-        arq.write(
-            " XXX|XXXXXXXXXX| F|XXXX.XX XXXX.XX XXXX.XX XXXX.XX|"
-            + "X.XXX X.XXX X.XXX X.XXX|\n"
-        )
-        escreve_custos()
-        # Escreve a linha de terminação
-        arq.write(f"{BlocoCustoDeficitSistema.str_fim}\n")
+        for _, linha in self.data.iterrows():
+            file.write(self.__linha.write(linha))
+        file.write(BlocoCustosDeficit.FIM_BLOCO + "\n")
 
 
-class BlocoIntercambioSistema(Bloco):
+class BlocoIntercambioSubsistema(Section):
     """
     Bloco com a informação de intercâmbio
     por mês/ano de estudo para cada subsistema.
     """
 
-    str_inicio = " LIMITES DE INTERCAMBIO"
-    str_fim = "999"
+    FIM_BLOCO = " 999"
 
-    def __init__(self):
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha_subsis = Line(
+            [IntegerField(3, 1), IntegerField(3, 5), IntegerField(1, 23)]
+        )
+        self.__linha = Line(
+            [IntegerField(4, 0)]
+            + [FloatField(7, 8 + i * 8, 0) for i in range(len(MESES_DF))]
+        )
+        self.__cabecalhos: List[str] = []
 
-        super().__init__(BlocoIntercambioSistema.str_inicio, "", True)
-
-        self._dados: pd.DataFrame = pd.DataFrame()
-
-    def __eq__(self, o: object):
-        if not isinstance(o, BlocoIntercambioSistema):
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoIntercambioSubsistema):
             return False
-        bloco: BlocoIntercambioSistema = o
-        return self._dados.equals(bloco._dados)
+        bloco: BlocoIntercambioSubsistema = o
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
+            return False
+        else:
+            return self.data.equals(bloco.data)
 
     # Override
-    def le(self, arq: IO):
-        def converte_tabela_em_df() -> pd.DataFrame:
-            df = pd.DataFrame(tabela)
-            df.columns = MESES_DF
-            df["Ano"] = anos
-            df["De Subsistema"] = subsistemas_de
-            df["Para Subsistema"] = subsistemas_para
-            df = df[["Ano", "De Subsistema", "Para Subsistema"] + MESES_DF]
+    def read(self, file: IO):
+        def converte_tabela_em_df():
+            df = pd.DataFrame(
+                tabela,
+                columns=["Ano"] + MESES_DF,
+            )
+            df["Subsistema De"] = subsistemas_de
+            df["Subsistema Para"] = subsistemas_para
+            df["Sentido"] = sentidos
+            df = df[
+                ["Subsistema De", "Subsistema Para", "Sentido", "Ano"]
+                + MESES_DF
+            ]
+            df = df.astype(
+                {
+                    "Subsistema De": "int64",
+                    "Subsistema Para": "int64",
+                    "Sentido": "int64",
+                    "Ano": "int64",
+                }
+            )
             return df
 
-        # Variáveis auxiliares
-        reg_ano = RegistroIn(4)
-        reg_lim = RegistroFn(7)
-        # Pula duas linhas, com cabeçalhos
-        arq.readline()
-        arq.readline()
+        # Salta as linhas adicionais
+        for _ in range(3):
+            self.__cabecalhos.append(file.readline())
+
         i = 0
-        anos = []
-        subsistemas_de = []
-        subsistemas_para = []
         subsis_de_atual = 0
         subsis_para_atual = 0
+        sentido_atual = -1
+        ano_atual = 0
+        subsistemas_de: List[int] = []
+        subsistemas_para: List[int] = []
+        sentidos: List[int] = []
         tabela = np.zeros(
-            (MAX_ANOS_ESTUDO * 2 * len(SUBMERCADOS) ** 2, len(MESES))
+            (
+                MAX_SUBMERCADOS * MAX_SUBMERCADOS * MAX_ANOS_ESTUDO,
+                len(MESES_DF) + 1,
+            )
         )
         while True:
-            # Verifica se o arquivo acabou
-            linha: str = arq.readline()
-            if BlocoIntercambioSistema.str_fim == linha.strip():
-                tabela = tabela[:i, :]
-                self._dados = converte_tabela_em_df()
+            linha = file.readline()
+            # Confere se terminaram
+            if BlocoIntercambioSubsistema.FIM_BLOCO in linha[:4] or (
+                len(linha) < 3 and i == 0
+            ):
+                # Converte para df e salva na variável
+                if i > 0:
+                    tabela = tabela[:i, :]
+                    self.data = converte_tabela_em_df()
                 break
-            # Senão, lê mais uma linha
-            # Subsistemas de -> para
-            if 5 < len(linha.strip()) < 30:
-                subsis_de_atual = int(linha[1:4].strip())
-                subsis_para_atual = int(linha[5:8].strip())
-                continue
-            elif len(linha.strip()) < 5:
-                subsis_para_atual, subsis_de_atual = (
-                    subsis_de_atual,
-                    subsis_para_atual,
+            # Confere se é uma linha de subsistema ou tabela
+            if len(linha) < 30:
+                dados = self.__linha_subsis.read(linha)
+                subsis_de_atual = (
+                    subsis_de_atual if dados[0] is None else dados[0]
+                )
+                subsis_para_atual = (
+                    subsis_para_atual if dados[1] is None else dados[1]
+                )
+                sentido_atual = (
+                    sentido_atual
+                    if dados[2] is None
+                    else int(not sentido_atual)
                 )
             else:
+                dados = self.__linha.read(linha)
+                if isinstance(dados[0], int) and dados[0] != ano_atual:
+                    ano_atual = dados[0]
                 subsistemas_de.append(subsis_de_atual)
                 subsistemas_para.append(subsis_para_atual)
-                # Ano
-                anos.append(reg_ano.le_registro(linha, 0))
-                # Limites
-                ci = 7
-                nc = 7
-                for j in range(len(MESES)):
-                    cf = ci + nc
-                    if len(linha[ci:cf].strip()) > 0:
-                        tabela[i, j] = reg_lim.le_registro(linha, ci)
-                    ci = cf + 1
+                sentidos.append(sentido_atual)
+                tabela[i, 0] = ano_atual
+                tabela[i, 1:] = dados[1:]
                 i += 1
 
     # Override
-    def escreve(self, arq: IO):
-        def escreve_limites():
-            lin_tab = self._dados.shape[0]
-            subsistema_de_anterior = 0
-            subsistema_para_anterior = 0
-            for i in range(lin_tab):
-                linha = ""
-                # Subsistemas de / para
-                subsistema_de = self._dados.iloc[i, 1]
-                subsistema_para = self._dados.iloc[i, 2]
-                if any(
-                    [
-                        subsistema_de != subsistema_de_anterior,
-                        subsistema_para != subsistema_para_anterior,
-                    ]
-                ):
-                    if not all(
+    def write(self, file: IO):
+        for linha in self.__cabecalhos:
+            file.write(linha)
+        if not isinstance(self.data, pd.DataFrame):
+            raise ValueError(
+                "Dados do sistema.dat não foram lidos com sucesso"
+            )
+
+        ultimo_subsistema_de = 0
+        ultimo_subsistema_para = 0
+        ultimo_sentido = -1
+
+        for _, linha in self.data.iterrows():
+            linha_lida: pd.Series = linha
+            if any(
+                [
+                    linha_lida["Subsistema De"] != ultimo_subsistema_de,
+                    linha_lida["Subsistema Para"] != ultimo_subsistema_para,
+                    linha_lida["Sentido"] != ultimo_sentido,
+                ]
+            ):
+                ultimo_ano = 0
+                ultimo_subsistema_de = linha_lida["Subsistema De"]
+                ultimo_subsistema_para = linha_lida["Subsistema Para"]
+                ultimo_sentido = linha_lida["Sentido"]
+                file.write(
+                    self.__linha_subsis.write(
                         [
-                            subsistema_de == subsistema_para_anterior,
-                            subsistema_para == subsistema_de_anterior,
+                            int(ultimo_subsistema_de),
+                            int(ultimo_subsistema_para),
+                            int(ultimo_sentido),
                         ]
-                    ):
-                        linha = (
-                            str(subsistema_de).rjust(4)
-                            + str(subsistema_para).rjust(4)
-                            + "               0"
-                        )
-                    arq.write(linha + "\n")
-                    subsistema_de_anterior = subsistema_de
-                    subsistema_para_anterior = subsistema_para
-
-                # Patamares de cada mês
-                linha = f"{self._dados.iloc[i, 0]}  "
-                for j in range(len(MESES)):
-                    v = self._dados.iloc[i, j + 3]
-                    if v != 0:
-                        linha += " {:6.0f}.".format(v).rjust(8)
-                    else:
-                        linha += "        "
-                arq.write(linha + "\n")
-
-        # Escreve cabeçalhos
-        arq.write(f"{BlocoIntercambioSistema.str_inicio}\n")
-        arq.write(" A   B   A->B    B->A\n")
-        cab = (
-            " XXX XXX XJAN. XXXFEV. XXXMAR. XXXABR. XXXMAI."
-            + " XXXJUN. XXXJUL. XXXAGO. XXXSET. XXXOUT. XXXNOV. XXXDEZ.\n"
-        )
-        arq.write(cab)
-        escreve_limites()
-        # Escreve a linha de terminação
-        arq.write(f" {BlocoIntercambioSistema.str_fim}\n")
+                    )
+                )
+            ano_linha = (
+                int(linha["Ano"]) if linha["Ano"] != ultimo_ano else None
+            )
+            ultimo_ano = int(linha["Ano"])
+            file.write(
+                self.__linha.write([ano_linha] + linha_lida[MESES_DF].tolist())
+            )
+        file.write(BlocoIntercambioSubsistema.FIM_BLOCO + "\n")
 
 
-class BlocoMercadoEnergiaSistema(Bloco):
+class BlocoMercadoEnergiaSistema(Section):
     """
     Bloco com a informação de mercado de energia
     por mês/ano de estudo para cada subsistema.
     """
 
-    str_inicio = " MERCADO DE ENERGIA TOTAL"
-    str_fim = "999"
+    FIM_BLOCO = " 999"
 
-    def __init__(self):
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha_subsis = Line([IntegerField(3, 1)])
+        self.__linha = Line(
+            [LiteralField(4, 0)]
+            + [FloatField(7, 7 + i * 8, 0) for i in range(len(MESES_DF))]
+        )
+        self.__cabecalhos: List[str] = []
 
-        super().__init__(BlocoMercadoEnergiaSistema.str_inicio, "", True)
-
-        self._dados: pd.DataFrame = pd.DataFrame()
-
-    def __eq__(self, o: object):
+    def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoMercadoEnergiaSistema):
             return False
         bloco: BlocoMercadoEnergiaSistema = o
-        return self._dados.equals(bloco._dados)
-
-    # Override
-    def le(self, arq: IO):
-        def converte_tabela_em_df() -> pd.DataFrame:
-            df = pd.DataFrame(tabela)
-            df.columns = MESES_DF
-            df["Ano"] = anos
-            df["Subsistema"] = subsistema
-            df = df[["Ano", "Subsistema"] + MESES_DF]
-            return df
-
-        # Variáveis auxiliares
-        reg_subsis = RegistroIn(3)
-        reg_ano = RegistroAn(4)
-        reg_merc = RegistroFn(7)
-        # Pula duas linhas, com cabeçalhos
-        arq.readline()
-        arq.readline()
-        i = 0
-        anos = []
-        subsistema = []
-        subsistema_atual = 0
-        tabela = np.zeros((MAX_ANOS_ESTUDO * len(SUBMERCADOS), len(MESES)))
-        while True:
-            # Verifica se o arquivo acabou
-            linha: str = arq.readline()
-            if BlocoMercadoEnergiaSistema.str_fim == linha.strip():
-                tabela = tabela[:i, :]
-                self._dados = converte_tabela_em_df()
-                break
-            # Senão, lê mais uma linha
-            if len(linha.strip()) < 5:
-                subsistema_atual = reg_subsis.le_registro(linha, 1)
-            else:
-                # Ano
-                anos.append(reg_ano.le_registro(linha, 0))
-                # Subsistema
-                subsistema.append(subsistema_atual)
-                # Limites
-                ci = 7
-                nc = 7
-                for j in range(len(MESES)):
-                    cf = ci + nc
-                    if len(linha[ci:cf].strip()) > 0:
-                        tabela[i, j] = reg_merc.le_registro(linha, ci)
-                    ci = cf + 1
-                i += 1
-
-    # Override
-    def escreve(self, arq: IO):
-        def escreve_mercados():
-            lin_tab = self._dados.shape[0]
-            subsistema_anterior = 0
-            for i in range(lin_tab):
-                linha = ""
-                # Subsistema
-                subsistema = self._dados.iloc[i, 1]
-                if subsistema != subsistema_anterior:
-                    arq.write(" " + str(subsistema).rjust(3) + "\n")
-                    subsistema_anterior = subsistema
-                # Mercados de cada mês
-                linha = f"{self._dados.iloc[i, 0].ljust(4)}  "
-                for j in range(len(MESES)):
-                    v = self._dados.iloc[i, j + 2]
-                    if v != 0:
-                        linha += " {:6.0f}.".format(v).rjust(8)
-                    else:
-                        linha += "        "
-                arq.write(linha + "\n")
-
-        # Escreve cabeçalhos
-        arq.write(f"{BlocoMercadoEnergiaSistema.str_inicio}\n")
-        arq.write(" XXX\n")
-        cab = (
-            "       XXXJAN. XXXFEV. XXXMAR. XXXABR. XXXMAI. XXXJUN."
-            + " XXXJUL. XXXAGO. XXXSET. XXXOUT. XXXNOV. XXXDEZ.\n"
-        )
-        arq.write(cab)
-        escreve_mercados()
-        # Escreve a linha de terminação
-        arq.write(f" {BlocoMercadoEnergiaSistema.str_fim}\n")
-
-
-class BlocoGeracaoUsinasNaoSimuladasSistema(Bloco):
-    """
-    Bloco com a informação de geração das usinas não simuladas
-    por mês/ano de estudo para cada subsistema.
-    """
-
-    str_inicio = " GERACAO DE USINAS NAO SIMULADAS"
-    str_fim = "999"
-
-    def __init__(self):
-
-        super().__init__(
-            BlocoGeracaoUsinasNaoSimuladasSistema.str_inicio, "", True
-        )
-
-        self._dados: pd.DataFrame = pd.DataFrame()
-
-    def __eq__(self, o: object):
-        if not isinstance(o, BlocoGeracaoUsinasNaoSimuladasSistema):
-            return False
-        bloco: BlocoGeracaoUsinasNaoSimuladasSistema = o
-        return self._dados.equals(bloco._dados)
-
-    # Override
-    def le(self, arq: IO):
-        def converte_tabela_em_df() -> pd.DataFrame:
-            df = pd.DataFrame(tabela)
-            df.columns = MESES_DF
-            df["Ano"] = anos
-            df["Subsistema"] = subsistema
-            df["Bloco"] = bloco
-            df["Tipo de Geração"] = tipo
-            df = df[
-                ["Ano", "Subsistema", "Bloco", "Tipo de Geração"] + MESES_DF
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
             ]
+        ):
+            return False
+        else:
+            return self.data.equals(bloco.data)
+
+    # Override
+    def read(self, file: IO):
+        def converte_tabela_em_df():
+            df = pd.DataFrame(
+                tabela,
+                columns=["Subsistema"] + MESES_DF,
+            )
+            df = df.astype(
+                {
+                    "Subsistema": "int64",
+                }
+            )
+            df["Ano"] = anos
+            df = df[["Subsistema", "Ano"] + MESES_DF]
             return df
 
-        # Variáveis auxiliares
-        reg_subsis = RegistroIn(3)
-        reg_bloco = RegistroIn(3)
-        reg_tipo = RegistroAn(3)
-        reg_ano = RegistroIn(4)
-        reg_ger = RegistroFn(7)
-        # Pula duas linhas, com cabeçalhos
-        arq.readline()
-        arq.readline()
-        i = 0
-        anos = []
-        subsistema = []
-        bloco = []
-        tipo = []
-        subsistema_atual = 0
-        bloco_atual = 0
-        tipo_atual = ""
-        tabela = np.zeros((MAX_ANOS_ESTUDO * len(SUBMERCADOS) * 5, len(MESES)))
-        while True:
-            # Verifica se o arquivo acabou
-            linha: str = arq.readline()
-            if BlocoGeracaoUsinasNaoSimuladasSistema.str_fim == linha.strip():
-                tabela = tabela[:i, :]
-                self._dados = converte_tabela_em_df()
-                break
-            # Senão, lê mais uma linha
-            if len(linha.strip()) < 20:
-                subsistema_atual = reg_subsis.le_registro(linha, 1)
-                bloco_atual = reg_bloco.le_registro(linha, 6)
-                tipo_atual = reg_tipo.le_registro(linha, 11)
-            else:
-                # Ano
-                anos.append(reg_ano.le_registro(linha, 0))
-                # Subsistema, bloco e tipo do bloco
-                subsistema.append(subsistema_atual)
-                bloco.append(bloco_atual)
-                tipo.append(tipo_atual)
-                # Limites
-                ci = 7
-                nc = 7
-                for j in range(len(MESES)):
-                    cf = ci + nc
-                    if len(linha[ci:cf].strip()) > 0:
-                        tabela[i, j] = reg_ger.le_registro(linha, ci)
-                    ci = cf + 1
+        # Salta as linhas adicionais
+        for _ in range(3):
+            self.__cabecalhos.append(file.readline())
 
+        i = 0
+        subsis_atual = 0
+        ano_atual = ""
+        anos: List[str] = []
+        tabela = np.zeros(
+            (
+                MAX_SUBMERCADOS * MAX_ANOS_ESTUDO,
+                len(MESES_DF) + 1,
+            )
+        )
+        while True:
+            linha = file.readline()
+            # Confere se terminaram
+            if (
+                len(linha) < 3
+                or BlocoMercadoEnergiaSistema.FIM_BLOCO in linha[:4]
+            ):
+                # Converte para df e salva na variável
+                if i > 0:
+                    tabela = tabela[:i, :]
+                    self.data = converte_tabela_em_df()
+                break
+            # Confere se é uma linha de subsistema ou tabela
+            if len(linha) < 12:
+                dados = self.__linha_subsis.read(linha)
+                subsis_atual = dados[0]
+            else:
+                dados = self.__linha.read(linha)
+                if isinstance(dados[0], str) and dados[0] != ano_atual:
+                    ano_atual = dados[0]
+                anos.append(ano_atual)
+                tabela[i, 0] = subsis_atual
+                tabela[i, 1:] = dados[1:]
                 i += 1
 
     # Override
-    def escreve(self, arq: IO):
-        def escreve_geracoes():
-            lin_tab = self._dados.shape[0]
-            tipo_anterior = 0
-            for i in range(lin_tab):
-                linha = ""
-                # Subsistema
-                subsistema = self._dados.iloc[i, 1]
-                bloco = self._dados.iloc[i, 2]
-                tipo = self._dados.iloc[i, 3]
-                if tipo != tipo_anterior:
-                    arq.write(
-                        " "
-                        + str(subsistema).rjust(3)
-                        + "  "
-                        + str(bloco).rjust(3)
-                        + "  "
-                        + str(tipo).rjust(3)
-                        + "\n"
+    def write(self, file: IO):
+        for linha in self.__cabecalhos:
+            file.write(linha)
+        if not isinstance(self.data, pd.DataFrame):
+            raise ValueError(
+                "Dados do sistema.dat não foram lidos com sucesso"
+            )
+
+        ultimo_subsistema = 0
+
+        for _, linha in self.data.iterrows():
+            linha_lida: pd.Series = linha
+            if any(
+                [
+                    linha_lida["Subsistema"] != ultimo_subsistema,
+                ]
+            ):
+                ultimo_ano = ""
+                ultimo_subsistema = linha_lida["Subsistema"]
+                file.write(
+                    self.__linha_subsis.write(
+                        [
+                            int(ultimo_subsistema),
+                        ]
                     )
-                    tipo_anterior = tipo
-                # Mercados de cada mês
-                linha = f"{str(self._dados.iloc[i, 0]).ljust(4)}  "
-                for j in range(len(MESES)):
-                    v = self._dados.iloc[i, j + 4]
-                    if v != 0:
-                        linha += " {:6.0f}.".format(v).rjust(8)
-                    else:
-                        linha += "        "
-                arq.write(linha + "\n")
+                )
+            ano_linha = linha["Ano"] if linha["Ano"] != ultimo_ano else None
+            ultimo_ano = linha["Ano"]
+            file.write(
+                self.__linha.write([ano_linha] + linha_lida[MESES_DF].tolist())
+            )
+        file.write(BlocoMercadoEnergiaSistema.FIM_BLOCO + "\n")
 
-        # Escreve cabeçalhos
-        arq.write(f"{BlocoGeracaoUsinasNaoSimuladasSistema.str_inicio}\n")
-        arq.write(" XXX  XBL  XXXXXXXXXXXXXXXXXXXX  XTE\n")
-        cab = (
-            "       XXXJAN. XXXFEV. XXXMAR. XXXABR. XXXMAI. XXXJUN."
-            + " XXXJUL. XXXAGO. XXXSET. XXXOUT. XXXNOV. XXXDEZ.\n"
+
+class BlocoGeracaoUsinasNaoSimuladas(Section):
+    """
+    Bloco com a geração de usinas não simuladas em P.U. para
+    cada patamar, por mês de estudo, extraído do arquivo `sistema.dat`.
+    """
+
+    FIM_BLOCO = " 999"
+
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha_subsis = Line(
+            [IntegerField(3, 1), IntegerField(3, 6), LiteralField(3, 11)]
         )
-        arq.write(cab)
-        escreve_geracoes()
-        # Escreve a linha de terminação
-        arq.write(f" {BlocoGeracaoUsinasNaoSimuladasSistema.str_fim}\n")
+        self.__linha = Line(
+            [IntegerField(4, 0)]
+            + [FloatField(7, 7 + i * 8, 0) for i in range(len(MESES_DF))]
+        )
+        self.__cabecalhos: List[str] = []
 
-
-class LeituraSistema(LeituraBlocos):
-    """
-    Realiza a leitura do arquivo `sistema.dat`
-    existente em um diretório de entradas do NEWAVE.
-
-    Esta classe contém o conjunto de utilidades para ler
-    e interpretar os campos de um arquivo `sistema.dat`, construindo
-    um objeto `Sistema` cujas informações são as mesmas do sistema.dat.
-
-    Este objeto existe para retirar do modelo de dados a complexidade
-    de iterar pelas linhas do arquivo, recortar colunas, converter
-    tipos de dados, dentre outras tarefas necessárias para a leitura.
-    """
-
-    def __init__(self, diretorio: str):
-        super().__init__(diretorio)
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoGeracaoUsinasNaoSimuladas):
+            return False
+        bloco: BlocoGeracaoUsinasNaoSimuladas = o
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
+            return False
+        else:
+            return self.data.equals(bloco.data)
 
     # Override
-    def _cria_blocos_leitura(self) -> List[Bloco]:
-        """
-        Cria a lista de blocos a serem lidos no arquivo sistema.dat.
-        """
-        return [
-            BlocoCustoDeficitSistema(),
-            BlocoIntercambioSistema(),
-            BlocoMercadoEnergiaSistema(),
-            BlocoGeracaoUsinasNaoSimuladasSistema(),
-        ]
+    def read(self, file: IO):
+        def converte_tabela_em_df():
+            df = pd.DataFrame(
+                tabela, columns=["Subsistema", "Bloco", "Ano"] + MESES_DF
+            )
+            df["Razão"] = razoes
+            df = df.astype(
+                {"Subsistema": "int64", "Bloco": "int64", "Ano": "int64"}
+            )
+            df = df[["Subsistema", "Bloco", "Razão", "Ano"] + MESES_DF]
+            return df
+
+        # Salta as linhas adicionais
+        for _ in range(3):
+            self.__cabecalhos.append(file.readline())
+
+        i = 0
+        subsis_atual = 0
+        bloco_atual = 0
+        razao_atual = ""
+        ano_atual = 0
+        razoes: List[str] = []
+        tabela = np.zeros(
+            (
+                MAX_SUBMERCADOS * MAX_SUBMERCADOS * MAX_ANOS_ESTUDO,
+                len(MESES_DF) + 3,
+            )
+        )
+        while True:
+            linha = file.readline()
+            # Confere se terminaram
+            if len(linha) < 3:
+                # Converte para df e salva na variável
+                if i > 0:
+                    tabela = tabela[:i, :]
+                    self.data = converte_tabela_em_df()
+                break
+            # Confere se é uma linha de subsistema ou tabela
+            if len(linha) < 30:
+                dados = self.__linha_subsis.read(linha)
+                subsis_atual = dados[0]
+                bloco_atual = dados[1]
+                razao_atual = dados[2]
+            else:
+                dados = self.__linha.read(linha)
+                if isinstance(dados[0], int) and dados[0] != ano_atual:
+                    ano_atual = dados[0]
+                razoes.append(razao_atual)
+                tabela[i, 0] = subsis_atual
+                tabela[i, 1] = bloco_atual
+                tabela[i, 2] = ano_atual
+                tabela[i, 3:] = dados[1:]
+                i += 1
+
+    # Override
+    def write(self, file: IO):
+        for linha in self.__cabecalhos:
+            file.write(linha)
+        if not isinstance(self.data, pd.DataFrame):
+            raise ValueError(
+                "Dados do sistema.dat não foram lidos com sucesso"
+            )
+
+        ultimo_subsistema = 0
+        ultimo_bloco = 0
+        ultima_razao = ""
+
+        for _, linha in self.data.iterrows():
+            linha_lida: pd.Series = linha
+            if any(
+                [
+                    linha_lida["Subsistema"] != ultimo_subsistema,
+                    linha_lida["Bloco"] != ultimo_bloco,
+                    linha_lida["Razão"] != ultima_razao,
+                ]
+            ):
+                ultimo_ano = 0
+                ultimo_subsistema = linha_lida["Subsistema"]
+                ultimo_bloco = linha_lida["Bloco"]
+                ultima_razao = linha_lida["Razão"]
+                file.write(
+                    self.__linha_subsis.write(
+                        [
+                            int(ultimo_subsistema),
+                            int(ultimo_bloco),
+                            str(ultima_razao),
+                        ]
+                    )
+                )
+            ano_linha = (
+                int(linha["Ano"]) if linha["Ano"] != ultimo_ano else None
+            )
+            ultimo_ano = int(linha["Ano"])
+            file.write(
+                self.__linha.write([ano_linha] + linha_lida[MESES_DF].tolist())
+            )
+        file.write(BlocoGeracaoUsinasNaoSimuladas.FIM_BLOCO + "\n")

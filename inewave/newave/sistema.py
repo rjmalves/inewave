@@ -1,116 +1,160 @@
-from inewave._utils.dadosarquivo import DadosArquivoBlocos
-from inewave._utils.arquivo import ArquivoBlocos
-from inewave._utils.escritablocos import EscritaBlocos
+from inewave.newave.modelos.sistema import (
+    BlocoCustosDeficit,
+    BlocoGeracaoUsinasNaoSimuladas,
+    BlocoIntercambioSubsistema,
+    BlocoMercadoEnergiaSistema,
+    BlocoNumeroPatamaresDeficit,
+)
 
-from inewave.newave.modelos.sistema import LeituraSistema
 
+from cfinterface.files.sectionfile import SectionFile
+from typing import Type, TypeVar, Optional
 import pandas as pd  # type: ignore
 
 
-class Sistema(ArquivoBlocos):
+class Sistema(SectionFile):
     """
     Armazena os dados de entrada do NEWAVE referentes às configurações
     dos subsistemas (submercados).
 
-    **Parâmetros**
-
     """
 
-    def __init__(self, dados: DadosArquivoBlocos) -> None:
-        super().__init__(dados)
+    T = TypeVar("T")
 
-    # Override
+    SECTIONS = [
+        BlocoNumeroPatamaresDeficit,
+        BlocoCustosDeficit,
+        BlocoIntercambioSubsistema,
+        BlocoMercadoEnergiaSistema,
+        BlocoGeracaoUsinasNaoSimuladas,
+    ]
+
+    def __init__(self, data=...) -> None:
+        super().__init__(data)
+
     @classmethod
     def le_arquivo(
         cls, diretorio: str, nome_arquivo="sistema.dat"
     ) -> "Sistema":
-        """ """
-        leitor = LeituraSistema(diretorio)
-        r = leitor.le_arquivo(nome_arquivo)
-        return cls(r)
+        return cls.read(diretorio, nome_arquivo)
 
     def escreve_arquivo(self, diretorio: str, nome_arquivo="sistema.dat"):
-        """ """
-        escritor = EscritaBlocos(diretorio)
-        escritor.escreve_arquivo(self._dados, nome_arquivo)
+        self.write(diretorio, nome_arquivo)
+
+    def __bloco_por_tipo(self, bloco: Type[T], indice: int) -> Optional[T]:
+        """
+        Obtém um gerador de blocos de um tipo, se houver algum no arquivo.
+
+        :param bloco: Um tipo de bloco para ser lido
+        :type bloco: T
+        :param indice: O índice do bloco a ser acessado, dentre os do tipo
+        :type indice: int
+        :return: O gerador de blocos, se houver
+        :rtype: Optional[Generator[T], None, None]
+        """
+        try:
+            return next(
+                b
+                for i, b in enumerate(self.data.of_type(bloco))
+                if i == indice
+            )
+        except StopIteration:
+            return None
 
     @property
-    def custo_deficit(self) -> pd.DataFrame:
+    def numero_patamares_deficit(self) -> Optional[int]:
         """
-        Tabela com os custos de déficit por patamar
-        de déficit por subsistema.
+        O número de patamares de déficit utilizados no estudo.
 
-        **Retorna**
-
-        `pd.DataFrame`
-
-        **Sobre**
-
+        :return: O número de patamares como um inteiro
+        :rtype: Optional[int]
         """
-        return self._blocos[0].dados[1]
+        b = self.__bloco_por_tipo(BlocoNumeroPatamaresDeficit, 0)
+        if b is not None:
+            return b.data
+        return None
 
-    @custo_deficit.setter
-    def custo_deficit(self, custo: pd.DataFrame):
-        """ """
-        self._blocos[0].dados[1] = custo
+    @numero_patamares_deficit.setter
+    def numero_patamares_deficit(self, n: int):
+        b = self.__bloco_por_tipo(BlocoNumeroPatamaresDeficit, 0)
+        if b is not None:
+            b.data = n
 
     @property
-    def limites_intercambio(self) -> pd.DataFrame:
+    def custo_deficit(self) -> Optional[pd.DataFrame]:
         """
-        Tabela com os limites de intercâmbio entre
-        subsistemas por mês/ano de estudo.
-
-        **Retorna**
-
-        `pd.DataFrame`
-
-        **Sobre**
-
-        """
-        return self._blocos[1].dados
-
-    @limites_intercambio.setter
-    def limites_intercambio(self, limite: pd.DataFrame):
-        """ """
-        self._blocos[1].dados = limite
-
-    @property
-    def mercado_energia(self) -> pd.DataFrame:
-        """
-        Tabela com os valores de mercado de energia
-        (demanda) por mês/ano de estudo e por subsistema.
-
-        **Retorna**
-
-        `pd.DataFrame`
-
-        **Sobre**
-
-        """
-        return self._blocos[2].dados
-
-    @mercado_energia.setter
-    def mercado_energia(self, merc: pd.DataFrame):
-        """ """
-        self._blocos[2].dados = merc
-
-    @property
-    def geracao_usinas_nao_simuladas(self) -> pd.DataFrame:
-        """
-        Tabela com os valores de geração de pequenas usinas
-        previstas para cada mês/ano de estudo e cada
+        Tabela com o custo de cada patamar de déficit, por
         subsistema.
 
-        **Retorna**
-
-        `pd.DataFrame`
-
-        **Sobre**
-
+        :return: A duração por mês em um DataFrame.
+        :rtype: Optional[pd.DataFrame]
         """
-        return self._blocos[3].dados
+        b = self.__bloco_por_tipo(BlocoCustosDeficit, 0)
+        if b is not None:
+            return b.data
+        return None
+
+    @custo_deficit.setter
+    def custo_deficit(self, df: pd.DataFrame):
+        b = self.__bloco_por_tipo(BlocoCustosDeficit, 0)
+        if b is not None:
+            b.data = df
+
+    @property
+    def limites_intercambio(self) -> Optional[pd.DataFrame]:
+        """
+        Tabela com o limite de intercâmbio por par de
+        subsistemas.
+
+        :return: A duração por mês em um DataFrame.
+        :rtype: Optional[pd.DataFrame]
+        """
+        b = self.__bloco_por_tipo(BlocoIntercambioSubsistema, 0)
+        if b is not None:
+            return b.data
+        return None
+
+    @limites_intercambio.setter
+    def limites_intercambio(self, df: pd.DataFrame):
+        b = self.__bloco_por_tipo(BlocoIntercambioSubsistema, 0)
+        if b is not None:
+            b.data = df
+
+    @property
+    def mercado_energia(self) -> Optional[pd.DataFrame]:
+        """
+        Tabela com o mercado total de energia por período de estudo.
+
+        :return: A carga por mês em um DataFrame.
+        :rtype: Optional[pd.DataFrame]
+        """
+        b = self.__bloco_por_tipo(BlocoMercadoEnergiaSistema, 0)
+        if b is not None:
+            return b.data
+        return None
+
+    @mercado_energia.setter
+    def mercado_energia(self, df: pd.DataFrame):
+        b = self.__bloco_por_tipo(BlocoMercadoEnergiaSistema, 0)
+        if b is not None:
+            b.data = df
+
+    @property
+    def geracao_usinas_nao_simuladas(self) -> Optional[pd.DataFrame]:
+        """
+        Tabela com a geração das usinas não simuladas por fonte
+        de geração.
+
+        :return: A carga por mês em um DataFrame.
+        :rtype: Optional[pd.DataFrame]
+        """
+        b = self.__bloco_por_tipo(BlocoGeracaoUsinasNaoSimuladas, 0)
+        if b is not None:
+            return b.data
+        return None
 
     @geracao_usinas_nao_simuladas.setter
-    def geracao_usinas_nao_simuladas(self, ger: pd.DataFrame):
-        """ """
-        self._blocos[3].dados = ger
+    def geracao_usinas_nao_simuladas(self, df: pd.DataFrame):
+        b = self.__bloco_por_tipo(BlocoGeracaoUsinasNaoSimuladas, 0)
+        if b is not None:
+            b.data = df

@@ -40,9 +40,10 @@ class BlocoNumeroPatamares(Section):
 
     # Override
     def read(self, file: IO):
-        self.__cabecalhos.append(file.readline())
+        for _ in range(2):
+            self.__cabecalhos.append(file.readline())
 
-        self.data = self.__linha.read(file.readline())
+        self.data = self.__linha.read(file.readline())[0]
 
     # Override
     def write(self, file: IO):
@@ -52,7 +53,7 @@ class BlocoNumeroPatamares(Section):
             raise ValueError(
                 "Dados do patamar.dat não foram lidos com sucesso"
             )
-        file.write(self.__linha.write(self.data))
+        file.write(self.__linha.write([self.data]))
 
 
 class BlocoDuracaoPatamar(Section):
@@ -61,13 +62,13 @@ class BlocoDuracaoPatamar(Section):
     de estudo, extraído do arquivo `patamar.dat`.
     """
 
-    FIM_BLOCO = "9999"
+    FIM_BLOCO = "SUBSISTEMA"
 
     def __init__(self, state=..., previous=None, next=None, data=None) -> None:
         super().__init__(state, previous, next, data)
         self.__linha = Line(
             [IntegerField(4, 0)]
-            + [FloatField(6, 6 + i * 7, 4) for i in range(len(MESES_DF))]
+            + [FloatField(6, 6 + i * 8, 4) for i in range(len(MESES_DF))]
         )
         self.__cabecalhos: List[str] = []
 
@@ -102,9 +103,11 @@ class BlocoDuracaoPatamar(Section):
             (MAX_SUBMERCADOS * MAX_ANOS_ESTUDO, len(MESES_DF) + 1)
         )
         while True:
+            ultima_linha = file.tell()
             linha = file.readline()
             # Confere se terminaram
             if len(linha) < 3 or BlocoDuracaoPatamar.FIM_BLOCO in linha:
+                file.seek(ultima_linha)
                 # Converte para df e salva na variável
                 if i > 0:
                     tabela = tabela[:i, :]
@@ -128,6 +131,7 @@ class BlocoDuracaoPatamar(Section):
                 "Dados do patamar.dat não foram lidos com sucesso"
             )
 
+        ultimo_ano = 0
         for _, linha in self.data.iterrows():
             linha_lida: pd.Series = linha
             ano_linha = (
@@ -137,7 +141,6 @@ class BlocoDuracaoPatamar(Section):
             file.write(
                 self.__linha.write([ano_linha] + linha_lida[MESES_DF].tolist())
             )
-        file.write(BlocoDuracaoPatamar.FIM_BLOCO + "\n")
 
 
 class BlocoCargaPatamar(Section):
@@ -158,9 +161,9 @@ class BlocoCargaPatamar(Section):
         self.__cabecalhos: List[str] = []
 
     def __eq__(self, o: object) -> bool:
-        if not isinstance(o, BlocoDuracaoPatamar):
+        if not isinstance(o, BlocoCargaPatamar):
             return False
-        bloco: BlocoDuracaoPatamar = o
+        bloco: BlocoCargaPatamar = o
         if not all(
             [
                 isinstance(self.data, pd.DataFrame),
@@ -191,7 +194,7 @@ class BlocoCargaPatamar(Section):
         while True:
             linha = file.readline()
             # Confere se terminaram
-            if len(linha) < 3 or BlocoDuracaoPatamar.FIM_BLOCO in linha:
+            if len(linha) < 3 or BlocoCargaPatamar.FIM_BLOCO in linha[:4]:
                 # Converte para df e salva na variável
                 if i > 0:
                     tabela = tabela[:i, :]
@@ -232,7 +235,7 @@ class BlocoCargaPatamar(Section):
             file.write(
                 self.__linha.write([ano_linha] + linha_lida[MESES_DF].tolist())
             )
-        file.write(BlocoDuracaoPatamar.FIM_BLOCO + "\n")
+        file.write(BlocoCargaPatamar.FIM_BLOCO + "\n")
 
 
 class BlocoIntercambioPatamarSubsistemas(Section):
@@ -245,7 +248,7 @@ class BlocoIntercambioPatamarSubsistemas(Section):
 
     def __init__(self, state=..., previous=None, next=None, data=None) -> None:
         super().__init__(state, previous, next, data)
-        self.__linha_subsis = Line([IntegerField(3, 1), IntegerField(3, 4)])
+        self.__linha_subsis = Line([IntegerField(3, 1), IntegerField(3, 5)])
         self.__linha = Line(
             [IntegerField(4, 3)]
             + [FloatField(6, 8 + i * 7, 4) for i in range(len(MESES_DF))]
@@ -301,7 +304,7 @@ class BlocoIntercambioPatamarSubsistemas(Section):
             # Confere se terminaram
             if (
                 len(linha) < 3
-                or BlocoIntercambioPatamarSubsistemas.FIM_BLOCO in linha
+                or BlocoIntercambioPatamarSubsistemas.FIM_BLOCO in linha[:4]
             ):
                 # Converte para df e salva na variável
                 if i > 0:
@@ -370,8 +373,6 @@ class BlocoUsinasNaoSimuladas(Section):
     cada patamar, por mês de estudo, extraído do arquivo `patamar.dat`.
     """
 
-    FIM_BLOCO = "9999"
-
     def __init__(self, state=..., previous=None, next=None, data=None) -> None:
         super().__init__(state, previous, next, data)
         self.__linha_subsis = Line([IntegerField(3, 1), IntegerField(3, 5)])
@@ -407,7 +408,7 @@ class BlocoUsinasNaoSimuladas(Section):
             return df
 
         # Salta as linhas adicionais
-        for _ in range(5):
+        for _ in range(4):
             self.__cabecalhos.append(file.readline())
 
         i = 0
@@ -423,7 +424,7 @@ class BlocoUsinasNaoSimuladas(Section):
         while True:
             linha = file.readline()
             # Confere se terminaram
-            if len(linha) < 3 or BlocoUsinasNaoSimuladas.FIM_BLOCO in linha:
+            if len(linha) < 3:
                 # Converte para df e salva na variável
                 if i > 0:
                     tabela = tabela[:i, :]
