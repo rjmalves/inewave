@@ -1,838 +1,600 @@
-from typing import IO, List
+from cfinterface.components.register import Register
+from cfinterface.components.line import Line
+from cfinterface.components.integerfield import IntegerField
+from cfinterface.components.literalfield import LiteralField
+from cfinterface.components.floatfield import FloatField
 
-from inewave._utils.registronewave import RegistroNEWAVE
-from inewave._utils.leituraregistros import LeituraRegistros
+from typing import Optional
 
 
-class USINA(RegistroNEWAVE):
+class USINA(Register):
     """
     Registro que contém a usina modificada.
     """
 
-    mnemonico = "USINA"
-
-    def __init__(self):
-        super().__init__(USINA.mnemonico, True)
-        self._dados: list = [0, ""]
-
-    def le(self):
-        dados = [d for d in self._linha.split(" ") if len(d) > 0]
-        self._dados[0] = int(dados[1])
-        self._dados[1] = " ".join(dados[2:-1])
-
-    def escreve(self, arq: IO):
-        linha = (
-            f" {USINA.mnemonico}".ljust(9)
-            + " "
-            + str(self.dados[0]).ljust(21)
-            + str(self.dados[1]).ljust(30)
-            + "\n"
-        )
-        arq.write(linha)
+    IDENTIFIER = " USINA"
+    IDENTIFIER_DIGITS = 8
+    LINE = Line([IntegerField(3, 10), LiteralField(20, 44)])
 
     @property
-    def codigo(self) -> int:
+    def codigo(self) -> Optional[int]:
         """
         O principal conteúdo do registro (código da usina).
 
-        :return: Um `int` com o código da usina
+        :return: O código da usina
+        :rtype: Optional[int]
         """
-        return self._dados[0]
+        return self.data[0]
 
     @codigo.setter
     def codigo(self, t: int):
-        self._dados[0] = t
+        self.data[0] = t
 
     @property
-    def nome(self) -> str:
+    def nome(self) -> Optional[str]:
         """
         O nome da usina (opcional).
 
-        :return: Um `str` com o nome da usina
+        :return: O nome da usina
+        :rtype: Optional[str]
         """
-        return self._dados[1]
+        return self.data[1]
 
     @nome.setter
     def nome(self, t: str):
-        self._dados[1] = t
+        self.data[1] = t
 
 
-class VOLMIN(RegistroNEWAVE):
+class VOLMIN(Register):
     """
     Registro que contém uma modificação de volume mínimo
     operativo para uma usina.
     """
 
-    mnemonico = "VOLMIN"
-
-    def __init__(self):
-        super().__init__(VOLMIN.mnemonico, True)
-        self._dados: list = [0, ""]
-
-    def le(self):
-        dados = [d for d in self._linha.split(" ") if len(d) > 0]
-        self._dados[0] = float(dados[1])
-        self._dados[1] = dados[2].strip()
-
-    def escreve(self, arq: IO):
-        linha = (
-            f" {VOLMIN.mnemonico}".ljust(9)
-            + "        "
-            + f"{self.dados[0]:.2f}".rjust(8)
-            + " "
-            + str(self.dados[1]).ljust(3)
-            + "\n"
-        )
-        arq.write(linha)
+    IDENTIFIER = " VOLMIN"
+    IDENTIFIER_DIGITS = 8
+    LINE = Line([FloatField(15, 10, 2), LiteralField(3, 26)])
 
     @property
-    def volume(self) -> float:
+    def volume(self) -> Optional[float]:
         """
         O novo valor de volume
 
-        :return: Um `float` com o volume
+        :return: O novo valor de volume
+        :rtype: Optional[float]
         """
-        return self._dados[0]
+        return self.data[0]
 
     @volume.setter
     def volume(self, t: float):
-        self._dados[0] = t
+        self.data[0] = t
 
     @property
-    def unidade(self) -> str:
+    def unidade(self) -> Optional[str]:
         """
         A unidade do volume informado
 
-        :return: Um `str` com a unidade do volume
+        :return: A unidade do volume
+        :rtype: Optional[str]
         """
-        return self._dados[1]
+        return self.data[1]
 
     @unidade.setter
     def unidade(self, t: str):
-        self._dados[1] = t
+        self.data[1] = t
 
 
-class VOLMAX(RegistroNEWAVE):
+class VOLMAX(Register):
     """
     Registro que contém uma modificação de volume máximo
     operativo para uma usina.
     """
 
-    mnemonico = "VOLMAX"
-
-    def __init__(self):
-        super().__init__(VOLMAX.mnemonico, True)
-        self._dados: list = [0, ""]
-
-    def le(self):
-        dados = [d for d in self._linha.split(" ") if len(d) > 0]
-        self._dados[0] = float(dados[1])
-        self._dados[1] = dados[2].strip()
-
-    def escreve(self, arq: IO):
-        linha = (
-            f" {VOLMAX.mnemonico}".ljust(9)
-            + "        "
-            + f"{self.dados[0]:.2f}".rjust(8)
-            + " "
-            + str(self.dados[1]).ljust(3)
-            + "\n"
-        )
-        arq.write(linha)
+    IDENTIFIER = " VOLMAX"
+    IDENTIFIER_DIGITS = 8
+    LINE = Line([FloatField(15, 10, 2), LiteralField(3, 26)])
 
     @property
-    def volume(self) -> float:
+    def volume(self) -> Optional[float]:
         """
         O novo valor de volume
 
-        :return: Um `float` com o volume
+        :return: O novo valor de volume
+        :rtype: Optional[float]
         """
-        return self._dados[0]
+        return self.data[0]
 
     @volume.setter
     def volume(self, t: float):
-        self._dados[0] = t
+        self.data[0] = t
 
     @property
-    def unidade(self) -> str:
+    def unidade(self) -> Optional[str]:
         """
         A unidade do volume informado
 
-        :return: Um `str` com a unidade do volume
+        :return: A unidade do volume
+        :rtype: Optional[str]
         """
-        return self._dados[1]
+        return self.data[1]
 
     @unidade.setter
     def unidade(self, t: str):
-        self._dados[1] = t
+        self.data[1] = t
 
 
-class NUMCNJ(RegistroNEWAVE):
+class NUMCNJ(Register):
     """
     Registro que contém uma modificação de número de conjunto
     de máquinas.
     """
 
-    mnemonico = "NUMCNJ"
-
-    def __init__(self):
-        super().__init__(NUMCNJ.mnemonico, True)
-        self._dados = 0
-
-    def le(self):
-        dados = [d for d in self._linha.split(" ") if len(d) > 0]
-        self._dados = int(dados[1])
-
-    def escreve(self, arq: IO):
-        linha = (
-            f" {NUMCNJ.mnemonico}".ljust(9)
-            + " "
-            + f"{str(self.dados)}".rjust(3)
-            + "\n"
-        )
-        arq.write(linha)
+    IDENTIFIER = " NUMCNJ"
+    IDENTIFIER_DIGITS = 8
+    LINE = Line([IntegerField(3, 10)])
 
     @property
     def numero(self) -> int:
         """
-        O novo valor de numero
+        O novo valor do número de conjuntos
 
-        :return: Um `int` com o numero
+        :return: O novo número de conjuntos
+        :rtype: Optional[int]
         """
-        return self._dados
+        return self.data[0]
 
     @numero.setter
     def numero(self, t: int):
-        self._dados = t
+        self.data[0] = t
 
 
-class NUMMAQ(RegistroNEWAVE):
+class NUMMAQ(Register):
     """
-    Registro que contém uma modificação de número de máquinas por
-    conjunto.
+    Registro que contém uma modificação do número de máquinas em um
+    conjunto de máquinas.
     """
 
-    mnemonico = "NUMMAQ"
-
-    def __init__(self):
-        super().__init__(NUMMAQ.mnemonico, True)
-        self._dados = [0, 0]
-
-    def le(self):
-        dados = [d for d in self._linha.split(" ") if len(d) > 0]
-        self._dados[0] = int(dados[1])
-        self._dados[1] = int(dados[2])
-
-    def escreve(self, arq: IO):
-        linha = (
-            f" {NUMMAQ.mnemonico}".ljust(9)
-            + " "
-            + f"{str(self.dados[0])}".rjust(3)
-            + " "
-            + f"{str(self.dados[1])}".rjust(3)
-            + "\n"
-        )
-        arq.write(linha)
+    IDENTIFIER = " NUMMAQ"
+    IDENTIFIER_DIGITS = 8
+    LINE = Line([IntegerField(3, 10), IntegerField(3, 14)])
 
     @property
-    def conjunto(self) -> int:
+    def conjunto(self) -> Optional[int]:
         """
-        O conjunto de máquinas
+        O conjunto de máquinas que terá o número alterado
 
-        :return: Um `int` com o conjunto de máquinas
+        :return: O índice do conjunto de máquinas
+        :rtype: Optional[int]
         """
-        return self._dados[0]
+        return self.data[0]
 
     @conjunto.setter
     def conjunto(self, t: int):
-        self._dados[0] = t
+        self.data[0] = t
 
     @property
-    def numero_maquinas(self) -> int:
+    def numero_maquinas(self) -> Optional[int]:
         """
         O novo número de máquinas do conjunto
 
-        :return: Um `int` com o número de máquinas do conjunto
+        :return: O número de máquinas do conjunto
+        :rtype: Optional[int]
         """
-        return self._dados[1]
+        return self.data[1]
 
     @numero_maquinas.setter
     def numero_maquinas(self, t: int):
-        self._dados[1] = t
+        self.data[1] = t
 
 
-class VAZMIN(RegistroNEWAVE):
+class VAZMIN(Register):
     """
     Registro que contém uma modificação de vazão mínima (m3/s).
     """
 
-    mnemonico = "VAZMIN "
-
-    def __init__(self):
-        super().__init__(VAZMIN.mnemonico, True)
-        self._dados = 0
-
-    def le(self):
-        dados = [d for d in self._linha.split(" ") if len(d) > 0]
-        self._dados = float(dados[1])
-
-    def escreve(self, arq: IO):
-        linha = (
-            f" {VAZMIN.mnemonico}".ljust(9)
-            + " "
-            + f"{str(self.dados)}".rjust(8)
-            + "\n"
-        )
-        arq.write(linha)
+    IDENTIFIER = " VAZMIN "
+    IDENTIFIER_DIGITS = 8
+    LINE = Line([IntegerField(6, 10)])
 
     @property
-    def vazao(self) -> float:
+    def vazao(self) -> Optional[int]:
         """
         O valor de vazão mínima
 
-        :return: Um `float` com a vazão
+        :return: A nova vazão
+        :rtype: Optional[int]
         """
-        return self._dados
+        return self.data[0]
 
     @vazao.setter
-    def vazao(self, t: float):
-        self._dados = t
+    def vazao(self, t: int):
+        self.data[0] = t
 
 
-class CFUGA(RegistroNEWAVE):
+class CFUGA(Register):
     """
     Registro que contém uma modificação do nível do canal de fuga.
     """
 
-    mnemonico = "CFUGA"
-
-    def __init__(self):
-        super().__init__(CFUGA.mnemonico, True)
-        self._dados = [0, 0, 0.0]
-
-    def le(self):
-        dados = [d for d in self._linha.split(" ") if len(d) > 0]
-        self._dados[0] = int(dados[1])
-        self._dados[1] = int(dados[2])
-        self._dados[2] = float(dados[3])
-
-    def escreve(self, arq: IO):
-        linha = (
-            f" {CFUGA.mnemonico}".ljust(9)
-            + " "
-            + f"{str(self.dados[0])}".rjust(2)
-            + " "
-            + f"{str(self.dados[1])}".rjust(4)
-            + " "
-            + f"{self.dados[2]:.2f}".rjust(7)
-            + "\n"
-        )
-        arq.write(linha)
+    IDENTIFIER = " CFUGA"
+    IDENTIFIER_DIGITS = 8
+    LINE = Line(
+        [IntegerField(2, 10), IntegerField(4, 13), FloatField(7, 18, 3)]
+    )
 
     @property
     def mes(self) -> int:
         """
         O mês de início da modificação
 
-        :return: Um `int` com o mês
+        :return: O mês de início da modificação
+        :rtype: Optional[int]
         """
-        return self._dados[0]
+        return self.data[0]
 
     @mes.setter
     def mes(self, t: int):
-        self._dados[0] = t
+        self.data[0] = t
 
     @property
     def ano(self) -> int:
         """
         O ano de início da modificação
 
-        :return: Um `int` com o ano
+        :return: O ano de início da modificação
+        :rtype: Optional[int]
         """
-        return self._dados[1]
+        return self.data[1]
 
     @ano.setter
     def ano(self, t: int):
-        self._dados[1] = t
+        self.data[1] = t
 
     @property
     def nivel(self) -> float:
         """
         O novo nivel do canal de fuga
 
-        :return: Um `float` com o nivel
+        :return: O novo nível
+        :rtype: Optional[int]
         """
-        return self._dados[2]
+        return self.data[2]
 
     @nivel.setter
     def nivel(self, t: float):
-        self._dados[2] = t
+        self.data[2] = t
 
 
-class CMONT(RegistroNEWAVE):
+class CMONT(Register):
     """
     Registro que contém uma modificação do nível do canal de montante.
     """
 
-    mnemonico = "CMONT"
-
-    def __init__(self):
-        super().__init__(CMONT.mnemonico, True)
-        self._dados = [0, 0, 0.0]
-
-    def le(self):
-        dados = [d for d in self._linha.split(" ") if len(d) > 0]
-        self._dados[0] = int(dados[1])
-        self._dados[1] = int(dados[2])
-        self._dados[2] = float(dados[3])
-
-    def escreve(self, arq: IO):
-        linha = (
-            f" {CMONT.mnemonico}".ljust(9)
-            + " "
-            + f"{str(self.dados[0])}".rjust(2)
-            + " "
-            + f"{str(self.dados[1])}".rjust(4)
-            + " "
-            + f"{self.dados[2]:.2f}".rjust(7)
-            + "\n"
-        )
-        arq.write(linha)
+    IDENTIFIER = " CMONT"
+    IDENTIFIER_DIGITS = 8
+    LINE = Line(
+        [IntegerField(2, 10), IntegerField(4, 13), FloatField(7, 18, 3)]
+    )
 
     @property
-    def mes(self) -> int:
+    def mes(self) -> Optional[int]:
         """
         O mês de início da modificação
 
-        :return: Um `int` com o mês
+        :return: O mês
+        :rtype: Optional[int]
         """
-        return self._dados[0]
+        return self.data[0]
 
     @mes.setter
     def mes(self, t: int):
-        self._dados[0] = t
+        self.data[0] = t
 
     @property
-    def ano(self) -> int:
+    def ano(self) -> Optional[int]:
         """
         O ano de início da modificação
 
-        :return: Um `int` com o ano
+        :return: O ano
+        :rtype: Optional[int]
         """
-        return self._dados[1]
+        return self.data[1]
 
     @ano.setter
     def ano(self, t: int):
-        self._dados[1] = t
+        self.data[1] = t
 
     @property
-    def nivel(self) -> float:
+    def nivel(self) -> Optional[float]:
         """
         O novo nivel do canal de montante
 
-        :return: Um `float` com o nivel
+        :return: O novo nível
+        :rtype: Optional[float]
         """
-        return self._dados[2]
+        return self.data[2]
 
     @nivel.setter
     def nivel(self, t: float):
-        self._dados[2] = t
+        self.data[2] = t
 
 
-class VMAXT(RegistroNEWAVE):
+class VMAXT(Register):
     """
     Registro que contém uma modificação do volume máximo
-    com data
+    com data.
     """
 
-    mnemonico = "VMAXT"
-
-    def __init__(self):
-        super().__init__(VMAXT.mnemonico, True)
-        self._dados = [0, 0, 0.0, ""]
-
-    def le(self):
-        dados = [d for d in self._linha.split(" ") if len(d) > 0]
-        self._dados[0] = int(dados[1])
-        self._dados[1] = int(dados[2])
-        self._dados[2] = float(dados[3])
-        self._dados[3] = dados[4].strip()
-
-    def escreve(self, arq: IO):
-        linha = (
-            f" {VMAXT.mnemonico}".ljust(9)
-            + " "
-            + f"{str(self.dados[0])}".rjust(2)
-            + " "
-            + f"{str(self.dados[1])}".rjust(4)
-            + " "
-            + f"{self.dados[2]:.3f}".rjust(7)
-            + " "
-            + f"{self.dados[3]}".rjust(3)
-            + "\n"
-        )
-        arq.write(linha)
+    IDENTIFIER = " VMAXT"
+    IDENTIFIER_DIGITS = 8
+    LINE = Line(
+        [
+            IntegerField(2, 10),
+            IntegerField(4, 13),
+            FloatField(7, 18, 3),
+            LiteralField(3, 26),
+        ]
+    )
 
     @property
-    def mes(self) -> int:
+    def mes(self) -> Optional[int]:
         """
         O mês de início da modificação
 
-        :return: Um `int` com o mês
+        :return: O mês
+        :rtype: Optional[int]
         """
-        return self._dados[0]
+        return self.data[0]
 
     @mes.setter
     def mes(self, t: int):
-        self._dados[0] = t
+        self.data[0] = t
 
     @property
-    def ano(self) -> int:
+    def ano(self) -> Optional[int]:
         """
         O ano de início da modificação
 
-        :return: Um `int` com o ano
+        :return: O ano
+        :rtype: Optional[int]
         """
-        return self._dados[1]
+        return self.data[1]
 
     @ano.setter
     def ano(self, t: int):
-        self._dados[1] = t
+        self.data[1] = t
 
     @property
-    def volume(self) -> float:
+    def volume(self) -> Optional[float]:
         """
-        O novo volume máximo a partir da data
+        O novo volume máximo
 
-        :return: Um `float` com o volume
+        :return: O novo volume
+        :rtype: Optional[float]
         """
-        return self._dados[2]
+        return self.data[2]
 
     @volume.setter
     def volume(self, t: float):
-        self._dados[2] = t
+        self.data[2] = t
 
     @property
-    def unidade(self) -> str:
+    def unidade(self) -> Optional[str]:
         """
-        A unidade do volume fornecido
+        A unidade de fornecimento do volume
 
-        :return: Um `str` com o unidade
+        :return: A unidade
+        :rtype: Optional[str]
         """
-        return self._dados[3]
+        return self.data[3]
 
     @unidade.setter
     def unidade(self, t: str):
-        self._dados[3] = t
+        self.data[3] = t
 
 
-class VMINT(RegistroNEWAVE):
+class VMINT(Register):
     """
     Registro que contém uma modificação do volume mínimo
-    com data
+    com data.
     """
 
-    mnemonico = "VMINT"
-
-    def __init__(self):
-        super().__init__(VMINT.mnemonico, True)
-        self._dados = [0, 0, 0.0, ""]
-
-    def le(self):
-        dados = [d for d in self._linha.split(" ") if len(d) > 0]
-        self._dados[0] = int(dados[1])
-        self._dados[1] = int(dados[2])
-        self._dados[2] = float(dados[3])
-        self._dados[3] = dados[4].strip()
-
-    def escreve(self, arq: IO):
-        linha = (
-            f" {VMINT.mnemonico}".ljust(9)
-            + " "
-            + f"{str(self.dados[0])}".rjust(2)
-            + " "
-            + f"{str(self.dados[1])}".rjust(4)
-            + " "
-            + f"{self.dados[2]:.3f}".rjust(7)
-            + " "
-            + f"{self.dados[3]}".rjust(3)
-            + "\n"
-        )
-        arq.write(linha)
+    IDENTIFIER = " VMINT"
+    IDENTIFIER_DIGITS = 8
+    LINE = Line(
+        [
+            IntegerField(2, 10),
+            IntegerField(4, 13),
+            FloatField(7, 18, 3),
+            LiteralField(3, 26),
+        ]
+    )
 
     @property
-    def mes(self) -> int:
+    def mes(self) -> Optional[int]:
         """
         O mês de início da modificação
 
-        :return: Um `int` com o mês
+        :return: O mês
+        :rtype: Optional[int]
         """
-        return self._dados[0]
+        return self.data[0]
 
     @mes.setter
     def mes(self, t: int):
-        self._dados[0] = t
+        self.data[0] = t
 
     @property
-    def ano(self) -> int:
+    def ano(self) -> Optional[int]:
         """
         O ano de início da modificação
 
-        :return: Um `int` com o ano
+        :return: O ano
+        :rtype: Optional[int]
         """
-        return self._dados[1]
+        return self.data[1]
 
     @ano.setter
     def ano(self, t: int):
-        self._dados[1] = t
+        self.data[1] = t
 
     @property
-    def volume(self) -> float:
+    def volume(self) -> Optional[float]:
+        """
+        O novo volume mínimo
+
+        :return: O novo volume
+        :rtype: Optional[float]
+        """
+        return self.data[2]
+
+    @volume.setter
+    def volume(self, t: float):
+        self.data[2] = t
+
+    @property
+    def unidade(self) -> Optional[str]:
+        """
+        A unidade de fornecimento do volume
+
+        :return: A unidade
+        :rtype: Optional[str]
+        """
+        return self.data[3]
+
+    @unidade.setter
+    def unidade(self, t: str):
+        self.data[3] = t
+
+
+class VMINP(Register):
+    """
+    Registro que contém uma modificação do volume mínimo
+    com data para adoção de penalidade.
+    """
+
+    IDENTIFIER = " VMINP"
+    IDENTIFIER_DIGITS = 8
+    LINE = Line(
+        [
+            IntegerField(2, 10),
+            IntegerField(4, 13),
+            FloatField(7, 18, 3),
+            LiteralField(3, 26),
+        ]
+    )
+
+    @property
+    def mes(self) -> Optional[int]:
+        """
+        O mês de início da modificação
+
+        :return: O mês
+        :rtype: Optional[int]
+        """
+        return self.data[0]
+
+    @mes.setter
+    def mes(self, t: int):
+        self.data[0] = t
+
+    @property
+    def ano(self) -> Optional[int]:
+        """
+        O ano de início da modificação
+
+        :return: O ano
+        :rtype: Optional[int]
+        """
+        return self.data[1]
+
+    @ano.setter
+    def ano(self, t: int):
+        self.data[1] = t
+
+    @property
+    def volume(self) -> Optional[float]:
         """
         O novo volume mínimo a partir da data
 
-        :return: Um `float` com o volume
+        :return: O novo volume
+        :rtype: Optional[float]
         """
-        return self._dados[2]
+        return self.data[2]
 
     @volume.setter
     def volume(self, t: float):
-        self._dados[2] = t
+        self.data[2] = t
 
     @property
-    def unidade(self) -> str:
+    def unidade(self) -> Optional[str]:
         """
         A unidade do volume fornecido
 
-        :return: Um `str` com o unidade
+        :return: A unidade
+        :rtype: Optional[str]
         """
-        return self._dados[3]
+        return self.data[3]
 
     @unidade.setter
     def unidade(self, t: str):
-        self._dados[3] = t
+        self.data[3] = t
 
 
-class VMINP(RegistroNEWAVE):
-    """
-    Registro que contém uma modificação do volume mínimo
-    com data para adoção de penalidade
-    """
-
-    mnemonico = "VMINP"
-
-    def __init__(self):
-        super().__init__(VMINP.mnemonico, True)
-        self._dados = [0, 0, 0.0, ""]
-
-    def le(self):
-        dados = [d for d in self._linha.split(" ") if len(d) > 0]
-        self._dados[0] = int(dados[1])
-        self._dados[1] = int(dados[2])
-        self._dados[2] = float(dados[3])
-        self._dados[3] = dados[4].strip()
-
-    def escreve(self, arq: IO):
-        linha = (
-            f" {VMINP.mnemonico}".ljust(9)
-            + " "
-            + f"{str(self.dados[0])}".rjust(2)
-            + " "
-            + f"{str(self.dados[1])}".rjust(4)
-            + " "
-            + f"{self.dados[2]:.3f}".rjust(7)
-            + " "
-            + f"{self.dados[3]}".rjust(3)
-            + "\n"
-        )
-        arq.write(linha)
-
-    @property
-    def mes(self) -> int:
-        """
-        O mês de início da modificação
-
-        :return: Um `int` com o mês
-        """
-        return self._dados[0]
-
-    @mes.setter
-    def mes(self, t: int):
-        self._dados[0] = t
-
-    @property
-    def ano(self) -> int:
-        """
-        O ano de início da modificação
-
-        :return: Um `int` com o ano
-        """
-        return self._dados[1]
-
-    @ano.setter
-    def ano(self, t: int):
-        self._dados[1] = t
-
-    @property
-    def volume(self) -> float:
-        """
-        O novo volume mínimo a partir da data
-
-        :return: Um `float` com o volume
-        """
-        return self._dados[2]
-
-    @volume.setter
-    def volume(self, t: float):
-        self._dados[2] = t
-
-    @property
-    def unidade(self) -> str:
-        """
-        A unidade do volume fornecido
-
-        :return: Um `str` com o unidade
-        """
-        return self._dados[3]
-
-    @unidade.setter
-    def unidade(self, t: str):
-        self._dados[3] = t
-
-
-class VAZMINT(RegistroNEWAVE):
+class VAZMINT(Register):
     """
     Registro que contém uma modificação da vazão mínima
     com data.
     """
 
-    mnemonico = "VAZMINT"
-
-    def __init__(self):
-        super().__init__(VAZMINT.mnemonico, True)
-        self._dados = [0, 0, 0.0, ""]
-
-    def le(self):
-        dados = [d for d in self._linha.split(" ") if len(d) > 0]
-        self._dados[0] = int(dados[1])
-        self._dados[1] = int(dados[2])
-        self._dados[2] = float(dados[3])
-
-    def escreve(self, arq: IO):
-        linha = (
-            f" {VAZMINT.mnemonico}".ljust(9)
-            + " "
-            + f"{str(self.dados[0])}".rjust(2)
-            + " "
-            + f"{str(self.dados[1])}".rjust(4)
-            + " "
-            + f"{self.dados[2]:.2f}".rjust(7)
-            + "\n"
-        )
-        arq.write(linha)
+    IDENTIFIER = " VAZMINT"
+    IDENTIFIER_DIGITS = 8
+    LINE = Line(
+        [
+            IntegerField(2, 10),
+            IntegerField(4, 13),
+            FloatField(7, 18, 2),
+        ]
+    )
 
     @property
-    def mes(self) -> int:
+    def mes(self) -> Optional[int]:
         """
         O mês de início da modificação
 
-        :return: Um `int` com o mês
+        :return: O mês
+        :rtype: Optional[int]
         """
-        return self._dados[0]
+        return self.data[0]
 
     @mes.setter
     def mes(self, t: int):
-        self._dados[0] = t
+        self.data[0] = t
 
     @property
-    def ano(self) -> int:
+    def ano(self) -> Optional[int]:
         """
         O ano de início da modificação
 
-        :return: Um `int` com o ano
+        :return: O ano
+        :rtype: Optional[int]
         """
-        return self._dados[1]
+        return self.data[1]
 
     @ano.setter
     def ano(self, t: int):
-        self._dados[1] = t
+        self.data[1] = t
 
     @property
-    def vazao(self) -> float:
+    def vazao(self) -> Optional[float]:
         """
         A nova vazão mínima a partir da data
 
-        :return: Um `float` com a vazão
+        :return: A nova vazão
+        :rtype: Optional[float]
         """
-        return self._dados[2]
+        return self.data[2]
 
     @vazao.setter
     def vazao(self, t: float):
-        self._dados[2] = t
-
-
-class LeituraModif(LeituraRegistros):
-    """
-    Realiza a leitura do arquivo `modif.dat`
-    existente em um diretório de entradas do NEWAVE.
-
-    Esta classe contém o conjunto de utilidades para ler
-    e interpretar os campos de um arquivo `modif.dat`, construindo
-    um objeto `Modif` cujas informações são as mesmas do modif.dat.
-
-    Este objeto existe para retirar do modelo de dados a complexidade
-    de iterar pelas linhas do arquivo, recortar colunas, converter
-    tipos de dados, dentre outras tarefas necessárias para a leitura.
-    """
-
-    def __init__(self, diretorio: str):
-        super().__init__(diretorio)
-
-    # Override
-    def _cria_registros_leitura(self) -> List[RegistroNEWAVE]:
-        """
-        Cria a lista de registros a serem lidos no arquivo modif.dat.
-        """
-        MAX_UHE = 200
-        MAX_CNJ = 10
-        MAX_EST = 60
-        usina: List[RegistroNEWAVE] = [USINA() for _ in range(MAX_UHE)]
-        volmin: List[RegistroNEWAVE] = [VOLMIN() for _ in range(MAX_UHE)]
-        volmax: List[RegistroNEWAVE] = [VOLMAX() for _ in range(MAX_UHE)]
-        numcnj: List[RegistroNEWAVE] = [NUMCNJ() for _ in range(MAX_UHE)]
-        nummaq: List[RegistroNEWAVE] = [
-            NUMMAQ() for _ in range(MAX_UHE * MAX_CNJ)
-        ]
-        vazmin: List[RegistroNEWAVE] = [VAZMIN() for _ in range(MAX_UHE)]
-        cfuga: List[RegistroNEWAVE] = [
-            CFUGA() for _ in range(MAX_UHE * MAX_EST)
-        ]
-        cmont: List[RegistroNEWAVE] = [
-            CMONT() for _ in range(MAX_UHE * MAX_EST)
-        ]
-        vmaxt: List[RegistroNEWAVE] = [
-            VMAXT() for _ in range(MAX_UHE * MAX_EST)
-        ]
-        vmint: List[RegistroNEWAVE] = [
-            VMINT() for _ in range(MAX_UHE * MAX_EST)
-        ]
-        vminp: List[RegistroNEWAVE] = [
-            VMINP() for _ in range(MAX_UHE * MAX_EST)
-        ]
-        vazmint: List[RegistroNEWAVE] = [
-            VAZMINT() for _ in range(MAX_UHE * MAX_EST)
-        ]
-        return (
-            usina
-            + volmin
-            + volmax
-            + numcnj
-            + nummaq
-            + vazmin
-            + cfuga
-            + cmont
-            + vmaxt
-            + vmint
-            + vminp
-            + vazmint
-        )
+        self.data[2] = t

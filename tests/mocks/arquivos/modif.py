@@ -1,8 +1,36 @@
+MockUSINA = (
+    " USINA    1                                 CAMARGOS            \n"
+)
+
+MockVAZMIN = " VAZMIN       34\n"
+
+MockVMAXT = " VMAXT    12 2021  61.310 '%'\n"
+
+MockVAZMINT = " VAZMINT  10 2021   10.00 \n"
+
+MockVOLMIN = " VOLMIN          15563.63 'h'\n"
+
+MockVOLMAX = " VOLMAX          15563.63 'h'\n"
+
+MockNUMCNJ = " NUMCNJ     2\n"
+
+MockNUMMAQ = " NUMMAQ     2  5\n"
+
+MockVMINT = " VMINT    10 2021  20.000 '%'\n"
+
+MockVMINP = " VMINP    10 2021  20.000 '%'\n"
+
+MockCFUGA = " CFUGA    10 2021    5.60\n"
+
+MockCMONT = " CMONT    10 2021   71.30\n"
+
 MockModif = [
     " P.CHAVE  MODIFICACOES E INDICES\n",
     " XXXXXXXX XXXXXXXXXXXXXXXXXXXXX\n",
     " USINA    1                                 CAMARGOS            \n",
     " VAZMIN       34\n",
+    " NUMCNJ     2\n",
+    " NUMMAQ     2  5\n",
     " VMAXT    11 2021  92.560 '%'\n",
     " VMAXT    12 2021  61.310 '%'\n",
     " VMAXT     1 2022  70.240 '%'\n",
