@@ -5,62 +5,77 @@ from inewave._utils.bloco import Bloco
 from inewave._utils.leiturablocos import LeituraBlocos
 
 # Imports de módulos externos
-from typing import IO, List
+from typing import IO, List, Optional
 import numpy as np  # type: ignore
 
+from cfinterface.components.section import Section
+from cfinterface.components.line import Line
+from cfinterface.components.literalfield import LiteralField
+from cfinterface.components.integerfield import IntegerField
 
-class BlocoNomeCaso(Bloco):
+
+class BlocoNomeCaso(Section):
     """
     Bloco com o nome do caso, existente
     no arquivo `dger.dat` do NEWAVE.
     """
 
-    def __init__(self):
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line([LiteralField(80, 0)])
 
-        super().__init__("", "", True)
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
 
-        self._dados = ""
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data) + "\n")
 
-    # Override
-    def le(self, arq: IO):
-        reg = RegistroAn(80)
-        self._dados = reg.le_registro(self._linha_inicio, 0)
+    @property
+    def valor(self) -> Optional[str]:
+        """
+        O valor da opção configurada
 
-    # Override
-    def escreve(self, arq: IO):
-        arq.write(self._dados + "\n")
+        :return: O nome do caso
+        :rtype: Optional[str]
+        """
+        return self.data[0]
+
+    @valor.setter
+    def valor(self, v: str):
+        self.data[0] = v
 
 
-class BlocoTipoExecucao(Bloco):
+class BlocoTipoExecucao(Section):
     """
     Bloco com o tipo de execução do caso,
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
-    str_inicio = "TIPO DE EXECUCAO"
-    str_fim = "   (1:EXECUCAO COMPLETA; 0:SIMULACAO FINAL)"
-
-    def __init__(self):
-
-        super().__init__(
-            BlocoTipoExecucao.str_inicio, BlocoTipoExecucao.str_fim, True
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(43, 25)]
         )
 
-        self._dados = 0
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
 
-    # Override
-    def le(self, arq: IO):
-        reg = RegistroIn(4)
-        self._dados = reg.le_registro(self._linha_inicio, 21)
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data) + "\n")
 
-    # Override
-    def escreve(self, arq: IO):
-        dado = str(self._dados).rjust(4)
-        linha = (
-            f"{BlocoTipoExecucao.str_inicio.ljust(21)}"
-            + f"{dado}{BlocoTipoExecucao.str_fim}\n"
-        )
-        arq.write(linha)
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: O tipo de execução
+        :rtype: int
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: Optional[int]):
+        self.data[1] = v
 
 
 class BlocoDuracaoPeriodo(Bloco):
