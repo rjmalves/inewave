@@ -1,14 +1,105 @@
 # Rotinas de testes associadas ao arquivo dger.dat do NEWAVE
 from inewave.newave.dger import DGer
 
-
-
 from tests.mocks.mock_open import mock_open
 from unittest.mock import MagicMock, patch
 
-from tests.mocks.arquivos.dger import (
-    MockDger
-)
+from tests.mocks.arquivos.dger import MockDger
+
+
+def test_atributos_nao_encontrados_dger():
+    m: MagicMock = mock_open(read_data="")
+    with patch("builtins.open", m):
+        d = DGer.le_arquivo("")
+        assert d.nome_caso == ""
+        assert d.tipo_execucao is None
+        assert d.duracao_periodo is None
+        assert d.num_anos_estudo is None
+        assert d.mes_inicio_pre_estudo is None
+        assert d.mes_inicio_estudo is None
+        assert d.ano_inicio_estudo is None
+        assert d.num_anos_pre_estudo is None
+        assert d.num_anos_pos_estudo is None
+        assert d.num_anos_pos_sim_final is None
+        assert d.imprime_dados is None
+        assert d.imprime_mercados is None
+        assert d.imprime_energias is None
+        assert d.imprime_modelo_estocastico is None
+        assert d.imprime_subsistema is None
+        assert d.num_max_iteracoes is None
+        assert d.num_forwards is None
+        assert d.num_aberturas is None
+        assert d.num_series_sinteticas is None
+        assert d.ordem_maxima_parp is None
+        assert d.ano_inicial_historico is None
+        assert d.tamanho_registro_arquivo_historico is None
+        assert d.calcula_volume_inicial is None
+        assert d.volume_inicial_por_subsistema == [None, None, None, None, None]
+        assert d.tolerancia is None
+        assert d.taxa_de_desconto is None
+        assert d.tipo_simulacao_final is None
+        assert d.impressao_operacao is None
+        assert d.impressao_convergencia is None
+        assert d.intervalo_para_gravar is None
+        assert d.num_minimo_iteracoes is None
+        assert d.racionamento_preventivo is None
+        assert d.num_anos_manutencao_utes is None
+        assert d.tendencia_hidrologica == [None, None]
+        assert d.restricao_itaipu is None
+        assert d.bid is None
+        assert d.perdas_rede_transmissao is None
+        assert d.el_nino is None
+        assert d.enso is None
+        assert d.duracao_por_patamar is None
+        assert d.outros_usos_da_agua is None
+        assert d.correcao_desvio is None
+        assert d.curva_aversao is None
+        assert d.tipo_geracao_enas is None
+        assert d.risco_deficit == [None, None]
+        assert d.iteracao_para_simulacao_final is None
+        assert d.agrupamento_livre is None
+        assert d.equalizacao_penal_itercambio is None
+        assert d.representacao_submotorizacao is None
+        assert d.ordenacao_automatica is None
+        assert d.considera_carga_adicional is None
+        assert d.delta_zsup is None
+        assert d.delta_zinf is None
+        assert d.deltas_consecutivos is None
+        assert d.despacho_antecipado_gnl is None
+        assert d.modif_automatica_adterm is None
+        assert d.considera_ghmin is None
+        assert d.simulacao_final_com_data is None
+        assert d.gerenciamento_pls == [None, None, None, None, None]
+        assert d.sar is None
+        assert d.cvar is None
+        assert d.considera_zsup_min_convergencia is None
+        assert d.desconsidera_vazao_minima is None
+        assert d.restricoes_eletricas is None
+        assert d.selecao_de_cortes is None
+        assert d.janela_de_cortes is None
+        assert d.reamostragem_cenarios == [None, None, None]
+        assert d.converge_no_zero is None
+        assert d.consulta_fcf is None
+        assert d.impressao_ena is None
+        assert d.impressao_cortes_ativos_sim_final is None
+        assert d.representacao_agregacao is None
+        assert d.matriz_correlacao_espacial is None
+        assert d.desconsidera_convergencia_estatistica is None
+        assert d.momento_reamostragem is None
+        assert d.mantem_arquivos_energias is None
+        assert d.inicio_teste_convergencia is None
+        assert d.sazonaliza_vmint is None
+        assert d.sazonaliza_vmaxt is None
+        assert d.sazonaliza_vminp is None
+        assert d.sazonaliza_cfuga_cmont is None
+        assert d.restricoes_emissao_gee is None
+        assert d.afluencia_anual_parp == [None, None]
+        assert d.restricoes_fornecimento_gas is None
+        assert d.memoria_calculo_cortes is None
+        assert d.considera_geracao_eolica is None
+        assert d.penalidade_corte_geracao_eolica is None
+        assert d.compensacao_correlacao_cruzada is None
+
 
 def test_atributos_encontrados_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
@@ -16,6 +107,130 @@ def test_atributos_encontrados_dger():
         d = DGer.le_arquivo("")
         assert d.nome_caso != None
         assert d.tipo_execucao is not None
+        assert d.duracao_periodo is not None
+        assert d.num_anos_estudo is not None
+        assert d.mes_inicio_pre_estudo is not None
+        assert d.mes_inicio_estudo is not None
+        assert d.ano_inicio_estudo is not None
+        assert d.num_anos_pre_estudo is not None
+        assert d.num_anos_pos_estudo is not None
+        assert d.num_anos_pos_sim_final is not None
+        assert d.imprime_dados is not None
+        assert d.imprime_mercados is not None
+        assert d.imprime_energias is not None
+        assert d.imprime_modelo_estocastico is not None
+        assert d.imprime_subsistema is not None
+        assert d.num_max_iteracoes is not None
+        assert d.num_forwards is not None
+        assert d.num_aberturas is not None
+        assert d.num_series_sinteticas is not None
+        assert d.ordem_maxima_parp is not None
+        assert d.ano_inicial_historico is not None
+        assert d.tamanho_registro_arquivo_historico is not None
+        assert d.calcula_volume_inicial is not None
+        assert d.volume_inicial_por_subsistema != [None, None, None, None, None]
+        assert d.tolerancia is not None
+        assert d.taxa_de_desconto is not None
+        assert d.tipo_simulacao_final is not None
+        assert d.impressao_operacao is not None
+        assert d.impressao_convergencia is not None
+        assert d.intervalo_para_gravar is not None
+        assert d.num_minimo_iteracoes is not None
+        assert d.racionamento_preventivo is not None
+        assert d.num_anos_manutencao_utes is not None
+        assert d.tendencia_hidrologica != [None, None]
+        assert d.restricao_itaipu is not None
+        assert d.bid is not None
+        assert d.perdas_rede_transmissao is not None
+        assert d.el_nino is not None
+        assert d.enso is not None
+        assert d.duracao_por_patamar is not None
+        assert d.outros_usos_da_agua is not None
+        assert d.correcao_desvio is not None
+        assert d.curva_aversao is not None
+        assert d.tipo_geracao_enas is not None
+        assert d.risco_deficit != [None, None]
+        assert d.iteracao_para_simulacao_final is not None
+        assert d.agrupamento_livre is not None
+        assert d.equalizacao_penal_itercambio is not None
+        assert d.representacao_submotorizacao is not None
+        assert d.ordenacao_automatica is not None
+        assert d.considera_carga_adicional is not None
+        assert d.delta_zsup is not None
+        assert d.delta_zinf is not None
+        assert d.deltas_consecutivos is not None
+        assert d.despacho_antecipado_gnl is not None
+        assert d.modif_automatica_adterm is not None
+        assert d.considera_ghmin is not None
+        assert d.simulacao_final_com_data is not None
+        assert d.gerenciamento_pls != [None, None, None, None, None]
+        assert d.sar is not None
+        assert d.cvar is not None
+        assert d.considera_zsup_min_convergencia is not None
+        assert d.desconsidera_vazao_minima is not None
+        assert d.restricoes_eletricas is not None
+        assert d.selecao_de_cortes is not None
+        assert d.janela_de_cortes is not None
+        assert d.reamostragem_cenarios != [None, None, None]
+        assert d.converge_no_zero is not None
+        assert d.consulta_fcf is not None
+        assert d.impressao_ena is not None
+        assert d.impressao_cortes_ativos_sim_final is not None
+        assert d.representacao_agregacao is not None
+        assert d.matriz_correlacao_espacial is not None
+        assert d.desconsidera_convergencia_estatistica is not None
+        assert d.momento_reamostragem is not None
+        assert d.mantem_arquivos_energias is not None
+        assert d.inicio_teste_convergencia is not None
+        assert d.sazonaliza_vmint is not None
+        assert d.sazonaliza_vmaxt is not None
+        assert d.sazonaliza_vminp is not None
+        assert d.sazonaliza_cfuga_cmont is not None
+        assert d.restricoes_emissao_gee is not None
+        assert d.afluencia_anual_parp is not None
+        assert d.restricoes_fornecimento_gas is not None
+        assert d.memoria_calculo_cortes is not None
+        assert d.considera_geracao_eolica is not None
+        assert d.penalidade_corte_geracao_eolica is not None
+        assert d.compensacao_correlacao_cruzada is not None
+
+
+def test_eq_dger():
+    m: MagicMock = mock_open(read_data="".join(MockDger))
+    with patch("builtins.open", m):
+        d1 = DGer.le_arquivo("")
+        d2 = DGer.le_arquivo("")
+        assert d1 == d2
+
+
+def test_neq_dger():
+    m: MagicMock = mock_open(read_data="".join(MockDger))
+    with patch("builtins.open", m):
+        d1 = DGer.le_arquivo("")
+        d2 = DGer.le_arquivo("")
+        d2.nome_caso = "Teste"
+        assert d1 != d2
+
+
+def test_leitura_escrita_dger():
+    m_leitura: MagicMock = mock_open(read_data="".join(MockDger))
+    with patch("builtins.open", m_leitura):
+        d1 = DGer.le_arquivo("")
+    m_escrita: MagicMock = mock_open(read_data="")
+    with patch("builtins.open", m_escrita):
+        d1.escreve_arquivo("", "")
+        # Recupera o que foi escrito
+        chamadas = m_escrita.mock_calls
+        linhas_escritas = [chamadas[i].args[0] for i in range(3, len(chamadas) - 1)]
+    m_releitura: MagicMock = mock_open(read_data="".join(linhas_escritas))
+    with patch("builtins.open", m_releitura):
+        d2 = DGer.le_arquivo("")
+        for b1, b2 in zip(d1.data, d2.data):
+            if b1 != b2:
+                print(b1.__class__)
+                print(b1.data)
+                print(b2.data)
+        assert d1 == d2
 
 
 # def test_leitura():

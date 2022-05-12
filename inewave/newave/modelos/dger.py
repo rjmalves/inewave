@@ -41,7 +41,7 @@ class BlocoNomeCaso(Section):
         self.data = self.__linha.read(file.readline())
 
     def write(self, file: IO):
-        file.write(self.__linha.write(self.data) + "\n")
+        file.write(self.__linha.write(self.data))
 
     @property
     def valor(self) -> Optional[str]:
@@ -88,7 +88,7 @@ class BlocoTipoExecucao(Section):
         self.data = self.__linha.read(file.readline())
 
     def write(self, file: IO):
-        file.write(self.__linha.write(self.data) + "\n")
+        file.write(self.__linha.write(self.data))
 
     @property
     def valor(self) -> Optional[int]:
@@ -113,9 +113,7 @@ class BlocoDuracaoPeriodo(Section):
 
     def __init__(self, state=..., previous=None, next=None, data=None) -> None:
         super().__init__(state, previous, next, data)
-        self.__linha = Line(
-            [LiteralField(24, 0), IntegerField(2, 23)]
-        )
+        self.__linha = Line([LiteralField(24, 0), IntegerField(2, 23)])
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoDuracaoPeriodo):
@@ -135,7 +133,7 @@ class BlocoDuracaoPeriodo(Section):
         self.data = self.__linha.read(file.readline())
 
     def write(self, file: IO):
-        file.write(self.__linha.write(self.data) + "\n")
+        file.write(self.__linha.write(self.data))
 
     @property
     def valor(self) -> Optional[int]:
@@ -160,9 +158,7 @@ class BlocoNumAnosEstudo(Section):
 
     def __init__(self, state=..., previous=None, next=None, data=None) -> None:
         super().__init__(state, previous, next, data)
-        self.__linha = Line(
-            [LiteralField(24, 0), IntegerField(2, 23)]
-        )
+        self.__linha = Line([LiteralField(24, 0), IntegerField(2, 23)])
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoNumAnosEstudo):
@@ -182,7 +178,7 @@ class BlocoNumAnosEstudo(Section):
         self.data = self.__linha.read(file.readline())
 
     def write(self, file: IO):
-        file.write(self.__linha.write(self.data) + "\n")
+        file.write(self.__linha.write(self.data))
 
     @property
     def valor(self) -> Optional[int]:
@@ -199,7 +195,6 @@ class BlocoNumAnosEstudo(Section):
         self.data[1] = v
 
 
-
 class BlocoMesInicioPreEstudo(Section):
     """
     Bloco com o mês de início do pré-estudo,
@@ -208,9 +203,7 @@ class BlocoMesInicioPreEstudo(Section):
 
     def __init__(self, state=..., previous=None, next=None, data=None) -> None:
         super().__init__(state, previous, next, data)
-        self.__linha = Line(
-            [LiteralField(24, 0), IntegerField(2, 23)]
-        )
+        self.__linha = Line([LiteralField(24, 0), IntegerField(2, 23)])
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoMesInicioPreEstudo):
@@ -230,7 +223,7 @@ class BlocoMesInicioPreEstudo(Section):
         self.data = self.__linha.read(file.readline())
 
     def write(self, file: IO):
-        file.write(self.__linha.write(self.data) + "\n")
+        file.write(self.__linha.write(self.data))
 
     @property
     def valor(self) -> Optional[int]:
@@ -247,7 +240,6 @@ class BlocoMesInicioPreEstudo(Section):
         self.data[1] = v
 
 
-
 class BlocoMesInicioEstudo(Section):
     """
     Bloco com o mês de início do período de estudo,
@@ -256,9 +248,7 @@ class BlocoMesInicioEstudo(Section):
 
     def __init__(self, state=..., previous=None, next=None, data=None) -> None:
         super().__init__(state, previous, next, data)
-        self.__linha = Line(
-            [LiteralField(24, 0), IntegerField(2, 23)]
-        )
+        self.__linha = Line([LiteralField(24, 0), IntegerField(2, 23)])
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoMesInicioEstudo):
@@ -278,7 +268,7 @@ class BlocoMesInicioEstudo(Section):
         self.data = self.__linha.read(file.readline())
 
     def write(self, file: IO):
-        file.write(self.__linha.write(self.data) + "\n")
+        file.write(self.__linha.write(self.data))
 
     @property
     def valor(self) -> Optional[int]:
@@ -293,7 +283,6 @@ class BlocoMesInicioEstudo(Section):
     @valor.setter
     def valor(self, v: int):
         self.data[1] = v
-
 
 
 class BlocoAnoInicioEstudo(Section):
@@ -318,15 +307,13 @@ class BlocoAnoInicioEstudo(Section):
 
     def __init__(self, state=..., previous=None, next=None, data=None) -> None:
         super().__init__(state, previous, next, data)
-        self.__linha = Line(
-            [LiteralField(24, 0), IntegerField(4, 21)]
-        )
+        self.__linha = Line([LiteralField(24, 0), IntegerField(4, 21)])
 
     def read(self, file: IO):
         self.data = self.__linha.read(file.readline())
 
     def write(self, file: IO):
-        file.write(self.__linha.write(self.data) + "\n")
+        file.write(self.__linha.write(self.data))
 
     @property
     def valor(self) -> Optional[int]:
@@ -351,9 +338,7 @@ class BlocoNumAnosPreEstudo(Section):
 
     def __init__(self, state=..., previous=None, next=None, data=None) -> None:
         super().__init__(state, previous, next, data)
-        self.__linha = Line(
-            [LiteralField(24, 0), IntegerField(2, 23)]
-        )
+        self.__linha = Line([LiteralField(24, 0), IntegerField(2, 23)])
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoNumAnosPreEstudo):
@@ -373,7 +358,7 @@ class BlocoNumAnosPreEstudo(Section):
         self.data = self.__linha.read(file.readline())
 
     def write(self, file: IO):
-        file.write(self.__linha.write(self.data) + "\n")
+        file.write(self.__linha.write(self.data))
 
     @property
     def valor(self) -> Optional[int]:
@@ -390,7 +375,6 @@ class BlocoNumAnosPreEstudo(Section):
         self.data[1] = v
 
 
-
 class BlocoNumAnosPosEstudo(Section):
     """
     Bloco com o número de anos do período pós-estudo,
@@ -399,9 +383,7 @@ class BlocoNumAnosPosEstudo(Section):
 
     def __init__(self, state=..., previous=None, next=None, data=None) -> None:
         super().__init__(state, previous, next, data)
-        self.__linha = Line(
-            [LiteralField(24, 0), IntegerField(2, 23)]
-        )
+        self.__linha = Line([LiteralField(24, 0), IntegerField(2, 23)])
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoNumAnosPosEstudo):
@@ -421,7 +403,7 @@ class BlocoNumAnosPosEstudo(Section):
         self.data = self.__linha.read(file.readline())
 
     def write(self, file: IO):
-        file.write(self.__linha.write(self.data) + "\n")
+        file.write(self.__linha.write(self.data))
 
     @property
     def valor(self) -> Optional[int]:
@@ -446,9 +428,7 @@ class BlocoNumAnosPosEstudoSimFinal(Section):
 
     def __init__(self, state=..., previous=None, next=None, data=None) -> None:
         super().__init__(state, previous, next, data)
-        self.__linha = Line(
-            [LiteralField(24, 0), IntegerField(2, 23)]
-        )
+        self.__linha = Line([LiteralField(24, 0), IntegerField(2, 23)])
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoNumAnosPosEstudoSimFinal):
@@ -468,7 +448,7 @@ class BlocoNumAnosPosEstudoSimFinal(Section):
         self.data = self.__linha.read(file.readline())
 
     def write(self, file: IO):
-        file.write(self.__linha.write(self.data) + "\n")
+        file.write(self.__linha.write(self.data))
 
     @property
     def valor(self) -> Optional[int]:
@@ -493,9 +473,7 @@ class BlocoImprimeDados(Section):
 
     def __init__(self, state=..., previous=None, next=None, data=None) -> None:
         super().__init__(state, previous, next, data)
-        self.__linha = Line(
-            [LiteralField(24, 0), IntegerField(1, 24)]
-        )
+        self.__linha = Line([LiteralField(24, 0), IntegerField(1, 24)])
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoImprimeDados):
@@ -515,7 +493,7 @@ class BlocoImprimeDados(Section):
         self.data = self.__linha.read(file.readline())
 
     def write(self, file: IO):
-        file.write(self.__linha.write(self.data) + "\n")
+        file.write(self.__linha.write(self.data))
 
     @property
     def valor(self) -> Optional[int]:
@@ -540,9 +518,7 @@ class BlocoImprimeMercados(Section):
 
     def __init__(self, state=..., previous=None, next=None, data=None) -> None:
         super().__init__(state, previous, next, data)
-        self.__linha = Line(
-            [LiteralField(24, 0), IntegerField(1, 24)]
-        )
+        self.__linha = Line([LiteralField(24, 0), IntegerField(1, 24)])
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoImprimeMercados):
@@ -562,7 +538,7 @@ class BlocoImprimeMercados(Section):
         self.data = self.__linha.read(file.readline())
 
     def write(self, file: IO):
-        file.write(self.__linha.write(self.data) + "\n")
+        file.write(self.__linha.write(self.data))
 
     @property
     def valor(self) -> Optional[int]:
@@ -587,9 +563,7 @@ class BlocoImprimeEnergias(Section):
 
     def __init__(self, state=..., previous=None, next=None, data=None) -> None:
         super().__init__(state, previous, next, data)
-        self.__linha = Line(
-            [LiteralField(24, 0), IntegerField(1, 24)]
-        )
+        self.__linha = Line([LiteralField(24, 0), IntegerField(1, 24)])
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoImprimeEnergias):
@@ -609,7 +583,7 @@ class BlocoImprimeEnergias(Section):
         self.data = self.__linha.read(file.readline())
 
     def write(self, file: IO):
-        file.write(self.__linha.write(self.data) + "\n")
+        file.write(self.__linha.write(self.data))
 
     @property
     def valor(self) -> Optional[int]:
@@ -634,9 +608,7 @@ class BlocoImprimeModeloEstocastico(Section):
 
     def __init__(self, state=..., previous=None, next=None, data=None) -> None:
         super().__init__(state, previous, next, data)
-        self.__linha = Line(
-            [LiteralField(24, 0), IntegerField(1, 24)]
-        )
+        self.__linha = Line([LiteralField(24, 0), IntegerField(1, 24)])
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoImprimeModeloEstocastico):
@@ -656,7 +628,7 @@ class BlocoImprimeModeloEstocastico(Section):
         self.data = self.__linha.read(file.readline())
 
     def write(self, file: IO):
-        file.write(self.__linha.write(self.data) + "\n")
+        file.write(self.__linha.write(self.data))
 
     @property
     def valor(self) -> Optional[int]:
@@ -681,9 +653,7 @@ class BlocoImprimeSubsistema(Section):
 
     def __init__(self, state=..., previous=None, next=None, data=None) -> None:
         super().__init__(state, previous, next, data)
-        self.__linha = Line(
-            [LiteralField(24, 0), IntegerField(1, 24)]
-        )
+        self.__linha = Line([LiteralField(24, 0), IntegerField(1, 24)])
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoImprimeSubsistema):
@@ -703,7 +673,7 @@ class BlocoImprimeSubsistema(Section):
         self.data = self.__linha.read(file.readline())
 
     def write(self, file: IO):
-        file.write(self.__linha.write(self.data) + "\n")
+        file.write(self.__linha.write(self.data))
 
     @property
     def valor(self) -> Optional[int]:
@@ -728,9 +698,7 @@ class BlocoNumMaxIteracoes(Section):
 
     def __init__(self, state=..., previous=None, next=None, data=None) -> None:
         super().__init__(state, previous, next, data)
-        self.__linha = Line(
-            [LiteralField(24, 0), IntegerField(4, 21)]
-        )
+        self.__linha = Line([LiteralField(24, 0), IntegerField(4, 21)])
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoNumMaxIteracoes):
@@ -750,7 +718,7 @@ class BlocoNumMaxIteracoes(Section):
         self.data = self.__linha.read(file.readline())
 
     def write(self, file: IO):
-        file.write(self.__linha.write(self.data) + "\n")
+        file.write(self.__linha.write(self.data))
 
     @property
     def valor(self) -> Optional[int]:
@@ -775,9 +743,7 @@ class BlocoNumForwards(Section):
 
     def __init__(self, state=..., previous=None, next=None, data=None) -> None:
         super().__init__(state, previous, next, data)
-        self.__linha = Line(
-            [LiteralField(24, 0), IntegerField(4, 21)]
-        )
+        self.__linha = Line([LiteralField(24, 0), IntegerField(4, 21)])
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoNumForwards):
@@ -797,7 +763,7 @@ class BlocoNumForwards(Section):
         self.data = self.__linha.read(file.readline())
 
     def write(self, file: IO):
-        file.write(self.__linha.write(self.data) + "\n")
+        file.write(self.__linha.write(self.data))
 
     @property
     def valor(self) -> Optional[int]:
@@ -822,9 +788,7 @@ class BlocoNumAberturas(Section):
 
     def __init__(self, state=..., previous=None, next=None, data=None) -> None:
         super().__init__(state, previous, next, data)
-        self.__linha = Line(
-            [LiteralField(24, 0), IntegerField(4, 21)]
-        )
+        self.__linha = Line([LiteralField(24, 0), IntegerField(4, 21)])
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoNumAberturas):
@@ -844,7 +808,7 @@ class BlocoNumAberturas(Section):
         self.data = self.__linha.read(file.readline())
 
     def write(self, file: IO):
-        file.write(self.__linha.write(self.data) + "\n")
+        file.write(self.__linha.write(self.data))
 
     @property
     def valor(self) -> Optional[int]:
@@ -869,9 +833,7 @@ class BlocoNumSeriesSinteticas(Section):
 
     def __init__(self, state=..., previous=None, next=None, data=None) -> None:
         super().__init__(state, previous, next, data)
-        self.__linha = Line(
-            [LiteralField(24, 0), IntegerField(4, 21)]
-        )
+        self.__linha = Line([LiteralField(24, 0), IntegerField(4, 21)])
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoNumSeriesSinteticas):
@@ -891,7 +853,7 @@ class BlocoNumSeriesSinteticas(Section):
         self.data = self.__linha.read(file.readline())
 
     def write(self, file: IO):
-        file.write(self.__linha.write(self.data) + "\n")
+        file.write(self.__linha.write(self.data))
 
     @property
     def valor(self) -> Optional[int]:
@@ -916,9 +878,7 @@ class BlocoOrdemMaximaPARp(Section):
 
     def __init__(self, state=..., previous=None, next=None, data=None) -> None:
         super().__init__(state, previous, next, data)
-        self.__linha = Line(
-            [LiteralField(24, 0), IntegerField(2, 23)]
-        )
+        self.__linha = Line([LiteralField(24, 0), IntegerField(2, 23)])
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoOrdemMaximaPARp):
@@ -938,7 +898,7 @@ class BlocoOrdemMaximaPARp(Section):
         self.data = self.__linha.read(file.readline())
 
     def write(self, file: IO):
-        file.write(self.__linha.write(self.data) + "\n")
+        file.write(self.__linha.write(self.data))
 
     @property
     def valor(self) -> Optional[int]:
@@ -964,7 +924,7 @@ class BlocoAnoInicialHistorico(Section):
     def __init__(self, state=..., previous=None, next=None, data=None) -> None:
         super().__init__(state, previous, next, data)
         self.__linha = Line(
-            [LiteralField(24, 0), IntegerField(2, 23), IntegerField(1, 28)]
+            [LiteralField(24, 0), IntegerField(4, 21), IntegerField(1, 28)]
         )
 
     def __eq__(self, o: object) -> bool:
@@ -985,7 +945,7 @@ class BlocoAnoInicialHistorico(Section):
         self.data = self.__linha.read(file.readline())
 
     def write(self, file: IO):
-        file.write(self.__linha.write(self.data) + "\n")
+        file.write(self.__linha.write(self.data))
 
     @property
     def ano_inicial(self) -> Optional[int]:
@@ -1048,7 +1008,7 @@ class BlocoCalculaVolInicial(Section):
         self.data = self.__linha.read(file.readline())
 
     def write(self, file: IO):
-        file.write(self.__linha.write(self.data) + "\n")
+        file.write(self.__linha.write(self.data))
 
     @property
     def valor(self) -> Optional[int]:
@@ -1098,7 +1058,7 @@ class BlocoVolInicialSubsistema(Section):
 
     def write(self, file: IO):
         file.write(self.__cabecalho)
-        file.write(self.__linha.write(self.data) + "\n")
+        file.write(self.__linha.write(self.data))
 
     @property
     def valores(self) -> List[Optional[float]]:
@@ -1123,10 +1083,7 @@ class BlocoTolerancia(Section):
 
     def __init__(self, state=..., previous=None, next=None, data=None) -> None:
         super().__init__(state, previous, next, data)
-        self.__linha = Line(
-            [LiteralField(21, 0), FloatField(5, 21, 1)]
-        )
-        self.__cabecalho: str = ""
+        self.__linha = Line([LiteralField(21, 0), FloatField(5, 21, 1)])
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoTolerancia):
@@ -1143,12 +1100,10 @@ class BlocoTolerancia(Section):
             return self.data == bloco.data
 
     def read(self, file: IO):
-        self.__cabecalho = file.readline()
         self.data = self.__linha.read(file.readline())
 
     def write(self, file: IO):
-        file.write(self.__cabecalho)
-        file.write(self.__linha.write(self.data) + "\n")
+        file.write(self.__linha.write(self.data))
 
     @property
     def valor(self) -> Optional[float]:
@@ -1173,10 +1128,7 @@ class BlocoTaxaDesconto(Section):
 
     def __init__(self, state=..., previous=None, next=None, data=None) -> None:
         super().__init__(state, previous, next, data)
-        self.__linha = Line(
-            [LiteralField(21, 0), FloatField(5, 21, 1)]
-        )
-        self.__cabecalho: str = ""
+        self.__linha = Line([LiteralField(21, 0), FloatField(5, 21, 1)])
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoTaxaDesconto):
@@ -1193,12 +1145,10 @@ class BlocoTaxaDesconto(Section):
             return self.data == bloco.data
 
     def read(self, file: IO):
-        self.__cabecalho = file.readline()
         self.data = self.__linha.read(file.readline())
 
     def write(self, file: IO):
-        file.write(self.__cabecalho)
-        file.write(self.__linha.write(self.data) + "\n")
+        file.write(self.__linha.write(self.data))
 
     @property
     def valor(self) -> Optional[float]:
@@ -1245,7 +1195,7 @@ class BlocoTipoSimFinal(Section):
         self.data = self.__linha.read(file.readline())
 
     def write(self, file: IO):
-        file.write(self.__linha.write(self.data) + "\n")
+        file.write(self.__linha.write(self.data))
 
     @property
     def valor(self) -> Optional[int]:
@@ -1260,6 +1210,7 @@ class BlocoTipoSimFinal(Section):
     @valor.setter
     def valor(self, v: int):
         self.data[1] = v
+
 
 class BlocoImpressaoOperacao(Section):
     """
@@ -1291,7 +1242,7 @@ class BlocoImpressaoOperacao(Section):
         self.data = self.__linha.read(file.readline())
 
     def write(self, file: IO):
-        file.write(self.__linha.write(self.data) + "\n")
+        file.write(self.__linha.write(self.data))
 
     @property
     def valor(self) -> Optional[int]:
@@ -1338,7 +1289,7 @@ class BlocoImpressaoConvergencia(Section):
         self.data = self.__linha.read(file.readline())
 
     def write(self, file: IO):
-        file.write(self.__linha.write(self.data) + "\n")
+        file.write(self.__linha.write(self.data))
 
     @property
     def valor(self) -> Optional[int]:
@@ -1385,7 +1336,7 @@ class BlocoIntervaloGravar(Section):
         self.data = self.__linha.read(file.readline())
 
     def write(self, file: IO):
-        file.write(self.__linha.write(self.data) + "\n")
+        file.write(self.__linha.write(self.data))
 
     @property
     def valor(self) -> Optional[int]:
@@ -1410,9 +1361,7 @@ class BlocoMinIteracoes(Section):
 
     def __init__(self, state=..., previous=None, next=None, data=None) -> None:
         super().__init__(state, previous, next, data)
-        self.__linha = Line(
-            [LiteralField(24, 0), IntegerField(3, 22)]
-        )
+        self.__linha = Line([LiteralField(24, 0), IntegerField(3, 22)])
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoMinIteracoes):
@@ -1432,7 +1381,7 @@ class BlocoMinIteracoes(Section):
         self.data = self.__linha.read(file.readline())
 
     def write(self, file: IO):
-        file.write(self.__linha.write(self.data) + "\n")
+        file.write(self.__linha.write(self.data))
 
     @property
     def valor(self) -> Optional[int]:
@@ -1479,7 +1428,7 @@ class BlocoRacionamentoPreventivo(Section):
         self.data = self.__linha.read(file.readline())
 
     def write(self, file: IO):
-        file.write(self.__linha.write(self.data) + "\n")
+        file.write(self.__linha.write(self.data))
 
     @property
     def valor(self) -> Optional[int]:
@@ -1526,7 +1475,7 @@ class BlocoNumAnosManutUTE(Section):
         self.data = self.__linha.read(file.readline())
 
     def write(self, file: IO):
-        file.write(self.__linha.write(self.data) + "\n")
+        file.write(self.__linha.write(self.data))
 
     @property
     def valor(self) -> Optional[int]:
@@ -1552,7 +1501,12 @@ class BlocoTendenciaHidrologica(Section):
     def __init__(self, state=..., previous=None, next=None, data=None) -> None:
         super().__init__(state, previous, next, data)
         self.__linha = Line(
-            [LiteralField(24, 0), IntegerField(1, 24), IntegerField(1, 29), LiteralField(62, 33)]
+            [
+                LiteralField(24, 0),
+                IntegerField(1, 24),
+                IntegerField(1, 29),
+                LiteralField(62, 33),
+            ]
         )
 
     def __eq__(self, o: object) -> bool:
@@ -1573,7 +1527,7 @@ class BlocoTendenciaHidrologica(Section):
         self.data = self.__linha.read(file.readline())
 
     def write(self, file: IO):
-        file.write(self.__linha.write(self.data) + "\n")
+        file.write(self.__linha.write(self.data))
 
     @property
     def valores(self) -> List[Optional[int]]:
@@ -1620,7 +1574,7 @@ class BlocoRestricaoItaipu(Section):
         self.data = self.__linha.read(file.readline())
 
     def write(self, file: IO):
-        file.write(self.__linha.write(self.data) + "\n")
+        file.write(self.__linha.write(self.data))
 
     @property
     def valor(self) -> Optional[int]:
@@ -1667,7 +1621,7 @@ class BlocoBid(Section):
         self.data = self.__linha.read(file.readline())
 
     def write(self, file: IO):
-        file.write(self.__linha.write(self.data) + "\n")
+        file.write(self.__linha.write(self.data))
 
     @property
     def valor(self) -> Optional[int]:
@@ -1714,7 +1668,7 @@ class BlocoPerdasTransmissao(Section):
         self.data = self.__linha.read(file.readline())
 
     def write(self, file: IO):
-        file.write(self.__linha.write(self.data) + "\n")
+        file.write(self.__linha.write(self.data))
 
     @property
     def valor(self) -> Optional[int]:
@@ -1761,7 +1715,7 @@ class BlocoElNino(Section):
         self.data = self.__linha.read(file.readline())
 
     def write(self, file: IO):
-        file.write(self.__linha.write(self.data) + "\n")
+        file.write(self.__linha.write(self.data))
 
     @property
     def valor(self) -> Optional[int]:
@@ -1808,7 +1762,7 @@ class BlocoEnso(Section):
         self.data = self.__linha.read(file.readline())
 
     def write(self, file: IO):
-        file.write(self.__linha.write(self.data) + "\n")
+        file.write(self.__linha.write(self.data))
 
     @property
     def valor(self) -> Optional[int]:
@@ -1855,7 +1809,7 @@ class BlocoDuracaoPorPatamar(Section):
         self.data = self.__linha.read(file.readline())
 
     def write(self, file: IO):
-        file.write(self.__linha.write(self.data) + "\n")
+        file.write(self.__linha.write(self.data))
 
     @property
     def valor(self) -> Optional[int]:
@@ -1902,7 +1856,7 @@ class BlocoOutrosUsosAgua(Section):
         self.data = self.__linha.read(file.readline())
 
     def write(self, file: IO):
-        file.write(self.__linha.write(self.data) + "\n")
+        file.write(self.__linha.write(self.data))
 
     @property
     def valor(self) -> Optional[int]:
@@ -1949,7 +1903,7 @@ class BlocoCorrecaoDesvio(Section):
         self.data = self.__linha.read(file.readline())
 
     def write(self, file: IO):
-        file.write(self.__linha.write(self.data) + "\n")
+        file.write(self.__linha.write(self.data))
 
     @property
     def valor(self) -> Optional[int]:
@@ -1996,7 +1950,7 @@ class BlocoCurvaAversao(Section):
         self.data = self.__linha.read(file.readline())
 
     def write(self, file: IO):
-        file.write(self.__linha.write(self.data) + "\n")
+        file.write(self.__linha.write(self.data))
 
     @property
     def valor(self) -> Optional[int]:
@@ -2043,7 +1997,7 @@ class BlocoTipoGeracaoENA(Section):
         self.data = self.__linha.read(file.readline())
 
     def write(self, file: IO):
-        file.write(self.__linha.write(self.data) + "\n")
+        file.write(self.__linha.write(self.data))
 
     @property
     def valor(self) -> Optional[int]:
@@ -2090,7 +2044,7 @@ class BlocoRiscoDeficit(Section):
         self.data = self.__linha.read(file.readline())
 
     def write(self, file: IO):
-        file.write(self.__linha.write(self.data) + "\n")
+        file.write(self.__linha.write(self.data))
 
     @property
     def valores(self) -> List[Optional[float]]:
@@ -2137,7 +2091,7 @@ class BlocoIteracaoParaSimFinal(Section):
         self.data = self.__linha.read(file.readline())
 
     def write(self, file: IO):
-        file.write(self.__linha.write(self.data) + "\n")
+        file.write(self.__linha.write(self.data))
 
     @property
     def valor(self) -> Optional[int]:
@@ -2184,7 +2138,7 @@ class BlocoAgrupamentoLivre(Section):
         self.data = self.__linha.read(file.readline())
 
     def write(self, file: IO):
-        file.write(self.__linha.write(self.data) + "\n")
+        file.write(self.__linha.write(self.data))
 
     @property
     def valor(self) -> Optional[int]:
@@ -2231,7 +2185,7 @@ class BlocoEqualizacaoPenalInt(Section):
         self.data = self.__linha.read(file.readline())
 
     def write(self, file: IO):
-        file.write(self.__linha.write(self.data) + "\n")
+        file.write(self.__linha.write(self.data))
 
     @property
     def valor(self) -> Optional[int]:
@@ -2278,7 +2232,7 @@ class BlocoRepresentacaoSubmot(Section):
         self.data = self.__linha.read(file.readline())
 
     def write(self, file: IO):
-        file.write(self.__linha.write(self.data) + "\n")
+        file.write(self.__linha.write(self.data))
 
     @property
     def valor(self) -> Optional[int]:
@@ -2325,7 +2279,7 @@ class BlocoOrdenacaoAutomatica(Section):
         self.data = self.__linha.read(file.readline())
 
     def write(self, file: IO):
-        file.write(self.__linha.write(self.data) + "\n")
+        file.write(self.__linha.write(self.data))
 
     @property
     def valor(self) -> Optional[int]:
@@ -2372,7 +2326,7 @@ class BlocoConsideraCargaAdicional(Section):
         self.data = self.__linha.read(file.readline())
 
     def write(self, file: IO):
-        file.write(self.__linha.write(self.data) + "\n")
+        file.write(self.__linha.write(self.data))
 
     @property
     def valor(self) -> Optional[int]:
@@ -2419,7 +2373,7 @@ class BlocoDeltaZSUP(Section):
         self.data = self.__linha.read(file.readline())
 
     def write(self, file: IO):
-        file.write(self.__linha.write(self.data) + "\n")
+        file.write(self.__linha.write(self.data))
 
     @property
     def valor(self) -> Optional[float]:
@@ -2466,7 +2420,7 @@ class BlocoDeltaZINF(Section):
         self.data = self.__linha.read(file.readline())
 
     def write(self, file: IO):
-        file.write(self.__linha.write(self.data) + "\n")
+        file.write(self.__linha.write(self.data))
 
     @property
     def valor(self) -> Optional[float]:
@@ -2491,9 +2445,7 @@ class BlocoDeltasConsecutivos(Section):
 
     def __init__(self, state=..., previous=None, next=None, data=None) -> None:
         super().__init__(state, previous, next, data)
-        self.__linha = Line(
-            [LiteralField(24, 0), IntegerField(1, 24)]
-        )
+        self.__linha = Line([LiteralField(24, 0), IntegerField(1, 24)])
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoDeltasConsecutivos):
@@ -2513,7 +2465,7 @@ class BlocoDeltasConsecutivos(Section):
         self.data = self.__linha.read(file.readline())
 
     def write(self, file: IO):
-        file.write(self.__linha.write(self.data) + "\n")
+        file.write(self.__linha.write(self.data))
 
     @property
     def valor(self) -> Optional[int]:
@@ -2560,7 +2512,7 @@ class BlocoDespachoAntecipadoGNL(Section):
         self.data = self.__linha.read(file.readline())
 
     def write(self, file: IO):
-        file.write(self.__linha.write(self.data) + "\n")
+        file.write(self.__linha.write(self.data))
 
     @property
     def valor(self) -> Optional[int]:
@@ -2607,7 +2559,7 @@ class BlocoModifAutomaticaAdTerm(Section):
         self.data = self.__linha.read(file.readline())
 
     def write(self, file: IO):
-        file.write(self.__linha.write(self.data) + "\n")
+        file.write(self.__linha.write(self.data))
 
     @property
     def valor(self) -> Optional[int]:
@@ -2654,7 +2606,7 @@ class BlocoGeracaoHidraulicaMin(Section):
         self.data = self.__linha.read(file.readline())
 
     def write(self, file: IO):
-        file.write(self.__linha.write(self.data) + "\n")
+        file.write(self.__linha.write(self.data))
 
     @property
     def valor(self) -> Optional[int]:
@@ -2701,7 +2653,7 @@ class BlocoSimFinalComData(Section):
         self.data = self.__linha.read(file.readline())
 
     def write(self, file: IO):
-        file.write(self.__linha.write(self.data) + "\n")
+        file.write(self.__linha.write(self.data))
 
     @property
     def valor(self) -> Optional[int]:
@@ -2727,13 +2679,15 @@ class BlocoGerenciamentoPLs(Section):
     def __init__(self, state=..., previous=None, next=None, data=None) -> None:
         super().__init__(state, previous, next, data)
         self.__linha = Line(
-            [LiteralField(24, 0),
-             IntegerField(1, 24),
-             IntegerField(1, 29),
-             IntegerField(1, 34),
-             IntegerField(1, 39),
-             IntegerField(1, 44),
-             LiteralField(33, 28)]
+            [
+                LiteralField(24, 0),
+                IntegerField(1, 24),
+                IntegerField(1, 29),
+                IntegerField(1, 34),
+                IntegerField(1, 39),
+                IntegerField(1, 44),
+                LiteralField(33, 49),
+            ]
         )
 
     def __eq__(self, o: object) -> bool:
@@ -2754,20 +2708,20 @@ class BlocoGerenciamentoPLs(Section):
         self.data = self.__linha.read(file.readline())
 
     def write(self, file: IO):
-        file.write(self.__linha.write(self.data) + "\n")
+        file.write(self.__linha.write(self.data))
 
     @property
-    def valor(self) -> List[Optional[int]]:
+    def valores(self) -> List[Optional[int]]:
         """
-        O valor da opção configurada
+        Os valores da opção configurada
 
-        :return: A consideração da geração hidráulica mínima
+        :return: As opções do gerenciador de PLs
         :rtype: List[int]
         """
         return self.data[1:6]
 
-    @valor.setter
-    def valor(self, v: List[int]):
+    @valores.setter
+    def valores(self, v: List[int]):
         self.data = [self.data[0]] + v + self.data[6]
 
 
@@ -2801,7 +2755,7 @@ class BlocoSAR(Section):
         self.data = self.__linha.read(file.readline())
 
     def write(self, file: IO):
-        file.write(self.__linha.write(self.data) + "\n")
+        file.write(self.__linha.write(self.data))
 
     @property
     def valor(self) -> Optional[int]:
@@ -2848,7 +2802,7 @@ class BlocoCVAR(Section):
         self.data = self.__linha.read(file.readline())
 
     def write(self, file: IO):
-        file.write(self.__linha.write(self.data) + "\n")
+        file.write(self.__linha.write(self.data))
 
     @property
     def valor(self) -> Optional[int]:
@@ -2895,7 +2849,7 @@ class BlocoZSUPMinConvergencia(Section):
         self.data = self.__linha.read(file.readline())
 
     def write(self, file: IO):
-        file.write(self.__linha.write(self.data) + "\n")
+        file.write(self.__linha.write(self.data))
 
     @property
     def valor(self) -> Optional[int]:
@@ -2942,7 +2896,7 @@ class BlocoDesconsideraVazaoMinima(Section):
         self.data = self.__linha.read(file.readline())
 
     def write(self, file: IO):
-        file.write(self.__linha.write(self.data) + "\n")
+        file.write(self.__linha.write(self.data))
 
     @property
     def valor(self) -> Optional[int]:
@@ -2989,7 +2943,7 @@ class BlocoRestricoesEletricas(Section):
         self.data = self.__linha.read(file.readline())
 
     def write(self, file: IO):
-        file.write(self.__linha.write(self.data) + "\n")
+        file.write(self.__linha.write(self.data))
 
     @property
     def valor(self) -> Optional[int]:
@@ -3036,7 +2990,7 @@ class BlocoSelecaoCortes(Section):
         self.data = self.__linha.read(file.readline())
 
     def write(self, file: IO):
-        file.write(self.__linha.write(self.data) + "\n")
+        file.write(self.__linha.write(self.data))
 
     @property
     def valor(self) -> Optional[int]:
@@ -3083,7 +3037,7 @@ class BlocoJanelaCortes(Section):
         self.data = self.__linha.read(file.readline())
 
     def write(self, file: IO):
-        file.write(self.__linha.write(self.data) + "\n")
+        file.write(self.__linha.write(self.data))
 
     @property
     def valor(self) -> Optional[int]:
@@ -3100,7 +3054,6 @@ class BlocoJanelaCortes(Section):
         self.data[1] = v
 
 
-
 class BlocoReamostragemCenarios(Section):
     """
     Bloco com as configurações de reamostragem de cenários,
@@ -3110,7 +3063,13 @@ class BlocoReamostragemCenarios(Section):
     def __init__(self, state=..., previous=None, next=None, data=None) -> None:
         super().__init__(state, previous, next, data)
         self.__linha = Line(
-            [LiteralField(24, 0), IntegerField(4, 21), IntegerField(4, 26), IntegerField(4, 31), LiteralField(87, 39)]
+            [
+                LiteralField(24, 0),
+                IntegerField(4, 21),
+                IntegerField(4, 26),
+                IntegerField(4, 31),
+                LiteralField(87, 39),
+            ]
         )
 
     def __eq__(self, o: object) -> bool:
@@ -3131,7 +3090,7 @@ class BlocoReamostragemCenarios(Section):
         self.data = self.__linha.read(file.readline())
 
     def write(self, file: IO):
-        file.write(self.__linha.write(self.data) + "\n")
+        file.write(self.__linha.write(self.data))
 
     @property
     def valor(self) -> List[Optional[int]]:
@@ -3153,6 +3112,7 @@ class BlocoConvergeNoZero(Section):
     Bloco com a consideração da convergência no 0,
     existente no arquivo `dger.dat` do NEWAVE.
     """
+
     def __init__(self, state=..., previous=None, next=None, data=None) -> None:
         super().__init__(state, previous, next, data)
         self.__linha = Line(
@@ -3177,7 +3137,7 @@ class BlocoConvergeNoZero(Section):
         self.data = self.__linha.read(file.readline())
 
     def write(self, file: IO):
-        file.write(self.__linha.write(self.data) + "\n")
+        file.write(self.__linha.write(self.data))
 
     @property
     def valor(self) -> Optional[int]:
@@ -3199,6 +3159,7 @@ class BlocoConsultaFCF(Section):
     Bloco com a consideração da consulta à FCF,
     existente no arquivo `dger.dat` do NEWAVE.
     """
+
     def __init__(self, state=..., previous=None, next=None, data=None) -> None:
         super().__init__(state, previous, next, data)
         self.__linha = Line(
@@ -3223,7 +3184,7 @@ class BlocoConsultaFCF(Section):
         self.data = self.__linha.read(file.readline())
 
     def write(self, file: IO):
-        file.write(self.__linha.write(self.data) + "\n")
+        file.write(self.__linha.write(self.data))
 
     @property
     def valor(self) -> Optional[int]:
@@ -3249,7 +3210,7 @@ class BlocoImpressaoENA(Section):
     def __init__(self, state=..., previous=None, next=None, data=None) -> None:
         super().__init__(state, previous, next, data)
         self.__linha = Line(
-            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(29, 28)]
+            [LiteralField(24, 0), IntegerField(4, 21), LiteralField(29, 28)]
         )
 
     def __eq__(self, o: object) -> bool:
@@ -3270,7 +3231,7 @@ class BlocoImpressaoENA(Section):
         self.data = self.__linha.read(file.readline())
 
     def write(self, file: IO):
-        file.write(self.__linha.write(self.data) + "\n")
+        file.write(self.__linha.write(self.data))
 
     @property
     def valor(self) -> Optional[int]:
@@ -3296,7 +3257,7 @@ class BlocoImpressaoCortesAtivosSimFinal(Section):
     def __init__(self, state=..., previous=None, next=None, data=None) -> None:
         super().__init__(state, previous, next, data)
         self.__linha = Line(
-            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(29, 28)]
+            [LiteralField(24, 0), IntegerField(4, 21), LiteralField(29, 28)]
         )
 
     def __eq__(self, o: object) -> bool:
@@ -3317,7 +3278,7 @@ class BlocoImpressaoCortesAtivosSimFinal(Section):
         self.data = self.__linha.read(file.readline())
 
     def write(self, file: IO):
-        file.write(self.__linha.write(self.data) + "\n")
+        file.write(self.__linha.write(self.data))
 
     @property
     def valor(self) -> Optional[int]:
@@ -3343,7 +3304,7 @@ class BlocoRepresentacaoAgregacao(Section):
     def __init__(self, state=..., previous=None, next=None, data=None) -> None:
         super().__init__(state, previous, next, data)
         self.__linha = Line(
-            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(31, 28)]
+            [LiteralField(24, 0), IntegerField(4, 21), LiteralField(31, 28)]
         )
 
     def __eq__(self, o: object) -> bool:
@@ -3364,7 +3325,7 @@ class BlocoRepresentacaoAgregacao(Section):
         self.data = self.__linha.read(file.readline())
 
     def write(self, file: IO):
-        file.write(self.__linha.write(self.data) + "\n")
+        file.write(self.__linha.write(self.data))
 
     @property
     def valor(self) -> Optional[int]:
@@ -3390,7 +3351,7 @@ class BlocoMatrizCorrelacaoEspacial(Section):
     def __init__(self, state=..., previous=None, next=None, data=None) -> None:
         super().__init__(state, previous, next, data)
         self.__linha = Line(
-            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(21, 28)]
+            [LiteralField(24, 0), IntegerField(4, 21), LiteralField(21, 28)]
         )
 
     def __eq__(self, o: object) -> bool:
@@ -3411,7 +3372,7 @@ class BlocoMatrizCorrelacaoEspacial(Section):
         self.data = self.__linha.read(file.readline())
 
     def write(self, file: IO):
-        file.write(self.__linha.write(self.data) + "\n")
+        file.write(self.__linha.write(self.data))
 
     @property
     def valor(self) -> Optional[int]:
@@ -3437,7 +3398,7 @@ class BlocoDesconsideraConvEstatistica(Section):
     def __init__(self, state=..., previous=None, next=None, data=None) -> None:
         super().__init__(state, previous, next, data)
         self.__linha = Line(
-            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(16, 28)]
+            [LiteralField(24, 0), IntegerField(4, 21), LiteralField(16, 28)]
         )
 
     def __eq__(self, o: object) -> bool:
@@ -3458,7 +3419,7 @@ class BlocoDesconsideraConvEstatistica(Section):
         self.data = self.__linha.read(file.readline())
 
     def write(self, file: IO):
-        file.write(self.__linha.write(self.data) + "\n")
+        file.write(self.__linha.write(self.data))
 
     @property
     def valor(self) -> Optional[int]:
@@ -3484,7 +3445,7 @@ class BlocoMomentoReamostragem(Section):
     def __init__(self, state=..., previous=None, next=None, data=None) -> None:
         super().__init__(state, previous, next, data)
         self.__linha = Line(
-            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(25, 28)]
+            [LiteralField(24, 0), IntegerField(4, 21), LiteralField(25, 28)]
         )
 
     def __eq__(self, o: object) -> bool:
@@ -3505,7 +3466,7 @@ class BlocoMomentoReamostragem(Section):
         self.data = self.__linha.read(file.readline())
 
     def write(self, file: IO):
-        file.write(self.__linha.write(self.data) + "\n")
+        file.write(self.__linha.write(self.data))
 
     @property
     def valor(self) -> Optional[int]:
@@ -3531,7 +3492,7 @@ class BlocoMantemArquivosEnergias(Section):
     def __init__(self, state=..., previous=None, next=None, data=None) -> None:
         super().__init__(state, previous, next, data)
         self.__linha = Line(
-            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(35, 28)]
+            [LiteralField(24, 0), IntegerField(4, 21), LiteralField(35, 28)]
         )
 
     def __eq__(self, o: object) -> bool:
@@ -3552,7 +3513,7 @@ class BlocoMantemArquivosEnergias(Section):
         self.data = self.__linha.read(file.readline())
 
     def write(self, file: IO):
-        file.write(self.__linha.write(self.data) + "\n")
+        file.write(self.__linha.write(self.data))
 
     @property
     def valor(self) -> Optional[int]:
@@ -3599,7 +3560,7 @@ class BlocoInicioTesteConvergencia(Section):
         self.data = self.__linha.read(file.readline())
 
     def write(self, file: IO):
-        file.write(self.__linha.write(self.data) + "\n")
+        file.write(self.__linha.write(self.data))
 
     @property
     def valor(self) -> Optional[int]:
@@ -3646,7 +3607,7 @@ class BlocoSazonalizarVminT(Section):
         self.data = self.__linha.read(file.readline())
 
     def write(self, file: IO):
-        file.write(self.__linha.write(self.data) + "\n")
+        file.write(self.__linha.write(self.data))
 
     @property
     def valor(self) -> Optional[int]:
@@ -3693,7 +3654,7 @@ class BlocoSazonalizarVmaxT(Section):
         self.data = self.__linha.read(file.readline())
 
     def write(self, file: IO):
-        file.write(self.__linha.write(self.data) + "\n")
+        file.write(self.__linha.write(self.data))
 
     @property
     def valor(self) -> Optional[int]:
@@ -3708,7 +3669,6 @@ class BlocoSazonalizarVmaxT(Section):
     @valor.setter
     def valor(self, v: int):
         self.data[1] = v
-
 
 
 class BlocoSazonalizarVminP(Section):
@@ -3741,7 +3701,7 @@ class BlocoSazonalizarVminP(Section):
         self.data = self.__linha.read(file.readline())
 
     def write(self, file: IO):
-        file.write(self.__linha.write(self.data) + "\n")
+        file.write(self.__linha.write(self.data))
 
     @property
     def valor(self) -> Optional[int]:
@@ -3788,7 +3748,7 @@ class BlocoSazonalizarCfugaCmont(Section):
         self.data = self.__linha.read(file.readline())
 
     def write(self, file: IO):
-        file.write(self.__linha.write(self.data) + "\n")
+        file.write(self.__linha.write(self.data))
 
     @property
     def valor(self) -> Optional[int]:
@@ -3835,7 +3795,7 @@ class BlocoRestricoesEmissaoGEE(Section):
         self.data = self.__linha.read(file.readline())
 
     def write(self, file: IO):
-        file.write(self.__linha.write(self.data) + "\n")
+        file.write(self.__linha.write(self.data))
 
     @property
     def valor(self) -> Optional[int]:
@@ -3861,7 +3821,12 @@ class BlocoAfluenciaAnualPARp(Section):
     def __init__(self, state=..., previous=None, next=None, data=None) -> None:
         super().__init__(state, previous, next, data)
         self.__linha = Line(
-            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(325, 33)]
+            [
+                LiteralField(24, 0),
+                IntegerField(1, 24),
+                IntegerField(1, 29),
+                LiteralField(325, 33),
+            ]
         )
 
     def __eq__(self, o: object) -> bool:
@@ -3882,7 +3847,7 @@ class BlocoAfluenciaAnualPARp(Section):
         self.data = self.__linha.read(file.readline())
 
     def write(self, file: IO):
-        file.write(self.__linha.write(self.data) + "\n")
+        file.write(self.__linha.write(self.data))
 
     @property
     def valor(self) -> List[Optional[int]]:
@@ -3929,7 +3894,7 @@ class BlocoRestricoesFornecGas(Section):
         self.data = self.__linha.read(file.readline())
 
     def write(self, file: IO):
-        file.write(self.__linha.write(self.data) + "\n")
+        file.write(self.__linha.write(self.data))
 
     @property
     def valor(self) -> Optional[int]:
@@ -3977,7 +3942,7 @@ class BlocoMemCalculoCortes(Section):
         self.data = self.__linha.read(file.readline())
 
     def write(self, file: IO):
-        file.write(self.__linha.write(self.data) + "\n")
+        file.write(self.__linha.write(self.data))
 
     @property
     def valor(self) -> Optional[int]:
@@ -4004,7 +3969,12 @@ class BlocoGeracaoEolica(Section):
     def __init__(self, state=..., previous=None, next=None, data=None) -> None:
         super().__init__(state, previous, next, data)
         self.__linha = Line(
-            [LiteralField(24, 0), IntegerField(1, 24), FloatField(6, 26, 4), LiteralField(71, 39)]
+            [
+                LiteralField(24, 0),
+                IntegerField(1, 24),
+                FloatField(6, 26, 4),
+                LiteralField(71, 39),
+            ]
         )
 
     def __eq__(self, o: object) -> bool:
@@ -4025,22 +3995,35 @@ class BlocoGeracaoEolica(Section):
         self.data = self.__linha.read(file.readline())
 
     def write(self, file: IO):
-        file.write(self.__linha.write(self.data) + "\n")
+        file.write(self.__linha.write(self.data))
 
     @property
-    def valor(self) -> list:
+    def considera(self) -> int:
         """
         O valor da opção configurada
 
         :return: A consideração ou não de geração eólica
-            e a penalidade de corte.
-        :rtype: list
+        :rtype: int
         """
-        return self.data[1:3]
+        return self.data[1]
 
-    @valor.setter
-    def valor(self, v: list):
-        self.data = [self.data[0]] + v + [self.data[3]]
+    @considera.setter
+    def considera(self, v: int):
+        self.data[1] = v
+
+    @property
+    def penalidade(self) -> float:
+        """
+        O valor da opção configurada
+
+        :return: A penalidade de corte da geração eólica
+        :rtype: float
+        """
+        return self.data[2]
+
+    @penalidade.setter
+    def penalidade(self, v: float):
+        self.data[2] = v
 
 
 class BlocoCompensacaoCorrelacaoCruzada(Section):
@@ -4073,7 +4056,7 @@ class BlocoCompensacaoCorrelacaoCruzada(Section):
         self.data = self.__linha.read(file.readline())
 
     def write(self, file: IO):
-        file.write(self.__linha.write(self.data) + "\n")
+        file.write(self.__linha.write(self.data))
 
     @property
     def valor(self) -> Optional[int]:
