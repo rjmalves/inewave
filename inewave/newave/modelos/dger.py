@@ -1,8 +1,6 @@
 # Imports do próprio módulo
 from inewave.config import SUBMERCADOS
 from inewave._utils.registros import RegistroAn, RegistroFn, RegistroIn
-from inewave._utils.bloco import Bloco
-from inewave._utils.leiturablocos import LeituraBlocos
 
 # Imports de módulos externos
 from typing import IO, List, Optional
@@ -12,6 +10,7 @@ from cfinterface.components.section import Section
 from cfinterface.components.line import Line
 from cfinterface.components.literalfield import LiteralField
 from cfinterface.components.integerfield import IntegerField
+from cfinterface.components.floatfield import FloatField
 
 
 class BlocoNomeCaso(Section):
@@ -23,6 +22,20 @@ class BlocoNomeCaso(Section):
     def __init__(self, state=..., previous=None, next=None, data=None) -> None:
         super().__init__(state, previous, next, data)
         self.__linha = Line([LiteralField(80, 0)])
+
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoNomeCaso):
+            return False
+        bloco: BlocoNomeCaso = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
 
     def read(self, file: IO):
         self.data = self.__linha.read(file.readline())
@@ -57,6 +70,20 @@ class BlocoTipoExecucao(Section):
             [LiteralField(24, 0), IntegerField(1, 24), LiteralField(43, 25)]
         )
 
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoTipoExecucao):
+            return False
+        bloco: BlocoTipoExecucao = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
+
     def read(self, file: IO):
         self.data = self.__linha.read(file.readline())
 
@@ -74,2975 +101,3991 @@ class BlocoTipoExecucao(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: Optional[int]):
+    def valor(self, v: int):
         self.data[1] = v
 
 
-class BlocoDuracaoPeriodo(Bloco):
+class BlocoDuracaoPeriodo(Section):
     """
     Bloco com a duração do período de execução,
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
-    str_inicio = "DURACAO DO PERIODO"
-    str_fim = ""
-
-    def __init__(self):
-
-        super().__init__(
-            BlocoDuracaoPeriodo.str_inicio, BlocoDuracaoPeriodo.str_fim, True
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(2, 23)]
         )
 
-        self._dados = 0
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoDuracaoPeriodo):
+            return False
+        bloco: BlocoDuracaoPeriodo = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
 
-    # Override
-    def le(self, arq: IO):
-        reg = RegistroIn(4)
-        self._dados = reg.le_registro(self._linha_inicio, 21)
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
 
-    # Override
-    def escreve(self, arq: IO):
-        dado = str(self._dados).rjust(4)
-        linha = (
-            f"{BlocoDuracaoPeriodo.str_inicio.ljust(21)}"
-            + f"{dado}{BlocoDuracaoPeriodo.str_fim}\n"
-        )
-        arq.write(linha)
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data) + "\n")
+
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: A duração do período
+        :rtype: int
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
 
 
-class BlocoNumAnosEstudo(Bloco):
+class BlocoNumAnosEstudo(Section):
     """
     Bloco com o número de anos no período de estudo,
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
-    str_inicio = "No. DE ANOS DO EST"
-    str_fim = ""
-
-    def __init__(self):
-
-        super().__init__(
-            BlocoNumAnosEstudo.str_inicio, BlocoNumAnosEstudo.str_fim, True
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(2, 23)]
         )
 
-        self._dados = 0
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoNumAnosEstudo):
+            return False
+        bloco: BlocoNumAnosEstudo = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
 
-    # Override
-    def le(self, arq: IO):
-        reg = RegistroIn(4)
-        self._dados = reg.le_registro(self._linha_inicio, 21)
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
 
-    # Override
-    def escreve(self, arq: IO):
-        dado = str(self._dados).rjust(4)
-        linha = (
-            f"{BlocoNumAnosEstudo.str_inicio.ljust(21)}"
-            + f"{dado}{BlocoNumAnosEstudo.str_fim}\n"
-        )
-        arq.write(linha)
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data) + "\n")
+
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: O número de anos de estudo
+        :rtype: int
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
 
 
-class BlocoMesInicioPreEstudo(Bloco):
+
+class BlocoMesInicioPreEstudo(Section):
     """
     Bloco com o mês de início do pré-estudo,
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
-    str_inicio = "MES INICIO PRE-EST"
-    str_fim = ""
-
-    def __init__(self):
-
-        super().__init__(
-            BlocoMesInicioPreEstudo.str_inicio,
-            BlocoMesInicioPreEstudo.str_fim,
-            True,
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(2, 23)]
         )
 
-        self._dados = 0
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoMesInicioPreEstudo):
+            return False
+        bloco: BlocoMesInicioPreEstudo = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
 
-    # Override
-    def le(self, arq: IO):
-        reg = RegistroIn(4)
-        self._dados = reg.le_registro(self._linha_inicio, 21)
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
 
-    # Override
-    def escreve(self, arq: IO):
-        dado = str(self._dados).rjust(4)
-        linha = (
-            f"{BlocoMesInicioPreEstudo.str_inicio.ljust(21)}"
-            + f"{dado}{BlocoMesInicioPreEstudo.str_fim}\n"
-        )
-        arq.write(linha)
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data) + "\n")
+
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: O mês de início do período pré estudo
+        :rtype: int
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
 
 
-class BlocoMesInicioEstudo(Bloco):
+
+class BlocoMesInicioEstudo(Section):
     """
     Bloco com o mês de início do período de estudo,
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
-    str_inicio = "MES INICIO DO ESTUDO"
-    str_fim = ""
-
-    def __init__(self):
-
-        super().__init__(
-            BlocoMesInicioEstudo.str_inicio, BlocoMesInicioEstudo.str_fim, True
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(2, 23)]
         )
 
-        self._dados = 0
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoMesInicioEstudo):
+            return False
+        bloco: BlocoMesInicioEstudo = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
 
-    # Override
-    def le(self, arq: IO):
-        reg = RegistroIn(4)
-        self._dados = reg.le_registro(self._linha_inicio, 21)
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
 
-    # Override
-    def escreve(self, arq: IO):
-        dado = str(self._dados).rjust(4)
-        linha = (
-            f"{BlocoMesInicioEstudo.str_inicio.ljust(21)}"
-            + f"{dado}{BlocoMesInicioEstudo.str_fim}\n"
-        )
-        arq.write(linha)
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data) + "\n")
+
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: O mês de início do estudo
+        :rtype: int
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
 
 
-class BlocoAnoInicioEstudo(Bloco):
+
+class BlocoAnoInicioEstudo(Section):
     """
     Bloco com o ano do início do período de estudo
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
-    str_inicio = "ANO INICIO DO ESTUDO"
-    str_fim = ""
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoAnoInicioEstudo):
+            return False
+        bloco: BlocoAnoInicioEstudo = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
 
-    def __init__(self):
-
-        super().__init__(
-            BlocoAnoInicioEstudo.str_inicio, BlocoAnoInicioEstudo.str_fim, True
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(4, 21)]
         )
 
-        self._dados = 0
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
 
-    # Override
-    def le(self, arq: IO):
-        reg = RegistroIn(4)
-        self._dados = reg.le_registro(self._linha_inicio, 21)
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data) + "\n")
 
-    # Override
-    def escreve(self, arq: IO):
-        dado = str(self._dados).rjust(4)
-        linha = (
-            f"{BlocoAnoInicioEstudo.str_inicio.ljust(21)}"
-            + f"{dado}{BlocoAnoInicioEstudo.str_fim}\n"
-        )
-        arq.write(linha)
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: O ano de início do estudo
+        :rtype: int
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
 
 
-class BlocoNumAnosPreEstudo(Bloco):
+class BlocoNumAnosPreEstudo(Section):
     """
     Bloco com o número de anos do período pré-estudo,
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
-    str_inicio = "No. DE ANOS PRE"
-    str_fim = ""
-
-    def __init__(self):
-
-        super().__init__(
-            BlocoNumAnosPreEstudo.str_inicio,
-            BlocoNumAnosPreEstudo.str_fim,
-            True,
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(2, 23)]
         )
 
-        self._dados = 0
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoNumAnosPreEstudo):
+            return False
+        bloco: BlocoNumAnosPreEstudo = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
 
-    # Override
-    def le(self, arq: IO):
-        reg = RegistroIn(4)
-        self._dados = reg.le_registro(self._linha_inicio, 21)
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
 
-    # Override
-    def escreve(self, arq: IO):
-        dado = str(self._dados).rjust(4)
-        linha = (
-            f"{BlocoNumAnosPreEstudo.str_inicio.ljust(21)}"
-            + f"{dado}{BlocoNumAnosPreEstudo.str_fim}\n"
-        )
-        arq.write(linha)
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data) + "\n")
+
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: O número de anos de pré estudo
+        :rtype: int
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
 
 
-class BlocoNumAnosPosEstudo(Bloco):
+
+class BlocoNumAnosPosEstudo(Section):
     """
     Bloco com o número de anos do período pós-estudo,
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
-    str_inicio = "No. DE ANOS POS"
-    str_fim = ""
-
-    def __init__(self):
-
-        super().__init__(
-            BlocoNumAnosPosEstudo.str_inicio,
-            BlocoNumAnosPosEstudo.str_fim,
-            True,
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(2, 23)]
         )
 
-        self._dados = 0
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoNumAnosPosEstudo):
+            return False
+        bloco: BlocoNumAnosPosEstudo = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
 
-    # Override
-    def le(self, arq: IO):
-        reg = RegistroIn(4)
-        self._dados = reg.le_registro(self._linha_inicio, 21)
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
 
-    # Override
-    def escreve(self, arq: IO):
-        dado = str(self._dados).rjust(4)
-        linha = (
-            f"{BlocoNumAnosPosEstudo.str_inicio.ljust(21)}"
-            + f"{dado}{BlocoNumAnosPosEstudo.str_fim}\n"
-        )
-        arq.write(linha)
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data) + "\n")
+
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: O número de anos de pós estudo
+        :rtype: int
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
 
 
-class BlocoNumAnosPosEstudoSimFinal(Bloco):
+class BlocoNumAnosPosEstudoSimFinal(Section):
     """
     Bloco com o número de anos do período pós-estudo na simulação final,
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
-    str_inicio = "No. DE ANOS POS FINAL"
-    str_fim = ""
-
-    def __init__(self):
-
-        super().__init__(
-            BlocoNumAnosPosEstudoSimFinal.str_inicio,
-            BlocoNumAnosPosEstudoSimFinal.str_fim,
-            True,
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(2, 23)]
         )
 
-        self._dados = 0
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoNumAnosPosEstudoSimFinal):
+            return False
+        bloco: BlocoNumAnosPosEstudoSimFinal = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
 
-    # Override
-    def le(self, arq: IO):
-        reg = RegistroIn(4)
-        self._dados = reg.le_registro(self._linha_inicio, 21)
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
 
-    # Override
-    def escreve(self, arq: IO):
-        dado = str(self._dados).rjust(4)
-        linha = (
-            f"{BlocoNumAnosPosEstudoSimFinal.str_inicio.ljust(21)}"
-            + f"{dado}{BlocoNumAnosPosEstudoSimFinal.str_fim}\n"
-        )
-        arq.write(linha)
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data) + "\n")
+
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: O número de anos de pós estudo na simulação final.
+        :rtype: int
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
 
 
-class BlocoImprimeDados(Bloco):
+class BlocoImprimeDados(Section):
     """
     Bloco com a opção de imprimir dados das usinas,
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
-    str_inicio = "IMPRIME DADOS"
-    str_fim = ""
-
-    def __init__(self):
-
-        super().__init__(
-            BlocoImprimeDados.str_inicio, BlocoImprimeDados.str_fim, True
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(1, 24)]
         )
 
-        self._dados = 0
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoImprimeDados):
+            return False
+        bloco: BlocoImprimeDados = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
 
-    # Override
-    def le(self, arq: IO):
-        reg = RegistroIn(4)
-        self._dados = reg.le_registro(self._linha_inicio, 21)
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
 
-    # Override
-    def escreve(self, arq: IO):
-        dado = str(self._dados).rjust(4)
-        linha = (
-            f"{BlocoImprimeDados.str_inicio.ljust(21)}"
-            + f"{dado}{BlocoImprimeDados.str_fim}\n"
-        )
-        arq.write(linha)
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data) + "\n")
+
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: A impressão ou não das informações
+        :rtype: int
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
 
 
-class BlocoImprimeMercados(Bloco):
+class BlocoImprimeMercados(Section):
     """
     Bloco com a opção de imprimir dados de mercados,
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
-    str_inicio = "IMPRIME MERCADOS"
-    str_fim = ""
-
-    def __init__(self):
-
-        super().__init__(
-            BlocoImprimeMercados.str_inicio, BlocoImprimeMercados.str_fim, True
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(1, 24)]
         )
 
-        self._dados = 0
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoImprimeMercados):
+            return False
+        bloco: BlocoImprimeMercados = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
 
-    # Override
-    def le(self, arq: IO):
-        reg = RegistroIn(4)
-        self._dados = reg.le_registro(self._linha_inicio, 21)
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
 
-    # Override
-    def escreve(self, arq: IO):
-        dado = str(self._dados).rjust(4)
-        linha = (
-            f"{BlocoImprimeMercados.str_inicio.ljust(21)}"
-            + f"{dado}{BlocoImprimeMercados.str_fim}\n"
-        )
-        arq.write(linha)
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data) + "\n")
+
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: A impressão ou não das informações
+        :rtype: int
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
 
 
-class BlocoImprimeEnergias(Bloco):
+class BlocoImprimeEnergias(Section):
     """
     Bloco com a opção de imprimir dados das energias,
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
-    str_inicio = "IMPRIME ENERGIAS"
-    str_fim = ""
-
-    def __init__(self):
-
-        super().__init__(
-            BlocoImprimeEnergias.str_inicio, BlocoImprimeEnergias.str_fim, True
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(1, 24)]
         )
 
-        self._dados = 0
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoImprimeEnergias):
+            return False
+        bloco: BlocoImprimeEnergias = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
 
-    # Override
-    def le(self, arq: IO):
-        reg = RegistroIn(4)
-        self._dados = reg.le_registro(self._linha_inicio, 21)
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
 
-    # Override
-    def escreve(self, arq: IO):
-        dado = str(self._dados).rjust(4)
-        linha = (
-            f"{BlocoImprimeEnergias.str_inicio.ljust(21)}"
-            + f"{dado}{BlocoImprimeEnergias.str_fim}\n"
-        )
-        arq.write(linha)
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data) + "\n")
+
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: A impressão ou não das informações
+        :rtype: int
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
 
 
-class BlocoImprimeModeloEstocastico(Bloco):
+class BlocoImprimeModeloEstocastico(Section):
     """
     Bloco com a opção de imprimir dados do modelo estocástico,
     de geração de cenários existente no arquivo `dger.dat` do NEWAVE.
     """
 
-    str_inicio = "IMPRIME M. ESTOCAS"
-    str_fim = ""
-
-    def __init__(self):
-
-        super().__init__(
-            BlocoImprimeModeloEstocastico.str_inicio,
-            BlocoImprimeModeloEstocastico.str_fim,
-            True,
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(1, 24)]
         )
 
-        self._dados = 0
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoImprimeModeloEstocastico):
+            return False
+        bloco: BlocoImprimeModeloEstocastico = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
 
-    # Override
-    def le(self, arq: IO):
-        reg = RegistroIn(4)
-        self._dados = reg.le_registro(self._linha_inicio, 21)
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
 
-    # Override
-    def escreve(self, arq: IO):
-        dado = str(self._dados).rjust(4)
-        linha = (
-            f"{BlocoImprimeModeloEstocastico.str_inicio.ljust(21)}"
-            + f"{dado}{BlocoImprimeModeloEstocastico.str_fim}\n"
-        )
-        arq.write(linha)
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data) + "\n")
+
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: A impressão ou não das informações
+        :rtype: int
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
 
 
-class BlocoImprimeSubsistema(Bloco):
+class BlocoImprimeSubsistema(Section):
     """
     Bloco com a opção de imprimir dados dos subsistemas,
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
-    str_inicio = "IMPRIME SUBSISTEMA"
-    str_fim = ""
-
-    def __init__(self):
-
-        super().__init__(
-            BlocoImprimeSubsistema.str_inicio,
-            BlocoImprimeSubsistema.str_fim,
-            True,
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(1, 24)]
         )
 
-        self._dados = 0
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoImprimeSubsistema):
+            return False
+        bloco: BlocoImprimeSubsistema = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
 
-    # Override
-    def le(self, arq: IO):
-        reg = RegistroIn(4)
-        self._dados = reg.le_registro(self._linha_inicio, 21)
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
 
-    # Override
-    def escreve(self, arq: IO):
-        dado = str(self._dados).rjust(4)
-        linha = (
-            f"{BlocoImprimeSubsistema.str_inicio.ljust(21)}"
-            + f"{dado}{BlocoImprimeSubsistema.str_fim}\n"
-        )
-        arq.write(linha)
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data) + "\n")
+
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: A impressão ou não das informações
+        :rtype: int
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
 
 
-class BlocoNumMaxIteracoes(Bloco):
+class BlocoNumMaxIteracoes(Section):
     """
     Bloco com o número máximo de iterações,
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
-    str_inicio = "No MAX. DE ITER."
-    str_fim = ""
-
-    def __init__(self):
-
-        super().__init__(
-            BlocoNumMaxIteracoes.str_inicio, BlocoNumMaxIteracoes.str_fim, True
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(4, 21)]
         )
 
-        self._dados = 0
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoNumMaxIteracoes):
+            return False
+        bloco: BlocoNumMaxIteracoes = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
 
-    # Override
-    def le(self, arq: IO):
-        reg = RegistroIn(4)
-        self._dados = reg.le_registro(self._linha_inicio, 21)
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
 
-    # Override
-    def escreve(self, arq: IO):
-        dado = str(self._dados).rjust(4)
-        linha = (
-            f"{BlocoNumMaxIteracoes.str_inicio.ljust(21)}"
-            + f"{dado}{BlocoNumMaxIteracoes.str_fim}\n"
-        )
-        arq.write(linha)
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data) + "\n")
+
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: O número máximo de iterações
+        :rtype: int
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
 
 
-class BlocoNumForwards(Bloco):
+class BlocoNumForwards(Section):
     """
     Bloco com o número de simulações forward,
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
-    str_inicio = "No DE SIM. FORWARD"
-    str_fim = ""
-
-    def __init__(self):
-
-        super().__init__(
-            BlocoNumForwards.str_inicio, BlocoNumForwards.str_fim, True
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(4, 21)]
         )
 
-        self._dados = 0
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoNumForwards):
+            return False
+        bloco: BlocoNumForwards = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
 
-    # Override
-    def le(self, arq: IO):
-        reg = RegistroIn(4)
-        self._dados = reg.le_registro(self._linha_inicio, 21)
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
 
-    # Override
-    def escreve(self, arq: IO):
-        dado = str(self._dados).rjust(4)
-        linha = (
-            f"{BlocoNumForwards.str_inicio.ljust(21)}"
-            + f"{dado}{BlocoNumForwards.str_fim}\n"
-        )
-        arq.write(linha)
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data) + "\n")
+
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: O número de séries forward.
+        :rtype: int
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
 
 
-class BlocoNumAberturas(Bloco):
+class BlocoNumAberturas(Section):
     """
     Bloco com o número aberturas e se são consideradas
     aberturas variáveis, existente no arquivo `dger.dat` do NEWAVE.
     """
 
-    str_inicio = "No DE ABERTURAS"
-    str_fim = "(CONSIDERA ABERTURA VARIAVEL =0 NAO CONSIDERA, =1 CONSIDERA )"
-
-    def __init__(self):
-
-        super().__init__(
-            BlocoNumAberturas.str_inicio, BlocoNumAberturas.str_fim, True
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(4, 21)]
         )
-
-        self._dados = 0
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoNumAberturas):
             return False
         bloco: BlocoNumAberturas = o
-        return self._dados == bloco._dados
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
 
-    # Override
-    def le(self, arq: IO):
-        reg = RegistroIn(4)
-        self._dados = reg.le_registro(self._linha_inicio, 21)
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
 
-    # Override
-    def escreve(self, arq: IO):
-        num_ab = str(self._dados).rjust(4)
-        linha = f"{BlocoNumAberturas.str_inicio.ljust(21)}" + f"{num_ab}\n"
-        arq.write(linha)
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data) + "\n")
+
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: O número de aberturas
+        :rtype: int
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
 
 
-class BlocoNumSeriesSinteticas(Bloco):
+class BlocoNumSeriesSinteticas(Section):
     """
     Bloco com o número de séries sintéticas utilizadas,
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
-    str_inicio = "No DE SERIES SINT."
-    str_fim = ""
-
-    def __init__(self):
-
-        super().__init__(
-            BlocoNumSeriesSinteticas.str_inicio,
-            BlocoNumSeriesSinteticas.str_fim,
-            True,
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(4, 21)]
         )
 
-        self._dados = 0
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoNumSeriesSinteticas):
+            return False
+        bloco: BlocoNumSeriesSinteticas = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
 
-    # Override
-    def le(self, arq: IO):
-        reg = RegistroIn(4)
-        self._dados = reg.le_registro(self._linha_inicio, 21)
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
 
-    # Override
-    def escreve(self, arq: IO):
-        dado = str(self._dados).rjust(4)
-        linha = (
-            f"{BlocoNumSeriesSinteticas.str_inicio.ljust(21)}"
-            + f"{dado}{BlocoNumSeriesSinteticas.str_fim}\n"
-        )
-        arq.write(linha)
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data) + "\n")
+
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: O número de séries sintéticas.
+        :rtype: int
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
 
 
-class BlocoOrdemMaximaPARp(Bloco):
+class BlocoOrdemMaximaPARp(Section):
     """
     Bloco com a ordem máxima do modelo PAR(p),
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
-    str_inicio = "ORDEM MAX. PAR(P)"
-    str_fim = ""
-
-    def __init__(self):
-
-        super().__init__(
-            BlocoOrdemMaximaPARp.str_inicio, BlocoOrdemMaximaPARp.str_fim, True
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(2, 23)]
         )
 
-        self._dados = 0
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoOrdemMaximaPARp):
+            return False
+        bloco: BlocoOrdemMaximaPARp = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
 
-    # Override
-    def le(self, arq: IO):
-        reg = RegistroIn(4)
-        self._dados = reg.le_registro(self._linha_inicio, 21)
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
 
-    # Override
-    def escreve(self, arq: IO):
-        dado = str(self._dados).rjust(4)
-        linha = (
-            f"{BlocoOrdemMaximaPARp.str_inicio.ljust(21)}"
-            + f"{dado}{BlocoOrdemMaximaPARp.str_fim}\n"
-        )
-        arq.write(linha)
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data) + "\n")
+
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: A ordem máxima do modelo PAR(p)
+        :rtype: int
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
 
 
-class BlocoAnoInicialHistorico(Bloco):
+class BlocoAnoInicialHistorico(Section):
     """
     Bloco com o ano inicial do histórico,
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
-    str_inicio = "ANO INICIAL HIST."
-    str_fim = ""
-
-    def __init__(self):
-
-        super().__init__(
-            BlocoAnoInicialHistorico.str_inicio,
-            BlocoAnoInicialHistorico.str_fim,
-            True,
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(2, 23), IntegerField(1, 28)]
         )
-
-        self._dados = [0, 0]
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoAnoInicialHistorico):
             return False
         bloco: BlocoAnoInicialHistorico = o
-        return all([d1 == d2 for d1, d2 in zip(self._dados, bloco._dados)])
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
 
-    # Override
-    def le(self, arq: IO):
-        reg = RegistroIn(4)
-        self._dados[0] = reg.le_registro(self._linha_inicio, 21)
-        reg_flag = RegistroIn(1)
-        self._dados[1] = reg_flag.le_registro(self._linha_inicio, 28)
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
 
-    # Override
-    def escreve(self, arq: IO):
-        ano = str(self._dados[0]).rjust(4)
-        flag = str(self._dados[1]).rjust(4)
-        linha = (
-            f"{BlocoAnoInicialHistorico.str_inicio.ljust(21)}"
-            + f"{ano}{flag}{BlocoAnoInicialHistorico.str_fim}\n"
-        )
-        arq.write(linha)
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data) + "\n")
+
+    @property
+    def ano_inicial(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: A ordem máxima do modelo PAR(p)
+        :rtype: int
+        """
+        return self.data[1]
+
+    @ano_inicial.setter
+    def ano_inicial(self, v: int):
+        self.data[1] = v
+
+    @property
+    def tamanho_registro_arquivo(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: A opção de tamanho do registro no arquivo
+            de vazões históricas.
+        :rtype: int
+        """
+        return self.data[2]
+
+    @tamanho_registro_arquivo.setter
+    def tamanho_registro_arquivo(self, v: int):
+        self.data[2] = v
 
 
-class BlocoCalculaVolInicial(Bloco):
+class BlocoCalculaVolInicial(Section):
     """
-    Bloco com o ano inicial do histórico,
+    Bloco com a configuração para calcular ou não
+    o volume armazenado inicial para o caso,
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
-    str_inicio = "CALCULA VOL.INICIAL"
-    str_fim = "0=USA REG 20 ; 1= CALCULA EARM. INICIAL"
-
-    def __init__(self):
-
-        super().__init__(
-            BlocoCalculaVolInicial.str_inicio,
-            BlocoCalculaVolInicial.str_fim,
-            True,
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(43, 28)]
         )
-
-        self._dados = 0
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoCalculaVolInicial):
             return False
         bloco: BlocoCalculaVolInicial = o
-        return self._dados == bloco._dados
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
 
-    # Override
-    def le(self, arq: IO):
-        reg = RegistroIn(1)
-        self._dados = reg.le_registro(self._linha_inicio, 24)
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
 
-    # Override
-    def escreve(self, arq: IO):
-        calcula = str(self._dados).rjust(4)
-        linha = (
-            f"{BlocoCalculaVolInicial.str_inicio.ljust(21)}"
-            + f"{calcula}   {BlocoCalculaVolInicial.str_fim}\n"
-        )
-        arq.write(linha)
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data) + "\n")
+
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: O cálculo ou não do EARM inicial
+        :rtype: int
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
 
 
-class BlocoVolInicialSubsistema(Bloco):
+class BlocoVolInicialSubsistema(Section):
     """
     Bloco com o ano inicial do histórico,
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
-    str_inicio = " POR SUBSISTEMA"
-    str_fim = ""
-
-    def __init__(self):
-
-        super().__init__(
-            BlocoVolInicialSubsistema.str_inicio,
-            BlocoVolInicialSubsistema.str_fim,
-            True,
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(21, 0)] + [FloatField(5, 21 + i * 7, 1) for i in range(5)]
         )
-
-        self._dados = np.zeros((len(SUBMERCADOS) + 1,), dtype=np.float64)
+        self.__cabecalho: str = ""
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoVolInicialSubsistema):
             return False
         bloco: BlocoVolInicialSubsistema = o
-        return all([d1 == d2 for d1, d2 in zip(self._dados, bloco._dados)])
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
 
-    # Override
-    def le(self, arq: IO):
-        reg = RegistroFn(5)
-        self._dados = reg.le_linha_tabela(
-            self._linha_inicio, 21, 2, len(SUBMERCADOS) + 1
-        )
+    def read(self, file: IO):
+        self.__cabecalho = file.readline()
+        self.data = self.__linha.read(file.readline())
 
-    # Override
-    def escreve(self, arq: IO):
-        dado = ""
-        for i in range(len(self._dados)):
-            d = f"{self._dados[i]:3.1f}  "
-            dado += d.rjust(7)
-        linha = (
-            f"{BlocoVolInicialSubsistema.str_inicio.ljust(21)}"
-            + f"{dado}{BlocoVolInicialSubsistema.str_fim}\n"
-        )
-        arq.write(linha)
+    def write(self, file: IO):
+        file.write(self.__cabecalho)
+        file.write(self.__linha.write(self.data) + "\n")
+
+    @property
+    def valores(self) -> List[Optional[float]]:
+        """
+        Os valores da opção configurada
+
+        :return: Os EARM iniciais
+        :rtype: List[float]
+        """
+        return self.data[1:]
+
+    @valores.setter
+    def valores(self, v: List[float]):
+        self.data = [self.data[0]] + v
 
 
-class BlocoTolerancia(Bloco):
+class BlocoTolerancia(Section):
     """
     Bloco com a tolerância de convergência,
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
-    str_inicio = "TOLERANCIA      -%"
-    str_fim = ""
-
-    def __init__(self):
-
-        super().__init__(
-            BlocoTolerancia.str_inicio, BlocoTolerancia.str_fim, True
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(21, 0), FloatField(5, 21, 1)]
         )
+        self.__cabecalho: str = ""
 
-        self._dados = 0.0
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoTolerancia):
+            return False
+        bloco: BlocoTolerancia = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
 
-    # Override
-    def le(self, arq: IO):
-        reg = RegistroFn(5)
-        self._dados = reg.le_registro(self._linha_inicio, 21)
+    def read(self, file: IO):
+        self.__cabecalho = file.readline()
+        self.data = self.__linha.read(file.readline())
 
-    # Override
-    def escreve(self, arq: IO):
-        dado = str(f"{self._dados:2.1f}").rjust(5)
-        linha = (
-            f"{BlocoTolerancia.str_inicio.ljust(21)}"
-            + f"{dado}{BlocoTolerancia.str_fim}\n"
-        )
-        arq.write(linha)
+    def write(self, file: IO):
+        file.write(self.__cabecalho)
+        file.write(self.__linha.write(self.data) + "\n")
+
+    @property
+    def valor(self) -> Optional[float]:
+        """
+        O valor da opção configurada
+
+        :return: A tolerância
+        :rtype: float
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: float):
+        self.data[1] = v
 
 
-class BlocoTaxaDesconto(Bloco):
+class BlocoTaxaDesconto(Section):
     """
     Bloco com a taxa de desconto,
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
-    str_inicio = "TAXA DE DESCONTO-%"
-    str_fim = ""
-
-    def __init__(self):
-
-        super().__init__(
-            BlocoTaxaDesconto.str_inicio, BlocoTaxaDesconto.str_fim, True
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(21, 0), FloatField(5, 21, 1)]
         )
+        self.__cabecalho: str = ""
 
-        self._dados = 0.0
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoTaxaDesconto):
+            return False
+        bloco: BlocoTaxaDesconto = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
 
-    # Override
-    def le(self, arq: IO):
-        reg = RegistroFn(5)
-        self._dados = reg.le_registro(self._linha_inicio, 21)
+    def read(self, file: IO):
+        self.__cabecalho = file.readline()
+        self.data = self.__linha.read(file.readline())
 
-    # Override
-    def escreve(self, arq: IO):
-        dado = str(f"{self._dados:2.1f}").rjust(5)
-        linha = (
-            f"{BlocoTaxaDesconto.str_inicio.ljust(21)}"
-            + f"{dado}{BlocoTaxaDesconto.str_fim}\n"
-        )
-        arq.write(linha)
+    def write(self, file: IO):
+        file.write(self.__cabecalho)
+        file.write(self.__linha.write(self.data) + "\n")
+
+    @property
+    def valor(self) -> Optional[float]:
+        """
+        O valor da opção configurada
+
+        :return: A taxa de desconto
+        :rtype: float
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: float):
+        self.data[1] = v
 
 
-class BlocoTipoSimFinal(Bloco):
+class BlocoTipoSimFinal(Section):
     """
     Bloco com a opção do tipo de simulação final,
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
-    str_inicio = "TIPO SIMUL. FINAL"
-    str_fim = "(=0 NAO SIMULA; =1 S.SINT.; =2 S.HIST.; =3 CONSIST)"
-
-    def __init__(self):
-
-        super().__init__(
-            BlocoTipoSimFinal.str_inicio, BlocoTipoSimFinal.str_fim, True
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(51, 28)]
         )
 
-        self._dados = 0
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoTipoSimFinal):
+            return False
+        bloco: BlocoTipoSimFinal = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
 
-    # Override
-    def le(self, arq: IO):
-        reg = RegistroIn(4)
-        self._dados = reg.le_registro(self._linha_inicio, 21)
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
 
-    # Override
-    def escreve(self, arq: IO):
-        dado = str(self._dados).rjust(4)
-        linha = (
-            f"{BlocoTipoSimFinal.str_inicio.ljust(21)}"
-            + f"{dado}   {BlocoTipoSimFinal.str_fim}\n"
-        )
-        arq.write(linha)
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data) + "\n")
 
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
 
-class BlocoImpressaoOperacao(Bloco):
+        :return: O tipo de simulação final
+        :rtype: int
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
+
+class BlocoImpressaoOperacao(Section):
     """
     Bloco com a opção para impressão da operação detalhada,
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
-    str_inicio = "IMPRESSAO DA OPER"
-    str_fim = "(=0 SINOPSE; =1 OP. DETALHADA)"
-
-    def __init__(self):
-
-        super().__init__(
-            BlocoImpressaoOperacao.str_inicio,
-            BlocoImpressaoOperacao.str_fim,
-            True,
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(30, 28)]
         )
 
-        self._dados = 0
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoImpressaoOperacao):
+            return False
+        bloco: BlocoImpressaoOperacao = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
 
-    # Override
-    def le(self, arq: IO):
-        reg = RegistroIn(4)
-        self._dados = reg.le_registro(self._linha_inicio, 21)
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
 
-    # Override
-    def escreve(self, arq: IO):
-        dado = str(self._dados).rjust(4)
-        linha = (
-            f"{BlocoImpressaoOperacao.str_inicio.ljust(21)}"
-            + f"{dado}   {BlocoImpressaoOperacao.str_fim}\n"
-        )
-        arq.write(linha)
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data) + "\n")
+
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: A impressão ou não da operação
+        :rtype: int
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
 
 
-class BlocoImpressaoConvergencia(Bloco):
+class BlocoImpressaoConvergencia(Section):
     """
     Bloco com a opção para impressão da convergência,
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
-    str_inicio = "IMPRESSAO DA CONVERG."
-    str_fim = "(=0 CONVERGENCIA FINAL APENAS, =1 TOTAL)"
-
-    def __init__(self):
-
-        super().__init__(
-            BlocoImpressaoConvergencia.str_inicio,
-            BlocoImpressaoConvergencia.str_fim,
-            True,
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(40, 28)]
         )
 
-        self._dados = 0
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoImpressaoConvergencia):
+            return False
+        bloco: BlocoImpressaoConvergencia = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
 
-    # Override
-    def le(self, arq: IO):
-        reg = RegistroIn(4)
-        self._dados = reg.le_registro(self._linha_inicio, 21)
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
 
-    # Override
-    def escreve(self, arq: IO):
-        dado = str(self._dados).rjust(4)
-        linha = (
-            f"{BlocoImpressaoConvergencia.str_inicio.ljust(21)}"
-            + f"{dado}   {BlocoImpressaoConvergencia.str_fim}\n"
-        )
-        arq.write(linha)
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data) + "\n")
+
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: A impressão ou não da convergência
+        :rtype: int
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
 
 
-class BlocoIntervaloGravar(Bloco):
+class BlocoIntervaloGravar(Section):
     """
     Bloco com a opção para impressão do intervalo para gravar,
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
-    str_inicio = "INTERVALO P/ GRAVAR"
-    str_fim = "SERIES SIMULADAS ( 40  SERIES GRAVADAS )"
-
-    def __init__(self):
-
-        super().__init__(
-            BlocoIntervaloGravar.str_inicio, BlocoIntervaloGravar.str_fim, True
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(30, 28)]
         )
 
-        self._dados = 0
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoIntervaloGravar):
+            return False
+        bloco: BlocoIntervaloGravar = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
 
-    # Override
-    def le(self, arq: IO):
-        reg = RegistroIn(4)
-        self._dados = reg.le_registro(self._linha_inicio, 21)
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
 
-    # Override
-    def escreve(self, arq: IO):
-        dado = str(self._dados).rjust(4)
-        linha = (
-            f"{BlocoIntervaloGravar.str_inicio.ljust(21)}"
-            + f"{dado}   {BlocoIntervaloGravar.str_fim}\n"
-        )
-        arq.write(linha)
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data) + "\n")
+
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: O intervalo para gravar
+        :rtype: int
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
 
 
-class BlocoMinIteracoes(Bloco):
+class BlocoMinIteracoes(Section):
     """
     Bloco com o número mínimo de iterações,
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
-    str_inicio = "No. MIN. ITER."
-    str_fim = ""
-
-    def __init__(self):
-
-        super().__init__(
-            BlocoMinIteracoes.str_inicio, BlocoMinIteracoes.str_fim, True
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(3, 22)]
         )
 
-        self._dados = 0
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoMinIteracoes):
+            return False
+        bloco: BlocoMinIteracoes = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
 
-    # Override
-    def le(self, arq: IO):
-        reg = RegistroIn(4)
-        self._dados = reg.le_registro(self._linha_inicio, 21)
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
 
-    # Override
-    def escreve(self, arq: IO):
-        dado = str(self._dados).rjust(4)
-        linha = (
-            f"{BlocoMinIteracoes.str_inicio.ljust(21)}"
-            + f"{dado}   {BlocoMinIteracoes.str_fim}\n"
-        )
-        arq.write(linha)
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data) + "\n")
+
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: O número mínimo de iterações
+        :rtype: int
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
 
 
-class BlocoRacionamentoPreventivo(Bloco):
+class BlocoRacionamentoPreventivo(Section):
     """
     Bloco com o uso de racionamento preventivo,
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
-    str_inicio = "RACIONAMENTO PREVENT."
-    str_fim = "(=0 NAO CONSIDERA NA SIMULACAO FINAL; 1=CONSIDERA)"
-
-    def __init__(self):
-
-        super().__init__(
-            BlocoRacionamentoPreventivo.str_inicio,
-            BlocoRacionamentoPreventivo.str_fim,
-            True,
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(50, 28)]
         )
 
-        self._dados = 0
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoRacionamentoPreventivo):
+            return False
+        bloco: BlocoRacionamentoPreventivo = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
 
-    # Override
-    def le(self, arq: IO):
-        reg = RegistroIn(4)
-        self._dados = reg.le_registro(self._linha_inicio, 21)
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
 
-    # Override
-    def escreve(self, arq: IO):
-        dado = str(self._dados).rjust(4)
-        linha = (
-            f"{BlocoRacionamentoPreventivo.str_inicio.ljust(21)}"
-            + f"{dado}   {BlocoRacionamentoPreventivo.str_fim}\n"
-        )
-        arq.write(linha)
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data) + "\n")
+
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: O uso ou não de racionamento preventivo
+        :rtype: int
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
 
 
-class BlocoNumAnosManutUTE(Bloco):
+class BlocoNumAnosManutUTE(Section):
     """
     Bloco com o número de anos considerados de manutenção de UTEs,
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
-    str_inicio = "No. ANOS MANUT.UTE'S"
-    str_fim = "(=0 NAO CONSIDERA, =1 ANO, =2 ANOS)"
-
-    def __init__(self):
-
-        super().__init__(
-            BlocoNumAnosManutUTE.str_inicio, BlocoNumAnosManutUTE.str_fim, True
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(35, 28)]
         )
 
-        self._dados = 0
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoNumAnosManutUTE):
+            return False
+        bloco: BlocoNumAnosManutUTE = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
 
-    # Override
-    def le(self, arq: IO):
-        reg = RegistroIn(4)
-        self._dados = reg.le_registro(self._linha_inicio, 21)
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
 
-    # Override
-    def escreve(self, arq: IO):
-        dado = str(self._dados).rjust(4)
-        linha = (
-            f"{BlocoNumAnosManutUTE.str_inicio.ljust(21)}"
-            + f"{dado}   {BlocoNumAnosManutUTE.str_fim}\n"
-        )
-        arq.write(linha)
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data) + "\n")
+
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: O número de anos de manutenção das UTEs
+        :rtype: int
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
 
 
-class BlocoTendenciaHidrologica(Bloco):
+class BlocoTendenciaHidrologica(Section):
     """
     Bloco com o uso e a forma de uso da tendência hidrológica,
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
-    str_inicio = "TENDENCIA HIDROLOGICA"
-    str_fim = "(1 FCF / 2 SF =0 NAO CONDIC., =1 P/ SUBSISTEMA, =2 P/ POSTO)"
-
-    def __init__(self):
-
-        super().__init__(
-            BlocoTendenciaHidrologica.str_inicio,
-            BlocoTendenciaHidrologica.str_fim,
-            True,
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(1, 24), IntegerField(1, 29), LiteralField(62, 33)]
         )
-
-        self._dados = [0, 0]
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoTendenciaHidrologica):
             return False
         bloco: BlocoTendenciaHidrologica = o
-        return all([d1 == d2 for d1, d2 in zip(self._dados, bloco._dados)])
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
 
-    # Override
-    def le(self, arq: IO):
-        reg = RegistroIn(4)
-        self._dados[0] = reg.le_registro(self._linha_inicio, 21)
-        self._dados[1] = reg.le_registro(self._linha_inicio, 26)
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
 
-    # Override
-    def escreve(self, arq: IO):
-        uso = str(self._dados[0]).rjust(4)
-        condic = str(self._dados[1]).rjust(4)
-        linha = (
-            f"{BlocoTendenciaHidrologica.str_inicio.ljust(21)}"
-            + f"{uso} {condic}   {BlocoTendenciaHidrologica.str_fim}\n"
-        )
-        arq.write(linha)
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data) + "\n")
+
+    @property
+    def valores(self) -> List[Optional[int]]:
+        """
+        Os valores da opção configurada
+
+        :return: As configurações de adoção da tendência hidrológica
+        :rtype: List[int]
+        """
+        return self.data[1:3]
+
+    @valores.setter
+    def valores(self, v: List[int]):
+        self.data = [self.data[0]] + v + [self.data[3]]
 
 
-class BlocoRestricaoItaipu(Bloco):
+class BlocoRestricaoItaipu(Section):
     """
     Bloco com a consideração das restrições de Itaipu,
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
-    str_inicio = "RESTRICA0 DE ITAIPU"
-    str_fim = "(=0 NAO CONSIDERA, =1 CONSIDERA)"
-
-    def __init__(self):
-
-        super().__init__(
-            BlocoRestricaoItaipu.str_inicio, BlocoRestricaoItaipu.str_fim, True
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(32, 28)]
         )
 
-        self._dados = 0
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoRestricaoItaipu):
+            return False
+        bloco: BlocoRestricaoItaipu = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
 
-    # Override
-    def le(self, arq: IO):
-        reg = RegistroIn(4)
-        self._dados = reg.le_registro(self._linha_inicio, 21)
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
 
-    # Override
-    def escreve(self, arq: IO):
-        dado = str(self._dados).rjust(4)
-        linha = (
-            f"{BlocoRestricaoItaipu.str_inicio.ljust(21)}"
-            + f"{dado}   {BlocoRestricaoItaipu.str_fim}\n"
-        )
-        arq.write(linha)
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data) + "\n")
+
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: O uso ou não da restrição de Itaipu
+        :rtype: int
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
 
 
-class BlocoBid(Bloco):
+class BlocoBid(Section):
     """
-    Bloco com a consideração das restrições de Itaipu,
+    Bloco com a consideração das restrições de BID,
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
-    str_inicio = "BID"
-    str_fim = "(=0 NAO CONSIDERA, =1 CONSIDERA)"
-
-    def __init__(self):
-
-        super().__init__(BlocoBid.str_inicio, BlocoBid.str_fim, True)
-
-        self._dados = 0
-
-    # Override
-    def le(self, arq: IO):
-        reg = RegistroIn(4)
-        self._dados = reg.le_registro(self._linha_inicio, 21)
-
-    # Override
-    def escreve(self, arq: IO):
-        dado = str(self._dados).rjust(4)
-        linha = (
-            f"{BlocoBid.str_inicio.ljust(21)}"
-            + f"{dado}   {BlocoBid.str_fim}\n"
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(32, 28)]
         )
-        arq.write(linha)
+
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoBid):
+            return False
+        bloco: BlocoBid = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
+
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
+
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data) + "\n")
+
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: O uso ou não de BID
+        :rtype: int
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
 
 
-class BlocoPerdasTransmissao(Bloco):
+class BlocoPerdasTransmissao(Section):
     """
     Bloco com a consideração das perdas na transmissão,
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
-    str_inicio = "PERDAS P/ TRANSMISSAO"
-    str_fim = "(=0 NAO CONSIDERA, =1 CONSIDERA)"
-
-    def __init__(self):
-
-        super().__init__(
-            BlocoPerdasTransmissao.str_inicio,
-            BlocoPerdasTransmissao.str_fim,
-            True,
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(32, 28)]
         )
-        self._dados = 0
 
-    # Override
-    def le(self, arq: IO):
-        reg = RegistroIn(4)
-        self._dados = reg.le_registro(self._linha_inicio, 21)
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoPerdasTransmissao):
+            return False
+        bloco: BlocoPerdasTransmissao = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
 
-    # Override
-    def escreve(self, arq: IO):
-        dado = str(self._dados).rjust(4)
-        linha = (
-            f"{BlocoPerdasTransmissao.str_inicio.ljust(21)}"
-            + f"{dado}   {BlocoPerdasTransmissao.str_fim}\n"
-        )
-        arq.write(linha)
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
+
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data) + "\n")
+
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: O uso ou não de perdas na transmissão
+        :rtype: int
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
 
 
-class BlocoElNino(Bloco):
+class BlocoElNino(Section):
     """
     Bloco com a consideração do El Nino,
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
-    str_inicio = "EL NINO"
-    str_fim = "(=0 NAO CONSIDERA, =1 CONSIDERA)"
-
-    def __init__(self):
-
-        super().__init__(BlocoElNino.str_inicio, BlocoElNino.str_fim, True)
-
-        self._dados = 0
-
-    # Override
-    def le(self, arq: IO):
-        reg = RegistroIn(4)
-        self._dados = reg.le_registro(self._linha_inicio, 21)
-
-    # Override
-    def escreve(self, arq: IO):
-        dado = str(self._dados).rjust(4)
-        linha = (
-            f"{BlocoElNino.str_inicio.ljust(21)}"
-            + f"{dado}   {BlocoElNino.str_fim}\n"
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(32, 28)]
         )
-        arq.write(linha)
+
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoElNino):
+            return False
+        bloco: BlocoElNino = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
+
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
+
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data) + "\n")
+
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: O uso ou não de ElNino
+        :rtype: int
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
 
 
-class BlocoEnso(Bloco):
+class BlocoEnso(Section):
     """
     Bloco com a consideração de ENSO,
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
-    str_inicio = "ENSO INDEX"
-    str_fim = "(FUNCAO NAO IMPLEMENTADA)"
-
-    def __init__(self):
-
-        super().__init__(BlocoEnso.str_inicio, BlocoEnso.str_fim, True)
-
-        self._dados = 0
-
-    # Override
-    def le(self, arq: IO):
-        reg = RegistroIn(4)
-        self._dados = reg.le_registro(self._linha_inicio, 21)
-
-    # Override
-    def escreve(self, arq: IO):
-        dado = str(self._dados).rjust(4)
-        linha = (
-            f"{BlocoEnso.str_inicio.ljust(21)}"
-            + f"{dado}   {BlocoEnso.str_fim}\n"
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(25, 28)]
         )
-        arq.write(linha)
+
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoEnso):
+            return False
+        bloco: BlocoEnso = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
+
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
+
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data) + "\n")
+
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: O uso ou não de ENSO
+        :rtype: int
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
 
 
-class BlocoDuracaoPorPatamar(Bloco):
+class BlocoDuracaoPorPatamar(Section):
     """
     Bloco com a consideração da duração por patamar,
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
-    str_inicio = "DURACAO POR PATAMAR"
-    str_fim = "(=0 SAZONAL, =1 VARIAVEL POR ANO)"
-
-    def __init__(self):
-
-        super().__init__(
-            BlocoDuracaoPorPatamar.str_inicio,
-            BlocoDuracaoPorPatamar.str_fim,
-            True,
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(33, 28)]
         )
 
-        self._dados = 0
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoDuracaoPorPatamar):
+            return False
+        bloco: BlocoDuracaoPorPatamar = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
 
-    # Override
-    def le(self, arq: IO):
-        reg = RegistroIn(4)
-        self._dados = reg.le_registro(self._linha_inicio, 21)
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
 
-    # Override
-    def escreve(self, arq: IO):
-        dado = str(self._dados).rjust(4)
-        linha = (
-            f"{BlocoDuracaoPorPatamar.str_inicio.ljust(21)}"
-            + f"{dado}   {BlocoDuracaoPorPatamar.str_fim}\n"
-        )
-        arq.write(linha)
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data) + "\n")
+
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: A configuração da duração por patamar
+        :rtype: int
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
 
 
-class BlocoOutrosUsosAgua(Bloco):
+class BlocoOutrosUsosAgua(Section):
     """
     Bloco com a consideração dos outros usos da água,
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
-    str_inicio = "OUTROS USOS DA AGUA"
-    str_fim = "(=0 NAO CONSIDERA, =1 CONSIDERA)"
-
-    def __init__(self):
-
-        super().__init__(
-            BlocoOutrosUsosAgua.str_inicio, BlocoOutrosUsosAgua.str_fim, True
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(33, 28)]
         )
 
-        self._dados = 0
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoOutrosUsosAgua):
+            return False
+        bloco: BlocoOutrosUsosAgua = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
 
-    # Override
-    def le(self, arq: IO):
-        reg = RegistroIn(4)
-        self._dados = reg.le_registro(self._linha_inicio, 21)
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
 
-    # Override
-    def escreve(self, arq: IO):
-        dado = str(self._dados).rjust(4)
-        linha = (
-            f"{BlocoOutrosUsosAgua.str_inicio.ljust(21)}"
-            + f"{dado}   {BlocoOutrosUsosAgua.str_fim}\n"
-        )
-        arq.write(linha)
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data) + "\n")
+
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: A configuração dos outros usos da água
+        :rtype: int
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
 
 
-class BlocoCorrecaoDesvio(Bloco):
+class BlocoCorrecaoDesvio(Section):
     """
     Bloco com a consideração da correção do desvio,
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
-    str_inicio = "CORRECAO DESVIO"
-    str_fim = "(=0 CONSTANTE; =1 VARIAVEL COM O ARMAZENAMENTO)"
-
-    def __init__(self):
-
-        super().__init__(
-            BlocoCorrecaoDesvio.str_inicio, BlocoCorrecaoDesvio.str_fim, True
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(47, 28)]
         )
 
-        self._dados = 0
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoCorrecaoDesvio):
+            return False
+        bloco: BlocoCorrecaoDesvio = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
 
-    # Override
-    def le(self, arq: IO):
-        reg = RegistroIn(4)
-        self._dados = reg.le_registro(self._linha_inicio, 21)
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
 
-    # Override
-    def escreve(self, arq: IO):
-        dado = str(self._dados).rjust(4)
-        linha = (
-            f"{BlocoCorrecaoDesvio.str_inicio.ljust(21)}"
-            + f"{dado}   {BlocoCorrecaoDesvio.str_fim}\n"
-        )
-        arq.write(linha)
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data) + "\n")
+
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: A configuração da correção dos desvios
+        :rtype: int
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
 
 
-class BlocoCurvaAversao(Bloco):
+class BlocoCurvaAversao(Section):
     """
     Bloco com a consideração da curva de penalização por VminP,
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
-    str_inicio = "C.AVERSAO/PENAL.VMINP"
-    str_fim = "(=0 SEM CAR E VMINP; =1  CAR E/OU VMINP)"
-
-    def __init__(self):
-
-        super().__init__(
-            BlocoCurvaAversao.str_inicio, BlocoCurvaAversao.str_fim, True
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(40, 28)]
         )
 
-        self._dados = 0
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoCurvaAversao):
+            return False
+        bloco: BlocoCurvaAversao = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
 
-    # Override
-    def le(self, arq: IO):
-        reg = RegistroIn(4)
-        self._dados = reg.le_registro(self._linha_inicio, 21)
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
 
-    # Override
-    def escreve(self, arq: IO):
-        dado = str(self._dados).rjust(4)
-        linha = (
-            f"{BlocoCurvaAversao.str_inicio.ljust(21)}"
-            + f"{dado}   {BlocoCurvaAversao.str_fim}\n"
-        )
-        arq.write(linha)
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data) + "\n")
+
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: A configuração da curva de aversão
+        :rtype: int
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
 
 
-class BlocoTipoGeracaoENA(Bloco):
+class BlocoTipoGeracaoENA(Section):
     """
     Bloco com a consideração do tipo de geração de ENA,
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
-    str_inicio = "TIPO DE GERACAO ENAS"
-    str_fim = "(=0 RUIDOS FW SORTEADOS DA BW E COMPENSACAO CORREL.ESPACIAL; =1 COMPENS.BW; =2 COMPENS.BW E FW)"  # noqa
-
-    def __init__(self):
-
-        super().__init__(
-            BlocoTipoGeracaoENA.str_inicio, BlocoTipoGeracaoENA.str_fim, True
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(95, 28)]
         )
 
-        self._dados = 0
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoTipoGeracaoENA):
+            return False
+        bloco: BlocoTipoGeracaoENA = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
 
-    # Override
-    def le(self, arq: IO):
-        reg = RegistroIn(4)
-        self._dados = reg.le_registro(self._linha_inicio, 21)
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
 
-    # Override
-    def escreve(self, arq: IO):
-        dado = str(self._dados).rjust(4)
-        linha = (
-            f"{BlocoTipoGeracaoENA.str_inicio.ljust(21)}"
-            + f"{dado}   {BlocoTipoGeracaoENA.str_fim}\n"
-        )
-        arq.write(linha)
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data) + "\n")
+
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: A configuração da geração das ENAs
+        :rtype: int
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
 
 
-class BlocoRiscoDeficit(Bloco):
+class BlocoRiscoDeficit(Section):
     """
     Bloco com o uso e a forma de consideração do risco de déficit,
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
-    str_inicio = "RISCO DE DEFICIT"
-    str_fim = ""
-
-    def __init__(self):
-
-        super().__init__(
-            BlocoRiscoDeficit.str_inicio, BlocoRiscoDeficit.str_fim, True
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(21, 0), FloatField(4, 21, 1), FloatField(4, 27, 1)]
         )
-
-        self._dados = [0, 0]
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoRiscoDeficit):
             return False
         bloco: BlocoRiscoDeficit = o
-        return all([d1 == d2 for d1, d2 in zip(self._dados, bloco._dados)])
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
 
-    # Override
-    def le(self, arq: IO):
-        reg = RegistroFn(4)
-        self._dados[0] = reg.le_registro(self._linha_inicio, 21)
-        self._dados[1] = reg.le_registro(self._linha_inicio, 27)
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
 
-    # Override
-    def escreve(self, arq: IO):
-        prof1 = str(f"{self._dados[0]:2.1f}").rjust(4)
-        prof2 = str(f"{self._dados[1]:2.1f}").rjust(4)
-        linha = (
-            f"{BlocoRiscoDeficit.str_inicio.ljust(21)}"
-            + f"{prof1}  {prof2} {BlocoRiscoDeficit.str_fim}\n"
-        )
-        arq.write(linha)
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data) + "\n")
+
+    @property
+    def valores(self) -> List[Optional[float]]:
+        """
+        Os valores da opção configurada
+
+        :return: As profundidades dos riscos de déficit
+        :rtype: List[float]
+        """
+        return self.data[1:]
+
+    @valores.setter
+    def valores(self, v: List[float]):
+        self.data = [self.data[0]] + v
 
 
-class BlocoIteracaoParaSimFinal(Bloco):
+class BlocoIteracaoParaSimFinal(Section):
     """
     Bloco com a consideração da iteração para simulação final,
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
-    str_inicio = "ITERACAO P/SIM.FINAL"
-    str_fim = "(=0 CONSIDERA TODAS AS ITERACOES)"
-
-    def __init__(self):
-
-        super().__init__(
-            BlocoIteracaoParaSimFinal.str_inicio,
-            BlocoIteracaoParaSimFinal.str_fim,
-            True,
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(33, 28)]
         )
 
-        self._dados = 0
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoIteracaoParaSimFinal):
+            return False
+        bloco: BlocoIteracaoParaSimFinal = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
 
-    # Override
-    def le(self, arq: IO):
-        reg = RegistroIn(4)
-        self._dados = reg.le_registro(self._linha_inicio, 21)
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
 
-    # Override
-    def escreve(self, arq: IO):
-        dado = str(self._dados).rjust(4)
-        linha = (
-            f"{BlocoIteracaoParaSimFinal.str_inicio.ljust(21)}"
-            + f"{dado}   {BlocoIteracaoParaSimFinal.str_fim}\n"
-        )
-        arq.write(linha)
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data) + "\n")
+
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: A iteração a partir para simulação final
+        :rtype: int
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
 
 
-class BlocoAgrupamentoLivre(Bloco):
+class BlocoAgrupamentoLivre(Section):
     """
     Bloco com a consideração do agrupamento de intercâmbios,
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
-    str_inicio = "AGRUPAMENTO LIVRE"
-    str_fim = "(=0 NAO CONSIDERA, =1 CONSIDERA)"
-
-    def __init__(self):
-
-        super().__init__(
-            BlocoAgrupamentoLivre.str_inicio,
-            BlocoAgrupamentoLivre.str_fim,
-            True,
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(33, 28)]
         )
 
-        self._dados = 0
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoAgrupamentoLivre):
+            return False
+        bloco: BlocoAgrupamentoLivre = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
 
-    # Override
-    def le(self, arq: IO):
-        reg = RegistroIn(4)
-        self._dados = reg.le_registro(self._linha_inicio, 21)
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
 
-    # Override
-    def escreve(self, arq: IO):
-        dado = str(self._dados).rjust(4)
-        linha = (
-            f"{BlocoAgrupamentoLivre.str_inicio.ljust(21)}"
-            + f"{dado}   {BlocoAgrupamentoLivre.str_fim}\n"
-        )
-        arq.write(linha)
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data) + "\n")
+
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: A consideração ou não do agrupamento
+        :rtype: int
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
 
 
-class BlocoEqualizacaoPenalInt(Bloco):
+class BlocoEqualizacaoPenalInt(Section):
     """
     Bloco com a consideração da equalização da penalização de intercâmbios,
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
-    str_inicio = "EQUALIZACAO PEN.INT."
-    str_fim = "(FLAG DESABILITADO)"
-
-    def __init__(self):
-
-        super().__init__(
-            BlocoEqualizacaoPenalInt.str_inicio,
-            BlocoEqualizacaoPenalInt.str_fim,
-            True,
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(19, 28)]
         )
 
-        self._dados = 0
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoEqualizacaoPenalInt):
+            return False
+        bloco: BlocoEqualizacaoPenalInt = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
 
-    # Override
-    def le(self, arq: IO):
-        reg = RegistroIn(4)
-        self._dados = reg.le_registro(self._linha_inicio, 21)
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
 
-    # Override
-    def escreve(self, arq: IO):
-        dado = str(self._dados).rjust(4)
-        linha = (
-            f"{BlocoEqualizacaoPenalInt.str_inicio.ljust(21)}"
-            + f"{dado}   {BlocoEqualizacaoPenalInt.str_fim}\n"
-        )
-        arq.write(linha)
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data) + "\n")
+
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: A equalização da penalização do intercâmbio
+        :rtype: int
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
 
 
-class BlocoRepresentacaoSubmot(Bloco):
+class BlocoRepresentacaoSubmot(Section):
     """
     Bloco com a consideração da representação de submotorização,
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
-    str_inicio = "REPRESENT.SUBMOT."
-    str_fim = "(=0 NAO CONSIDERA , =1 CONSIDERA SUBSISTEMA, =2 CONSIDERA USINA)"  # noqa
-
-    def __init__(self):
-
-        super().__init__(
-            BlocoRepresentacaoSubmot.str_inicio,
-            BlocoRepresentacaoSubmot.str_fim,
-            True,
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(43, 28)]
         )
 
-        self._dados = 0
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoRepresentacaoSubmot):
+            return False
+        bloco: BlocoRepresentacaoSubmot = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
 
-    # Override
-    def le(self, arq: IO):
-        reg = RegistroIn(4)
-        self._dados = reg.le_registro(self._linha_inicio, 21)
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
 
-    # Override
-    def escreve(self, arq: IO):
-        dado = str(self._dados).rjust(4)
-        linha = (
-            f"{BlocoRepresentacaoSubmot.str_inicio.ljust(21)}"
-            + f"{dado}   {BlocoRepresentacaoSubmot.str_fim}\n"
-        )
-        arq.write(linha)
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data) + "\n")
+
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: A representação da submotorização
+        :rtype: int
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
 
 
-class BlocoOrdenacaoAutomatica(Bloco):
+class BlocoOrdenacaoAutomatica(Section):
     """
     Bloco com a consideração da ordenação automática,
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
-    str_inicio = "ORDENACAO AUTOMATICA"
-    str_fim = "(=0 NAO CONSIDERA; =1 CONSIDERA)"
-
-    def __init__(self):
-
-        super().__init__(
-            BlocoOrdenacaoAutomatica.str_inicio,
-            BlocoOrdenacaoAutomatica.str_fim,
-            True,
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(32, 28)]
         )
 
-        self._dados = 0
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoOrdenacaoAutomatica):
+            return False
+        bloco: BlocoOrdenacaoAutomatica = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
 
-    # Override
-    def le(self, arq: IO):
-        reg = RegistroIn(4)
-        self._dados = reg.le_registro(self._linha_inicio, 21)
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
 
-    # Override
-    def escreve(self, arq: IO):
-        dado = str(self._dados).rjust(4)
-        linha = (
-            f"{BlocoOrdenacaoAutomatica.str_inicio.ljust(21)}"
-            + f"{dado}   {BlocoOrdenacaoAutomatica.str_fim}\n"
-        )
-        arq.write(linha)
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data) + "\n")
+
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: A consideração da ordenação automática
+        :rtype: int
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
 
 
-class BlocoConsideraCargaAdicional(Bloco):
+class BlocoConsideraCargaAdicional(Section):
     """
     Bloco com a consideração de cargas adicionais,
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
-    str_inicio = "CONS. CARGA ADICIONAL"
-    str_fim = "(=0 NAO CONSIDERA; =1 CONSIDERA)"
-
-    def __init__(self):
-
-        super().__init__(
-            BlocoConsideraCargaAdicional.str_inicio,
-            BlocoConsideraCargaAdicional.str_fim,
-            True,
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(32, 28)]
         )
 
-        self._dados = 0
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoConsideraCargaAdicional):
+            return False
+        bloco: BlocoConsideraCargaAdicional = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
 
-    # Override
-    def le(self, arq: IO):
-        reg = RegistroIn(4)
-        self._dados = reg.le_registro(self._linha_inicio, 21)
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
 
-    # Override
-    def escreve(self, arq: IO):
-        dado = str(self._dados).rjust(4)
-        linha = (
-            f"{BlocoConsideraCargaAdicional.str_inicio.ljust(21)}"
-            + f"{dado}   {BlocoConsideraCargaAdicional.str_fim}\n"
-        )
-        arq.write(linha)
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data) + "\n")
+
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: A consideração da carga adicional
+        :rtype: int
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
 
 
-class BlocoDeltaZSUP(Bloco):
+class BlocoDeltaZSUP(Section):
     """
     Bloco com a tolerância de variação do Zsup,
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
-    str_inicio = "DELTA ZSUP"
-    str_fim = "(VALOR EM PERCENTUAL)"
-
-    def __init__(self):
-
-        super().__init__(
-            BlocoDeltaZSUP.str_inicio, BlocoDeltaZSUP.str_fim, True
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(21, 0), FloatField(4, 21, 0), LiteralField(21, 28)]
         )
 
-        self._dados = 0.0
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoDeltaZSUP):
+            return False
+        bloco: BlocoDeltaZSUP = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
 
-    # Override
-    def le(self, arq: IO):
-        reg = RegistroFn(4)
-        self._dados = reg.le_registro(self._linha_inicio, 21)
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
 
-    # Override
-    def escreve(self, arq: IO):
-        dado = str(f"{self._dados:2.1f}").rjust(4)
-        linha = (
-            f"{BlocoDeltaZSUP.str_inicio.ljust(21)}"
-            + f"{dado}   {BlocoDeltaZSUP.str_fim}\n"
-        )
-        arq.write(linha)
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data) + "\n")
+
+    @property
+    def valor(self) -> Optional[float]:
+        """
+        O valor da opção configurada
+
+        :return: O fator de correção aplicado ao Zsup
+        :rtype: float
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: float):
+        self.data[1] = v
 
 
-class BlocoDeltaZINF(Bloco):
+class BlocoDeltaZINF(Section):
     """
     Bloco com a tolerância de variação do Zinf,
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
-    str_inicio = "DELTA ZINF"
-    str_fim = "(VALOR EM PERCENTUAL)"
-
-    def __init__(self):
-
-        super().__init__(
-            BlocoDeltaZINF.str_inicio, BlocoDeltaZINF.str_fim, True
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(21, 0), FloatField(4, 21, 1), LiteralField(21, 28)]
         )
 
-        self._dados = 0.0
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoDeltaZINF):
+            return False
+        bloco: BlocoDeltaZINF = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
 
-    # Override
-    def le(self, arq: IO):
-        reg = RegistroFn(4)
-        self._dados = reg.le_registro(self._linha_inicio, 21)
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
 
-    # Override
-    def escreve(self, arq: IO):
-        dado = str(f"{self._dados:2.1f}").rjust(4)
-        linha = (
-            f"{BlocoDeltaZINF.str_inicio.ljust(21)}"
-            + f"{dado}   {BlocoDeltaZINF.str_fim}\n"
-        )
-        arq.write(linha)
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data) + "\n")
+
+    @property
+    def valor(self) -> Optional[float]:
+        """
+        O valor da opção configurada
+
+        :return: A tolerância de consideração do Zinf para parada
+        :rtype: float
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: float):
+        self.data[1] = v
 
 
-class BlocoDeltasConsecutivos(Bloco):
+class BlocoDeltasConsecutivos(Section):
     """
     Bloco com o número de deltas consecutivos para covnergência,
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
-    str_inicio = "DELTAS CONSECUT."
-    str_fim = ""
-
-    def __init__(self):
-
-        super().__init__(
-            BlocoDeltasConsecutivos.str_inicio,
-            BlocoDeltasConsecutivos.str_fim,
-            True,
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(1, 24)]
         )
 
-        self._dados = 0
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoDeltasConsecutivos):
+            return False
+        bloco: BlocoDeltasConsecutivos = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
 
-    # Override
-    def le(self, arq: IO):
-        reg = RegistroIn(4)
-        self._dados = reg.le_registro(self._linha_inicio, 21)
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
 
-    # Override
-    def escreve(self, arq: IO):
-        dado = str(self._dados).rjust(4)
-        linha = (
-            f"{BlocoDeltasConsecutivos.str_inicio.ljust(21)}"
-            + f"{dado}{BlocoDeltasConsecutivos.str_fim}\n"
-        )
-        arq.write(linha)
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data) + "\n")
+
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: O número de deltas consecutivos para parada
+        :rtype: int
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
 
 
-class BlocoDespachoAntecipadoGNL(Bloco):
+class BlocoDespachoAntecipadoGNL(Section):
     """
     Bloco com a consideração de despacho antecipado,
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
-    str_inicio = "DESP. ANTEC.  GNL"
-    str_fim = "(=0 NAO CONSIDERA; =1 CONSIDERA)"
-
-    def __init__(self):
-
-        super().__init__(
-            BlocoDespachoAntecipadoGNL.str_inicio,
-            BlocoDespachoAntecipadoGNL.str_fim,
-            True,
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(33, 28)]
         )
 
-        self._dados = 0
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoDespachoAntecipadoGNL):
+            return False
+        bloco: BlocoDespachoAntecipadoGNL = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
 
-    # Override
-    def le(self, arq: IO):
-        reg = RegistroIn(4)
-        self._dados = reg.le_registro(self._linha_inicio, 21)
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
 
-    # Override
-    def escreve(self, arq: IO):
-        dado = str(self._dados).rjust(4)
-        linha = (
-            f"{BlocoDespachoAntecipadoGNL.str_inicio.ljust(21)}"
-            + f"{dado}   {BlocoDespachoAntecipadoGNL.str_fim}\n"
-        )
-        arq.write(linha)
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data) + "\n")
+
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: A consideração do despacho antecipado
+        :rtype: int
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
 
 
-class BlocoModifAutomaticaAdTerm(Bloco):
+class BlocoModifAutomaticaAdTerm(Section):
     """
     Bloco com a consideração sobre modificação automática de adiantamento
     de térmicas, existente no arquivo `dger.dat` do NEWAVE.
     """
 
-    str_inicio = "MODIF.AUTOM.ADTERM"
-    str_fim = "(=0 NAO CONSIDERA; =1 CONSIDERA)"
-
-    def __init__(self):
-
-        super().__init__(
-            BlocoModifAutomaticaAdTerm.str_inicio,
-            BlocoModifAutomaticaAdTerm.str_fim,
-            True,
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(33, 28)]
         )
 
-        self._dados = 0
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoModifAutomaticaAdTerm):
+            return False
+        bloco: BlocoModifAutomaticaAdTerm = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
 
-    # Override
-    def le(self, arq: IO):
-        reg = RegistroIn(4)
-        self._dados = reg.le_registro(self._linha_inicio, 21)
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
 
-    # Override
-    def escreve(self, arq: IO):
-        dado = str(self._dados).rjust(4)
-        linha = (
-            f"{BlocoModifAutomaticaAdTerm.str_inicio.ljust(21)}"
-            + f"{dado}   {BlocoModifAutomaticaAdTerm.str_fim}\n"
-        )
-        arq.write(linha)
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data) + "\n")
+
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: A modificação automática do AdTerm
+        :rtype: int
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
 
 
-class BlocoGeracaoHidraulicaMin(Bloco):
+class BlocoGeracaoHidraulicaMin(Section):
     """
     Bloco com a consideração de geração hidraulica mínima,
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
-    str_inicio = "CONSIDERA GHMIN"
-    str_fim = "(=0 NAO CONSIDERA; =1 CONSIDERA)"
-
-    def __init__(self):
-
-        super().__init__(
-            BlocoGeracaoHidraulicaMin.str_inicio,
-            BlocoGeracaoHidraulicaMin.str_fim,
-            True,
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(33, 28)]
         )
 
-        self._dados = 0
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoGeracaoHidraulicaMin):
+            return False
+        bloco: BlocoGeracaoHidraulicaMin = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
 
-    # Override
-    def le(self, arq: IO):
-        reg = RegistroIn(4)
-        self._dados = reg.le_registro(self._linha_inicio, 21)
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
 
-    # Override
-    def escreve(self, arq: IO):
-        dado = str(self._dados).rjust(4)
-        linha = (
-            f"{BlocoGeracaoHidraulicaMin.str_inicio.ljust(21)}"
-            + f"{dado}   {BlocoGeracaoHidraulicaMin.str_fim}\n"
-        )
-        arq.write(linha)
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data) + "\n")
+
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: A consideração da geração hidráulica mínima
+        :rtype: int
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
 
 
-class BlocoSimFinalComData(Bloco):
+class BlocoSimFinalComData(Section):
     """
     Bloco com a consideração da data na simulação final,
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
-    str_inicio = "S.F. COM DATA"
-    str_fim = ""
-
-    def __init__(self):
-
-        super().__init__(
-            BlocoSimFinalComData.str_inicio, BlocoSimFinalComData.str_fim, True
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(33, 28)]
         )
 
-        self._dados = 0
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoSimFinalComData):
+            return False
+        bloco: BlocoSimFinalComData = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
 
-    # Override
-    def le(self, arq: IO):
-        reg = RegistroIn(4)
-        self._dados = reg.le_registro(self._linha_inicio, 21)
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
 
-    # Override
-    def escreve(self, arq: IO):
-        dado = str(self._dados).rjust(4)
-        linha = (
-            f"{BlocoSimFinalComData.str_inicio.ljust(21)}"
-            + f"{dado}   {BlocoSimFinalComData.str_fim}\n"
-        )
-        arq.write(linha)
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data) + "\n")
+
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: O uso da data na simulação final
+        :rtype: int
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
 
 
-class BlocoGerenciamentoPLs(Bloco):
+class BlocoGerenciamentoPLs(Section):
     """
     Bloco com as configurações do gerenciamento de PLs
     aberturas variáveis, existente no arquivo `dger.dat` do NEWAVE.
     """
 
-    str_inicio = "GER.PLs E NV1 E NV2"
-    str_fim = "(=0 NAO CONSIDERA , =1 CONSIDERA)"
-
-    def __init__(self):
-
-        super().__init__(
-            BlocoGerenciamentoPLs.str_inicio,
-            BlocoGerenciamentoPLs.str_fim,
-            True,
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0),
+             IntegerField(1, 24),
+             IntegerField(1, 29),
+             IntegerField(1, 34),
+             IntegerField(1, 39),
+             IntegerField(1, 44),
+             LiteralField(33, 28)]
         )
-
-        self._dados = [0, 0, 0, 0, 0]
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoGerenciamentoPLs):
             return False
         bloco: BlocoGerenciamentoPLs = o
-        return all([d1 == d2 for d1, d2 in zip(self._dados, bloco._dados)])
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
 
-    # Override
-    def le(self, arq: IO):
-        reg = RegistroIn(4)
-        self._dados = reg.le_linha_tabela(self._linha_inicio, 21, 1, 5)
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
 
-    # Override
-    def escreve(self, arq: IO):
-        dado = ""
-        for d in self._dados:
-            dado += f"{str(d).rjust(4)} "
-        linha = (
-            f"{BlocoGerenciamentoPLs.str_inicio.ljust(21)}"
-            + f"{dado} {BlocoGerenciamentoPLs.str_fim}\n"
-        )
-        arq.write(linha)
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data) + "\n")
+
+    @property
+    def valor(self) -> List[Optional[int]]:
+        """
+        O valor da opção configurada
+
+        :return: A consideração da geração hidráulica mínima
+        :rtype: List[int]
+        """
+        return self.data[1:6]
+
+    @valor.setter
+    def valor(self, v: List[int]):
+        self.data = [self.data[0]] + v + self.data[6]
 
 
-class BlocoSAR(Bloco):
+class BlocoSAR(Section):
     """
     Bloco com a configuração para uso da SAR,
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
-    str_inicio = "SAR"
-    str_fim = "(=0 NAO CONSIDERA , =1 CONSIDERA)"
-
-    def __init__(self):
-
-        super().__init__(BlocoSAR.str_inicio, BlocoSAR.str_fim, True)
-
-        self._dados = 0
-
-    # Override
-    def le(self, arq: IO):
-        reg = RegistroIn(4)
-        self._dados = reg.le_registro(self._linha_inicio, 21)
-
-    # Override
-    def escreve(self, arq: IO):
-        dado = str(self._dados).rjust(4)
-        linha = (
-            f"{BlocoSAR.str_inicio.ljust(21)}"
-            + f"{dado}   {BlocoSAR.str_fim}\n"
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(33, 28)]
         )
-        arq.write(linha)
+
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoSAR):
+            return False
+        bloco: BlocoSAR = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
+
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
+
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data) + "\n")
+
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: A consideração da SAR
+        :rtype: int
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
 
 
-class BlocoCVAR(Bloco):
+class BlocoCVAR(Section):
     """
     Bloco com a configuração para uso do CVAR,
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
-    str_inicio = "CVAR"
-    str_fim = "(=0 NAO CONSIDERA , =1 CONSIDERA CTE TEMPO, =2 CONSIDERA VARIAVEL NO TEMP)"  # noqa
-
-    def __init__(self):
-
-        super().__init__(BlocoCVAR.str_inicio, BlocoCVAR.str_fim, True)
-
-        self._dados = 0
-
-    # Override
-    def le(self, arq: IO):
-        reg = RegistroIn(4)
-        self._dados = reg.le_registro(self._linha_inicio, 21)
-
-    # Override
-    def escreve(self, arq: IO):
-        dado = str(self._dados).rjust(4)
-        linha = (
-            f"{BlocoCVAR.str_inicio.ljust(21)}"
-            + f"{dado}   {BlocoCVAR.str_fim}\n"
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(74, 28)]
         )
-        arq.write(linha)
+
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoCVAR):
+            return False
+        bloco: BlocoCVAR = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
+
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
+
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data) + "\n")
+
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: A consideração do CVAR
+        :rtype: int
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
 
 
-class BlocoZSUPMinConvergencia(Bloco):
+class BlocoZSUPMinConvergencia(Section):
     """
     Bloco com a consideração do Zsup mínimo durante a convergência,
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
-    str_inicio = "CONS. ZSUP MIN. CONV."
-    str_fim = "(=0 NAO CONSIDERA , =1 CONSIDERA)"
-
-    def __init__(self):
-
-        super().__init__(
-            BlocoZSUPMinConvergencia.str_inicio,
-            BlocoZSUPMinConvergencia.str_fim,
-            True,
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(33, 28)]
         )
 
-        self._dados = 0
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoZSUPMinConvergencia):
+            return False
+        bloco: BlocoZSUPMinConvergencia = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
 
-    # Override
-    def le(self, arq: IO):
-        reg = RegistroIn(4)
-        self._dados = reg.le_registro(self._linha_inicio, 21)
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
 
-    # Override
-    def escreve(self, arq: IO):
-        dado = str(self._dados).rjust(4)
-        linha = (
-            f"{BlocoZSUPMinConvergencia.str_inicio.ljust(21)}"
-            + f"{dado}   {BlocoZSUPMinConvergencia.str_fim}\n"
-        )
-        arq.write(linha)
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data) + "\n")
+
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: A consideração do Zsup mínimo para convergência
+        :rtype: int
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
 
 
-class BlocoDesconsideraVazaoMinima(Bloco):
+class BlocoDesconsideraVazaoMinima(Section):
     """
     Bloco com a configuração para desconsiderar vazao mínima,
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
-    str_inicio = "DESCONSIDERA VAZMIN"
-    str_fim = "(=0 NAO , =1 SIM)"
-
-    def __init__(self):
-
-        super().__init__(
-            BlocoDesconsideraVazaoMinima.str_inicio,
-            BlocoDesconsideraVazaoMinima.str_fim,
-            True,
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(33, 28)]
         )
 
-        self._dados = 0
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoDesconsideraVazaoMinima):
+            return False
+        bloco: BlocoDesconsideraVazaoMinima = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
 
-    # Override
-    def le(self, arq: IO):
-        reg = RegistroIn(4)
-        self._dados = reg.le_registro(self._linha_inicio, 21)
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
 
-    # Override
-    def escreve(self, arq: IO):
-        dado = str(self._dados).rjust(4)
-        linha = (
-            f"{BlocoDesconsideraVazaoMinima.str_inicio.ljust(21)}"
-            + f"{dado}   {BlocoDesconsideraVazaoMinima.str_fim}\n"
-        )
-        arq.write(linha)
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data) + "\n")
+
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: A desconsideração da VAZMIN
+        :rtype: int
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
 
 
-class BlocoRestricoesEletricas(Bloco):
+class BlocoRestricoesEletricas(Section):
     """
     Bloco com a consideração de restrições elétricas,
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
-    str_inicio = "RESTRICOES ELETRICAS"
-    str_fim = "(=0 NAO CONSIDERA , =1 CONSIDERA)"
-
-    def __init__(self):
-
-        super().__init__(
-            BlocoRestricoesEletricas.str_inicio,
-            BlocoRestricoesEletricas.str_fim,
-            True,
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(33, 28)]
         )
 
-        self._dados = 0
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoRestricoesEletricas):
+            return False
+        bloco: BlocoRestricoesEletricas = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
 
-    # Override
-    def le(self, arq: IO):
-        reg = RegistroIn(4)
-        self._dados = reg.le_registro(self._linha_inicio, 21)
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
 
-    # Override
-    def escreve(self, arq: IO):
-        dado = str(self._dados).rjust(4)
-        linha = (
-            f"{BlocoRestricoesEletricas.str_inicio.ljust(21)}"
-            + f"{dado}   {BlocoRestricoesEletricas.str_fim}\n"
-        )
-        arq.write(linha)
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data) + "\n")
+
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: A consideração de restrições elétricas
+        :rtype: int
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
 
 
-class BlocoSelecaoCortes(Bloco):
+class BlocoSelecaoCortes(Section):
     """
     Bloco com a consideração da seleção de cortes,
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
-    str_inicio = "SELECAO DE CORTES"
-    str_fim = "(=0 NAO CONSIDERA , =1 CONSIDERA)"
-
-    def __init__(self):
-
-        super().__init__(
-            BlocoSelecaoCortes.str_inicio, BlocoSelecaoCortes.str_fim, True
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(33, 28)]
         )
 
-        self._dados = 0
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoSelecaoCortes):
+            return False
+        bloco: BlocoSelecaoCortes = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
 
-    # Override
-    def le(self, arq: IO):
-        reg = RegistroIn(4)
-        self._dados = reg.le_registro(self._linha_inicio, 21)
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
 
-    # Override
-    def escreve(self, arq: IO):
-        dado = str(self._dados).rjust(4)
-        linha = (
-            f"{BlocoSelecaoCortes.str_inicio.ljust(21)}"
-            + f"{dado}   {BlocoSelecaoCortes.str_fim}\n"
-        )
-        arq.write(linha)
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data) + "\n")
+
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: A consideração da seleção de cortes
+        :rtype: int
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
 
 
-class BlocoJanelaCortes(Bloco):
+class BlocoJanelaCortes(Section):
     """
     Bloco com a consideração da janela de cortes,
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
-    str_inicio = "JANELA DE CORTES"
-    str_fim = "(=0 NAO CONSIDERA , =1 CONSIDERA)"
-
-    def __init__(self):
-
-        super().__init__(
-            BlocoJanelaCortes.str_inicio, BlocoJanelaCortes.str_fim, True
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(33, 28)]
         )
 
-        self._dados = 0
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoJanelaCortes):
+            return False
+        bloco: BlocoJanelaCortes = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
 
-    # Override
-    def le(self, arq: IO):
-        reg = RegistroIn(4)
-        self._dados = reg.le_registro(self._linha_inicio, 21)
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
 
-    # Override
-    def escreve(self, arq: IO):
-        dado = str(self._dados).rjust(4)
-        linha = (
-            f"{BlocoJanelaCortes.str_inicio.ljust(21)}"
-            + f"{dado}   {BlocoJanelaCortes.str_fim}\n"
-        )
-        arq.write(linha)
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data) + "\n")
+
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: A consideração da janela de cortes
+        :rtype: int
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
 
 
-class BlocoReamostragemCenarios(Bloco):
+
+class BlocoReamostragemCenarios(Section):
     """
     Bloco com as configurações de reamostragem de cenários,
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
-    str_inicio = "REAMOST. CENARIOS"
-    str_fim = "(UTILIZA REAMOSTRAGEM: =0 NAO; =1 SIM     TIPO: =0 RECOMB; =1 PLENA     PASSO: 0 - 45 )"  # noqa
-
-    def __init__(self):
-
-        super().__init__(
-            BlocoReamostragemCenarios.str_inicio,
-            BlocoReamostragemCenarios.str_fim,
-            True,
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(4, 21), IntegerField(4, 26), IntegerField(4, 31), LiteralField(87, 39)]
         )
-
-        self._dados = [0, 0, 0]
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoReamostragemCenarios):
             return False
         bloco: BlocoReamostragemCenarios = o
-        return all([d1 == d2 for d1, d2 in zip(self._dados, bloco._dados)])
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
 
-    # Override
-    def le(self, arq: IO):
-        reg = RegistroIn(4)
-        self._dados = reg.le_linha_tabela(self._linha_inicio, 21, 1, 3)
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
 
-    # Override
-    def escreve(self, arq: IO):
-        dado = ""
-        for d in self._dados:
-            dado += f"{str(d).zfill(4)} "
-        linha = (
-            f"{BlocoReamostragemCenarios.str_inicio.ljust(21)}"
-            + f"{dado} {BlocoReamostragemCenarios.str_fim}\n"
-        )
-        arq.write(linha)
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data) + "\n")
+
+    @property
+    def valor(self) -> List[Optional[int]]:
+        """
+        O valor da opção configurada
+
+        :return: As configurações de reamostragem dos cenários
+        :rtype: List[int]
+        """
+        return self.data[1:4]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data = [self.data[0]] + v + [self.data[4]]
 
 
-class BlocoConvergeNoZero(Bloco):
+class BlocoConvergeNoZero(Section):
     """
     Bloco com a consideração da convergência no 0,
     existente no arquivo `dger.dat` do NEWAVE.
     """
-
-    str_inicio = "CONVERGE NO ZERO"
-    str_fim = "(=0 CONVERGENCIA TRADICIONAL, =1 CONVERGENCIA CALCULADA NO ZERO)"  # noqa
-
-    def __init__(self):
-
-        super().__init__(
-            BlocoConvergeNoZero.str_inicio, BlocoConvergeNoZero.str_fim, True
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(64, 28)]
         )
 
-        self._dados = 0
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoConvergeNoZero):
+            return False
+        bloco: BlocoConvergeNoZero = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
 
-    # Override
-    def le(self, arq: IO):
-        reg = RegistroIn(4)
-        self._dados = reg.le_registro(self._linha_inicio, 21)
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
 
-    # Override
-    def escreve(self, arq: IO):
-        dado = str(self._dados).rjust(4)
-        linha = (
-            f"{BlocoConvergeNoZero.str_inicio.ljust(21)}"
-            + f"{dado}   {BlocoConvergeNoZero.str_fim}\n"
-        )
-        arq.write(linha)
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data) + "\n")
+
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: O cálculo da convergência no zero ou não
+        :rtype: int
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
 
 
-class BlocoConsultaFCF(Bloco):
+class BlocoConsultaFCF(Section):
     """
     Bloco com a consideração da consulta à FCF,
     existente no arquivo `dger.dat` do NEWAVE.
     """
-
-    str_inicio = "CONSULTA FCF"
-    str_fim = "(=0 NAO CONSIDERA , =1 CONSIDERA)"
-
-    def __init__(self):
-
-        super().__init__(
-            BlocoConsultaFCF.str_inicio, BlocoConsultaFCF.str_fim, True
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(33, 28)]
         )
 
-        self._dados = 0
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoConsultaFCF):
+            return False
+        bloco: BlocoConsultaFCF = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
 
-    # Override
-    def le(self, arq: IO):
-        reg = RegistroIn(4)
-        self._dados = reg.le_registro(self._linha_inicio, 21)
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
 
-    # Override
-    def escreve(self, arq: IO):
-        dado = str(self._dados).rjust(4)
-        linha = (
-            f"{BlocoConsultaFCF.str_inicio.ljust(21)}"
-            + f"{dado}   {BlocoConsultaFCF.str_fim}\n"
-        )
-        arq.write(linha)
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data) + "\n")
+
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: A consideração ou não da consulta à FCF
+        :rtype: int
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
 
 
-class BlocoImpressaoENA(Bloco):
+class BlocoImpressaoENA(Section):
     """
     Bloco com a consideração da impressão da ENA,
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
-    str_inicio = "IMPRESSAO ENA"
-    str_fim = "(=0 NAO IMPRIME , =1 IMPRIME)"
-
-    def __init__(self):
-
-        super().__init__(
-            BlocoImpressaoENA.str_inicio, BlocoImpressaoENA.str_fim, True
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(29, 28)]
         )
 
-        self._dados = 0
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoImpressaoENA):
+            return False
+        bloco: BlocoImpressaoENA = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
 
-    # Override
-    def le(self, arq: IO):
-        reg = RegistroIn(4)
-        self._dados = reg.le_registro(self._linha_inicio, 21)
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
 
-    # Override
-    def escreve(self, arq: IO):
-        dado = str(self._dados).zfill(4)
-        linha = (
-            f"{BlocoImpressaoENA.str_inicio.ljust(21)}"
-            + f"{dado}   {BlocoImpressaoENA.str_fim}\n"
-        )
-        arq.write(linha)
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data) + "\n")
+
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: A impressão ou não da ENA
+        :rtype: int
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
 
 
-class BlocoImpressaoCortesAtivosSimFinal(Bloco):
+class BlocoImpressaoCortesAtivosSimFinal(Section):
     """
     Bloco com a consideração da impressão dos cortes ativos
     na simulação final, existente no arquivo `dger.dat` do NEWAVE.
     """
 
-    str_inicio = "IMP. CATIVO S.FINAL"
-    str_fim = "(=0 NAO IMPRIME , =1 IMPRIME)"
-
-    def __init__(self):
-
-        super().__init__(
-            BlocoImpressaoCortesAtivosSimFinal.str_inicio,
-            BlocoImpressaoCortesAtivosSimFinal.str_fim,
-            True,
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(29, 28)]
         )
 
-        self._dados = 0
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoImpressaoCortesAtivosSimFinal):
+            return False
+        bloco: BlocoImpressaoCortesAtivosSimFinal = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
 
-    # Override
-    def le(self, arq: IO):
-        reg = RegistroIn(4)
-        self._dados = reg.le_registro(self._linha_inicio, 21)
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
 
-    # Override
-    def escreve(self, arq: IO):
-        dado = str(self._dados).zfill(4)
-        linha = (
-            f"{BlocoImpressaoCortesAtivosSimFinal.str_inicio.ljust(21)}"
-            + f"{dado}   {BlocoImpressaoCortesAtivosSimFinal.str_fim}\n"
-        )
-        arq.write(linha)
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data) + "\n")
+
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: A impressão ou não dos cortes ativos
+        :rtype: int
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
 
 
-class BlocoRepresentacaoAgregacao(Bloco):
+class BlocoRepresentacaoAgregacao(Section):
     """
     Bloco com a representação da agregação,
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
-    str_inicio = "REP. AGREGACAO"
-    str_fim = "(=0 MAIS PROXIMO, =1 CENTROIDE)"
-
-    def __init__(self):
-
-        super().__init__(
-            BlocoRepresentacaoAgregacao.str_inicio,
-            BlocoRepresentacaoAgregacao.str_fim,
-            True,
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(31, 28)]
         )
 
-        self._dados = 0
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoRepresentacaoAgregacao):
+            return False
+        bloco: BlocoRepresentacaoAgregacao = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
 
-    # Override
-    def le(self, arq: IO):
-        reg = RegistroIn(4)
-        self._dados = reg.le_registro(self._linha_inicio, 21)
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
 
-    # Override
-    def escreve(self, arq: IO):
-        dado = str(self._dados).zfill(4)
-        linha = (
-            f"{BlocoRepresentacaoAgregacao.str_inicio.ljust(21)}"
-            + f"{dado}   {BlocoRepresentacaoAgregacao.str_fim}\n"
-        )
-        arq.write(linha)
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data) + "\n")
+
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: A forma de representação da agregação
+        :rtype: int
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
 
 
-class BlocoMatrizCorrelacaoEspacial(Bloco):
+class BlocoMatrizCorrelacaoEspacial(Section):
     """
     Bloco com a representação da correlação espacial,
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
-    str_inicio = "MATRIZ CORR.ESPACIAL"
-    str_fim = "(=0 ANUAL, =1 MENSAL)"
-
-    def __init__(self):
-
-        super().__init__(
-            BlocoMatrizCorrelacaoEspacial.str_inicio,
-            BlocoMatrizCorrelacaoEspacial.str_fim,
-            True,
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(21, 28)]
         )
 
-        self._dados = 0
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoMatrizCorrelacaoEspacial):
+            return False
+        bloco: BlocoMatrizCorrelacaoEspacial = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
 
-    # Override
-    def le(self, arq: IO):
-        reg = RegistroIn(4)
-        self._dados = reg.le_registro(self._linha_inicio, 21)
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
 
-    # Override
-    def escreve(self, arq: IO):
-        dado = str(self._dados).zfill(4)
-        linha = (
-            f"{BlocoMatrizCorrelacaoEspacial.str_inicio.ljust(21)}"
-            + f"{dado}   {BlocoMatrizCorrelacaoEspacial.str_fim}\n"
-        )
-        arq.write(linha)
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data) + "\n")
+
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: A forma de matriz de correlação espacial
+        :rtype: int
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
 
 
-class BlocoDesconsideraConvEstatistica(Bloco):
+class BlocoDesconsideraConvEstatistica(Section):
     """
     Bloco com a desconsideração do critério estatístico para convergência,
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
-    str_inicio = "DESCONS. CONV. ESTAT"
-    str_fim = "(=0 NAO, =1 SIM)"
-
-    def __init__(self):
-
-        super().__init__(
-            BlocoDesconsideraConvEstatistica.str_inicio,
-            BlocoDesconsideraConvEstatistica.str_fim,
-            True,
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(16, 28)]
         )
 
-        self._dados = 0
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoDesconsideraConvEstatistica):
+            return False
+        bloco: BlocoDesconsideraConvEstatistica = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
 
-    # Override
-    def le(self, arq: IO):
-        reg = RegistroIn(4)
-        self._dados = reg.le_registro(self._linha_inicio, 21)
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
 
-    # Override
-    def escreve(self, arq: IO):
-        dado = str(self._dados).zfill(4)
-        linha = (
-            f"{BlocoDesconsideraConvEstatistica.str_inicio.ljust(21)}"
-            + f"{dado}   {BlocoDesconsideraConvEstatistica.str_fim}\n"
-        )
-        arq.write(linha)
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data) + "\n")
+
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: A desconsideração do critério de convergência estatístico
+        :rtype: int
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
 
 
-class BlocoMomentoReamostragem(Bloco):
+class BlocoMomentoReamostragem(Section):
     """
     Bloco com a escolha do momento de reamostragem,
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
-    str_inicio = "MOMENTO REAMOSTRAGEM"
-    str_fim = "(=0 BACKWARD, =1 FORWARD)"
-
-    def __init__(self):
-
-        super().__init__(
-            BlocoMomentoReamostragem.str_inicio,
-            BlocoMomentoReamostragem.str_fim,
-            True,
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(25, 28)]
         )
 
-        self._dados = 0
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoMomentoReamostragem):
+            return False
+        bloco: BlocoMomentoReamostragem = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
 
-    # Override
-    def le(self, arq: IO):
-        reg = RegistroIn(4)
-        self._dados = reg.le_registro(self._linha_inicio, 21)
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
 
-    # Override
-    def escreve(self, arq: IO):
-        dado = str(self._dados).zfill(4)
-        linha = (
-            f"{BlocoMomentoReamostragem.str_inicio.ljust(21)}"
-            + f"{dado}   {BlocoMomentoReamostragem.str_fim}\n"
-        )
-        arq.write(linha)
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data) + "\n")
+
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: O momento da reamostragem
+        :rtype: int
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
 
 
-class BlocoMantemArquivosEnergias(Bloco):
+class BlocoMantemArquivosEnergias(Section):
     """
     Bloco com a escolha de manter ou não os arquivos de energias,
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
-    str_inicio = "ARQUIVOS ENA"
-    str_fim = "(=0 APAGA APOS EXECUCAO, =1 MANTEM)"
-
-    def __init__(self):
-
-        super().__init__(
-            BlocoMantemArquivosEnergias.str_inicio,
-            BlocoMantemArquivosEnergias.str_fim,
-            True,
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(35, 28)]
         )
 
-        self._dados = 0
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoMantemArquivosEnergias):
+            return False
+        bloco: BlocoMantemArquivosEnergias = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
 
-    # Override
-    def le(self, arq: IO):
-        reg = RegistroIn(4)
-        self._dados = reg.le_registro(self._linha_inicio, 21)
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
 
-    # Override
-    def escreve(self, arq: IO):
-        dado = str(self._dados).zfill(4)
-        linha = (
-            f"{BlocoMantemArquivosEnergias.str_inicio.ljust(21)}"
-            + f"{dado}   {BlocoMantemArquivosEnergias.str_fim}\n"
-        )
-        arq.write(linha)
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data) + "\n")
+
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: A manutenção ou não dos arquivos de ENA
+        :rtype: int
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
 
 
-class BlocoInicioTesteConvergencia(Bloco):
+class BlocoInicioTesteConvergencia(Section):
     """
     Bloco com a iteração de início para o teste de convergência,
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
-    str_inicio = "INICIO TESTE CONVERG."
-    str_fim = "(=0 PRIMEIRA ITERACAO, =1 ITERACAO MINIMA)"
-
-    def __init__(self):
-
-        super().__init__(
-            BlocoInicioTesteConvergencia.str_inicio,
-            BlocoInicioTesteConvergencia.str_fim,
-            True,
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(42, 28)]
         )
 
-        self._dados = 0
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoInicioTesteConvergencia):
+            return False
+        bloco: BlocoInicioTesteConvergencia = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
 
-    # Override
-    def le(self, arq: IO):
-        reg = RegistroIn(4)
-        self._dados = reg.le_registro(self._linha_inicio, 21)
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
 
-    # Override
-    def escreve(self, arq: IO):
-        dado = str(self._dados).rjust(4)
-        linha = (
-            f"{BlocoInicioTesteConvergencia.str_inicio.ljust(21)}"
-            + f"{dado}   {BlocoInicioTesteConvergencia.str_fim}\n"
-        )
-        arq.write(linha)
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data) + "\n")
+
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: O momento do início do teste de convergência
+        :rtype: int
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
 
 
-class BlocoSazonalizarVminT(Bloco):
+class BlocoSazonalizarVminT(Section):
     """
     Bloco com a escolha de sazonalizar o VminT nos períodos estáticos,
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
-    str_inicio = "SAZ. VMINT PER. EST."
-    str_fim = "(=0 PRE E POS NAO SAZONAIS, =1 PRE E POS SAZONAIS)"
-
-    def __init__(self):
-
-        super().__init__(
-            BlocoSazonalizarVminT.str_inicio,
-            BlocoSazonalizarVminT.str_fim,
-            True,
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(50, 28)]
         )
 
-        self._dados = 0
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoSazonalizarVminT):
+            return False
+        bloco: BlocoSazonalizarVminT = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
 
-    # Override
-    def le(self, arq: IO):
-        reg = RegistroIn(4)
-        self._dados = reg.le_registro(self._linha_inicio, 21)
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
 
-    # Override
-    def escreve(self, arq: IO):
-        dado = str(self._dados).rjust(4)
-        linha = (
-            f"{BlocoSazonalizarVminT.str_inicio.ljust(21)}"
-            + f"{dado}   {BlocoSazonalizarVminT.str_fim}\n"
-        )
-        arq.write(linha)
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data) + "\n")
+
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: A sazonalização ou não do VminT
+        :rtype: int
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
 
 
-class BlocoSazonalizarVmaxT(Bloco):
+class BlocoSazonalizarVmaxT(Section):
     """
     Bloco com a escolha de sazonalizar o VmaxT nos períodos estáticos,
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
-    str_inicio = "SAZ. VMAXT PER. EST."
-    str_fim = "(=0 PRE E POS NAO SAZONAIS, =1 PRE E POS SAZONAIS)"
-
-    def __init__(self):
-
-        super().__init__(
-            BlocoSazonalizarVmaxT.str_inicio,
-            BlocoSazonalizarVmaxT.str_fim,
-            True,
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(50, 28)]
         )
 
-        self._dados = 0
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoSazonalizarVmaxT):
+            return False
+        bloco: BlocoSazonalizarVmaxT = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
 
-    # Override
-    def le(self, arq: IO):
-        reg = RegistroIn(4)
-        self._dados = reg.le_registro(self._linha_inicio, 21)
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
 
-    # Override
-    def escreve(self, arq: IO):
-        dado = str(self._dados).rjust(4)
-        linha = (
-            f"{BlocoSazonalizarVmaxT.str_inicio.ljust(21)}"
-            + f"{dado}   {BlocoSazonalizarVmaxT.str_fim}\n"
-        )
-        arq.write(linha)
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data) + "\n")
+
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: A sazonalização ou não do VmaxT
+        :rtype: int
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
 
 
-class BlocoSazonalizarVminP(Bloco):
+
+class BlocoSazonalizarVminP(Section):
     """
     Bloco com a escolha de sazonalizar o VminP nos períodos estáticos,
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
-    str_inicio = "SAZ. VMINP PER. EST."
-    str_fim = "(=0 PRE E POS NAO SAZONAIS, =1 PRE E POS SAZONAIS)"
-
-    def __init__(self):
-
-        super().__init__(
-            BlocoSazonalizarVminP.str_inicio,
-            BlocoSazonalizarVminP.str_fim,
-            True,
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(50, 28)]
         )
 
-        self._dados = 0
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoSazonalizarVminP):
+            return False
+        bloco: BlocoSazonalizarVminP = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
 
-    # Override
-    def le(self, arq: IO):
-        reg = RegistroIn(4)
-        self._dados = reg.le_registro(self._linha_inicio, 21)
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
 
-    # Override
-    def escreve(self, arq: IO):
-        dado = str(self._dados).rjust(4)
-        linha = (
-            f"{BlocoSazonalizarVminP.str_inicio.ljust(21)}"
-            + f"{dado}   {BlocoSazonalizarVminP.str_fim}\n"
-        )
-        arq.write(linha)
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data) + "\n")
+
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: A sazonalização ou não do VminP
+        :rtype: int
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
 
 
-class BlocoSazonalizarCfugaCmont(Bloco):
+class BlocoSazonalizarCfugaCmont(Section):
     """
     Bloco com a escolha de sazonalizar Cfuga e Cmont nos períodos
     estáticos, existente no arquivo `dger.dat` do NEWAVE.
     """
 
-    str_inicio = "SAZ. CFUGA E CMONT"
-    str_fim = "(=0 PRE E POS NAO SAZONAIS, =1 PRE E POS SAZONAIS)"
-
-    def __init__(self):
-
-        super().__init__(
-            BlocoSazonalizarCfugaCmont.str_inicio,
-            BlocoSazonalizarCfugaCmont.str_fim,
-            True,
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(50, 28)]
         )
 
-        self._dados = 0
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoSazonalizarCfugaCmont):
+            return False
+        bloco: BlocoSazonalizarCfugaCmont = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
 
-    # Override
-    def le(self, arq: IO):
-        reg = RegistroIn(4)
-        self._dados = reg.le_registro(self._linha_inicio, 21)
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
 
-    # Override
-    def escreve(self, arq: IO):
-        dado = str(self._dados).rjust(4)
-        linha = (
-            f"{BlocoSazonalizarCfugaCmont.str_inicio.ljust(21)}"
-            + f"{dado}   {BlocoSazonalizarCfugaCmont.str_fim}\n"
-        )
-        arq.write(linha)
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data) + "\n")
+
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: A sazonalização ou não dos Cfuga e Cmont
+        :rtype: int
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
 
 
-class BlocoRestricoesEmissaoGEE(Bloco):
+class BlocoRestricoesEmissaoGEE(Section):
     """
     Bloco com a escolha de habilitar ou não as retrições de GEE,
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
-    str_inicio = "REST. EMISSAO GEE"
-    str_fim = "(=0 NAO CONSIDERA , =1 CONSIDERA)"
-
-    def __init__(self):
-
-        super().__init__(
-            BlocoRestricoesEmissaoGEE.str_inicio,
-            BlocoRestricoesEmissaoGEE.str_fim,
-            True,
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(33, 28)]
         )
 
-        self._dados = 0
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoRestricoesEmissaoGEE):
+            return False
+        bloco: BlocoRestricoesEmissaoGEE = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
 
-    # Override
-    def le(self, arq: IO):
-        reg = RegistroIn(4)
-        self._dados = reg.le_registro(self._linha_inicio, 21)
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
 
-    # Override
-    def escreve(self, arq: IO):
-        dado = str(self._dados).rjust(4)
-        linha = (
-            f"{BlocoRestricoesEmissaoGEE.str_inicio.ljust(21)}"
-            + f"{dado}   {BlocoRestricoesEmissaoGEE.str_fim}\n"
-        )
-        arq.write(linha)
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data) + "\n")
+
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: A consideração ou não de restrições de GEE
+        :rtype: int
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
 
 
-class BlocoAfluenciaAnualPARp(Bloco):
+class BlocoAfluenciaAnualPARp(Section):
     """
     Bloco com a consideração da componente de afluência anual
     para o PAR(p), existente no arquivo `dger.dat` do NEWAVE.
     """
 
-    str_inicio = "AFLUENCIA ANUAL PARP"
-    str_fim = (
-        "(=0 NAO CONSIDERA , =1 CONSIDERA. PDDE SEM ABRIR"
-        + " X NA DERIVACAO DOS CORTES, =2 CONSIDERA. PDDE ABRINDO"
-        + " X NA DERIVACAO DOS CORTES COM APROX. DE 1/6 X(t-1)"
-        + " PARA ENA(t-12), =3 CONSIDERA. PDDE EXATA COM 12 EIXOS"
-        + " PARA AS AFLUENCIAS PASSADAS; REDUCAO DA ORDEM: "
-        + "=0 CONSIDERA,  =1 NAO CONSIDERA, =2 CONSIDERA COM "
-        + "IMPRESSAO RELATORIO)"
-    )
-
-    def __init__(self):
-
-        super().__init__(
-            BlocoAfluenciaAnualPARp.str_inicio,
-            BlocoAfluenciaAnualPARp.str_fim,
-            True,
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(325, 33)]
         )
-
-        self._dados = [0, 0]
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoAfluenciaAnualPARp):
             return False
         bloco: BlocoAfluenciaAnualPARp = o
-        return all([d1 == d2 for d1, d2 in zip(self._dados, bloco._dados)])
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
 
-    # Override
-    def le(self, arq: IO):
-        reg = RegistroIn(4)
-        self._dados = reg.le_linha_tabela(self._linha_inicio, 21, 1, 2)
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
 
-    # Override
-    def escreve(self, arq: IO):
-        dado = ""
-        for d in self._dados:
-            dado += f"{str(d).rjust(4)} "
-        linha = (
-            f"{BlocoAfluenciaAnualPARp.str_inicio.ljust(21)}"
-            + f"{dado}  {BlocoAfluenciaAnualPARp.str_fim}\n"
-        )
-        arq.write(linha)
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data) + "\n")
+
+    @property
+    def valor(self) -> List[Optional[int]]:
+        """
+        O valor da opção configurada
+
+        :return: As configurações para uso do modelo PAR(p)
+        :rtype: List[int]
+        """
+        return self.data[1:3]
+
+    @valor.setter
+    def valor(self, v: List[int]):
+        self.data = [self.data[0]] + v + self.data[3]
 
 
-class BlocoRestricoesFornecGas(Bloco):
+class BlocoRestricoesFornecGas(Section):
     """
     Bloco com a escolha de habilitar ou não as retrições de fornecimento
     de gás, existente no arquivo `dger.dat` do NEWAVE.
     """
 
-    str_inicio = "REST. FORNEC. GAS"
-    str_fim = "(=0 NAO CONSIDERA , =1 CONSIDERA)"
-
-    def __init__(self):
-
-        super().__init__(
-            BlocoRestricoesFornecGas.str_inicio,
-            BlocoRestricoesFornecGas.str_fim,
-            True,
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(33, 28)]
         )
 
-        self._dados = 0
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoRestricoesFornecGas):
+            return False
+        bloco: BlocoRestricoesFornecGas = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
 
-    # Override
-    def le(self, arq: IO):
-        reg = RegistroIn(4)
-        self._dados = reg.le_registro(self._linha_inicio, 21)
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
 
-    # Override
-    def escreve(self, arq: IO):
-        dado = str(self._dados).rjust(4)
-        linha = (
-            f"{BlocoRestricoesFornecGas.str_inicio.ljust(21)}"
-            + f"{dado}   {BlocoRestricoesFornecGas.str_fim}\n"
-        )
-        arq.write(linha)
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data) + "\n")
+
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: A consideração ou não de restrições de
+            fornecimento de gás.
+        :rtype: int
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
 
 
-class BlocoMemCalculoCortes(Bloco):
+class BlocoMemCalculoCortes(Section):
     """
     Bloco com a escolha de habilitar ou não a impressão da memória de
     cálculo dos cortes de Benders.
     """
 
-    str_inicio = "MEM. CALCULO CORTES"
-    str_fim = (
-        "(=0 NAO IMPRIME, =1 IMPRIME PARA ESCOLHA ESPECIFICADA"
-        + " NO ARQUIVO dbgcortes.dat)"
-    )
-
-    def __init__(self):
-
-        super().__init__(
-            BlocoMemCalculoCortes.str_inicio,
-            BlocoMemCalculoCortes.str_fim,
-            True,
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(79, 28)]
         )
 
-        self._dados = 0
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoMemCalculoCortes):
+            return False
+        bloco: BlocoMemCalculoCortes = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
 
-    # Override
-    def le(self, arq: IO):
-        reg = RegistroIn(4)
-        self._dados = reg.le_registro(self._linha_inicio, 21)
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
 
-    # Override
-    def escreve(self, arq: IO):
-        dado = str(self._dados).rjust(4)
-        linha = (
-            f"{BlocoMemCalculoCortes.str_inicio.ljust(21)}"
-            + f"{dado}   {BlocoMemCalculoCortes.str_fim}\n"
-        )
-        arq.write(linha)
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data) + "\n")
+
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: A impressão ou não da memória de cálculo de cortes
+        :rtype: int
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
 
 
-class BlocoGeracaoEolica(Bloco):
+class BlocoGeracaoEolica(Section):
     """
     Bloco com a escolha de habilitar ou não as incertezas na geração
     eólica na geração de cenários, cálculo da política e simulação final,
     e também a penalidade para corte de eólica.
     """
 
-    str_inicio = "GERACAO EOLICA"
-    str_fim = (
-        "(=0 NAO CONSIDERA, =1 CONSIDERA; PENALIDADE DO CORTE "
-        + "DE GERACAO EOLICA)"
-    )
-
-    def __init__(self):
-
-        super().__init__(
-            BlocoGeracaoEolica.str_inicio, BlocoGeracaoEolica.str_fim, True
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(1, 24), FloatField(6, 26, 4), LiteralField(71, 39)]
         )
 
-        self._dados = [0, 0.0]
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoGeracaoEolica):
+            return False
+        bloco: BlocoGeracaoEolica = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
 
-    # Override
-    def le(self, arq: IO):
-        reg_habilita = RegistroIn(4)
-        reg_penal = RegistroFn(8)
-        self._dados = [
-            reg_habilita.le_registro(self._linha_inicio, 21),
-            reg_penal.le_registro(self._linha_inicio, 26),
-        ]
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
 
-    # Override
-    def escreve(self, arq: IO):
-        habilita = str(self._dados[0]).rjust(4)
-        penal = f"{self._dados[1]:.4f}".ljust(8)
-        linha = (
-            f"{BlocoGeracaoEolica.str_inicio.ljust(21)}"
-            + f"{habilita} {penal}     {BlocoGeracaoEolica.str_fim}\n"
-        )
-        arq.write(linha)
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data) + "\n")
+
+    @property
+    def valor(self) -> list:
+        """
+        O valor da opção configurada
+
+        :return: A consideração ou não de geração eólica
+            e a penalidade de corte.
+        :rtype: list
+        """
+        return self.data[1:3]
+
+    @valor.setter
+    def valor(self, v: list):
+        self.data = [self.data[0]] + v + [self.data[3]]
 
 
-class BlocoCompensacaoCorrelacaoCruzada(Bloco):
+class BlocoCompensacaoCorrelacaoCruzada(Section):
     """
     Bloco com a escolha da forma de compensação da correlação
     cruzada nos cenários do NEWAVE.
     """
 
-    str_inicio = "COMP. COR. CRUZ."
-    str_fim = "(=0 CORR. SOMENTE AFL.; =1 CORR.AFL. E VENTOS; =2 NAO CORRIGE)"
-
-    def __init__(self):
-
-        super().__init__(
-            BlocoCompensacaoCorrelacaoCruzada.str_inicio,
-            BlocoCompensacaoCorrelacaoCruzada.str_fim,
-            True,
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(62, 28)]
         )
 
-        self._dados = 0
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoCompensacaoCorrelacaoCruzada):
+            return False
+        bloco: BlocoCompensacaoCorrelacaoCruzada = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
 
-    # Override
-    def le(self, arq: IO):
-        reg = RegistroIn(4)
-        self._dados = reg.le_registro(self._linha_inicio, 21)
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
 
-    # Override
-    def escreve(self, arq: IO):
-        dado = str(self._dados).rjust(4)
-        linha = (
-            f"{BlocoCompensacaoCorrelacaoCruzada.str_inicio.ljust(21)}"
-            + f"{dado}   {BlocoCompensacaoCorrelacaoCruzada.str_fim}\n"
-        )
-        arq.write(linha)
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data) + "\n")
 
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
 
-class LeituraDGer(LeituraBlocos):
-    """
-    Realiza a leitura do arquivo dger.dat
-    existente em um diretório de entradas do NEWAVE.
+        :return: A consideração ou não da compensação da
+            correlação cruzada.
+        :rtype: int
+        """
+        return self.data[1]
 
-    Esta classe contém o conjunto de utilidades para ler
-    e interpretar os campos de um arquivo dger.dat, construindo
-    um objeto `DGer` cujas informações são as mesmas do dger.dat.
-
-    Este objeto existe para retirar do modelo de dados a complexidade
-    de iterar pelas linhas do arquivo, recortar colunas, converter
-    tipos de dados, dentre outras tarefas necessárias para a leitura.
-
-    """
-
-    def __init__(self, diretorio: str) -> None:
-        super().__init__(diretorio)
-
-    # Override
-    def _cria_blocos_leitura(self) -> List[Bloco]:
-        return [
-            BlocoNomeCaso(),
-            BlocoTipoExecucao(),
-            BlocoDuracaoPeriodo(),
-            BlocoNumAnosEstudo(),
-            BlocoMesInicioPreEstudo(),
-            BlocoMesInicioEstudo(),
-            BlocoAnoInicioEstudo(),
-            BlocoNumAnosPreEstudo(),
-            BlocoNumAnosPosEstudo(),
-            BlocoNumAnosPosEstudoSimFinal(),
-            BlocoImprimeDados(),
-            BlocoImprimeMercados(),
-            BlocoImprimeEnergias(),
-            BlocoImprimeModeloEstocastico(),
-            BlocoImprimeSubsistema(),
-            BlocoNumMaxIteracoes(),
-            BlocoNumForwards(),
-            BlocoNumAberturas(),
-            BlocoNumSeriesSinteticas(),
-            BlocoOrdemMaximaPARp(),
-            BlocoAnoInicialHistorico(),
-            BlocoCalculaVolInicial(),
-            BlocoVolInicialSubsistema(),
-            BlocoTolerancia(),
-            BlocoTaxaDesconto(),
-            BlocoTipoSimFinal(),
-            BlocoImpressaoOperacao(),
-            BlocoImpressaoConvergencia(),
-            BlocoIntervaloGravar(),
-            BlocoMinIteracoes(),
-            BlocoRacionamentoPreventivo(),
-            BlocoNumAnosManutUTE(),
-            BlocoTendenciaHidrologica(),
-            BlocoRestricaoItaipu(),
-            BlocoBid(),
-            BlocoPerdasTransmissao(),
-            BlocoElNino(),
-            BlocoEnso(),
-            BlocoDuracaoPorPatamar(),
-            BlocoOutrosUsosAgua(),
-            BlocoCorrecaoDesvio(),
-            BlocoCurvaAversao(),
-            BlocoTipoGeracaoENA(),
-            BlocoRiscoDeficit(),
-            BlocoIteracaoParaSimFinal(),
-            BlocoAgrupamentoLivre(),
-            BlocoEqualizacaoPenalInt(),
-            BlocoRepresentacaoSubmot(),
-            BlocoOrdenacaoAutomatica(),
-            BlocoConsideraCargaAdicional(),
-            BlocoDeltaZSUP(),
-            BlocoDeltaZINF(),
-            BlocoDeltasConsecutivos(),
-            BlocoDespachoAntecipadoGNL(),
-            BlocoModifAutomaticaAdTerm(),
-            BlocoGeracaoHidraulicaMin(),
-            BlocoSimFinalComData(),
-            BlocoGerenciamentoPLs(),
-            BlocoSAR(),
-            BlocoCVAR(),
-            BlocoZSUPMinConvergencia(),
-            BlocoDesconsideraVazaoMinima(),
-            BlocoRestricoesEletricas(),
-            BlocoSelecaoCortes(),
-            BlocoJanelaCortes(),
-            BlocoReamostragemCenarios(),
-            BlocoConvergeNoZero(),
-            BlocoConsultaFCF(),
-            BlocoImpressaoENA(),
-            BlocoImpressaoCortesAtivosSimFinal(),
-            BlocoRepresentacaoAgregacao(),
-            BlocoMatrizCorrelacaoEspacial(),
-            BlocoDesconsideraConvEstatistica(),
-            BlocoMomentoReamostragem(),
-            BlocoMantemArquivosEnergias(),
-            BlocoInicioTesteConvergencia(),
-            BlocoSazonalizarVminT(),
-            BlocoSazonalizarVmaxT(),
-            BlocoSazonalizarVminP(),
-            BlocoSazonalizarCfugaCmont(),
-            BlocoRestricoesEmissaoGEE(),
-            BlocoAfluenciaAnualPARp(),
-            BlocoRestricoesFornecGas(),
-            BlocoMemCalculoCortes(),
-            BlocoGeracaoEolica(),
-            BlocoCompensacaoCorrelacaoCruzada(),
-        ]
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
