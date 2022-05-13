@@ -209,7 +209,9 @@ class DGer(SectionFile):
         """
         try:
             return next(
-                b for i, b in enumerate(self.data.of_type(bloco)) if i == indice
+                b
+                for i, b in enumerate(self.data.of_type(bloco))
+                if i == indice
             )
         except StopIteration:
             return None
@@ -218,6 +220,9 @@ class DGer(SectionFile):
     def nome_caso(self) -> Optional[str]:
         """
         Configuração da linha número 1 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: str
         """
         b = self.__bloco_por_tipo(BlocoNomeCaso, 0)
         if b is not None:
@@ -234,6 +239,9 @@ class DGer(SectionFile):
     def tipo_execucao(self) -> int:
         """
         Configuração da linha número 2 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
         """
         b = self.__bloco_por_tipo(BlocoTipoExecucao, 0)
         if b is not None:
@@ -250,6 +258,9 @@ class DGer(SectionFile):
     def duracao_periodo(self) -> int:
         """
         Configuração da linha número 3 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
         """
         b = self.__bloco_por_tipo(BlocoDuracaoPeriodo, 0)
         if b is not None:
@@ -266,6 +277,9 @@ class DGer(SectionFile):
     def num_anos_estudo(self) -> int:
         """
         Configuração da linha número 4 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
         """
         b = self.__bloco_por_tipo(BlocoNumAnosEstudo, 0)
         if b is not None:
@@ -282,6 +296,9 @@ class DGer(SectionFile):
     def mes_inicio_pre_estudo(self) -> int:
         """
         Configuração da linha número 5 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
         """
         b = self.__bloco_por_tipo(BlocoMesInicioPreEstudo, 0)
         if b is not None:
@@ -298,6 +315,9 @@ class DGer(SectionFile):
     def mes_inicio_estudo(self) -> int:
         """
         Configuração da linha número 6 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
         """
         b = self.__bloco_por_tipo(BlocoMesInicioEstudo, 0)
         if b is not None:
@@ -314,6 +334,9 @@ class DGer(SectionFile):
     def ano_inicio_estudo(self) -> int:
         """
         Configuração da linha número 7 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
         """
         b = self.__bloco_por_tipo(BlocoAnoInicioEstudo, 0)
         if b is not None:
@@ -330,6 +353,9 @@ class DGer(SectionFile):
     def num_anos_pre_estudo(self) -> int:
         """
         Configuração da linha número 8 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
         """
         b = self.__bloco_por_tipo(BlocoNumAnosPreEstudo, 0)
         if b is not None:
@@ -346,6 +372,9 @@ class DGer(SectionFile):
     def num_anos_pos_estudo(self) -> int:
         """
         Configuração da linha número 9 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
         """
         b = self.__bloco_por_tipo(BlocoNumAnosPosEstudo, 0)
         if b is not None:
@@ -362,6 +391,9 @@ class DGer(SectionFile):
     def num_anos_pos_sim_final(self) -> int:
         """
         Configuração da linha número 10 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
         """
         b = self.__bloco_por_tipo(BlocoNumAnosPosEstudoSimFinal, 0)
         if b is not None:
@@ -378,6 +410,9 @@ class DGer(SectionFile):
     def imprime_dados(self) -> int:
         """
         Configuração da linha número 11 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
         """
         b = self.__bloco_por_tipo(BlocoImprimeDados, 0)
         if b is not None:
@@ -394,6 +429,9 @@ class DGer(SectionFile):
     def imprime_mercados(self) -> int:
         """
         Configuração da linha número 12 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
         """
         b = self.__bloco_por_tipo(BlocoImprimeMercados, 0)
         if b is not None:
@@ -410,6 +448,9 @@ class DGer(SectionFile):
     def imprime_energias(self) -> int:
         """
         Configuração da linha número 13 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
         """
         b = self.__bloco_por_tipo(BlocoImprimeEnergias, 0)
         if b is not None:
@@ -426,6 +467,9 @@ class DGer(SectionFile):
     def imprime_modelo_estocastico(self) -> int:
         """
         Configuração da linha número 14 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
         """
         b = self.__bloco_por_tipo(BlocoImprimeModeloEstocastico, 0)
         if b is not None:
@@ -442,6 +486,9 @@ class DGer(SectionFile):
     def imprime_subsistema(self) -> int:
         """
         Configuração da linha número 15 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
         """
         b = self.__bloco_por_tipo(BlocoImprimeSubsistema, 0)
         if b is not None:
@@ -458,6 +505,9 @@ class DGer(SectionFile):
     def num_max_iteracoes(self) -> int:
         """
         Configuração da linha número 16 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
         """
         b = self.__bloco_por_tipo(BlocoNumMaxIteracoes, 0)
         if b is not None:
@@ -474,6 +524,9 @@ class DGer(SectionFile):
     def num_forwards(self) -> int:
         """
         Configuração da linha número 17 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
         """
         b = self.__bloco_por_tipo(BlocoNumForwards, 0)
         if b is not None:
@@ -490,6 +543,9 @@ class DGer(SectionFile):
     def num_aberturas(self) -> List[int]:
         """
         Configuração da linha número 18 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
         """
         b = self.__bloco_por_tipo(BlocoNumAberturas, 0)
         if b is not None:
@@ -506,6 +562,9 @@ class DGer(SectionFile):
     def num_series_sinteticas(self) -> int:
         """
         Configuração da linha número 19 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
         """
         b = self.__bloco_por_tipo(BlocoNumSeriesSinteticas, 0)
         if b is not None:
@@ -522,6 +581,9 @@ class DGer(SectionFile):
     def ordem_maxima_parp(self) -> int:
         """
         Configuração da linha número 20 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
         """
         b = self.__bloco_por_tipo(BlocoOrdemMaximaPARp, 0)
         if b is not None:
@@ -538,6 +600,9 @@ class DGer(SectionFile):
     def ano_inicial_historico(self) -> int:
         """
         Configuração da linha número 21 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
         """
         b = self.__bloco_por_tipo(BlocoAnoInicialHistorico, 0)
         if b is not None:
@@ -554,6 +619,9 @@ class DGer(SectionFile):
     def tamanho_registro_arquivo_historico(self) -> int:
         """
         Configuração da linha número 21 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
         """
         b = self.__bloco_por_tipo(BlocoAnoInicialHistorico, 0)
         if b is not None:
@@ -570,6 +638,9 @@ class DGer(SectionFile):
     def calcula_volume_inicial(self) -> int:
         """
         Configuração da linha número 22 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
         """
         b = self.__bloco_por_tipo(BlocoCalculaVolInicial, 0)
         if b is not None:
@@ -583,17 +654,20 @@ class DGer(SectionFile):
             b.valor = dado
 
     @property
-    def volume_inicial_por_subsistema(self) -> List[float]:
+    def volume_inicial_subsistema(self) -> List[float]:
         """
         Configuração das linhas número 23 e 24 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
         """
         b = self.__bloco_por_tipo(BlocoVolInicialSubsistema, 0)
         if b is not None:
             return b.valores
         return None
 
-    @volume_inicial_por_subsistema.setter
-    def volume_inicial_por_subsistema(self, dado: List[float]):
+    @volume_inicial_subsistema.setter
+    def volume_inicial_subsistema(self, dado: List[float]):
         b = self.__bloco_por_tipo(BlocoVolInicialSubsistema, 0)
         if b is not None:
             b.valores = dado
@@ -602,6 +676,9 @@ class DGer(SectionFile):
     def tolerancia(self) -> float:
         """
         Configuração da linha número 25 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
         """
         b = self.__bloco_por_tipo(BlocoTolerancia, 0)
         if b is not None:
@@ -618,6 +695,9 @@ class DGer(SectionFile):
     def taxa_de_desconto(self) -> float:
         """
         Configuração da linha número 26 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
         """
         b = self.__bloco_por_tipo(BlocoTaxaDesconto, 0)
         if b is not None:
@@ -634,6 +714,9 @@ class DGer(SectionFile):
     def tipo_simulacao_final(self) -> int:
         """
         Configuração da linha número 27 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
         """
         b = self.__bloco_por_tipo(BlocoTipoSimFinal, 0)
         if b is not None:
@@ -650,6 +733,9 @@ class DGer(SectionFile):
     def impressao_operacao(self) -> int:
         """
         Configuração da linha número 28 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
         """
         b = self.__bloco_por_tipo(BlocoImpressaoOperacao, 0)
         if b is not None:
@@ -666,6 +752,9 @@ class DGer(SectionFile):
     def impressao_convergencia(self) -> int:
         """
         Configuração da linha número 29 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
         """
         b = self.__bloco_por_tipo(BlocoImpressaoConvergencia, 0)
         if b is not None:
@@ -682,6 +771,9 @@ class DGer(SectionFile):
     def intervalo_para_gravar(self) -> int:
         """
         Configuração da linha número 30 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
         """
         b = self.__bloco_por_tipo(BlocoIntervaloGravar, 0)
         if b is not None:
@@ -698,6 +790,9 @@ class DGer(SectionFile):
     def num_minimo_iteracoes(self) -> int:
         """
         Configuração da linha número 31 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
         """
         b = self.__bloco_por_tipo(BlocoMinIteracoes, 0)
         if b is not None:
@@ -714,6 +809,9 @@ class DGer(SectionFile):
     def racionamento_preventivo(self) -> str:
         """
         Configuração da linha número 32 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
         """
         b = self.__bloco_por_tipo(BlocoRacionamentoPreventivo, 0)
         if b is not None:
@@ -730,6 +828,9 @@ class DGer(SectionFile):
     def num_anos_manutencao_utes(self) -> int:
         """
         Configuração da linha número 33 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
         """
         b = self.__bloco_por_tipo(BlocoNumAnosManutUTE, 0)
         if b is not None:
@@ -743,25 +844,50 @@ class DGer(SectionFile):
             b.valor = dado
 
     @property
-    def tendencia_hidrologica(self) -> List[int]:
+    def considera_tendencia_hidrologica_calculo_politica(self) -> int:
         """
         Configuração da linha número 34 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
         """
         b = self.__bloco_por_tipo(BlocoTendenciaHidrologica, 0)
         if b is not None:
-            return b.valores
+            return b.considera_tendencia_hidrologica_calculo_politica
         return None
 
-    @tendencia_hidrologica.setter
-    def tendencia_hidrologica(self, dado: List[int]):
+    @considera_tendencia_hidrologica_calculo_politica.setter
+    def considera_tendencia_hidrologica_calculo_politica(self, dado: int):
         b = self.__bloco_por_tipo(BlocoTendenciaHidrologica, 0)
         if b is not None:
-            b.valores = dado
+            b.considera_tendencia_hidrologica_calculo_politica = dado
+
+    @property
+    def considera_tendencia_hidrologica_sim_final(self) -> int:
+        """
+        Configuração da linha número 34 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
+        """
+        b = self.__bloco_por_tipo(BlocoTendenciaHidrologica, 0)
+        if b is not None:
+            return b.considera_tendencia_hidrologica_sim_final
+        return None
+
+    @considera_tendencia_hidrologica_sim_final.setter
+    def considera_tendencia_hidrologica_sim_final(self, dado: int):
+        b = self.__bloco_por_tipo(BlocoTendenciaHidrologica, 0)
+        if b is not None:
+            b.considera_tendencia_hidrologica_sim_final = dado
 
     @property
     def restricao_itaipu(self) -> int:
         """
         Configuração da linha número 35 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
         """
         b = self.__bloco_por_tipo(BlocoRestricaoItaipu, 0)
         if b is not None:
@@ -778,6 +904,9 @@ class DGer(SectionFile):
     def bid(self) -> int:
         """
         Configuração da linha número 36 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
         """
         b = self.__bloco_por_tipo(BlocoBid, 0)
         if b is not None:
@@ -794,6 +923,9 @@ class DGer(SectionFile):
     def perdas_rede_transmissao(self) -> int:
         """
         Configuração da linha número 37 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
         """
         b = self.__bloco_por_tipo(BlocoPerdasTransmissao, 0)
         if b is not None:
@@ -810,6 +942,9 @@ class DGer(SectionFile):
     def el_nino(self) -> int:
         """
         Configuração da linha número 38 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
         """
         b = self.__bloco_por_tipo(BlocoElNino, 0)
         if b is not None:
@@ -826,6 +961,9 @@ class DGer(SectionFile):
     def enso(self) -> int:
         """
         Configuração da linha número 39 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
         """
         b = self.__bloco_por_tipo(BlocoEnso, 0)
         if b is not None:
@@ -842,6 +980,9 @@ class DGer(SectionFile):
     def duracao_por_patamar(self) -> int:
         """
         Configuração da linha número 40 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
         """
         b = self.__bloco_por_tipo(BlocoDuracaoPorPatamar, 0)
         if b is not None:
@@ -858,6 +999,9 @@ class DGer(SectionFile):
     def outros_usos_da_agua(self) -> int:
         """
         Configuração da linha número 41 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
         """
         b = self.__bloco_por_tipo(BlocoOutrosUsosAgua, 0)
         if b is not None:
@@ -874,6 +1018,9 @@ class DGer(SectionFile):
     def correcao_desvio(self) -> int:
         """
         Configuração da linha número 42 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
         """
         b = self.__bloco_por_tipo(BlocoCorrecaoDesvio, 0)
         if b is not None:
@@ -890,6 +1037,9 @@ class DGer(SectionFile):
     def curva_aversao(self) -> int:
         """
         Configuração da linha número 43 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
         """
         b = self.__bloco_por_tipo(BlocoCurvaAversao, 0)
         if b is not None:
@@ -906,6 +1056,9 @@ class DGer(SectionFile):
     def tipo_geracao_enas(self) -> int:
         """
         Configuração da linha número 44 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
         """
         b = self.__bloco_por_tipo(BlocoTipoGeracaoENA, 0)
         if b is not None:
@@ -919,25 +1072,50 @@ class DGer(SectionFile):
             b.valor = dado
 
     @property
-    def risco_deficit(self) -> List[float]:
+    def primeira_profundidade_risco_deficit(self) -> float:
         """
         Configuração da linha número 45 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: float
         """
         b = self.__bloco_por_tipo(BlocoRiscoDeficit, 0)
         if b is not None:
-            return b.valores
+            return b.primeira_profundidade_risco_deficit
         return None
 
-    @risco_deficit.setter
-    def risco_deficit(self, dado: List[float]):
+    @primeira_profundidade_risco_deficit.setter
+    def primeira_profundidade_risco_deficit(self, dado: float):
         b = self.__bloco_por_tipo(BlocoRiscoDeficit, 0)
         if b is not None:
-            b.valores = dado
+            b.primeira_profundidade_risco_deficit = dado
+
+    @property
+    def segunda_profundidade_risco_deficit(self) -> float:
+        """
+        Configuração da linha número 45 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: float
+        """
+        b = self.__bloco_por_tipo(BlocoRiscoDeficit, 0)
+        if b is not None:
+            return b.segunda_profundidade_risco_deficit
+        return None
+
+    @segunda_profundidade_risco_deficit.setter
+    def segunda_profundidade_risco_deficit(self, dado: float):
+        b = self.__bloco_por_tipo(BlocoRiscoDeficit, 0)
+        if b is not None:
+            b.segunda_profundidade_risco_deficit = dado
 
     @property
     def iteracao_para_simulacao_final(self) -> int:
         """
         Configuração da linha número 46 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
         """
         b = self.__bloco_por_tipo(BlocoIteracaoParaSimFinal, 0)
         if b is not None:
@@ -954,6 +1132,9 @@ class DGer(SectionFile):
     def agrupamento_livre(self) -> int:
         """
         Configuração da linha número 47 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
         """
         b = self.__bloco_por_tipo(BlocoAgrupamentoLivre, 0)
         if b is not None:
@@ -967,17 +1148,20 @@ class DGer(SectionFile):
             b.valor = dado
 
     @property
-    def equalizacao_penal_itercambio(self) -> int:
+    def equalizacao_penal_intercambio(self) -> int:
         """
         Configuração da linha número 48 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
         """
         b = self.__bloco_por_tipo(BlocoEqualizacaoPenalInt, 0)
         if b is not None:
             return b.valor
         return None
 
-    @equalizacao_penal_itercambio.setter
-    def equalizacao_penal_itercambio(self, dado: int):
+    @equalizacao_penal_intercambio.setter
+    def equalizacao_penal_intercambio(self, dado: int):
         b = self.__bloco_por_tipo(BlocoEqualizacaoPenalInt, 0)
         if b is not None:
             b.valor = dado
@@ -986,6 +1170,9 @@ class DGer(SectionFile):
     def representacao_submotorizacao(self) -> int:
         """
         Configuração da linha número 49 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
         """
         b = self.__bloco_por_tipo(BlocoRepresentacaoSubmot, 0)
         if b is not None:
@@ -1002,6 +1189,9 @@ class DGer(SectionFile):
     def ordenacao_automatica(self) -> int:
         """
         Configuração da linha número 50 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
         """
         b = self.__bloco_por_tipo(BlocoOrdenacaoAutomatica, 0)
         if b is not None:
@@ -1018,6 +1208,9 @@ class DGer(SectionFile):
     def considera_carga_adicional(self) -> int:
         """
         Configuração da linha número 51 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
         """
         b = self.__bloco_por_tipo(BlocoConsideraCargaAdicional, 0)
         if b is not None:
@@ -1034,6 +1227,9 @@ class DGer(SectionFile):
     def delta_zsup(self) -> float:
         """
         Configuração da linha número 52 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: float
         """
         b = self.__bloco_por_tipo(BlocoDeltaZSUP, 0)
         if b is not None:
@@ -1050,6 +1246,9 @@ class DGer(SectionFile):
     def delta_zinf(self) -> float:
         """
         Configuração da linha número 53 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: float
         """
         b = self.__bloco_por_tipo(BlocoDeltaZINF, 0)
         if b is not None:
@@ -1066,6 +1265,9 @@ class DGer(SectionFile):
     def deltas_consecutivos(self) -> int:
         """
         Configuração da linha número 54 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
         """
         b = self.__bloco_por_tipo(BlocoDeltasConsecutivos, 0)
         if b is not None:
@@ -1082,6 +1284,9 @@ class DGer(SectionFile):
     def despacho_antecipado_gnl(self) -> int:
         """
         Configuração da linha número 55 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
         """
         b = self.__bloco_por_tipo(BlocoDespachoAntecipadoGNL, 0)
         if b is not None:
@@ -1098,6 +1303,9 @@ class DGer(SectionFile):
     def modif_automatica_adterm(self) -> int:
         """
         Configuração da linha número 56 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
         """
         b = self.__bloco_por_tipo(BlocoModifAutomaticaAdTerm, 0)
         if b is not None:
@@ -1114,6 +1322,9 @@ class DGer(SectionFile):
     def considera_ghmin(self) -> int:
         """
         Configuração da linha número 57 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
         """
         b = self.__bloco_por_tipo(BlocoGeracaoHidraulicaMin, 0)
         if b is not None:
@@ -1130,6 +1341,9 @@ class DGer(SectionFile):
     def simulacao_final_com_data(self) -> int:
         """
         Configuração da linha número 58 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
         """
         b = self.__bloco_por_tipo(BlocoSimFinalComData, 0)
         if b is not None:
@@ -1143,25 +1357,107 @@ class DGer(SectionFile):
             b.valor = dado
 
     @property
-    def gerenciamento_pls(self) -> List[int]:
+    def utiliza_gerenciamento_pls(self) -> int:
         """
         Configuração da linha número 59 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
         """
         b = self.__bloco_por_tipo(BlocoGerenciamentoPLs, 0)
         if b is not None:
-            return b.valores
+            return b.utiliza_gerenciamento_pls
         return None
 
-    @gerenciamento_pls.setter
-    def gerenciamento_pls(self, dado: List[int]):
+    @utiliza_gerenciamento_pls.setter
+    def utiliza_gerenciamento_pls(self, dado: int):
         b = self.__bloco_por_tipo(BlocoGerenciamentoPLs, 0)
         if b is not None:
-            b.valores = dado
+            b.utiliza_gerenciamento_pls = dado
+
+    @property
+    def comunicacao_dois_niveis(self) -> int:
+        """
+        Configuração da linha número 59 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
+        """
+        b = self.__bloco_por_tipo(BlocoGerenciamentoPLs, 0)
+        if b is not None:
+            return b.comunicacao_dois_niveis
+        return None
+
+    @comunicacao_dois_niveis.setter
+    def comunicacao_dois_niveis(self, dado: int):
+        b = self.__bloco_por_tipo(BlocoGerenciamentoPLs, 0)
+        if b is not None:
+            b.comunicacao_dois_niveis = dado
+
+    @property
+    def armazenamento_local_arquivos_temporarios(self) -> int:
+        """
+        Configuração da linha número 59 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
+        """
+        b = self.__bloco_por_tipo(BlocoGerenciamentoPLs, 0)
+        if b is not None:
+            return b.armazenamento_local_arquivos_temporarios
+        return None
+
+    @armazenamento_local_arquivos_temporarios.setter
+    def armazenamento_local_arquivos_temporarios(self, dado: int):
+        b = self.__bloco_por_tipo(BlocoGerenciamentoPLs, 0)
+        if b is not None:
+            b.armazenamento_local_arquivos_temporarios = dado
+
+    @property
+    def alocacao_memoria_ena(self) -> int:
+        """
+        Configuração da linha número 59 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
+        """
+        b = self.__bloco_por_tipo(BlocoGerenciamentoPLs, 0)
+        if b is not None:
+            return b.alocacao_memoria_ena
+        return None
+
+    @alocacao_memoria_ena.setter
+    def alocacao_memoria_ena(self, dado: int):
+        b = self.__bloco_por_tipo(BlocoGerenciamentoPLs, 0)
+        if b is not None:
+            b.alocacao_memoria_ena = dado
+
+    @property
+    def alocacao_memoria_cortes(self) -> int:
+        """
+        Configuração da linha número 59 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
+        """
+        b = self.__bloco_por_tipo(BlocoGerenciamentoPLs, 0)
+        if b is not None:
+            return b.alocacao_memoria_cortes
+        return None
+
+    @alocacao_memoria_cortes.setter
+    def alocacao_memoria_cortes(self, dado: int):
+        b = self.__bloco_por_tipo(BlocoGerenciamentoPLs, 0)
+        if b is not None:
+            b.alocacao_memoria_cortes = dado
 
     @property
     def sar(self) -> int:
         """
         Configuração da linha número 60 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
         """
         b = self.__bloco_por_tipo(BlocoSAR, 0)
         if b is not None:
@@ -1178,6 +1474,9 @@ class DGer(SectionFile):
     def cvar(self) -> int:
         """
         Configuração da linha número 61 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
         """
         b = self.__bloco_por_tipo(BlocoCVAR, 0)
         if b is not None:
@@ -1194,6 +1493,9 @@ class DGer(SectionFile):
     def considera_zsup_min_convergencia(self) -> int:
         """
         Configuração da linha número 62 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
         """
         b = self.__bloco_por_tipo(BlocoZSUPMinConvergencia, 0)
         if b is not None:
@@ -1210,6 +1512,9 @@ class DGer(SectionFile):
     def desconsidera_vazao_minima(self) -> int:
         """
         Configuração da linha número 63 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
         """
         b = self.__bloco_por_tipo(BlocoDesconsideraVazaoMinima, 0)
         if b is not None:
@@ -1226,6 +1531,9 @@ class DGer(SectionFile):
     def restricoes_eletricas(self) -> int:
         """
         Configuração da linha número 64 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
         """
         b = self.__bloco_por_tipo(BlocoRestricoesEletricas, 0)
         if b is not None:
@@ -1242,6 +1550,9 @@ class DGer(SectionFile):
     def selecao_de_cortes(self) -> int:
         """
         Configuração da linha número 65 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
         """
         b = self.__bloco_por_tipo(BlocoSelecaoCortes, 0)
         if b is not None:
@@ -1258,6 +1569,9 @@ class DGer(SectionFile):
     def janela_de_cortes(self) -> int:
         """
         Configuração da linha número 66 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
         """
         b = self.__bloco_por_tipo(BlocoJanelaCortes, 0)
         if b is not None:
@@ -1271,25 +1585,69 @@ class DGer(SectionFile):
             b.valor = dado
 
     @property
-    def reamostragem_cenarios(self) -> List[int]:
+    def considera_reamostragem_cenarios(self) -> int:
         """
         Configuração da linha número 67 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
         """
         b = self.__bloco_por_tipo(BlocoReamostragemCenarios, 0)
         if b is not None:
-            return b.valor
+            return b.considera_reamostragem_cenarios
         return None
 
-    @reamostragem_cenarios.setter
-    def reamostragem_cenarios(self, dado: List[int]):
+    @considera_reamostragem_cenarios.setter
+    def considera_reamostragem_cenarios(self, dado: int):
         b = self.__bloco_por_tipo(BlocoReamostragemCenarios, 0)
         if b is not None:
-            b.valor = dado
+            b.considera_reamostragem_cenarios = dado
+
+    @property
+    def tipo_reamostragem_cenarios(self) -> int:
+        """
+        Configuração da linha número 67 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
+        """
+        b = self.__bloco_por_tipo(BlocoReamostragemCenarios, 0)
+        if b is not None:
+            return b.tipo_reamostragem_cenarios
+        return None
+
+    @tipo_reamostragem_cenarios.setter
+    def tipo_reamostragem_cenarios(self, dado: int):
+        b = self.__bloco_por_tipo(BlocoReamostragemCenarios, 0)
+        if b is not None:
+            b.tipo_reamostragem_cenarios = dado
+
+    @property
+    def passo_reamostragem_cenarios(self) -> int:
+        """
+        Configuração da linha número 67 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
+        """
+        b = self.__bloco_por_tipo(BlocoReamostragemCenarios, 0)
+        if b is not None:
+            return b.passo_reamostragem_cenarios
+        return None
+
+    @passo_reamostragem_cenarios.setter
+    def passo_reamostragem_cenarios(self, dado: int):
+        b = self.__bloco_por_tipo(BlocoReamostragemCenarios, 0)
+        if b is not None:
+            b.passo_reamostragem_cenarios = dado
 
     @property
     def converge_no_zero(self) -> int:
         """
         Configuração da linha número 68 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
         """
         b = self.__bloco_por_tipo(BlocoConvergeNoZero, 0)
         if b is not None:
@@ -1306,6 +1664,9 @@ class DGer(SectionFile):
     def consulta_fcf(self) -> int:
         """
         Configuração da linha número 69 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
         """
         b = self.__bloco_por_tipo(BlocoConsultaFCF, 0)
         if b is not None:
@@ -1322,6 +1683,9 @@ class DGer(SectionFile):
     def impressao_ena(self) -> int:
         """
         Configuração da linha número 70 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
         """
         b = self.__bloco_por_tipo(BlocoImpressaoENA, 0)
         if b is not None:
@@ -1338,6 +1702,9 @@ class DGer(SectionFile):
     def impressao_cortes_ativos_sim_final(self) -> str:
         """
         Configuração da linha número 71 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
         """
         b = self.__bloco_por_tipo(BlocoImpressaoCortesAtivosSimFinal, 0)
         if b is not None:
@@ -1354,6 +1721,9 @@ class DGer(SectionFile):
     def representacao_agregacao(self) -> int:
         """
         Configuração da linha número 72 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
         """
         b = self.__bloco_por_tipo(BlocoRepresentacaoAgregacao, 0)
         if b is not None:
@@ -1370,6 +1740,9 @@ class DGer(SectionFile):
     def matriz_correlacao_espacial(self) -> int:
         """
         Configuração da linha número 73 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
         """
         b = self.__bloco_por_tipo(BlocoMatrizCorrelacaoEspacial, 0)
         if b is not None:
@@ -1386,6 +1759,9 @@ class DGer(SectionFile):
     def desconsidera_convergencia_estatistica(self) -> int:
         """
         Configuração da linha número 74 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
         """
         b = self.__bloco_por_tipo(BlocoDesconsideraConvEstatistica, 0)
         if b is not None:
@@ -1402,6 +1778,9 @@ class DGer(SectionFile):
     def momento_reamostragem(self) -> int:
         """
         Configuração da linha número 75 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
         """
         b = self.__bloco_por_tipo(BlocoMomentoReamostragem, 0)
         if b is not None:
@@ -1418,6 +1797,9 @@ class DGer(SectionFile):
     def mantem_arquivos_energias(self) -> int:
         """
         Configuração da linha número 76 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
         """
         b = self.__bloco_por_tipo(BlocoMantemArquivosEnergias, 0)
         if b is not None:
@@ -1434,6 +1816,9 @@ class DGer(SectionFile):
     def inicio_teste_convergencia(self) -> int:
         """
         Configuração da linha número 77 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
         """
         b = self.__bloco_por_tipo(BlocoInicioTesteConvergencia, 0)
         if b is not None:
@@ -1450,6 +1835,9 @@ class DGer(SectionFile):
     def sazonaliza_vmint(self) -> int:
         """
         Configuração da linha número 78 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
         """
         b = self.__bloco_por_tipo(BlocoSazonalizarVminT, 0)
         if b is not None:
@@ -1466,6 +1854,9 @@ class DGer(SectionFile):
     def sazonaliza_vmaxt(self) -> int:
         """
         Configuração da linha número 79 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
         """
         b = self.__bloco_por_tipo(BlocoSazonalizarVmaxT, 0)
         if b is not None:
@@ -1482,6 +1873,9 @@ class DGer(SectionFile):
     def sazonaliza_vminp(self) -> int:
         """
         Configuração da linha número 80 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
         """
         b = self.__bloco_por_tipo(BlocoSazonalizarVminP, 0)
         if b is not None:
@@ -1498,6 +1892,9 @@ class DGer(SectionFile):
     def sazonaliza_cfuga_cmont(self) -> int:
         """
         Configuração da linha número 81 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
         """
         b = self.__bloco_por_tipo(BlocoSazonalizarCfugaCmont, 0)
         if b is not None:
@@ -1514,6 +1911,9 @@ class DGer(SectionFile):
     def restricoes_emissao_gee(self) -> int:
         """
         Configuração da linha número 82 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
         """
         b = self.__bloco_por_tipo(BlocoRestricoesEmissaoGEE, 0)
         if b is not None:
@@ -1527,25 +1927,50 @@ class DGer(SectionFile):
             b.valor = dado
 
     @property
-    def afluencia_anual_parp(self) -> int:
+    def consideracao_media_anual_afluencias(self) -> int:
         """
         Configuração da linha número 83 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
         """
         b = self.__bloco_por_tipo(BlocoAfluenciaAnualPARp, 0)
         if b is not None:
-            return b.valor
+            return b.consideracao_media_anual_afluencias
         return None
 
-    @afluencia_anual_parp.setter
-    def afluencia_anual_parp(self, dado: int):
+    @consideracao_media_anual_afluencias.setter
+    def consideracao_media_anual_afluencias(self, dado: int):
         b = self.__bloco_por_tipo(BlocoAfluenciaAnualPARp, 0)
         if b is not None:
-            b.valor = dado
+            b.consideracao_media_anual_afluencias = dado
+
+    @property
+    def reducao_automatica_ordem(self) -> int:
+        """
+        Configuração da linha número 83 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
+        """
+        b = self.__bloco_por_tipo(BlocoAfluenciaAnualPARp, 0)
+        if b is not None:
+            return b.reducao_automatica_ordem
+        return None
+
+    @reducao_automatica_ordem.setter
+    def reducao_automatica_ordem(self, dado: int):
+        b = self.__bloco_por_tipo(BlocoAfluenciaAnualPARp, 0)
+        if b is not None:
+            b.reducao_automatica_ordem = dado
 
     @property
     def restricoes_fornecimento_gas(self) -> int:
         """
         Configuração da linha número 84 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
         """
         b = self.__bloco_por_tipo(BlocoRestricoesFornecGas, 0)
         if b is not None:
@@ -1562,6 +1987,9 @@ class DGer(SectionFile):
     def memoria_calculo_cortes(self) -> int:
         """
         Configuração da linha número 85 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
         """
         b = self.__bloco_por_tipo(BlocoMemCalculoCortes, 0)
         if b is not None:
@@ -1578,6 +2006,9 @@ class DGer(SectionFile):
     def considera_geracao_eolica(self) -> int:
         """
         Configuração da linha número 86 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
         """
         b = self.__bloco_por_tipo(BlocoGeracaoEolica, 0)
         if b is not None:
@@ -1594,6 +2025,9 @@ class DGer(SectionFile):
     def penalidade_corte_geracao_eolica(self) -> float:
         """
         Configuração da linha número 86 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
         """
         b = self.__bloco_por_tipo(BlocoGeracaoEolica, 0)
         if b is not None:
@@ -1610,6 +2044,9 @@ class DGer(SectionFile):
     def compensacao_correlacao_cruzada(self) -> int:
         """
         Configuração da linha número 87 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
         """
         b = self.__bloco_por_tipo(BlocoCompensacaoCorrelacaoCruzada, 0)
         if b is not None:

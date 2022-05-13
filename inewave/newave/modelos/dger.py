@@ -1034,7 +1034,8 @@ class BlocoVolInicialSubsistema(Section):
     def __init__(self, state=..., previous=None, next=None, data=None) -> None:
         super().__init__(state, previous, next, data)
         self.__linha = Line(
-            [LiteralField(21, 0)] + [FloatField(5, 21 + i * 7, 1) for i in range(5)]
+            [LiteralField(21, 0)]
+            + [FloatField(5, 21 + i * 7, 1) for i in range(5)]
         )
         self.__cabecalho: str = ""
 
@@ -1530,18 +1531,36 @@ class BlocoTendenciaHidrologica(Section):
         file.write(self.__linha.write(self.data))
 
     @property
-    def valores(self) -> List[Optional[int]]:
+    def considera_tendencia_hidrologica_calculo_politica(
+        self,
+    ) -> Optional[int]:
         """
-        Os valores da opção configurada
+        O valor da opção configurada
 
-        :return: As configurações de adoção da tendência hidrológica
-        :rtype: List[int]
+        :return: A consideração da tendência hidrológica no
+            cálculo da política
+        :rtype: int
         """
-        return self.data[1:3]
+        return self.data[1]
 
-    @valores.setter
-    def valores(self, v: List[int]):
-        self.data = [self.data[0]] + v + [self.data[3]]
+    @considera_tendencia_hidrologica_calculo_politica.setter
+    def considera_tendencia_hidrologica_calculo_politica(self, v: int):
+        self.data[1] = v
+
+    @property
+    def considera_tendencia_hidrologica_sim_final(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: A consideração da tendência hidrológica no
+            cálculo da política
+        :rtype: int
+        """
+        return self.data[2]
+
+    @considera_tendencia_hidrologica_sim_final.setter
+    def considera_tendencia_hidrologica_sim_final(self, v: int):
+        self.data[2] = v
 
 
 class BlocoRestricaoItaipu(Section):
@@ -2047,18 +2066,34 @@ class BlocoRiscoDeficit(Section):
         file.write(self.__linha.write(self.data))
 
     @property
-    def valores(self) -> List[Optional[float]]:
+    def primeira_profundidade_risco_deficit(self) -> Optional[float]:
         """
-        Os valores da opção configurada
+        O valor da opção configurada
 
-        :return: As profundidades dos riscos de déficit
-        :rtype: List[float]
+        :return: A primeira profundidade para o cálculo do
+            risco de déficit
+        :rtype: float
         """
-        return self.data[1:]
+        return self.data[1]
 
-    @valores.setter
-    def valores(self, v: List[float]):
-        self.data = [self.data[0]] + v
+    @primeira_profundidade_risco_deficit.setter
+    def primeira_profundidade_risco_deficit(self, v: float):
+        self.data[1] = v
+
+    @property
+    def segunda_profundidade_risco_deficit(self) -> Optional[float]:
+        """
+        O valor da opção configurada
+
+        :return: A segunda profundidade para o cálculo do
+            risco de déficit
+        :rtype: float
+        """
+        return self.data[2]
+
+    @segunda_profundidade_risco_deficit.setter
+    def segunda_profundidade_risco_deficit(self, v: float):
+        self.data[2] = v
 
 
 class BlocoIteracaoParaSimFinal(Section):
@@ -2711,18 +2746,76 @@ class BlocoGerenciamentoPLs(Section):
         file.write(self.__linha.write(self.data))
 
     @property
-    def valores(self) -> List[Optional[int]]:
+    def utiliza_gerenciamento_pls(self) -> Optional[int]:
         """
-        Os valores da opção configurada
+        O valor da opção configurada
 
-        :return: As opções do gerenciador de PLs
-        :rtype: List[int]
+        :return: O uso ou não do gerenciador externo de PLs.
+        :rtype: int
         """
-        return self.data[1:6]
+        return self.data[1]
 
-    @valores.setter
-    def valores(self, v: List[int]):
-        self.data = [self.data[0]] + v + self.data[6]
+    @utiliza_gerenciamento_pls.setter
+    def utiliza_gerenciamento_pls(self, v: int):
+        self.data[1] = v
+
+    @property
+    def comunicacao_dois_niveis(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: O uso da comunicação em dois níveis com o
+            gerenciador de PLs.
+        :rtype: int
+        """
+        return self.data[2]
+
+    @comunicacao_dois_niveis.setter
+    def comunicacao_dois_niveis(self, v: int):
+        self.data[2] = v
+
+    @property
+    def armazenamento_local_arquivos_temporarios(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: O armazenamento local de arquivos temporários
+            na comunicação com o gerenciador de PLs.
+        :rtype: int
+        """
+        return self.data[3]
+
+    @armazenamento_local_arquivos_temporarios.setter
+    def armazenamento_local_arquivos_temporarios(self, v: int):
+        self.data[3] = v
+
+    @property
+    def alocacao_memoria_ena(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: A alocação das ENAs em memória
+        :rtype: int
+        """
+        return self.data[4]
+
+    @alocacao_memoria_ena.setter
+    def alocacao_memoria_ena(self, v: int):
+        self.data[4] = v
+
+    @property
+    def alocacao_memoria_cortes(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: OA alocação em memória dos cortes da FCF.
+        :rtype: int
+        """
+        return self.data[5]
+
+    @alocacao_memoria_cortes.setter
+    def alocacao_memoria_cortes(self, v: int):
+        self.data[5] = v
 
 
 class BlocoSAR(Section):
@@ -3064,7 +3157,7 @@ class BlocoReamostragemCenarios(Section):
         super().__init__(state, previous, next, data)
         self.__linha = Line(
             [
-                LiteralField(24, 0),
+                LiteralField(21, 0),
                 IntegerField(4, 21),
                 IntegerField(4, 26),
                 IntegerField(4, 31),
@@ -3093,18 +3186,46 @@ class BlocoReamostragemCenarios(Section):
         file.write(self.__linha.write(self.data))
 
     @property
-    def valor(self) -> List[Optional[int]]:
+    def considera_reamostragem_cenarios(self) -> Optional[int]:
         """
         O valor da opção configurada
 
-        :return: As configurações de reamostragem dos cenários
-        :rtype: List[int]
+        :return: A consideração da reamostragem de cenários
+        :rtype: int
         """
-        return self.data[1:4]
+        return self.data[1]
 
-    @valor.setter
-    def valor(self, v: int):
-        self.data = [self.data[0]] + v + [self.data[4]]
+    @considera_reamostragem_cenarios.setter
+    def considera_reamostragem_cenarios(self, v: int):
+        self.data[1] = v
+
+    @property
+    def tipo_reamostragem_cenarios(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: O tipo da reamostragem de cenários
+        :rtype: int
+        """
+        return self.data[2]
+
+    @tipo_reamostragem_cenarios.setter
+    def tipo_reamostragem_cenarios(self, v: int):
+        self.data[2] = v
+
+    @property
+    def passo_reamostragem_cenarios(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: O passo para a reamostragem de cenários
+        :rtype: int
+        """
+        return self.data[3]
+
+    @passo_reamostragem_cenarios.setter
+    def passo_reamostragem_cenarios(self, v: int):
+        self.data[3] = v
 
 
 class BlocoConvergeNoZero(Section):
@@ -3210,7 +3331,7 @@ class BlocoImpressaoENA(Section):
     def __init__(self, state=..., previous=None, next=None, data=None) -> None:
         super().__init__(state, previous, next, data)
         self.__linha = Line(
-            [LiteralField(24, 0), IntegerField(4, 21), LiteralField(29, 28)]
+            [LiteralField(21, 0), IntegerField(4, 21), LiteralField(29, 28)]
         )
 
     def __eq__(self, o: object) -> bool:
@@ -3257,7 +3378,7 @@ class BlocoImpressaoCortesAtivosSimFinal(Section):
     def __init__(self, state=..., previous=None, next=None, data=None) -> None:
         super().__init__(state, previous, next, data)
         self.__linha = Line(
-            [LiteralField(24, 0), IntegerField(4, 21), LiteralField(29, 28)]
+            [LiteralField(21, 0), IntegerField(4, 21), LiteralField(29, 28)]
         )
 
     def __eq__(self, o: object) -> bool:
@@ -3304,7 +3425,7 @@ class BlocoRepresentacaoAgregacao(Section):
     def __init__(self, state=..., previous=None, next=None, data=None) -> None:
         super().__init__(state, previous, next, data)
         self.__linha = Line(
-            [LiteralField(24, 0), IntegerField(4, 21), LiteralField(31, 28)]
+            [LiteralField(21, 0), IntegerField(4, 21), LiteralField(31, 28)]
         )
 
     def __eq__(self, o: object) -> bool:
@@ -3351,7 +3472,7 @@ class BlocoMatrizCorrelacaoEspacial(Section):
     def __init__(self, state=..., previous=None, next=None, data=None) -> None:
         super().__init__(state, previous, next, data)
         self.__linha = Line(
-            [LiteralField(24, 0), IntegerField(4, 21), LiteralField(21, 28)]
+            [LiteralField(21, 0), IntegerField(4, 21), LiteralField(21, 28)]
         )
 
     def __eq__(self, o: object) -> bool:
@@ -3398,7 +3519,7 @@ class BlocoDesconsideraConvEstatistica(Section):
     def __init__(self, state=..., previous=None, next=None, data=None) -> None:
         super().__init__(state, previous, next, data)
         self.__linha = Line(
-            [LiteralField(24, 0), IntegerField(4, 21), LiteralField(16, 28)]
+            [LiteralField(21, 0), IntegerField(4, 21), LiteralField(16, 28)]
         )
 
     def __eq__(self, o: object) -> bool:
@@ -3445,7 +3566,7 @@ class BlocoMomentoReamostragem(Section):
     def __init__(self, state=..., previous=None, next=None, data=None) -> None:
         super().__init__(state, previous, next, data)
         self.__linha = Line(
-            [LiteralField(24, 0), IntegerField(4, 21), LiteralField(25, 28)]
+            [LiteralField(21, 0), IntegerField(4, 21), LiteralField(25, 28)]
         )
 
     def __eq__(self, o: object) -> bool:
@@ -3492,7 +3613,7 @@ class BlocoMantemArquivosEnergias(Section):
     def __init__(self, state=..., previous=None, next=None, data=None) -> None:
         super().__init__(state, previous, next, data)
         self.__linha = Line(
-            [LiteralField(24, 0), IntegerField(4, 21), LiteralField(35, 28)]
+            [LiteralField(21, 0), IntegerField(4, 21), LiteralField(35, 28)]
         )
 
     def __eq__(self, o: object) -> bool:
@@ -3850,18 +3971,34 @@ class BlocoAfluenciaAnualPARp(Section):
         file.write(self.__linha.write(self.data))
 
     @property
-    def valor(self) -> List[Optional[int]]:
+    def consideracao_media_anual_afluencias(self) -> Optional[int]:
         """
         O valor da opção configurada
 
-        :return: As configurações para uso do modelo PAR(p)
-        :rtype: List[int]
+        :return: O tipo de consideração da média dos últimos
+            12 meses no ajuste do modelo PAR(p).
+        :rtype: int
         """
-        return self.data[1:3]
+        return self.data[1]
 
-    @valor.setter
-    def valor(self, v: List[int]):
-        self.data = [self.data[0]] + v + self.data[3]
+    @consideracao_media_anual_afluencias.setter
+    def consideracao_media_anual_afluencias(self, v: int):
+        self.data[1] = v
+
+    @property
+    def reducao_automatica_ordem(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: A consideração da redução automática da ordem
+            no ajuste do modelo PAR(p).
+        :rtype: int
+        """
+        return self.data[2]
+
+    @reducao_automatica_ordem.setter
+    def reducao_automatica_ordem(self, v: int):
+        self.data[2] = v
 
 
 class BlocoRestricoesFornecGas(Section):
