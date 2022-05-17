@@ -67,4 +67,5 @@ class EafPast(SectionFile):
     @tendencia.setter
     def tendencia(self, df: pd.DataFrame):
         b = self.__bloco_por_tipo(BlocoEafPast, 0)
-        b.data = df
+        if b is not None:
+            b.data = df

@@ -1,8 +1,7 @@
-from inewave.config import MAX_ANOS_ESTUDO, MAX_SUBMERCADOS, MESES, MESES_DF
+from inewave.config import MAX_ANOS_ESTUDO, MESES_DF
 
-from cfinterface.components.block import Block
+from cfinterface.components.section import Section
 from cfinterface.components.line import Line
-from cfinterface.components.integerfield import IntegerField
 from cfinterface.components.floatfield import FloatField
 from cfinterface.components.literalfield import LiteralField
 from typing import List, IO
@@ -10,7 +9,7 @@ import pandas as pd  # type: ignore
 import numpy as np  # type: ignore
 
 
-class BlocoValoresConstantesCVAR(Block):
+class BlocoValoresConstantesCVAR(Section):
     """
     Bloco com valores dos parâmetros ALFA e LAMBDA constantes.
     """
@@ -58,7 +57,7 @@ class BlocoValoresConstantesCVAR(Block):
         file.write(self.__linha.write(self.data))
 
 
-class BlocoAlfaVariavelNoTempo(Block):
+class BlocoAlfaVariavelNoTempo(Section):
     """
     Bloco com a informação do valor de ALFA por estágio
     no horizonte de execução.
@@ -132,7 +131,7 @@ class BlocoAlfaVariavelNoTempo(Block):
             file.write(self.__linha.write(lin.tolist()))
 
 
-class BlocoLambdaVariavelNoTempo(Block):
+class BlocoLambdaVariavelNoTempo(Section):
     """
     Bloco com a informação do valor de LAMBDA por estágio
     no horizonte de execução.

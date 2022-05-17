@@ -1,15 +1,11 @@
-from typing import List
+from inewave.nwlistcf.modelos.estados import EstadosPeriodoNwlistcf
+
+from cfinterface.files.blockfile import BlockFile
+from typing import TypeVar, Optional
+import pandas as pd  # type: ignore
 
 
-from inewave._utils.escritablocos import EscritaBlocos
-
-from inewave._utils.dadosarquivo import DadosArquivoBlocos
-from inewave._utils.arquivo import ArquivoBlocos
-from inewave.nwlistcf.modelos.estados import LeituraEstados
-from inewave.nwlistcf.modelos.estados import RegistroEstado
-
-
-class Estados(ArquivoBlocos):
+class Estados(BlockFile):
     """
     Armazena os dados dos estados visitados pelo NEWAVE existentes
     no arquivo `estados.rel` do NWLISTCF.
@@ -18,29 +14,45 @@ class Estados(ArquivoBlocos):
     no problema e da função objetivo, para cada registro e REE dentro
     do registro.
 
-    Cada registro possui um modelo próprio, armazenando os estados das
-    variáveis em uma array específica.
-
     """
 
-    def __init__(self, dados: DadosArquivoBlocos):
-        super().__init__(dados)
+    T = TypeVar("T")
+
+    BLOCKS = [EstadosPeriodoNwlistcf]
+
+    def __init__(self, data=...) -> None:
+        super().__init__(data)
+        self.__estados_periodos = None
 
     @classmethod
     def le_arquivo(
         cls, diretorio: str, nome_arquivo="estados.rel"
     ) -> "Estados":
-        leitor = LeituraEstados(diretorio)
-        r = leitor.le_arquivo(nome_arquivo)
-        return cls(r)
+        return cls.read(diretorio, nome_arquivo)
 
     def escreve_arquivo(self, diretorio: str, nome_arquivo="estados.rel"):
-        escritor = EscritaBlocos(diretorio)
-        escritor.escreve_arquivo(self._dados, nome_arquivo)
+        self.write(diretorio, nome_arquivo)
+
+    def __monta_tabela_estados(self) -> pd.DataFrame:
+        df = None
+        for b in self.data.of_type(EstadosPeriodoNwlistcf):
+            dados = b.data
+            if dados is None:
+                continue
+            elif df is None:
+                df = b.data
+            else:
+                df = pd.concat([df, b.data], ignore_index=True)
+        return df
 
     @property
-    def registros(self) -> List[RegistroEstado]:
-        registros: List[RegistroEstado] = []
-        for b in self._blocos:
-            registros += b.dados
-        return registros
+    def estados(self) -> Optional[pd.DataFrame]:
+        """
+        Tabela com os estados visitados na construção da FCF.
+
+        :return: A tabela de estados como um DataFrame
+        :rtype: Optional[pd.DataFrame]
+        """
+        if self.__estados_periodos is None:
+            self.__estados_periodos = self.__monta_tabela_estados()
+        return self.__estados_periodos

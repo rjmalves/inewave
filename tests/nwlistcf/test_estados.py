@@ -1,19 +1,33 @@
-from inewave.nwlistcf.estados import Estados
+from inewave.nwlistcf import Estados
 
-est = Estados.le_arquivo("./tests/_arquivos")
+from tests.mocks.mock_open import mock_open
+from unittest.mock import MagicMock, patch
+
+from tests.mocks.arquivos.estados import MockEstados
 
 
-def test_leitura():
-    assert len(est.registros) > 0
+def test_atributos_encontrados_estados():
+    m: MagicMock = mock_open(read_data="".join(MockEstados))
+    with patch("builtins.open", m):
+        n = Estados.le_arquivo("")
+        print(n.estados)
+        assert n.estados is not None
+
+
+def test_atributos_nao_encontrados_estados():
+    m: MagicMock = mock_open(read_data="")
+    with patch("builtins.open", m):
+        n = Estados.le_arquivo("")
+        assert n.estados is None
 
 
 def test_eq_estados():
-    est2 = Estados.le_arquivo("./tests/_arquivos")
-    assert est == est2
+    m: MagicMock = mock_open(read_data="".join(MockEstados))
+    with patch("builtins.open", m):
+        n1 = Estados.le_arquivo("")
+        n2 = Estados.le_arquivo("")
+        assert n1 == n2
 
 
-# def test_neq_estados():
-#     leitor2 = LeituraEstados("./tests/_arquivos")
-#     leitor2.le_arquivo()
-#     leitor2.estados.registros[5] = {}
-#     assert leitor2.estados != leitor.estados
+# Não deve ter teste de diferença, visto que o atributo é
+# implementado como Lazy Property.

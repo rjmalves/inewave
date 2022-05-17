@@ -1,163 +1,109 @@
-# Imports do próprio módulo
-from inewave.config import MAX_ITERS, REES
-from inewave._utils.bloco import Bloco
-from inewave._utils.leiturablocos import LeituraBlocos
+from inewave.config import MAX_CORTES, MAX_REES
 
-# Imports de módulos externos
+from cfinterface.components.block import Block
+from cfinterface.components.line import Line
+from cfinterface.components.field import Field
+from cfinterface.components.integerfield import IntegerField
+from cfinterface.components.floatfield import FloatField
+from typing import List, IO
+import pandas as pd  # type: ignore
 import numpy as np  # type: ignore
-from typing import IO, List
 
 
-class RegistroEstado:
+class EstadosPeriodoNwlistcf(Block):
     """
-    Armazena as informações de um registro visitado pelo NEWAVE
-    em algum período de alguma simulação.
-
-    ** Parâmetros **
-
-    - ireg: `int`
-    - itec: `int`
-    - simc: `int`
-    - itef: `int`
-    - fobj: `int`
-    - tabela: `np.ndarray`
-
+    Bloco do arquivo estados.rel que armazena os estados visitados
+    por período na construção dos cortes da FCF.
     """
 
-    __slots__ = ["ireg", "itec", "simc", "itef", "fobj", "tabela"]
+    BEGIN_PATTERN = "PERIODO: "
+    END_PATTERN = "PERIODO: "
 
-    def __init__(
-        self,
-        ireg: int,
-        itec: int,
-        simc: int,
-        itef: int,
-        fobj: float,
-        tabela: np.ndarray,
-    ):
-        self.ireg = ireg
-        self.itec = itec
-        self.simc = simc
-        self.itef = itef
-        self.fobj = fobj
-        self.tabela = tabela
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha_periodo = Line([IntegerField(4, 19)])
+        campos_iniciais: List[Field] = [
+            IntegerField(8, 2),
+            IntegerField(4, 11),
+            IntegerField(4, 16),
+            IntegerField(4, 21),
+            IntegerField(4, 26),
+            FloatField(17, 31, 4),
+        ]
+        campos_pis: List[Field] = [
+            FloatField(17, 49 + 18 * i, 9) for i in range(18)
+        ]
+        self.__linha = Line(campos_iniciais + campos_pis)
 
     def __eq__(self, o: object) -> bool:
-        """
-        A igualdade entre RegistroEstado avalia todos os
-        valores.
-        """
-        if not isinstance(o, RegistroEstado):
+        if not isinstance(o, EstadosPeriodoNwlistcf):
             return False
-        reg: RegistroEstado = o
-        eq_ireg = self.ireg == reg.ireg
-        eq_itec = self.itec == reg.itec
-        eq_simc = self.simc == reg.simc
-        eq_itef = self.itef == reg.itef
-        eq_fobj = self.fobj == reg.fobj
-        eq_tab = np.array_equal(self.tabela, reg.tabela)
-
-        return all([eq_ireg, eq_itec, eq_simc, eq_itef, eq_fobj, eq_tab])
-
-    @classmethod
-    def le_registro(cls, primeira_linha: str, arq: IO) -> "RegistroEstado":
-        """ """
-        primeira = True
-        n_rees = len(REES)
-        n_cols_tabela = 18
-        ireg = 0
-        itec = 0
-        simc = 0
-        itef = 0
-        fobj = 0.0
-        tabela = np.zeros((n_rees, n_cols_tabela))
-        for i in range(n_rees):
-            if primeira:
-                primeira = False
-                linha = primeira_linha
-                # Extrai os campos específicos da primeira linha
-                ireg = int(linha[2:10])
-                itec = int(linha[11:15])
-                simc = int(linha[16:20])
-                itef = int(linha[21:25])
-                fobj = float(linha[31:48])
-            else:
-                linha = arq.readline()
-            # Preenche a tabela com os dados do registro
-            ree = int(linha[26:30])
-            ci = 49
-            nc = 17
-            for j in range(n_cols_tabela):
-                cf = ci + nc
-                num_str = linha[ci:cf]
-                valor = 0.0 if not num_str.isnumeric() else float(num_str)
-                tabela[ree - 1, j] = valor
-                ci = cf + 1
-
-        return cls(ireg, itec, simc, itef, fobj, tabela)
-
-
-class BlocoRegistroEstados(Bloco):
-    """
-    Bloco com informações do estado de construção dos cortes
-    de um período, existentes no arquivo `estados.rel` do NWLISTCF.
-    """
-
-    str_inicio = "  PERIODO:  "
-
-    def __init__(self):
-
-        super().__init__(BlocoRegistroEstados.str_inicio, "", False)
-
-        self._dados: List[RegistroEstado] = []
-
-    def __eq__(self, o: object):
-        if not isinstance(o, BlocoRegistroEstados):
+        bloco: EstadosPeriodoNwlistcf = o
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
             return False
-        bloco: BlocoRegistroEstados = o
-        return all([d1 == d2 for d1, d2 in zip(self._dados, bloco._dados)])
+        else:
+            return self.data.equals(bloco.data)
 
     # Override
-    def le(self, arq: IO):
-        # Salta duas linhas para acessar a tabela
-        arq.readline()
-        arq.readline()
+    def read(self, file: IO):
+        def converte_tabela_em_df() -> pd.DataFrame:
+            cols = (
+                ["IREG", "ITEc", "SIMc", "ITEf", "REE", "FUNC. OBJ.", "EARM"]
+                + [f"EAF({i})" for i in range(1, 7)]
+                + [f"SGT(P{i}E{j})" for i in range(1, 4) for j in range(1, 4)]
+                + ["MX_SAR", "MX_CURVA"]
+            )
+            df = pd.DataFrame(tabela, columns=cols)
+            df = df.astype(
+                {
+                    "IREG": "int64",
+                    "ITEc": "int64",
+                    "SIMc": "int64",
+                    "ITEf": "int64",
+                    "REE": "int64",
+                }
+            )
+            df["PERIODO"] = self.__periodo
+            df = df[["PERIODO"] + cols]
+            return df
+
+        # Lê o período e as linhas de cabeçalho
+        self.__periodo = self.__linha_periodo.read(file.readline())[0]
+        for _ in range(2):
+            file.readline()
+
+        # Lê as linhas de cortes
+        self.__ireg_atual = 0
+        self.__itec_atual = 0
+        self.__simc_atual = 0
+        self.__itef_atual = 0
+        tabela = np.zeros((MAX_CORTES * MAX_REES, 24))
+        i = 0
         while True:
-            # Verifica se a próxima linha é o início do
-            # próximo período ou é vazia
-            linha = arq.readline()
-            if BlocoRegistroEstados.str_inicio in linha or len(linha) < 2:
+            ultima_posicao = file.tell()
+            linha = file.readline()
+            if self.ends(linha) or len(linha) < 3:
+                file.seek(ultima_posicao)
+                tabela = tabela[:i, :]
+                self.data = converte_tabela_em_df()
                 break
-            # Senão, lê mais um registro
-            reg = RegistroEstado.le_registro(linha, arq)
-            self._dados.append(reg)
-
-        return linha
-
-    # Override
-    def escreve(self, arq: IO):
-        pass
-
-
-class LeituraEstados(LeituraBlocos):
-    """
-    Realiza a leitura do arquivo estados.rel,
-    existente em um diretório de saídas do NWLISTCF.
-
-    Esta classe contém o conjunto de utilidades para ler
-    e interpretar os campos do arquivo estados.rel, construindo um
-    objeto `Estados` cujas informações são as mesmas do arquivo.
-
-    Este objeto existe para retirar do modelo de dados a complexidade
-    de iterar pelas linhas do arquivo, recortar colunas, converter
-    tipos de dados, dentre outras tarefas necessárias para a leitura.
-
-    """
-
-    str_inicio_periodo = "  PERIODO:   "
-
-    def __init__(self, diretorio: str) -> None:
-        super().__init__(diretorio)
-
-    def _cria_blocos_leitura(self) -> List[Bloco]:
-        return [BlocoRegistroEstados() for _ in range(MAX_ITERS)]
+            dados = self.__linha.read(linha)
+            if dados[0] is not None:
+                self.__ireg_atual = dados[0]
+            if dados[1] is not None:
+                self.__itec_atual = dados[1]
+            if dados[2] is not None:
+                self.__simc_atual = dados[2]
+            if dados[3] is not None:
+                self.__itef_atual = dados[3]
+            tabela[i, 0] = self.__ireg_atual
+            tabela[i, 1] = self.__itec_atual
+            tabela[i, 2] = self.__simc_atual
+            tabela[i, 3] = self.__itef_atual
+            tabela[i, 4:] = dados[4:]
+            i += 1

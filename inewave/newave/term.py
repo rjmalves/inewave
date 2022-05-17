@@ -61,4 +61,5 @@ class Term(SectionFile):
     @usinas.setter
     def usinas(self, df: pd.DataFrame):
         b = self.__bloco_por_tipo(BlocoTermUTE, 0)
-        b.data = df
+        if b is not None:
+            b.data = df

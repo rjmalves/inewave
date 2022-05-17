@@ -67,7 +67,7 @@ class CVAR(SectionFile):
         return None
 
     @valores_constantes.setter
-    def valores_constantes(self, valores: list) -> Optional[list]:
+    def valores_constantes(self, valores: list):
         """
         Valores constantes dos parâmetros ALFA e LAMBDA do CVAR.
 

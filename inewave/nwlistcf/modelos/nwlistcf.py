@@ -1,139 +1,89 @@
-# Imports do próprio módulo
-from inewave.config import MAX_ITERS, REES
-from inewave._utils.bloco import Bloco
-from inewave._utils.leiturablocos import LeituraBlocos
+from inewave.config import MAX_CORTES, MAX_REES
 
-# Imports de módulos externos
+from cfinterface.components.block import Block
+from cfinterface.components.line import Line
+from cfinterface.components.field import Field
+from cfinterface.components.integerfield import IntegerField
+from cfinterface.components.floatfield import FloatField
+from typing import List, IO
+import pandas as pd  # type: ignore
 import numpy as np  # type: ignore
-from typing import IO, List
 
 
-class RegistroNwlistcf:
+class CortesPeriodoNwlistcf(Block):
     """
-    Armazena as informações de um registro da FCF do NEWAVE.
-
-    ** Parâmetros **
-
-    - ireg: `int`
-    - rhs:  `float`
-    - tabela: `np.ndarray`
-
+    Bloco do arquivo nwlistcf.rel que armazena os cortes de um período.
     """
 
-    __slots__ = ["ireg", "rhs", "tabela"]
+    BEGIN_PATTERN = "PERIODO: "
+    END_PATTERN = "PERIODO: "
 
-    def __init__(self, ireg: int, rhs: float, tabela: np.ndarray):
-        self.ireg = ireg
-        self.rhs = rhs
-        self.tabela = tabela
-
-    @classmethod
-    def le_registro(cls, primeira_linha: str, arq: IO) -> "RegistroNwlistcf":
-        """ """
-        primeira = True
-        n_rees = len(REES)
-        n_cols_tabela = 16
-        ireg = 0
-        rhs = 0.0
-        tabela = np.zeros((n_rees, n_cols_tabela))
-        for i in range(n_rees):
-            if primeira:
-                primeira = False
-                linha = primeira_linha
-                # Extrai os campos específicos da primeira linha
-                ireg = int(linha[2:10])
-                rhs = float(linha[15:30])
-            # Preenche a tabela com os dados do registro
-            else:
-                linha = arq.readline()
-            ree = int(linha[11:14])
-            ci = 31
-            nc = 17
-            for j in range(n_cols_tabela):
-                cf = ci + nc
-                num_str = linha[ci:cf]
-                valor = 0.0 if not num_str.isnumeric() else float(num_str)
-                tabela[ree - 1, j] = valor
-                ci = cf + 1
-
-        return cls(ireg, rhs, tabela)
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha_periodo = Line([IntegerField(4, 19)])
+        campos_iniciais: List[Field] = [
+            IntegerField(8, 2),
+            IntegerField(3, 11),
+            FloatField(16, 15, 4),
+        ]
+        campos_pis: List[Field] = [
+            FloatField(17, 31 + 18 * i, 9) for i in range(15)
+        ]
+        self.__linha = Line(campos_iniciais + campos_pis)
 
     def __eq__(self, o: object) -> bool:
-        """
-        A igualdade entre RegistroNwlistcf avalia todos os
-        valores.
-        """
-        if not isinstance(o, RegistroNwlistcf):
+        if not isinstance(o, CortesPeriodoNwlistcf):
             return False
-        reg: RegistroNwlistcf = o
-        eq_ireg = self.ireg == reg.ireg
-        eq_rhs = self.rhs == reg.rhs
-        eq_tab = np.array_equal(self.tabela, reg.tabela)
-
-        return all([eq_ireg, eq_rhs, eq_tab])
-
-
-class BlocoPeriodoNwlistcf(Bloco):
-    """
-    Bloco com informações dos cortes de um período,
-    existentes no arquivo `nwlistcf.rel` do NWLISTCF.
-    """
-
-    str_inicio = "  PERIODO:  "
-
-    def __init__(self):
-
-        super().__init__(BlocoPeriodoNwlistcf.str_inicio, "", False)
-
-        self._dados: List[RegistroNwlistcf] = []
-
-    def __eq__(self, o: object):
-        if not isinstance(o, BlocoPeriodoNwlistcf):
+        bloco: CortesPeriodoNwlistcf = o
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
             return False
-        bloco: BlocoPeriodoNwlistcf = o
-        return all([d1 == d2 for d1, d2 in zip(self._dados, bloco._dados)])
+        else:
+            return self.data.equals(bloco.data)
 
     # Override
-    def le(self, arq: IO):
-        # Salta duas linhas para acessar a tabela
-        arq.readline()
-        arq.readline()
+    def read(self, file: IO):
+        def converte_tabela_em_df() -> pd.DataFrame:
+            cols = (
+                ["IREG", "REE", "RHS", "PIV"]
+                + [f"PIH({i})" for i in range(1, 7)]
+                + [
+                    f"PIGTAD(P{i}L{j})"
+                    for i in range(1, 4)
+                    for j in range(1, 3)
+                ]
+                + ["PIMX_SAR", "PIMX_VMN"]
+            )
+            df = pd.DataFrame(tabela, columns=cols)
+            df = df.astype({"IREG": "int64", "REE": "int64"})
+            df["PERIODO"] = self.__periodo
+            df = df[["PERIODO"] + cols]
+            return df
+
+        # Lê o período e as linhas de cabeçalho
+        self.__periodo = self.__linha_periodo.read(file.readline())[0]
+        for _ in range(2):
+            file.readline()
+
+        # Lê as linhas de cortes
+        self.__ireg_atual = 0
+        tabela = np.zeros((MAX_CORTES * MAX_REES, 18))
+        i = 0
         while True:
-            # Verifica se a próxima linha é o início do
-            # próximo período ou é vazia
-            linha = arq.readline()
-            if BlocoPeriodoNwlistcf.str_inicio in linha or len(linha) < 2:
+            ultima_posicao = file.tell()
+            linha = file.readline()
+            if self.ends(linha) or len(linha) < 3:
+                file.seek(ultima_posicao)
+                tabela = tabela[:i, :]
+                self.data = converte_tabela_em_df()
                 break
-            # Senão, lê mais um registro
-            reg = RegistroNwlistcf.le_registro(linha, arq)
-            self._dados.append(reg)
-
-        return linha
-
-    # Override
-    def escreve(self, arq: IO):
-        pass
-
-
-class LeituraNwlistcf(LeituraBlocos):
-    """
-    Realiza a leitura do arquivo nwlistcf.rel,
-    existente em um diretório de saídas do NWLISTCF.
-
-    Esta classe contém o conjunto de utilidades para ler
-    e interpretar os campos do arquivo nwlistcf.rel, construindo um
-    objeto `Nwlistcf` cujas informações são as mesmas do arquivo.
-
-    Este objeto existe para retirar do modelo de dados a complexidade
-    de iterar pelas linhas do arquivo, recortar colunas, converter
-    tipos de dados, dentre outras tarefas necessárias para a leitura.
-
-    """
-
-    str_inicio_periodo = "  PERIODO:      "
-
-    def __init__(self, diretorio: str) -> None:
-        super().__init__(diretorio)
-
-    def _cria_blocos_leitura(self) -> List[Bloco]:
-        return [BlocoPeriodoNwlistcf() for _ in range(MAX_ITERS)]
+            dados = self.__linha.read(linha)
+            if dados[0] is not None:
+                self.__ireg_atual = dados[0]
+            tabela[i, 0] = self.__ireg_atual
+            tabela[i, 1:] = dados[1:]
+            i += 1

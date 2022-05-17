@@ -8,6 +8,7 @@ import numpy as np  # type: ignore
 
 from cfinterface.components.section import Section
 from cfinterface.components.line import Line
+from cfinterface.components.field import Field
 from cfinterface.components.literalfield import LiteralField
 from cfinterface.components.integerfield import IntegerField
 from cfinterface.components.floatfield import FloatField
@@ -1033,10 +1034,11 @@ class BlocoVolInicialSubsistema(Section):
 
     def __init__(self, state=..., previous=None, next=None, data=None) -> None:
         super().__init__(state, previous, next, data)
-        self.__linha = Line(
-            [LiteralField(21, 0)]
-            + [FloatField(5, 21 + i * 7, 1) for i in range(5)]
-        )
+        campo_nome: List[Field] = [LiteralField(21, 0)]
+        campos_volumes: List[Field] = [
+            FloatField(5, 21 + i * 7, 1) for i in range(5)
+        ]
+        self.__linha = Line(campo_nome + campos_volumes)
         self.__cabecalho: str = ""
 
     def __eq__(self, o: object) -> bool:

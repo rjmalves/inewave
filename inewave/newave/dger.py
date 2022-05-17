@@ -236,7 +236,7 @@ class DGer(SectionFile):
             b.valor = dado
 
     @property
-    def tipo_execucao(self) -> int:
+    def tipo_execucao(self) -> Optional[int]:
         """
         Configuração da linha número 2 do arquivo `dger.dat`.
 
@@ -255,7 +255,7 @@ class DGer(SectionFile):
             b.valor = dado
 
     @property
-    def duracao_periodo(self) -> int:
+    def duracao_periodo(self) -> Optional[int]:
         """
         Configuração da linha número 3 do arquivo `dger.dat`.
 
@@ -274,7 +274,7 @@ class DGer(SectionFile):
             b.valor = dado
 
     @property
-    def num_anos_estudo(self) -> int:
+    def num_anos_estudo(self) -> Optional[int]:
         """
         Configuração da linha número 4 do arquivo `dger.dat`.
 
@@ -293,7 +293,7 @@ class DGer(SectionFile):
             b.valor = dado
 
     @property
-    def mes_inicio_pre_estudo(self) -> int:
+    def mes_inicio_pre_estudo(self) -> Optional[int]:
         """
         Configuração da linha número 5 do arquivo `dger.dat`.
 
@@ -312,7 +312,7 @@ class DGer(SectionFile):
             b.valor = dado
 
     @property
-    def mes_inicio_estudo(self) -> int:
+    def mes_inicio_estudo(self) -> Optional[int]:
         """
         Configuração da linha número 6 do arquivo `dger.dat`.
 
@@ -331,7 +331,7 @@ class DGer(SectionFile):
             b.valor = dado
 
     @property
-    def ano_inicio_estudo(self) -> int:
+    def ano_inicio_estudo(self) -> Optional[int]:
         """
         Configuração da linha número 7 do arquivo `dger.dat`.
 
@@ -350,7 +350,7 @@ class DGer(SectionFile):
             b.valor = dado
 
     @property
-    def num_anos_pre_estudo(self) -> int:
+    def num_anos_pre_estudo(self) -> Optional[int]:
         """
         Configuração da linha número 8 do arquivo `dger.dat`.
 
@@ -369,7 +369,7 @@ class DGer(SectionFile):
             b.valor = dado
 
     @property
-    def num_anos_pos_estudo(self) -> int:
+    def num_anos_pos_estudo(self) -> Optional[int]:
         """
         Configuração da linha número 9 do arquivo `dger.dat`.
 
@@ -388,7 +388,7 @@ class DGer(SectionFile):
             b.valor = dado
 
     @property
-    def num_anos_pos_sim_final(self) -> int:
+    def num_anos_pos_sim_final(self) -> Optional[int]:
         """
         Configuração da linha número 10 do arquivo `dger.dat`.
 
@@ -407,7 +407,7 @@ class DGer(SectionFile):
             b.valor = dado
 
     @property
-    def imprime_dados(self) -> int:
+    def imprime_dados(self) -> Optional[int]:
         """
         Configuração da linha número 11 do arquivo `dger.dat`.
 
@@ -426,7 +426,7 @@ class DGer(SectionFile):
             b.valor = dado
 
     @property
-    def imprime_mercados(self) -> int:
+    def imprime_mercados(self) -> Optional[int]:
         """
         Configuração da linha número 12 do arquivo `dger.dat`.
 
@@ -445,7 +445,7 @@ class DGer(SectionFile):
             b.valor = dado
 
     @property
-    def imprime_energias(self) -> int:
+    def imprime_energias(self) -> Optional[int]:
         """
         Configuração da linha número 13 do arquivo `dger.dat`.
 
@@ -464,7 +464,7 @@ class DGer(SectionFile):
             b.valor = dado
 
     @property
-    def imprime_modelo_estocastico(self) -> int:
+    def imprime_modelo_estocastico(self) -> Optional[int]:
         """
         Configuração da linha número 14 do arquivo `dger.dat`.
 
@@ -483,7 +483,7 @@ class DGer(SectionFile):
             b.valor = dado
 
     @property
-    def imprime_subsistema(self) -> int:
+    def imprime_subsistema(self) -> Optional[int]:
         """
         Configuração da linha número 15 do arquivo `dger.dat`.
 
@@ -502,7 +502,7 @@ class DGer(SectionFile):
             b.valor = dado
 
     @property
-    def num_max_iteracoes(self) -> int:
+    def num_max_iteracoes(self) -> Optional[int]:
         """
         Configuração da linha número 16 do arquivo `dger.dat`.
 
@@ -521,7 +521,7 @@ class DGer(SectionFile):
             b.valor = dado
 
     @property
-    def num_forwards(self) -> int:
+    def num_forwards(self) -> Optional[int]:
         """
         Configuração da linha número 17 do arquivo `dger.dat`.
 
@@ -540,7 +540,7 @@ class DGer(SectionFile):
             b.valor = dado
 
     @property
-    def num_aberturas(self) -> List[int]:
+    def num_aberturas(self) -> Optional[int]:
         """
         Configuração da linha número 18 do arquivo `dger.dat`.
 
@@ -553,13 +553,13 @@ class DGer(SectionFile):
         return None
 
     @num_aberturas.setter
-    def num_aberturas(self, dado: List[int]):
+    def num_aberturas(self, dado: int):
         b = self.__bloco_por_tipo(BlocoNumAberturas, 0)
         if b is not None:
             b.valor = dado
 
     @property
-    def num_series_sinteticas(self) -> int:
+    def num_series_sinteticas(self) -> Optional[int]:
         """
         Configuração da linha número 19 do arquivo `dger.dat`.
 
@@ -578,7 +578,7 @@ class DGer(SectionFile):
             b.valor = dado
 
     @property
-    def ordem_maxima_parp(self) -> int:
+    def ordem_maxima_parp(self) -> Optional[int]:
         """
         Configuração da linha número 20 do arquivo `dger.dat`.
 
@@ -597,7 +597,7 @@ class DGer(SectionFile):
             b.valor = dado
 
     @property
-    def ano_inicial_historico(self) -> int:
+    def ano_inicial_historico(self) -> Optional[int]:
         """
         Configuração da linha número 21 do arquivo `dger.dat`.
 
@@ -616,7 +616,7 @@ class DGer(SectionFile):
             b.ano_inicial = dado
 
     @property
-    def tamanho_registro_arquivo_historico(self) -> int:
+    def tamanho_registro_arquivo_historico(self) -> Optional[int]:
         """
         Configuração da linha número 21 do arquivo `dger.dat`.
 
@@ -635,7 +635,7 @@ class DGer(SectionFile):
             b.tamanho_registro_arquivo = dado
 
     @property
-    def calcula_volume_inicial(self) -> int:
+    def calcula_volume_inicial(self) -> Optional[int]:
         """
         Configuração da linha número 22 do arquivo `dger.dat`.
 
@@ -654,7 +654,7 @@ class DGer(SectionFile):
             b.valor = dado
 
     @property
-    def volume_inicial_subsistema(self) -> List[float]:
+    def volume_inicial_subsistema(self) -> List[Optional[float]]:
         """
         Configuração das linhas número 23 e 24 do arquivo `dger.dat`.
 
@@ -664,16 +664,16 @@ class DGer(SectionFile):
         b = self.__bloco_por_tipo(BlocoVolInicialSubsistema, 0)
         if b is not None:
             return b.valores
-        return None
+        return []
 
     @volume_inicial_subsistema.setter
-    def volume_inicial_subsistema(self, dado: List[float]):
+    def volume_inicial_subsistema(self, dado: List[Optional[float]]):
         b = self.__bloco_por_tipo(BlocoVolInicialSubsistema, 0)
         if b is not None:
             b.valores = dado
 
     @property
-    def tolerancia(self) -> float:
+    def tolerancia(self) -> Optional[float]:
         """
         Configuração da linha número 25 do arquivo `dger.dat`.
 
@@ -692,7 +692,7 @@ class DGer(SectionFile):
             b.valor = dado
 
     @property
-    def taxa_de_desconto(self) -> float:
+    def taxa_de_desconto(self) -> Optional[float]:
         """
         Configuração da linha número 26 do arquivo `dger.dat`.
 
@@ -711,7 +711,7 @@ class DGer(SectionFile):
             b.valor = dado
 
     @property
-    def tipo_simulacao_final(self) -> int:
+    def tipo_simulacao_final(self) -> Optional[int]:
         """
         Configuração da linha número 27 do arquivo `dger.dat`.
 
@@ -730,7 +730,7 @@ class DGer(SectionFile):
             b.valor = dado
 
     @property
-    def impressao_operacao(self) -> int:
+    def impressao_operacao(self) -> Optional[int]:
         """
         Configuração da linha número 28 do arquivo `dger.dat`.
 
@@ -749,7 +749,7 @@ class DGer(SectionFile):
             b.valor = dado
 
     @property
-    def impressao_convergencia(self) -> int:
+    def impressao_convergencia(self) -> Optional[int]:
         """
         Configuração da linha número 29 do arquivo `dger.dat`.
 
@@ -768,7 +768,7 @@ class DGer(SectionFile):
             b.valor = dado
 
     @property
-    def intervalo_para_gravar(self) -> int:
+    def intervalo_para_gravar(self) -> Optional[int]:
         """
         Configuração da linha número 30 do arquivo `dger.dat`.
 
@@ -787,7 +787,7 @@ class DGer(SectionFile):
             b.valor = dado
 
     @property
-    def num_minimo_iteracoes(self) -> int:
+    def num_minimo_iteracoes(self) -> Optional[int]:
         """
         Configuração da linha número 31 do arquivo `dger.dat`.
 
@@ -806,7 +806,7 @@ class DGer(SectionFile):
             b.valor = dado
 
     @property
-    def racionamento_preventivo(self) -> str:
+    def racionamento_preventivo(self) -> Optional[int]:
         """
         Configuração da linha número 32 do arquivo `dger.dat`.
 
@@ -819,13 +819,13 @@ class DGer(SectionFile):
         return None
 
     @racionamento_preventivo.setter
-    def racionamento_preventivo(self, dado: str):
+    def racionamento_preventivo(self, dado: int):
         b = self.__bloco_por_tipo(BlocoRacionamentoPreventivo, 0)
         if b is not None:
             b.valor = dado
 
     @property
-    def num_anos_manutencao_utes(self) -> int:
+    def num_anos_manutencao_utes(self) -> Optional[int]:
         """
         Configuração da linha número 33 do arquivo `dger.dat`.
 
@@ -844,7 +844,9 @@ class DGer(SectionFile):
             b.valor = dado
 
     @property
-    def considera_tendencia_hidrologica_calculo_politica(self) -> int:
+    def considera_tendencia_hidrologica_calculo_politica(
+        self,
+    ) -> Optional[int]:
         """
         Configuração da linha número 34 do arquivo `dger.dat`.
 
@@ -863,7 +865,7 @@ class DGer(SectionFile):
             b.considera_tendencia_hidrologica_calculo_politica = dado
 
     @property
-    def considera_tendencia_hidrologica_sim_final(self) -> int:
+    def considera_tendencia_hidrologica_sim_final(self) -> Optional[int]:
         """
         Configuração da linha número 34 do arquivo `dger.dat`.
 
@@ -882,7 +884,7 @@ class DGer(SectionFile):
             b.considera_tendencia_hidrologica_sim_final = dado
 
     @property
-    def restricao_itaipu(self) -> int:
+    def restricao_itaipu(self) -> Optional[int]:
         """
         Configuração da linha número 35 do arquivo `dger.dat`.
 
@@ -901,7 +903,7 @@ class DGer(SectionFile):
             b.valor = dado
 
     @property
-    def bid(self) -> int:
+    def bid(self) -> Optional[int]:
         """
         Configuração da linha número 36 do arquivo `dger.dat`.
 
@@ -920,7 +922,7 @@ class DGer(SectionFile):
             b.valor = dado
 
     @property
-    def perdas_rede_transmissao(self) -> int:
+    def perdas_rede_transmissao(self) -> Optional[int]:
         """
         Configuração da linha número 37 do arquivo `dger.dat`.
 
@@ -939,7 +941,7 @@ class DGer(SectionFile):
             b.valor = dado
 
     @property
-    def el_nino(self) -> int:
+    def el_nino(self) -> Optional[int]:
         """
         Configuração da linha número 38 do arquivo `dger.dat`.
 
@@ -958,7 +960,7 @@ class DGer(SectionFile):
             b.valor = dado
 
     @property
-    def enso(self) -> int:
+    def enso(self) -> Optional[int]:
         """
         Configuração da linha número 39 do arquivo `dger.dat`.
 
@@ -977,7 +979,7 @@ class DGer(SectionFile):
             b.valor = dado
 
     @property
-    def duracao_por_patamar(self) -> int:
+    def duracao_por_patamar(self) -> Optional[int]:
         """
         Configuração da linha número 40 do arquivo `dger.dat`.
 
@@ -996,7 +998,7 @@ class DGer(SectionFile):
             b.valor = dado
 
     @property
-    def outros_usos_da_agua(self) -> int:
+    def outros_usos_da_agua(self) -> Optional[int]:
         """
         Configuração da linha número 41 do arquivo `dger.dat`.
 
@@ -1015,7 +1017,7 @@ class DGer(SectionFile):
             b.valor = dado
 
     @property
-    def correcao_desvio(self) -> int:
+    def correcao_desvio(self) -> Optional[int]:
         """
         Configuração da linha número 42 do arquivo `dger.dat`.
 
@@ -1034,7 +1036,7 @@ class DGer(SectionFile):
             b.valor = dado
 
     @property
-    def curva_aversao(self) -> int:
+    def curva_aversao(self) -> Optional[int]:
         """
         Configuração da linha número 43 do arquivo `dger.dat`.
 
@@ -1053,7 +1055,7 @@ class DGer(SectionFile):
             b.valor = dado
 
     @property
-    def tipo_geracao_enas(self) -> int:
+    def tipo_geracao_enas(self) -> Optional[int]:
         """
         Configuração da linha número 44 do arquivo `dger.dat`.
 
@@ -1072,7 +1074,7 @@ class DGer(SectionFile):
             b.valor = dado
 
     @property
-    def primeira_profundidade_risco_deficit(self) -> float:
+    def primeira_profundidade_risco_deficit(self) -> Optional[float]:
         """
         Configuração da linha número 45 do arquivo `dger.dat`.
 
@@ -1091,7 +1093,7 @@ class DGer(SectionFile):
             b.primeira_profundidade_risco_deficit = dado
 
     @property
-    def segunda_profundidade_risco_deficit(self) -> float:
+    def segunda_profundidade_risco_deficit(self) -> Optional[float]:
         """
         Configuração da linha número 45 do arquivo `dger.dat`.
 
@@ -1110,7 +1112,7 @@ class DGer(SectionFile):
             b.segunda_profundidade_risco_deficit = dado
 
     @property
-    def iteracao_para_simulacao_final(self) -> int:
+    def iteracao_para_simulacao_final(self) -> Optional[int]:
         """
         Configuração da linha número 46 do arquivo `dger.dat`.
 
@@ -1129,7 +1131,7 @@ class DGer(SectionFile):
             b.valor = dado
 
     @property
-    def agrupamento_livre(self) -> int:
+    def agrupamento_livre(self) -> Optional[int]:
         """
         Configuração da linha número 47 do arquivo `dger.dat`.
 
@@ -1148,7 +1150,7 @@ class DGer(SectionFile):
             b.valor = dado
 
     @property
-    def equalizacao_penal_intercambio(self) -> int:
+    def equalizacao_penal_intercambio(self) -> Optional[int]:
         """
         Configuração da linha número 48 do arquivo `dger.dat`.
 
@@ -1167,7 +1169,7 @@ class DGer(SectionFile):
             b.valor = dado
 
     @property
-    def representacao_submotorizacao(self) -> int:
+    def representacao_submotorizacao(self) -> Optional[int]:
         """
         Configuração da linha número 49 do arquivo `dger.dat`.
 
@@ -1186,7 +1188,7 @@ class DGer(SectionFile):
             b.valor = dado
 
     @property
-    def ordenacao_automatica(self) -> int:
+    def ordenacao_automatica(self) -> Optional[int]:
         """
         Configuração da linha número 50 do arquivo `dger.dat`.
 
@@ -1205,7 +1207,7 @@ class DGer(SectionFile):
             b.valor = dado
 
     @property
-    def considera_carga_adicional(self) -> int:
+    def considera_carga_adicional(self) -> Optional[int]:
         """
         Configuração da linha número 51 do arquivo `dger.dat`.
 
@@ -1224,7 +1226,7 @@ class DGer(SectionFile):
             b.valor = dado
 
     @property
-    def delta_zsup(self) -> float:
+    def delta_zsup(self) -> Optional[float]:
         """
         Configuração da linha número 52 do arquivo `dger.dat`.
 
@@ -1243,7 +1245,7 @@ class DGer(SectionFile):
             b.valor = dado
 
     @property
-    def delta_zinf(self) -> float:
+    def delta_zinf(self) -> Optional[float]:
         """
         Configuração da linha número 53 do arquivo `dger.dat`.
 
@@ -1262,7 +1264,7 @@ class DGer(SectionFile):
             b.valor = dado
 
     @property
-    def deltas_consecutivos(self) -> int:
+    def deltas_consecutivos(self) -> Optional[int]:
         """
         Configuração da linha número 54 do arquivo `dger.dat`.
 
@@ -1281,7 +1283,7 @@ class DGer(SectionFile):
             b.valor = dado
 
     @property
-    def despacho_antecipado_gnl(self) -> int:
+    def despacho_antecipado_gnl(self) -> Optional[int]:
         """
         Configuração da linha número 55 do arquivo `dger.dat`.
 
@@ -1300,7 +1302,7 @@ class DGer(SectionFile):
             b.valor = dado
 
     @property
-    def modif_automatica_adterm(self) -> int:
+    def modif_automatica_adterm(self) -> Optional[int]:
         """
         Configuração da linha número 56 do arquivo `dger.dat`.
 
@@ -1319,7 +1321,7 @@ class DGer(SectionFile):
             b.valor = dado
 
     @property
-    def considera_ghmin(self) -> int:
+    def considera_ghmin(self) -> Optional[int]:
         """
         Configuração da linha número 57 do arquivo `dger.dat`.
 
@@ -1338,7 +1340,7 @@ class DGer(SectionFile):
             b.valor = dado
 
     @property
-    def simulacao_final_com_data(self) -> int:
+    def simulacao_final_com_data(self) -> Optional[int]:
         """
         Configuração da linha número 58 do arquivo `dger.dat`.
 
@@ -1357,7 +1359,7 @@ class DGer(SectionFile):
             b.valor = dado
 
     @property
-    def utiliza_gerenciamento_pls(self) -> int:
+    def utiliza_gerenciamento_pls(self) -> Optional[int]:
         """
         Configuração da linha número 59 do arquivo `dger.dat`.
 
@@ -1376,7 +1378,7 @@ class DGer(SectionFile):
             b.utiliza_gerenciamento_pls = dado
 
     @property
-    def comunicacao_dois_niveis(self) -> int:
+    def comunicacao_dois_niveis(self) -> Optional[int]:
         """
         Configuração da linha número 59 do arquivo `dger.dat`.
 
@@ -1395,7 +1397,7 @@ class DGer(SectionFile):
             b.comunicacao_dois_niveis = dado
 
     @property
-    def armazenamento_local_arquivos_temporarios(self) -> int:
+    def armazenamento_local_arquivos_temporarios(self) -> Optional[int]:
         """
         Configuração da linha número 59 do arquivo `dger.dat`.
 
@@ -1414,7 +1416,7 @@ class DGer(SectionFile):
             b.armazenamento_local_arquivos_temporarios = dado
 
     @property
-    def alocacao_memoria_ena(self) -> int:
+    def alocacao_memoria_ena(self) -> Optional[int]:
         """
         Configuração da linha número 59 do arquivo `dger.dat`.
 
@@ -1433,7 +1435,7 @@ class DGer(SectionFile):
             b.alocacao_memoria_ena = dado
 
     @property
-    def alocacao_memoria_cortes(self) -> int:
+    def alocacao_memoria_cortes(self) -> Optional[int]:
         """
         Configuração da linha número 59 do arquivo `dger.dat`.
 
@@ -1452,7 +1454,7 @@ class DGer(SectionFile):
             b.alocacao_memoria_cortes = dado
 
     @property
-    def sar(self) -> int:
+    def sar(self) -> Optional[int]:
         """
         Configuração da linha número 60 do arquivo `dger.dat`.
 
@@ -1471,7 +1473,7 @@ class DGer(SectionFile):
             b.valor = dado
 
     @property
-    def cvar(self) -> int:
+    def cvar(self) -> Optional[int]:
         """
         Configuração da linha número 61 do arquivo `dger.dat`.
 
@@ -1490,7 +1492,7 @@ class DGer(SectionFile):
             b.valor = dado
 
     @property
-    def considera_zsup_min_convergencia(self) -> int:
+    def considera_zsup_min_convergencia(self) -> Optional[int]:
         """
         Configuração da linha número 62 do arquivo `dger.dat`.
 
@@ -1509,7 +1511,7 @@ class DGer(SectionFile):
             b.valor = dado
 
     @property
-    def desconsidera_vazao_minima(self) -> int:
+    def desconsidera_vazao_minima(self) -> Optional[int]:
         """
         Configuração da linha número 63 do arquivo `dger.dat`.
 
@@ -1528,7 +1530,7 @@ class DGer(SectionFile):
             b.valor = dado
 
     @property
-    def restricoes_eletricas(self) -> int:
+    def restricoes_eletricas(self) -> Optional[int]:
         """
         Configuração da linha número 64 do arquivo `dger.dat`.
 
@@ -1547,7 +1549,7 @@ class DGer(SectionFile):
             b.valor = dado
 
     @property
-    def selecao_de_cortes(self) -> int:
+    def selecao_de_cortes(self) -> Optional[int]:
         """
         Configuração da linha número 65 do arquivo `dger.dat`.
 
@@ -1566,7 +1568,7 @@ class DGer(SectionFile):
             b.valor = dado
 
     @property
-    def janela_de_cortes(self) -> int:
+    def janela_de_cortes(self) -> Optional[int]:
         """
         Configuração da linha número 66 do arquivo `dger.dat`.
 
@@ -1585,7 +1587,7 @@ class DGer(SectionFile):
             b.valor = dado
 
     @property
-    def considera_reamostragem_cenarios(self) -> int:
+    def considera_reamostragem_cenarios(self) -> Optional[int]:
         """
         Configuração da linha número 67 do arquivo `dger.dat`.
 
@@ -1604,7 +1606,7 @@ class DGer(SectionFile):
             b.considera_reamostragem_cenarios = dado
 
     @property
-    def tipo_reamostragem_cenarios(self) -> int:
+    def tipo_reamostragem_cenarios(self) -> Optional[int]:
         """
         Configuração da linha número 67 do arquivo `dger.dat`.
 
@@ -1623,7 +1625,7 @@ class DGer(SectionFile):
             b.tipo_reamostragem_cenarios = dado
 
     @property
-    def passo_reamostragem_cenarios(self) -> int:
+    def passo_reamostragem_cenarios(self) -> Optional[int]:
         """
         Configuração da linha número 67 do arquivo `dger.dat`.
 
@@ -1642,7 +1644,7 @@ class DGer(SectionFile):
             b.passo_reamostragem_cenarios = dado
 
     @property
-    def converge_no_zero(self) -> int:
+    def converge_no_zero(self) -> Optional[int]:
         """
         Configuração da linha número 68 do arquivo `dger.dat`.
 
@@ -1661,7 +1663,7 @@ class DGer(SectionFile):
             b.valor = dado
 
     @property
-    def consulta_fcf(self) -> int:
+    def consulta_fcf(self) -> Optional[int]:
         """
         Configuração da linha número 69 do arquivo `dger.dat`.
 
@@ -1680,7 +1682,7 @@ class DGer(SectionFile):
             b.valor = dado
 
     @property
-    def impressao_ena(self) -> int:
+    def impressao_ena(self) -> Optional[int]:
         """
         Configuração da linha número 70 do arquivo `dger.dat`.
 
@@ -1699,7 +1701,7 @@ class DGer(SectionFile):
             b.valor = dado
 
     @property
-    def impressao_cortes_ativos_sim_final(self) -> str:
+    def impressao_cortes_ativos_sim_final(self) -> Optional[int]:
         """
         Configuração da linha número 71 do arquivo `dger.dat`.
 
@@ -1712,13 +1714,13 @@ class DGer(SectionFile):
         return None
 
     @impressao_cortes_ativos_sim_final.setter
-    def impressao_cortes_ativos_sim_final(self, dado: str):
+    def impressao_cortes_ativos_sim_final(self, dado: int):
         b = self.__bloco_por_tipo(BlocoImpressaoCortesAtivosSimFinal, 0)
         if b is not None:
             b.valor = dado
 
     @property
-    def representacao_agregacao(self) -> int:
+    def representacao_agregacao(self) -> Optional[int]:
         """
         Configuração da linha número 72 do arquivo `dger.dat`.
 
@@ -1737,7 +1739,7 @@ class DGer(SectionFile):
             b.valor = dado
 
     @property
-    def matriz_correlacao_espacial(self) -> int:
+    def matriz_correlacao_espacial(self) -> Optional[int]:
         """
         Configuração da linha número 73 do arquivo `dger.dat`.
 
@@ -1756,7 +1758,7 @@ class DGer(SectionFile):
             b.valor = dado
 
     @property
-    def desconsidera_convergencia_estatistica(self) -> int:
+    def desconsidera_convergencia_estatistica(self) -> Optional[int]:
         """
         Configuração da linha número 74 do arquivo `dger.dat`.
 
@@ -1775,7 +1777,7 @@ class DGer(SectionFile):
             b.valor = dado
 
     @property
-    def momento_reamostragem(self) -> int:
+    def momento_reamostragem(self) -> Optional[int]:
         """
         Configuração da linha número 75 do arquivo `dger.dat`.
 
@@ -1794,7 +1796,7 @@ class DGer(SectionFile):
             b.valor = dado
 
     @property
-    def mantem_arquivos_energias(self) -> int:
+    def mantem_arquivos_energias(self) -> Optional[int]:
         """
         Configuração da linha número 76 do arquivo `dger.dat`.
 
@@ -1813,7 +1815,7 @@ class DGer(SectionFile):
             b.valor = dado
 
     @property
-    def inicio_teste_convergencia(self) -> int:
+    def inicio_teste_convergencia(self) -> Optional[int]:
         """
         Configuração da linha número 77 do arquivo `dger.dat`.
 
@@ -1832,7 +1834,7 @@ class DGer(SectionFile):
             b.valor = dado
 
     @property
-    def sazonaliza_vmint(self) -> int:
+    def sazonaliza_vmint(self) -> Optional[int]:
         """
         Configuração da linha número 78 do arquivo `dger.dat`.
 
@@ -1851,7 +1853,7 @@ class DGer(SectionFile):
             b.valor = dado
 
     @property
-    def sazonaliza_vmaxt(self) -> int:
+    def sazonaliza_vmaxt(self) -> Optional[int]:
         """
         Configuração da linha número 79 do arquivo `dger.dat`.
 
@@ -1870,7 +1872,7 @@ class DGer(SectionFile):
             b.valor = dado
 
     @property
-    def sazonaliza_vminp(self) -> int:
+    def sazonaliza_vminp(self) -> Optional[int]:
         """
         Configuração da linha número 80 do arquivo `dger.dat`.
 
@@ -1889,7 +1891,7 @@ class DGer(SectionFile):
             b.valor = dado
 
     @property
-    def sazonaliza_cfuga_cmont(self) -> int:
+    def sazonaliza_cfuga_cmont(self) -> Optional[int]:
         """
         Configuração da linha número 81 do arquivo `dger.dat`.
 
@@ -1908,7 +1910,7 @@ class DGer(SectionFile):
             b.valor = dado
 
     @property
-    def restricoes_emissao_gee(self) -> int:
+    def restricoes_emissao_gee(self) -> Optional[int]:
         """
         Configuração da linha número 82 do arquivo `dger.dat`.
 
@@ -1927,7 +1929,7 @@ class DGer(SectionFile):
             b.valor = dado
 
     @property
-    def consideracao_media_anual_afluencias(self) -> int:
+    def consideracao_media_anual_afluencias(self) -> Optional[int]:
         """
         Configuração da linha número 83 do arquivo `dger.dat`.
 
@@ -1946,7 +1948,7 @@ class DGer(SectionFile):
             b.consideracao_media_anual_afluencias = dado
 
     @property
-    def reducao_automatica_ordem(self) -> int:
+    def reducao_automatica_ordem(self) -> Optional[int]:
         """
         Configuração da linha número 83 do arquivo `dger.dat`.
 
@@ -1965,7 +1967,7 @@ class DGer(SectionFile):
             b.reducao_automatica_ordem = dado
 
     @property
-    def restricoes_fornecimento_gas(self) -> int:
+    def restricoes_fornecimento_gas(self) -> Optional[int]:
         """
         Configuração da linha número 84 do arquivo `dger.dat`.
 
@@ -1984,7 +1986,7 @@ class DGer(SectionFile):
             b.valor = dado
 
     @property
-    def memoria_calculo_cortes(self) -> int:
+    def memoria_calculo_cortes(self) -> Optional[int]:
         """
         Configuração da linha número 85 do arquivo `dger.dat`.
 
@@ -2003,7 +2005,7 @@ class DGer(SectionFile):
             b.valor = dado
 
     @property
-    def considera_geracao_eolica(self) -> int:
+    def considera_geracao_eolica(self) -> Optional[int]:
         """
         Configuração da linha número 86 do arquivo `dger.dat`.
 
@@ -2022,7 +2024,7 @@ class DGer(SectionFile):
             b.considera = dado
 
     @property
-    def penalidade_corte_geracao_eolica(self) -> float:
+    def penalidade_corte_geracao_eolica(self) -> Optional[float]:
         """
         Configuração da linha número 86 do arquivo `dger.dat`.
 
@@ -2041,7 +2043,7 @@ class DGer(SectionFile):
             b.penalidade = dado
 
     @property
-    def compensacao_correlacao_cruzada(self) -> int:
+    def compensacao_correlacao_cruzada(self) -> Optional[int]:
         """
         Configuração da linha número 87 do arquivo `dger.dat`.
 

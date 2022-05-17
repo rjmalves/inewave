@@ -1,14 +1,11 @@
-from typing import List
+from inewave.nwlistcf.modelos.nwlistcf import CortesPeriodoNwlistcf
 
-from inewave._utils.escritablocos import EscritaBlocos
-
-from inewave._utils.dadosarquivo import DadosArquivoBlocos
-from inewave._utils.arquivo import ArquivoBlocos
-from inewave.nwlistcf.modelos.nwlistcf import LeituraNwlistcf
-from inewave.nwlistcf.modelos.nwlistcf import RegistroNwlistcf
+from cfinterface.files.blockfile import BlockFile
+from typing import TypeVar, Optional
+import pandas as pd  # type: ignore
 
 
-class Nwlistcf(ArquivoBlocos):
+class Nwlistcf(BlockFile):
     """
     Armazena os dados dos cortes construídos pelo NEWAVE existentes
     no arquivo `nwlistcf.rel` do NWLISTCF.
@@ -16,29 +13,45 @@ class Nwlistcf(ArquivoBlocos):
     Esta classe armazena os cortes da FCF de cada uma das variáveis,
     para cada registro e REE dentro do registro.
 
-    Cada registro possui um modelo próprio, armazenando os coeficientes
-    dos hiperplanos em uma array específica.
-
     """
 
-    def __init__(self, dados: DadosArquivoBlocos):
-        super().__init__(dados)
+    T = TypeVar("T")
+
+    BLOCKS = [CortesPeriodoNwlistcf]
+
+    def __init__(self, data=...) -> None:
+        super().__init__(data)
+        self.__cortes_periodos = None
 
     @classmethod
     def le_arquivo(
         cls, diretorio: str, nome_arquivo="nwlistcf.rel"
     ) -> "Nwlistcf":
-        leitor = LeituraNwlistcf(diretorio)
-        r = leitor.le_arquivo(nome_arquivo)
-        return cls(r)
+        return cls.read(diretorio, nome_arquivo)
 
     def escreve_arquivo(self, diretorio: str, nome_arquivo="nwlistcf.rel"):
-        escritor = EscritaBlocos(diretorio)
-        escritor.escreve_arquivo(self._dados, nome_arquivo)
+        self.write(diretorio, nome_arquivo)
+
+    def __monta_tabela_cortes(self) -> pd.DataFrame:
+        df = None
+        for b in self.data.of_type(CortesPeriodoNwlistcf):
+            dados = b.data
+            if dados is None:
+                continue
+            elif df is None:
+                df = b.data
+            else:
+                df = pd.concat([df, b.data], ignore_index=True)
+        return df
 
     @property
-    def registros(self) -> List[RegistroNwlistcf]:
-        registros: List[RegistroNwlistcf] = []
-        for b in self._blocos:
-            registros += b.dados
-        return registros
+    def cortes(self) -> Optional[pd.DataFrame]:
+        """
+        Tabela com os cortes da FCF.
+
+        :return: A tabela de cortes como um DataFrame
+        :rtype: Optional[pd.DataFrame]
+        """
+        if self.__cortes_periodos is None:
+            self.__cortes_periodos = self.__monta_tabela_cortes()
+        return self.__cortes_periodos

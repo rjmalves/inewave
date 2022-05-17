@@ -1,5 +1,6 @@
 from cfinterface.files.sectionfile import SectionFile
-from typing import TypeVar
+from cfinterface.components.section import Section
+from typing import TypeVar, List, Type
 
 
 class ENSOAux(SectionFile):
@@ -10,7 +11,7 @@ class ENSOAux(SectionFile):
 
     T = TypeVar("T")
 
-    SECTIONS = []
+    SECTIONS: List[Type[Section]] = []
 
     def __init__(self, data=...) -> None:
         super().__init__(data)

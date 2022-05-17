@@ -1,19 +1,32 @@
-from inewave.nwlistcf.nwlistcf import Nwlistcf
+from inewave.nwlistcf import Nwlistcf
 
-fcf = Nwlistcf.le_arquivo("./tests/_arquivos")
+from tests.mocks.mock_open import mock_open
+from unittest.mock import MagicMock, patch
+
+from tests.mocks.arquivos.nwlistcf import MockNwlistcf
 
 
-def test_leitura():
-    assert len(fcf.registros) > 0
+def test_atributos_encontrados_nwlistcf():
+    m: MagicMock = mock_open(read_data="".join(MockNwlistcf))
+    with patch("builtins.open", m):
+        n = Nwlistcf.le_arquivo("")
+        assert n.cortes is not None
+
+
+def test_atributos_nao_encontrados_nwlistcf():
+    m: MagicMock = mock_open(read_data="")
+    with patch("builtins.open", m):
+        n = Nwlistcf.le_arquivo("")
+        assert n.cortes is None
 
 
 def test_eq_nwlistcf():
-    fcf2 = Nwlistcf.le_arquivo("./tests/_arquivos")
-    assert fcf2 == fcf
+    m: MagicMock = mock_open(read_data="".join(MockNwlistcf))
+    with patch("builtins.open", m):
+        n1 = Nwlistcf.le_arquivo("")
+        n2 = Nwlistcf.le_arquivo("")
+        assert n1 == n2
 
 
-# def test_neq_nwlistcf():
-#     leitor2 = LeituraNwlistcf("./tests/_arquivos")
-#     leitor2.le_arquivo()
-#     leitor2.nwlistcf.registros[5] = {}
-#     assert leitor2.nwlistcf != leitor.nwlistcf
+# Não deve ter teste de diferença, visto que o atributo é
+# implementado como Lazy Property.
