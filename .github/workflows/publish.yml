@@ -21,10 +21,10 @@ jobs:
         python -m pytest --cov=inewave tests/
     - name: Veriricações de qualidade de código - tipagem estática
       run: |
-        python -m mypy .
+        python -m mypy ./inewave
     - name: Verificações de qualidade de código - linter PEP8
       run: |
-        python -m pylama --ignore E203 .
+        python -m pylama --ignore E203 ./inewave
     - name: Instala dependências e constroi o pacote
       if: startsWith(github.ref, 'refs/tags')
       run: |

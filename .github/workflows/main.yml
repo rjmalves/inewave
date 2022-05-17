@@ -31,7 +31,7 @@ jobs:
         verbose: true 
     - name: Veriricações de qualidade de código - tipagem estática
       run: |
-        python -m mypy .
+        python -m mypy ./inewave
     - name: Verificações de qualidade de código - linter PEP8
       run: |
-        python -m pylama --ignore E203 .
+        python -m pylama --ignore E203 ./inewave
