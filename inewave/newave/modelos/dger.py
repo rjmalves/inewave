@@ -1,11 +1,4 @@
-# Imports do próprio módulo
-from inewave.config import SUBMERCADOS
-from inewave._utils.registros import RegistroAn, RegistroFn, RegistroIn
-
-# Imports de módulos externos
 from typing import IO, List, Optional
-import numpy as np  # type: ignore
-
 from cfinterface.components.section import Section
 from cfinterface.components.line import Line
 from cfinterface.components.field import Field

@@ -1,7 +1,8 @@
 from inewave.config import MAX_ANOS_ESTUDO, MESES_DF
 
-from cfinterface.components.section import Section
+from cfinterface.components.block import Block
 from cfinterface.components.line import Line
+from cfinterface.components.field import Field
 from cfinterface.components.floatfield import FloatField
 from cfinterface.components.literalfield import LiteralField
 from typing import List, IO
@@ -9,7 +10,7 @@ import pandas as pd  # type: ignore
 import numpy as np  # type: ignore
 
 
-class BlocoValoresConstantesCVAR(Section):
+class BlocoValoresConstantesCVAR(Block):
     """
     Bloco com valores dos parâmetros ALFA e LAMBDA constantes.
     """
@@ -45,7 +46,6 @@ class BlocoValoresConstantesCVAR(Section):
     def read(self, file: IO):
         for _ in range(2):
             self.__cabecalhos.append(file.readline())
-
         self.data = self.__linha.read(file.readline())
 
     # Override
@@ -53,11 +53,11 @@ class BlocoValoresConstantesCVAR(Section):
         for linha in self.__cabecalhos:
             file.write(linha)
         if not isinstance(self.data, list):
-            raise ValueError("Dados do curva.dat não foram lidos com sucesso")
+            raise ValueError("Dados do cvar.dat não foram lidos com sucesso")
         file.write(self.__linha.write(self.data))
 
 
-class BlocoAlfaVariavelNoTempo(Section):
+class BlocoAlfaVariavelNoTempo(Block):
     """
     Bloco com a informação do valor de ALFA por estágio
     no horizonte de execução.
@@ -68,10 +68,11 @@ class BlocoAlfaVariavelNoTempo(Section):
 
     def __init__(self, state=..., previous=None, next=None, data=None) -> None:
         super().__init__(state, previous, next, data)
-        self.__linha = Line(
-            [LiteralField(5, 0)]
-            + [FloatField(5, 7 * i + 7, 1) for i in range(len(MESES_DF))]
-        )
+        campo_ano: List[Field] = [LiteralField(5, 0)]
+        campos_valores: List[Field] = [
+            FloatField(5, 7 * i + 7, 1) for i in range(len(MESES_DF))
+        ]
+        self.__linha = Line(campo_ano + campos_valores)
         self.__cabecalhos: List[str] = []
 
     def __eq__(self, o: object) -> bool:
@@ -131,7 +132,7 @@ class BlocoAlfaVariavelNoTempo(Section):
             file.write(self.__linha.write(lin.tolist()))
 
 
-class BlocoLambdaVariavelNoTempo(Section):
+class BlocoLambdaVariavelNoTempo(Block):
     """
     Bloco com a informação do valor de LAMBDA por estágio
     no horizonte de execução.
@@ -142,10 +143,11 @@ class BlocoLambdaVariavelNoTempo(Section):
 
     def __init__(self, state=..., previous=None, next=None, data=None) -> None:
         super().__init__(state, previous, next, data)
-        self.__linha = Line(
-            [LiteralField(5, 0)]
-            + [FloatField(5, 7 * i + 7, 1) for i in range(len(MESES_DF))]
-        )
+        campo_ano: List[Field] = [LiteralField(5, 0)]
+        campos_valores: List[Field] = [
+            FloatField(5, 7 * i + 7, 1) for i in range(len(MESES_DF))
+        ]
+        self.__linha = Line(campo_ano + campos_valores)
         self.__cabecalhos: List[str] = []
 
     def __eq__(self, o: object) -> bool:

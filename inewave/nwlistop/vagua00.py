@@ -1,11 +1,11 @@
-from inewave._utils.dadosarquivo import DadosArquivoBlocos
-from inewave._utils.arquivo import ArquivoBlocos
-from inewave.nwlistop.modelos.vagua00 import LeituraVAgua00
+from inewave.nwlistop.modelos.vagua00 import REE, VAAnos
 
+from cfinterface.files.blockfile import BlockFile
 import pandas as pd  # type: ignore
+from typing import Type, TypeVar, Optional
 
 
-class VAgua00(ArquivoBlocos):
+class Vagua00(BlockFile):
     """
     Armazena os dados das saídas referentes aos valores da água
     por REE.
@@ -16,38 +16,80 @@ class VAgua00(ArquivoBlocos):
 
     """
 
-    def __init__(self, dados: DadosArquivoBlocos):
-        super().__init__(dados)
+    T = TypeVar("T")
 
-    # Override
+    BLOCKS = [
+        REE,
+        VAAnos,
+    ]
+
+    def __init__(self, data=...) -> None:
+        super().__init__(data)
+        self.__vagua = None
+
     @classmethod
     def le_arquivo(
         cls, diretorio: str, nome_arquivo="vagua001.out"
-    ) -> "VAgua00":
-        """ """
-        leitor = LeituraVAgua00(diretorio)
-        r = leitor.le_arquivo(nome_arquivo)
-        return cls(r)
+    ) -> "Vagua00":
+        return cls.read(diretorio, nome_arquivo)
+
+    def escreve_arquivo(self, diretorio: str, nome_arquivo="vagua001.out"):
+        self.write(diretorio, nome_arquivo)
+
+    def __bloco_por_tipo(self, bloco: Type[T], indice: int) -> Optional[T]:
+        """
+        Obtém um gerador de blocos de um tipo, se houver algum no arquivo.
+
+        :param bloco: Um tipo de bloco para ser lido
+        :type bloco: T
+        :param indice: O índice do bloco a ser acessado, dentre os do tipo
+        :type indice: int
+        :return: O gerador de blocos, se houver
+        :rtype: Optional[Generator[T], None, None]
+        """
+        try:
+            return next(
+                b
+                for i, b in enumerate(self.data.of_type(bloco))
+                if i == indice
+            )
+        except StopIteration:
+            return None
+
+    def __monta_tabela(self) -> pd.DataFrame:
+        df = None
+        for b in self.data.of_type(VAAnos):
+            dados = b.data
+            if dados is None:
+                continue
+            elif df is None:
+                df = b.data
+            else:
+                df = pd.concat([df, b.data], ignore_index=True)
+        return df
 
     @property
-    def ree(self) -> str:
+    def valores(self) -> Optional[pd.DataFrame]:
         """
-        Tabela com o REE associado ao arquivo lido.
-
-         **Retorna**
-
-        `str`
-        """
-        return self._blocos[0].dados[0]
-
-    @property
-    def valores(self) -> pd.DataFrame:
-        """
-        Tabela com os valores da água por série e
+        Tabela com valores da água por série e
         por mês/ano de estudo.
 
-         **Retorna**
-
-        `pd.DataFrame`
+        :return: A tabela dos valores da água.
+        :rtype: Optional[pd.DataFrame]
         """
-        return self._blocos[0].dados[1]
+        if self.__vagua is None:
+            self.__vagua = self.__monta_tabela()
+        return self.__vagua
+
+    @property
+    def ree(self) -> Optional[str]:
+        """
+        O REE associado ao arquivo lido.
+
+        :return: Os nome do REE
+        :rtype: str
+        """
+        b = self.__bloco_por_tipo(REE, 0)
+        if b is not None:
+            return b.data
+        return None

@@ -2,6 +2,7 @@ from inewave.config import MAX_ANOS_ESTUDO, MAX_SUBMERCADOS, MESES_DF
 
 from cfinterface.components.section import Section
 from cfinterface.components.line import Line
+from cfinterface.components.field import Field
 from cfinterface.components.integerfield import IntegerField
 from cfinterface.components.floatfield import FloatField
 from typing import List, IO
@@ -66,10 +67,11 @@ class BlocoDuracaoPatamar(Section):
 
     def __init__(self, state=..., previous=None, next=None, data=None) -> None:
         super().__init__(state, previous, next, data)
-        self.__linha = Line(
-            [IntegerField(4, 0)]
-            + [FloatField(6, 6 + i * 8, 4) for i in range(len(MESES_DF))]
-        )
+        campo_ano: List[Field] = [IntegerField(4, 0)]
+        campos_duracao: List[Field] = [
+            FloatField(6, 6 + i * 8, 4) for i in range(len(MESES_DF))
+        ]
+        self.__linha = Line(campo_ano + campos_duracao)
         self.__cabecalhos: List[str] = []
 
     def __eq__(self, o: object) -> bool:
@@ -135,9 +137,11 @@ class BlocoDuracaoPatamar(Section):
         for _, linha in self.data.iterrows():
             linha_lida: pd.Series = linha
             ano_linha = (
-                int(linha["Ano"]) if linha["Ano"] != ultimo_ano else None
+                int(linha_lida["Ano"])
+                if linha_lida["Ano"] != ultimo_ano
+                else None
             )
-            ultimo_ano = int(linha["Ano"])
+            ultimo_ano = int(linha_lida["Ano"])
             file.write(
                 self.__linha.write([ano_linha] + linha_lida[MESES_DF].tolist())
             )
@@ -154,10 +158,11 @@ class BlocoCargaPatamar(Section):
     def __init__(self, state=..., previous=None, next=None, data=None) -> None:
         super().__init__(state, previous, next, data)
         self.__linha_subsis = Line([IntegerField(4, 0)])
-        self.__linha = Line(
-            [IntegerField(4, 3)]
-            + [FloatField(6, 8 + i * 7, 4) for i in range(len(MESES_DF))]
-        )
+        campo_ano: List[Field] = [IntegerField(4, 3)]
+        campo_carga: List[Field] = [
+            FloatField(6, 8 + i * 7, 4) for i in range(len(MESES_DF))
+        ]
+        self.__linha = Line(campo_ano + campo_carga)
         self.__cabecalhos: List[str] = []
 
     def __eq__(self, o: object) -> bool:
@@ -229,9 +234,11 @@ class BlocoCargaPatamar(Section):
                 ultimo_ano = 0
                 file.write(self.__linha_subsis.write([int(ultimo_subsistema)]))
             ano_linha = (
-                int(linha["Ano"]) if linha["Ano"] != ultimo_ano else None
+                int(linha_lida["Ano"])
+                if linha_lida["Ano"] != ultimo_ano
+                else None
             )
-            ultimo_ano = int(linha["Ano"])
+            ultimo_ano = int(linha_lida["Ano"])
             file.write(
                 self.__linha.write([ano_linha] + linha_lida[MESES_DF].tolist())
             )
@@ -249,10 +256,11 @@ class BlocoIntercambioPatamarSubsistemas(Section):
     def __init__(self, state=..., previous=None, next=None, data=None) -> None:
         super().__init__(state, previous, next, data)
         self.__linha_subsis = Line([IntegerField(3, 1), IntegerField(3, 5)])
-        self.__linha = Line(
-            [IntegerField(4, 3)]
-            + [FloatField(6, 8 + i * 7, 4) for i in range(len(MESES_DF))]
-        )
+        campo_ano: List[Field] = [IntegerField(4, 3)]
+        campos_intercambios: List[Field] = [
+            FloatField(6, 8 + i * 7, 4) for i in range(len(MESES_DF))
+        ]
+        self.__linha = Line(campo_ano + campos_intercambios)
         self.__cabecalhos: List[str] = []
 
     def __eq__(self, o: object) -> bool:
@@ -358,9 +366,11 @@ class BlocoIntercambioPatamarSubsistemas(Section):
                     )
                 )
             ano_linha = (
-                int(linha["Ano"]) if linha["Ano"] != ultimo_ano else None
+                int(linha_lida["Ano"])
+                if linha_lida["Ano"] != ultimo_ano
+                else None
             )
-            ultimo_ano = int(linha["Ano"])
+            ultimo_ano = int(linha_lida["Ano"])
             file.write(
                 self.__linha.write([ano_linha] + linha_lida[MESES_DF].tolist())
             )
@@ -376,10 +386,11 @@ class BlocoUsinasNaoSimuladas(Section):
     def __init__(self, state=..., previous=None, next=None, data=None) -> None:
         super().__init__(state, previous, next, data)
         self.__linha_subsis = Line([IntegerField(3, 1), IntegerField(3, 5)])
-        self.__linha = Line(
-            [IntegerField(4, 3)]
-            + [FloatField(6, 8 + i * 7, 4) for i in range(len(MESES_DF))]
-        )
+        campo_ano: List[Field] = [IntegerField(4, 3)]
+        campos_usinas: List[Field] = [
+            FloatField(6, 8 + i * 7, 4) for i in range(len(MESES_DF))
+        ]
+        self.__linha = Line(campo_ano + campos_usinas)
         self.__cabecalhos: List[str] = []
 
     def __eq__(self, o: object) -> bool:
@@ -477,9 +488,11 @@ class BlocoUsinasNaoSimuladas(Section):
                     )
                 )
             ano_linha = (
-                int(linha["Ano"]) if linha["Ano"] != ultimo_ano else None
+                int(linha_lida["Ano"])
+                if linha_lida["Ano"] != ultimo_ano
+                else None
             )
-            ultimo_ano = int(linha["Ano"])
+            ultimo_ano = int(linha_lida["Ano"])
             file.write(
                 self.__linha.write([ano_linha] + linha_lida[MESES_DF].tolist())
             )

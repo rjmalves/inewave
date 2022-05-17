@@ -1,41 +1,60 @@
-from inewave._utils.dadosarquivo import DadosArquivoBlocos
-from inewave._utils.arquivo import ArquivoBlocos
-from inewave.nwlistop.modelos.earmfpsin import LeituraEarmfpSIN
+from inewave.nwlistop.modelos.earmfpsin import EarmsAnos
 
+from cfinterface.files.blockfile import BlockFile
 import pandas as pd  # type: ignore
+from typing import TypeVar, Optional
 
 
-class EarmfpSIN(ArquivoBlocos):
+class EarmfpSIN(BlockFile):
     """
     Armazena os dados das saídas referentes às energias
-    armazenadas finais, por submercado e em % da energia armazenável máxima.
+    armazenadas finais para o SIN e em % da energia armazenável máxima.
 
     Esta classe lida com as informações de saída fornecidas pelo
-    NWLISTOP e reproduzidas nos `earmfpm00x.out`, onde x varia conforme o
+    NWLISTOP e reproduzidas nos `earmfpsin.out`, onde x varia conforme o
     submercado em questão.
     """
 
-    def __init__(self, dados: DadosArquivoBlocos):
-        super().__init__(dados)
+    T = TypeVar("T")
 
-    # Override
+    BLOCKS = [
+        EarmsAnos,
+    ]
+
+    def __init__(self, data=...) -> None:
+        super().__init__(data)
+        self.__earms = None
+
     @classmethod
     def le_arquivo(
         cls, diretorio: str, nome_arquivo="earmfpsin.out"
     ) -> "EarmfpSIN":
-        """ """
-        leitor = LeituraEarmfpSIN(diretorio)
-        r = leitor.le_arquivo(nome_arquivo)
-        return cls(r)
+        return cls.read(diretorio, nome_arquivo)
+
+    def escreve_arquivo(self, diretorio: str, nome_arquivo="earmfpsin.out"):
+        self.write(diretorio, nome_arquivo)
+
+    def __monta_tabela(self) -> pd.DataFrame:
+        df = None
+        for b in self.data.of_type(EarmsAnos):
+            dados = b.data
+            if dados is None:
+                continue
+            elif df is None:
+                df = b.data
+            else:
+                df = pd.concat([df, b.data], ignore_index=True)
+        return df
 
     @property
-    def energias(self) -> pd.DataFrame:
+    def energias(self) -> Optional[pd.DataFrame]:
         """
         Tabela com as energias armazenadas percentuais por série e
         por mês/ano de estudo.
 
-         **Retorna**
-
-        `pd.DataFrame`
+        :return: A tabela das energias armazenadas.
+        :rtype: Optional[pd.DataFrame]
         """
-        return self._blocos[0].dados
+        if self.__earms is None:
+            self.__earms = self.__monta_tabela()
+        return self.__earms

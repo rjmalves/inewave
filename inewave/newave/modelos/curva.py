@@ -2,6 +2,7 @@ from inewave.config import MAX_ANOS_ESTUDO, MAX_SUBMERCADOS, MESES_DF
 
 from cfinterface.components.section import Section
 from cfinterface.components.line import Line
+from cfinterface.components.field import Field
 from cfinterface.components.integerfield import IntegerField
 from cfinterface.components.floatfield import FloatField
 from cfinterface.components.literalfield import LiteralField
@@ -141,10 +142,11 @@ class BlocoCurvaSegurancaSubsistema(Section):
     def __init__(self, state=..., previous=None, next=None, data=None) -> None:
         super().__init__(state, previous, next, data)
         self.__linha_subsis = Line([IntegerField(3, 1)])
-        self.__linha = Line(
-            [IntegerField(4, 0)]
-            + [FloatField(5, i * 6 + 6, 1) for i in range(len(MESES_DF))]
-        )
+        campo_ano: List[Field] = [IntegerField(4, 0)]
+        campos_curva: List[Field] = [
+            FloatField(5, i * 6 + 6, 1) for i in range(len(MESES_DF))
+        ]
+        self.__linha = Line(campo_ano + campos_curva)
         self.__cabecalhos: List[str] = []
 
     def __eq__(self, o: object) -> bool:
@@ -212,7 +214,7 @@ class BlocoCurvaSegurancaSubsistema(Section):
                 file.write(self.__linha_subsis.write([int(ultimo_ree)]))
             file.write(
                 self.__linha.write(
-                    [int(linha["Ano"])] + linha_lida[MESES_DF].tolist()
+                    [int(linha_lida["Ano"])] + linha_lida[MESES_DF].tolist()
                 )
             )
 

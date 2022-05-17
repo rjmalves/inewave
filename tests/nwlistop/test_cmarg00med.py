@@ -1,32 +1,32 @@
-from inewave.nwlistop.cmarg00 import Cmarg00
+from inewave.nwlistop.cmarg00med import Cmarg00med
 
 from tests.mocks.mock_open import mock_open
 from unittest.mock import MagicMock, patch
 
-from tests.mocks.arquivos.cmarg00 import MockCmarg00
+from tests.mocks.arquivos.cmarg00med import MockCmarg00Med
 
 
-def test_atributos_encontrados_cmarg00():
-    m: MagicMock = mock_open(read_data="".join(MockCmarg00))
+def test_atributos_encontrados_cmarg00med():
+    m: MagicMock = mock_open(read_data="".join(MockCmarg00Med))
     with patch("builtins.open", m):
-        n = Cmarg00.le_arquivo("")
+        n = Cmarg00med.le_arquivo("")
         assert n.custos is not None
         assert n.submercado is not None
 
 
-def test_atributos_nao_encontrados_cmarg00():
+def test_atributos_nao_encontrados_cmarg00med():
     m: MagicMock = mock_open(read_data="")
     with patch("builtins.open", m):
-        n = Cmarg00.le_arquivo("")
+        n = Cmarg00med.le_arquivo("")
         assert n.custos is None
         assert n.submercado is None
 
 
-def test_eq_cmarg00():
-    m: MagicMock = mock_open(read_data="".join(MockCmarg00))
+def test_eq_cmarg00med():
+    m: MagicMock = mock_open(read_data="".join(MockCmarg00Med))
     with patch("builtins.open", m):
-        n1 = Cmarg00.le_arquivo("")
-        n2 = Cmarg00.le_arquivo("")
+        n1 = Cmarg00med.le_arquivo("")
+        n2 = Cmarg00med.le_arquivo("")
         assert n1 == n2
 
 

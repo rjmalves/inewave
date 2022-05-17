@@ -1,41 +1,59 @@
-from inewave._utils.dadosarquivo import DadosArquivoBlocos
-from inewave._utils.arquivo import ArquivoBlocos
-from inewave.nwlistop.modelos.gttotsin import LeituraGTTotSIN
+from inewave.nwlistop.modelos.gttotsin import GTAnos
 
+from cfinterface.files.blockfile import BlockFile
 import pandas as pd  # type: ignore
+from typing import TypeVar, Optional
 
 
-class GTTotSIN(ArquivoBlocos):
+class GttotSIN(BlockFile):
     """
     Armazena os dados das saídas referentes à geração térmica total
     por patamar, para o SIN.
 
     Esta classe lida com as informações de saída fornecidas pelo
     NWLISTOP e reproduzidas nos `gttotsin.out`.
-
     """
 
-    def __init__(self, dados: DadosArquivoBlocos):
-        super().__init__(dados)
+    T = TypeVar("T")
 
-    # Override
+    BLOCKS = [
+        GTAnos,
+    ]
+
+    def __init__(self, data=...) -> None:
+        super().__init__(data)
+        self.__gh = None
+
     @classmethod
     def le_arquivo(
         cls, diretorio: str, nome_arquivo="gttotsin.out"
-    ) -> "GTTotSIN":
-        """ """
-        leitor = LeituraGTTotSIN(diretorio)
-        r = leitor.le_arquivo(nome_arquivo)
-        return cls(r)
+    ) -> "GttotSIN":
+        return cls.read(diretorio, nome_arquivo)
+
+    def escreve_arquivo(self, diretorio: str, nome_arquivo="gttotsin.out"):
+        self.write(diretorio, nome_arquivo)
+
+    def __monta_tabela(self) -> pd.DataFrame:
+        df = None
+        for b in self.data.of_type(GTAnos):
+            dados = b.data
+            if dados is None:
+                continue
+            elif df is None:
+                df = b.data
+            else:
+                df = pd.concat([df, b.data], ignore_index=True)
+        return df
 
     @property
-    def geracao(self) -> pd.DataFrame:
+    def geracao(self) -> Optional[pd.DataFrame]:
         """
-        Tabela com a geração térmica por patamar, por série e
+        Tabela com a geracao térmica por série e
         por mês/ano de estudo.
 
-         **Retorna**
-
-        `pd.DataFrame`
+        :return: A tabela da geração térmica.
+        :rtype: Optional[pd.DataFrame]
         """
-        return self._blocos[0].dados
+        if self.__gh is None:
+            self.__gh = self.__monta_tabela()
+        return self.__gh

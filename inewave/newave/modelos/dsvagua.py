@@ -1,5 +1,6 @@
 from cfinterface.components.section import Section
 from cfinterface.components.line import Line
+from cfinterface.components.field import Field
 from cfinterface.components.literalfield import LiteralField
 from cfinterface.components.integerfield import IntegerField
 from cfinterface.components.floatfield import FloatField
@@ -20,11 +21,16 @@ class BlocoDsvUHE(Section):
 
     def __init__(self, state=..., previous=None, next=None, data=None) -> None:
         super().__init__(state, previous, next, data)
+        campos_iniciais: List[Field] = [IntegerField(4, 0), IntegerField(3, 6)]
+        campos_desvios: List[Field] = [
+            FloatField(6, 10 + 7 * i, 2) for i in range(len(MESES_DF))
+        ]
+        campos_finais: List[Field] = [
+            IntegerField(4, 94),
+            LiteralField(33, 103),
+        ]
         self.__linha_uhe = Line(
-            [IntegerField(4, 0), IntegerField(3, 6)]
-            + [FloatField(6, 10 + 7 * i, 2) for i in range(len(MESES_DF))]
-            + [IntegerField(4, 94)]
-            + [LiteralField(33, 103)]
+            campos_iniciais + campos_desvios + campos_finais
         )
         self.__cabecalhos: List[str] = []
 

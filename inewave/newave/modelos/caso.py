@@ -1,52 +1,70 @@
-# Imports do próprio módulo
-from inewave._utils.bloco import Bloco
-from inewave._utils.leiturablocos import LeituraBlocos
-from inewave._utils.registros import RegistroAn
-
-# Imports de módulos externos
-from typing import IO, List
+from cfinterface.components.section import Section
+from cfinterface.components.line import Line
+from cfinterface.components.literalfield import LiteralField
+from typing import IO
 
 
-class BlocoCaso(Bloco):
+class NomeCaso(Section):
     """
-    Bloco de informações do arquivo de
+    Bloco com o nome do caso do arquivo de
     entrada do NEWAVE `caso.dat`.
     """
 
-    def __init__(self):
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line([LiteralField(40, 0)])
 
-        super().__init__("", "", True)
-
-        self._dados = ""
-
-    def le(self, arq: IO):
-        reg = RegistroAn(12)
-        self._dados = reg.le_registro(self._linha_inicio, 0)
-
-    def escreve(self, arq: IO):
-        arq.write(self._dados)
-
-
-class LeituraCaso(LeituraBlocos):
-    """
-    Realiza a leitura do arquivo `caso.dat`
-    existente em um diretório de entradas do NEWAVE.
-
-    Esta classe contém o conjunto de utilidades para ler
-    e interpretar os campos de um arquivo `caso.dat`, construindo
-    um objeto `Caso` cujas informações são as mesmas do caso.dat.
-
-    Este objeto existe para retirar do modelo de dados a complexidade
-    de iterar pelas linhas do arquivo, recortar colunas, converter
-    tipos de dados, dentre outras tarefas necessárias para a leitura.
-    """
-
-    def __init__(self, diretorio: str):
-        super().__init__(diretorio)
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, NomeCaso):
+            return False
+        bloco: NomeCaso = o
+        if not all(
+            [
+                isinstance(self.data, str),
+                isinstance(o.data, str),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
 
     # Override
-    def _cria_blocos_leitura(self) -> List[Bloco]:
-        """
-        Cria a lista de blocos a serem lidos no arquivo caso.dat.
-        """
-        return [BlocoCaso()]
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())[0]
+
+    # Override
+    def write(self, file: IO):
+        file.write(self.__linha.write([self.data]))
+
+
+class CaminhoGerenciadorProcessos(Section):
+    """
+    Bloco com o caminho do gerenciador de processos usado
+    no NEWAVE, contido no arquivo `caso.dat`.
+    """
+
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line([LiteralField(120, 0)])
+
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, CaminhoGerenciadorProcessos):
+            return False
+        bloco: CaminhoGerenciadorProcessos = o
+        if not all(
+            [
+                isinstance(self.data, str),
+                isinstance(o.data, str),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
+
+    # Override
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())[0]
+
+    # Override
+    def write(self, file: IO):
+        file.write(self.__linha.write([self.data]))

@@ -13,7 +13,6 @@ from .confhd import Confhd  # noqa
 from .conft import ConfT  # noqa
 from .curva import Curva  # noqa
 from .cvar import CVAR  # noqa
-from .deckentrada import DeckEntrada  # noqa
 from .dger import DGer  # noqa
 from .dsvagua import DSVAgua  # noqa
 from .eafpast import EafPast  # noqa

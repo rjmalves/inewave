@@ -2,6 +2,7 @@ from inewave.config import MAX_RES
 
 from cfinterface.components.section import Section
 from cfinterface.components.line import Line
+from cfinterface.components.field import Field
 from cfinterface.components.literalfield import LiteralField
 from cfinterface.components.integerfield import IntegerField
 from cfinterface.components.floatfield import FloatField
@@ -20,10 +21,11 @@ class BlocoUsinasConjuntoRE(Section):
 
     def __init__(self, state=..., previous=None, next=None, data=None) -> None:
         super().__init__(state, previous, next, data)
-        self.__linha = Line(
-            [IntegerField(3, 0)]
-            + [IntegerField(3, 6 + i * 4) for i in range(10)]
-        )
+        campo_conjunto: List[Field] = [IntegerField(3, 0)]
+        campos_usinas: List[Field] = [
+            IntegerField(3, 6 + i * 4) for i in range(10)
+        ]
+        self.__linha = Line(campo_conjunto + campos_usinas)
         self.__cabecalhos: List[str] = []
 
     def __eq__(self, o: object) -> bool:
@@ -178,6 +180,6 @@ class BlocoConfiguracaoRestricoesRE(Section):
         if not isinstance(self.data, pd.DataFrame):
             raise ValueError("Dados do re.dat não foram lidos com sucesso")
 
-        for _, linha in self.data.iterrows():
-            file.write(self.__linha.write(linha))
+        for _, dados_linhas in self.data.iterrows():
+            file.write(self.__linha.write(dados_linhas))
         file.write(BlocoUsinasConjuntoRE.FIM_BLOCO + "\n")

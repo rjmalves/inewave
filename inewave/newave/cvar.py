@@ -4,12 +4,12 @@ from inewave.newave.modelos.cvar import (
     BlocoLambdaVariavelNoTempo,
 )
 
-from cfinterface.files.sectionfile import SectionFile
+from cfinterface.files.blockfile import BlockFile
 from typing import Type, TypeVar, Optional
 import pandas as pd  # type: ignore
 
 
-class CVAR(SectionFile):
+class CVAR(BlockFile):
     """
     Armazena os dados de entrada do NEWAVE referentes à curva para
     penalização por volume mínimo dos reservatórios.
@@ -17,7 +17,7 @@ class CVAR(SectionFile):
 
     T = TypeVar("T")
 
-    SECTIONS = [
+    BLOCKS = [
         BlocoValoresConstantesCVAR,
         BlocoAlfaVariavelNoTempo,
         BlocoLambdaVariavelNoTempo,

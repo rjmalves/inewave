@@ -1,115 +1,103 @@
-# Imports do próprio módulo
-from inewave._utils.leiturablocos import LeituraBlocos
-from inewave._utils.bloco import Bloco
-from inewave._utils.registros import RegistroAn, RegistroFn, RegistroIn
-from inewave.config import NUM_CENARIOS, MAX_ANOS_ESTUDO
-from inewave.config import MESES, MESES_DF
+from inewave.config import MESES_DF, MAX_SERIES_SINTETICAS
 
-# Imports de módulos externos
+from cfinterface.components.block import Block
+from cfinterface.components.line import Line
+from cfinterface.components.field import Field
+from cfinterface.components.integerfield import IntegerField
+from cfinterface.components.literalfield import LiteralField
+from cfinterface.components.floatfield import FloatField
+from typing import List, IO
 import numpy as np  # type: ignore
 import pandas as pd  # type: ignore
-from typing import IO, List
 
 
-class BlocoEnergiaArmazenadaFinalPercentual(Bloco):
+class REE(Block):
     """
-    Bloco com as informações das tabelas de energia armazenada final
-    percentual.
+    Bloco com a informaçao do REE associado aos valores
+    de energia armazenada.
     """
 
-    str_inicio = "ENERGIA ARMAZENADA FINAL"
-    str_fim = ""
+    BEGIN_PATTERN = r"ENERGIA ARMAZENADA FINAL"
+    END_PATTERN = ""
 
-    def __init__(self):
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line([LiteralField(12, 70)])
 
-        super().__init__(
-            BlocoEnergiaArmazenadaFinalPercentual.str_inicio, "", True
-        )
-
-        self._dados = ["", pd.DataFrame()]
-
-    def __eq__(self, o: object):
-        if not isinstance(o, BlocoEnergiaArmazenadaFinalPercentual):
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, REE):
             return False
-        bloco: BlocoEnergiaArmazenadaFinalPercentual = o
-        return all(
+        bloco: REE = o
+        if not all(
             [
-                self._dados[0] == bloco.dados[0],
-                self._dados[1].equals(bloco._dados[1]),
+                isinstance(self.data, str),
+                isinstance(o.data, str),
             ]
-        )
+        ):
+            return False
+        else:
+            return self.data == bloco.data
 
     # Override
-    def le(self, arq: IO):
-        def converte_tabela_em_df() -> pd.DataFrame:
-            df = pd.DataFrame(tabela)
-            df.columns = MESES_DF + ["Média"]
-            df["Ano"] = anos
-            df["Série"] = serie
-            df = df[["Ano", "Série"] + MESES_DF + ["Média"]]
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())[0]
+
+
+class EarmsAnos(Block):
+    """
+    Bloco com as informações das tabelas de energias armazenada final
+    por série e por mês/ano de estudo.
+    """
+
+    BEGIN_PATTERN = "     ANO: "
+    END_PATTERN = " MEDIA"
+
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha_ano = Line([IntegerField(4, 10)])
+        campo_serie: List[Field] = [
+            IntegerField(4, 2),
+        ]
+        campos_custos: List[Field] = [
+            FloatField(8, 7 + 9 * i, 1) for i in range(len(MESES_DF) + 1)
+        ]
+        self.__linha = Line(campo_serie + campos_custos)
+
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, EarmsAnos):
+            return False
+        bloco: EarmsAnos = o
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
+            return False
+        else:
+            return self.data.equals(bloco.data)
+
+    # Override
+    def read(self, file: IO):
+        def converte_tabela_em_df():
+            cols = ["Série"] + MESES_DF + ["Média"]
+            df = pd.DataFrame(tabela, columns=cols)
+            df["Ano"] = self.__ano
+            df = df[["Ano"] + cols]
+            df = df.astype({"Série": "int64", "Ano": "int64"})
             return df
 
-        # Salta a primeira linha
-        arq.readline()
+        self.__ano = self.__linha_ano.read(file.readline())[0]
+        file.readline()
+
         # Variáveis auxiliares
-        anos = np.zeros((NUM_CENARIOS * MAX_ANOS_ESTUDO,), dtype=np.int64)
-        serie = np.zeros((NUM_CENARIOS * MAX_ANOS_ESTUDO,), dtype=np.int64)
-        tabela = np.zeros((NUM_CENARIOS * MAX_ANOS_ESTUDO, len(MESES_DF) + 1))
-        reg_ree = RegistroAn(12)
-        reg_ano = RegistroIn(4)
-        reg_serie = RegistroIn(4)
-        reg_energia = RegistroFn(9)
+        tabela = np.zeros((MAX_SERIES_SINTETICAS, len(MESES_DF) + 2))
         i = 0
-        ano = 0
-        # Identifica o submercado
-        self._dados[0] = reg_ree.le_registro(self._linha_inicio, 63)
         while True:
-            linha = arq.readline()
-            # Confere se acabou
-            if len(linha) == 0:
-                anos = anos[:i]
-                serie = serie[:i]
+            linha = file.readline()
+            if self.ends(linha):
                 tabela = tabela[:i, :]
-                self._dados[1] = converte_tabela_em_df()
+                self.data = converte_tabela_em_df()
                 break
-            # Confere se acabou uma tabela
-            if " MEDIA " in linha:
-                ano = 0
-            # Confere se começou uma tabela
-            if "     ANO: " in linha:
-                ano = reg_ano.le_registro(linha, 10)
-                # Pula a linha de cabeçalhos
-                arq.readline()
-            # Se está numa tabela, lê
-            elif ano != 0:
-                anos[i] = ano
-                serie[i] = reg_serie.le_registro(linha, 1)
-                tabela[i, :] = reg_energia.le_linha_tabela(
-                    linha, 6, 1, len(MESES) + 1
-                )
-                i += 1
-
-    # Override
-    def escreve(self, arq: IO):
-        pass
-
-
-class LeituraEarmfp00(LeituraBlocos):
-    """
-    Realiza a leitura dos arquivos eafbm00x.out
-    existentes em um diretório de saídas do NEWAVE.
-
-    Esta classe contém o conjunto de utilidades para ler
-    e interpretar os campos de arquivos earmfp00x.out, construindo
-    objetos `Earmfp00` cujas informações são as mesmas dos arquivos.
-
-    Este objeto existe para retirar do modelo de dados a complexidade
-    de iterar pelas linhas do arquivo, recortar colunas, converter
-    tipos de dados, dentre outras tarefas necessárias para a leitura.
-    """
-
-    def __init__(self, diretorio: str) -> None:
-        super().__init__(diretorio)
-
-    def _cria_blocos_leitura(self) -> List[Bloco]:
-        return [BlocoEnergiaArmazenadaFinalPercentual()]
+            tabela[i, :] = self.__linha.read(linha)
+            i += 1

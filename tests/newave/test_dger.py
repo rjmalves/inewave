@@ -1167,9 +1167,4 @@ def test_leitura_escrita_dger():
     m_releitura: MagicMock = mock_open(read_data="".join(linhas_escritas))
     with patch("builtins.open", m_releitura):
         d2 = DGer.le_arquivo("")
-        for b1, b2 in zip(d1.data, d2.data):
-            if b1 != b2:
-                print(b1.__class__)
-                print(b1.data)
-                print(b2.data)
         assert d1 == d2

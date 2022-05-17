@@ -1,11 +1,11 @@
-from inewave._utils.dadosarquivo import DadosArquivoBlocos
-from inewave._utils.arquivo import ArquivoBlocos
-from inewave.nwlistop.modelos.ghtotm00 import LeituraGHTotM00
+from inewave.nwlistop.modelos.ghtotm00 import Submercado, GHAnos
 
+from cfinterface.files.blockfile import BlockFile
 import pandas as pd  # type: ignore
+from typing import Type, TypeVar, Optional
 
 
-class GHTotM00(ArquivoBlocos):
+class Ghtotm00(BlockFile):
     """
     Armazena os dados das saídas referentes à geração hidraulica total
     por patamar, por submercado.
@@ -16,38 +16,80 @@ class GHTotM00(ArquivoBlocos):
 
     """
 
-    def __init__(self, dados: DadosArquivoBlocos):
-        super().__init__(dados)
+    T = TypeVar("T")
 
-    # Override
+    BLOCKS = [
+        Submercado,
+        GHAnos,
+    ]
+
+    def __init__(self, data=...) -> None:
+        super().__init__(data)
+        self.__earms = None
+
     @classmethod
     def le_arquivo(
         cls, diretorio: str, nome_arquivo="ghtotm001.out"
-    ) -> "GHTotM00":
-        """ """
-        leitor = LeituraGHTotM00(diretorio)
-        r = leitor.le_arquivo(nome_arquivo)
-        return cls(r)
+    ) -> "Ghtotm00":
+        return cls.read(diretorio, nome_arquivo)
+
+    def escreve_arquivo(self, diretorio: str, nome_arquivo="ghtotm001.out"):
+        self.write(diretorio, nome_arquivo)
+
+    def __bloco_por_tipo(self, bloco: Type[T], indice: int) -> Optional[T]:
+        """
+        Obtém um gerador de blocos de um tipo, se houver algum no arquivo.
+
+        :param bloco: Um tipo de bloco para ser lido
+        :type bloco: T
+        :param indice: O índice do bloco a ser acessado, dentre os do tipo
+        :type indice: int
+        :return: O gerador de blocos, se houver
+        :rtype: Optional[Generator[T], None, None]
+        """
+        try:
+            return next(
+                b
+                for i, b in enumerate(self.data.of_type(bloco))
+                if i == indice
+            )
+        except StopIteration:
+            return None
+
+    def __monta_tabela(self) -> pd.DataFrame:
+        df = None
+        for b in self.data.of_type(GHAnos):
+            dados = b.data
+            if dados is None:
+                continue
+            elif df is None:
+                df = b.data
+            else:
+                df = pd.concat([df, b.data], ignore_index=True)
+        return df
 
     @property
-    def submercado(self) -> str:
+    def geracao(self) -> Optional[pd.DataFrame]:
         """
-        Tabela com o submercado associado ao arquivo lido.
-
-         **Retorna**
-
-        `str`
-        """
-        return self._blocos[0].dados[0]
-
-    @property
-    def geracao(self) -> pd.DataFrame:
-        """
-        Tabela com a geração hidraulica por patamar, por série e
+        Tabela com a geração hidráulica total por série e
         por mês/ano de estudo.
 
-         **Retorna**
-
-        `pd.DataFrame`
+        :return: A tabela da geração hidráulica.
+        :rtype: Optional[pd.DataFrame]
         """
-        return self._blocos[0].dados[1]
+        if self.__earms is None:
+            self.__earms = self.__monta_tabela()
+        return self.__earms
+
+    @property
+    def submercado(self) -> Optional[str]:
+        """
+        O submercado associado ao arquivo lido.
+
+        :return: O nome do submercado
+        :rtype: str
+        """
+        b = self.__bloco_por_tipo(Submercado, 0)
+        if b is not None:
+            return b.data
+        return None

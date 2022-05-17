@@ -38,7 +38,6 @@ def test_bloco_restricoes_re():
         with open("", "") as fp:
             b.read(fp)
 
-    print(b.data)
     assert b.data.iloc[0, 0] == 1
     assert b.data.iloc[-1, 0] == 10
     assert b.data.iloc[-1, -1] == "C. CALDEIRAO E F. GOMES"
@@ -89,7 +88,6 @@ def test_leitura_escrita_re():
         linhas_escritas = [
             chamadas[i].args[0] for i in range(3, len(chamadas) - 1)
         ]
-        print(linhas_escritas)
     m_releitura: MagicMock = mock_open(read_data="".join(linhas_escritas))
     with patch("builtins.open", m_releitura):
         cf2 = RE.le_arquivo("")

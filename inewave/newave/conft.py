@@ -5,7 +5,6 @@ from typing import Type, TypeVar, Optional
 import pandas as pd  # type: ignore
 
 
-
 class ConfT(SectionFile):
     """
     Armazena os dados de entrada do NEWAVE referentes às configurações das

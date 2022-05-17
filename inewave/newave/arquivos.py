@@ -1,14 +1,11 @@
-from inewave._utils.arquivo import ArquivoBlocos
-from inewave._utils.dadosarquivo import DadosArquivoBlocos
 from inewave.newave.modelos.arquivos import BlocoNomesArquivos
-from inewave.newave.modelos.arquivos import LeituraArquivos
-from inewave._utils.escritablocos import EscritaBlocos
+
+from cfinterface.files.sectionfile import SectionFile
+
+from typing import List, TypeVar, Type, Optional
 
 
-from typing import List
-
-
-class Arquivos(ArquivoBlocos):
+class Arquivos(SectionFile):
     """
     Armazena os dados de entrada do NEWAVE referentes ao arquivo
     `arquivos.dat`.
@@ -19,60 +16,75 @@ class Arquivos(ArquivoBlocos):
 
     """
 
-    def __init__(self, dados: DadosArquivoBlocos):
-        super().__init__(dados)
-        # Interpreta o resultado da leitura
-        val = True
-        msg = "Erro na criação de Arquivos: "
-        if len(dados.blocos) == 1:
-            bloco = dados.blocos[0]
-            if isinstance(bloco, BlocoNomesArquivos):
-                self.__bloco = bloco
-            else:
-                msg += (
-                    f"O bloco deve ser do tipo {BlocoNomesArquivos}, "
-                    + f"mas foi fornecido do tipo {type(bloco)}"
-                )
-                val = False
-        else:
-            msg += "Deve ser fornecido exatamente 1 bloco para Arquivos"
-            val = False
-        if not val:
-            raise TypeError(msg)
+    T = TypeVar("T")
+
+    SECTIONS = [BlocoNomesArquivos]
 
     @classmethod
     def le_arquivo(
         cls, diretorio: str, nome_arquivo="arquivos.dat"
     ) -> "Arquivos":
-        """ """
-        leitor = LeituraArquivos(diretorio)
-        r = leitor.le_arquivo(nome_arquivo)
-        return cls(r)
+        return cls.read(diretorio, nome_arquivo)
 
     def escreve_arquivo(self, diretorio: str, nome_arquivo="arquivos.dat"):
-        """ """
-        escritor = EscritaBlocos(diretorio)
-        escritor.escreve_arquivo(self._dados, nome_arquivo)
+        self.write(diretorio, nome_arquivo)
+
+    def __bloco_por_tipo(self, bloco: Type[T], indice: int) -> Optional[T]:
+        """
+        Obtém um gerador de blocos de um tipo, se houver algum no arquivo.
+
+        :param bloco: Um tipo de bloco para ser lido
+        :type bloco: T
+        :param indice: O índice do bloco a ser acessado, dentre os do tipo
+        :type indice: int
+        :return: O gerador de blocos, se houver
+        :rtype: Optional[Generator[T], None, None]
+        """
+        try:
+            return next(
+                b
+                for i, b in enumerate(self.data.of_type(bloco))
+                if i == indice
+            )
+        except StopIteration:
+            return None
 
     def __le_nome_por_indice(self, indice: int) -> str:
-        return self.__bloco.dados[indice]
+        b = self.__bloco_por_tipo(BlocoNomesArquivos, 0)
+        return b.data.iloc[indice, 1] if b is not None else ""
 
     def __atualiza_nome_por_indice(self, indice: int, nome: str):
-        self.__bloco.dados[indice] = nome
+        b = self.__bloco_por_tipo(BlocoNomesArquivos, 0)
+        if b is not None:
+            b.data.iloc[indice, 1] = nome
 
     @property
     def arquivos(self) -> List[str]:
-        return [
-            self.__le_nome_por_indice(i)
-            for i in range(len(self.__bloco.dados))
-        ]
+        """
+        Os nomes dos arquivos utilizados.
+
+        :return: Os arquivos na mesma ordem em que são declarados
+        :rtype: List[str]
+        """
+        b = self.__bloco_por_tipo(BlocoNomesArquivos, 0)
+        return [] if b is None else b.data.iloc[:, 1]
 
     @property
     def arquivos_entrada(self) -> List[str]:
-        todos_indices = set(list(range(len(self.__bloco.dados))))
+        """
+        Os nomes dos arquivos de entrada utilizados.
+
+        :return: Os arquivos de entrada
+            na mesma ordem em que são declarados
+        :rtype: List[str]
+        """
+        b = self.__bloco_por_tipo(BlocoNomesArquivos, 0)
+        if b is None:
+            return []
+        todos_indices = set(list(range(len(b.data.index.tolist()))))
         indices_saida = set([10, 11, 12, 13, 14, 15, 18])
         indices_entrada = list(todos_indices.difference(indices_saida))
-        return [self.__le_nome_por_indice(i) for i in indices_entrada]
+        return b.data.iloc[indices_entrada, 1]
 
     @property
     def dger(self) -> str:

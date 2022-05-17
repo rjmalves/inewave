@@ -1,13 +1,11 @@
-# Imports do próprio módulo
-from inewave._utils.bloco import Bloco
-from inewave._utils.leiturablocos import LeituraBlocos
-from inewave._utils.registros import RegistroAn
-
-# Imports de módulos externos
+from cfinterface.components.section import Section
+from cfinterface.components.line import Line
+from cfinterface.components.literalfield import LiteralField
 from typing import IO, List
+import pandas as pd  # type: ignore
 
 
-class BlocoNomesArquivos(Bloco):
+class BlocoNomesArquivos(Section):
     """
     Bloco de informações do arquivo de
     entrada do NEWAVE `arquivos.dat`.
@@ -57,51 +55,46 @@ class BlocoNomesArquivos(Bloco):
         "ARQUIVO DE RESTRICAO DE GAS :",
     ]
 
-    def __init__(self, str_inicio: str, str_final: str, obrigatorio: bool):
+    FIM_BLOCO = " 9999"
 
-        super().__init__(str_inicio, str_final, obrigatorio)
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line([LiteralField(29, 0), LiteralField(40, 29)])
 
-        self._dados = [""] * len(BlocoNomesArquivos.legendas)
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoNomesArquivos):
+            return False
+        bloco: BlocoNomesArquivos = o
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
+            return False
+        else:
+            return self.data.equals(bloco.data)
 
     # Override
-    def le(self, arq: IO):
-        reg = RegistroAn(12)
-        self._dados[0] = reg.le_registro(self._linha_inicio, 30)
-        for i in range(len(self._dados)):
-            linha = arq.readline()
-            # Confere se já terminou (possíveis \n ao final)
+    def read(self, file: IO):
+        def converte_tabela_em_df():
+            df = pd.DataFrame(data={"Legenda": legendas, "Nome": nomes})
+            return df
+
+        legendas: List[str] = []
+        nomes: List[str] = []
+        while True:
+            linha = file.readline()
             if len(linha) < 3:
+                self.data = converte_tabela_em_df()
                 break
-            reg = RegistroAn(12)
-            self._dados[i + 1] = reg.le_registro(linha, 30)
+            dados = self.__linha.read(linha)
+            legendas.append(dados[0])
+            nomes.append(dados[1])
 
     # Override
-    def escreve(self, arq: IO):
-        for leg, nome in zip(BlocoNomesArquivos.legendas, self._dados):
-            arq.write(f"{leg} {nome}\n")
-
-
-class LeituraArquivos(LeituraBlocos):
-    """
-    Realiza a leitura do arquivo `arquivos.dat`
-    existente em um diretório de entradas do NEWAVE.
-
-    Esta classe contém o conjunto de utilidades para ler
-    e interpretar os campos de um arquivo `arquivos.dat`, construindo
-    um objeto `Arquivos` cujas informações são as mesmas do arquivos.dat.
-
-    Este objeto existe para retirar do modelo de dados a complexidade
-    de iterar pelas linhas do arquivo, recortar colunas, converter
-    tipos de dados, dentre outras tarefas necessárias para a leitura.
-    """
-
-    def __init__(self, diretorio: str):
-        super().__init__(diretorio)
-
-    # Override
-    def _cria_blocos_leitura(self) -> List[Bloco]:
-        """
-        Cria a lista de blocos a serem lidos no arquivo arquivos.dat.
-        """
-        nomes_arquivos = BlocoNomesArquivos("", "", True)
-        return [nomes_arquivos]
+    def write(self, file: IO):
+        if not isinstance(self.data, pd.DataFrame):
+            raise ValueError("Dados do arquivos.dat não foram lidos")
+        for _, linha in self.data.iterrows():
+            file.write(self.__linha.write(linha.tolist()))

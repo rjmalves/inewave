@@ -69,7 +69,7 @@ def test_atributos_nao_encontrados_cvar():
     m: MagicMock = mock_open(read_data="")
     with patch("builtins.open", m):
         ad = CVAR.le_arquivo("")
-        assert ad.valores_constantes == [None, None]
+        assert ad.valores_constantes is None
         assert ad.alfa_variavel is None
         assert ad.lambda_variavel is None
 
@@ -82,7 +82,7 @@ def test_eq_cvar():
         assert cf1 == cf2
 
 
-def test_neq_curva():
+def test_neq_cvar():
     m: MagicMock = mock_open(read_data="".join(MockCVAR))
     with patch("builtins.open", m):
         cf1 = CVAR.le_arquivo("")

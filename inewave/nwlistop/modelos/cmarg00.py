@@ -1,129 +1,113 @@
-# Imports do próprio módulo
-from inewave._utils.leiturablocos import LeituraBlocos
-from inewave._utils.bloco import Bloco
-from inewave._utils.registros import RegistroAn, RegistroFn, RegistroIn
-from inewave.config import MAX_ANOS_ESTUDO, MESES_DF, NUM_CENARIOS
-from inewave.config import NUM_PATAMARES, MESES
+from inewave.config import MESES_DF, MAX_PATAMARES, MAX_SERIES_SINTETICAS
 
-# Imports de módulos externos
+from cfinterface.components.block import Block
+from cfinterface.components.line import Line
+from cfinterface.components.field import Field
+from cfinterface.components.integerfield import IntegerField
+from cfinterface.components.literalfield import LiteralField
+from cfinterface.components.floatfield import FloatField
+from typing import List, IO
 import numpy as np  # type: ignore
 import pandas as pd  # type: ignore
-from typing import IO, List
 
 
-class BlocoCmargPatamarAno(Bloco):
+class Submercado(Block):
     """
-    Bloco com as informações das tabelas de custo marginal
-    por patamar e por mês/ano de estudo.
+    Bloco com a informaçao do submercado associado aos valores de Custo
+    Marginal de Operação.
     """
 
-    str_inicio = "CUSTO MARGINAL DE DEMANDA ($/MWh)"
-    str_fim = ""
+    BEGIN_PATTERN = r"CUSTO MARGINAL DE DEMANDA \(\$/MWh\)"
+    END_PATTERN = ""
 
-    def __init__(self):
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha = Line([LiteralField(12, 69)])
 
-        super().__init__(BlocoCmargPatamarAno.str_inicio, "", True)
-
-        self._dados = ["", pd.DataFrame()]
-
-    def __eq__(self, o: object):
-        if not isinstance(o, BlocoCmargPatamarAno):
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, Submercado):
             return False
-        bloco: BlocoCmargPatamarAno = o
-        return all(
+        bloco: Submercado = o
+        if not all(
             [
-                self._dados[0] == bloco.dados[0],
-                self._dados[1].equals(bloco._dados[1]),
+                isinstance(self.data, str),
+                isinstance(o.data, str),
             ]
-        )
+        ):
+            return False
+        else:
+            return self.data == bloco.data
 
     # Override
-    def le(self, arq: IO):
-        def converte_tabela_em_df() -> pd.DataFrame:
-            df = pd.DataFrame(tabela)
-            df.columns = MESES_DF + ["Média"]
-            df["Ano"] = anos
-            df["Série"] = serie
-            df["Patamar"] = patamar
-            df = df[["Ano", "Série", "Patamar"] + MESES_DF + ["Média"]]
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())[0]
+
+
+class CmargsAnos(Block):
+    """
+    Bloco com a informaçao do submercado associado aos valores de Custo
+    Marginal de Operação.
+    """
+
+    BEGIN_PATTERN = "     ANO: "
+    END_PATTERN = "  MEDIA"
+
+    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
+        super().__init__(state, previous, next, data)
+        self.__linha_ano = Line([IntegerField(4, 10)])
+        campos_serie_patamar: List[Field] = [
+            IntegerField(4, 2),
+            IntegerField(2, 9),
+        ]
+        campos_custos: List[Field] = [
+            FloatField(8, 15 + 9 * i, 2) for i in range(len(MESES_DF) + 1)
+        ]
+        self.__linha = Line(campos_serie_patamar + campos_custos)
+
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, CmargsAnos):
+            return False
+        bloco: CmargsAnos = o
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
+            return False
+        else:
+            return self.data.equals(bloco.data)
+
+    # Override
+    def read(self, file: IO):
+        def converte_tabela_em_df():
+            cols = ["Série", "Patamar"] + MESES_DF + ["Média"]
+            df = pd.DataFrame(tabela, columns=cols)
+            df["Ano"] = self.__ano
+            df = df[["Ano"] + cols]
+            df = df.astype(
+                {"Série": "int64", "Patamar": "int64", "Ano": "int64"}
+            )
             return df
 
-        # Salta a primeira linha
-        arq.readline()
+        self.__ano = self.__linha_ano.read(file.readline())[0]
+        file.readline()
+
         # Variáveis auxiliares
-        anos = np.zeros(
-            (NUM_CENARIOS * MAX_ANOS_ESTUDO * NUM_PATAMARES,), dtype=np.int64
-        )
-        serie = np.zeros(
-            (NUM_CENARIOS * MAX_ANOS_ESTUDO * NUM_PATAMARES,), dtype=np.int64
-        )
-        patamar = np.zeros(
-            (NUM_CENARIOS * MAX_ANOS_ESTUDO * NUM_PATAMARES,), dtype=np.int64
-        )
+        self.__serie_atual = 0
         tabela = np.zeros(
-            (NUM_CENARIOS * MAX_ANOS_ESTUDO * NUM_PATAMARES, len(MESES_DF) + 1)
+            (MAX_PATAMARES * MAX_SERIES_SINTETICAS, len(MESES_DF) + 3)
         )
-        reg_mercado = RegistroAn(12)
-        reg_ano = RegistroIn(4)
-        reg_serie = RegistroIn(4)
-        reg_patamar = RegistroIn(3)
-        reg_cmarg = RegistroFn(8)
         i = 0
-        ano = 0
-        # Identifica o submercado
-        self._dados[0] = reg_mercado.le_registro(self._linha_inicio, 70)
         while True:
-            linha = arq.readline()
-            # Confere se acabou
-            if len(linha) == 0:
-                anos = anos[:i]
-                serie = serie[:i]
-                patamar = patamar[:i]
+            linha = file.readline()
+            if self.ends(linha):
                 tabela = tabela[:i, :]
-                self._dados[1] = converte_tabela_em_df()
+                self.data = converte_tabela_em_df()
                 break
-            # Confere se acabou uma tabela
-            if "  MEDIA   " in linha:
-                ano = 0
-            # Confere se começou uma tabela
-            if "     ANO: " in linha:
-                ano = reg_ano.le_registro(linha, 10)
-                # Pula a linha de cabeçalhos
-                arq.readline()
-            # Se está numa tabela, lê
-            elif ano != 0:
-                anos[i] = ano
-                if not linha[2:6].strip().isnumeric():
-                    serie[i] = serie[i - 1]
-                else:
-                    serie[i] = reg_serie.le_registro(linha, 2)
-                patamar[i] = reg_patamar.le_registro(linha, 8)
-                tabela[i, :] = reg_cmarg.le_linha_tabela(
-                    linha, 15, 1, len(MESES) + 1
-                )
-                i += 1
-
-    # Override
-    def escreve(self, arq: IO):
-        pass
-
-
-class LeituraCmarg00(LeituraBlocos):
-    """
-    Realiza a leitura dos arquivos cmarg00x.out
-    existentes em um diretório de saídas do NEWAVE.
-
-    Esta classe contém o conjunto de utilidades para ler
-    e interpretar os campos de arquivos cmarg00x.out, construindo
-    objetos `Cmarg00` cujas informações são as mesmas dos arquivos.
-
-    Este objeto existe para retirar do modelo de dados a complexidade
-    de iterar pelas linhas do arquivo, recortar colunas, converter
-    tipos de dados, dentre outras tarefas necessárias para a leitura.
-    """
-
-    def __init__(self, diretorio: str) -> None:
-        super().__init__(diretorio)
-
-    def _cria_blocos_leitura(self) -> List[Bloco]:
-        return [BlocoCmargPatamarAno()]
+            dados = self.__linha.read(linha)
+            if dados[0] is not None:
+                self.__serie_atual = dados[0]
+            tabela[i, 0] = self.__serie_atual
+            tabela[i, 1:] = dados[1:]
+            i += 1

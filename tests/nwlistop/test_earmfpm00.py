@@ -1,20 +1,34 @@
-# Rotinas de testes associadas ao arquivo earmfpm00x.out do NWLISTOP
-from inewave.nwlistop.earmfpm00 import EarmfpM00
+from inewave.nwlistop.earmfpm00 import Earmfpm00
 
-sub_teste = "SUDESTE"
-earm = EarmfpM00.le_arquivo("tests/_arquivos", "earmfpm00test.out")
+from tests.mocks.mock_open import mock_open
+from unittest.mock import MagicMock, patch
+
+from tests.mocks.arquivos.earmfpm00 import MockEarmfpm00
 
 
-def test_leitura():
-    assert sub_teste in earm.submercado
+def test_atributos_encontrados_earmfpm00():
+    m: MagicMock = mock_open(read_data="".join(MockEarmfpm00))
+    with patch("builtins.open", m):
+        n = Earmfpm00.le_arquivo("")
+        assert n.energias is not None
+        assert n.submercado is not None
+
+
+def test_atributos_nao_encontrados_earmfpm00():
+    m: MagicMock = mock_open(read_data="")
+    with patch("builtins.open", m):
+        n = Earmfpm00.le_arquivo("")
+        assert n.energias is None
+        assert n.submercado is None
 
 
 def test_eq_earmfpm00():
-    earm2 = EarmfpM00.le_arquivo("tests/_arquivos", "earmfpm00test.out")
-    assert earm == earm2
+    m: MagicMock = mock_open(read_data="".join(MockEarmfpm00))
+    with patch("builtins.open", m):
+        n1 = Earmfpm00.le_arquivo("")
+        n2 = Earmfpm00.le_arquivo("")
+        assert n1 == n2
 
 
-def test_neq_earmfpm00():
-    earm2 = EarmfpM00.le_arquivo("tests/_arquivos", "earmfpm00test.out")
-    earm2.energias.iloc[0, 0] = -1
-    assert earm != earm2
+# Não deve ter teste de diferença, visto que o atributo é
+# implementado como Lazy Property.

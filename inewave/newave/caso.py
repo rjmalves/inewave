@@ -1,68 +1,75 @@
-from inewave._utils.arquivo import ArquivoBlocos
-from inewave._utils.dadosarquivo import DadosArquivoBlocos
-from inewave._utils.escritablocos import EscritaBlocos
+from inewave.newave.modelos.caso import NomeCaso, CaminhoGerenciadorProcessos
 
-from inewave.newave.modelos.caso import BlocoCaso, LeituraCaso
+from cfinterface.files.sectionfile import SectionFile
+from typing import Type, TypeVar, Optional
 
 
-class Caso(ArquivoBlocos):
+class Caso(SectionFile):
     """
-    Armazena os dados de entrada do NEWAVE referentes ao arquivo
-    `caso.dat`.
+    Armazena os dados de entrada do NEWAVE referentes às
+    configurações das usinas hidrelétricas.
 
-    Esta classe lida com informações de entrada do NEWAVE e
-    que deve se referir ao caminho do `arquivos.dat`.
-
-    **Parâmetros**
-
-    - caso: `str`
+    Esta classe lida com informações de entrada fornecidas ao NEWAVE e
+    que podem ser modificadas através do arquivo `modif.dat`.
 
     """
 
-    def __init__(self, dados: DadosArquivoBlocos):
-        super().__init__(dados)
-        val = True
-        msg = "Erro na criação de Caso: "
-        if len(dados.blocos) == 1:
-            bloco = dados.blocos[0]
-            if isinstance(bloco, BlocoCaso):
-                self.__bloco = bloco
-            else:
-                msg += (
-                    f"O bloco deve ser do tipo {BlocoCaso}, "
-                    + f"mas foi fornecido do tipo {type(bloco)}"
-                )
-                val = False
-        else:
-            msg += "Deve ser fornecido exatamente 1 bloco para Caso"
-            val = False
-        if not val:
-            raise TypeError(msg)
+    T = TypeVar("T")
+
+    SECTIONS = [NomeCaso, CaminhoGerenciadorProcessos]
+
+    def __init__(self, data=...) -> None:
+        super().__init__(data)
 
     @classmethod
     def le_arquivo(cls, diretorio: str, nome_arquivo="caso.dat") -> "Caso":
-        """ """
-        leitor = LeituraCaso(diretorio)
-        r = leitor.le_arquivo(nome_arquivo)
-        return cls(r)
+        return cls.read(diretorio, nome_arquivo)
 
     def escreve_arquivo(self, diretorio: str, nome_arquivo="caso.dat"):
-        """ """
-        escritor = EscritaBlocos(diretorio)
-        escritor.escreve_arquivo(self._dados, nome_arquivo)
+        self.write(diretorio, nome_arquivo)
+
+    def __bloco_por_tipo(self, bloco: Type[T], indice: int) -> Optional[T]:
+        """
+        Obtém um gerador de blocos de um tipo, se houver algum no arquivo.
+
+        :param bloco: Um tipo de bloco para ser lido
+        :type bloco: T
+        :param indice: O índice do bloco a ser acessado, dentre os do tipo
+        :type indice: int
+        :return: O gerador de blocos, se houver
+        :rtype: Optional[Generator[T], None, None]
+        """
+        try:
+            return next(
+                b
+                for i, b in enumerate(self.data.of_type(bloco))
+                if i == indice
+            )
+        except StopIteration:
+            return None
 
     @property
-    def arquivo(self) -> str:
+    def arquivos(self) -> Optional[str]:
         """
         Caminho para o arquivo `arquivos.dat` de entrada do NEWAVE.
 
-        **Retorna**
-
-        `str`
-
-        **Sobre**
-
-        Retorna o caminho completo (unix-like) para o arquivo que direciona
-        para os demais dados de entrada do NEWAVE.
+        :return: O caminho para o arquivo
+        :rtype: Optional[str]
         """
-        return self.__bloco.dados
+        b = self.__bloco_por_tipo(NomeCaso, 0)
+        if b is not None:
+            return b.data
+        return None
+
+    @property
+    def gerenciador_processos(self) -> Optional[str]:
+        """
+        Caminho para o gerenciador de processos do NEWAVE.
+
+        :return: O caminho para o arquivo
+        :rtype: Optional[str]
+        """
+        b = self.__bloco_por_tipo(CaminhoGerenciadorProcessos, 0)
+        if b is not None:
+            return b.data
+        return None
