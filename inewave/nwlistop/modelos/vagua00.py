@@ -17,7 +17,7 @@ class REE(Block):
     da água.
     """
 
-    BEGIN_PATTERN = r"VALOR DAGUA ($/MWh)"
+    BEGIN_PATTERN = r"VALOR DAGUA \(\$\/MWh\)"
     END_PATTERN = ""
 
     def __init__(self, state=..., previous=None, next=None, data=None) -> None:
@@ -59,7 +59,7 @@ class VAAnos(Block):
             IntegerField(4, 2),
         ]
         campos_custos: List[Field] = [
-            FloatField(8, 7 + 9 * i, 0) for i in range(len(MESES_DF) + 1)
+            FloatField(8, 9 + 9 * i, 2) for i in range(len(MESES_DF) + 1)
         ]
         self.__linha = Line(campo_serie + campos_custos)
 

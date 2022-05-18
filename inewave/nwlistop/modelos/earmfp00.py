@@ -22,7 +22,7 @@ class REE(Block):
 
     def __init__(self, state=..., previous=None, next=None, data=None) -> None:
         super().__init__(state, previous, next, data)
-        self.__linha = Line([LiteralField(12, 70)])
+        self.__linha = Line([LiteralField(12, 63)])
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, REE):
@@ -59,7 +59,7 @@ class EarmsAnos(Block):
             IntegerField(4, 2),
         ]
         campos_custos: List[Field] = [
-            FloatField(8, 7 + 9 * i, 1) for i in range(len(MESES_DF) + 1)
+            FloatField(8, 7 + 10 * i, 1) for i in range(len(MESES_DF) + 1)
         ]
         self.__linha = Line(campo_serie + campos_custos)
 
