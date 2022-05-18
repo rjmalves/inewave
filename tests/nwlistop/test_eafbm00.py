@@ -11,7 +11,10 @@ def test_atributos_encontrados_eafbm00():
     with patch("builtins.open", m):
         n = Eafbm00.le_arquivo("")
         assert n.energias is not None
+        assert n.energias.iloc[0, 0] == 1995
+        assert n.energias.iloc[-1, -1] == 38424.0
         assert n.submercado is not None
+        assert n.submercado == "SUDESTE"
 
 
 def test_atributos_nao_encontrados_eafbm00():

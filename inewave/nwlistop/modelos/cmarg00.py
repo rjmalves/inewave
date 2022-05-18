@@ -22,7 +22,7 @@ class Submercado(Block):
 
     def __init__(self, state=..., previous=None, next=None, data=None) -> None:
         super().__init__(state, previous, next, data)
-        self.__linha = Line([LiteralField(12, 69)])
+        self.__linha = Line([LiteralField(12, 70)])
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, Submercado):

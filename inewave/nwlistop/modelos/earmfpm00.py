@@ -59,7 +59,7 @@ class EarmsAnos(Block):
             IntegerField(4, 2),
         ]
         campos_custos: List[Field] = [
-            FloatField(8, 7 + 9 * i, 1) for i in range(len(MESES_DF) + 1)
+            FloatField(8, 7 + 10 * i, 1) for i in range(len(MESES_DF) + 1)
         ]
         self.__linha = Line(campo_serie + campos_custos)
 

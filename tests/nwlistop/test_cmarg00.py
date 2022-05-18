@@ -11,7 +11,10 @@ def test_atributos_encontrados_cmarg00():
     with patch("builtins.open", m):
         n = Cmarg00.le_arquivo("")
         assert n.custos is not None
+        assert n.custos.iloc[0, 0] == 1995
+        assert n.custos.iloc[-1, -1] == 35.42
         assert n.submercado is not None
+        assert n.submercado == "SUDESTE"
 
 
 def test_atributos_nao_encontrados_cmarg00():

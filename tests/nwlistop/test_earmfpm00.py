@@ -11,7 +11,10 @@ def test_atributos_encontrados_earmfpm00():
     with patch("builtins.open", m):
         n = Earmfpm00.le_arquivo("")
         assert n.energias is not None
+        assert n.energias.iloc[0, 0] == 1995
+        assert n.energias.iloc[-1, -1] == 63.00
         assert n.submercado is not None
+        assert n.submercado == "SUDESTE"
 
 
 def test_atributos_nao_encontrados_earmfpm00():
