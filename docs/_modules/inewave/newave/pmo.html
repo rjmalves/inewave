@@ -1,76 +1,36 @@
-
-
 <!DOCTYPE html>
 <html class="writer-html5" lang="pt-BR" >
 <head>
   <meta charset="utf-8" />
-  
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
-  <title>inewave.newave.pmo &mdash; documentação inewave 0.0.50</title>
-  
-
-  
-  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/gallery-binder.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/gallery-dataframe.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/gallery-rendered-html.css" type="text/css" />
-
-  
-  
-
-  
-  
-
-  
-
-  
+  <title>inewave.newave.pmo &mdash; documentação inewave 0.0.52</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/sg_gallery.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/sg_gallery-binder.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/sg_gallery-dataframe.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/sg_gallery-rendered-html.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
         <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
         <script src="../../../_static/underscore.js"></script>
         <script src="../../../_static/doctools.js"></script>
         <script src="../../../_static/translations.js"></script>
-    
-    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
-
-    
+    <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Índice" href="../../../genindex.html" />
     <link rel="search" title="Buscar" href="../../../search.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
-
-          
             <a href="../../../index.html" class="icon icon-home"> inewave
-          
-
-          
           </a>
-
-          
-            
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
     <input type="text" name="q" placeholder="Pesquisar documentos" />
@@ -78,93 +38,39 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Menu de navegação">
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../install.html">Instalação</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../reference.html">Referência</a></li>
 </ul>
 
-            
-          
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Menu de navegação móvel" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../../../index.html">inewave</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Navegação da página">
   <ul class="wy-breadcrumbs">
-    
       <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
-        
           <li><a href="../../index.html">Código do módulo</a> &raquo;</li>
-        
       <li>inewave.newave.pmo</li>
-    
-    
       <li class="wy-breadcrumbs-aside">
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
+             
   <h1>Código fonte para inewave.newave.pmo</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">inewave._utils.arquivo</span> <span class="kn">import</span> <span class="n">ArquivoBlocos</span>
-<span class="kn">from</span> <span class="nn">inewave._utils.bloco</span> <span class="kn">import</span> <span class="n">Bloco</span>
-<span class="kn">from</span> <span class="nn">inewave._utils.dadosarquivo</span> <span class="kn">import</span> <span class="n">DadosArquivoBlocos</span>
-<span class="kn">from</span> <span class="nn">inewave.newave.modelos.pmo</span> <span class="kn">import</span> <span class="n">BlocoEcoDgerPMO</span>
-<span class="kn">from</span> <span class="nn">inewave.newave.modelos.pmo</span> <span class="kn">import</span> <span class="n">BlocoEafPastTendenciaHidrolPMO</span>
+<span></span><span class="kn">from</span> <span class="nn">inewave.newave.modelos.pmo</span> <span class="kn">import</span> <span class="n">BlocoEafPastTendenciaHidrolPMO</span>
 <span class="kn">from</span> <span class="nn">inewave.newave.modelos.pmo</span> <span class="kn">import</span> <span class="n">BlocoEafPastCfugaMedioPMO</span>
 <span class="kn">from</span> <span class="nn">inewave.newave.modelos.pmo</span> <span class="kn">import</span> <span class="n">BlocoConvergenciaPMO</span>
 <span class="kn">from</span> <span class="nn">inewave.newave.modelos.pmo</span> <span class="kn">import</span> <span class="n">BlocoConfiguracoesExpansaoPMO</span>
@@ -172,14 +78,14 @@
 <span class="kn">from</span> <span class="nn">inewave.newave.modelos.pmo</span> <span class="kn">import</span> <span class="n">BlocoRiscoDeficitENSPMO</span>
 <span class="kn">from</span> <span class="nn">inewave.newave.modelos.pmo</span> <span class="kn">import</span> <span class="n">BlocoCustoOperacaoPMO</span>
 <span class="kn">from</span> <span class="nn">inewave.newave.modelos.pmo</span> <span class="kn">import</span> <span class="n">BlocoCustoOperacaoTotalPMO</span>
-<span class="kn">from</span> <span class="nn">inewave.newave.modelos.pmo</span> <span class="kn">import</span> <span class="n">LeituraPMO</span>
 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Type</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>  <span class="c1"># type: ignore</span>
+<span class="kn">from</span> <span class="nn">cfinterface.components.block</span> <span class="kn">import</span> <span class="n">Block</span>
+<span class="kn">from</span> <span class="nn">cfinterface.files.blockfile</span> <span class="kn">import</span> <span class="n">BlockFile</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Type</span><span class="p">,</span> <span class="n">TypeVar</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Any</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>  <span class="c1"># type: ignore</span>
 
 
-<div class="viewcode-block" id="PMO"><a class="viewcode-back" href="../../../reference/newave/arquivos/pmo.html#inewave.newave.pmo.PMO">[documentos]</a><span class="k">class</span> <span class="nc">PMO</span><span class="p">(</span><span class="n">ArquivoBlocos</span><span class="p">):</span>
+<div class="viewcode-block" id="PMO"><a class="viewcode-back" href="../../../reference/newave/arquivos/pmo.html#inewave.newave.pmo.PMO">[documentos]</a><span class="k">class</span> <span class="nc">PMO</span><span class="p">(</span><span class="n">BlockFile</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Armazena os dados de entrada do NEWAVE referentes ao</span>
 <span class="sd">    acompanhamento do programa.</span>
@@ -193,30 +99,86 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dados</span><span class="p">:</span> <span class="n">DadosArquivoBlocos</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">dados</span><span class="p">)</span>
+    <span class="n">T</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;T&quot;</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">__eco_dger</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__por_tipo</span><span class="p">(</span><span class="n">BlocoEcoDgerPMO</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__eafpast_th</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__por_tipo</span><span class="p">(</span><span class="n">BlocoEafPastTendenciaHidrolPMO</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__eafpast_cfuga</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__por_tipo</span><span class="p">(</span><span class="n">BlocoEafPastCfugaMedioPMO</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__convergencia</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__por_tipo</span><span class="p">(</span><span class="n">BlocoConvergenciaPMO</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__configs_exp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__por_tipo</span><span class="p">(</span><span class="n">BlocoConfiguracoesExpansaoPMO</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__mars</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__por_tipo</span><span class="p">(</span><span class="n">BlocoMARSPMO</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__risco_deficit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__por_tipo</span><span class="p">(</span><span class="n">BlocoRiscoDeficitENSPMO</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__custos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__por_tipo</span><span class="p">(</span><span class="n">BlocoCustoOperacaoPMO</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__custo_total</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__por_tipo</span><span class="p">(</span><span class="n">BlocoCustoOperacaoTotalPMO</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">__por_tipo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tipo</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">Bloco</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Bloco</span><span class="p">]:</span>
-        <span class="k">return</span> <span class="p">[</span><span class="n">b</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_blocos</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">tipo</span><span class="p">)]</span>
+    <span class="n">BLOCKS</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">BlocoEafPastTendenciaHidrolPMO</span><span class="p">,</span>
+        <span class="n">BlocoEafPastCfugaMedioPMO</span><span class="p">,</span>
+        <span class="n">BlocoConvergenciaPMO</span><span class="p">,</span>
+        <span class="n">BlocoConfiguracoesExpansaoPMO</span><span class="p">,</span>
+        <span class="n">BlocoMARSPMO</span><span class="p">,</span>
+        <span class="n">BlocoRiscoDeficitENSPMO</span><span class="p">,</span>
+        <span class="n">BlocoCustoOperacaoPMO</span><span class="p">,</span>
+        <span class="n">BlocoCustoOperacaoTotalPMO</span><span class="p">,</span>
+    <span class="p">]</span>
 
     <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">le_arquivo</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">diretorio</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">nome_arquivo</span><span class="o">=</span><span class="s2">&quot;pmo.dat&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;PMO&quot;</span><span class="p">:</span>
-        <span class="n">leitor</span> <span class="o">=</span> <span class="n">LeituraPMO</span><span class="p">(</span><span class="n">diretorio</span><span class="p">)</span>
-        <span class="n">r</span> <span class="o">=</span> <span class="n">leitor</span><span class="o">.</span><span class="n">le_arquivo</span><span class="p">(</span><span class="n">nome_arquivo</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">diretorio</span><span class="p">,</span> <span class="n">nome_arquivo</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__bloco_por_tipo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bloco</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">T</span><span class="p">],</span> <span class="n">indice</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Obtém um gerador de blocos de um tipo, se houver algum no arquivo.</span>
+
+<span class="sd">        :param bloco: Um tipo de bloco para ser lido</span>
+<span class="sd">        :type bloco: T</span>
+<span class="sd">        :param indice: O índice do bloco a ser acessado, dentre os do tipo</span>
+<span class="sd">        :type indice: int</span>
+<span class="sd">        :return: O gerador de blocos, se houver</span>
+<span class="sd">        :rtype: Optional[Generator[T], None, None]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">next</span><span class="p">(</span>
+                <span class="n">b</span>
+                <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">of_type</span><span class="p">(</span><span class="n">bloco</span><span class="p">))</span>
+                <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="n">indice</span>
+            <span class="p">)</span>
+        <span class="k">except</span> <span class="ne">StopIteration</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">__extrai_dados_se_existe</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">bloco</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">Block</span><span class="p">],</span> <span class="n">indice</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Obtém os dados de um bloco se este existir dentre os blocos do arquivo.</span>
+
+<span class="sd">        :param bloco: O tipo do bloco cujos dados serão extraídos</span>
+<span class="sd">        :type bloco: Type[T]</span>
+<span class="sd">        :param indice: Qual dos blocos do tipo será acessado</span>
+<span class="sd">        :type indice: int, optional</span>
+<span class="sd">        :return: Os dados do bloco, se existirem</span>
+<span class="sd">        :rtype: Any</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__bloco_por_tipo</span><span class="p">(</span><span class="n">bloco</span><span class="p">,</span> <span class="n">indice</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">b</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">b</span><span class="o">.</span><span class="n">data</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="c1"># def __atribui_dados_se_existe(</span>
+    <span class="c1">#     self, bloco: Type[Block], valor: Any, indice: int = 0</span>
+    <span class="c1"># ):</span>
+    <span class="c1">#     &quot;&quot;&quot;</span>
+    <span class="c1">#     Atribui dados em um bloco existente. Retorna um erro se</span>
+    <span class="c1">#     o bloco não existir.</span>
+
+    <span class="c1">#     :param bloco: O tipo do bloco cujos dados serão extraídos</span>
+    <span class="c1">#     :type bloco: Type[T]</span>
+    <span class="c1">#     :param valor: O valor a ser atribuído</span>
+    <span class="c1">#     :type valor: Any</span>
+    <span class="c1">#     :param indice: Qual dos blocos do tipo será acessado</span>
+    <span class="c1">#     :type indice: int, optional</span>
+    <span class="c1">#     &quot;&quot;&quot;</span>
+    <span class="c1">#     b = self.__bloco_por_tipo(bloco, indice)</span>
+    <span class="c1">#     if b is not None:</span>
+    <span class="c1">#         b.data = valor</span>
+    <span class="c1">#     else:</span>
+    <span class="c1">#         raise ValueError(</span>
+    <span class="c1">#             f&quot;Bloco do tipo {bloco.__name__} na posição&quot;</span>
+    <span class="c1">#             + f&quot; {indice} não encontrado&quot;</span>
+    <span class="c1">#         )</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">eafpast_tendencia_hidrologica</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">eafpast_tendencia_hidrologica</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Energias afluentes passadas por REE para análise da tendência</span>
 <span class="sd">        hidrológica, em relação à primeira configuração do sistema,</span>
@@ -224,16 +186,16 @@
 
 <span class="sd">        **Retorna**</span>
 
-<span class="sd">        `pd.DataFrame`</span>
+<span class="sd">        `Optional[pd.DataFrame]`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__eafpast_th</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">dados</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__extrai_dados_se_existe</span><span class="p">(</span><span class="n">BlocoEafPastTendenciaHidrolPMO</span><span class="p">)</span>
 
-    <span class="nd">@eafpast_tendencia_hidrologica</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">eafpast_tendencia_hidrologica</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">eaf</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__eafpast_th</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">dados</span> <span class="o">=</span> <span class="n">eaf</span>
+    <span class="c1"># @eafpast_tendencia_hidrologica.setter</span>
+    <span class="c1"># def eafpast_tendencia_hidrologica(self, eaf: pd.DataFrame):</span>
+    <span class="c1">#     self.__atribui_dados_se_existe(BlocoEafPastTendenciaHidrolPMO, eaf)</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">eafpast_cfuga_medio</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">eafpast_cfuga_medio</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Energias afluentes passadas por REE considerando canal de</span>
 <span class="sd">        fuga médio, em relação à primeira configuração do sistema,</span>
@@ -241,216 +203,187 @@
 
 <span class="sd">        **Retorna**</span>
 
-<span class="sd">        `pd.DataFrame`</span>
+<span class="sd">        `Optional[pd.DataFrame]`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__eafpast_cfuga</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">dados</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__extrai_dados_se_existe</span><span class="p">(</span><span class="n">BlocoEafPastCfugaMedioPMO</span><span class="p">)</span>
 
-    <span class="nd">@eafpast_cfuga_medio</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">eafpast_cfuga_medio</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">eaf</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__eafpast_cfuga</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">dados</span> <span class="o">=</span> <span class="n">eaf</span>
+    <span class="c1"># @eafpast_cfuga_medio.setter</span>
+    <span class="c1"># def eafpast_cfuga_medio(self, eaf: pd.DataFrame):</span>
+    <span class="c1">#     self.__atribui_dados_se_existe(BlocoEafPastCfugaMedioPMO, eaf)</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">configuracoes_entrada_reservatorio</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">configuracoes_entrada_reservatorio</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Configurações do sistema em cada período devido a entrada</span>
 <span class="sd">        de reservatórios e/ou potência de base.</span>
 
 <span class="sd">        **Retorna**</span>
 
-<span class="sd">        `np.ndarray`</span>
+<span class="sd">        `Optional[pd.DataFrame]`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__configs_exp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">dados</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__extrai_dados_se_existe</span><span class="p">(</span><span class="n">BlocoConfiguracoesExpansaoPMO</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
 
-    <span class="nd">@configuracoes_entrada_reservatorio</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">configuracoes_entrada_reservatorio</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">configs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__configs_exp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">dados</span> <span class="o">=</span> <span class="n">configs</span>
+    <span class="c1"># @configuracoes_entrada_reservatorio.setter</span>
+    <span class="c1"># def configuracoes_entrada_reservatorio(self, cfg: pd.DataFrame):</span>
+    <span class="c1">#     self.__atribui_dados_se_existe(BlocoConfiguracoesExpansaoPMO, cfg, 0)</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">configuracoes_alteracao_potencia</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">configuracoes_alteracao_potencia</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Configurações do sistema em cada período devido a alterações</span>
 <span class="sd">        de potência.</span>
 
 <span class="sd">        **Retorna**</span>
 
-<span class="sd">        `np.ndarray`</span>
+<span class="sd">        `Optional[pd.DataFrame]`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__configs_exp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">dados</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__extrai_dados_se_existe</span><span class="p">(</span><span class="n">BlocoConfiguracoesExpansaoPMO</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 
-    <span class="nd">@configuracoes_alteracao_potencia</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">configuracoes_alteracao_potencia</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">configs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__configs_exp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">dados</span> <span class="o">=</span> <span class="n">configs</span>
+    <span class="c1"># @configuracoes_alteracao_potencia.setter</span>
+    <span class="c1"># def configuracoes_alteracao_potencia(self, cfg: pd.DataFrame):</span>
+    <span class="c1">#     self.__atribui_dados_se_existe(BlocoConfiguracoesExpansaoPMO, cfg, 1)</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">configuracoes_qualquer_modificacao</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">configuracoes_qualquer_modificacao</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Configurações do sistema em cada período devido a alterações</span>
 <span class="sd">        de potência.</span>
 
 <span class="sd">        **Retorna**</span>
 
-<span class="sd">        `np.ndarray`</span>
+<span class="sd">        `Optional[pd.DataFrame]`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__configs_exp</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">dados</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__extrai_dados_se_existe</span><span class="p">(</span><span class="n">BlocoConfiguracoesExpansaoPMO</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
 
-    <span class="nd">@configuracoes_qualquer_modificacao</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">configuracoes_qualquer_modificacao</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">configs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__configs_exp</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">dados</span> <span class="o">=</span> <span class="n">configs</span>
+    <span class="c1"># @configuracoes_qualquer_modificacao.setter</span>
+    <span class="c1"># def configuracoes_qualquer_modificacao(self, cfg: pd.DataFrame):</span>
+    <span class="c1">#     self.__atribui_dados_se_existe(BlocoConfiguracoesExpansaoPMO, cfg, 2)</span>
 
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">retas_perdas_engolimento</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<div class="viewcode-block" id="PMO.retas_perdas_engolimento"><a class="viewcode-back" href="../../../reference/newave/arquivos/pmo.html#inewave.newave.pmo.PMO.retas_perdas_engolimento">[documentos]</a>    <span class="k">def</span> <span class="nf">retas_perdas_engolimento</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">estagio</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Retas ajustadas segundo o modelo MARS para corrigir a</span>
 <span class="sd">        energia fio d&#39;água com as perdas por engolimento máximo.</span>
 
-<span class="sd">        OBS:</span>
-<span class="sd">        Retorna apenas o modelo ajustado para a configuração do</span>
-<span class="sd">        primeiro período de estudo (temporariamente).</span>
-
 <span class="sd">        **Retorna**</span>
 
-<span class="sd">        `pd.DataFrame`</span>
+<span class="sd">        `Optional[pd.DataFrame]`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__mars</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">dados</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__extrai_dados_se_existe</span><span class="p">(</span><span class="n">BlocoMARSPMO</span><span class="p">,</span> <span class="n">estagio</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span></div>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">convergencia</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">convergencia</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Tabela de convergência da execução do NEWAVE.</span>
 
 <span class="sd">        **Retorna**</span>
 
-<span class="sd">        `pd.DataFrame`</span>
+<span class="sd">        `Optional[pd.DataFrame]`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__convergencia</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">dados</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__extrai_dados_se_existe</span><span class="p">(</span><span class="n">BlocoConvergenciaPMO</span><span class="p">)</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">risco_deficit_ens</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">risco_deficit_ens</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Tabela de riscos de déficit e enegia não suprida (ENS).</span>
 
 <span class="sd">        **Retorna**</span>
 
-<span class="sd">        `pandas.DataFrame`</span>
+<span class="sd">        `Optional[pd.DataFrame]`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">__risco_deficit</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">dados</span><span class="p">,</span>
-            <span class="n">columns</span><span class="o">=</span><span class="p">[</span>
-                <span class="s2">&quot;Ano&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;Risco (%) SE&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;EENS (MWMes) SE&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;Risco (%) S&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;EENS (MWMes) S&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;Risco (%) NE&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;EENS (MWMes) NE&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;Risco (%) N&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;EENS (MWMes) N&quot;</span><span class="p">,</span>
-            <span class="p">],</span>
-        <span class="p">)</span>
-        <span class="k">return</span> <span class="n">df</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__extrai_dados_se_existe</span><span class="p">(</span><span class="n">BlocoRiscoDeficitENSPMO</span><span class="p">)</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">custo_operacao_series_simuladas</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">custo_operacao_series_simuladas</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Tabela de custos de operação categorizados para as</span>
 <span class="sd">        séries simuladas.</span>
 
 <span class="sd">        **Retorna**</span>
 
-<span class="sd">        `pandas.DataFrame`</span>
+<span class="sd">        `Optional[pd.DataFrame]`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__custos</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">dados</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__extrai_dados_se_existe</span><span class="p">(</span><span class="n">BlocoCustoOperacaoPMO</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">valor_esperado_periodo_estudo</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">valor_esperado_periodo_estudo</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Tabela de custos de operação esperados para o período</span>
 <span class="sd">        de estudo.</span>
 
 <span class="sd">        **Retorna**</span>
 
-<span class="sd">        `pandas.DataFrame`</span>
+<span class="sd">        `Optional[pd.DataFrame]`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__custos</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">dados</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__extrai_dados_se_existe</span><span class="p">(</span><span class="n">BlocoCustoOperacaoPMO</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">custo_operacao_referenciado_primeiro_mes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">custo_operacao_referenciado_primeiro_mes</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Tabela de custos de operação esperados para o período</span>
 <span class="sd">        de estudo, referenciados ao primeiro mês.</span>
 
 <span class="sd">        **Retorna**</span>
 
-<span class="sd">        `pandas.DataFrame`</span>
+<span class="sd">        `Optional[pd.DataFrame]`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__custos</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">dados</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__extrai_dados_se_existe</span><span class="p">(</span><span class="n">BlocoCustoOperacaoPMO</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">custo_operacao_total</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">custo_operacao_total</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Custo de operacao total da SF.</span>
 
 <span class="sd">        **Retorna**</span>
 
-<span class="sd">        `float`</span>
+<span class="sd">        `Optional[float]`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">custo</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__custo_total</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">dados</span>
-        <span class="k">return</span> <span class="n">custo</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__extrai_dados_se_existe</span><span class="p">(</span><span class="n">BlocoCustoOperacaoTotalPMO</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">return</span> <span class="kc">None</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">desvio_custo_operacao_total</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">desvio_custo_operacao_total</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Custo de operacao total da SF.</span>
 
 <span class="sd">        **Retorna**</span>
 
-<span class="sd">        `float`</span>
+<span class="sd">        `Optional[float]`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">custo</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__custo_total</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">dados</span>
-        <span class="k">return</span> <span class="n">custo</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span></div>
+        <span class="n">b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__extrai_dados_se_existe</span><span class="p">(</span><span class="n">BlocoCustoOperacaoTotalPMO</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
 </pre></div>
 
            </div>
-           
           </div>
           <footer>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &#169; Copyright 2021, Rogerio José Menezes Alves.
-
-    </p>
+    <p>&#169; Copyright 2022, Rogerio José Menezes Alves.</p>
   </div>
-    
-    
-    
-    Compilado com <a href="https://www.sphinx-doc.org/">Sphinx</a> usando um
-    
+
+  Compilado com <a href="https://www.sphinx-doc.org/">Sphinx</a> usando um
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">tema</a>
-    
-    fornecido por <a href="https://readthedocs.org">Read the Docs</a>. 
+    fornecido por <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

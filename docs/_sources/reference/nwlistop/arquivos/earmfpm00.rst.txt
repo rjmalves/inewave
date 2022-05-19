@@ -12,5 +12,5 @@ Visão geral do modelo
 Os valores de energias armazenadas finais percentuais por submercado, localizados nos arquivos geralmente denominados
 earmfpm00x.out, onde x varia confomrme o submercado, são armazenados na classe:
 
-.. autoclass:: EarmfpM00
+.. autoclass:: Earmfpm00
    :members:

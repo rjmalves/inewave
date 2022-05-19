@@ -1,76 +1,36 @@
-
-
 <!DOCTYPE html>
 <html class="writer-html5" lang="pt-BR" >
 <head>
   <meta charset="utf-8" />
-  
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
-  <title>inewave.newave.patamar &mdash; documentação inewave 0.0.50</title>
-  
-
-  
-  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/gallery-binder.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/gallery-dataframe.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/gallery-rendered-html.css" type="text/css" />
-
-  
-  
-
-  
-  
-
-  
-
-  
+  <title>inewave.newave.patamar &mdash; documentação inewave 0.0.52</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/sg_gallery.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/sg_gallery-binder.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/sg_gallery-dataframe.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/sg_gallery-rendered-html.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
         <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
         <script src="../../../_static/underscore.js"></script>
         <script src="../../../_static/doctools.js"></script>
         <script src="../../../_static/translations.js"></script>
-    
-    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
-
-    
+    <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Índice" href="../../../genindex.html" />
     <link rel="search" title="Buscar" href="../../../search.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
-
-          
             <a href="../../../index.html" class="icon icon-home"> inewave
-          
-
-          
           </a>
-
-          
-            
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
     <input type="text" name="q" placeholder="Pesquisar documentos" />
@@ -78,278 +38,222 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Menu de navegação">
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../install.html">Instalação</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../reference.html">Referência</a></li>
 </ul>
 
-            
-          
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Menu de navegação móvel" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../../../index.html">inewave</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Navegação da página">
   <ul class="wy-breadcrumbs">
-    
       <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
-        
           <li><a href="../../index.html">Código do módulo</a> &raquo;</li>
-        
       <li>inewave.newave.patamar</li>
-    
-    
       <li class="wy-breadcrumbs-aside">
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
+             
   <h1>Código fonte para inewave.newave.patamar</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">inewave.newave.modelos.patamar</span> <span class="kn">import</span> <span class="n">LeituraPatamar</span>
-<span class="kn">from</span> <span class="nn">inewave._utils.dadosarquivo</span> <span class="kn">import</span> <span class="n">DadosArquivoBlocos</span>
-<span class="kn">from</span> <span class="nn">inewave._utils.arquivo</span> <span class="kn">import</span> <span class="n">ArquivoBlocos</span>
-<span class="kn">from</span> <span class="nn">inewave._utils.escritablocos</span> <span class="kn">import</span> <span class="n">EscritaBlocos</span>
+<span></span><span class="kn">from</span> <span class="nn">inewave.newave.modelos.patamar</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">BlocoNumeroPatamares</span><span class="p">,</span>
+    <span class="n">BlocoDuracaoPatamar</span><span class="p">,</span>
+    <span class="n">BlocoCargaPatamar</span><span class="p">,</span>
+    <span class="n">BlocoIntercambioPatamarSubsistemas</span><span class="p">,</span>
+    <span class="n">BlocoUsinasNaoSimuladas</span><span class="p">,</span>
+<span class="p">)</span>
 
-<span class="kn">from</span> <span class="nn">inewave.config</span> <span class="kn">import</span> <span class="n">MESES_DF</span>
-
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>  <span class="c1"># type: ignore</span>
+<span class="kn">from</span> <span class="nn">cfinterface.files.sectionfile</span> <span class="kn">import</span> <span class="n">SectionFile</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Type</span><span class="p">,</span> <span class="n">TypeVar</span><span class="p">,</span> <span class="n">Optional</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>  <span class="c1"># type: ignore</span>
 
 
-<div class="viewcode-block" id="Patamar"><a class="viewcode-back" href="../../../reference/newave/arquivos/patamar.html#inewave.newave.patamar.Patamar">[documentos]</a><span class="k">class</span> <span class="nc">Patamar</span><span class="p">(</span><span class="n">ArquivoBlocos</span><span class="p">):</span>
+<div class="viewcode-block" id="Patamar"><a class="viewcode-back" href="../../../reference/newave/arquivos/patamar.html#inewave.newave.patamar.Patamar">[documentos]</a><span class="k">class</span> <span class="nc">Patamar</span><span class="p">(</span><span class="n">SectionFile</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Armazena os dados de entrada do NEWAVE referentes aos</span>
 <span class="sd">    patamares de carga por submercado.</span>
 
-<span class="sd">    Esta classe pode lidar com um número qualquer de patamares</span>
-<span class="sd">    de carga, desde que as informações fornecidas a ela por meio</span>
-<span class="sd">    da tabela de valores seja compatível com o parâmetro `num_patamares`</span>
-<span class="sd">    da mesma.</span>
-
-<span class="sd">    A tabela de patamares de carga é armazenada através de uma array</span>
-<span class="sd">    em `NumPy`, para otimizar cálculos futuros e espaço ocupado</span>
-<span class="sd">    em memória. A tabela interna é transformada em dicionários</span>
-<span class="sd">    e outras estruturas de dados mais palpáveis através das propriedades</span>
-<span class="sd">    da própria classe.</span>
-
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dados</span><span class="p">:</span> <span class="n">DadosArquivoBlocos</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">dados</span><span class="p">)</span>
-        <span class="c1"># Interpreta o resultado da leitura</span>
-        <span class="n">val</span> <span class="o">=</span> <span class="kc">True</span>
-        <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Erro na criação de Patamar: &quot;</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">dados</span><span class="o">.</span><span class="n">blocos</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">3</span><span class="p">:</span>
-            <span class="n">msg</span> <span class="o">+=</span> <span class="s2">&quot;Devem ser fornecidos exatamente 2 blocos para Patamar&quot;</span>
-            <span class="n">val</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">val</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+    <span class="n">T</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;T&quot;</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Patamar.le_arquivo"><a class="viewcode-back" href="../../../reference/newave/arquivos/patamar.html#inewave.newave.patamar.Patamar.le_arquivo">[documentos]</a>    <span class="nd">@classmethod</span>
+    <span class="n">SECTIONS</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">BlocoNumeroPatamares</span><span class="p">,</span>
+        <span class="n">BlocoDuracaoPatamar</span><span class="p">,</span>
+        <span class="n">BlocoCargaPatamar</span><span class="p">,</span>
+        <span class="n">BlocoIntercambioPatamarSubsistemas</span><span class="p">,</span>
+        <span class="n">BlocoUsinasNaoSimuladas</span><span class="p">,</span>
+    <span class="p">]</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="o">=...</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">le_arquivo</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span> <span class="n">diretorio</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">nome_arquivo</span><span class="o">=</span><span class="s2">&quot;patamar.dat&quot;</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Patamar&quot;</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
-        <span class="n">leitor</span> <span class="o">=</span> <span class="n">LeituraPatamar</span><span class="p">(</span><span class="n">diretorio</span><span class="p">)</span>
-        <span class="n">r</span> <span class="o">=</span> <span class="n">leitor</span><span class="o">.</span><span class="n">le_arquivo</span><span class="p">(</span><span class="n">nome_arquivo</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">r</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">diretorio</span><span class="p">,</span> <span class="n">nome_arquivo</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Patamar.escreve_arquivo"><a class="viewcode-back" href="../../../reference/newave/arquivos/patamar.html#inewave.newave.patamar.Patamar.escreve_arquivo">[documentos]</a>    <span class="k">def</span> <span class="nf">escreve_arquivo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">diretorio</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">nome_arquivo</span><span class="o">=</span><span class="s2">&quot;patamar.dat&quot;</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
-        <span class="n">escritor</span> <span class="o">=</span> <span class="n">EscritaBlocos</span><span class="p">(</span><span class="n">diretorio</span><span class="p">)</span>
-        <span class="n">escritor</span><span class="o">.</span><span class="n">escreve_arquivo</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_dados</span><span class="p">,</span> <span class="n">nome_arquivo</span><span class="p">)</span></div>
+    <span class="k">def</span> <span class="nf">escreve_arquivo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">diretorio</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">nome_arquivo</span><span class="o">=</span><span class="s2">&quot;patamar.dat&quot;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">diretorio</span><span class="p">,</span> <span class="n">nome_arquivo</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__bloco_por_tipo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bloco</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">T</span><span class="p">],</span> <span class="n">indice</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Obtém um gerador de blocos de um tipo, se houver algum no arquivo.</span>
+
+<span class="sd">        :param bloco: Um tipo de bloco para ser lido</span>
+<span class="sd">        :type bloco: T</span>
+<span class="sd">        :param indice: O índice do bloco a ser acessado, dentre os do tipo</span>
+<span class="sd">        :type indice: int</span>
+<span class="sd">        :return: O gerador de blocos, se houver</span>
+<span class="sd">        :rtype: Optional[Generator[T], None, None]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">next</span><span class="p">(</span>
+                <span class="n">b</span>
+                <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">of_type</span><span class="p">(</span><span class="n">bloco</span><span class="p">))</span>
+                <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="n">indice</span>
+            <span class="p">)</span>
+        <span class="k">except</span> <span class="ne">StopIteration</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">duracao_mensal_patamares</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">numero_patamares</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Tabela de duração mensal dos patamares de carga.</span>
+<span class="sd">        O número de patamares utilizado no estudo.</span>
 
-<span class="sd">        **Retorna**</span>
-
-<span class="sd">        `pd.DataFrame`</span>
-
-<span class="sd">        **Sobre**</span>
-
+<span class="sd">        :return: O número de patamares como um inteiro</span>
+<span class="sd">        :rtype: Optional[int]</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_blocos</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">dados</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__bloco_por_tipo</span><span class="p">(</span><span class="n">BlocoNumeroPatamares</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">b</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">b</span><span class="o">.</span><span class="n">data</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="nd">@numero_patamares</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">numero_patamares</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__bloco_por_tipo</span><span class="p">(</span><span class="n">BlocoNumeroPatamares</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">b</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">b</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">n</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">duracao_mensal_patamares</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Tabela com a duração mensal de cada patamar no horizonte</span>
+<span class="sd">        de estudo.</span>
+
+<span class="sd">        :return: A duração por mês em um DataFrame.</span>
+<span class="sd">        :rtype: Optional[pd.DataFrame]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__bloco_por_tipo</span><span class="p">(</span><span class="n">BlocoDuracaoPatamar</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">b</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">b</span><span class="o">.</span><span class="n">data</span>
+        <span class="k">return</span> <span class="kc">None</span>
 
     <span class="nd">@duracao_mensal_patamares</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">duracao_mensal_patamares</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">duracao</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_blocos</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">dados</span> <span class="o">=</span> <span class="n">duracao</span>
+    <span class="k">def</span> <span class="nf">duracao_mensal_patamares</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__bloco_por_tipo</span><span class="p">(</span><span class="n">BlocoDuracaoPatamar</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">b</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">b</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">df</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">carga_patamares</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">carga_patamares</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Tabela de carga em p.u. dos patamares de carga.</span>
+<span class="sd">        Tabela com a carga em P.U. por patamar.</span>
 
-<span class="sd">        **Retorna**</span>
-
-<span class="sd">        `pd.DataFrame`</span>
-
-<span class="sd">        **Sobre**</span>
-
+<span class="sd">        :return: A carga por mês em um DataFrame.</span>
+<span class="sd">        :rtype: Optional[pd.DataFrame]</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_blocos</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">dados</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__bloco_por_tipo</span><span class="p">(</span><span class="n">BlocoCargaPatamar</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">b</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">b</span><span class="o">.</span><span class="n">data</span>
+        <span class="k">return</span> <span class="kc">None</span>
 
     <span class="nd">@carga_patamares</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">carga_patamares</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">carga</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_blocos</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">dados</span> <span class="o">=</span> <span class="n">carga</span>
+    <span class="k">def</span> <span class="nf">carga_patamares</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__bloco_por_tipo</span><span class="p">(</span><span class="n">BlocoCargaPatamar</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">b</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">b</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">df</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">intercambio_patamares</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">intercambio_patamares</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Tabela de intercambios em p.u. dos patamares de carga.</span>
+<span class="sd">        Tabela com a correção em P.U. do intercâmbio por patamar.</span>
 
-<span class="sd">        **Retorna**</span>
-
-<span class="sd">        `pd.DataFrame`</span>
-
-<span class="sd">        **Sobre**</span>
-
+<span class="sd">        :return: A carga por mês em um DataFrame.</span>
+<span class="sd">        :rtype: Optional[pd.DataFrame]</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_blocos</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">dados</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__bloco_por_tipo</span><span class="p">(</span><span class="n">BlocoIntercambioPatamarSubsistemas</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">b</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">b</span><span class="o">.</span><span class="n">data</span>
+        <span class="k">return</span> <span class="kc">None</span>
 
     <span class="nd">@intercambio_patamares</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">intercambio_patamares</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inter</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_blocos</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">dados</span> <span class="o">=</span> <span class="n">inter</span>
+    <span class="k">def</span> <span class="nf">intercambio_patamares</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__bloco_por_tipo</span><span class="p">(</span><span class="n">BlocoIntercambioPatamarSubsistemas</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">b</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">b</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">df</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">patamares_por_ano</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">usinas_nao_simuladas</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Valores contidos na tabela de duração dos patamares, organizados</span>
-<span class="sd">        por ano.</span>
+<span class="sd">        Tabela com os fatores das usinas não simuladas em P.U.</span>
 
-<span class="sd">        **Retorna**</span>
-
-<span class="sd">        `Dict[int, np.ndarray]`</span>
-
-<span class="sd">        **Sobre**</span>
-
-<span class="sd">        O acesso é feito com [ano] e o valor fornecido</span>
-<span class="sd">        é uma array 2-D do `NumPy` com os valores dos patamares para todo</span>
-<span class="sd">        os meses de um ano, semelhante a uma linha do arquivo patamar.dat.</span>
+<span class="sd">        :return: Os valores por mês em um DataFrame.</span>
+<span class="sd">        :rtype: Optional[pd.DataFrame]</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">patamares_ano</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="c1"># Preenche com os valores</span>
-        <span class="n">duracoes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">duracao_mensal_patamares</span>
-        <span class="n">anos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">anos_estudo</span>
-        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">a</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">anos</span><span class="p">):</span>
-            <span class="n">patamares_ano</span><span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">=</span> <span class="n">duracoes</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
-                <span class="n">duracoes</span><span class="p">[</span><span class="s2">&quot;Ano&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">a</span><span class="p">,</span> <span class="n">MESES_DF</span>
-            <span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
-        <span class="k">return</span> <span class="n">patamares_ano</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__bloco_por_tipo</span><span class="p">(</span><span class="n">BlocoUsinasNaoSimuladas</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">b</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">b</span><span class="o">.</span><span class="n">data</span>
+        <span class="k">return</span> <span class="kc">None</span>
 
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">anos_estudo</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Lista com os anos de estudo descritos no Patamar.</span>
-
-<span class="sd">        **Retorna**</span>
-
-<span class="sd">        `np.ndarray`</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">duracoes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">duracao_mensal_patamares</span>
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">duracoes</span><span class="p">[</span><span class="s2">&quot;Ano&quot;</span><span class="p">]))))</span></div>
+    <span class="nd">@usinas_nao_simuladas</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">usinas_nao_simuladas</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__bloco_por_tipo</span><span class="p">(</span><span class="n">BlocoUsinasNaoSimuladas</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">b</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">b</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">df</span></div>
 </pre></div>
 
            </div>
-           
           </div>
           <footer>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &#169; Copyright 2021, Rogerio José Menezes Alves.
-
-    </p>
+    <p>&#169; Copyright 2022, Rogerio José Menezes Alves.</p>
   </div>
-    
-    
-    
-    Compilado com <a href="https://www.sphinx-doc.org/">Sphinx</a> usando um
-    
+
+  Compilado com <a href="https://www.sphinx-doc.org/">Sphinx</a> usando um
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">tema</a>
-    
-    fornecido por <a href="https://readthedocs.org">Read the Docs</a>. 
+    fornecido por <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

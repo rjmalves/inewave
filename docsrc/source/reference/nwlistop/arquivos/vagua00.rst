@@ -12,5 +12,5 @@ Visão geral do modelo
 Os valores de valor da água por REE, localizados nos arquivos geralmente denominados
 vagua00x.out, onde x varia conforme o REE, são armazenados na classe:
 
-.. autoclass:: VAgua00
+.. autoclass:: Vagua00
    :members:

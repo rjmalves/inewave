@@ -12,5 +12,5 @@ Visão geral do modelo
 Os valores de geração hidráulica total por Submercado, localizados nos arquivos geralmente denominados
 ghtotm00x.out, onde x varia conforme o Submercado, são armazenados na classe:
 
-.. autoclass:: GHTotM00
+.. autoclass:: Ghtotm00
    :members:

@@ -12,5 +12,5 @@ Visão geral do modelo
 Os valores de geração hidráulica por REE, localizados nos arquivos geralmente denominados
 ghtot00x.out, onde x varia conforme o REE, são armazenados na classe:
 
-.. autoclass:: GHTot00
+.. autoclass:: Ghtot00
    :members:

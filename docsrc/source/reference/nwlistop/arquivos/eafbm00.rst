@@ -12,5 +12,5 @@ Visão geral do modelo
 Os valores de energias afluentes brutas por submercado, localizados nos arquivos geralmente denominados
 eafbm00x.out, onde x varia confomrme o submercado, são armazenados na classe:
 
-.. autoclass:: EafbM00
+.. autoclass:: Eafbm00
    :members:

@@ -1,76 +1,36 @@
-
-
 <!DOCTYPE html>
 <html class="writer-html5" lang="pt-BR" >
 <head>
   <meta charset="utf-8" />
-  
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
-  <title>inewave.newave.curva &mdash; documentação inewave 0.0.50</title>
-  
-
-  
-  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/gallery-binder.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/gallery-dataframe.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/gallery-rendered-html.css" type="text/css" />
-
-  
-  
-
-  
-  
-
-  
-
-  
+  <title>inewave.newave.curva &mdash; documentação inewave 0.0.52</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/sg_gallery.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/sg_gallery-binder.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/sg_gallery-dataframe.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/sg_gallery-rendered-html.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
         <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
         <script src="../../../_static/underscore.js"></script>
         <script src="../../../_static/doctools.js"></script>
         <script src="../../../_static/translations.js"></script>
-    
-    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
-
-    
+    <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Índice" href="../../../genindex.html" />
     <link rel="search" title="Buscar" href="../../../search.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
-
-          
             <a href="../../../index.html" class="icon icon-home"> inewave
-          
-
-          
           </a>
-
-          
-            
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
     <input type="text" name="q" placeholder="Pesquisar documentos" />
@@ -78,225 +38,266 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Menu de navegação">
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../install.html">Instalação</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../reference.html">Referência</a></li>
 </ul>
 
-            
-          
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Menu de navegação móvel" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../../../index.html">inewave</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Navegação da página">
   <ul class="wy-breadcrumbs">
-    
       <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
-        
           <li><a href="../../index.html">Código do módulo</a> &raquo;</li>
-        
       <li>inewave.newave.curva</li>
-    
-    
       <li class="wy-breadcrumbs-aside">
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
+             
   <h1>Código fonte para inewave.newave.curva</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">inewave._utils.arquivo</span> <span class="kn">import</span> <span class="n">ArquivoBlocos</span>
-<span class="kn">from</span> <span class="nn">inewave._utils.dadosarquivo</span> <span class="kn">import</span> <span class="n">DadosArquivoBlocos</span>
-<span class="kn">from</span> <span class="nn">inewave._utils.escritablocos</span> <span class="kn">import</span> <span class="n">EscritaBlocos</span>
+<span></span><span class="kn">from</span> <span class="nn">inewave.newave.modelos.curva</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">BlocoConfiguracoesPenalizacaoCurva</span><span class="p">,</span>
+    <span class="n">BlocoPenalidadesViolacaoREECurva</span><span class="p">,</span>
+    <span class="n">BlocoCurvaSegurancaSubsistema</span><span class="p">,</span>
+    <span class="n">BlocoMaximoIteracoesProcessoIterativoEtapa2</span><span class="p">,</span>
+    <span class="n">BlocoIteracaoAPartirProcessoIterativoEtapa2</span><span class="p">,</span>
+    <span class="n">BlocoToleranciaProcessoIterativoEtapa2</span><span class="p">,</span>
+    <span class="n">BlocoImpressaoRelatorioProcessoIterativoEtapa2</span><span class="p">,</span>
+<span class="p">)</span>
 
-<span class="kn">from</span> <span class="nn">inewave.newave.modelos.curva</span> <span class="kn">import</span> <span class="n">LeituraCurva</span>
-
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>  <span class="c1"># type: ignore</span>
+<span class="kn">from</span> <span class="nn">cfinterface.files.sectionfile</span> <span class="kn">import</span> <span class="n">SectionFile</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Type</span><span class="p">,</span> <span class="n">TypeVar</span><span class="p">,</span> <span class="n">Optional</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>  <span class="c1"># type: ignore</span>
 
 
-<div class="viewcode-block" id="Curva"><a class="viewcode-back" href="../../../reference/newave/arquivos/curva.html#inewave.newave.curva.Curva">[documentos]</a><span class="k">class</span> <span class="nc">Curva</span><span class="p">(</span><span class="n">ArquivoBlocos</span><span class="p">):</span>
+<div class="viewcode-block" id="Curva"><a class="viewcode-back" href="../../../reference/newave/arquivos/curva.html#inewave.newave.curva.Curva">[documentos]</a><span class="k">class</span> <span class="nc">Curva</span><span class="p">(</span><span class="n">SectionFile</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Armazena os dados de entrada do NEWAVE referentes à curva para</span>
 <span class="sd">    penalização por volume mínimo dos reservatórios.</span>
-
-<span class="sd">    **Parâmetros**</span>
-
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dados</span><span class="p">:</span> <span class="n">DadosArquivoBlocos</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">dados</span><span class="p">)</span>
+    <span class="n">T</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;T&quot;</span><span class="p">)</span>
 
-    <span class="c1"># Override</span>
-<div class="viewcode-block" id="Curva.le_arquivo"><a class="viewcode-back" href="../../../reference/newave/arquivos/curva.html#inewave.newave.curva.Curva.le_arquivo">[documentos]</a>    <span class="nd">@classmethod</span>
+    <span class="n">SECTIONS</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">BlocoConfiguracoesPenalizacaoCurva</span><span class="p">,</span>
+        <span class="n">BlocoPenalidadesViolacaoREECurva</span><span class="p">,</span>
+        <span class="n">BlocoCurvaSegurancaSubsistema</span><span class="p">,</span>
+        <span class="n">BlocoMaximoIteracoesProcessoIterativoEtapa2</span><span class="p">,</span>
+        <span class="n">BlocoIteracaoAPartirProcessoIterativoEtapa2</span><span class="p">,</span>
+        <span class="n">BlocoToleranciaProcessoIterativoEtapa2</span><span class="p">,</span>
+        <span class="n">BlocoImpressaoRelatorioProcessoIterativoEtapa2</span><span class="p">,</span>
+    <span class="p">]</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="o">=...</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">le_arquivo</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">diretorio</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">nome_arquivo</span><span class="o">=</span><span class="s2">&quot;curva.dat&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Curva&quot;</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
-        <span class="n">leitor</span> <span class="o">=</span> <span class="n">LeituraCurva</span><span class="p">(</span><span class="n">diretorio</span><span class="p">)</span>
-        <span class="n">r</span> <span class="o">=</span> <span class="n">leitor</span><span class="o">.</span><span class="n">le_arquivo</span><span class="p">(</span><span class="n">nome_arquivo</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">r</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">diretorio</span><span class="p">,</span> <span class="n">nome_arquivo</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Curva.escreve_arquivo"><a class="viewcode-back" href="../../../reference/newave/arquivos/curva.html#inewave.newave.curva.Curva.escreve_arquivo">[documentos]</a>    <span class="k">def</span> <span class="nf">escreve_arquivo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">diretorio</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">nome_arquivo</span><span class="o">=</span><span class="s2">&quot;curva.dat&quot;</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
-        <span class="n">escritor</span> <span class="o">=</span> <span class="n">EscritaBlocos</span><span class="p">(</span><span class="n">diretorio</span><span class="p">)</span>
-        <span class="n">escritor</span><span class="o">.</span><span class="n">escreve_arquivo</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_dados</span><span class="p">,</span> <span class="n">nome_arquivo</span><span class="p">)</span></div>
+    <span class="k">def</span> <span class="nf">escreve_arquivo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">diretorio</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">nome_arquivo</span><span class="o">=</span><span class="s2">&quot;curva.dat&quot;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">diretorio</span><span class="p">,</span> <span class="n">nome_arquivo</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__bloco_por_tipo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bloco</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">T</span><span class="p">],</span> <span class="n">indice</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Obtém um gerador de blocos de um tipo, se houver algum no arquivo.</span>
+
+<span class="sd">        :param bloco: Um tipo de bloco para ser lido</span>
+<span class="sd">        :type bloco: T</span>
+<span class="sd">        :param indice: O índice do bloco a ser acessado, dentre os do tipo</span>
+<span class="sd">        :type indice: int</span>
+<span class="sd">        :return: O gerador de blocos, se houver</span>
+<span class="sd">        :rtype: Optional[Generator[T], None, None]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">next</span><span class="p">(</span>
+                <span class="n">b</span>
+                <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">of_type</span><span class="p">(</span><span class="n">bloco</span><span class="p">))</span>
+                <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="n">indice</span>
+            <span class="p">)</span>
+        <span class="k">except</span> <span class="ne">StopIteration</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">configuracoes_penalizacao</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">configuracoes_penalizacao</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">list</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Linha de configuração das opções de penalização do</span>
 <span class="sd">        arquivo curva.dat.</span>
 
-<span class="sd">        **Retorna**</span>
-
-<span class="sd">        `np.ndarray`</span>
-
-<span class="sd">        **Sobre**</span>
-
-<span class="sd">        Retorna um array com três elementos:</span>
-
-<span class="sd">        - O primeiro é o tipo de penalização: 0 - FIXA e 1 - MAXIMA</span>
-<span class="sd">        - O segundo é o mês de penalização: entre 1 e 12</span>
-<span class="sd">        - O terceiro é a sazonalização do VminP: 0 para não e 1 para sim</span>
+<span class="sd">        :return: Os valores dos campos da linha como uma lista.</span>
+<span class="sd">        :rtype: Optional[list]</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_blocos</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">dados</span>
-
-    <span class="nd">@configuracoes_penalizacao</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">configuracoes_penalizacao</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_blocos</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">dados</span> <span class="o">=</span> <span class="n">config</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__bloco_por_tipo</span><span class="p">(</span><span class="n">BlocoConfiguracoesPenalizacaoCurva</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">b</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">b</span><span class="o">.</span><span class="n">data</span>
+        <span class="k">return</span> <span class="kc">None</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">penalidades_ree</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">custos_penalidades</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Tabela com os custos de penalidades por violação de VminP</span>
-<span class="sd">        em cada REE.</span>
+<span class="sd">        Tabela com os custos para penalização em cada REE.</span>
 
-<span class="sd">        **Retorna**</span>
-
-<span class="sd">        `pd.DataFrame`</span>
-
-<span class="sd">        **Sobre**</span>
+<span class="sd">        :return: Os custos por REE em um DataFrame.</span>
+<span class="sd">        :rtype: Optional[pd.DataFrame]</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_blocos</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">dados</span>
-
-    <span class="nd">@penalidades_ree</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">penalidades_ree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">penalidades</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_blocos</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">dados</span> <span class="o">=</span> <span class="n">penalidades</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__bloco_por_tipo</span><span class="p">(</span><span class="n">BlocoPenalidadesViolacaoREECurva</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">b</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">b</span><span class="o">.</span><span class="n">data</span>
+        <span class="k">return</span> <span class="kc">None</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">curva_seguranca</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">curva_seguranca</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Tabela com os valores da curva de segurança de operação</span>
-<span class="sd">        para cada mês/ano de cada REE.</span>
+<span class="sd">        Tabela da curva de segurança por REE.</span>
 
-<span class="sd">        **Retorna**</span>
-
-<span class="sd">        `pd.DataFrame`</span>
-
-<span class="sd">        **Sobre**</span>
+<span class="sd">        :return: Os valores dos campos da linha como uma lista.</span>
+<span class="sd">        :rtype: Optional[pd.DataFrame]</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_blocos</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">dados</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__bloco_por_tipo</span><span class="p">(</span><span class="n">BlocoCurvaSegurancaSubsistema</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">b</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">b</span><span class="o">.</span><span class="n">data</span>
+        <span class="k">return</span> <span class="kc">None</span>
 
-    <span class="nd">@curva_seguranca</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">curva_seguranca</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curva</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_blocos</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">dados</span> <span class="o">=</span> <span class="n">curva</span></div>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">maximo_iteracoes_etapa2</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Número máximo de iterações no processo iterativo de 2ª</span>
+<span class="sd">        etapa.</span>
+
+<span class="sd">        :return: O valor como um int</span>
+<span class="sd">        :rtype: Optional[int]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__bloco_por_tipo</span><span class="p">(</span>
+            <span class="n">BlocoMaximoIteracoesProcessoIterativoEtapa2</span><span class="p">,</span> <span class="mi">0</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">b</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">b</span><span class="o">.</span><span class="n">data</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="nd">@maximo_iteracoes_etapa2</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">maximo_iteracoes_etapa2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">valor</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__bloco_por_tipo</span><span class="p">(</span>
+            <span class="n">BlocoMaximoIteracoesProcessoIterativoEtapa2</span><span class="p">,</span> <span class="mi">0</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">b</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">b</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">valor</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Campo não lido&quot;</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">iteracao_a_partir_etapa2</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Iteração a partir da qual ocorre o processo iterativo de 2ª</span>
+<span class="sd">        etapa.</span>
+
+<span class="sd">        :return: O valor como um int</span>
+<span class="sd">        :rtype: Optional[int]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__bloco_por_tipo</span><span class="p">(</span>
+            <span class="n">BlocoIteracaoAPartirProcessoIterativoEtapa2</span><span class="p">,</span> <span class="mi">0</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">b</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">b</span><span class="o">.</span><span class="n">data</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="nd">@iteracao_a_partir_etapa2</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">iteracao_a_partir_etapa2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">valor</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__bloco_por_tipo</span><span class="p">(</span>
+            <span class="n">BlocoIteracaoAPartirProcessoIterativoEtapa2</span><span class="p">,</span> <span class="mi">0</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">b</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">b</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">valor</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Campo não lido&quot;</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">tolerancia_processo_etapa2</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Tolerância para a execução do processo iterativo de etapa 2.</span>
+
+<span class="sd">        :return: O valor como um float</span>
+<span class="sd">        :rtype: Optional[float]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__bloco_por_tipo</span><span class="p">(</span><span class="n">BlocoToleranciaProcessoIterativoEtapa2</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">b</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">b</span><span class="o">.</span><span class="n">data</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="nd">@tolerancia_processo_etapa2</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">tolerancia_processo_etapa2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">valor</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__bloco_por_tipo</span><span class="p">(</span><span class="n">BlocoToleranciaProcessoIterativoEtapa2</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">b</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">b</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">valor</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Campo não lido&quot;</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">impressao_relatorio_etapa2</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Opção de impressão ou não do relatório do</span>
+<span class="sd">        processo iterativo de 2ª etapa.</span>
+
+<span class="sd">        :return: O valor como um int</span>
+<span class="sd">        :rtype: Optional[int]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__bloco_por_tipo</span><span class="p">(</span>
+            <span class="n">BlocoImpressaoRelatorioProcessoIterativoEtapa2</span><span class="p">,</span> <span class="mi">0</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">b</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">b</span><span class="o">.</span><span class="n">data</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="nd">@impressao_relatorio_etapa2</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">impressao_relatorio_etapa2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">valor</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__bloco_por_tipo</span><span class="p">(</span>
+            <span class="n">BlocoImpressaoRelatorioProcessoIterativoEtapa2</span><span class="p">,</span> <span class="mi">0</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">b</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">b</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">valor</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Campo não lido&quot;</span><span class="p">)</span></div>
 </pre></div>
 
            </div>
-           
           </div>
           <footer>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &#169; Copyright 2021, Rogerio José Menezes Alves.
-
-    </p>
+    <p>&#169; Copyright 2022, Rogerio José Menezes Alves.</p>
   </div>
-    
-    
-    
-    Compilado com <a href="https://www.sphinx-doc.org/">Sphinx</a> usando um
-    
+
+  Compilado com <a href="https://www.sphinx-doc.org/">Sphinx</a> usando um
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">tema</a>
-    
-    fornecido por <a href="https://readthedocs.org">Read the Docs</a>. 
+    fornecido por <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

@@ -1,76 +1,36 @@
-
-
 <!DOCTYPE html>
 <html class="writer-html5" lang="pt-BR" >
 <head>
   <meta charset="utf-8" />
-  
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
-  <title>inewave.newave.modif &mdash; documentação inewave 0.0.50</title>
-  
-
-  
-  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/gallery-binder.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/gallery-dataframe.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/gallery-rendered-html.css" type="text/css" />
-
-  
-  
-
-  
-  
-
-  
-
-  
+  <title>inewave.newave.modif &mdash; documentação inewave 0.0.52</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/sg_gallery.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/sg_gallery-binder.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/sg_gallery-dataframe.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/sg_gallery-rendered-html.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
         <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
         <script src="../../../_static/underscore.js"></script>
         <script src="../../../_static/doctools.js"></script>
         <script src="../../../_static/translations.js"></script>
-    
-    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
-
-    
+    <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Índice" href="../../../genindex.html" />
     <link rel="search" title="Buscar" href="../../../search.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
-
-          
             <a href="../../../index.html" class="icon icon-home"> inewave
-          
-
-          
           </a>
-
-          
-            
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
     <input type="text" name="q" placeholder="Pesquisar documentos" />
@@ -78,94 +38,40 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Menu de navegação">
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../install.html">Instalação</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../reference.html">Referência</a></li>
 </ul>
 
-            
-          
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Menu de navegação móvel" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../../../index.html">inewave</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Navegação da página">
   <ul class="wy-breadcrumbs">
-    
       <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
-        
           <li><a href="../../index.html">Código do módulo</a> &raquo;</li>
-        
       <li>inewave.newave.modif</li>
-    
-    
       <li class="wy-breadcrumbs-aside">
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
+             
   <h1>Código fonte para inewave.newave.modif</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">inewave._utils.arquivo</span> <span class="kn">import</span> <span class="n">ArquivoRegistros</span>
-<span class="kn">from</span> <span class="nn">inewave._utils.dadosarquivo</span> <span class="kn">import</span> <span class="n">DadosArquivoRegistros</span>
-<span class="kn">from</span> <span class="nn">inewave._utils.escritaregistros</span> <span class="kn">import</span> <span class="n">EscritaRegistros</span>
-<span class="kn">from</span> <span class="nn">inewave._utils.registronewave</span> <span class="kn">import</span> <span class="n">RegistroNEWAVE</span>
-
-<span class="kn">from</span> <span class="nn">inewave.newave.modelos.modif</span> <span class="kn">import</span> <span class="n">LeituraModif</span>
+<span></span><span class="kn">from</span> <span class="nn">cfinterface.components.register</span> <span class="kn">import</span> <span class="n">Register</span>
+<span class="kn">from</span> <span class="nn">cfinterface.files.registerfile</span> <span class="kn">import</span> <span class="n">RegisterFile</span>
 <span class="kn">from</span> <span class="nn">inewave.newave.modelos.modif</span> <span class="kn">import</span> <span class="n">USINA</span><span class="p">,</span> <span class="n">VOLMIN</span><span class="p">,</span> <span class="n">VOLMAX</span><span class="p">,</span> <span class="n">NUMCNJ</span><span class="p">,</span> <span class="n">NUMMAQ</span>
 <span class="kn">from</span> <span class="nn">inewave.newave.modelos.modif</span> <span class="kn">import</span> <span class="n">VAZMIN</span><span class="p">,</span> <span class="n">CFUGA</span><span class="p">,</span> <span class="n">CMONT</span>
 <span class="kn">from</span> <span class="nn">inewave.newave.modelos.modif</span> <span class="kn">import</span> <span class="n">VMAXT</span><span class="p">,</span> <span class="n">VMINT</span><span class="p">,</span> <span class="n">VMINP</span><span class="p">,</span> <span class="n">VAZMINT</span>
@@ -174,160 +80,159 @@
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Type</span><span class="p">,</span> <span class="n">TypeVar</span><span class="p">,</span> <span class="n">List</span>
 
 
-<div class="viewcode-block" id="Modif"><a class="viewcode-back" href="../../../reference/newave/arquivos/modif.html#inewave.newave.modif.Modif">[documentos]</a><span class="k">class</span> <span class="nc">Modif</span><span class="p">(</span><span class="n">ArquivoRegistros</span><span class="p">):</span>
+<div class="viewcode-block" id="Modif"><a class="viewcode-back" href="../../../reference/newave/arquivos/modif.html#inewave.newave.modif.Modif">[documentos]</a><span class="k">class</span> <span class="nc">Modif</span><span class="p">(</span><span class="n">RegisterFile</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Armazena os dados de entrada do NEWAVE referentes às alterações nas</span>
 <span class="sd">    configurações das usinas hidroelétricas.</span>
-
-<span class="sd">    **Parâmetros**</span>
-
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">T</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;T&quot;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dados</span><span class="p">:</span> <span class="n">DadosArquivoRegistros</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">dados</span><span class="p">)</span>
+    <span class="n">REGISTERS</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">USINA</span><span class="p">,</span>
+        <span class="n">VOLMIN</span><span class="p">,</span>
+        <span class="n">VOLMAX</span><span class="p">,</span>
+        <span class="n">NUMCNJ</span><span class="p">,</span>
+        <span class="n">NUMMAQ</span><span class="p">,</span>
+        <span class="n">VAZMIN</span><span class="p">,</span>
+        <span class="n">CFUGA</span><span class="p">,</span>
+        <span class="n">CMONT</span><span class="p">,</span>
+        <span class="n">VMAXT</span><span class="p">,</span>
+        <span class="n">VMINT</span><span class="p">,</span>
+        <span class="n">VMINP</span><span class="p">,</span>
+        <span class="n">VAZMINT</span><span class="p">,</span>
+    <span class="p">]</span>
 
-    <span class="c1"># Override</span>
-<div class="viewcode-block" id="Modif.le_arquivo"><a class="viewcode-back" href="../../../reference/newave/arquivos/modif.html#inewave.newave.modif.Modif.le_arquivo">[documentos]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="o">=...</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">le_arquivo</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">diretorio</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">nome_arquivo</span><span class="o">=</span><span class="s2">&quot;modif.dat&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Modif&quot;</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
-        <span class="n">leitor</span> <span class="o">=</span> <span class="n">LeituraModif</span><span class="p">(</span><span class="n">diretorio</span><span class="p">)</span>
-        <span class="n">r</span> <span class="o">=</span> <span class="n">leitor</span><span class="o">.</span><span class="n">le_arquivo</span><span class="p">(</span><span class="n">nome_arquivo</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">r</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">diretorio</span><span class="p">,</span> <span class="n">nome_arquivo</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Modif.escreve_arquivo"><a class="viewcode-back" href="../../../reference/newave/arquivos/modif.html#inewave.newave.modif.Modif.escreve_arquivo">[documentos]</a>    <span class="k">def</span> <span class="nf">escreve_arquivo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">diretorio</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">nome_arquivo</span><span class="o">=</span><span class="s2">&quot;modif.dat&quot;</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
-        <span class="n">escritor</span> <span class="o">=</span> <span class="n">EscritaRegistros</span><span class="p">(</span><span class="n">diretorio</span><span class="p">)</span>
-        <span class="n">escritor</span><span class="o">.</span><span class="n">escreve_arquivo</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_dados</span><span class="p">,</span> <span class="n">nome_arquivo</span><span class="p">)</span></div>
+    <span class="k">def</span> <span class="nf">escreve_arquivo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">diretorio</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">nome_arquivo</span><span class="o">=</span><span class="s2">&quot;modif.dat&quot;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">diretorio</span><span class="p">,</span> <span class="n">nome_arquivo</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">__obtem_registros</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tipo</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">T</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">T</span><span class="p">]:</span>
-        <span class="n">registros</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_registros</span><span class="p">:</span>
-            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">tipo</span><span class="p">):</span>
-                <span class="n">registros</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">registros</span>
+    <span class="k">def</span> <span class="nf">__registros_por_tipo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">registro</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">T</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">T</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Obtém um gerador de blocos de um tipo, se houver algum no arquivo.</span>
+
+<span class="sd">        :param bloco: Um tipo de bloco para ser lido</span>
+<span class="sd">        :type bloco: T</span>
+<span class="sd">        :param indice: O índice do bloco a ser acessado, dentre os do tipo</span>
+<span class="sd">        :type indice: int</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">b</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">of_type</span><span class="p">(</span><span class="n">registro</span><span class="p">)]</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">usina</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">USINA</span><span class="p">]:</span>
-        <span class="n">regs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">USINA</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__obtem_registros</span><span class="p">(</span><span class="n">USINA</span><span class="p">)</span>
+        <span class="n">regs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">USINA</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__registros_por_tipo</span><span class="p">(</span><span class="n">USINA</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">regs</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">volmin</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">VOLMIN</span><span class="p">]:</span>
-        <span class="n">regs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">VOLMIN</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__obtem_registros</span><span class="p">(</span><span class="n">VOLMIN</span><span class="p">)</span>
+        <span class="n">regs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">VOLMIN</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__registros_por_tipo</span><span class="p">(</span><span class="n">VOLMIN</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">regs</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">volmax</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">VOLMAX</span><span class="p">]:</span>
-        <span class="n">regs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">VOLMAX</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__obtem_registros</span><span class="p">(</span><span class="n">VOLMAX</span><span class="p">)</span>
+        <span class="n">regs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">VOLMAX</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__registros_por_tipo</span><span class="p">(</span><span class="n">VOLMAX</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">regs</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">numcnj</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">NUMCNJ</span><span class="p">]:</span>
-        <span class="n">regs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">NUMCNJ</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__obtem_registros</span><span class="p">(</span><span class="n">NUMCNJ</span><span class="p">)</span>
+        <span class="n">regs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">NUMCNJ</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__registros_por_tipo</span><span class="p">(</span><span class="n">NUMCNJ</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">regs</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">nummaq</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">NUMMAQ</span><span class="p">]:</span>
-        <span class="n">regs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">NUMMAQ</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__obtem_registros</span><span class="p">(</span><span class="n">NUMMAQ</span><span class="p">)</span>
+        <span class="n">regs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">NUMMAQ</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__registros_por_tipo</span><span class="p">(</span><span class="n">NUMMAQ</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">regs</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">vazmin</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">VAZMIN</span><span class="p">]:</span>
-        <span class="n">regs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">VAZMIN</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__obtem_registros</span><span class="p">(</span><span class="n">VAZMIN</span><span class="p">)</span>
+        <span class="n">regs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">VAZMIN</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__registros_por_tipo</span><span class="p">(</span><span class="n">VAZMIN</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">regs</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">cfuga</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">CFUGA</span><span class="p">]:</span>
-        <span class="n">regs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">CFUGA</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__obtem_registros</span><span class="p">(</span><span class="n">CFUGA</span><span class="p">)</span>
+        <span class="n">regs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">CFUGA</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__registros_por_tipo</span><span class="p">(</span><span class="n">CFUGA</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">regs</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">cmont</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">CMONT</span><span class="p">]:</span>
-        <span class="n">regs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">CMONT</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__obtem_registros</span><span class="p">(</span><span class="n">CMONT</span><span class="p">)</span>
+        <span class="n">regs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">CMONT</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__registros_por_tipo</span><span class="p">(</span><span class="n">CMONT</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">regs</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">vmaxt</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">VMAXT</span><span class="p">]:</span>
-        <span class="n">regs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">VMAXT</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__obtem_registros</span><span class="p">(</span><span class="n">VMAXT</span><span class="p">)</span>
+        <span class="n">regs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">VMAXT</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__registros_por_tipo</span><span class="p">(</span><span class="n">VMAXT</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">regs</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">vmint</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">VMINT</span><span class="p">]:</span>
-        <span class="n">regs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">VMINT</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__obtem_registros</span><span class="p">(</span><span class="n">VMINT</span><span class="p">)</span>
+        <span class="n">regs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">VMINT</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__registros_por_tipo</span><span class="p">(</span><span class="n">VMINT</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">regs</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">vminp</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">VMINP</span><span class="p">]:</span>
-        <span class="n">regs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">VMINP</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__obtem_registros</span><span class="p">(</span><span class="n">VMINP</span><span class="p">)</span>
+        <span class="n">regs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">VMINP</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__registros_por_tipo</span><span class="p">(</span><span class="n">VMINP</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">regs</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">vazmint</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">VAZMINT</span><span class="p">]:</span>
-        <span class="n">regs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">VAZMINT</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__obtem_registros</span><span class="p">(</span><span class="n">VAZMINT</span><span class="p">)</span>
+        <span class="n">regs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">VAZMINT</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__registros_por_tipo</span><span class="p">(</span><span class="n">VAZMINT</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">regs</span>
 
-    <span class="k">def</span> <span class="nf">modificacoes_usina</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">codigo</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">RegistroNEWAVE</span><span class="p">]:</span>
-        <span class="n">regs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">USINA</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__obtem_registros</span><span class="p">(</span><span class="n">USINA</span><span class="p">)</span>
-        <span class="n">indice</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.0</span>
-        <span class="n">indice_proximo</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.0</span>
-        <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">regs</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">indice</span> <span class="o">!=</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">:</span>
-                <span class="n">indice_proximo</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">_ordem</span>
-                <span class="k">break</span>
-            <span class="k">if</span> <span class="n">r</span><span class="o">.</span><span class="n">codigo</span> <span class="o">==</span> <span class="n">codigo</span><span class="p">:</span>
-                <span class="n">indice</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">_ordem</span>
-        <span class="k">if</span> <span class="n">indice_proximo</span> <span class="o">!=</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">:</span>
-            <span class="n">regs_usina</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dados</span><span class="o">.</span><span class="n">registros</span><span class="p">[</span>
-                <span class="nb">int</span><span class="p">(</span><span class="n">indice</span><span class="p">)</span> <span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">indice_proximo</span><span class="p">)</span>
-            <span class="p">]</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">regs_usina</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dados</span><span class="o">.</span><span class="n">registros</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">indice</span><span class="p">)</span> <span class="p">:]</span>
-        <span class="k">return</span> <span class="n">regs_usina</span></div>
+<div class="viewcode-block" id="Modif.modificacoes_usina"><a class="viewcode-back" href="../../../reference/newave/arquivos/modif.html#inewave.newave.modif.Modif.modificacoes_usina">[documentos]</a>    <span class="k">def</span> <span class="nf">modificacoes_usina</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">codigo</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Register</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Filtra os registros que são associados a uma usina específica.</span>
+
+<span class="sd">        :param codigo: O código da usina</span>
+<span class="sd">        :type codigo: int</span>
+<span class="sd">        :return: Os registros que modificam a usina</span>
+<span class="sd">        :rtype: List[Register]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">usinas</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">usina</span>
+        <span class="n">reg_usina</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">USINA</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
+            <span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">r</span><span class="p">:</span> <span class="n">r</span><span class="o">.</span><span class="n">codigo</span> <span class="o">==</span> <span class="n">codigo</span><span class="p">,</span> <span class="n">usinas</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">modificacoes_usina</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Register</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">reg_usina</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="n">reg_usina</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">next</span>
+            <span class="k">while</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">USINA</span><span class="p">)</span> <span class="ow">or</span> <span class="n">r</span><span class="o">.</span><span class="n">is_last</span><span class="p">:</span>
+                <span class="n">modificacoes_usina</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+                <span class="n">r</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">next</span>
+
+        <span class="k">return</span> <span class="n">modificacoes_usina</span></div></div>
 </pre></div>
 
            </div>
-           
           </div>
           <footer>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &#169; Copyright 2021, Rogerio José Menezes Alves.
-
-    </p>
+    <p>&#169; Copyright 2022, Rogerio José Menezes Alves.</p>
   </div>
-    
-    
-    
-    Compilado com <a href="https://www.sphinx-doc.org/">Sphinx</a> usando um
-    
+
+  Compilado com <a href="https://www.sphinx-doc.org/">Sphinx</a> usando um
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">tema</a>
-    
-    fornecido por <a href="https://readthedocs.org">Read the Docs</a>. 
+    fornecido por <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>
