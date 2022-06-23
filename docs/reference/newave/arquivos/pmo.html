@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Acompanhamento do Programa (pmo.dat) &mdash; documentação inewave 0.0.52</title>
+  <title>Acompanhamento do Programa (pmo.dat) &mdash; documentação inewave 0.0.53</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/sg_gallery.css" type="text/css" />
@@ -18,6 +18,7 @@
         <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
         <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../_static/doctools.js"></script>
         <script src="../../../_static/translations.js"></script>
     <script src="../../../_static/js/theme.js"></script>
@@ -100,9 +101,9 @@
            <div itemprop="articleBody">
              
   <section id="acompanhamento-do-programa-pmo-dat">
-<span id="pmo"></span><h1>Acompanhamento do Programa (pmo.dat)<a class="headerlink" href="#acompanhamento-do-programa-pmo-dat" title="Link permanente para este título"></a></h1>
+<span id="pmo"></span><h1>Acompanhamento do Programa (pmo.dat)<a class="headerlink" href="#acompanhamento-do-programa-pmo-dat" title="Link permanente para este cabeçalho"></a></h1>
 <section id="visao-geral-do-modelo">
-<h2>Visão geral do modelo<a class="headerlink" href="#visao-geral-do-modelo" title="Link permanente para este título"></a></h2>
+<h2>Visão geral do modelo<a class="headerlink" href="#visao-geral-do-modelo" title="Link permanente para este cabeçalho"></a></h2>
 <p>O relatório de acompanhamento do NEWAVE, localizado no arquivo geralmente denominado
 pmo.dat, é armazenado na classe:</p>
 <dl class="py class">
@@ -117,7 +118,7 @@ da execução: custos de operação, energias, déficit, etc.</p>
 de execução intermediárias do programa.</p>
 <dl class="py property">
 <dt class="sig sig-object py" id="inewave.newave.pmo.PMO.configuracoes_alteracao_potencia">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">configuracoes_alteracao_potencia</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">pandas.core.frame.DataFrame</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#inewave.newave.pmo.PMO.configuracoes_alteracao_potencia" title="Link permanente para esta definição"></a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">configuracoes_alteracao_potencia</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">DataFrame</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#inewave.newave.pmo.PMO.configuracoes_alteracao_potencia" title="Link permanente para esta definição"></a></dt>
 <dd><p>Configurações do sistema em cada período devido a alterações
 de potência.</p>
 <p><strong>Retorna</strong></p>
@@ -126,7 +127,7 @@ de potência.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="inewave.newave.pmo.PMO.configuracoes_entrada_reservatorio">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">configuracoes_entrada_reservatorio</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">pandas.core.frame.DataFrame</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#inewave.newave.pmo.PMO.configuracoes_entrada_reservatorio" title="Link permanente para esta definição"></a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">configuracoes_entrada_reservatorio</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">DataFrame</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#inewave.newave.pmo.PMO.configuracoes_entrada_reservatorio" title="Link permanente para esta definição"></a></dt>
 <dd><p>Configurações do sistema em cada período devido a entrada
 de reservatórios e/ou potência de base.</p>
 <p><strong>Retorna</strong></p>
@@ -135,7 +136,7 @@ de reservatórios e/ou potência de base.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="inewave.newave.pmo.PMO.configuracoes_qualquer_modificacao">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">configuracoes_qualquer_modificacao</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">pandas.core.frame.DataFrame</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#inewave.newave.pmo.PMO.configuracoes_qualquer_modificacao" title="Link permanente para esta definição"></a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">configuracoes_qualquer_modificacao</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">DataFrame</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#inewave.newave.pmo.PMO.configuracoes_qualquer_modificacao" title="Link permanente para esta definição"></a></dt>
 <dd><p>Configurações do sistema em cada período devido a alterações
 de potência.</p>
 <p><strong>Retorna</strong></p>
@@ -144,7 +145,7 @@ de potência.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="inewave.newave.pmo.PMO.convergencia">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">convergencia</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">pandas.core.frame.DataFrame</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#inewave.newave.pmo.PMO.convergencia" title="Link permanente para esta definição"></a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">convergencia</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">DataFrame</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#inewave.newave.pmo.PMO.convergencia" title="Link permanente para esta definição"></a></dt>
 <dd><p>Tabela de convergência da execução do NEWAVE.</p>
 <p><strong>Retorna</strong></p>
 <p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Optional[pd.DataFrame]</span></code></p>
@@ -152,7 +153,7 @@ de potência.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="inewave.newave.pmo.PMO.custo_operacao_referenciado_primeiro_mes">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">custo_operacao_referenciado_primeiro_mes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">pandas.core.frame.DataFrame</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#inewave.newave.pmo.PMO.custo_operacao_referenciado_primeiro_mes" title="Link permanente para esta definição"></a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">custo_operacao_referenciado_primeiro_mes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">DataFrame</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#inewave.newave.pmo.PMO.custo_operacao_referenciado_primeiro_mes" title="Link permanente para esta definição"></a></dt>
 <dd><p>Tabela de custos de operação esperados para o período
 de estudo, referenciados ao primeiro mês.</p>
 <p><strong>Retorna</strong></p>
@@ -161,7 +162,7 @@ de estudo, referenciados ao primeiro mês.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="inewave.newave.pmo.PMO.custo_operacao_series_simuladas">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">custo_operacao_series_simuladas</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">pandas.core.frame.DataFrame</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#inewave.newave.pmo.PMO.custo_operacao_series_simuladas" title="Link permanente para esta definição"></a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">custo_operacao_series_simuladas</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">DataFrame</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#inewave.newave.pmo.PMO.custo_operacao_series_simuladas" title="Link permanente para esta definição"></a></dt>
 <dd><p>Tabela de custos de operação categorizados para as
 séries simuladas.</p>
 <p><strong>Retorna</strong></p>
@@ -186,7 +187,7 @@ séries simuladas.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="inewave.newave.pmo.PMO.eafpast_cfuga_medio">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">eafpast_cfuga_medio</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">pandas.core.frame.DataFrame</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#inewave.newave.pmo.PMO.eafpast_cfuga_medio" title="Link permanente para esta definição"></a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">eafpast_cfuga_medio</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">DataFrame</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#inewave.newave.pmo.PMO.eafpast_cfuga_medio" title="Link permanente para esta definição"></a></dt>
 <dd><p>Energias afluentes passadas por REE considerando canal de
 fuga médio, em relação à primeira configuração do sistema,
 em MWmes.</p>
@@ -196,7 +197,7 @@ em MWmes.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="inewave.newave.pmo.PMO.eafpast_tendencia_hidrologica">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">eafpast_tendencia_hidrologica</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">pandas.core.frame.DataFrame</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#inewave.newave.pmo.PMO.eafpast_tendencia_hidrologica" title="Link permanente para esta definição"></a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">eafpast_tendencia_hidrologica</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">DataFrame</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#inewave.newave.pmo.PMO.eafpast_tendencia_hidrologica" title="Link permanente para esta definição"></a></dt>
 <dd><p>Energias afluentes passadas por REE para análise da tendência
 hidrológica, em relação à primeira configuração do sistema,
 em MWmes.</p>
@@ -206,7 +207,7 @@ em MWmes.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="inewave.newave.pmo.PMO.retas_perdas_engolimento">
-<span class="sig-name descname"><span class="pre">retas_perdas_engolimento</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">estagio</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">pandas.core.frame.DataFrame</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../../_modules/inewave/newave/pmo.html#PMO.retas_perdas_engolimento"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.pmo.PMO.retas_perdas_engolimento" title="Link permanente para esta definição"></a></dt>
+<span class="sig-name descname"><span class="pre">retas_perdas_engolimento</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">estagio</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">DataFrame</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../../_modules/inewave/newave/pmo.html#PMO.retas_perdas_engolimento"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.pmo.PMO.retas_perdas_engolimento" title="Link permanente para esta definição"></a></dt>
 <dd><p>Retas ajustadas segundo o modelo MARS para corrigir a
 energia fio d’água com as perdas por engolimento máximo.</p>
 <p><strong>Retorna</strong></p>
@@ -215,7 +216,7 @@ energia fio d’água com as perdas por engolimento máximo.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="inewave.newave.pmo.PMO.risco_deficit_ens">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">risco_deficit_ens</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">pandas.core.frame.DataFrame</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#inewave.newave.pmo.PMO.risco_deficit_ens" title="Link permanente para esta definição"></a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">risco_deficit_ens</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">DataFrame</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#inewave.newave.pmo.PMO.risco_deficit_ens" title="Link permanente para esta definição"></a></dt>
 <dd><p>Tabela de riscos de déficit e enegia não suprida (ENS).</p>
 <p><strong>Retorna</strong></p>
 <p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Optional[pd.DataFrame]</span></code></p>
@@ -223,7 +224,7 @@ energia fio d’água com as perdas por engolimento máximo.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="inewave.newave.pmo.PMO.valor_esperado_periodo_estudo">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">valor_esperado_periodo_estudo</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">pandas.core.frame.DataFrame</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#inewave.newave.pmo.PMO.valor_esperado_periodo_estudo" title="Link permanente para esta definição"></a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">valor_esperado_periodo_estudo</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">DataFrame</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#inewave.newave.pmo.PMO.valor_esperado_periodo_estudo" title="Link permanente para esta definição"></a></dt>
 <dd><p>Tabela de custos de operação esperados para o período
 de estudo.</p>
 <p><strong>Retorna</strong></p>

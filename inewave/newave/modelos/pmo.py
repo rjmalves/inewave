@@ -266,6 +266,7 @@ class BlocoConfiguracoesExpansaoPMO(Block):
             linha: str = file.readline()
             # Confere se acabou
             if len(linha) < 3:
+                tabela = tabela[:i, :]
                 self.data = converte_tabela_em_df()
                 break
             # Lê mais uma linha

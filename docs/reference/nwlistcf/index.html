@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>NWLISTCF &mdash; documentação inewave 0.0.52</title>
+  <title>NWLISTCF &mdash; documentação inewave 0.0.53</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/sg_gallery.css" type="text/css" />
@@ -18,6 +18,7 @@
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
         <script src="../../_static/translations.js"></script>
     <script src="../../_static/js/theme.js"></script>
@@ -87,14 +88,14 @@
            <div itemprop="articleBody">
              
   <section id="nwlistcf">
-<span id="nwlistcfindex"></span><h1>NWLISTCF<a class="headerlink" href="#nwlistcf" title="Link permanente para este título"></a></h1>
+<span id="nwlistcfindex"></span><h1>NWLISTCF<a class="headerlink" href="#nwlistcf" title="Link permanente para este cabeçalho"></a></h1>
 <p>A estrutura do <em>inewave</em> padroniza os objetos de interface existentes para cada um dos três módulos desenvolvidos.
 A interface com o NWLISTCF segue o padrão de implementar modelos para armazenar cada uma das informações existentes
 nos arquivos de entrada e saída, além de classes utilitárias para gerenciar com a leitura e interpretação das informações
 dos arquivos, bem como na geração de novos arquivos.</p>
 <p>Classes são nomeadas em <code class="docutils literal notranslate"><span class="pre">CamelCase</span></code>, enquanto funções, métodos e variáveis recebem seus nomes em <code class="docutils literal notranslate"><span class="pre">snake_case</span></code>.</p>
 <section id="basico-da-interface-nwlistcf">
-<h2>Básico da interface NWLISTCF<a class="headerlink" href="#basico-da-interface-nwlistcf" title="Link permanente para este título"></a></h2>
+<h2>Básico da interface NWLISTCF<a class="headerlink" href="#basico-da-interface-nwlistcf" title="Link permanente para este cabeçalho"></a></h2>
 <p>É recomendado que a importação seja feita sempre de forma a utilizar somente os objetos que serão de fato necessários para
 o estudo em questão. Desta forma, é permitido importar <code class="docutils literal notranslate"><span class="pre">inewave.nwlistcf</span></code> ou utilizar o <code class="xref py py-obj docutils literal notranslate"><span class="pre">wildcard</span></code> <code class="docutils literal notranslate"><span class="pre">*</span></code>. mas não recomendado.</p>
 <p>A importação recomendada é, por exemplo:</p>
@@ -129,7 +130,7 @@ o estudo em questão. Desta forma, é permitido importar <code class="docutils l
 </div>
 </section>
 <section id="arquivos">
-<h2>Arquivos<a class="headerlink" href="#arquivos" title="Link permanente para este título"></a></h2>
+<h2>Arquivos<a class="headerlink" href="#arquivos" title="Link permanente para este cabeçalho"></a></h2>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="arquivos/estados.html">Estados Visitados pelo NEWAVE (estados.rel)</a><ul>

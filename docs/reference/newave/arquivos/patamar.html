@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Patamares de Carga (patamar.dat) &mdash; documentação inewave 0.0.52</title>
+  <title>Patamares de Carga (patamar.dat) &mdash; documentação inewave 0.0.53</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/sg_gallery.css" type="text/css" />
@@ -18,6 +18,7 @@
         <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
         <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../_static/doctools.js"></script>
         <script src="../../../_static/translations.js"></script>
     <script src="../../../_static/js/theme.js"></script>
@@ -100,9 +101,9 @@
            <div itemprop="articleBody">
              
   <section id="patamares-de-carga-patamar-dat">
-<span id="patamar"></span><h1>Patamares de Carga (patamar.dat)<a class="headerlink" href="#patamares-de-carga-patamar-dat" title="Link permanente para este título"></a></h1>
+<span id="patamar"></span><h1>Patamares de Carga (patamar.dat)<a class="headerlink" href="#patamares-de-carga-patamar-dat" title="Link permanente para este cabeçalho"></a></h1>
 <section id="visao-geral-do-modelo">
-<h2>Visão geral do modelo<a class="headerlink" href="#visao-geral-do-modelo" title="Link permanente para este título"></a></h2>
+<h2>Visão geral do modelo<a class="headerlink" href="#visao-geral-do-modelo" title="Link permanente para este cabeçalho"></a></h2>
 <p>Os patamares de carga fornecidos ao NEWAVE, localizados no arquivo geralmente denominado
 patamar.dat, são armazenados na classe:</p>
 <dl class="py class">
@@ -112,7 +113,7 @@ patamar.dat, são armazenados na classe:</p>
 patamares de carga por submercado.</p>
 <dl class="py property">
 <dt class="sig sig-object py" id="inewave.newave.patamar.Patamar.carga_patamares">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">carga_patamares</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">pandas.core.frame.DataFrame</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#inewave.newave.patamar.Patamar.carga_patamares" title="Link permanente para esta definição"></a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">carga_patamares</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">DataFrame</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#inewave.newave.patamar.Patamar.carga_patamares" title="Link permanente para esta definição"></a></dt>
 <dd><p>Tabela com a carga em P.U. por patamar.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Retorna</dt>
@@ -126,7 +127,7 @@ patamares de carga por submercado.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="inewave.newave.patamar.Patamar.duracao_mensal_patamares">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">duracao_mensal_patamares</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">pandas.core.frame.DataFrame</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#inewave.newave.patamar.Patamar.duracao_mensal_patamares" title="Link permanente para esta definição"></a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">duracao_mensal_patamares</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">DataFrame</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#inewave.newave.patamar.Patamar.duracao_mensal_patamares" title="Link permanente para esta definição"></a></dt>
 <dd><p>Tabela com a duração mensal de cada patamar no horizonte
 de estudo.</p>
 <dl class="field-list simple">
@@ -141,7 +142,7 @@ de estudo.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="inewave.newave.patamar.Patamar.intercambio_patamares">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">intercambio_patamares</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">pandas.core.frame.DataFrame</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#inewave.newave.patamar.Patamar.intercambio_patamares" title="Link permanente para esta definição"></a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">intercambio_patamares</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">DataFrame</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#inewave.newave.patamar.Patamar.intercambio_patamares" title="Link permanente para esta definição"></a></dt>
 <dd><p>Tabela com a correção em P.U. do intercâmbio por patamar.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Retorna</dt>
@@ -169,7 +170,7 @@ de estudo.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="inewave.newave.patamar.Patamar.usinas_nao_simuladas">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">usinas_nao_simuladas</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">pandas.core.frame.DataFrame</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#inewave.newave.patamar.Patamar.usinas_nao_simuladas" title="Link permanente para esta definição"></a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">usinas_nao_simuladas</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">DataFrame</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#inewave.newave.patamar.Patamar.usinas_nao_simuladas" title="Link permanente para esta definição"></a></dt>
 <dd><p>Tabela com os fatores das usinas não simuladas em P.U.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Retorna</dt>
