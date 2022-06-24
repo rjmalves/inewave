@@ -31,8 +31,8 @@ class BlocoSerieEnergiaREE(Block):
     BEGIN_PATTERN = "SERIE  DE ENERGIAS DO REE"
     END_PATTERN = ""
 
-    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
-        super().__init__(state, previous, next, data)
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
         self.__campo_ree = LiteralField(16, 55)
         self.__campo_cfg = IntegerField(5, 88)
         campo_ano: List[Field] = [IntegerField(4, 0)]
@@ -99,8 +99,8 @@ class BlocoCorrelEnergiasREE(Block):
     BEGIN_PATTERN = "CORRELOGRAMO DA SERIE DE ENERGIAS"
     END_PATTERN = ""
 
-    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
-        super().__init__(state, previous, next, data)
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
         campo_mes: List[Field] = [LiteralField(3, 1)]
         campo_ano: List[Field] = [LiteralField(4, 5)]
         correl: List[Field] = [
@@ -196,8 +196,8 @@ class BlocoCorrelParcialEnergiasREE(Block):
     BEGIN_PATTERN = "CORRELOGRAMO PARCIAL DA SERIE DE ENERGIAS"
     END_PATTERN = ""
 
-    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
-        super().__init__(state, previous, next, data)
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
         campo_mes: List[Field] = [LiteralField(3, 1)]
         campo_ano: List[Field] = [LiteralField(4, 5)]
         correl: List[Field] = [
@@ -293,8 +293,8 @@ class BlocoOrdemModeloREE(Block):
     BEGIN_PATTERN = "DO MODELO AUTORREGRESSIVO PARA CADA PERIODO"
     END_PATTERN = ""
 
-    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
-        super().__init__(state, previous, next, data)
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
         campo_ano: List[Field] = [LiteralField(4, 32)]
         orders: List[Field] = [
             IntegerField(5, 36 + 5 * i) for i in range(len(MESES_DF))
@@ -377,8 +377,8 @@ class BlocoCoeficientesModeloREE(Block):
     BEGIN_PATTERN = " COEFICIENTES DA EQUACAO DE REGRESSAO DE UM PROCESSO"
     END_PATTERN = ""
 
-    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
-        super().__init__(state, previous, next, data)
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
         coefs: List[Field] = [
             FloatField(9, 11 * i, 3, format="E") for i in range(11)
         ]
@@ -438,8 +438,8 @@ class BlocoSerieRuidosREE(Block):
     BEGIN_PATTERN = "SERIE DE RUIDOS  - ANO:"
     END_PATTERN = ""
 
-    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
-        super().__init__(state, previous, next, data)
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
         self.__campo_ano = LiteralField(5, 81)
         campos: List[Field] = [
             FloatField(11, 3 + 11 * i, 3, format="E")
@@ -503,8 +503,8 @@ class BlocoCorrelRuidosREE(Block):
     BEGIN_PATTERN = "CORRELOGRAMO DA SERIE DE RUIDOS"
     END_PATTERN = ""
 
-    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
-        super().__init__(state, previous, next, data)
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
         campo_mes: List[Field] = [LiteralField(3, 1)]
         campo_ano: List[Field] = [LiteralField(4, 5)]
         correl: List[Field] = [
@@ -599,8 +599,8 @@ class BlocoSerieMediasREE(Block):
     BEGIN_PATTERN = "SERIE MEDIA 12 MESES - ANO:"
     END_PATTERN = ""
 
-    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
-        super().__init__(state, previous, next, data)
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
         self.__campo_ano = LiteralField(5, 77)
         campos: List[Field] = [
             FloatField(11, 3 + 11 * i, 2, format="F")
@@ -664,8 +664,8 @@ class BlocoCorrelCruzadaMediaREE(Block):
     BEGIN_PATTERN = "CORRELACAO CRUZADA VARIAVEL ANUAL  ENERGIAS"
     END_PATTERN = ""
 
-    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
-        super().__init__(state, previous, next, data)
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
         campo_mes: List[Field] = [LiteralField(3, 1)]
         campo_ano: List[Field] = [LiteralField(4, 5)]
         correl: List[Field] = [
@@ -760,8 +760,8 @@ class BlocoCorrelEspacialAnualConfig(Block):
     BEGIN_PATTERN = "CORRELACAO ESPACIAL HISTORICA ANUAL"
     END_PATTERN = ""
 
-    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
-        super().__init__(state, previous, next, data)
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
         self.__campo_cfg = IntegerField(4, 68)
 
     def __eq__(self, o: object) -> bool:
@@ -824,8 +824,8 @@ class BlocoCorrelEspacialMensalConfig(Block):
     BEGIN_PATTERN = "CORRELACAO ESPACIAL HISTORICA MENSAL"
     END_PATTERN = ""
 
-    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
-        super().__init__(state, previous, next, data)
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
         self.__campo_cfg = IntegerField(4, 69)
 
     def __eq__(self, o: object) -> bool:

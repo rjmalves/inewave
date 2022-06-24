@@ -17,8 +17,8 @@ class BlocoConfiguracoesPenalizacaoCurva(Section):
     no arquivo do NEWAVE `conft.dat`.
     """
 
-    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
-        super().__init__(state, previous, next, data)
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
         self.__linha = Line(
             [
                 IntegerField(3, 1),
@@ -65,8 +65,8 @@ class BlocoPenalidadesViolacaoREECurva(Section):
 
     FIM_BLOCO = " 999"
 
-    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
-        super().__init__(state, previous, next, data)
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
         self.__linha = Line(
             [
                 IntegerField(3, 1),
@@ -139,8 +139,8 @@ class BlocoCurvaSegurancaSubsistema(Section):
 
     FIM_BLOCO = "9999"
 
-    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
-        super().__init__(state, previous, next, data)
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
         self.__linha_subsis = Line([IntegerField(3, 1)])
         campo_ano: List[Field] = [IntegerField(4, 0)]
         campos_curva: List[Field] = [
@@ -227,8 +227,8 @@ class BlocoMaximoIteracoesProcessoIterativoEtapa2(Section):
     segunda etapa do processo iterativo no cálculo da curva de aversão.
     """
 
-    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
-        super().__init__(state, previous, next, data)
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
         self.__linha = Line(
             [LiteralField(26, 0), IntegerField(6, 28), LiteralField(46, 39)]
         )
@@ -278,8 +278,8 @@ class BlocoIteracaoAPartirProcessoIterativoEtapa2(Section):
     segunda etapa do processo iterativo no cálculo da curva de aversão.
     """
 
-    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
-        super().__init__(state, previous, next, data)
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
         self.__linha = Line(
             [LiteralField(26, 0), IntegerField(6, 28), LiteralField(46, 39)]
         )
@@ -323,8 +323,8 @@ class BlocoToleranciaProcessoIterativoEtapa2(Section):
     segunda etapa do processo iterativo no cálculo da curva de aversão.
     """
 
-    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
-        super().__init__(state, previous, next, data)
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
         self.__linha = Line(
             [LiteralField(26, 0), FloatField(6, 28, 3), LiteralField(46, 39)]
         )
@@ -368,8 +368,8 @@ class BlocoImpressaoRelatorioProcessoIterativoEtapa2(Section):
     segunda etapa do processo iterativo no cálculo da curva de aversão.
     """
 
-    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
-        super().__init__(state, previous, next, data)
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
         self.__linha = Line(
             [LiteralField(26, 0), IntegerField(6, 28), LiteralField(46, 39)]
         )

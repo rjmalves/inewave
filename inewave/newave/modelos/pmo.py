@@ -26,8 +26,8 @@ class BlocoEafPastTendenciaHidrolPMO(Block):
     BEGIN_PATTERN = "ENERGIAS AFLUENTES PASSADAS PARA A TENDENCIA HIDROLOGICA"
     END_PATTERN = ""
 
-    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
-        super().__init__(state, previous, next, data)
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
         ree_field: List[Field] = [LiteralField(10, 1)]
         ena_fields: List[Field] = [
             FloatField(11, 11 * (i + 1), 2) for i in range(len(MESES_DF))
@@ -89,8 +89,8 @@ class BlocoEafPastCfugaMedioPMO(Block):
     )
     END_PATTERN = ""
 
-    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
-        super().__init__(state, previous, next, data)
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
         ree_field: List[Field] = [LiteralField(10, 1)]
         ena_fields: List[Field] = [
             FloatField(11, 11 * (i + 1), 2) for i in range(len(MESES_DF))
@@ -150,8 +150,8 @@ class BlocoConvergenciaPMO(Block):
     BEGIN_PATTERN = "    ITER               LIM.INF.        "
     END_PATTERN = ""
 
-    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
-        super().__init__(state, previous, next, data)
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
         # Cria a estrutura de uma linha da tabela
         iter_field: List[Field] = [IntegerField(4, 4)]
         conv_fields: List[Field] = [
@@ -231,8 +231,8 @@ class BlocoConfiguracoesExpansaoPMO(Block):
     BEGIN_PATTERN = "CONFIGURACOES POR"
     END_PATTERN = ""
 
-    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
-        super().__init__(state, previous, next, data)
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
         # Cria a estrutura de uma linha da tabela
         self.__line = Line([IntegerField(6, 6 * (i + 1)) for i in range(13)])
 
@@ -286,8 +286,8 @@ class BlocoMARSPMO(Block):
 
     MAX_RETAS_MARS = 3
 
-    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
-        super().__init__(state, previous, next, data)
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
         # Cria a estrutura de uma linha da tabela
         self.__line = Line(
             [
@@ -422,8 +422,8 @@ class BlocoCustoOperacaoPMO(Block):
     BEGIN_PATTERN = "PARCELA           V.ESPERADO"
     END_PATTERN = ""
 
-    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
-        super().__init__(state, previous, next, data)
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
         # Cria a estrutura de uma linha da tabela
         self.__line = Line(
             [
@@ -484,8 +484,8 @@ class BlocoCustoOperacaoTotalPMO(Block):
     BEGIN_PATTERN = "           VALOR ESPERADO TOTAL:"
     END_PATTERN = ""
 
-    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
-        super().__init__(state, previous, next, data)
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
         # Cria a estrutura de uma linha da tabela
         self.__line = Line([FloatField(24, 50, 2)])
 

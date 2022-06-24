@@ -23,8 +23,8 @@ class BlocoCargasAdicionais(Section):
 
     FIM_BLOCO = " 999"
 
-    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
-        super().__init__(state, previous, next, data)
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
         self.__linha_subsis = Line(
             [IntegerField(3, 1), LiteralField(10, 6), LiteralField(12, 21)]
         )

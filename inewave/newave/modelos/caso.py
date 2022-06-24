@@ -10,8 +10,8 @@ class NomeCaso(Section):
     entrada do NEWAVE `caso.dat`.
     """
 
-    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
-        super().__init__(state, previous, next, data)
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
         self.__linha = Line([LiteralField(40, 0)])
 
     def __eq__(self, o: object) -> bool:
@@ -43,8 +43,8 @@ class CaminhoGerenciadorProcessos(Section):
     no NEWAVE, contido no arquivo `caso.dat`.
     """
 
-    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
-        super().__init__(state, previous, next, data)
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
         self.__linha = Line([LiteralField(120, 0)])
 
     def __eq__(self, o: object) -> bool:

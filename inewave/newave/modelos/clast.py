@@ -19,8 +19,8 @@ class BlocoUTEClasT(Section):
 
     FIM_BLOCO = " 9999"
 
-    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
-        super().__init__(state, previous, next, data)
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
         campos_ute: List[Field] = [
             IntegerField(4, 1),
             LiteralField(12, 6),
@@ -102,8 +102,8 @@ class BlocoModificacaoUTEClasT(Section):
     usinas cadastradas no arquivo do NEWAVE `clast.dat`.
     """
 
-    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
-        super().__init__(state, previous, next, data)
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
         campos_modificacao: List[Field] = [
             IntegerField(4, 1),
             FloatField(7, 8, 2),

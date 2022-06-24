@@ -19,8 +19,8 @@ class EstadosPeriodoNwlistcf(Block):
     BEGIN_PATTERN = "PERIODO: "
     END_PATTERN = "PERIODO: "
 
-    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
-        super().__init__(state, previous, next, data)
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
         self.__linha_periodo = Line([IntegerField(4, 19)])
         campos_iniciais: List[Field] = [
             IntegerField(8, 2),

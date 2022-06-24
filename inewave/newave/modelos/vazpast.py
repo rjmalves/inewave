@@ -17,8 +17,8 @@ class BlocoVazPast(Section):
     do NEWAVE.
     """
 
-    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
-        super().__init__(state, previous, next, data)
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
         self.__linha = Line(
             [IntegerField(4, 1), LiteralField(12, 6)]
             + [FloatField(10, 18 + 10 * i, 2) for i in range(len(MESES_DF))]

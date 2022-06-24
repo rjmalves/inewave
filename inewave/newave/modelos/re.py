@@ -19,8 +19,8 @@ class BlocoUsinasConjuntoRE(Section):
 
     FIM_BLOCO = "999"
 
-    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
-        super().__init__(state, previous, next, data)
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
         campo_conjunto: List[Field] = [IntegerField(3, 0)]
         campos_usinas: List[Field] = [
             IntegerField(3, 6 + i * 4) for i in range(10)
@@ -94,8 +94,8 @@ class BlocoConfiguracaoRestricoesRE(Section):
 
     FIM_BLOCO = "999"
 
-    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
-        super().__init__(state, previous, next, data)
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
         self.__linha = Line(
             [
                 IntegerField(3, 0),

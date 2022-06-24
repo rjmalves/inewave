@@ -19,8 +19,8 @@ class GHAnos(Block):
     BEGIN_PATTERN = "     ANO: "
     END_PATTERN = " MEDIA"
 
-    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
-        super().__init__(state, previous, next, data)
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
         self.__linha_ano = Line([IntegerField(4, 10)])
         campos_serie_patamar: List[Field] = [
             IntegerField(4, 2),

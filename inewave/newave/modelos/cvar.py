@@ -18,8 +18,8 @@ class BlocoValoresConstantesCVAR(Block):
     BEGIN_PATTERN = "VALORES CONSTANTE NO TEMPO"
     END_PATTERN = ""
 
-    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
-        super().__init__(state, previous, next, data)
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
         self.__linha = Line(
             [
                 FloatField(5, 7, 1),
@@ -66,8 +66,8 @@ class BlocoAlfaVariavelNoTempo(Block):
     BEGIN_PATTERN = "VALORES DE ALFA VARIAVEIS NO TEMPO"
     END_PATTERN = "VALORES DE LAMBDA VARIAVEIS NO TEMPO"
 
-    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
-        super().__init__(state, previous, next, data)
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
         campo_ano: List[Field] = [LiteralField(5, 0)]
         campos_valores: List[Field] = [
             FloatField(5, 7 * i + 7, 1) for i in range(len(MESES_DF))
@@ -141,8 +141,8 @@ class BlocoLambdaVariavelNoTempo(Block):
     BEGIN_PATTERN = "VALORES DE LAMBDA VARIAVEIS NO TEMPO"
     END_PATTERN = ""
 
-    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
-        super().__init__(state, previous, next, data)
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
         campo_ano: List[Field] = [LiteralField(5, 0)]
         campos_valores: List[Field] = [
             FloatField(5, 7 * i + 7, 1) for i in range(len(MESES_DF))

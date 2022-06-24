@@ -16,8 +16,8 @@ class BlocoTermUTE(Section):
     existentes no arquivo do NEWAVE `term.dat`.
     """
 
-    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
-        super().__init__(state, previous, next, data)
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
         self.__linha = Line(
             [
                 IntegerField(3, 1),

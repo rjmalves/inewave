@@ -19,8 +19,8 @@ class BlocoDsvUHE(Section):
 
     FIM_BLOCO = "9999"
 
-    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
-        super().__init__(state, previous, next, data)
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
         campos_iniciais: List[Field] = [IntegerField(4, 0), IntegerField(3, 6)]
         campos_desvios: List[Field] = [
             FloatField(6, 10 + 7 * i, 2) for i in range(len(MESES_DF))

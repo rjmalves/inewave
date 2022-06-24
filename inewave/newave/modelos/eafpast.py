@@ -17,8 +17,8 @@ class BlocoEafPast(Section):
     do NEWAVE.
     """
 
-    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
-        super().__init__(state, previous, next, data)
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
         self.__linha = Line(
             [IntegerField(4, 0), LiteralField(10, 5)]
             + [FloatField(11, 15 + 11 * i, 2) for i in range(len(MESES_DF))]

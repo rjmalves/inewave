@@ -16,8 +16,8 @@ class BlocoNumeroPatamares(Section):
     no caso.
     """
 
-    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
-        super().__init__(state, previous, next, data)
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
         self.__linha = Line(
             [
                 IntegerField(2, 1),
@@ -65,8 +65,8 @@ class BlocoDuracaoPatamar(Section):
 
     FIM_BLOCO = "SUBSISTEMA"
 
-    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
-        super().__init__(state, previous, next, data)
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
         campo_ano: List[Field] = [IntegerField(4, 0)]
         campos_duracao: List[Field] = [
             FloatField(6, 6 + i * 8, 4) for i in range(len(MESES_DF))
@@ -155,8 +155,8 @@ class BlocoCargaPatamar(Section):
 
     FIM_BLOCO = "9999"
 
-    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
-        super().__init__(state, previous, next, data)
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
         self.__linha_subsis = Line([IntegerField(4, 0)])
         campo_ano: List[Field] = [IntegerField(4, 3)]
         campo_carga: List[Field] = [
@@ -253,8 +253,8 @@ class BlocoIntercambioPatamarSubsistemas(Section):
 
     FIM_BLOCO = "9999"
 
-    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
-        super().__init__(state, previous, next, data)
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
         self.__linha_subsis = Line([IntegerField(3, 1), IntegerField(3, 5)])
         campo_ano: List[Field] = [IntegerField(4, 3)]
         campos_intercambios: List[Field] = [
@@ -383,8 +383,8 @@ class BlocoUsinasNaoSimuladas(Section):
     cada patamar, por mês de estudo, extraído do arquivo `patamar.dat`.
     """
 
-    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
-        super().__init__(state, previous, next, data)
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
         self.__linha_subsis = Line([IntegerField(3, 1), IntegerField(3, 5)])
         campo_ano: List[Field] = [IntegerField(4, 3)]
         campos_usinas: List[Field] = [

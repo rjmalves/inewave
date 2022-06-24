@@ -16,8 +16,8 @@ class BlocoNumeroPatamaresDeficit(Section):
     Bloco com o número de patamares de déficit considerados.
     """
 
-    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
-        super().__init__(state, previous, next, data)
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
         self.__linha = Line(
             [
                 IntegerField(3, 1),
@@ -65,8 +65,8 @@ class BlocoCustosDeficit(Section):
 
     FIM_BLOCO = " 999"
 
-    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
-        super().__init__(state, previous, next, data)
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
         campos_iniciais: List[Field] = [
             IntegerField(3, 1),
             LiteralField(13, 5),
@@ -155,8 +155,8 @@ class BlocoIntercambioSubsistema(Section):
 
     FIM_BLOCO = " 999"
 
-    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
-        super().__init__(state, previous, next, data)
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
         self.__linha_subsis = Line(
             [IntegerField(3, 1), IntegerField(3, 5), IntegerField(1, 23)]
         )
@@ -314,8 +314,8 @@ class BlocoMercadoEnergiaSistema(Section):
 
     FIM_BLOCO = " 999"
 
-    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
-        super().__init__(state, previous, next, data)
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
         self.__linha_subsis = Line([IntegerField(3, 1)])
         campo_ano: List[Field] = [LiteralField(4, 0)]
         campos_mercado: List[Field] = [
@@ -438,8 +438,8 @@ class BlocoGeracaoUsinasNaoSimuladas(Section):
 
     FIM_BLOCO = " 999"
 
-    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
-        super().__init__(state, previous, next, data)
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
         self.__linha_subsis = Line(
             [IntegerField(3, 1), IntegerField(3, 6), LiteralField(3, 11)]
         )

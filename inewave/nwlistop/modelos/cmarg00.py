@@ -20,8 +20,8 @@ class Submercado(Block):
     BEGIN_PATTERN = r"CUSTO MARGINAL DE DEMANDA \(\$/MWh\)"
     END_PATTERN = ""
 
-    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
-        super().__init__(state, previous, next, data)
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
         self.__linha = Line([LiteralField(12, 70)])
 
     def __eq__(self, o: object) -> bool:
@@ -52,8 +52,8 @@ class CmargsAnos(Block):
     BEGIN_PATTERN = "     ANO: "
     END_PATTERN = "  MEDIA"
 
-    def __init__(self, state=..., previous=None, next=None, data=None) -> None:
-        super().__init__(state, previous, next, data)
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
         self.__linha_ano = Line([IntegerField(4, 10)])
         campos_serie_patamar: List[Field] = [
             IntegerField(4, 2),
