@@ -64,11 +64,17 @@ Arquivos
    :maxdepth: 2
 
    arquivos/cmarg00
+   arquivos/cmarg00med
+   arquivos/coper
    arquivos/eafbm00
    arquivos/earmfp00
    arquivos/earmfpm00
+   arquivos/earmfpsin
+   arquivos/earmfsin
    arquivos/ghtot00
    arquivos/ghtotm00
+   arquivos/ghtotsin
+   arquivos/gttot00
    arquivos/gttotsin
    arquivos/mediasmerc
    arquivos/mediassin
