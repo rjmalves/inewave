@@ -134,9 +134,9 @@ class BlocoCargasAdicionais(Section):
                         ].tolist()
                     )
                 )
-            file.write(
-                self.__linha_cargas.write(
-                    linha_lida[["Ano"] + MESES_DF].tolist()
-                )
-            )
+            linha_saida = linha_lida[["Ano"] + MESES_DF]
+            valores_saida = []
+            for valor, vazio in zip(linha_saida, linha_saida.isna()):
+                valores_saida.append(None if vazio else valor)
+            file.write(self.__linha_cargas.write(valores_saida))
         file.write(BlocoCargasAdicionais.FIM_BLOCO)

@@ -1311,7 +1311,7 @@ class BlocoIntervaloGravar(Section):
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line(
-            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(30, 28)]
+            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(40, 28)]
         )
 
     def __eq__(self, o: object) -> bool:
@@ -2241,7 +2241,7 @@ class BlocoRepresentacaoSubmot(Section):
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line(
-            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(43, 28)]
+            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(64, 28)]
         )
 
     def __eq__(self, o: object) -> bool:
@@ -3156,7 +3156,7 @@ class BlocoReamostragemCenarios(Section):
                 IntegerField(4, 21),
                 IntegerField(4, 26),
                 IntegerField(4, 31),
-                LiteralField(87, 39),
+                LiteralField(87, 37),
             ]
         )
 
