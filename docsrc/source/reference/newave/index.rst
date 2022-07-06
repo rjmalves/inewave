@@ -68,3 +68,4 @@ Arquivos
    arquivos/vazpast
    arquivos/eafpast
    arquivos/parp
+   arquivos/eolica-cadastro

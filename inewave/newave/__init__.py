@@ -39,3 +39,4 @@ from .sistema import Sistema  # noqa
 from .tecno import Tecno  # noqa
 from .term import Term  # noqa
 from .vazpast import VazPast  # noqa
+from .eolicacadastro import EolicaCadastro  # noqa

@@ -79,3 +79,4 @@ Arquivos
    arquivos/mediasmerc
    arquivos/mediassin
    arquivos/vagua00
+   arquivos/varmuh
