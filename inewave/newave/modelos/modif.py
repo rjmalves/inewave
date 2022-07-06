@@ -598,3 +598,180 @@ class VAZMINT(Register):
     @vazao.setter
     def vazao(self, t: float):
         self.data[2] = t
+
+
+class VAZMAXT(Register):
+    """
+    Registro que contém uma modificação da vazão máxima
+    com data.
+    """
+
+    IDENTIFIER = " VAZMAXT"
+    IDENTIFIER_DIGITS = 8
+    LINE = Line(
+        [
+            IntegerField(2, 10),
+            IntegerField(4, 13),
+            FloatField(7, 18, 2),
+        ]
+    )
+
+    @property
+    def mes(self) -> Optional[int]:
+        """
+        O mês de início da modificação
+
+        :return: O mês
+        :rtype: Optional[int]
+        """
+        return self.data[0]
+
+    @mes.setter
+    def mes(self, t: int):
+        self.data[0] = t
+
+    @property
+    def ano(self) -> Optional[int]:
+        """
+        O ano de início da modificação
+
+        :return: O ano
+        :rtype: Optional[int]
+        """
+        return self.data[1]
+
+    @ano.setter
+    def ano(self, t: int):
+        self.data[1] = t
+
+    @property
+    def vazao(self) -> Optional[float]:
+        """
+        A nova vazão máxima a partir da data
+
+        :return: A nova vazão
+        :rtype: Optional[float]
+        """
+        return self.data[2]
+
+    @vazao.setter
+    def vazao(self, t: float):
+        self.data[2] = t
+
+
+class TURBMAXT(Register):
+    """
+    Registro que contém uma modificação da turbinamento máximo
+    com data.
+    """
+
+    IDENTIFIER = " TURBMAXT"
+    IDENTIFIER_DIGITS = 8
+    LINE = Line(
+        [
+            IntegerField(2, 10),
+            IntegerField(4, 13),
+            FloatField(7, 18, 2),
+        ]
+    )
+
+    @property
+    def mes(self) -> Optional[int]:
+        """
+        O mês de início da modificação
+
+        :return: O mês
+        :rtype: Optional[int]
+        """
+        return self.data[0]
+
+    @mes.setter
+    def mes(self, t: int):
+        self.data[0] = t
+
+    @property
+    def ano(self) -> Optional[int]:
+        """
+        O ano de início da modificação
+
+        :return: O ano
+        :rtype: Optional[int]
+        """
+        return self.data[1]
+
+    @ano.setter
+    def ano(self, t: int):
+        self.data[1] = t
+
+    @property
+    def turbinamento(self) -> Optional[float]:
+        """
+        O novo turbinamento máximo a partir da data
+
+        :return: O novo turbinamento
+        :rtype: Optional[float]
+        """
+        return self.data[2]
+
+    @turbinamento.setter
+    def turbinamento(self, t: float):
+        self.data[2] = t
+
+
+class TURBMINT(Register):
+    """
+    Registro que contém uma modificação da turbinamento mínimo
+    com data.
+    """
+
+    IDENTIFIER = " TURBMINT"
+    IDENTIFIER_DIGITS = 8
+    LINE = Line(
+        [
+            IntegerField(2, 10),
+            IntegerField(4, 13),
+            FloatField(7, 18, 2),
+        ]
+    )
+
+    @property
+    def mes(self) -> Optional[int]:
+        """
+        O mês de início da modificação
+
+        :return: O mês
+        :rtype: Optional[int]
+        """
+        return self.data[0]
+
+    @mes.setter
+    def mes(self, t: int):
+        self.data[0] = t
+
+    @property
+    def ano(self) -> Optional[int]:
+        """
+        O ano de início da modificação
+
+        :return: O ano
+        :rtype: Optional[int]
+        """
+        return self.data[1]
+
+    @ano.setter
+    def ano(self, t: int):
+        self.data[1] = t
+
+    @property
+    def turbinamento(self) -> Optional[float]:
+        """
+        O novo turbinamento mínimo a partir da data
+
+        :return: O novo turbinamento
+        :rtype: Optional[float]
+        """
+        return self.data[2]
+
+    @turbinamento.setter
+    def turbinamento(self, t: float):
+        self.data[2] = t

@@ -64,7 +64,7 @@
 <li class="toctree-l4"><a class="reference internal" href="vazpast.html">Tendência Hidrológica (vazpast.dat)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="eafpast.html">Tendência Hidrológica por REE (eafpast.dat)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="parp.html">Acompanhamento do modelo PAR(p) (parp.dat)</a></li>
-<li class="toctree-l4"><a class="reference internal" href="eolica-cadastro.html">Cadastro de Usina Eólicas (eolica-cadastro.csv)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="eolicacadastro.html">Cadastro de Usina Eólicas (eolica-cadastro.csv)</a></li>
 </ul>
 </li>
 </ul>
@@ -113,8 +113,83 @@ modif.dat, são armazenadas na classe:</p>
 <dd><p>Armazena os dados de entrada do NEWAVE referentes às alterações nas
 configurações das usinas hidroelétricas.</p>
 <dl class="py method">
+<dt class="sig sig-object py" id="inewave.newave.modif.Modif.append_registro">
+<span class="sig-name descname"><span class="pre">append_registro</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">registro</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Register</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/newave/modif.html#Modif.append_registro"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.modif.Modif.append_registro" title="Link permanente para esta definição"></a></dt>
+<dd><p>Adiciona um registro ao arquivo na última posição.
+Este método existe para retrocompatibilidade e deve ser substituído
+quando for suportado na classe <code class="xref py py-class docutils literal notranslate"><span class="pre">RegisterFile</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="inewave.newave.modif.Modif.cfuga">
+<span class="sig-name descname"><span class="pre">cfuga</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ano</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nivel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">CFUGA</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">CFUGA</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../../_modules/inewave/newave/modif.html#Modif.cfuga"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.modif.Modif.cfuga" title="Link permanente para esta definição"></a></dt>
+<dd><p>Obtém um registro que define o nível do canal de fuga.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parâmetros</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mes</strong> (<em>int</em><em> | </em><em>None</em>) – mês de validade do nível</p></li>
+<li><p><strong>ano</strong> (<em>int</em><em> | </em><em>None</em>) – ano de validade do nível</p></li>
+<li><p><strong>nivel</strong> (<em>float</em><em> | </em><em>None</em>) – o nível</p></li>
+</ul>
+</dd>
+<dt class="field-even">Retorna</dt>
+<dd class="field-even"><p>Um ou mais registros, se existirem.</p>
+</dd>
+<dt class="field-odd">Tipo de retorno</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">CFUGA</span></code> | list[<code class="xref py py-class docutils literal notranslate"><span class="pre">CFUGA</span></code>] | None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="inewave.newave.modif.Modif.cmont">
+<span class="sig-name descname"><span class="pre">cmont</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ano</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nivel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">CMONT</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">CMONT</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../../_modules/inewave/newave/modif.html#Modif.cmont"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.modif.Modif.cmont" title="Link permanente para esta definição"></a></dt>
+<dd><p>Obtém um registro que define o nível do canal de montante.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parâmetros</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mes</strong> (<em>int</em><em> | </em><em>None</em>) – mês de validade do nível</p></li>
+<li><p><strong>ano</strong> (<em>int</em><em> | </em><em>None</em>) – ano de validade do nível</p></li>
+<li><p><strong>nivel</strong> (<em>float</em><em> | </em><em>None</em>) – o nível</p></li>
+</ul>
+</dd>
+<dt class="field-even">Retorna</dt>
+<dd class="field-even"><p>Um ou mais registros, se existirem.</p>
+</dd>
+<dt class="field-odd">Tipo de retorno</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">CMONT</span></code> | list[<code class="xref py py-class docutils literal notranslate"><span class="pre">CMONT</span></code>] | None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="inewave.newave.modif.Modif.cria_registro">
+<span class="sig-name descname"><span class="pre">cria_registro</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">anterior</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Register</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">registro</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Register</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/newave/modif.html#Modif.cria_registro"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.modif.Modif.cria_registro" title="Link permanente para esta definição"></a></dt>
+<dd><p>Adiciona um registro ao arquivo após um outro registro previamente
+existente.
+Este método existe para retrocompatibilidade e deve ser substituído
+quando for suportado na classe <code class="xref py py-class docutils literal notranslate"><span class="pre">RegisterFile</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="inewave.newave.modif.Modif.deleta_registro">
+<span class="sig-name descname"><span class="pre">deleta_registro</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">registro</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Register</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/newave/modif.html#Modif.deleta_registro"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.modif.Modif.deleta_registro" title="Link permanente para esta definição"></a></dt>
+<dd><p>Remove um registro existente no arquivo.
+Este método existe para retrocompatibilidade e deve ser substituído
+quando for suportado na classe <code class="xref py py-class docutils literal notranslate"><span class="pre">RegisterFile</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="inewave.newave.modif.Modif.lista_registros">
+<span class="sig-name descname"><span class="pre">lista_registros</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tipo</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Type</span><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../../_modules/inewave/newave/modif.html#Modif.lista_registros"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.modif.Modif.lista_registros" title="Link permanente para esta definição"></a></dt>
+<dd><p>Lista todos os registros presentes no arquivo que tenham o tipo <code class="xref py py-obj docutils literal notranslate"><span class="pre">T</span></code>.
+Este método existe para retrocompatibilidade e deve ser substituído
+quando for suportado na classe <code class="xref py py-class docutils literal notranslate"><span class="pre">RegisterFile</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="inewave.newave.modif.Modif.modificacoes_usina">
-<span class="sig-name descname"><span class="pre">modificacoes_usina</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">codigo</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Register</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../../_modules/inewave/newave/modif.html#Modif.modificacoes_usina"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.modif.Modif.modificacoes_usina" title="Link permanente para esta definição"></a></dt>
+<span class="sig-name descname"><span class="pre">modificacoes_usina</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">codigo</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Register</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../../_modules/inewave/newave/modif.html#Modif.modificacoes_usina"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.modif.Modif.modificacoes_usina" title="Link permanente para esta definição"></a></dt>
 <dd><p>Filtra os registros que são associados a uma usina específica.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parâmetros</dt>
@@ -125,6 +200,274 @@ configurações das usinas hidroelétricas.</p>
 </dd>
 <dt class="field-odd">Tipo de retorno</dt>
 <dd class="field-odd"><p>List[Register]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="inewave.newave.modif.Modif.numcnj">
+<span class="sig-name descname"><span class="pre">numcnj</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">numero</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">NUMCNJ</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">NUMCNJ</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../../_modules/inewave/newave/modif.html#Modif.numcnj"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.modif.Modif.numcnj" title="Link permanente para esta definição"></a></dt>
+<dd><p>Obtém um registro que um número de conjuntos de máquinas.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parâmetros</dt>
+<dd class="field-odd"><p><strong>numero</strong> (<em>int</em><em> | </em><em>None</em>) – o número</p>
+</dd>
+<dt class="field-even">Retorna</dt>
+<dd class="field-even"><p>Um ou mais registros, se existirem.</p>
+</dd>
+<dt class="field-odd">Tipo de retorno</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">NUMCNJ</span></code> | list[<code class="xref py py-class docutils literal notranslate"><span class="pre">NUMCNJ</span></code>] | None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="inewave.newave.modif.Modif.nummaq">
+<span class="sig-name descname"><span class="pre">nummaq</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">conjunto</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">numero_maquinas</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">NUMMAQ</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">NUMMAQ</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../../_modules/inewave/newave/modif.html#Modif.nummaq"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.modif.Modif.nummaq" title="Link permanente para esta definição"></a></dt>
+<dd><dl class="simple">
+<dt>Obtém um registro que um número de máquinas por</dt><dd><p>conjunto de máquinas.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parâmetros</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>conjunto</strong> (<em>int</em><em> | </em><em>None</em>) – o conjunto</p></li>
+<li><p><strong>numero_maquinas</strong> (<em>int</em><em> | </em><em>None</em>) – o número de máquinas</p></li>
+</ul>
+</dd>
+<dt class="field-even">Retorna</dt>
+<dd class="field-even"><p>Um ou mais registros, se existirem.</p>
+</dd>
+<dt class="field-odd">Tipo de retorno</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">NUMMAQ</span></code> | list[<code class="xref py py-class docutils literal notranslate"><span class="pre">NUMMAQ</span></code>] | None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="inewave.newave.modif.Modif.preppend_registro">
+<span class="sig-name descname"><span class="pre">preppend_registro</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">registro</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Register</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/newave/modif.html#Modif.preppend_registro"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.modif.Modif.preppend_registro" title="Link permanente para esta definição"></a></dt>
+<dd><p>Adiciona um registro ao arquivo na primeira posição.
+Este método existe para retrocompatibilidade e deve ser substituído
+quando for suportado na classe <code class="xref py py-class docutils literal notranslate"><span class="pre">RegisterFile</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="inewave.newave.modif.Modif.turbmaxt">
+<span class="sig-name descname"><span class="pre">turbmaxt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ano</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">turbinamento</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">TURBMAXT</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">TURBMAXT</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../../_modules/inewave/newave/modif.html#Modif.turbmaxt"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.modif.Modif.turbmaxt" title="Link permanente para esta definição"></a></dt>
+<dd><p>Obtém um registro que define o turbinamento máximo por período.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parâmetros</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mes</strong> (<em>int</em><em> | </em><em>None</em>) – mês de validade do turbinamento</p></li>
+<li><p><strong>ano</strong> (<em>int</em><em> | </em><em>None</em>) – ano de validade do turbinamento</p></li>
+<li><p><strong>vazao</strong> (<em>float</em><em> | </em><em>None</em>) – o turbinamento máximo</p></li>
+</ul>
+</dd>
+<dt class="field-even">Retorna</dt>
+<dd class="field-even"><p>Um ou mais registros, se existirem.</p>
+</dd>
+<dt class="field-odd">Tipo de retorno</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">TURBMAXT</span></code> | list[<code class="xref py py-class docutils literal notranslate"><span class="pre">TURBMAXT</span></code>] | None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="inewave.newave.modif.Modif.turbmint">
+<span class="sig-name descname"><span class="pre">turbmint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ano</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">turbinamento</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">TURBMINT</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">TURBMINT</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../../_modules/inewave/newave/modif.html#Modif.turbmint"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.modif.Modif.turbmint" title="Link permanente para esta definição"></a></dt>
+<dd><p>Obtém um registro que define o turbinamento mínimo por período.
+:param mes: mês de validade do turbinamento
+:type mes: int | None
+:param ano: ano de validade do turbinamento
+:type ano: int | None
+:param vazao: o turbinamento mínimo
+:type vazao: float | None
+:return: Um ou mais registros, se existirem.
+:rtype: <code class="xref py py-class docutils literal notranslate"><span class="pre">TURBMINT</span></code> | list[<code class="xref py py-class docutils literal notranslate"><span class="pre">TURBMINT</span></code>] | None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="inewave.newave.modif.Modif.usina">
+<span class="sig-name descname"><span class="pre">usina</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">codigo</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nome</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">USINA</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">USINA</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../../_modules/inewave/newave/modif.html#Modif.usina"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.modif.Modif.usina" title="Link permanente para esta definição"></a></dt>
+<dd><p>Obtém um registro que define a usina modificada.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parâmetros</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>codigo</strong> (<em>int</em><em> | </em><em>None</em>) – código da usina modificada</p></li>
+<li><p><strong>nome</strong> (<em>str</em><em> | </em><em>None</em>) – nome da usina</p></li>
+</ul>
+</dd>
+<dt class="field-even">Retorna</dt>
+<dd class="field-even"><p>Um ou mais registros, se existirem.</p>
+</dd>
+<dt class="field-odd">Tipo de retorno</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">USINA</span></code> | list[<code class="xref py py-class docutils literal notranslate"><span class="pre">USINA</span></code>] | None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="inewave.newave.modif.Modif.vazmaxt">
+<span class="sig-name descname"><span class="pre">vazmaxt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ano</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vazao</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">VAZMAXT</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">VAZMAXT</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../../_modules/inewave/newave/modif.html#Modif.vazmaxt"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.modif.Modif.vazmaxt" title="Link permanente para esta definição"></a></dt>
+<dd><p>Obtém um registro que define a vazão máxima por período.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parâmetros</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mes</strong> (<em>int</em><em> | </em><em>None</em>) – mês de validade da vazão</p></li>
+<li><p><strong>ano</strong> (<em>int</em><em> | </em><em>None</em>) – ano de validade da vazão</p></li>
+<li><p><strong>vazao</strong> (<em>float</em><em> | </em><em>None</em>) – a vazão máxima</p></li>
+</ul>
+</dd>
+<dt class="field-even">Retorna</dt>
+<dd class="field-even"><p>Um ou mais registros, se existirem.</p>
+</dd>
+<dt class="field-odd">Tipo de retorno</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">VAZMAXT</span></code> | list[<code class="xref py py-class docutils literal notranslate"><span class="pre">VAZMAXT</span></code>] | None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="inewave.newave.modif.Modif.vazmin">
+<span class="sig-name descname"><span class="pre">vazmin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vazao</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">VAZMIN</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">VAZMIN</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../../_modules/inewave/newave/modif.html#Modif.vazmin"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.modif.Modif.vazmin" title="Link permanente para esta definição"></a></dt>
+<dd><p>Obtém um registro que define uma vazão mínima.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parâmetros</dt>
+<dd class="field-odd"><p><strong>vazao</strong> (<em>float</em><em> | </em><em>None</em>) – vazão mínima</p>
+</dd>
+<dt class="field-even">Retorna</dt>
+<dd class="field-even"><p>Um ou mais registros, se existirem.</p>
+</dd>
+<dt class="field-odd">Tipo de retorno</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">VAZMIN</span></code> | list[<code class="xref py py-class docutils literal notranslate"><span class="pre">VAZMIN</span></code>] | None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="inewave.newave.modif.Modif.vazmint">
+<span class="sig-name descname"><span class="pre">vazmint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ano</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vazao</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">VAZMINT</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">VAZMINT</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../../_modules/inewave/newave/modif.html#Modif.vazmint"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.modif.Modif.vazmint" title="Link permanente para esta definição"></a></dt>
+<dd><p>Obtém um registro que define a vazão mínima por período.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parâmetros</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mes</strong> (<em>int</em><em> | </em><em>None</em>) – mês de validade da vazão</p></li>
+<li><p><strong>ano</strong> (<em>int</em><em> | </em><em>None</em>) – ano de validade da vazão</p></li>
+<li><p><strong>vazao</strong> (<em>float</em><em> | </em><em>None</em>) – a vazão mínima</p></li>
+</ul>
+</dd>
+<dt class="field-even">Retorna</dt>
+<dd class="field-even"><p>Um ou mais registros, se existirem.</p>
+</dd>
+<dt class="field-odd">Tipo de retorno</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">VAZMINT</span></code> | list[<code class="xref py py-class docutils literal notranslate"><span class="pre">VAZMINT</span></code>] | None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="inewave.newave.modif.Modif.vmaxt">
+<span class="sig-name descname"><span class="pre">vmaxt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ano</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">volume</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unidade</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">VMAXT</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">VMAXT</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../../_modules/inewave/newave/modif.html#Modif.vmaxt"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.modif.Modif.vmaxt" title="Link permanente para esta definição"></a></dt>
+<dd><p>Obtém um registro que define o volume máximo por período.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parâmetros</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mes</strong> (<em>int</em><em> | </em><em>None</em>) – mês de validade do volume</p></li>
+<li><p><strong>ano</strong> (<em>int</em><em> | </em><em>None</em>) – ano de validade do volume</p></li>
+<li><p><strong>volume</strong> (<em>float</em><em> | </em><em>None</em>) – o volume</p></li>
+<li><p><strong>unidade</strong> (<em>str</em><em> | </em><em>None</em>) – a unidade do volume</p></li>
+</ul>
+</dd>
+<dt class="field-even">Retorna</dt>
+<dd class="field-even"><p>Um ou mais registros, se existirem.</p>
+</dd>
+<dt class="field-odd">Tipo de retorno</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">VMAXT</span></code> | list[<code class="xref py py-class docutils literal notranslate"><span class="pre">VMAXT</span></code>] | None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="inewave.newave.modif.Modif.vminp">
+<span class="sig-name descname"><span class="pre">vminp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ano</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">volume</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unidade</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">VMINP</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">VMINP</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../../_modules/inewave/newave/modif.html#Modif.vminp"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.modif.Modif.vminp" title="Link permanente para esta definição"></a></dt>
+<dd><p>Obtém um registro que define o volume mínimo para penalidade.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parâmetros</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mes</strong> (<em>int</em><em> | </em><em>None</em>) – mês de validade do volume</p></li>
+<li><p><strong>ano</strong> (<em>int</em><em> | </em><em>None</em>) – ano de validade do volume</p></li>
+<li><p><strong>volume</strong> (<em>float</em><em> | </em><em>None</em>) – o volume</p></li>
+<li><p><strong>unidade</strong> (<em>str</em><em> | </em><em>None</em>) – a unidade do volume</p></li>
+</ul>
+</dd>
+<dt class="field-even">Retorna</dt>
+<dd class="field-even"><p>Um ou mais registros, se existirem.</p>
+</dd>
+<dt class="field-odd">Tipo de retorno</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">VMINP</span></code> | list[<code class="xref py py-class docutils literal notranslate"><span class="pre">VMINP</span></code>] | None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="inewave.newave.modif.Modif.vmint">
+<span class="sig-name descname"><span class="pre">vmint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ano</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">volume</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unidade</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">VMINT</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">VMINT</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../../_modules/inewave/newave/modif.html#Modif.vmint"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.modif.Modif.vmint" title="Link permanente para esta definição"></a></dt>
+<dd><p>Obtém um registro que define o volume mínimo por período.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parâmetros</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mes</strong> (<em>int</em><em> | </em><em>None</em>) – mês de validade do volume</p></li>
+<li><p><strong>ano</strong> (<em>int</em><em> | </em><em>None</em>) – ano de validade do volume</p></li>
+<li><p><strong>volume</strong> (<em>float</em><em> | </em><em>None</em>) – o volume</p></li>
+<li><p><strong>unidade</strong> (<em>str</em><em> | </em><em>None</em>) – a unidade do volume</p></li>
+</ul>
+</dd>
+<dt class="field-even">Retorna</dt>
+<dd class="field-even"><p>Um ou mais registros, se existirem.</p>
+</dd>
+<dt class="field-odd">Tipo de retorno</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">VMINT</span></code> | list[<code class="xref py py-class docutils literal notranslate"><span class="pre">VMINT</span></code>] | None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="inewave.newave.modif.Modif.volmax">
+<span class="sig-name descname"><span class="pre">volmax</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">volume</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unidade</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">VOLMAX</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">VOLMAX</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../../_modules/inewave/newave/modif.html#Modif.volmax"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.modif.Modif.volmax" title="Link permanente para esta definição"></a></dt>
+<dd><p>Obtém um registro que define um volume máximo.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parâmetros</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>volume</strong> (<em>float</em><em> | </em><em>None</em>) – volume máximo</p></li>
+<li><p><strong>unidade</strong> (<em>str</em><em> | </em><em>None</em>) – unidade do volume</p></li>
+</ul>
+</dd>
+<dt class="field-even">Retorna</dt>
+<dd class="field-even"><p>Um ou mais registros, se existirem.</p>
+</dd>
+<dt class="field-odd">Tipo de retorno</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">VOLMAX</span></code> | list[<code class="xref py py-class docutils literal notranslate"><span class="pre">VOLMAX</span></code>] | None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="inewave.newave.modif.Modif.volmin">
+<span class="sig-name descname"><span class="pre">volmin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">volume</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unidade</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">VOLMIN</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">VOLMIN</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../../_modules/inewave/newave/modif.html#Modif.volmin"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.modif.Modif.volmin" title="Link permanente para esta definição"></a></dt>
+<dd><p>Obtém um registro que define um volume mínimo.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parâmetros</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>volume</strong> (<em>float</em><em> | </em><em>None</em>) – volume mínimo</p></li>
+<li><p><strong>unidade</strong> (<em>str</em><em> | </em><em>None</em>) – unidade do volume</p></li>
+</ul>
+</dd>
+<dt class="field-even">Retorna</dt>
+<dd class="field-even"><p>Um ou mais registros, se existirem.</p>
+</dd>
+<dt class="field-odd">Tipo de retorno</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">VOLMIN</span></code> | list[<code class="xref py py-class docutils literal notranslate"><span class="pre">VOLMIN</span></code>] | None</p>
 </dd>
 </dl>
 </dd></dl>

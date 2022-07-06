@@ -203,18 +203,18 @@ def test_atributos_encontrados_modif():
     m: MagicMock = mock_open(read_data="".join(MockModif))
     with patch("builtins.open", m):
         ad = Modif.le_arquivo("")
-        assert len(ad.usina) > 0
-        assert len(ad.vazmin) > 0
-        assert len(ad.vmaxt) > 0
-        assert len(ad.vazmint) > 0
-        assert len(ad.volmin) > 0
-        assert len(ad.volmax) > 0
-        assert len(ad.numcnj) > 0
-        assert len(ad.nummaq) > 0
-        assert len(ad.vmint) > 0
-        assert len(ad.vminp) > 0
-        assert len(ad.cfuga) > 0
-        assert len(ad.cmont) > 0
+        assert len(ad.usina()) > 0
+        assert len(ad.vazmin()) > 0
+        assert len(ad.vmaxt()) > 0
+        assert len(ad.vazmint()) > 0
+        assert isinstance(ad.volmin(), VOLMIN)
+        assert isinstance(ad.volmax(), VOLMAX)
+        assert len(ad.numcnj()) > 0
+        assert len(ad.nummaq()) > 0
+        assert len(ad.vmint()) > 0
+        assert len(ad.vminp()) > 0
+        assert len(ad.cfuga()) > 0
+        assert len(ad.cmont()) > 0
 
 
 # def test_eq_patamar():
