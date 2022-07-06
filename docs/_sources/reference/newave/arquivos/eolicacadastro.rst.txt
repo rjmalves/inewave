@@ -1,4 +1,4 @@
-.. _eolica-cadastro:
+.. _eolicacadastro:
 
 ================================================
 Cadastro de Usina Eólicas (eolica-cadastro.csv)
