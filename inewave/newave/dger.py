@@ -87,6 +87,10 @@ from inewave.newave.modelos.dger import BlocoRestricoesFornecGas
 from inewave.newave.modelos.dger import BlocoMemCalculoCortes
 from inewave.newave.modelos.dger import BlocoGeracaoEolica
 from inewave.newave.modelos.dger import BlocoCompensacaoCorrelacaoCruzada
+from inewave.newave.modelos.dger import BlocoConsideracaoDefluenciaMaxima
+from inewave.newave.modelos.dger import (
+    BlocoConsideracaoTurbinamentoMinimoMaximo,
+)
 
 
 class DGer(SectionFile):
@@ -184,6 +188,8 @@ class DGer(SectionFile):
         BlocoMemCalculoCortes,
         BlocoGeracaoEolica,
         BlocoCompensacaoCorrelacaoCruzada,
+        BlocoConsideracaoTurbinamentoMinimoMaximo,
+        BlocoConsideracaoDefluenciaMaxima,
     ]
 
     def __init__(self, data=...) -> None:
@@ -713,21 +719,42 @@ class DGer(SectionFile):
     @property
     def tipo_simulacao_final(self) -> Optional[int]:
         """
-        Configuração da linha número 27 do arquivo `dger.dat`.
+        Configuração do primeiro campo da linha número 27
+        do arquivo `dger.dat`.
 
         :return: O valor do campo
-        :rtype: int
+        :rtype: int | None
         """
         b = self.__bloco_por_tipo(BlocoTipoSimFinal, 0)
         if b is not None:
-            return b.valor
+            return b.valor[0]
         return None
 
     @tipo_simulacao_final.setter
     def tipo_simulacao_final(self, dado: int):
         b = self.__bloco_por_tipo(BlocoTipoSimFinal, 0)
         if b is not None:
-            b.valor = dado
+            b.valor = [dado] + [b.valor[1]]
+
+    @property
+    def agregacao_simulacao_final(self) -> Optional[int]:
+        """
+        Configuração do segundo campo da linha número 27
+        do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int | None
+        """
+        b = self.__bloco_por_tipo(BlocoTipoSimFinal, 0)
+        if b is not None:
+            return b.valor[1]
+        return None
+
+    @agregacao_simulacao_final.setter
+    def agregacao_simulacao_final(self, dado: int):
+        b = self.__bloco_por_tipo(BlocoTipoSimFinal, 0)
+        if b is not None:
+            b.valor = [b.valor[0]] + [dado]
 
     @property
     def impressao_operacao(self) -> Optional[int]:
@@ -2058,5 +2085,43 @@ class DGer(SectionFile):
     @compensacao_correlacao_cruzada.setter
     def compensacao_correlacao_cruzada(self, dado: int):
         b = self.__bloco_por_tipo(BlocoCompensacaoCorrelacaoCruzada, 0)
+        if b is not None:
+            b.valor = dado
+
+    @property
+    def restricao_turbinamento(self) -> Optional[int]:
+        """
+        Configuração da linha número 88 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int | None
+        """
+        b = self.__bloco_por_tipo(BlocoConsideracaoTurbinamentoMinimoMaximo, 0)
+        if b is not None:
+            return b.valor
+        return None
+
+    @restricao_turbinamento.setter
+    def restricao_turbinamento(self, dado: int):
+        b = self.__bloco_por_tipo(BlocoConsideracaoTurbinamentoMinimoMaximo, 0)
+        if b is not None:
+            b.valor = dado
+
+    @property
+    def restricao_defluencia(self) -> Optional[int]:
+        """
+        Configuração da linha número 89 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int | None
+        """
+        b = self.__bloco_por_tipo(BlocoConsideracaoDefluenciaMaxima, 0)
+        if b is not None:
+            return b.valor
+        return None
+
+    @restricao_defluencia.setter
+    def restricao_defluencia(self, dado: int):
+        b = self.__bloco_por_tipo(BlocoConsideracaoDefluenciaMaxima, 0)
         if b is not None:
             b.valor = dado

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>inewave.newave.dger &mdash; documentação inewave 0.0.53</title>
+  <title>inewave.newave.dger &mdash; documentação inewave 0.0.56</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/sg_gallery.css" type="text/css" />
@@ -160,6 +160,10 @@
 <span class="kn">from</span> <span class="nn">inewave.newave.modelos.dger</span> <span class="kn">import</span> <span class="n">BlocoMemCalculoCortes</span>
 <span class="kn">from</span> <span class="nn">inewave.newave.modelos.dger</span> <span class="kn">import</span> <span class="n">BlocoGeracaoEolica</span>
 <span class="kn">from</span> <span class="nn">inewave.newave.modelos.dger</span> <span class="kn">import</span> <span class="n">BlocoCompensacaoCorrelacaoCruzada</span>
+<span class="kn">from</span> <span class="nn">inewave.newave.modelos.dger</span> <span class="kn">import</span> <span class="n">BlocoConsideracaoDefluenciaMaxima</span>
+<span class="kn">from</span> <span class="nn">inewave.newave.modelos.dger</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">BlocoConsideracaoTurbinamentoMinimoMaximo</span><span class="p">,</span>
+<span class="p">)</span>
 
 
 <div class="viewcode-block" id="DGer"><a class="viewcode-back" href="../../../reference/newave/arquivos/dger.html#inewave.newave.dger.DGer">[documentos]</a><span class="k">class</span> <span class="nc">DGer</span><span class="p">(</span><span class="n">SectionFile</span><span class="p">):</span>
@@ -257,6 +261,8 @@
         <span class="n">BlocoMemCalculoCortes</span><span class="p">,</span>
         <span class="n">BlocoGeracaoEolica</span><span class="p">,</span>
         <span class="n">BlocoCompensacaoCorrelacaoCruzada</span><span class="p">,</span>
+        <span class="n">BlocoConsideracaoTurbinamentoMinimoMaximo</span><span class="p">,</span>
+        <span class="n">BlocoConsideracaoDefluenciaMaxima</span><span class="p">,</span>
     <span class="p">]</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="o">=...</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -786,21 +792,42 @@
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">tipo_simulacao_final</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Configuração da linha número 27 do arquivo `dger.dat`.</span>
+<span class="sd">        Configuração do primeiro campo da linha número 27</span>
+<span class="sd">        do arquivo `dger.dat`.</span>
 
 <span class="sd">        :return: O valor do campo</span>
-<span class="sd">        :rtype: int</span>
+<span class="sd">        :rtype: int | None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__bloco_por_tipo</span><span class="p">(</span><span class="n">BlocoTipoSimFinal</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">b</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">b</span><span class="o">.</span><span class="n">valor</span>
+            <span class="k">return</span> <span class="n">b</span><span class="o">.</span><span class="n">valor</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="k">return</span> <span class="kc">None</span>
 
     <span class="nd">@tipo_simulacao_final</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span> <span class="nf">tipo_simulacao_final</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dado</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
         <span class="n">b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__bloco_por_tipo</span><span class="p">(</span><span class="n">BlocoTipoSimFinal</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">b</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">b</span><span class="o">.</span><span class="n">valor</span> <span class="o">=</span> <span class="n">dado</span>
+            <span class="n">b</span><span class="o">.</span><span class="n">valor</span> <span class="o">=</span> <span class="p">[</span><span class="n">dado</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="n">b</span><span class="o">.</span><span class="n">valor</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">agregacao_simulacao_final</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Configuração do segundo campo da linha número 27</span>
+<span class="sd">        do arquivo `dger.dat`.</span>
+
+<span class="sd">        :return: O valor do campo</span>
+<span class="sd">        :rtype: int | None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__bloco_por_tipo</span><span class="p">(</span><span class="n">BlocoTipoSimFinal</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">b</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">b</span><span class="o">.</span><span class="n">valor</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="nd">@agregacao_simulacao_final</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">agregacao_simulacao_final</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dado</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__bloco_por_tipo</span><span class="p">(</span><span class="n">BlocoTipoSimFinal</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">b</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">b</span><span class="o">.</span><span class="n">valor</span> <span class="o">=</span> <span class="p">[</span><span class="n">b</span><span class="o">.</span><span class="n">valor</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">+</span> <span class="p">[</span><span class="n">dado</span><span class="p">]</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">impressao_operacao</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
@@ -2131,6 +2158,44 @@
     <span class="nd">@compensacao_correlacao_cruzada</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span> <span class="nf">compensacao_correlacao_cruzada</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dado</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
         <span class="n">b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__bloco_por_tipo</span><span class="p">(</span><span class="n">BlocoCompensacaoCorrelacaoCruzada</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">b</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">b</span><span class="o">.</span><span class="n">valor</span> <span class="o">=</span> <span class="n">dado</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">restricao_turbinamento</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Configuração da linha número 88 do arquivo `dger.dat`.</span>
+
+<span class="sd">        :return: O valor do campo</span>
+<span class="sd">        :rtype: int | None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__bloco_por_tipo</span><span class="p">(</span><span class="n">BlocoConsideracaoTurbinamentoMinimoMaximo</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">b</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">b</span><span class="o">.</span><span class="n">valor</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="nd">@restricao_turbinamento</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">restricao_turbinamento</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dado</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__bloco_por_tipo</span><span class="p">(</span><span class="n">BlocoConsideracaoTurbinamentoMinimoMaximo</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">b</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">b</span><span class="o">.</span><span class="n">valor</span> <span class="o">=</span> <span class="n">dado</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">restricao_defluencia</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Configuração da linha número 89 do arquivo `dger.dat`.</span>
+
+<span class="sd">        :return: O valor do campo</span>
+<span class="sd">        :rtype: int | None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__bloco_por_tipo</span><span class="p">(</span><span class="n">BlocoConsideracaoDefluenciaMaxima</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">b</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">b</span><span class="o">.</span><span class="n">valor</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="nd">@restricao_defluencia</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">restricao_defluencia</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dado</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__bloco_por_tipo</span><span class="p">(</span><span class="n">BlocoConsideracaoDefluenciaMaxima</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">b</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">b</span><span class="o">.</span><span class="n">valor</span> <span class="o">=</span> <span class="n">dado</span></div>
 </pre></div>

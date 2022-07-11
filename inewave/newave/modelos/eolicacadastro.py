@@ -127,8 +127,8 @@ class RegistroEolicaCadastroAerogerador(Register):
             FloatField(decimal_digits=3),
             FloatField(decimal_digits=3),
             FloatField(decimal_digits=3),
-            IntegerField(),
-            IntegerField(),
+            FloatField(decimal_digits=3),
+            FloatField(decimal_digits=3),
         ],
         delimiter=";",
     )
@@ -263,4 +263,65 @@ class RegistroEolicaConjuntoAerogeradoresQuantidadeOperandoPeriodo(Register):
 
     @numero_aerogeradores.setter
     def numero_aerogeradores(self, n: int):
+        self.data[4] = n
+
+
+class RegistroEolicaConjuntoAerogeradoresPotenciaEfetiva(Register):
+    """
+    Registro que contém a informação de início e fim de
+    operação para uma certa potência efetiva de um conjunto
+    de aerogeradores.
+    """
+
+    IDENTIFIER = "EOLICA-CONJUNTO-AEROGERADORES-POTENCIAEFETIVA-PERIODO"
+    IDENTIFIER_DIGITS = 53
+    LINE = Line(
+        [
+            IntegerField(),
+            IntegerField(),
+            DatetimeField(size=7, format="%Y/%m"),
+            DatetimeField(size=7, format="%Y/%m"),
+            FloatField(decimal_digits=3),
+        ],
+        delimiter=";",
+    )
+
+    @property
+    def codigo_eolica(self) -> Optional[int]:
+        return self.data[0]
+
+    @codigo_eolica.setter
+    def codigo_eolica(self, c: int):
+        self.data[0] = c
+
+    @property
+    def indice_conjunto(self) -> Optional[int]:
+        return self.data[1]
+
+    @indice_conjunto.setter
+    def indice_conjunto(self, c: int):
+        self.data[1] = c
+
+    @property
+    def periodo_inicial(self) -> Optional[datetime]:
+        return self.data[2]
+
+    @periodo_inicial.setter
+    def periodo_inicial(self, p: datetime):
+        self.data[2] = p
+
+    @property
+    def periodo_final(self) -> Optional[datetime]:
+        return self.data[3]
+
+    @periodo_final.setter
+    def periodo_final(self, p: datetime):
+        self.data[3] = p
+
+    @property
+    def potencia_efetiva(self) -> Optional[float]:
+        return self.data[4]
+
+    @potencia_efetiva.setter
+    def potencia_efetiva(self, n: float):
         self.data[4] = n

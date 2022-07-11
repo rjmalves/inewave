@@ -81,7 +81,7 @@
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
 
 
-<div class="viewcode-block" id="RegistroEolicaCadastro"><a class="viewcode-back" href="../../../../reference/newave/arquivos/eolica-cadastro.html#inewave.newave.modelos.eolicacadastro.RegistroEolicaCadastro">[documentos]</a><span class="k">class</span> <span class="nc">RegistroEolicaCadastro</span><span class="p">(</span><span class="n">Register</span><span class="p">):</span>
+<div class="viewcode-block" id="RegistroEolicaCadastro"><a class="viewcode-back" href="../../../../reference/newave/arquivos/eolicacadastro.html#inewave.newave.modelos.eolicacadastro.RegistroEolicaCadastro">[documentos]</a><span class="k">class</span> <span class="nc">RegistroEolicaCadastro</span><span class="p">(</span><span class="n">Register</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Registro que contém um cadastro de usina eólica.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -131,7 +131,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">q</span></div>
 
 
-<div class="viewcode-block" id="RegistroEolicaCadastroConjuntoAerogeradores"><a class="viewcode-back" href="../../../../reference/newave/arquivos/eolica-cadastro.html#inewave.newave.modelos.eolicacadastro.RegistroEolicaCadastroConjuntoAerogeradores">[documentos]</a><span class="k">class</span> <span class="nc">RegistroEolicaCadastroConjuntoAerogeradores</span><span class="p">(</span><span class="n">Register</span><span class="p">):</span>
+<div class="viewcode-block" id="RegistroEolicaCadastroConjuntoAerogeradores"><a class="viewcode-back" href="../../../../reference/newave/arquivos/eolicacadastro.html#inewave.newave.modelos.eolicacadastro.RegistroEolicaCadastroConjuntoAerogeradores">[documentos]</a><span class="k">class</span> <span class="nc">RegistroEolicaCadastroConjuntoAerogeradores</span><span class="p">(</span><span class="n">Register</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Registro que contém o cadastro de um conjunto de</span>
 <span class="sd">    aerogeradores em uma usina eólica.</span>
@@ -182,7 +182,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">c</span></div>
 
 
-<div class="viewcode-block" id="RegistroEolicaCadastroAerogerador"><a class="viewcode-back" href="../../../../reference/newave/arquivos/eolica-cadastro.html#inewave.newave.modelos.eolicacadastro.RegistroEolicaCadastroAerogerador">[documentos]</a><span class="k">class</span> <span class="nc">RegistroEolicaCadastroAerogerador</span><span class="p">(</span><span class="n">Register</span><span class="p">):</span>
+<div class="viewcode-block" id="RegistroEolicaCadastroAerogerador"><a class="viewcode-back" href="../../../../reference/newave/arquivos/eolicacadastro.html#inewave.newave.modelos.eolicacadastro.RegistroEolicaCadastroAerogerador">[documentos]</a><span class="k">class</span> <span class="nc">RegistroEolicaCadastroAerogerador</span><span class="p">(</span><span class="n">Register</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Registro que contém o cadastro de um aerogerador</span>
 <span class="sd">    pertencente a um conjunto de aerogeradores em uma</span>
@@ -200,8 +200,8 @@
             <span class="n">FloatField</span><span class="p">(</span><span class="n">decimal_digits</span><span class="o">=</span><span class="mi">3</span><span class="p">),</span>
             <span class="n">FloatField</span><span class="p">(</span><span class="n">decimal_digits</span><span class="o">=</span><span class="mi">3</span><span class="p">),</span>
             <span class="n">FloatField</span><span class="p">(</span><span class="n">decimal_digits</span><span class="o">=</span><span class="mi">3</span><span class="p">),</span>
-            <span class="n">IntegerField</span><span class="p">(),</span>
-            <span class="n">IntegerField</span><span class="p">(),</span>
+            <span class="n">FloatField</span><span class="p">(</span><span class="n">decimal_digits</span><span class="o">=</span><span class="mi">3</span><span class="p">),</span>
+            <span class="n">FloatField</span><span class="p">(</span><span class="n">decimal_digits</span><span class="o">=</span><span class="mi">3</span><span class="p">),</span>
         <span class="p">],</span>
         <span class="n">delimiter</span><span class="o">=</span><span class="s2">&quot;;&quot;</span><span class="p">,</span>
     <span class="p">)</span>
@@ -279,7 +279,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">8</span><span class="p">]</span> <span class="o">=</span> <span class="n">h</span></div>
 
 
-<div class="viewcode-block" id="RegistroEolicaConjuntoAerogeradoresQuantidadeOperandoPeriodo"><a class="viewcode-back" href="../../../../reference/newave/arquivos/eolica-cadastro.html#inewave.newave.modelos.eolicacadastro.RegistroEolicaConjuntoAerogeradoresQuantidadeOperandoPeriodo">[documentos]</a><span class="k">class</span> <span class="nc">RegistroEolicaConjuntoAerogeradoresQuantidadeOperandoPeriodo</span><span class="p">(</span><span class="n">Register</span><span class="p">):</span>
+<div class="viewcode-block" id="RegistroEolicaConjuntoAerogeradoresQuantidadeOperandoPeriodo"><a class="viewcode-back" href="../../../../reference/newave/arquivos/eolicacadastro.html#inewave.newave.modelos.eolicacadastro.RegistroEolicaConjuntoAerogeradoresQuantidadeOperandoPeriodo">[documentos]</a><span class="k">class</span> <span class="nc">RegistroEolicaConjuntoAerogeradoresQuantidadeOperandoPeriodo</span><span class="p">(</span><span class="n">Register</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Registro que contém a informação de início e fim de</span>
 <span class="sd">    operação de um conjunto de aerogeradores.</span>
@@ -337,6 +337,67 @@
     <span class="nd">@numero_aerogeradores</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span> <span class="nf">numero_aerogeradores</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="n">n</span></div>
+
+
+<span class="k">class</span> <span class="nc">RegistroEolicaConjuntoAerogeradoresPotenciaEfetiva</span><span class="p">(</span><span class="n">Register</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Registro que contém a informação de início e fim de</span>
+<span class="sd">    operação para uma certa potência efetiva de um conjunto</span>
+<span class="sd">    de aerogeradores.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">IDENTIFIER</span> <span class="o">=</span> <span class="s2">&quot;EOLICA-CONJUNTO-AEROGERADORES-POTENCIAEFETIVA-PERIODO&quot;</span>
+    <span class="n">IDENTIFIER_DIGITS</span> <span class="o">=</span> <span class="mi">53</span>
+    <span class="n">LINE</span> <span class="o">=</span> <span class="n">Line</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="n">IntegerField</span><span class="p">(),</span>
+            <span class="n">IntegerField</span><span class="p">(),</span>
+            <span class="n">DatetimeField</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;%Y/%m&quot;</span><span class="p">),</span>
+            <span class="n">DatetimeField</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;%Y/%m&quot;</span><span class="p">),</span>
+            <span class="n">FloatField</span><span class="p">(</span><span class="n">decimal_digits</span><span class="o">=</span><span class="mi">3</span><span class="p">),</span>
+        <span class="p">],</span>
+        <span class="n">delimiter</span><span class="o">=</span><span class="s2">&quot;;&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">codigo_eolica</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="nd">@codigo_eolica</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">codigo_eolica</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">c</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">c</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">indice_conjunto</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="nd">@indice_conjunto</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">indice_conjunto</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">c</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">c</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">periodo_inicial</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">datetime</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+
+    <span class="nd">@periodo_inicial</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">periodo_inicial</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="n">datetime</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">p</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">periodo_final</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">datetime</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+
+    <span class="nd">@periodo_final</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">periodo_final</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="n">datetime</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">p</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">potencia_efetiva</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+
+    <span class="nd">@potencia_efetiva</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">potencia_efetiva</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="n">n</span>
 </pre></div>
 
            </div>

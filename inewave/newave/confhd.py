@@ -61,3 +61,11 @@ class Confhd(SectionFile):
         if b is not None:
             return b.data
         return None
+
+    @usinas.setter
+    def usinas(self, valor: pd.DataFrame):
+        b = self.__bloco_por_tipo(BlocoConfUHE, 0)
+        if b is not None:
+            b.data = valor
+        else:
+            raise ValueError("Campo não lido")

@@ -44,6 +44,7 @@ def test_atributos_nao_encontrados_dger():
         assert d.tolerancia is None
         assert d.taxa_de_desconto is None
         assert d.tipo_simulacao_final is None
+        assert d.agregacao_simulacao_final is None
         assert d.impressao_operacao is None
         assert d.impressao_convergencia is None
         assert d.intervalo_para_gravar is None
@@ -114,6 +115,8 @@ def test_atributos_nao_encontrados_dger():
         assert d.considera_geracao_eolica is None
         assert d.penalidade_corte_geracao_eolica is None
         assert d.compensacao_correlacao_cruzada is None
+        assert d.restricao_defluencia is None
+        assert d.restricao_turbinamento is None
 
 
 def test_atributos_encontrados_dger():
@@ -153,6 +156,7 @@ def test_atributos_encontrados_dger():
         assert d.tolerancia is not None
         assert d.taxa_de_desconto is not None
         assert d.tipo_simulacao_final is not None
+        assert d.agregacao_simulacao_final is not None
         assert d.impressao_operacao is not None
         assert d.impressao_convergencia is not None
         assert d.intervalo_para_gravar is not None
@@ -223,6 +227,8 @@ def test_atributos_encontrados_dger():
         assert d.considera_geracao_eolica is not None
         assert d.penalidade_corte_geracao_eolica is not None
         assert d.compensacao_correlacao_cruzada is not None
+        assert d.restricao_defluencia is not None
+        assert d.restricao_turbinamento is not None
 
 
 def test_nome_caso_dger():
@@ -496,6 +502,16 @@ def test_tipo_simulacao_final_dger():
         novo_valor = 0
         d.tipo_simulacao_final = novo_valor
         assert d.tipo_simulacao_final == novo_valor
+
+
+def test_agregacao_simulacao_final_dger():
+    m: MagicMock = mock_open(read_data="".join(MockDger))
+    with patch("builtins.open", m):
+        d = DGer.le_arquivo("")
+        assert d.agregacao_simulacao_final == 1
+        novo_valor = 0
+        d.agregacao_simulacao_final = novo_valor
+        assert d.agregacao_simulacao_final == novo_valor
 
 
 def test_impressao_operacao_dger():
@@ -1133,6 +1149,26 @@ def test_compensacao_correlacao_cruzada_dger():
         novo_valor = 0
         d.compensacao_correlacao_cruzada = novo_valor
         assert d.compensacao_correlacao_cruzada == novo_valor
+
+
+def test_restricao_turbinamento_dger():
+    m: MagicMock = mock_open(read_data="".join(MockDger))
+    with patch("builtins.open", m):
+        d = DGer.le_arquivo("")
+        assert d.restricao_turbinamento == 1
+        novo_valor = 0
+        d.restricao_turbinamento = novo_valor
+        assert d.restricao_turbinamento == novo_valor
+
+
+def test_restricao_defluencia_dger():
+    m: MagicMock = mock_open(read_data="".join(MockDger))
+    with patch("builtins.open", m):
+        d = DGer.le_arquivo("")
+        assert d.restricao_defluencia == 1
+        novo_valor = 0
+        d.restricao_defluencia = novo_valor
+        assert d.restricao_defluencia == novo_valor
 
 
 def test_eq_dger():

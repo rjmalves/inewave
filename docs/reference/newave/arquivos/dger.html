@@ -65,6 +65,11 @@
 <li class="toctree-l4"><a class="reference internal" href="eafpast.html">Tendência Hidrológica por REE (eafpast.dat)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="parp.html">Acompanhamento do modelo PAR(p) (parp.dat)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="eolicacadastro.html">Cadastro de Usina Eólicas (eolica-cadastro.csv)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="eolicaconfiguracao.html">Configuração de Usina Eólicas (eolica-config.csv)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="eolicasubmercado.html">Relação de Usina Eólicas com Submercados (eolica-submercado.csv)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="eolicafte.html">Função de Produção Vento-Potência de Usina Eólicas (eolica-fte.csv)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="eolicahistorico.html">Histórico de Vento das Usinas Eólicas (hist-ventos.csv)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="eolicageracao.html">Geração das Usinas Eólicas (eolica-geracao.csv)</a></li>
 </ul>
 </li>
 </ul>
@@ -111,6 +116,21 @@ dger.dat, são armazenados na classe:</p>
 <dt class="sig sig-object py" id="inewave.newave.dger.DGer">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DGer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">Ellipsis</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/newave/dger.html#DGer"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.dger.DGer" title="Link permanente para esta definição"></a></dt>
 <dd><p>Classe para armazenar dados gerais de uma execução do NEWAVE.</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.agregacao_simulacao_final">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">agregacao_simulacao_final</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#inewave.newave.dger.DGer.agregacao_simulacao_final" title="Link permanente para esta definição"></a></dt>
+<dd><p>Configuração do segundo campo da linha número 27
+do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Retorna</dt>
+<dd class="field-odd"><p>O valor do campo</p>
+</dd>
+<dt class="field-even">Tipo de retorno</dt>
+<dd class="field-even"><p>int | None</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py property">
 <dt class="sig sig-object py" id="inewave.newave.dger.DGer.agrupamento_livre">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">agrupamento_livre</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#inewave.newave.dger.DGer.agrupamento_livre" title="Link permanente para esta definição"></a></dt>
@@ -1176,6 +1196,20 @@ dger.dat, são armazenados na classe:</p>
 </dd></dl>
 
 <dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.restricao_defluencia">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">restricao_defluencia</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#inewave.newave.dger.DGer.restricao_defluencia" title="Link permanente para esta definição"></a></dt>
+<dd><p>Configuração da linha número 89 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Retorna</dt>
+<dd class="field-odd"><p>O valor do campo</p>
+</dd>
+<dt class="field-even">Tipo de retorno</dt>
+<dd class="field-even"><p>int | None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
 <dt class="sig sig-object py" id="inewave.newave.dger.DGer.restricao_itaipu">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">restricao_itaipu</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#inewave.newave.dger.DGer.restricao_itaipu" title="Link permanente para esta definição"></a></dt>
 <dd><p>Configuração da linha número 35 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
@@ -1185,6 +1219,20 @@ dger.dat, são armazenados na classe:</p>
 </dd>
 <dt class="field-even">Tipo de retorno</dt>
 <dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.restricao_turbinamento">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">restricao_turbinamento</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#inewave.newave.dger.DGer.restricao_turbinamento" title="Link permanente para esta definição"></a></dt>
+<dd><p>Configuração da linha número 88 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Retorna</dt>
+<dd class="field-odd"><p>O valor do campo</p>
+</dd>
+<dt class="field-even">Tipo de retorno</dt>
+<dd class="field-even"><p>int | None</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1416,13 +1464,14 @@ dger.dat, são armazenados na classe:</p>
 <dl class="py property">
 <dt class="sig sig-object py" id="inewave.newave.dger.DGer.tipo_simulacao_final">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">tipo_simulacao_final</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#inewave.newave.dger.DGer.tipo_simulacao_final" title="Link permanente para esta definição"></a></dt>
-<dd><p>Configuração da linha número 27 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
+<dd><p>Configuração do primeiro campo da linha número 27
+do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Retorna</dt>
 <dd class="field-odd"><p>O valor do campo</p>
 </dd>
 <dt class="field-even">Tipo de retorno</dt>
-<dd class="field-even"><p>int</p>
+<dd class="field-even"><p>int | None</p>
 </dd>
 </dl>
 </dd></dl>

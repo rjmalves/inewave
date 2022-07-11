@@ -75,6 +75,14 @@ class Curva(SectionFile):
             return b.data
         return None
 
+    @configuracoes_penalizacao.setter
+    def configuracoes_penalizacao(self, valor: list):
+        b = self.__bloco_por_tipo(BlocoConfiguracoesPenalizacaoCurva, 0)
+        if b is not None:
+            b.data = valor
+        else:
+            raise ValueError("Campo não lido")
+
     @property
     def custos_penalidades(self) -> Optional[pd.DataFrame]:
         """
@@ -88,6 +96,14 @@ class Curva(SectionFile):
             return b.data
         return None
 
+    @custos_penalidades.setter
+    def custos_penalidades(self, valor: pd.DataFrame):
+        b = self.__bloco_por_tipo(BlocoPenalidadesViolacaoREECurva, 0)
+        if b is not None:
+            b.data = valor
+        else:
+            raise ValueError("Campo não lido")
+
     @property
     def curva_seguranca(self) -> Optional[pd.DataFrame]:
         """
@@ -100,6 +116,14 @@ class Curva(SectionFile):
         if b is not None:
             return b.data
         return None
+
+    @curva_seguranca.setter
+    def curva_seguranca(self, valor: pd.DataFrame):
+        b = self.__bloco_por_tipo(BlocoCurvaSegurancaSubsistema, 0)
+        if b is not None:
+            b.data = valor
+        else:
+            raise ValueError("Campo não lido")
 
     @property
     def maximo_iteracoes_etapa2(self) -> Optional[int]:

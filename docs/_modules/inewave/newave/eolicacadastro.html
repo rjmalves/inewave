@@ -81,10 +81,11 @@
     <span class="n">RegistroEolicaCadastroConjuntoAerogeradores</span><span class="p">,</span>
     <span class="n">RegistroEolicaCadastroAerogerador</span><span class="p">,</span>
     <span class="n">RegistroEolicaConjuntoAerogeradoresQuantidadeOperandoPeriodo</span><span class="p">,</span>
+    <span class="n">RegistroEolicaConjuntoAerogeradoresPotenciaEfetiva</span><span class="p">,</span>
 <span class="p">)</span>
 
 
-<div class="viewcode-block" id="EolicaCadastro"><a class="viewcode-back" href="../../../reference/newave/arquivos/eolica-cadastro.html#inewave.newave.eolicacadastro.EolicaCadastro">[documentos]</a><span class="k">class</span> <span class="nc">EolicaCadastro</span><span class="p">(</span><span class="n">RegisterFile</span><span class="p">):</span>
+<div class="viewcode-block" id="EolicaCadastro"><a class="viewcode-back" href="../../../reference/newave/arquivos/eolicacadastro.html#inewave.newave.eolicacadastro.EolicaCadastro">[documentos]</a><span class="k">class</span> <span class="nc">EolicaCadastro</span><span class="p">(</span><span class="n">RegisterFile</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Armazena os dados de entrada do NEWAVE referentes ao cadastro</span>
 <span class="sd">    das usinas eólicas do sistema.</span>
@@ -97,6 +98,7 @@
         <span class="n">RegistroEolicaCadastroConjuntoAerogeradores</span><span class="p">,</span>
         <span class="n">RegistroEolicaCadastro</span><span class="p">,</span>
         <span class="n">RegistroEolicaConjuntoAerogeradoresQuantidadeOperandoPeriodo</span><span class="p">,</span>
+        <span class="n">RegistroEolicaConjuntoAerogeradoresPotenciaEfetiva</span><span class="p">,</span>
     <span class="p">]</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="o">=...</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -148,7 +150,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">regs_filtro</span>
 
-<div class="viewcode-block" id="EolicaCadastro.cria_registro"><a class="viewcode-back" href="../../../reference/newave/arquivos/eolica-cadastro.html#inewave.newave.eolicacadastro.EolicaCadastro.cria_registro">[documentos]</a>    <span class="k">def</span> <span class="nf">cria_registro</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">anterior</span><span class="p">:</span> <span class="n">Register</span><span class="p">,</span> <span class="n">registro</span><span class="p">:</span> <span class="n">Register</span><span class="p">):</span>
+<div class="viewcode-block" id="EolicaCadastro.cria_registro"><a class="viewcode-back" href="../../../reference/newave/arquivos/eolicacadastro.html#inewave.newave.eolicacadastro.EolicaCadastro.cria_registro">[documentos]</a>    <span class="k">def</span> <span class="nf">cria_registro</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">anterior</span><span class="p">:</span> <span class="n">Register</span><span class="p">,</span> <span class="n">registro</span><span class="p">:</span> <span class="n">Register</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Adiciona um registro ao arquivo após um outro registro previamente</span>
 <span class="sd">        existente.</span>
@@ -158,7 +160,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">add_after</span><span class="p">(</span><span class="n">anterior</span><span class="p">,</span> <span class="n">registro</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="EolicaCadastro.deleta_registro"><a class="viewcode-back" href="../../../reference/newave/arquivos/eolica-cadastro.html#inewave.newave.eolicacadastro.EolicaCadastro.deleta_registro">[documentos]</a>    <span class="k">def</span> <span class="nf">deleta_registro</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">registro</span><span class="p">:</span> <span class="n">Register</span><span class="p">):</span>
+<div class="viewcode-block" id="EolicaCadastro.deleta_registro"><a class="viewcode-back" href="../../../reference/newave/arquivos/eolicacadastro.html#inewave.newave.eolicacadastro.EolicaCadastro.deleta_registro">[documentos]</a>    <span class="k">def</span> <span class="nf">deleta_registro</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">registro</span><span class="p">:</span> <span class="n">Register</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Remove um registro existente no arquivo.</span>
 
@@ -167,7 +169,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">registro</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="EolicaCadastro.append_registro"><a class="viewcode-back" href="../../../reference/newave/arquivos/eolica-cadastro.html#inewave.newave.eolicacadastro.EolicaCadastro.append_registro">[documentos]</a>    <span class="k">def</span> <span class="nf">append_registro</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">registro</span><span class="p">:</span> <span class="n">Register</span><span class="p">):</span>
+<div class="viewcode-block" id="EolicaCadastro.append_registro"><a class="viewcode-back" href="../../../reference/newave/arquivos/eolicacadastro.html#inewave.newave.eolicacadastro.EolicaCadastro.append_registro">[documentos]</a>    <span class="k">def</span> <span class="nf">append_registro</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">registro</span><span class="p">:</span> <span class="n">Register</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Adiciona um registro ao arquivo na última posição.</span>
 <span class="sd">        Este método existe para retrocompatibilidade e deve ser substituído</span>
@@ -175,7 +177,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">registro</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="EolicaCadastro.preppend_registro"><a class="viewcode-back" href="../../../reference/newave/arquivos/eolica-cadastro.html#inewave.newave.eolicacadastro.EolicaCadastro.preppend_registro">[documentos]</a>    <span class="k">def</span> <span class="nf">preppend_registro</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">registro</span><span class="p">:</span> <span class="n">Register</span><span class="p">):</span>
+<div class="viewcode-block" id="EolicaCadastro.preppend_registro"><a class="viewcode-back" href="../../../reference/newave/arquivos/eolicacadastro.html#inewave.newave.eolicacadastro.EolicaCadastro.preppend_registro">[documentos]</a>    <span class="k">def</span> <span class="nf">preppend_registro</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">registro</span><span class="p">:</span> <span class="n">Register</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Adiciona um registro ao arquivo na primeira posição.</span>
 <span class="sd">        Este método existe para retrocompatibilidade e deve ser substituído</span>
@@ -183,7 +185,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">preppend</span><span class="p">(</span><span class="n">registro</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="EolicaCadastro.eolica_cadastro"><a class="viewcode-back" href="../../../reference/newave/arquivos/eolica-cadastro.html#inewave.newave.eolicacadastro.EolicaCadastro.eolica_cadastro">[documentos]</a>    <span class="k">def</span> <span class="nf">eolica_cadastro</span><span class="p">(</span>
+<div class="viewcode-block" id="EolicaCadastro.eolica_cadastro"><a class="viewcode-back" href="../../../reference/newave/arquivos/eolicacadastro.html#inewave.newave.eolicacadastro.EolicaCadastro.eolica_cadastro">[documentos]</a>    <span class="k">def</span> <span class="nf">eolica_cadastro</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">codigo_eolica</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">nome_eolica</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -209,7 +211,7 @@
             <span class="n">quantidade_conjuntos</span><span class="o">=</span><span class="n">quantidade_conjuntos</span><span class="p">,</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="EolicaCadastro.eolica_cadastro_conjunto_aerogeradores"><a class="viewcode-back" href="../../../reference/newave/arquivos/eolica-cadastro.html#inewave.newave.eolicacadastro.EolicaCadastro.eolica_cadastro_conjunto_aerogeradores">[documentos]</a>    <span class="k">def</span> <span class="nf">eolica_cadastro_conjunto_aerogeradores</span><span class="p">(</span>
+<div class="viewcode-block" id="EolicaCadastro.eolica_cadastro_conjunto_aerogeradores"><a class="viewcode-back" href="../../../reference/newave/arquivos/eolicacadastro.html#inewave.newave.eolicacadastro.EolicaCadastro.eolica_cadastro_conjunto_aerogeradores">[documentos]</a>    <span class="k">def</span> <span class="nf">eolica_cadastro_conjunto_aerogeradores</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">codigo_eolica</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">indice_conjunto</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -245,7 +247,7 @@
             <span class="n">quantidade_aerogeradores</span><span class="o">=</span><span class="n">quantidade_aerogeradores</span><span class="p">,</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="EolicaCadastro.eolica_cadastro_aerogerador"><a class="viewcode-back" href="../../../reference/newave/arquivos/eolica-cadastro.html#inewave.newave.eolicacadastro.EolicaCadastro.eolica_cadastro_aerogerador">[documentos]</a>    <span class="k">def</span> <span class="nf">eolica_cadastro_aerogerador</span><span class="p">(</span>
+<div class="viewcode-block" id="EolicaCadastro.eolica_cadastro_aerogerador"><a class="viewcode-back" href="../../../reference/newave/arquivos/eolicacadastro.html#inewave.newave.eolicacadastro.EolicaCadastro.eolica_cadastro_aerogerador">[documentos]</a>    <span class="k">def</span> <span class="nf">eolica_cadastro_aerogerador</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">codigo_eolica</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">indice_conjunto</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -302,7 +304,7 @@
             <span class="n">altura_torre</span><span class="o">=</span><span class="n">altura_torre</span><span class="p">,</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="EolicaCadastro.eolica_conjunto_aerogeradores_quantidade_operando_periodo"><a class="viewcode-back" href="../../../reference/newave/arquivos/eolica-cadastro.html#inewave.newave.eolicacadastro.EolicaCadastro.eolica_conjunto_aerogeradores_quantidade_operando_periodo">[documentos]</a>    <span class="k">def</span> <span class="nf">eolica_conjunto_aerogeradores_quantidade_operando_periodo</span><span class="p">(</span>
+<div class="viewcode-block" id="EolicaCadastro.eolica_conjunto_aerogeradores_quantidade_operando_periodo"><a class="viewcode-back" href="../../../reference/newave/arquivos/eolicacadastro.html#inewave.newave.eolicacadastro.EolicaCadastro.eolica_conjunto_aerogeradores_quantidade_operando_periodo">[documentos]</a>    <span class="k">def</span> <span class="nf">eolica_conjunto_aerogeradores_quantidade_operando_periodo</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">codigo_eolica</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">indice_conjunto</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -340,6 +342,46 @@
             <span class="n">periodo_inicial</span><span class="o">=</span><span class="n">periodo_inicial</span><span class="p">,</span>
             <span class="n">periodo_final</span><span class="o">=</span><span class="n">periodo_final</span><span class="p">,</span>
             <span class="n">numero_aerogeradores</span><span class="o">=</span><span class="n">numero_aerogeradores</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="EolicaCadastro.eolica_conjunto_aerogeradores_potencia_efetiva_periodo"><a class="viewcode-back" href="../../../reference/newave/arquivos/eolicacadastro.html#inewave.newave.eolicacadastro.EolicaCadastro.eolica_conjunto_aerogeradores_potencia_efetiva_periodo">[documentos]</a>    <span class="k">def</span> <span class="nf">eolica_conjunto_aerogeradores_potencia_efetiva_periodo</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">codigo_eolica</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">indice_conjunto</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">periodo_inicial</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">datetime</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">periodo_final</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">datetime</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">potencia_efetiva</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span>
+        <span class="n">Union</span><span class="p">[</span>
+            <span class="n">RegistroEolicaConjuntoAerogeradoresPotenciaEfetiva</span><span class="p">,</span>
+            <span class="n">List</span><span class="p">[</span><span class="n">RegistroEolicaConjuntoAerogeradoresPotenciaEfetiva</span><span class="p">],</span>
+        <span class="p">]</span>
+    <span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Obtém um registro que contém a potência efetiva por período</span>
+<span class="sd">        para um conjunto de aerogeradores.</span>
+
+<span class="sd">        :param codigo_eolica: código que especifica a usina</span>
+<span class="sd">        :type codigo_eolica: int | None</span>
+<span class="sd">        :param indice_conjunto: código do conjunto de geradores da usina</span>
+<span class="sd">        :type indice_conjunto: int | None</span>
+<span class="sd">        :param periodo_inicial: período de início de operação</span>
+<span class="sd">        :type periodo_inicial: datetime | None</span>
+<span class="sd">        :param periodo_final: período de fim de operação</span>
+<span class="sd">        :type periodo_final: datetime | None</span>
+<span class="sd">        :param potencia_efetiva: potência efetiva do conjunto de aerogeradores</span>
+<span class="sd">        :type potencia_efetiva: float | None</span>
+<span class="sd">        :return: Um ou mais registros, se existirem.</span>
+<span class="sd">        :rtype: :class:`RegistroEolicaConjuntoAerogeradoresPotenciaEfetiva` |</span>
+<span class="sd">            list[:class:`RegistroEolicaConjuntoAerogeradoresPotenciaEfetiva`] | None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__obtem_registros_com_filtros</span><span class="p">(</span>
+            <span class="n">RegistroEolicaConjuntoAerogeradoresPotenciaEfetiva</span><span class="p">,</span>
+            <span class="n">codigo_eolica</span><span class="o">=</span><span class="n">codigo_eolica</span><span class="p">,</span>
+            <span class="n">indice_conjunto</span><span class="o">=</span><span class="n">indice_conjunto</span><span class="p">,</span>
+            <span class="n">periodo_inicial</span><span class="o">=</span><span class="n">periodo_inicial</span><span class="p">,</span>
+            <span class="n">periodo_final</span><span class="o">=</span><span class="n">periodo_final</span><span class="p">,</span>
+            <span class="n">potencia_efetiva</span><span class="o">=</span><span class="n">potencia_efetiva</span><span class="p">,</span>
         <span class="p">)</span></div></div>
 </pre></div>
 

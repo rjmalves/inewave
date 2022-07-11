@@ -63,3 +63,11 @@ class DSVAgua(SectionFile):
         if b is not None:
             return b.data
         return None
+
+    @desvios.setter
+    def desvios(self, valor: pd.DataFrame):
+        b = self.__bloco_por_tipo(BlocoDsvUHE, 0)
+        if b is not None:
+            b.data = valor
+        else:
+            raise ValueError("Campo não lido")

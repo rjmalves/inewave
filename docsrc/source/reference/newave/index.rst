@@ -69,3 +69,8 @@ Arquivos
    arquivos/eafpast
    arquivos/parp
    arquivos/eolicacadastro
+   arquivos/eolicaconfiguracao
+   arquivos/eolicasubmercado
+   arquivos/eolicafte
+   arquivos/eolicahistorico
+   arquivos/eolicageracao

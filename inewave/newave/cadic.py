@@ -59,3 +59,11 @@ class CAdic(SectionFile):
         if b is not None:
             return b.data
         return None
+
+    @cargas.setter
+    def cargas(self, valor: pd.DataFrame):
+        b = self.__bloco_por_tipo(BlocoCargasAdicionais, 0)
+        if b is not None:
+            b.data = valor
+        else:
+            raise ValueError("Campo não lido")

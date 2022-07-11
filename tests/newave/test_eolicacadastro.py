@@ -5,6 +5,7 @@ from inewave.newave.modelos.eolicacadastro import (
     RegistroEolicaCadastroConjuntoAerogeradores,
     RegistroEolicaCadastroAerogerador,
     RegistroEolicaConjuntoAerogeradoresQuantidadeOperandoPeriodo,
+    RegistroEolicaConjuntoAerogeradoresPotenciaEfetiva,
 )
 
 from inewave.newave import EolicaCadastro
@@ -17,6 +18,7 @@ from tests.mocks.arquivos.eolicacadastro import (
     MockRegistroEolicaCadastroAerogerador,
     MockRegistroEolicaCadastroConjuntoAerogeradores,
     MockRegistroEolicaConjuntoAerogeradoresQuantidadeOperandoPeriodo,
+    MockRegistroEolicaConjuntoAerogeradoresPotenciaEfetiva,
     MockEolicaCadastro,
 )
 
@@ -117,6 +119,37 @@ def test_registro_cadastro_operacao_eolicacadastro():
     r.numero_aerogeradores = 3
 
 
+def test_registro_potenciaefetiva_eolicacadastro():
+
+    m: MagicMock = mock_open(
+        read_data="".join(
+            MockRegistroEolicaConjuntoAerogeradoresPotenciaEfetiva
+        )
+    )
+    r = RegistroEolicaConjuntoAerogeradoresPotenciaEfetiva()
+    with patch("builtins.open", m):
+        with open("", "") as fp:
+            r.read(fp)
+
+    assert r.data == [
+        1,
+        1,
+        datetime(2021, 1, 1),
+        datetime(2030, 12, 1),
+        6058.890,
+    ]
+    assert r.codigo_eolica == 1
+    r.codigo_eolica = 2
+    assert r.indice_conjunto == 1
+    r.indice_conjunto = 1
+    assert r.periodo_inicial == datetime(2021, 1, 1)
+    r.periodo_inicial = datetime(2024, 1, 1)
+    assert r.periodo_final == datetime(2030, 12, 1)
+    r.periodo_final = datetime(2025, 12, 1)
+    assert r.potencia_efetiva == 6058.890
+    r.potencia_efetiva = 5
+
+
 def test_atributos_encontrados_eolicacadastro():
     m: MagicMock = mock_open(read_data="".join(MockEolicaCadastro))
     with patch("builtins.open", m):
@@ -127,6 +160,9 @@ def test_atributos_encontrados_eolicacadastro():
         assert (
             len(e.eolica_conjunto_aerogeradores_quantidade_operando_periodo())
             > 0
+        )
+        assert (
+            len(e.eolica_conjunto_aerogeradores_potencia_efetiva_periodo()) > 0
         )
 
 

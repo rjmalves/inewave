@@ -8,6 +8,7 @@ from inewave.newave.modelos.eolicacadastro import (
     RegistroEolicaCadastroConjuntoAerogeradores,
     RegistroEolicaCadastroAerogerador,
     RegistroEolicaConjuntoAerogeradoresQuantidadeOperandoPeriodo,
+    RegistroEolicaConjuntoAerogeradoresPotenciaEfetiva,
 )
 
 
@@ -24,6 +25,7 @@ class EolicaCadastro(RegisterFile):
         RegistroEolicaCadastroConjuntoAerogeradores,
         RegistroEolicaCadastro,
         RegistroEolicaConjuntoAerogeradoresQuantidadeOperandoPeriodo,
+        RegistroEolicaConjuntoAerogeradoresPotenciaEfetiva,
     ]
 
     def __init__(self, data=...) -> None:
@@ -267,4 +269,44 @@ class EolicaCadastro(RegisterFile):
             periodo_inicial=periodo_inicial,
             periodo_final=periodo_final,
             numero_aerogeradores=numero_aerogeradores,
+        )
+
+    def eolica_conjunto_aerogeradores_potencia_efetiva_periodo(
+        self,
+        codigo_eolica: Optional[int] = None,
+        indice_conjunto: Optional[int] = None,
+        periodo_inicial: Optional[datetime] = None,
+        periodo_final: Optional[datetime] = None,
+        potencia_efetiva: Optional[float] = None,
+    ) -> Optional[
+        Union[
+            RegistroEolicaConjuntoAerogeradoresPotenciaEfetiva,
+            List[RegistroEolicaConjuntoAerogeradoresPotenciaEfetiva],
+        ]
+    ]:
+        """
+        Obtém um registro que contém a potência efetiva por período
+        para um conjunto de aerogeradores.
+
+        :param codigo_eolica: código que especifica a usina
+        :type codigo_eolica: int | None
+        :param indice_conjunto: código do conjunto de geradores da usina
+        :type indice_conjunto: int | None
+        :param periodo_inicial: período de início de operação
+        :type periodo_inicial: datetime | None
+        :param periodo_final: período de fim de operação
+        :type periodo_final: datetime | None
+        :param potencia_efetiva: potência efetiva do conjunto de aerogeradores
+        :type potencia_efetiva: float | None
+        :return: Um ou mais registros, se existirem.
+        :rtype: :class:`RegistroEolicaConjuntoAerogeradoresPotenciaEfetiva` |
+            list[:class:`RegistroEolicaConjuntoAerogeradoresPotenciaEfetiva`] | None
+        """
+        return self.__obtem_registros_com_filtros(
+            RegistroEolicaConjuntoAerogeradoresPotenciaEfetiva,
+            codigo_eolica=codigo_eolica,
+            indice_conjunto=indice_conjunto,
+            periodo_inicial=periodo_inicial,
+            periodo_final=periodo_final,
+            potencia_efetiva=potencia_efetiva,
         )

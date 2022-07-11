@@ -37,3 +37,6 @@ para cada um.
 
 .. autoclass:: RegistroEolicaConjuntoAerogeradoresQuantidadeOperandoPeriodo
    :members:
+
+.. autoclass:: RegistroEolicaConjuntoAerogeradoresPotenciaEfetiva
+   :members:

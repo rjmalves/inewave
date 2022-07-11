@@ -1170,7 +1170,12 @@ class BlocoTipoSimFinal(Section):
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line(
-            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(51, 28)]
+            [
+                LiteralField(24, 0),
+                IntegerField(1, 24),
+                IntegerField(1, 28),
+                LiteralField(76, 30),
+            ]
         )
 
     def __eq__(self, o: object) -> bool:
@@ -1194,18 +1199,18 @@ class BlocoTipoSimFinal(Section):
         file.write(self.__linha.write(self.data))
 
     @property
-    def valor(self) -> Optional[int]:
+    def valor(self) -> List[int]:
         """
         O valor da opção configurada
 
         :return: O tipo de simulação final
-        :rtype: int
+        :rtype: list[int | None]
         """
-        return self.data[1]
+        return self.data[1:3]
 
     @valor.setter
-    def valor(self, v: int):
-        self.data[1] = v
+    def valor(self, v: List[int]):
+        self.data[1:3] = v
 
 
 class BlocoImpressaoOperacao(Section):
@@ -4198,6 +4203,100 @@ class BlocoCompensacaoCorrelacaoCruzada(Section):
         :return: A consideração ou não da compensação da
             correlação cruzada.
         :rtype: int
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
+
+
+class BlocoConsideracaoDefluenciaMaxima(Section):
+    """
+    Bloco com a escolha da consideração, ou não, das restrições de
+    defluência máxima nos períodos individualizados do NEWAVE.
+    """
+
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(33, 28)]
+        )
+
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoConsideracaoDefluenciaMaxima):
+            return False
+        bloco: BlocoConsideracaoDefluenciaMaxima = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
+
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
+
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data))
+
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: A consideração ou não da restrição
+        :rtype: int | None
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
+
+
+class BlocoConsideracaoTurbinamentoMinimoMaximo(Section):
+    """
+    Bloco com a escolha da consideração, ou não, das restrições de
+    turbinamento mínimo e máximo nos períodos individualizados do NEWAVE.
+    """
+
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(120, 28)]
+        )
+
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoConsideracaoTurbinamentoMinimoMaximo):
+            return False
+        bloco: BlocoConsideracaoTurbinamentoMinimoMaximo = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
+
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
+
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data))
+
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: A opção de consideração da restrição
+        :rtype: int | None
         """
         return self.data[1]
 
