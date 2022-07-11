@@ -59,7 +59,9 @@ Arquivos
    arquivos/cadic
    arquivos/curva
    arquivos/re
+   arquivos/ree
    arquivos/sistema
+   arquivos/penalid
    arquivos/patamar
    arquivos/pmo
    arquivos/confhd
