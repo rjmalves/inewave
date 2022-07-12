@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="pt-BR" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Geração Eólica Total por Submercado (geolm00x.out) &mdash; documentação inewave 0.0.58</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/sg_gallery.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/sg_gallery-binder.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/sg_gallery-dataframe.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/sg_gallery-rendered-html.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/translations.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Índice" href="../../../genindex.html" />
+    <link rel="search" title="Buscar" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> inewave
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Pesquisar documentos" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Menu de navegação">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Instalação</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reference.html">Referência</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Menu de navegação móvel" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">inewave</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Navegação da página">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Geração Eólica Total por Submercado (geolm00x.out)</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/reference/nwlistop/arquivos/geolm.rst.txt" rel="nofollow"> Ver código-fonte da página</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="geracao-eolica-total-por-submercado-geolm00x-out">
+<span id="geolm"></span><h1>Geração Eólica Total por Submercado (geolm00x.out)<a class="headerlink" href="#geracao-eolica-total-por-submercado-geolm00x-out" title="Link permanente para este cabeçalho"></a></h1>
+<section id="visao-geral-do-modelo">
+<h2>Visão geral do modelo<a class="headerlink" href="#visao-geral-do-modelo" title="Link permanente para este cabeçalho"></a></h2>
+<p>Os valores de geração eólica total por Submercado, localizados nos arquivos geralmente denominados
+geolm00x.out, onde x varia conforme o Submercado, são armazenados na classe:</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="inewave.nwlistop.geolm.Geolm">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Geolm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">Ellipsis</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/nwlistop/geolm.html#Geolm"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.nwlistop.geolm.Geolm" title="Link permanente para esta definição"></a></dt>
+<dd><p>Armazena os dados das saídas referentes à geração eólica total
+por patamar, por submercado.</p>
+<p>Esta classe lida com as informações de saída fornecidas pelo
+NWLISTOP e reproduzidas nos <code class="xref py py-obj docutils literal notranslate"><span class="pre">geolm00.out</span></code>, onde x varia conforme o
+submercado em questão.</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.nwlistop.geolm.Geolm.geracao">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">geracao</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">DataFrame</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#inewave.nwlistop.geolm.Geolm.geracao" title="Link permanente para esta definição"></a></dt>
+<dd><p>Tabela com a geração eólica total por série e
+por mês/ano de estudo.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Retorna</dt>
+<dd class="field-odd"><p>A tabela da geração eólica.</p>
+</dd>
+<dt class="field-even">Tipo de retorno</dt>
+<dd class="field-even"><p>Optional[pd.DataFrame]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.nwlistop.geolm.Geolm.submercado">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">submercado</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#inewave.nwlistop.geolm.Geolm.submercado" title="Link permanente para esta definição"></a></dt>
+<dd><p>O submercado associado ao arquivo lido.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Retorna</dt>
+<dd class="field-odd"><p>O nome do submercado</p>
+</dd>
+<dt class="field-even">Tipo de retorno</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Rogerio José Menezes Alves.</p>
+  </div>
+
+  Compilado com <a href="https://www.sphinx-doc.org/">Sphinx</a> usando um
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">tema</a>
+    fornecido por <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

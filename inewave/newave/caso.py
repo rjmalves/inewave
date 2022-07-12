@@ -54,7 +54,7 @@ class Caso(SectionFile):
         Caminho para o arquivo `arquivos.dat` de entrada do NEWAVE.
 
         :return: O caminho para o arquivo
-        :rtype: Optional[str]
+        :rtype: str | None
         """
         b = self.__bloco_por_tipo(NomeCaso, 0)
         if b is not None:
@@ -67,7 +67,7 @@ class Caso(SectionFile):
         Caminho para o gerenciador de processos do NEWAVE.
 
         :return: O caminho para o arquivo
-        :rtype: Optional[str]
+        :rtype: str | None
         """
         b = self.__bloco_por_tipo(CaminhoGerenciadorProcessos, 0)
         if b is not None:

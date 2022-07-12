@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>inewave.newave.confhd &mdash; documentação inewave 0.0.56</title>
+  <title>inewave.newave.confhd &mdash; documentação inewave 0.0.58</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/sg_gallery.css" type="text/css" />
@@ -127,8 +127,19 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Tabela com as usinas.</span>
 
+<span class="sd">        - Número (`int`)</span>
+<span class="sd">        - Nome (`str`)</span>
+<span class="sd">        - Posto (`int`)</span>
+<span class="sd">        - Jusante (`int`)</span>
+<span class="sd">        - REE (`int`)</span>
+<span class="sd">        - Volume Inicial (`float`)</span>
+<span class="sd">        - Usina Existente (`str`)</span>
+<span class="sd">        - Modificada (`int`)</span>
+<span class="sd">        - Início do Histórico (`int`)</span>
+<span class="sd">        - Fim do Histórico (`int`)</span>
+
 <span class="sd">        :return: A tabela como um DataFrame</span>
-<span class="sd">        :rtype: Optional[pd.DataFrame]</span>
+<span class="sd">        :rtype: pd.DataFrame | None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__bloco_por_tipo</span><span class="p">(</span><span class="n">BlocoConfUHE</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">b</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>

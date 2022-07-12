@@ -1,0 +1,16 @@
+.. _geol:
+
+====================================================================
+Geração Eólica Total por PEE (geol00x.out)
+====================================================================
+
+.. currentmodule:: inewave.nwlistop.geol
+
+Visão geral do modelo
+======================
+
+Os valores de geração eólica por PEE, localizados nos arquivos geralmente denominados
+geol00x.out, onde x varia conforme o PEE, são armazenados na classe:
+
+.. autoclass:: Geol
+   :members:

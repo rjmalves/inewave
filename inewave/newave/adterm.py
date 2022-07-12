@@ -51,8 +51,13 @@ class AdTerm(SectionFile):
         """
         A tabela de espachos antecipados das térmicas GNL.
 
+        - Código UTE (`int`)
+        - Nome UTE (`str`)
+        - Lag (`int`)
+        - Patamar [1-p] (`float`), onde p é o número de patamares.
+
         :return: A tabela como um DataFrame
-        :rtype: Optional[pd.DataFrame]
+        :rtype: pd.DataFrame | None
         """
         b = self.__bloco_por_tipo(BlocoUTEAdTerm, 0)
         if b is not None:

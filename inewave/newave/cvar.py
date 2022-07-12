@@ -59,7 +59,7 @@ class CVAR(BlockFile):
         Valores constantes dos parâmetros ALFA e LAMBDA do CVAR.
 
         :return: Os valores dos campos da linha como uma lista.
-        :rtype: Optional[list]
+        :rtype: list | None
         """
         b = self.__bloco_por_tipo(BlocoValoresConstantesCVAR, 0)
         if b is not None:
@@ -72,7 +72,7 @@ class CVAR(BlockFile):
         Valores constantes dos parâmetros ALFA e LAMBDA do CVAR.
 
         :return: Os valores dos campos da linha como uma lista.
-        :rtype: Optional[list]
+        :rtype: list | None
         """
         b = self.__bloco_por_tipo(BlocoValoresConstantesCVAR, 0)
         if b is not None:
@@ -85,8 +85,14 @@ class CVAR(BlockFile):
         """
         Tabela com os valores variáveis do CVAR para o parâmetro ALFA.
 
-        :return: Os custos por REE em um DataFrame.
-        :rtype: Optional[pd.DataFrame]
+        - Ano (`str`)
+        - Janeiro (`float`)
+        - Fevereiro (`float`)
+        - ...
+        - Dezembro (`float`)
+
+        :return: O valor de ALFA por estágio em um DataFrame.
+        :rtype: pd.DataFrame | None
         """
         b = self.__bloco_por_tipo(BlocoAlfaVariavelNoTempo, 0)
         if b is not None:
@@ -98,8 +104,14 @@ class CVAR(BlockFile):
         """
         Tabela com os valores variáveis do CVAR para o parâmetro LAMBDA.
 
-        :return: Os custos por REE em um DataFrame.
-        :rtype: Optional[pd.DataFrame]
+        - Ano (`str`)
+        - Janeiro (`float`)
+        - Fevereiro (`float`)
+        - ...
+        - Dezembro (`float`)
+
+        :return: O valor de LAMBDA por estágio em um DataFrame.
+        :rtype: pd.DataFrame | None
         """
         b = self.__bloco_por_tipo(BlocoLambdaVariavelNoTempo, 0)
         if b is not None:

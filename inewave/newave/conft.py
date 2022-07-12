@@ -50,8 +50,14 @@ class ConfT(SectionFile):
         """
         Tabela com as usinas.
 
+        - Número (`int`)
+        - Nome (`str`)
+        - Subsistema (`int`)
+        - Usina Existente (`str`)
+        - Classe (`int`)
+
         :return: A tabela como um DataFrame
-        :rtype: Optional[pd.DataFrame]
+        :rtype: pd.DataFrame | None
         """
         b = self.__bloco_por_tipo(BlocoConfUTE, 0)
         if b is not None:

@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Configurações das Hidrelétricas (confhd.dat) &mdash; documentação inewave 0.0.57</title>
+  <title>Configurações das Hidrelétricas (confhd.dat) &mdash; documentação inewave 0.0.58</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/sg_gallery.css" type="text/css" />
@@ -55,7 +55,9 @@
 <li class="toctree-l4"><a class="reference internal" href="cadic.html">Cargas Adicionais (c_adic.dat)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="curva.html">Curva de Segurança dos Armazenamentos (curva.dat)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="re.html">Restrições Elétricas (re.dat)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ree.html">Reservatórios Equivalentes de Energia (ree.dat)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="sistema.html">Subsistemas ou Submercados de Energia (sistema.dat)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="penalid.html">Penalidades (penalid.dat)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="patamar.html">Patamares de Carga (patamar.dat)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="pmo.html">Acompanhamento do Programa (pmo.dat)</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">Configurações das Hidrelétricas (confhd.dat)</a></li>
@@ -123,12 +125,24 @@ que podem ser modificadas através do arquivo <code class="xref py py-obj docuti
 <dt class="sig sig-object py" id="inewave.newave.confhd.Confhd.usinas">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">usinas</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">DataFrame</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#inewave.newave.confhd.Confhd.usinas" title="Link permanente para esta definição"></a></dt>
 <dd><p>Tabela com as usinas.</p>
+<ul class="simple">
+<li><p>Número (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>)</p></li>
+<li><p>Nome (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>)</p></li>
+<li><p>Posto (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>)</p></li>
+<li><p>Jusante (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>)</p></li>
+<li><p>REE (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>)</p></li>
+<li><p>Volume Inicial (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>)</p></li>
+<li><p>Usina Existente (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>)</p></li>
+<li><p>Modificada (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>)</p></li>
+<li><p>Início do Histórico (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>)</p></li>
+<li><p>Fim do Histórico (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>)</p></li>
+</ul>
 <dl class="field-list simple">
 <dt class="field-odd">Retorna</dt>
 <dd class="field-odd"><p>A tabela como um DataFrame</p>
 </dd>
 <dt class="field-even">Tipo de retorno</dt>
-<dd class="field-even"><p>Optional[pd.DataFrame]</p>
+<dd class="field-even"><p>pd.DataFrame | None</p>
 </dd>
 </dl>
 </dd></dl>

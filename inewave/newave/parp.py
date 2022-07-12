@@ -251,8 +251,16 @@ class PARp(BlockFile):
         A tabela de séries de energia para todas as configurações
         e REEs, no mesmo formato do arquivo `parp.dat`.
 
+        - REE (`str`)
+        - Configuração (`int`)
+        - Ano (`int`)
+        - Janeiro (`float`)
+        - Fevereiro (`float`)
+        - ...
+        - Dezembro (`float`)
+
         :return: A tabela como um DataFrame.
-        :rtype: Optional[pd.DataFrame]
+        :rtype: pd.DataFrame | None
         """
         if self.__series_energia is None:
             self.__series_energia = self.__concatena_dados(

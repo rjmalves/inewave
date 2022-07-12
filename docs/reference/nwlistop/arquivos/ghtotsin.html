@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Geração Hidráulica Total para o SIN (ghtotsin.out) &mdash; documentação inewave 0.0.57</title>
+  <title>Geração Hidráulica Total para o SIN (ghtotsin.out) &mdash; documentação inewave 0.0.58</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/sg_gallery.css" type="text/css" />
@@ -24,7 +24,7 @@
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Índice" href="../../../genindex.html" />
     <link rel="search" title="Buscar" href="../../../search.html" />
-    <link rel="next" title="Geração Térmica Total por Submercado (gttot00x.out)" href="gttot00.html" />
+    <link rel="next" title="Geração Eólica Total para o SIN (geolsin.out)" href="geolsin.html" />
     <link rel="prev" title="Geração Hidráulica Total por Submercado (ghtotm00x.out)" href="ghtotm00.html" /> 
 </head>
 
@@ -63,6 +63,7 @@
 <li class="toctree-l4"><a class="reference internal" href="ghtot00.html">Geração Hidráulica Total por REE (ghtot00x.out)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ghtotm00.html">Geração Hidráulica Total por Submercado (ghtotm00x.out)</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">Geração Hidráulica Total para o SIN (ghtotsin.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geolsin.html">Geração Eólica Total para o SIN (geolsin.out)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="gttot00.html">Geração Térmica Total por Submercado (gttot00x.out)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="gttotsin.html">Geração Térmica Total para o SIN (gttotsin.out)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="mediasmerc.html">Médias por Submercado (MEDIAS-MERC.CSV)</a></li>
@@ -112,11 +113,10 @@ ghtotsin.out são armazenados na classe:</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="inewave.nwlistop.ghtotsin.GhtotSIN">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">GhtotSIN</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">Ellipsis</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/nwlistop/ghtotsin.html#GhtotSIN"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.nwlistop.ghtotsin.GhtotSIN" title="Link permanente para esta definição"></a></dt>
-<dd><p>Armazena os dados das saídas referentes às energias
-armazenadas finais para o SIN e em % da energia armazenável máxima.</p>
+<dd><p>Armazena os dados das saídas referentes à geração hidraulica total
+por patamar para o SIN.</p>
 <p>Esta classe lida com as informações de saída fornecidas pelo
-NWLISTOP e reproduzidas nos <code class="xref py py-obj docutils literal notranslate"><span class="pre">earmfpsin.out</span></code>, onde x varia conforme o
-submercado em questão.</p>
+NWLISTOP e reproduzidas nos <code class="xref py py-obj docutils literal notranslate"><span class="pre">ghtotsin.out</span></code>.</p>
 <dl class="py property">
 <dt class="sig sig-object py" id="inewave.nwlistop.ghtotsin.GhtotSIN.geracao">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">geracao</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">DataFrame</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#inewave.nwlistop.ghtotsin.GhtotSIN.geracao" title="Link permanente para esta definição"></a></dt>
@@ -142,7 +142,7 @@ por mês/ano de estudo.</p>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Rodapé">
         <a href="ghtotm00.html" class="btn btn-neutral float-left" title="Geração Hidráulica Total por Submercado (ghtotm00x.out)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Anterior</a>
-        <a href="gttot00.html" class="btn btn-neutral float-right" title="Geração Térmica Total por Submercado (gttot00x.out)" accesskey="n" rel="next">Próximo <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="geolsin.html" class="btn btn-neutral float-right" title="Geração Eólica Total para o SIN (geolsin.out)" accesskey="n" rel="next">Próximo <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

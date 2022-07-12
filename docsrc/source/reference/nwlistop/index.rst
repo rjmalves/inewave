@@ -74,6 +74,9 @@ Arquivos
    arquivos/ghtot00
    arquivos/ghtotm00
    arquivos/ghtotsin
+   arquivos/geol
+   arquivos/geolm
+   arquivos/geolsin
    arquivos/gttot00
    arquivos/gttotsin
    arquivos/mediasmerc

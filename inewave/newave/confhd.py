@@ -54,8 +54,19 @@ class Confhd(SectionFile):
         """
         Tabela com as usinas.
 
+        - Número (`int`)
+        - Nome (`str`)
+        - Posto (`int`)
+        - Jusante (`int`)
+        - REE (`int`)
+        - Volume Inicial (`float`)
+        - Usina Existente (`str`)
+        - Modificada (`int`)
+        - Início do Histórico (`int`)
+        - Fim do Histórico (`int`)
+
         :return: A tabela como um DataFrame
-        :rtype: Optional[pd.DataFrame]
+        :rtype: pd.DataFrame | None
         """
         b = self.__bloco_por_tipo(BlocoConfUHE, 0)
         if b is not None:

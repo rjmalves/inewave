@@ -56,6 +56,13 @@ class EafPast(SectionFile):
         """
         Tabela com a tendência hidrológica por REE.
 
+        - Índice (`int`)
+        - REE (`str`)
+        - Janeiro (`float`)
+        - Fevereiro (`float`)
+        - ...
+        - Dezembro (`float`)
+
         :return: A tabela como um DataFrame
         :rtype: Optional[pd.DataFrame]
         """

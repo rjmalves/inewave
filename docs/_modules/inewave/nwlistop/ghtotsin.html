@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>inewave.nwlistop.ghtotsin &mdash; documentação inewave 0.0.55</title>
+  <title>inewave.nwlistop.ghtotsin &mdash; documentação inewave 0.0.58</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/sg_gallery.css" type="text/css" />
@@ -80,12 +80,11 @@
 
 <div class="viewcode-block" id="GhtotSIN"><a class="viewcode-back" href="../../../reference/nwlistop/arquivos/ghtotsin.html#inewave.nwlistop.ghtotsin.GhtotSIN">[documentos]</a><span class="k">class</span> <span class="nc">GhtotSIN</span><span class="p">(</span><span class="n">BlockFile</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Armazena os dados das saídas referentes às energias</span>
-<span class="sd">    armazenadas finais para o SIN e em % da energia armazenável máxima.</span>
+<span class="sd">    Armazena os dados das saídas referentes à geração hidraulica total</span>
+<span class="sd">    por patamar para o SIN.</span>
 
 <span class="sd">    Esta classe lida com as informações de saída fornecidas pelo</span>
-<span class="sd">    NWLISTOP e reproduzidas nos `earmfpsin.out`, onde x varia conforme o</span>
-<span class="sd">    submercado em questão.</span>
+<span class="sd">    NWLISTOP e reproduzidas nos `ghtotsin.out`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">T</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;T&quot;</span><span class="p">)</span>

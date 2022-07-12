@@ -56,8 +56,16 @@ class DSVAgua(SectionFile):
         """
         Tabela com os desvios de água por usina e por estágio.
 
+        - Ano (`int`)
+        - Usina (`int`)
+        - Janeiro (`float`)
+        - Fevereiro (`float`)
+        - ...
+        - Dezembro (`float`)
+        - Flag (`int`)
+
         :return: A tabela como um DataFrame
-        :rtype: Optional[pd.DataFrame]
+        :rtype: pd.DataFrame | None
         """
         b = self.__bloco_por_tipo(BlocoDsvUHE, 0)
         if b is not None:

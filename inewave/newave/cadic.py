@@ -50,10 +50,19 @@ class CAdic(SectionFile):
     def cargas(self) -> Optional[pd.DataFrame]:
         """
         Tabela com as cargas adicionais por mês/ano e por subsistema
-        para cada razão de carga adicional.
+        para cada razão de carga adicional. As colunas são:
+
+        - Código Subsistema (`int`)
+        - Nome Subsistema (`str`)
+        - Razão (`str`)
+        - Ano (`str`)
+        - Janeiro (`float`)
+        - Fevereiro (`float`)
+        - ...
+        - Dezembro (`float`)
 
         :return: A tabela como um DataFrame
-        :rtype: Optional[pd.DataFrame]
+        :rtype: pd.DataFrame | None
         """
         b = self.__bloco_por_tipo(BlocoCargasAdicionais, 0)
         if b is not None:

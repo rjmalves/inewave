@@ -7,12 +7,11 @@ from typing import TypeVar, Optional
 
 class GhtotSIN(BlockFile):
     """
-    Armazena os dados das saídas referentes às energias
-    armazenadas finais para o SIN e em % da energia armazenável máxima.
+    Armazena os dados das saídas referentes à geração hidraulica total
+    por patamar para o SIN.
 
     Esta classe lida com as informações de saída fornecidas pelo
-    NWLISTOP e reproduzidas nos `earmfpsin.out`, onde x varia conforme o
-    submercado em questão.
+    NWLISTOP e reproduzidas nos `ghtotsin.out`.
     """
 
     T = TypeVar("T")

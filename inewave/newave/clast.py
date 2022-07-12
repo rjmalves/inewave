@@ -54,8 +54,13 @@ class ClasT(SectionFile):
         """
         Tabela com as usinas e seus custos.
 
+        - Número (`int`)
+        - Nome (`str`)
+        - Tipo Combustível (`str`)
+        - Custo [1-5] (`float`)
+
         :return: A tabela como um DataFrame
-        :rtype: Optional[pd.DataFrame]
+        :rtype: pd.DataFrame | None
         """
         b = self.__bloco_por_tipo(BlocoUTEClasT, 0)
         if b is not None:
@@ -76,8 +81,16 @@ class ClasT(SectionFile):
         Tabela com as modificações de custos das usinas
         organizadas por usina.
 
+        - Número (`int`)
+        - Custo (`float`)
+        - Mês Início (`int`)
+        - Ano Início (`int`)
+        - Mês Fim (`int`)
+        - Ano Fim (`int`)
+        - Nome (`str`)
+
         :return: A tabela como um DataFrame
-        :rtype: Optional[pd.DataFrame]
+        :rtype: pd.DataFrame | None
         """
         b = self.__bloco_por_tipo(BlocoModificacaoUTEClasT, 0)
         if b is not None:
