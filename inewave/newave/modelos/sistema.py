@@ -472,9 +472,7 @@ class BlocoGeracaoUsinasNaoSimuladas(Section):
                 tabela, columns=["Subsistema", "Bloco", "Ano"] + MESES_DF
             )
             df["Razão"] = razoes
-            df = df.astype(
-                {"Subsistema": "int64", "Bloco": "int64", "Ano": "int64"}
-            )
+            df = df.astype({"Subsistema": "int64", "Ano": "int64"})
             df = df[["Subsistema", "Bloco", "Razão", "Ano"] + MESES_DF]
             return df
 
@@ -543,15 +541,23 @@ class BlocoGeracaoUsinasNaoSimuladas(Section):
                 ]
             ):
                 ultimo_ano = 0
-                ultimo_subsistema = linha_lida["Subsistema"]
-                ultimo_bloco = linha_lida["Bloco"]
-                ultima_razao = linha_lida["Razão"]
+                ultimo_subsistema = int(linha_lida["Subsistema"])
+                ultimo_bloco = (
+                    int(linha_lida["Bloco"])
+                    if not np.isnan(linha_lida["Bloco"])
+                    else None
+                )
+                ultima_razao = (
+                    str(linha_lida["Razão"])
+                    if not linha_lida["Razão"] is None
+                    else None
+                )
                 file.write(
                     self.__linha_subsis.write(
                         [
-                            int(ultimo_subsistema),
-                            int(ultimo_bloco),
-                            str(ultima_razao),
+                            ultimo_subsistema,
+                            ultimo_bloco,
+                            ultima_razao,
                         ]
                     )
                 )
@@ -561,7 +567,9 @@ class BlocoGeracaoUsinasNaoSimuladas(Section):
                 else None
             )
             ultimo_ano = int(linha_lida["Ano"])
-            file.write(
-                self.__linha.write([ano_linha] + linha_lida[MESES_DF].tolist())
-            )
+            dados_linha = linha_lida[MESES_DF].tolist()
+            dados_linha_escrita = []
+            for d in dados_linha:
+                dados_linha_escrita.append(d if not np.isnan(d) else None)
+            file.write(self.__linha.write([ano_linha] + dados_linha_escrita))
         file.write(BlocoGeracaoUsinasNaoSimuladas.FIM_BLOCO + "\n")
