@@ -300,9 +300,11 @@ class BlocoIntercambioSubsistema(Section):
                 else None
             )
             ultimo_ano = int(linha_lida["Ano"])
-            file.write(
-                self.__linha.write([ano_linha] + linha_lida[MESES_DF].tolist())
-            )
+            dados_linha = linha_lida[MESES_DF].tolist()
+            dados_linha_escrita = []
+            for d in dados_linha:
+                dados_linha_escrita.append(d if not np.isnan(d) else None)
+            file.write(self.__linha.write([ano_linha] + dados_linha_escrita))
         file.write(BlocoIntercambioSubsistema.FIM_BLOCO + "\n")
 
 
@@ -424,9 +426,11 @@ class BlocoMercadoEnergiaSistema(Section):
                 linha_lida["Ano"] if linha_lida["Ano"] != ultimo_ano else None
             )
             ultimo_ano = linha_lida["Ano"]
-            file.write(
-                self.__linha.write([ano_linha] + linha_lida[MESES_DF].tolist())
-            )
+            dados_linha = linha_lida[MESES_DF].tolist()
+            dados_linha_escrita = []
+            for d in dados_linha:
+                dados_linha_escrita.append(d if not np.isnan(d) else None)
+            file.write(self.__linha.write([ano_linha] + dados_linha_escrita))
         file.write(BlocoMercadoEnergiaSistema.FIM_BLOCO + "\n")
 
 
