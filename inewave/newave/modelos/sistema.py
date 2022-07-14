@@ -69,7 +69,7 @@ class BlocoCustosDeficit(Section):
         super().__init__(previous, next, data)
         campos_iniciais: List[Field] = [
             IntegerField(3, 1),
-            LiteralField(13, 5),
+            LiteralField(12, 5),
             IntegerField(1, 17),
         ]
         campos_custos: List[Field] = [
@@ -141,9 +141,15 @@ class BlocoCustosDeficit(Section):
             raise ValueError(
                 "Dados do sistema.dat não foram lidos com sucesso"
             )
-
+        cols = [f"Custo Pat. {p}" for p in range(1, 5)] + [
+            f"Corte Pat. {p}" for p in range(1, 5)
+        ]
         for _, linha_dados in self.data.iterrows():
-            file.write(self.__linha.write(linha_dados))
+            dados_linha = linha_dados[cols].tolist()
+            dados_linha_escrita = linha_dados.tolist()[:3].tolist()
+            for d in dados_linha:
+                dados_linha_escrita.append(d if not np.isnan(d) else None)
+            file.write(self.__linha.write(dados_linha_escrita))
         file.write(BlocoCustosDeficit.FIM_BLOCO + "\n")
 
 
