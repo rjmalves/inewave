@@ -6,7 +6,7 @@ from cfinterface.components.field import Field
 from cfinterface.components.literalfield import LiteralField
 from cfinterface.components.integerfield import IntegerField
 from cfinterface.components.floatfield import FloatField
-from typing import List, IO
+from typing import List, IO, Optional
 import pandas as pd  # type: ignore
 import numpy as np  # type: ignore
 
@@ -528,8 +528,8 @@ class BlocoGeracaoUsinasNaoSimuladas(Section):
             )
 
         ultimo_subsistema = 0
-        ultimo_bloco = 0
-        ultima_razao = ""
+        ultimo_bloco: Optional[int] = 0
+        ultima_razao: Optional[str] = ""
 
         for _, linha in self.data.iterrows():
             linha_lida: pd.Series = linha
