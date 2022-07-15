@@ -50,8 +50,25 @@ class Estados(BlockFile):
         """
         Tabela com os estados visitados na construção da FCF.
 
+        - PERIODO (`int`)
+        - IREG (`int`)
+        - ITEc (`int`)
+        - SIMc (`int`)
+        - ITEf (`int`)
+        - REE (`int`)
+        - FUNC. OBJ. (`float`)
+        - EARM (`float`)
+        - EAF 1 (`float`)
+        - ...
+        - EAF 6 (`float`)
+        - SGT(P1E1) (`float`)
+        - ...
+        - SGT(P3E2) (`float`)
+        - MX_SAR (`float`)
+        - MX_CURVA (`float`)
+
         :return: A tabela de estados como um DataFrame
-        :rtype: Optional[pd.DataFrame]
+        :rtype: pd.DataFrame | None
         """
         if self.__estados_periodos is None:
             self.__estados_periodos = self.__monta_tabela_estados()

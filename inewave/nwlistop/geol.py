@@ -72,8 +72,15 @@ class Geol(BlockFile):
         Tabela com a geração eólica total por série e
         por mês/ano de estudo.
 
+        - Ano (`int`)
+        - Série (`int`)
+        - Patamar (`str`)
+        - Janeiro (`float`)
+        - ...
+        - Dezembro (`float`)
+
         :return: A tabela da geração eólica.
-        :rtype: Optional[pd.DataFrame]
+        :rtype: pd.DataFrame
         """
         if self.__geracao is None:
             self.__geracao = self.__monta_tabela()

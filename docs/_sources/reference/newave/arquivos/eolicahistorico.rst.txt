@@ -6,9 +6,6 @@ Histórico de Vento das Usinas Eólicas (hist-ventos.csv)
 
 .. currentmodule:: inewave.newave.eolicahistorico
 
-Visão geral do modelo
-======================
-
 As informações dos históricos de vento das usinas eólicas com os submercados no NEWAVE, localizadas no arquivo geralmente denominado
 hist-ventos.csv, são armazenadas na classe:
 
@@ -18,9 +15,6 @@ hist-ventos.csv, são armazenadas na classe:
 
 .. currentmodule:: inewave.newave.modelos.eolicahistorico
 
-
-Campos
-======================
 
 As informações existentes em cada um dos campos são armazenadas em modelos próprios
 para cada um.

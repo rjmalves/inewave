@@ -6,8 +6,6 @@ Geração Eólica Total por Submercado (geolm00x.out)
 
 .. currentmodule:: inewave.nwlistop.geolm
 
-Visão geral do modelo
-======================
 
 Os valores de geração eólica total por Submercado, localizados nos arquivos geralmente denominados
 geolm00x.out, onde x varia conforme o Submercado, são armazenados na classe:

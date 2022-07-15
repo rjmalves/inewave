@@ -73,8 +73,14 @@ class VarmUH(BlockFile):
         Tabela com valores de armazenamento por série e
         por mês/ano de estudo.
 
+        - Ano (`int`)
+        - Série (`int`)
+        - Janeiro (`float`)
+        - ...
+        - Dezembro (`float`)
+
         :return: A tabela dos valores de armazenamento.
-        :rtype: Optional[pd.DataFrame]
+        :rtype: pd.DataFrame
         """
         if self.__varmuh is None:
             self.__varmuh = self.__monta_tabela()

@@ -49,8 +49,14 @@ class Coper(BlockFile):
         Tabela com os custos por série e
         por mês/ano de estudo.
 
+        - Ano (`int`)
+        - Série (`int`)
+        - Janeiro (`float`)
+        - ...
+        - Dezembro (`float`)
+
         :return: A tabela de custos de operação.
-        :rtype: Optional[pd.DataFrame]
+        :rtype: pd.DataFrame | None
         """
         if self.__coper is None:
             self.__coper = self.__monta_tabela()

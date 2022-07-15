@@ -110,8 +110,6 @@
              
   <section id="patamares-de-carga-patamar-dat">
 <span id="patamar"></span><h1>Patamares de Carga (patamar.dat)<a class="headerlink" href="#patamares-de-carga-patamar-dat" title="Link permanente para este cabeçalho"></a></h1>
-<section id="visao-geral-do-modelo">
-<h2>Visão geral do modelo<a class="headerlink" href="#visao-geral-do-modelo" title="Link permanente para este cabeçalho"></a></h2>
 <p>Os patamares de carga fornecidos ao NEWAVE, localizados no arquivo geralmente denominado
 patamar.dat, são armazenados na classe:</p>
 <dl class="py class">
@@ -123,12 +121,19 @@ patamares de carga por submercado.</p>
 <dt class="sig sig-object py" id="inewave.newave.patamar.Patamar.carga_patamares">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">carga_patamares</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">DataFrame</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#inewave.newave.patamar.Patamar.carga_patamares" title="Link permanente para esta definição"></a></dt>
 <dd><p>Tabela com a carga em P.U. por patamar.</p>
+<ul class="simple">
+<li><p>Ano (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>)</p></li>
+<li><p>Janeiro (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>)</p></li>
+<li><p>Fevereiro (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>)</p></li>
+<li><p>…</p></li>
+<li><p>Dezembro (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>)</p></li>
+</ul>
 <dl class="field-list simple">
 <dt class="field-odd">Retorna</dt>
 <dd class="field-odd"><p>A carga por mês em um DataFrame.</p>
 </dd>
 <dt class="field-even">Tipo de retorno</dt>
-<dd class="field-even"><p>Optional[pd.DataFrame]</p>
+<dd class="field-even"><p>pd.DataFrame | None</p>
 </dd>
 </dl>
 </dd></dl>
@@ -138,12 +143,19 @@ patamares de carga por submercado.</p>
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">duracao_mensal_patamares</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">DataFrame</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#inewave.newave.patamar.Patamar.duracao_mensal_patamares" title="Link permanente para esta definição"></a></dt>
 <dd><p>Tabela com a duração mensal de cada patamar no horizonte
 de estudo.</p>
+<ul class="simple">
+<li><p>Ano (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>)</p></li>
+<li><p>Janeiro (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>)</p></li>
+<li><p>Fevereiro (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>)</p></li>
+<li><p>…</p></li>
+<li><p>Dezembro (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>)</p></li>
+</ul>
 <dl class="field-list simple">
 <dt class="field-odd">Retorna</dt>
 <dd class="field-odd"><p>A duração por mês em um DataFrame.</p>
 </dd>
 <dt class="field-even">Tipo de retorno</dt>
-<dd class="field-even"><p>Optional[pd.DataFrame]</p>
+<dd class="field-even"><p>pd.DataFrame | None</p>
 </dd>
 </dl>
 </dd></dl>
@@ -152,12 +164,21 @@ de estudo.</p>
 <dt class="sig sig-object py" id="inewave.newave.patamar.Patamar.intercambio_patamares">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">intercambio_patamares</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">DataFrame</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#inewave.newave.patamar.Patamar.intercambio_patamares" title="Link permanente para esta definição"></a></dt>
 <dd><p>Tabela com a correção em P.U. do intercâmbio por patamar.</p>
+<ul class="simple">
+<li><p>Subsistema De (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>)</p></li>
+<li><p>Subsistema Para (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>)</p></li>
+<li><p>Ano (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>)</p></li>
+<li><p>Janeiro (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>)</p></li>
+<li><p>Fevereiro (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>)</p></li>
+<li><p>…</p></li>
+<li><p>Dezembro (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>)</p></li>
+</ul>
 <dl class="field-list simple">
 <dt class="field-odd">Retorna</dt>
 <dd class="field-odd"><p>A carga por mês em um DataFrame.</p>
 </dd>
 <dt class="field-even">Tipo de retorno</dt>
-<dd class="field-even"><p>Optional[pd.DataFrame]</p>
+<dd class="field-even"><p>pd.DataFrame | None</p>
 </dd>
 </dl>
 </dd></dl>
@@ -171,7 +192,7 @@ de estudo.</p>
 <dd class="field-odd"><p>O número de patamares como um inteiro</p>
 </dd>
 <dt class="field-even">Tipo de retorno</dt>
-<dd class="field-even"><p>Optional[int]</p>
+<dd class="field-even"><p>int | None</p>
 </dd>
 </dl>
 </dd></dl>
@@ -180,19 +201,27 @@ de estudo.</p>
 <dt class="sig sig-object py" id="inewave.newave.patamar.Patamar.usinas_nao_simuladas">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">usinas_nao_simuladas</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">DataFrame</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#inewave.newave.patamar.Patamar.usinas_nao_simuladas" title="Link permanente para esta definição"></a></dt>
 <dd><p>Tabela com os fatores das usinas não simuladas em P.U.</p>
+<ul class="simple">
+<li><p>Subsistema (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>)</p></li>
+<li><p>Bloco (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>)</p></li>
+<li><p>Ano (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>)</p></li>
+<li><p>Janeiro (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>)</p></li>
+<li><p>Fevereiro (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>)</p></li>
+<li><p>…</p></li>
+<li><p>Dezembro (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>)</p></li>
+</ul>
 <dl class="field-list simple">
 <dt class="field-odd">Retorna</dt>
 <dd class="field-odd"><p>Os valores por mês em um DataFrame.</p>
 </dd>
 <dt class="field-even">Tipo de retorno</dt>
-<dd class="field-even"><p>Optional[pd.DataFrame]</p>
+<dd class="field-even"><p>pd.DataFrame | None</p>
 </dd>
 </dl>
 </dd></dl>
 
 </dd></dl>
 
-</section>
 </section>
 
 

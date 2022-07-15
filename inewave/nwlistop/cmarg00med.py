@@ -75,8 +75,14 @@ class Cmarg00med(BlockFile):
         Tabela com os custos marginai por série e
         por mês/ano de estudo.
 
+        - Ano (`int`)
+        - Série (`int`)
+        - Janeiro (`float`)
+        - ...
+        - Dezembro (`float`)
+
         :return: A tabela dos custos marginais.
-        :rtype: Optional[pd.DataFrame]
+        :rtype: pd.DataFrame | None
         """
         if self.__cmargs is None:
             self.__cmargs = self.__monta_tabela()

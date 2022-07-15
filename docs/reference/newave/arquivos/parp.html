@@ -110,8 +110,6 @@
              
   <section id="acompanhamento-do-modelo-par-p-parp-dat">
 <span id="parp"></span><h1>Acompanhamento do modelo PAR(p) (parp.dat)<a class="headerlink" href="#acompanhamento-do-modelo-par-p-parp-dat" title="Link permanente para este cabeçalho"></a></h1>
-<section id="visao-geral-do-modelo">
-<h2>Visão geral do modelo<a class="headerlink" href="#visao-geral-do-modelo" title="Link permanente para este cabeçalho"></a></h2>
 <p>O relatório de acompanhamento do modelo PAR(p) do NEWAVE,
 localizado no arquivo geralmente denominado
 parp.dat, é armazenado na classe:</p>
@@ -129,12 +127,26 @@ do NWLISTOP.</p>
 <dd><p>Lista de coeficientes dos modelos PAR ou PAR-A
 de cada REE, no mesmo formato do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">parp.dat</span></code>,
 organizada por período de estudo.</p>
+<ul class="simple">
+<li><p>REE (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>)</p></li>
+<li><p>Estágio (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>)</p></li>
+<li><p>Psi 1 (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>)</p></li>
+<li><p>Psi 2 (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>)</p></li>
+<li><p>…</p></li>
+<li><p>Psi 11 (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>)</p></li>
+<li><p>Psi A (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>)</p></li>
+<li><p>Psi Norm 1 (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>)</p></li>
+<li><p>Psi Norm 2 (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>)</p></li>
+<li><p>…</p></li>
+<li><p>Psi Norm 11 (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>)</p></li>
+<li><p>Psi Norm A (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>)</p></li>
+</ul>
 <dl class="field-list simple">
 <dt class="field-odd">Retorna</dt>
 <dd class="field-odd"><p>A tabela como um DataFrame.</p>
 </dd>
 <dt class="field-even">Tipo de retorno</dt>
-<dd class="field-even"><p>Optional[pd.DataFrame]</p>
+<dd class="field-even"><p>pd.DataFrame | None</p>
 </dd>
 </dl>
 </dd></dl>
@@ -145,12 +157,20 @@ organizada por período de estudo.</p>
 <dd><p>A tabela de correlação cruzada da variável anual com
 as séries de energia para todas as configurações vigentes e REEs,
 no mesmo formato do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">parp.dat</span></code>.</p>
+<ul class="simple">
+<li><p>REE (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>)</p></li>
+<li><p>Data (<code class="xref py py-obj docutils literal notranslate"><span class="pre">date</span></code>)</p></li>
+<li><p>Janeiro (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>)</p></li>
+<li><p>Fevereiro (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>)</p></li>
+<li><p>…</p></li>
+<li><p>Dezembro (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>)</p></li>
+</ul>
 <dl class="field-list simple">
 <dt class="field-odd">Retorna</dt>
 <dd class="field-odd"><p>A tabela como um DataFrame</p>
 </dd>
 <dt class="field-even">Tipo de retorno</dt>
-<dd class="field-even"><p>Optional[pd.DataFrame]</p>
+<dd class="field-even"><p>pd.DataFrame | None</p>
 </dd>
 </dl>
 </dd></dl>
@@ -160,12 +180,20 @@ no mesmo formato do arquivo <code class="xref py py-obj docutils literal notrans
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">correlacao_espacial_anual</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">DataFrame</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#inewave.newave.parp.PARp.correlacao_espacial_anual" title="Link permanente para esta definição"></a></dt>
 <dd><p>A tabela de correlação para todas as configurações
 e REEs, no mesmo formato do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">parp.dat</span></code>.</p>
+<ul class="simple">
+<li><p>Configuração (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>)</p></li>
+<li><p>REE (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>)</p></li>
+<li><p>&lt;Nome do REE 1&gt; (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>)</p></li>
+<li><p>&lt;Nome do REE 2&gt; (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>)</p></li>
+<li><p>…</p></li>
+<li><p>&lt;Nome do REE N&gt; (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>)</p></li>
+</ul>
 <dl class="field-list simple">
 <dt class="field-odd">Retorna</dt>
 <dd class="field-odd"><p>A tabela como um DataFrame.</p>
 </dd>
 <dt class="field-even">Tipo de retorno</dt>
-<dd class="field-even"><p>Optional[pd.DataFrame]</p>
+<dd class="field-even"><p>pd.DataFrame | None</p>
 </dd>
 </dl>
 </dd></dl>
@@ -175,6 +203,15 @@ e REEs, no mesmo formato do arquivo <code class="xref py py-obj docutils literal
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">correlacao_espacial_mensal</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">DataFrame</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#inewave.newave.parp.PARp.correlacao_espacial_mensal" title="Link permanente para esta definição"></a></dt>
 <dd><p>A tabela de correlação para todas as configurações
 e REEs, no mesmo formato do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">parp.dat</span></code>.</p>
+<ul class="simple">
+<li><p>Configuração (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>)</p></li>
+<li><p>REE (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>)</p></li>
+<li><p>MES (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>)</p></li>
+<li><p>&lt;Nome do REE 1&gt; (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>)</p></li>
+<li><p>&lt;Nome do REE 2&gt; (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>)</p></li>
+<li><p>…</p></li>
+<li><p>&lt;Nome do REE N&gt; (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>)</p></li>
+</ul>
 <dl class="field-list simple">
 <dt class="field-odd">Retorna</dt>
 <dd class="field-odd"><p>A tabela como um DataFrame.</p>
@@ -191,12 +228,20 @@ e REEs, no mesmo formato do arquivo <code class="xref py py-obj docutils literal
 <dd><p>A tabela de correlação parcial das séries de energia para
 todas as configurações vigentes e REEs,
 no mesmo formato do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">parp.dat</span></code>.</p>
+<ul class="simple">
+<li><p>REE (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>)</p></li>
+<li><p>Data (<code class="xref py py-obj docutils literal notranslate"><span class="pre">date</span></code>)</p></li>
+<li><p>Lag 1 (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>)</p></li>
+<li><p>Lag 2 (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>)</p></li>
+<li><p>…</p></li>
+<li><p>Lag 11 (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>)</p></li>
+</ul>
 <dl class="field-list simple">
 <dt class="field-odd">Retorna</dt>
 <dd class="field-odd"><p>A tabela como um DataFrame</p>
 </dd>
 <dt class="field-even">Tipo de retorno</dt>
-<dd class="field-even"><p>Optional[pd.DataFrame]</p>
+<dd class="field-even"><p>pd.DataFrame | None</p>
 </dd>
 </dl>
 </dd></dl>
@@ -207,12 +252,20 @@ no mesmo formato do arquivo <code class="xref py py-obj docutils literal notrans
 <dd><p>A tabela de correlação das séries de energia para
 todas as configurações vigentes e REEs,
 no mesmo formato do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">parp.dat</span></code>.</p>
+<ul class="simple">
+<li><p>REE (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>)</p></li>
+<li><p>Data (<code class="xref py py-obj docutils literal notranslate"><span class="pre">date</span></code>)</p></li>
+<li><p>Lag 1 (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>)</p></li>
+<li><p>Lag 2 (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>)</p></li>
+<li><p>…</p></li>
+<li><p>Lag 11 (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>)</p></li>
+</ul>
 <dl class="field-list simple">
 <dt class="field-odd">Retorna</dt>
 <dd class="field-odd"><p>A tabela como um DataFrame</p>
 </dd>
 <dt class="field-even">Tipo de retorno</dt>
-<dd class="field-even"><p>Optional[pd.DataFrame]</p>
+<dd class="field-even"><p>pd.DataFrame | None</p>
 </dd>
 </dl>
 </dd></dl>
@@ -223,12 +276,20 @@ no mesmo formato do arquivo <code class="xref py py-obj docutils literal notrans
 <dd><p>A tabela de correlação das séries de ruídos para
 todas as configurações vigentes e REEs,
 no mesmo formato do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">parp.dat</span></code>.</p>
+<ul class="simple">
+<li><p>REE (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>)</p></li>
+<li><p>Data (<code class="xref py py-obj docutils literal notranslate"><span class="pre">date</span></code>)</p></li>
+<li><p>Lag 1 (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>)</p></li>
+<li><p>Lag 2 (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>)</p></li>
+<li><p>…</p></li>
+<li><p>Lag 11 (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>)</p></li>
+</ul>
 <dl class="field-list simple">
 <dt class="field-odd">Retorna</dt>
 <dd class="field-odd"><p>A tabela como um DataFrame</p>
 </dd>
 <dt class="field-even">Tipo de retorno</dt>
-<dd class="field-even"><p>Optional[pd.DataFrame]</p>
+<dd class="field-even"><p>pd.DataFrame | None</p>
 </dd>
 </dl>
 </dd></dl>
@@ -239,12 +300,20 @@ no mesmo formato do arquivo <code class="xref py py-obj docutils literal notrans
 <dd><p>A tabela de ordens finais do modelo PAR ou PAR-A
 de cada REE, no mesmo formato do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">parp.dat</span></code>,
 organizada por ano de estudo.</p>
+<ul class="simple">
+<li><p>REE (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>)</p></li>
+<li><p>Ano (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>)</p></li>
+<li><p>Janeiro (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>)</p></li>
+<li><p>Fevereiro (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>)</p></li>
+<li><p>…</p></li>
+<li><p>Dezembro (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>)</p></li>
+</ul>
 <dl class="field-list simple">
 <dt class="field-odd">Retorna</dt>
 <dd class="field-odd"><p>A tabela como um DataFrame.</p>
 </dd>
 <dt class="field-even">Tipo de retorno</dt>
-<dd class="field-even"><p>Optional[pd.DataFrame]</p>
+<dd class="field-even"><p>pd.DataFrame | None</p>
 </dd>
 </dl>
 </dd></dl>
@@ -255,12 +324,20 @@ organizada por ano de estudo.</p>
 <dd><p>A tabela de ordens originais do modelo PAR ou PAR-A
 de cada REE, no mesmo formato do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">parp.dat</span></code>,
 organizada por ano de estudo.</p>
+<ul class="simple">
+<li><p>REE (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>)</p></li>
+<li><p>Ano (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>)</p></li>
+<li><p>Janeiro (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>)</p></li>
+<li><p>Fevereiro (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>)</p></li>
+<li><p>…</p></li>
+<li><p>Dezembro (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>)</p></li>
+</ul>
 <dl class="field-list simple">
 <dt class="field-odd">Retorna</dt>
 <dd class="field-odd"><p>A tabela como um DataFrame</p>
 </dd>
 <dt class="field-even">Tipo de retorno</dt>
-<dd class="field-even"><p>Optional[pd.DataFrame]</p>
+<dd class="field-even"><p>pd.DataFrame | None</p>
 </dd>
 </dl>
 </dd></dl>
@@ -294,12 +371,21 @@ e REEs, no mesmo formato do arquivo <code class="xref py py-obj docutils literal
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">series_media_ree</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">DataFrame</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#inewave.newave.parp.PARp.series_media_ree" title="Link permanente para esta definição"></a></dt>
 <dd><p>A tabela de séries de médias para todos os REEs,
 no mesmo formato do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">parp.dat</span></code>.</p>
+<ul class="simple">
+<li><p>REE (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>)</p></li>
+<li><p>Ano (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>)</p></li>
+<li><p>Série (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>)</p></li>
+<li><p>Janeiro (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>)</p></li>
+<li><p>Fevereiro (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>)</p></li>
+<li><p>…</p></li>
+<li><p>Dezembro (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>)</p></li>
+</ul>
 <dl class="field-list simple">
 <dt class="field-odd">Retorna</dt>
 <dd class="field-odd"><p>A tabela como um DataFrame.</p>
 </dd>
 <dt class="field-even">Tipo de retorno</dt>
-<dd class="field-even"><p>Optional[pd.DataFrame]</p>
+<dd class="field-even"><p>pd.DataFrame | None</p>
 </dd>
 </dl>
 </dd></dl>
@@ -309,19 +395,27 @@ no mesmo formato do arquivo <code class="xref py py-obj docutils literal notrans
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">series_ruido_ree</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">DataFrame</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#inewave.newave.parp.PARp.series_ruido_ree" title="Link permanente para esta definição"></a></dt>
 <dd><p>A tabela de séries de ruído para todos os REEs,
 no mesmo formato do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">parp.dat</span></code>.</p>
+<ul class="simple">
+<li><p>REE (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>)</p></li>
+<li><p>Ano (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>)</p></li>
+<li><p>Série (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>)</p></li>
+<li><p>Janeiro (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>)</p></li>
+<li><p>Fevereiro (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>)</p></li>
+<li><p>…</p></li>
+<li><p>Dezembro (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>)</p></li>
+</ul>
 <dl class="field-list simple">
 <dt class="field-odd">Retorna</dt>
 <dd class="field-odd"><p>A tabela como um DataFrame.</p>
 </dd>
 <dt class="field-even">Tipo de retorno</dt>
-<dd class="field-even"><p>Optional[pd.DataFrame]</p>
+<dd class="field-even"><p>pd.DataFrame | None</p>
 </dd>
 </dl>
 </dd></dl>
 
 </dd></dl>
 
-</section>
 </section>
 
 

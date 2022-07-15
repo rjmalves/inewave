@@ -73,8 +73,14 @@ class VertUH(BlockFile):
         Tabela com valores de vertimento por série e
         por mês/ano de estudo.
 
+        - Ano (`int`)
+        - Série (`int`)
+        - Janeiro (`float`)
+        - ...
+        - Dezembro (`float`)
+
         :return: A tabela dos valores de vertimento.
-        :rtype: Optional[pd.DataFrame]
+        :rtype: pd.DataFrame
         """
         if self.__vertuh is None:
             self.__vertuh = self.__monta_tabela()

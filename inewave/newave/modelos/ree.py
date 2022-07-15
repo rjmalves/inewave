@@ -50,8 +50,8 @@ class BlocoReesSubmercados(Section):
             cols = [
                 "Número",
                 "Submercado",
-                "Mês Início Individualizado",
-                "Ano Início Individualizado",
+                "Mês Fim Individualizado",
+                "Ano Fim Individualizado",
             ]
             df = pd.DataFrame(tabela, columns=cols)
             df["Nome"] = nomes
@@ -61,8 +61,8 @@ class BlocoReesSubmercados(Section):
                     "Número",
                     "Nome",
                     "Submercado",
-                    "Mês Início Individualizado",
-                    "Ano Início Individualizado",
+                    "Mês Fim Individualizado",
+                    "Ano Fim Individualizado",
                 ]
             ]
             return df

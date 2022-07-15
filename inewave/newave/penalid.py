@@ -54,6 +54,11 @@ class Penalid(SectionFile):
         """
         Tabela com as penalidades.
 
+        - Chave (`str`)
+        - Penalidade 1 (`float`)
+        - Penalidade 2 (`float`)
+        - Subsistema (`int`)
+
         :return: A tabela como um DataFrame.
         :rtype: pd.DataFrame | None
         """

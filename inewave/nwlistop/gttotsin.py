@@ -51,8 +51,14 @@ class GttotSIN(BlockFile):
         Tabela com a geracao térmica por série e
         por mês/ano de estudo.
 
+        - Ano (`int`)
+        - Série (`int`)
+        - Janeiro (`float`)
+        - ...
+        - Dezembro (`float`)
+
         :return: A tabela da geração térmica.
-        :rtype: Optional[pd.DataFrame]
+        :rtype: pd.DataFrame | None
         """
         if self.__gh is None:
             self.__gh = self.__monta_tabela()

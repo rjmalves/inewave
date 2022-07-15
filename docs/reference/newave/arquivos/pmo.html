@@ -110,8 +110,6 @@
              
   <section id="acompanhamento-do-programa-pmo-dat">
 <span id="pmo"></span><h1>Acompanhamento do Programa (pmo.dat)<a class="headerlink" href="#acompanhamento-do-programa-pmo-dat" title="Link permanente para este cabeçalho"></a></h1>
-<section id="visao-geral-do-modelo">
-<h2>Visão geral do modelo<a class="headerlink" href="#visao-geral-do-modelo" title="Link permanente para este cabeçalho"></a></h2>
 <p>O relatório de acompanhamento do NEWAVE, localizado no arquivo geralmente denominado
 pmo.dat, é armazenado na classe:</p>
 <dl class="py class">
@@ -129,8 +127,21 @@ de execução intermediárias do programa.</p>
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">configuracoes_alteracao_potencia</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">DataFrame</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#inewave.newave.pmo.PMO.configuracoes_alteracao_potencia" title="Link permanente para esta definição"></a></dt>
 <dd><p>Configurações do sistema em cada período devido a alterações
 de potência.</p>
-<p><strong>Retorna</strong></p>
-<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Optional[pd.DataFrame]</span></code></p>
+<ul class="simple">
+<li><p>Ano (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>)</p></li>
+<li><p>Janeiro (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>)</p></li>
+<li><p>Fevereiro (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>)</p></li>
+<li><p>…</p></li>
+<li><p>Dezembro (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>)</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Retorna</dt>
+<dd class="field-odd"><p>As configurações em um DataFrame.</p>
+</dd>
+<dt class="field-even">Tipo de retorno</dt>
+<dd class="field-even"><p>pd.DataFrame | None</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py property">
@@ -138,8 +149,21 @@ de potência.</p>
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">configuracoes_entrada_reservatorio</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">DataFrame</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#inewave.newave.pmo.PMO.configuracoes_entrada_reservatorio" title="Link permanente para esta definição"></a></dt>
 <dd><p>Configurações do sistema em cada período devido a entrada
 de reservatórios e/ou potência de base.</p>
-<p><strong>Retorna</strong></p>
-<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Optional[pd.DataFrame]</span></code></p>
+<ul class="simple">
+<li><p>Ano (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>)</p></li>
+<li><p>Janeiro (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>)</p></li>
+<li><p>Fevereiro (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>)</p></li>
+<li><p>…</p></li>
+<li><p>Dezembro (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>)</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Retorna</dt>
+<dd class="field-odd"><p>As configurações em um DataFrame.</p>
+</dd>
+<dt class="field-even">Tipo de retorno</dt>
+<dd class="field-even"><p>pd.DataFrame | None</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py property">
@@ -147,16 +171,44 @@ de reservatórios e/ou potência de base.</p>
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">configuracoes_qualquer_modificacao</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">DataFrame</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#inewave.newave.pmo.PMO.configuracoes_qualquer_modificacao" title="Link permanente para esta definição"></a></dt>
 <dd><p>Configurações do sistema em cada período devido a alterações
 de potência.</p>
-<p><strong>Retorna</strong></p>
-<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Optional[pd.DataFrame]</span></code></p>
+<ul class="simple">
+<li><p>Ano (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>)</p></li>
+<li><p>Janeiro (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>)</p></li>
+<li><p>Fevereiro (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>)</p></li>
+<li><p>…</p></li>
+<li><p>Dezembro (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>)</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Retorna</dt>
+<dd class="field-odd"><p>As configurações em um DataFrame.</p>
+</dd>
+<dt class="field-even">Tipo de retorno</dt>
+<dd class="field-even"><p>pd.DataFrame | None</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="inewave.newave.pmo.PMO.convergencia">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">convergencia</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">DataFrame</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#inewave.newave.pmo.PMO.convergencia" title="Link permanente para esta definição"></a></dt>
 <dd><p>Tabela de convergência da execução do NEWAVE.</p>
-<p><strong>Retorna</strong></p>
-<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Optional[pd.DataFrame]</span></code></p>
+<ul class="simple">
+<li><p>Iteração (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>)</p></li>
+<li><p>Lim. Inf. ZINF (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>)</p></li>
+<li><p>ZINF (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>)</p></li>
+<li><p>Lim. Sup. ZINF (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>)</p></li>
+<li><p>ZSUP (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>)</p></li>
+<li><p>Delta ZINF (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>)</p></li>
+<li><p>ZSUP Iteração (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>)</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Retorna</dt>
+<dd class="field-odd"><p>As convergência em um DataFrame.</p>
+</dd>
+<dt class="field-even">Tipo de retorno</dt>
+<dd class="field-even"><p>pd.DataFrame | None</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py property">
@@ -164,8 +216,20 @@ de potência.</p>
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">custo_operacao_referenciado_primeiro_mes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">DataFrame</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#inewave.newave.pmo.PMO.custo_operacao_referenciado_primeiro_mes" title="Link permanente para esta definição"></a></dt>
 <dd><p>Tabela de custos de operação esperados para o período
 de estudo, referenciados ao primeiro mês.</p>
-<p><strong>Retorna</strong></p>
-<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Optional[pd.DataFrame]</span></code></p>
+<ul class="simple">
+<li><p>Parcela (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>)</p></li>
+<li><p>Valor Esperado (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>)</p></li>
+<li><p>Desvio Padrão do VE (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>)</p></li>
+<li><p>(%) (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>)</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Retorna</dt>
+<dd class="field-odd"><p>Os custos em um DataFrame.</p>
+</dd>
+<dt class="field-even">Tipo de retorno</dt>
+<dd class="field-even"><p>pd.DataFrame | None</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py property">
@@ -173,24 +237,48 @@ de estudo, referenciados ao primeiro mês.</p>
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">custo_operacao_series_simuladas</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">DataFrame</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#inewave.newave.pmo.PMO.custo_operacao_series_simuladas" title="Link permanente para esta definição"></a></dt>
 <dd><p>Tabela de custos de operação categorizados para as
 séries simuladas.</p>
-<p><strong>Retorna</strong></p>
-<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Optional[pd.DataFrame]</span></code></p>
+<ul class="simple">
+<li><p>Parcela (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>)</p></li>
+<li><p>Valor Esperado (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>)</p></li>
+<li><p>Desvio Padrão do VE (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>)</p></li>
+<li><p>(%) (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>)</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Retorna</dt>
+<dd class="field-odd"><p>Os custos em um DataFrame.</p>
+</dd>
+<dt class="field-even">Tipo de retorno</dt>
+<dd class="field-even"><p>pd.DataFrame | None</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="inewave.newave.pmo.PMO.custo_operacao_total">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">custo_operacao_total</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#inewave.newave.pmo.PMO.custo_operacao_total" title="Link permanente para esta definição"></a></dt>
 <dd><p>Custo de operacao total da SF.</p>
-<p><strong>Retorna</strong></p>
-<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Optional[float]</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Retorna</dt>
+<dd class="field-odd"><p>O custo total.</p>
+</dd>
+<dt class="field-even">Tipo de retorno</dt>
+<dd class="field-even"><p>float | None</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="inewave.newave.pmo.PMO.desvio_custo_operacao_total">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">desvio_custo_operacao_total</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#inewave.newave.pmo.PMO.desvio_custo_operacao_total" title="Link permanente para esta definição"></a></dt>
-<dd><p>Custo de operacao total da SF.</p>
-<p><strong>Retorna</strong></p>
-<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Optional[float]</span></code></p>
+<dd><p>O desvio padrão do custo de operacao total da SF.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Retorna</dt>
+<dd class="field-odd"><p>O desvio do custo total.</p>
+</dd>
+<dt class="field-even">Tipo de retorno</dt>
+<dd class="field-even"><p>float | None</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py property">
@@ -199,8 +287,21 @@ séries simuladas.</p>
 <dd><p>Energias afluentes passadas por REE considerando canal de
 fuga médio, em relação à primeira configuração do sistema,
 em MWmes.</p>
-<p><strong>Retorna</strong></p>
-<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Optional[pd.DataFrame]</span></code></p>
+<ul class="simple">
+<li><p>REE (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>)</p></li>
+<li><p>Janeiro (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>)</p></li>
+<li><p>Fevereiro (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>)</p></li>
+<li><p>…</p></li>
+<li><p>Dezembro (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>)</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Retorna</dt>
+<dd class="field-odd"><p>As energias afluentes passadas.</p>
+</dd>
+<dt class="field-even">Tipo de retorno</dt>
+<dd class="field-even"><p>pd.DataFrame | None</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py property">
@@ -209,8 +310,21 @@ em MWmes.</p>
 <dd><p>Energias afluentes passadas por REE para análise da tendência
 hidrológica, em relação à primeira configuração do sistema,
 em MWmes.</p>
-<p><strong>Retorna</strong></p>
-<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Optional[pd.DataFrame]</span></code></p>
+<ul class="simple">
+<li><p>REE (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>)</p></li>
+<li><p>Janeiro (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>)</p></li>
+<li><p>Fevereiro (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>)</p></li>
+<li><p>…</p></li>
+<li><p>Dezembro (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>)</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Retorna</dt>
+<dd class="field-odd"><p>A tendência hidrológica em um DataFrame.</p>
+</dd>
+<dt class="field-even">Tipo de retorno</dt>
+<dd class="field-even"><p>pd.DataFrame | None</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -218,16 +332,42 @@ em MWmes.</p>
 <span class="sig-name descname"><span class="pre">retas_perdas_engolimento</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">estagio</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">DataFrame</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../../_modules/inewave/newave/pmo.html#PMO.retas_perdas_engolimento"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.pmo.PMO.retas_perdas_engolimento" title="Link permanente para esta definição"></a></dt>
 <dd><p>Retas ajustadas segundo o modelo MARS para corrigir a
 energia fio d’água com as perdas por engolimento máximo.</p>
-<p><strong>Retorna</strong></p>
-<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Optional[pd.DataFrame]</span></code></p>
+<ul class="simple">
+<li><p>REE (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>)</p></li>
+<li><p>Reta (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>)</p></li>
+<li><p>Coeficiente Angular (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>)</p></li>
+<li><p>Constante (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>)</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Retorna</dt>
+<dd class="field-odd"><p>As retas em um DataFrame.</p>
+</dd>
+<dt class="field-even">Tipo de retorno</dt>
+<dd class="field-even"><p>pd.DataFrame | None</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="inewave.newave.pmo.PMO.risco_deficit_ens">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">risco_deficit_ens</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">DataFrame</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#inewave.newave.pmo.PMO.risco_deficit_ens" title="Link permanente para esta definição"></a></dt>
 <dd><p>Tabela de riscos de déficit e enegia não suprida (ENS).</p>
-<p><strong>Retorna</strong></p>
-<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Optional[pd.DataFrame]</span></code></p>
+<ul class="simple">
+<li><p>Ano (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>)</p></li>
+<li><p>Risco - &lt;nome_subsistema_1&gt; (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>)</p></li>
+<li><p>EENS - &lt;nome_subsistema_1&gt; (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>)</p></li>
+<li><p>…</p></li>
+<li><p>Risco - &lt;nome_subsistema_N&gt; (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>)</p></li>
+<li><p>EENS - &lt;nome_subsistema_N&gt; (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>)</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Retorna</dt>
+<dd class="field-odd"><p>Os ricos em um DataFrame.</p>
+</dd>
+<dt class="field-even">Tipo de retorno</dt>
+<dd class="field-even"><p>pd.DataFrame | None</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py property">
@@ -235,13 +375,24 @@ energia fio d’água com as perdas por engolimento máximo.</p>
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">valor_esperado_periodo_estudo</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">DataFrame</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#inewave.newave.pmo.PMO.valor_esperado_periodo_estudo" title="Link permanente para esta definição"></a></dt>
 <dd><p>Tabela de custos de operação esperados para o período
 de estudo.</p>
-<p><strong>Retorna</strong></p>
-<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Optional[pd.DataFrame]</span></code></p>
+<ul class="simple">
+<li><p>Parcela (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>)</p></li>
+<li><p>Valor Esperado (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>)</p></li>
+<li><p>Desvio Padrão do VE (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>)</p></li>
+<li><p>(%) (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>)</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Retorna</dt>
+<dd class="field-odd"><p>Os custos em um DataFrame.</p>
+</dd>
+<dt class="field-even">Tipo de retorno</dt>
+<dd class="field-even"><p>pd.DataFrame | None</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
 
-</section>
 </section>
 
 

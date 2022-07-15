@@ -82,29 +82,6 @@ class PMO(BlockFile):
             return b.data
         return None
 
-    # def __atribui_dados_se_existe(
-    #     self, bloco: Type[Block], valor: Any, indice: int = 0
-    # ):
-    #     """
-    #     Atribui dados em um bloco existente. Retorna um erro se
-    #     o bloco não existir.
-
-    #     :param bloco: O tipo do bloco cujos dados serão extraídos
-    #     :type bloco: Type[T]
-    #     :param valor: O valor a ser atribuído
-    #     :type valor: Any
-    #     :param indice: Qual dos blocos do tipo será acessado
-    #     :type indice: int, optional
-    #     """
-    #     b = self.__bloco_por_tipo(bloco, indice)
-    #     if b is not None:
-    #         b.data = valor
-    #     else:
-    #         raise ValueError(
-    #             f"Bloco do tipo {bloco.__name__} na posição"
-    #             + f" {indice} não encontrado"
-    #         )
-
     @property
     def eafpast_tendencia_hidrologica(self) -> Optional[pd.DataFrame]:
         """
@@ -112,15 +89,16 @@ class PMO(BlockFile):
         hidrológica, em relação à primeira configuração do sistema,
         em MWmes.
 
-        **Retorna**
+        - REE (`str`)
+        - Janeiro (`float`)
+        - Fevereiro (`float`)
+        - ...
+        - Dezembro (`float`)
 
-        `Optional[pd.DataFrame]`
+        :return: A tendência hidrológica em um DataFrame.
+        :rtype: pd.DataFrame | None
         """
         return self.__extrai_dados_se_existe(BlocoEafPastTendenciaHidrolPMO)
-
-    # @eafpast_tendencia_hidrologica.setter
-    # def eafpast_tendencia_hidrologica(self, eaf: pd.DataFrame):
-    #     self.__atribui_dados_se_existe(BlocoEafPastTendenciaHidrolPMO, eaf)
 
     @property
     def eafpast_cfuga_medio(self) -> Optional[pd.DataFrame]:
@@ -129,15 +107,16 @@ class PMO(BlockFile):
         fuga médio, em relação à primeira configuração do sistema,
         em MWmes.
 
-        **Retorna**
+        - REE (`str`)
+        - Janeiro (`float`)
+        - Fevereiro (`float`)
+        - ...
+        - Dezembro (`float`)
 
-        `Optional[pd.DataFrame]`
+        :return: As energias afluentes passadas.
+        :rtype: pd.DataFrame | None
         """
         return self.__extrai_dados_se_existe(BlocoEafPastCfugaMedioPMO)
-
-    # @eafpast_cfuga_medio.setter
-    # def eafpast_cfuga_medio(self, eaf: pd.DataFrame):
-    #     self.__atribui_dados_se_existe(BlocoEafPastCfugaMedioPMO, eaf)
 
     @property
     def configuracoes_entrada_reservatorio(self) -> Optional[pd.DataFrame]:
@@ -145,15 +124,16 @@ class PMO(BlockFile):
         Configurações do sistema em cada período devido a entrada
         de reservatórios e/ou potência de base.
 
-        **Retorna**
+        - Ano (`int`)
+        - Janeiro (`float`)
+        - Fevereiro (`float`)
+        - ...
+        - Dezembro (`float`)
 
-        `Optional[pd.DataFrame]`
+        :return: As configurações em um DataFrame.
+        :rtype: pd.DataFrame | None
         """
         return self.__extrai_dados_se_existe(BlocoConfiguracoesExpansaoPMO, 0)
-
-    # @configuracoes_entrada_reservatorio.setter
-    # def configuracoes_entrada_reservatorio(self, cfg: pd.DataFrame):
-    #     self.__atribui_dados_se_existe(BlocoConfiguracoesExpansaoPMO, cfg, 0)
 
     @property
     def configuracoes_alteracao_potencia(self) -> Optional[pd.DataFrame]:
@@ -161,15 +141,16 @@ class PMO(BlockFile):
         Configurações do sistema em cada período devido a alterações
         de potência.
 
-        **Retorna**
+        - Ano (`int`)
+        - Janeiro (`float`)
+        - Fevereiro (`float`)
+        - ...
+        - Dezembro (`float`)
 
-        `Optional[pd.DataFrame]`
+        :return: As configurações em um DataFrame.
+        :rtype: pd.DataFrame | None
         """
         return self.__extrai_dados_se_existe(BlocoConfiguracoesExpansaoPMO, 1)
-
-    # @configuracoes_alteracao_potencia.setter
-    # def configuracoes_alteracao_potencia(self, cfg: pd.DataFrame):
-    #     self.__atribui_dados_se_existe(BlocoConfiguracoesExpansaoPMO, cfg, 1)
 
     @property
     def configuracoes_qualquer_modificacao(self) -> Optional[pd.DataFrame]:
@@ -177,24 +158,29 @@ class PMO(BlockFile):
         Configurações do sistema em cada período devido a alterações
         de potência.
 
-        **Retorna**
+        - Ano (`int`)
+        - Janeiro (`float`)
+        - Fevereiro (`float`)
+        - ...
+        - Dezembro (`float`)
 
-        `Optional[pd.DataFrame]`
+        :return: As configurações em um DataFrame.
+        :rtype: pd.DataFrame | None
         """
         return self.__extrai_dados_se_existe(BlocoConfiguracoesExpansaoPMO, 2)
-
-    # @configuracoes_qualquer_modificacao.setter
-    # def configuracoes_qualquer_modificacao(self, cfg: pd.DataFrame):
-    #     self.__atribui_dados_se_existe(BlocoConfiguracoesExpansaoPMO, cfg, 2)
 
     def retas_perdas_engolimento(self, estagio: int) -> Optional[pd.DataFrame]:
         """
         Retas ajustadas segundo o modelo MARS para corrigir a
         energia fio d'água com as perdas por engolimento máximo.
 
-        **Retorna**
+        - REE (`str`)
+        - Reta (`int`)
+        - Coeficiente Angular (`float`)
+        - Constante (`float`)
 
-        `Optional[pd.DataFrame]`
+        :return: As retas em um DataFrame.
+        :rtype: pd.DataFrame | None
         """
         return self.__extrai_dados_se_existe(BlocoMARSPMO, estagio - 1)
 
@@ -203,9 +189,16 @@ class PMO(BlockFile):
         """
         Tabela de convergência da execução do NEWAVE.
 
-        **Retorna**
+        - Iteração (`int`)
+        - Lim. Inf. ZINF (`float`)
+        - ZINF (`float`)
+        - Lim. Sup. ZINF (`float`)
+        - ZSUP (`float`)
+        - Delta ZINF (`float`)
+        - ZSUP Iteração (`float`)
 
-        `Optional[pd.DataFrame]`
+        :return: As convergência em um DataFrame.
+        :rtype: pd.DataFrame | None
         """
         return self.__extrai_dados_se_existe(BlocoConvergenciaPMO)
 
@@ -214,9 +207,15 @@ class PMO(BlockFile):
         """
         Tabela de riscos de déficit e enegia não suprida (ENS).
 
-        **Retorna**
+        - Ano (`int`)
+        - Risco - <nome_subsistema_1> (`float`)
+        - EENS - <nome_subsistema_1> (`float`)
+        - ...
+        - Risco - <nome_subsistema_N> (`float`)
+        - EENS - <nome_subsistema_N> (`float`)
 
-        `Optional[pd.DataFrame]`
+        :return: Os ricos em um DataFrame.
+        :rtype: pd.DataFrame | None
         """
         return self.__extrai_dados_se_existe(BlocoRiscoDeficitENSPMO)
 
@@ -226,9 +225,13 @@ class PMO(BlockFile):
         Tabela de custos de operação categorizados para as
         séries simuladas.
 
-        **Retorna**
+        - Parcela (`str`)
+        - Valor Esperado (`float`)
+        - Desvio Padrão do VE (`float`)
+        - (%) (`float`)
 
-        `Optional[pd.DataFrame]`
+        :return: Os custos em um DataFrame.
+        :rtype: pd.DataFrame | None
         """
         return self.__extrai_dados_se_existe(BlocoCustoOperacaoPMO, 0)
 
@@ -238,9 +241,13 @@ class PMO(BlockFile):
         Tabela de custos de operação esperados para o período
         de estudo.
 
-        **Retorna**
+        - Parcela (`str`)
+        - Valor Esperado (`float`)
+        - Desvio Padrão do VE (`float`)
+        - (%) (`float`)
 
-        `Optional[pd.DataFrame]`
+        :return: Os custos em um DataFrame.
+        :rtype: pd.DataFrame | None
         """
         return self.__extrai_dados_se_existe(BlocoCustoOperacaoPMO, 1)
 
@@ -252,9 +259,13 @@ class PMO(BlockFile):
         Tabela de custos de operação esperados para o período
         de estudo, referenciados ao primeiro mês.
 
-        **Retorna**
+        - Parcela (`str`)
+        - Valor Esperado (`float`)
+        - Desvio Padrão do VE (`float`)
+        - (%) (`float`)
 
-        `Optional[pd.DataFrame]`
+        :return: Os custos em um DataFrame.
+        :rtype: pd.DataFrame | None
         """
         return self.__extrai_dados_se_existe(BlocoCustoOperacaoPMO, 2)
 
@@ -263,9 +274,8 @@ class PMO(BlockFile):
         """
         Custo de operacao total da SF.
 
-        **Retorna**
-
-        `Optional[float]`
+        :return: O custo total.
+        :rtype: float | None
         """
         b = self.__extrai_dados_se_existe(BlocoCustoOperacaoTotalPMO)
         if isinstance(b, list):
@@ -275,11 +285,10 @@ class PMO(BlockFile):
     @property
     def desvio_custo_operacao_total(self) -> Optional[float]:
         """
-        Custo de operacao total da SF.
+        O desvio padrão do custo de operacao total da SF.
 
-        **Retorna**
-
-        `Optional[float]`
+        :return: O desvio do custo total.
+        :rtype: float | None
         """
         b = self.__extrai_dados_se_existe(BlocoCustoOperacaoTotalPMO)
         if isinstance(b, list):

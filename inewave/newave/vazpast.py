@@ -56,8 +56,14 @@ class VazPast(SectionFile):
         """
         Tabela com a tendência hidrológica por REE.
 
+        - Índice (`int`)
+        - Usina (`str`)
+        - Janeiro (`float`)
+        - ...
+        - Dezembro (`float`)
+
         :return: A tabela como um DataFrame
-        :rtype: Optional[pd.DataFrame]
+        :rtype: pd.DataFrame | None
         """
         b = self.__bloco_por_tipo(BlocoVazPast, 0)
         if b is not None:

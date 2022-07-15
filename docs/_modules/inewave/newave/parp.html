@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>inewave.newave.parp &mdash; documentação inewave 0.0.58</title>
+  <title>inewave.newave.parp &mdash; documentação inewave 0.0.61</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/sg_gallery.css" type="text/css" />
@@ -347,8 +347,16 @@
 <span class="sd">        A tabela de séries de ruído para todos os REEs,</span>
 <span class="sd">        no mesmo formato do arquivo `parp.dat`.</span>
 
+<span class="sd">        - REE (`str`)</span>
+<span class="sd">        - Ano (`int`)</span>
+<span class="sd">        - Série (`int`)</span>
+<span class="sd">        - Janeiro (`float`)</span>
+<span class="sd">        - Fevereiro (`float`)</span>
+<span class="sd">        - ...</span>
+<span class="sd">        - Dezembro (`float`)</span>
+
 <span class="sd">        :return: A tabela como um DataFrame.</span>
-<span class="sd">        :rtype: Optional[pd.DataFrame]</span>
+<span class="sd">        :rtype: pd.DataFrame | None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__series_ruido</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">__series_ruido</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__concatena_dados</span><span class="p">(</span><span class="n">BlocoSerieRuidosREE</span><span class="p">)</span>
@@ -365,8 +373,16 @@
 <span class="sd">        A tabela de séries de médias para todos os REEs,</span>
 <span class="sd">        no mesmo formato do arquivo `parp.dat`.</span>
 
+<span class="sd">        - REE (`str`)</span>
+<span class="sd">        - Ano (`int`)</span>
+<span class="sd">        - Série (`int`)</span>
+<span class="sd">        - Janeiro (`float`)</span>
+<span class="sd">        - Fevereiro (`float`)</span>
+<span class="sd">        - ...</span>
+<span class="sd">        - Dezembro (`float`)</span>
+
 <span class="sd">        :return: A tabela como um DataFrame.</span>
-<span class="sd">        :rtype: Optional[pd.DataFrame]</span>
+<span class="sd">        :rtype: pd.DataFrame | None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__series_media</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">__series_media</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__concatena_dados</span><span class="p">(</span><span class="n">BlocoSerieMediasREE</span><span class="p">)</span>
@@ -384,8 +400,15 @@
 <span class="sd">        todas as configurações vigentes e REEs,</span>
 <span class="sd">        no mesmo formato do arquivo `parp.dat`.</span>
 
+<span class="sd">        - REE (`str`)</span>
+<span class="sd">        - Data (`date`)</span>
+<span class="sd">        - Lag 1 (`float`)</span>
+<span class="sd">        - Lag 2 (`float`)</span>
+<span class="sd">        - ...</span>
+<span class="sd">        - Lag 11 (`float`)</span>
+
 <span class="sd">        :return: A tabela como um DataFrame</span>
-<span class="sd">        :rtype: Optional[pd.DataFrame]</span>
+<span class="sd">        :rtype: pd.DataFrame | None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__correl_series_energia</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">__correl_series_energia</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__concatena_dados</span><span class="p">(</span>
@@ -403,8 +426,15 @@
 <span class="sd">        todas as configurações vigentes e REEs,</span>
 <span class="sd">        no mesmo formato do arquivo `parp.dat`.</span>
 
+<span class="sd">        - REE (`str`)</span>
+<span class="sd">        - Data (`date`)</span>
+<span class="sd">        - Lag 1 (`float`)</span>
+<span class="sd">        - Lag 2 (`float`)</span>
+<span class="sd">        - ...</span>
+<span class="sd">        - Lag 11 (`float`)</span>
+
 <span class="sd">        :return: A tabela como um DataFrame</span>
-<span class="sd">        :rtype: Optional[pd.DataFrame]</span>
+<span class="sd">        :rtype: pd.DataFrame | None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__correl_parcial_series_energia</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">__correl_parcial_series_energia</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__concatena_dados</span><span class="p">(</span>
@@ -422,8 +452,15 @@
 <span class="sd">        todas as configurações vigentes e REEs,</span>
 <span class="sd">        no mesmo formato do arquivo `parp.dat`.</span>
 
+<span class="sd">        - REE (`str`)</span>
+<span class="sd">        - Data (`date`)</span>
+<span class="sd">        - Lag 1 (`float`)</span>
+<span class="sd">        - Lag 2 (`float`)</span>
+<span class="sd">        - ...</span>
+<span class="sd">        - Lag 11 (`float`)</span>
+
 <span class="sd">        :return: A tabela como um DataFrame</span>
-<span class="sd">        :rtype: Optional[pd.DataFrame]</span>
+<span class="sd">        :rtype: pd.DataFrame | None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__correl_series_ruido</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">__correl_series_ruido</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__concatena_dados</span><span class="p">(</span>
@@ -441,8 +478,15 @@
 <span class="sd">        as séries de energia para todas as configurações vigentes e REEs,</span>
 <span class="sd">        no mesmo formato do arquivo `parp.dat`.</span>
 
+<span class="sd">        - REE (`str`)</span>
+<span class="sd">        - Data (`date`)</span>
+<span class="sd">        - Janeiro (`float`)</span>
+<span class="sd">        - Fevereiro (`float`)</span>
+<span class="sd">        - ...</span>
+<span class="sd">        - Dezembro (`float`)</span>
+
 <span class="sd">        :return: A tabela como um DataFrame</span>
-<span class="sd">        :rtype: Optional[pd.DataFrame]</span>
+<span class="sd">        :rtype: pd.DataFrame | None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__correl_cruzada_media</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">__correl_cruzada_media</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__concatena_dados</span><span class="p">(</span>
@@ -460,8 +504,15 @@
 <span class="sd">        de cada REE, no mesmo formato do arquivo `parp.dat`,</span>
 <span class="sd">        organizada por ano de estudo.</span>
 
+<span class="sd">        - REE (`str`)</span>
+<span class="sd">        - Ano (`int`)</span>
+<span class="sd">        - Janeiro (`int`)</span>
+<span class="sd">        - Fevereiro (`int`)</span>
+<span class="sd">        - ...</span>
+<span class="sd">        - Dezembro (`int`)</span>
+
 <span class="sd">        :return: A tabela como um DataFrame</span>
-<span class="sd">        :rtype: Optional[pd.DataFrame]</span>
+<span class="sd">        :rtype: pd.DataFrame | None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__ordem_original_modelo</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -484,8 +535,15 @@
 <span class="sd">        de cada REE, no mesmo formato do arquivo `parp.dat`,</span>
 <span class="sd">        organizada por ano de estudo.</span>
 
+<span class="sd">        - REE (`str`)</span>
+<span class="sd">        - Ano (`int`)</span>
+<span class="sd">        - Janeiro (`int`)</span>
+<span class="sd">        - Fevereiro (`int`)</span>
+<span class="sd">        - ...</span>
+<span class="sd">        - Dezembro (`int`)</span>
+
 <span class="sd">        :return: A tabela como um DataFrame.</span>
-<span class="sd">        :rtype: Optional[pd.DataFrame]</span>
+<span class="sd">        :rtype: pd.DataFrame | None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__ordem_final_modelo</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">dados</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__concatena_dados</span><span class="p">(</span><span class="n">BlocoOrdemModeloREE</span><span class="p">)</span>
@@ -507,8 +565,21 @@
 <span class="sd">        de cada REE, no mesmo formato do arquivo `parp.dat`,</span>
 <span class="sd">        organizada por período de estudo.</span>
 
+<span class="sd">        - REE (`str`)</span>
+<span class="sd">        - Estágio (`int`)</span>
+<span class="sd">        - Psi 1 (`int`)</span>
+<span class="sd">        - Psi 2 (`int`)</span>
+<span class="sd">        - ...</span>
+<span class="sd">        - Psi 11 (`int`)</span>
+<span class="sd">        - Psi A (`int`)</span>
+<span class="sd">        - Psi Norm 1 (`int`)</span>
+<span class="sd">        - Psi Norm 2 (`int`)</span>
+<span class="sd">        - ...</span>
+<span class="sd">        - Psi Norm 11 (`int`)</span>
+<span class="sd">        - Psi Norm A (`int`)</span>
+
 <span class="sd">        :return: A tabela como um DataFrame.</span>
-<span class="sd">        :rtype: Optional[pd.DataFrame]</span>
+<span class="sd">        :rtype: pd.DataFrame | None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__coeficientes</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">dados</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__concatena_dados</span><span class="p">(</span><span class="n">BlocoCoeficientesModeloREE</span><span class="p">)</span>
@@ -524,8 +595,15 @@
 <span class="sd">        A tabela de correlação para todas as configurações</span>
 <span class="sd">        e REEs, no mesmo formato do arquivo `parp.dat`.</span>
 
+<span class="sd">        - Configuração (`int`)</span>
+<span class="sd">        - REE (`str`)</span>
+<span class="sd">        - &lt;Nome do REE 1&gt; (`str`)</span>
+<span class="sd">        - &lt;Nome do REE 2&gt; (`str`)</span>
+<span class="sd">        - ...</span>
+<span class="sd">        - &lt;Nome do REE N&gt; (`str`)</span>
+
 <span class="sd">        :return: A tabela como um DataFrame.</span>
-<span class="sd">        :rtype: Optional[pd.DataFrame]</span>
+<span class="sd">        :rtype: pd.DataFrame | None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__correl_espacial_anual</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">__correl_espacial_anual</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__concatena_dados</span><span class="p">(</span>
@@ -538,6 +616,14 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        A tabela de correlação para todas as configurações</span>
 <span class="sd">        e REEs, no mesmo formato do arquivo `parp.dat`.</span>
+
+<span class="sd">        - Configuração (`int`)</span>
+<span class="sd">        - REE (`str`)</span>
+<span class="sd">        - MES (`int`)</span>
+<span class="sd">        - &lt;Nome do REE 1&gt; (`str`)</span>
+<span class="sd">        - &lt;Nome do REE 2&gt; (`str`)</span>
+<span class="sd">        - ...</span>
+<span class="sd">        - &lt;Nome do REE N&gt; (`str`)</span>
 
 <span class="sd">        :return: A tabela como um DataFrame.</span>
 <span class="sd">        :rtype: Optional[pd.DataFrame]</span>

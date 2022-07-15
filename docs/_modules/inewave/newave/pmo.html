@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>inewave.newave.pmo &mdash; documentação inewave 0.0.53</title>
+  <title>inewave.newave.pmo &mdash; documentação inewave 0.0.61</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/sg_gallery.css" type="text/css" />
@@ -155,29 +155,6 @@
             <span class="k">return</span> <span class="n">b</span><span class="o">.</span><span class="n">data</span>
         <span class="k">return</span> <span class="kc">None</span>
 
-    <span class="c1"># def __atribui_dados_se_existe(</span>
-    <span class="c1">#     self, bloco: Type[Block], valor: Any, indice: int = 0</span>
-    <span class="c1"># ):</span>
-    <span class="c1">#     &quot;&quot;&quot;</span>
-    <span class="c1">#     Atribui dados em um bloco existente. Retorna um erro se</span>
-    <span class="c1">#     o bloco não existir.</span>
-
-    <span class="c1">#     :param bloco: O tipo do bloco cujos dados serão extraídos</span>
-    <span class="c1">#     :type bloco: Type[T]</span>
-    <span class="c1">#     :param valor: O valor a ser atribuído</span>
-    <span class="c1">#     :type valor: Any</span>
-    <span class="c1">#     :param indice: Qual dos blocos do tipo será acessado</span>
-    <span class="c1">#     :type indice: int, optional</span>
-    <span class="c1">#     &quot;&quot;&quot;</span>
-    <span class="c1">#     b = self.__bloco_por_tipo(bloco, indice)</span>
-    <span class="c1">#     if b is not None:</span>
-    <span class="c1">#         b.data = valor</span>
-    <span class="c1">#     else:</span>
-    <span class="c1">#         raise ValueError(</span>
-    <span class="c1">#             f&quot;Bloco do tipo {bloco.__name__} na posição&quot;</span>
-    <span class="c1">#             + f&quot; {indice} não encontrado&quot;</span>
-    <span class="c1">#         )</span>
-
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">eafpast_tendencia_hidrologica</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -185,15 +162,16 @@
 <span class="sd">        hidrológica, em relação à primeira configuração do sistema,</span>
 <span class="sd">        em MWmes.</span>
 
-<span class="sd">        **Retorna**</span>
+<span class="sd">        - REE (`str`)</span>
+<span class="sd">        - Janeiro (`float`)</span>
+<span class="sd">        - Fevereiro (`float`)</span>
+<span class="sd">        - ...</span>
+<span class="sd">        - Dezembro (`float`)</span>
 
-<span class="sd">        `Optional[pd.DataFrame]`</span>
+<span class="sd">        :return: A tendência hidrológica em um DataFrame.</span>
+<span class="sd">        :rtype: pd.DataFrame | None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__extrai_dados_se_existe</span><span class="p">(</span><span class="n">BlocoEafPastTendenciaHidrolPMO</span><span class="p">)</span>
-
-    <span class="c1"># @eafpast_tendencia_hidrologica.setter</span>
-    <span class="c1"># def eafpast_tendencia_hidrologica(self, eaf: pd.DataFrame):</span>
-    <span class="c1">#     self.__atribui_dados_se_existe(BlocoEafPastTendenciaHidrolPMO, eaf)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">eafpast_cfuga_medio</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]:</span>
@@ -202,15 +180,16 @@
 <span class="sd">        fuga médio, em relação à primeira configuração do sistema,</span>
 <span class="sd">        em MWmes.</span>
 
-<span class="sd">        **Retorna**</span>
+<span class="sd">        - REE (`str`)</span>
+<span class="sd">        - Janeiro (`float`)</span>
+<span class="sd">        - Fevereiro (`float`)</span>
+<span class="sd">        - ...</span>
+<span class="sd">        - Dezembro (`float`)</span>
 
-<span class="sd">        `Optional[pd.DataFrame]`</span>
+<span class="sd">        :return: As energias afluentes passadas.</span>
+<span class="sd">        :rtype: pd.DataFrame | None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__extrai_dados_se_existe</span><span class="p">(</span><span class="n">BlocoEafPastCfugaMedioPMO</span><span class="p">)</span>
-
-    <span class="c1"># @eafpast_cfuga_medio.setter</span>
-    <span class="c1"># def eafpast_cfuga_medio(self, eaf: pd.DataFrame):</span>
-    <span class="c1">#     self.__atribui_dados_se_existe(BlocoEafPastCfugaMedioPMO, eaf)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">configuracoes_entrada_reservatorio</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]:</span>
@@ -218,15 +197,16 @@
 <span class="sd">        Configurações do sistema em cada período devido a entrada</span>
 <span class="sd">        de reservatórios e/ou potência de base.</span>
 
-<span class="sd">        **Retorna**</span>
+<span class="sd">        - Ano (`int`)</span>
+<span class="sd">        - Janeiro (`float`)</span>
+<span class="sd">        - Fevereiro (`float`)</span>
+<span class="sd">        - ...</span>
+<span class="sd">        - Dezembro (`float`)</span>
 
-<span class="sd">        `Optional[pd.DataFrame]`</span>
+<span class="sd">        :return: As configurações em um DataFrame.</span>
+<span class="sd">        :rtype: pd.DataFrame | None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__extrai_dados_se_existe</span><span class="p">(</span><span class="n">BlocoConfiguracoesExpansaoPMO</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-
-    <span class="c1"># @configuracoes_entrada_reservatorio.setter</span>
-    <span class="c1"># def configuracoes_entrada_reservatorio(self, cfg: pd.DataFrame):</span>
-    <span class="c1">#     self.__atribui_dados_se_existe(BlocoConfiguracoesExpansaoPMO, cfg, 0)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">configuracoes_alteracao_potencia</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]:</span>
@@ -234,15 +214,16 @@
 <span class="sd">        Configurações do sistema em cada período devido a alterações</span>
 <span class="sd">        de potência.</span>
 
-<span class="sd">        **Retorna**</span>
+<span class="sd">        - Ano (`int`)</span>
+<span class="sd">        - Janeiro (`float`)</span>
+<span class="sd">        - Fevereiro (`float`)</span>
+<span class="sd">        - ...</span>
+<span class="sd">        - Dezembro (`float`)</span>
 
-<span class="sd">        `Optional[pd.DataFrame]`</span>
+<span class="sd">        :return: As configurações em um DataFrame.</span>
+<span class="sd">        :rtype: pd.DataFrame | None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__extrai_dados_se_existe</span><span class="p">(</span><span class="n">BlocoConfiguracoesExpansaoPMO</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-
-    <span class="c1"># @configuracoes_alteracao_potencia.setter</span>
-    <span class="c1"># def configuracoes_alteracao_potencia(self, cfg: pd.DataFrame):</span>
-    <span class="c1">#     self.__atribui_dados_se_existe(BlocoConfiguracoesExpansaoPMO, cfg, 1)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">configuracoes_qualquer_modificacao</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]:</span>
@@ -250,24 +231,29 @@
 <span class="sd">        Configurações do sistema em cada período devido a alterações</span>
 <span class="sd">        de potência.</span>
 
-<span class="sd">        **Retorna**</span>
+<span class="sd">        - Ano (`int`)</span>
+<span class="sd">        - Janeiro (`float`)</span>
+<span class="sd">        - Fevereiro (`float`)</span>
+<span class="sd">        - ...</span>
+<span class="sd">        - Dezembro (`float`)</span>
 
-<span class="sd">        `Optional[pd.DataFrame]`</span>
+<span class="sd">        :return: As configurações em um DataFrame.</span>
+<span class="sd">        :rtype: pd.DataFrame | None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__extrai_dados_se_existe</span><span class="p">(</span><span class="n">BlocoConfiguracoesExpansaoPMO</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-
-    <span class="c1"># @configuracoes_qualquer_modificacao.setter</span>
-    <span class="c1"># def configuracoes_qualquer_modificacao(self, cfg: pd.DataFrame):</span>
-    <span class="c1">#     self.__atribui_dados_se_existe(BlocoConfiguracoesExpansaoPMO, cfg, 2)</span>
 
 <div class="viewcode-block" id="PMO.retas_perdas_engolimento"><a class="viewcode-back" href="../../../reference/newave/arquivos/pmo.html#inewave.newave.pmo.PMO.retas_perdas_engolimento">[documentos]</a>    <span class="k">def</span> <span class="nf">retas_perdas_engolimento</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">estagio</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Retas ajustadas segundo o modelo MARS para corrigir a</span>
 <span class="sd">        energia fio d&#39;água com as perdas por engolimento máximo.</span>
 
-<span class="sd">        **Retorna**</span>
+<span class="sd">        - REE (`str`)</span>
+<span class="sd">        - Reta (`int`)</span>
+<span class="sd">        - Coeficiente Angular (`float`)</span>
+<span class="sd">        - Constante (`float`)</span>
 
-<span class="sd">        `Optional[pd.DataFrame]`</span>
+<span class="sd">        :return: As retas em um DataFrame.</span>
+<span class="sd">        :rtype: pd.DataFrame | None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__extrai_dados_se_existe</span><span class="p">(</span><span class="n">BlocoMARSPMO</span><span class="p">,</span> <span class="n">estagio</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span></div>
 
@@ -276,9 +262,16 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Tabela de convergência da execução do NEWAVE.</span>
 
-<span class="sd">        **Retorna**</span>
+<span class="sd">        - Iteração (`int`)</span>
+<span class="sd">        - Lim. Inf. ZINF (`float`)</span>
+<span class="sd">        - ZINF (`float`)</span>
+<span class="sd">        - Lim. Sup. ZINF (`float`)</span>
+<span class="sd">        - ZSUP (`float`)</span>
+<span class="sd">        - Delta ZINF (`float`)</span>
+<span class="sd">        - ZSUP Iteração (`float`)</span>
 
-<span class="sd">        `Optional[pd.DataFrame]`</span>
+<span class="sd">        :return: As convergência em um DataFrame.</span>
+<span class="sd">        :rtype: pd.DataFrame | None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__extrai_dados_se_existe</span><span class="p">(</span><span class="n">BlocoConvergenciaPMO</span><span class="p">)</span>
 
@@ -287,9 +280,15 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Tabela de riscos de déficit e enegia não suprida (ENS).</span>
 
-<span class="sd">        **Retorna**</span>
+<span class="sd">        - Ano (`int`)</span>
+<span class="sd">        - Risco - &lt;nome_subsistema_1&gt; (`float`)</span>
+<span class="sd">        - EENS - &lt;nome_subsistema_1&gt; (`float`)</span>
+<span class="sd">        - ...</span>
+<span class="sd">        - Risco - &lt;nome_subsistema_N&gt; (`float`)</span>
+<span class="sd">        - EENS - &lt;nome_subsistema_N&gt; (`float`)</span>
 
-<span class="sd">        `Optional[pd.DataFrame]`</span>
+<span class="sd">        :return: Os ricos em um DataFrame.</span>
+<span class="sd">        :rtype: pd.DataFrame | None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__extrai_dados_se_existe</span><span class="p">(</span><span class="n">BlocoRiscoDeficitENSPMO</span><span class="p">)</span>
 
@@ -299,9 +298,13 @@
 <span class="sd">        Tabela de custos de operação categorizados para as</span>
 <span class="sd">        séries simuladas.</span>
 
-<span class="sd">        **Retorna**</span>
+<span class="sd">        - Parcela (`str`)</span>
+<span class="sd">        - Valor Esperado (`float`)</span>
+<span class="sd">        - Desvio Padrão do VE (`float`)</span>
+<span class="sd">        - (%) (`float`)</span>
 
-<span class="sd">        `Optional[pd.DataFrame]`</span>
+<span class="sd">        :return: Os custos em um DataFrame.</span>
+<span class="sd">        :rtype: pd.DataFrame | None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__extrai_dados_se_existe</span><span class="p">(</span><span class="n">BlocoCustoOperacaoPMO</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
 
@@ -311,9 +314,13 @@
 <span class="sd">        Tabela de custos de operação esperados para o período</span>
 <span class="sd">        de estudo.</span>
 
-<span class="sd">        **Retorna**</span>
+<span class="sd">        - Parcela (`str`)</span>
+<span class="sd">        - Valor Esperado (`float`)</span>
+<span class="sd">        - Desvio Padrão do VE (`float`)</span>
+<span class="sd">        - (%) (`float`)</span>
 
-<span class="sd">        `Optional[pd.DataFrame]`</span>
+<span class="sd">        :return: Os custos em um DataFrame.</span>
+<span class="sd">        :rtype: pd.DataFrame | None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__extrai_dados_se_existe</span><span class="p">(</span><span class="n">BlocoCustoOperacaoPMO</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 
@@ -325,9 +332,13 @@
 <span class="sd">        Tabela de custos de operação esperados para o período</span>
 <span class="sd">        de estudo, referenciados ao primeiro mês.</span>
 
-<span class="sd">        **Retorna**</span>
+<span class="sd">        - Parcela (`str`)</span>
+<span class="sd">        - Valor Esperado (`float`)</span>
+<span class="sd">        - Desvio Padrão do VE (`float`)</span>
+<span class="sd">        - (%) (`float`)</span>
 
-<span class="sd">        `Optional[pd.DataFrame]`</span>
+<span class="sd">        :return: Os custos em um DataFrame.</span>
+<span class="sd">        :rtype: pd.DataFrame | None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__extrai_dados_se_existe</span><span class="p">(</span><span class="n">BlocoCustoOperacaoPMO</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
 
@@ -336,9 +347,8 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Custo de operacao total da SF.</span>
 
-<span class="sd">        **Retorna**</span>
-
-<span class="sd">        `Optional[float]`</span>
+<span class="sd">        :return: O custo total.</span>
+<span class="sd">        :rtype: float | None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__extrai_dados_se_existe</span><span class="p">(</span><span class="n">BlocoCustoOperacaoTotalPMO</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
@@ -348,11 +358,10 @@
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">desvio_custo_operacao_total</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Custo de operacao total da SF.</span>
+<span class="sd">        O desvio padrão do custo de operacao total da SF.</span>
 
-<span class="sd">        **Retorna**</span>
-
-<span class="sd">        `Optional[float]`</span>
+<span class="sd">        :return: O desvio do custo total.</span>
+<span class="sd">        :rtype: float | None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__extrai_dados_se_existe</span><span class="p">(</span><span class="n">BlocoCustoOperacaoTotalPMO</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>

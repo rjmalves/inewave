@@ -66,7 +66,7 @@ class Patamar(SectionFile):
         O número de patamares utilizado no estudo.
 
         :return: O número de patamares como um inteiro
-        :rtype: Optional[int]
+        :rtype: int | None
         """
         b = self.__bloco_por_tipo(BlocoNumeroPatamares, 0)
         if b is not None:
@@ -85,8 +85,14 @@ class Patamar(SectionFile):
         Tabela com a duração mensal de cada patamar no horizonte
         de estudo.
 
+        - Ano (`int`)
+        - Janeiro (`float`)
+        - Fevereiro (`float`)
+        - ...
+        - Dezembro (`float`)
+
         :return: A duração por mês em um DataFrame.
-        :rtype: Optional[pd.DataFrame]
+        :rtype: pd.DataFrame | None
         """
         b = self.__bloco_por_tipo(BlocoDuracaoPatamar, 0)
         if b is not None:
@@ -104,8 +110,14 @@ class Patamar(SectionFile):
         """
         Tabela com a carga em P.U. por patamar.
 
+        - Ano (`int`)
+        - Janeiro (`float`)
+        - Fevereiro (`float`)
+        - ...
+        - Dezembro (`float`)
+
         :return: A carga por mês em um DataFrame.
-        :rtype: Optional[pd.DataFrame]
+        :rtype: pd.DataFrame | None
         """
         b = self.__bloco_por_tipo(BlocoCargaPatamar, 0)
         if b is not None:
@@ -123,8 +135,16 @@ class Patamar(SectionFile):
         """
         Tabela com a correção em P.U. do intercâmbio por patamar.
 
+        - Subsistema De (`str`)
+        - Subsistema Para (`str`)
+        - Ano (`int`)
+        - Janeiro (`float`)
+        - Fevereiro (`float`)
+        - ...
+        - Dezembro (`float`)
+
         :return: A carga por mês em um DataFrame.
-        :rtype: Optional[pd.DataFrame]
+        :rtype: pd.DataFrame | None
         """
         b = self.__bloco_por_tipo(BlocoIntercambioPatamarSubsistemas, 0)
         if b is not None:
@@ -142,8 +162,16 @@ class Patamar(SectionFile):
         """
         Tabela com os fatores das usinas não simuladas em P.U.
 
+        - Subsistema (`str`)
+        - Bloco (`int`)
+        - Ano (`int`)
+        - Janeiro (`float`)
+        - Fevereiro (`float`)
+        - ...
+        - Dezembro (`float`)
+
         :return: Os valores por mês em um DataFrame.
-        :rtype: Optional[pd.DataFrame]
+        :rtype: pd.DataFrame | None
         """
         b = self.__bloco_por_tipo(BlocoUsinasNaoSimuladas, 0)
         if b is not None:

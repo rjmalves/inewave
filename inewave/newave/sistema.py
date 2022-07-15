@@ -67,7 +67,7 @@ class Sistema(SectionFile):
         O número de patamares de déficit utilizados no estudo.
 
         :return: O número de patamares como um inteiro
-        :rtype: Optional[int]
+        :rtype: int | None
         """
         b = self.__bloco_por_tipo(BlocoNumeroPatamaresDeficit, 0)
         if b is not None:
@@ -86,8 +86,18 @@ class Sistema(SectionFile):
         Tabela com o custo de cada patamar de déficit, por
         subsistema.
 
+        - Num. Subsistema (`int`)
+        - Nome (`str`)
+        - Fictício (`int`)
+        - Custo Pat 1 (`float`)
+        - ...
+        - Custo Pat 5 (`float`)
+        - Corte Pat 1 (`float`)
+        - ...
+        - Corte Pat 5 (`float`)
+
         :return: A duração por mês em um DataFrame.
-        :rtype: Optional[pd.DataFrame]
+        :rtype: pd.DataFrame | None
         """
         b = self.__bloco_por_tipo(BlocoCustosDeficit, 0)
         if b is not None:
@@ -106,8 +116,16 @@ class Sistema(SectionFile):
         Tabela com o limite de intercâmbio por par de
         subsistemas.
 
+        - Subsistema De (`int`)
+        - Subsistema Para (`int`)
+        - Sentido (`int`)
+        - Ano (`int`)
+        - Janeiro (`float`)
+        - ...
+        - Dezembro (`float`)
+
         :return: A duração por mês em um DataFrame.
-        :rtype: Optional[pd.DataFrame]
+        :rtype: pd.DataFrame | None
         """
         b = self.__bloco_por_tipo(BlocoIntercambioSubsistema, 0)
         if b is not None:
@@ -125,8 +143,14 @@ class Sistema(SectionFile):
         """
         Tabela com o mercado total de energia por período de estudo.
 
+        - Subsistema (`int`)
+        - Ano (`int`)
+        - Janeiro (`float`)
+        - ...
+        - Dezembro (`float`)
+
         :return: A carga por mês em um DataFrame.
-        :rtype: Optional[pd.DataFrame]
+        :rtype: pd.DataFrame | None
         """
         b = self.__bloco_por_tipo(BlocoMercadoEnergiaSistema, 0)
         if b is not None:
@@ -145,8 +169,16 @@ class Sistema(SectionFile):
         Tabela com a geração das usinas não simuladas por fonte
         de geração.
 
+        - Subsistema (`int`)
+        - Bloco (`int`)
+        - Razão (`str`)
+        - Ano (`int`)
+        - Janeiro (`float`)
+        - ...
+        - Dezembro (`float`)
+
         :return: A carga por mês em um DataFrame.
-        :rtype: Optional[pd.DataFrame]
+        :rtype: pd.DataFrame | None
         """
         b = self.__bloco_por_tipo(BlocoGeracaoUsinasNaoSimuladas, 0)
         if b is not None:

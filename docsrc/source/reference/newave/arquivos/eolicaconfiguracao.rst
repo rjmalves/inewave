@@ -6,9 +6,6 @@ Configuração de Usina Eólicas (eolica-config.csv)
 
 .. currentmodule:: inewave.newave.eolicaconfiguracao
 
-Visão geral do modelo
-======================
-
 As informações de configuração das usinas eólicas no NEWAVE, localizadas no arquivo geralmente denominado
 eolica-config.csv, são armazenadas na classe:
 
@@ -19,9 +16,6 @@ eolica-config.csv, são armazenadas na classe:
 
 .. currentmodule:: inewave.newave.modelos.eolicaconfiguracao
 
-
-Campos
-======================
 
 As informações existentes em cada um dos campos são armazenadas em modelos próprios
 para cada um.

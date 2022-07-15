@@ -88,8 +88,11 @@ class Curva(SectionFile):
         """
         Tabela com os custos para penalização em cada REE.
 
+        - Subsistema (`int`)
+        - Custo (`float`)
+
         :return: Os custos por REE em um DataFrame.
-        :rtype: Optional[pd.DataFrame]
+        :rtype: pd.DataFrame | None
         """
         b = self.__bloco_por_tipo(BlocoPenalidadesViolacaoREECurva, 0)
         if b is not None:
@@ -109,8 +112,15 @@ class Curva(SectionFile):
         """
         Tabela da curva de segurança por REE.
 
+        - REE (`int`)
+        - Ano (`int`)
+        - Janeiro (`float`)
+        - Fevereiro (`float`)
+        - ...
+        - Dezembro (`float`)
+
         :return: Os valores dos campos da linha como uma lista.
-        :rtype: Optional[pd.DataFrame]
+        :rtype: pd.DataFrame | None
         """
         b = self.__bloco_por_tipo(BlocoCurvaSegurancaSubsistema, 0)
         if b is not None:

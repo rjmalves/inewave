@@ -74,8 +74,14 @@ class Vagua00(BlockFile):
         Tabela com valores da água por série e
         por mês/ano de estudo.
 
+        - Ano (`int`)
+        - Série (`int`)
+        - Janeiro (`float`)
+        - ...
+        - Dezembro (`float`)
+
         :return: A tabela dos valores da água.
-        :rtype: Optional[pd.DataFrame]
+        :rtype: pd.DataFrame | None
         """
         if self.__vagua is None:
             self.__vagua = self.__monta_tabela()

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>inewave.newave.re &mdash; documentação inewave 0.0.53</title>
+  <title>inewave.newave.re &mdash; documentação inewave 0.0.61</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/sg_gallery.css" type="text/css" />
@@ -130,8 +130,14 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Tabela com os conjuntos de usinas com restrições elétricas.</span>
 
+<span class="sd">        - Conjunto (`int`)</span>
+<span class="sd">        - Usina 1 (`float`)</span>
+<span class="sd">        - Usina 2 (`float`)</span>
+<span class="sd">        - ...</span>
+<span class="sd">        - Usina N (`float`)</span>
+
 <span class="sd">        :return: A tabela como um DataFrame.</span>
-<span class="sd">        :rtype: Optional[pd.DataFrame]</span>
+<span class="sd">        :rtype: pd.DataFrame | None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__bloco_por_tipo</span><span class="p">(</span><span class="n">BlocoUsinasConjuntoRE</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">b</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -149,8 +155,15 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Tabela com as configurações das restrições elétricas.</span>
 
+<span class="sd">        - Conjunto (`int`)</span>
+<span class="sd">        - Mês Início (`int`)</span>
+<span class="sd">        - Mês Fim (`int`)</span>
+<span class="sd">        - Ano Início (`int`)</span>
+<span class="sd">        - Ano Fim (`int`)</span>
+<span class="sd">        - Flag P (`int`)</span>
+
 <span class="sd">        :return: A tabela como um DataFrame.</span>
-<span class="sd">        :rtype: Optional[pd.DataFrame]</span>
+<span class="sd">        :rtype: pd.DataFrame | None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__bloco_por_tipo</span><span class="p">(</span><span class="n">BlocoConfiguracaoRestricoesRE</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">b</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>

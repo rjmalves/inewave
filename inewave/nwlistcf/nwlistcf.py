@@ -49,8 +49,22 @@ class Nwlistcf(BlockFile):
         """
         Tabela com os cortes da FCF.
 
+        - PERIODO (`int`)
+        - IREG (`int`)
+        - REE (`int`)
+        - RHS (`int`)
+        - PIV (`int`)
+        - PIH 1 (`float`)
+        - ...
+        - PIH 6 (`float`)
+        - PIGTAD(P1L1) (`float`)
+        - ...
+        - PIGTAD(P3L2) (`float`)
+        - PIMX_SAR (`float`)
+        - PIMX_CURVA (`float`)
+
         :return: A tabela de cortes como um DataFrame
-        :rtype: Optional[pd.DataFrame]
+        :rtype: pd.DataFrame | None
         """
         if self.__cortes_periodos is None:
             self.__cortes_periodos = self.__monta_tabela_cortes()

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>inewave.newave.patamar &mdash; documentação inewave 0.0.53</title>
+  <title>inewave.newave.patamar &mdash; documentação inewave 0.0.61</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/sg_gallery.css" type="text/css" />
@@ -139,7 +139,7 @@
 <span class="sd">        O número de patamares utilizado no estudo.</span>
 
 <span class="sd">        :return: O número de patamares como um inteiro</span>
-<span class="sd">        :rtype: Optional[int]</span>
+<span class="sd">        :rtype: int | None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__bloco_por_tipo</span><span class="p">(</span><span class="n">BlocoNumeroPatamares</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">b</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -158,8 +158,14 @@
 <span class="sd">        Tabela com a duração mensal de cada patamar no horizonte</span>
 <span class="sd">        de estudo.</span>
 
+<span class="sd">        - Ano (`int`)</span>
+<span class="sd">        - Janeiro (`float`)</span>
+<span class="sd">        - Fevereiro (`float`)</span>
+<span class="sd">        - ...</span>
+<span class="sd">        - Dezembro (`float`)</span>
+
 <span class="sd">        :return: A duração por mês em um DataFrame.</span>
-<span class="sd">        :rtype: Optional[pd.DataFrame]</span>
+<span class="sd">        :rtype: pd.DataFrame | None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__bloco_por_tipo</span><span class="p">(</span><span class="n">BlocoDuracaoPatamar</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">b</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -177,8 +183,14 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Tabela com a carga em P.U. por patamar.</span>
 
+<span class="sd">        - Ano (`int`)</span>
+<span class="sd">        - Janeiro (`float`)</span>
+<span class="sd">        - Fevereiro (`float`)</span>
+<span class="sd">        - ...</span>
+<span class="sd">        - Dezembro (`float`)</span>
+
 <span class="sd">        :return: A carga por mês em um DataFrame.</span>
-<span class="sd">        :rtype: Optional[pd.DataFrame]</span>
+<span class="sd">        :rtype: pd.DataFrame | None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__bloco_por_tipo</span><span class="p">(</span><span class="n">BlocoCargaPatamar</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">b</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -196,8 +208,16 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Tabela com a correção em P.U. do intercâmbio por patamar.</span>
 
+<span class="sd">        - Subsistema De (`str`)</span>
+<span class="sd">        - Subsistema Para (`str`)</span>
+<span class="sd">        - Ano (`int`)</span>
+<span class="sd">        - Janeiro (`float`)</span>
+<span class="sd">        - Fevereiro (`float`)</span>
+<span class="sd">        - ...</span>
+<span class="sd">        - Dezembro (`float`)</span>
+
 <span class="sd">        :return: A carga por mês em um DataFrame.</span>
-<span class="sd">        :rtype: Optional[pd.DataFrame]</span>
+<span class="sd">        :rtype: pd.DataFrame | None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__bloco_por_tipo</span><span class="p">(</span><span class="n">BlocoIntercambioPatamarSubsistemas</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">b</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -215,8 +235,16 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Tabela com os fatores das usinas não simuladas em P.U.</span>
 
+<span class="sd">        - Subsistema (`str`)</span>
+<span class="sd">        - Bloco (`int`)</span>
+<span class="sd">        - Ano (`int`)</span>
+<span class="sd">        - Janeiro (`float`)</span>
+<span class="sd">        - Fevereiro (`float`)</span>
+<span class="sd">        - ...</span>
+<span class="sd">        - Dezembro (`float`)</span>
+
 <span class="sd">        :return: Os valores por mês em um DataFrame.</span>
-<span class="sd">        :rtype: Optional[pd.DataFrame]</span>
+<span class="sd">        :rtype: pd.DataFrame | None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__bloco_por_tipo</span><span class="p">(</span><span class="n">BlocoUsinasNaoSimuladas</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">b</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>

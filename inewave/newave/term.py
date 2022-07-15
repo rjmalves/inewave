@@ -50,8 +50,19 @@ class Term(SectionFile):
         """
         Tabela com configurações e custos das usinas térmicas.
 
+        - Número (`int`)
+        - Nome (`str`)
+        - Potência Instalada (`float`)
+        - FC Máximo (`float`)
+        - TEIF (`float`)
+        - Indisponibilidade Programada (`float`)
+        - GT Min Janeiro (`float`)
+        - ...
+        - GT Min Dezembro (`float`)
+        - GT Min D+ Anos (`float`)
+
         :return: A tabela como um DataFrame
-        :rtype: Optional[pd.DataFrame]
+        :rtype: pd.DataFrame | None
         """
         b = self.__bloco_por_tipo(BlocoTermUTE, 0)
         if b is not None:

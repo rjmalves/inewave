@@ -51,8 +51,15 @@ class GhtotSIN(BlockFile):
         Tabela com a geracao hidraulica por série e
         por mês/ano de estudo.
 
+        - Ano (`int`)
+        - Série (`int`)
+        - Patamar (`str`)
+        - Janeiro (`float`)
+        - ...
+        - Dezembro (`float`)
+
         :return: A tabela da geração hidráulica.
-        :rtype: Optional[pd.DataFrame]
+        :rtype: pd.DataFrame | None
         """
         if self.__gh is None:
             self.__gh = self.__monta_tabela()

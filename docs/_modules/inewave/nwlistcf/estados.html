@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>inewave.nwlistcf.estados &mdash; documentação inewave 0.0.53</title>
+  <title>inewave.nwlistcf.estados &mdash; documentação inewave 0.0.61</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/sg_gallery.css" type="text/css" />
@@ -123,8 +123,25 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Tabela com os estados visitados na construção da FCF.</span>
 
+<span class="sd">        - PERIODO (`int`)</span>
+<span class="sd">        - IREG (`int`)</span>
+<span class="sd">        - ITEc (`int`)</span>
+<span class="sd">        - SIMc (`int`)</span>
+<span class="sd">        - ITEf (`int`)</span>
+<span class="sd">        - REE (`int`)</span>
+<span class="sd">        - FUNC. OBJ. (`float`)</span>
+<span class="sd">        - EARM (`float`)</span>
+<span class="sd">        - EAF 1 (`float`)</span>
+<span class="sd">        - ...</span>
+<span class="sd">        - EAF 6 (`float`)</span>
+<span class="sd">        - SGT(P1E1) (`float`)</span>
+<span class="sd">        - ...</span>
+<span class="sd">        - SGT(P3E2) (`float`)</span>
+<span class="sd">        - MX_SAR (`float`)</span>
+<span class="sd">        - MX_CURVA (`float`)</span>
+
 <span class="sd">        :return: A tabela de estados como um DataFrame</span>
-<span class="sd">        :rtype: Optional[pd.DataFrame]</span>
+<span class="sd">        :rtype: pd.DataFrame | None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__estados_periodos</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">__estados_periodos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__monta_tabela_estados</span><span class="p">()</span>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>inewave.newave.sistema &mdash; documentação inewave 0.0.53</title>
+  <title>inewave.newave.sistema &mdash; documentação inewave 0.0.61</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/sg_gallery.css" type="text/css" />
@@ -140,7 +140,7 @@
 <span class="sd">        O número de patamares de déficit utilizados no estudo.</span>
 
 <span class="sd">        :return: O número de patamares como um inteiro</span>
-<span class="sd">        :rtype: Optional[int]</span>
+<span class="sd">        :rtype: int | None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__bloco_por_tipo</span><span class="p">(</span><span class="n">BlocoNumeroPatamaresDeficit</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">b</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -159,8 +159,18 @@
 <span class="sd">        Tabela com o custo de cada patamar de déficit, por</span>
 <span class="sd">        subsistema.</span>
 
+<span class="sd">        - Num. Subsistema (`int`)</span>
+<span class="sd">        - Nome (`str`)</span>
+<span class="sd">        - Fictício (`int`)</span>
+<span class="sd">        - Custo Pat 1 (`float`)</span>
+<span class="sd">        - ...</span>
+<span class="sd">        - Custo Pat 5 (`float`)</span>
+<span class="sd">        - Corte Pat 1 (`float`)</span>
+<span class="sd">        - ...</span>
+<span class="sd">        - Corte Pat 5 (`float`)</span>
+
 <span class="sd">        :return: A duração por mês em um DataFrame.</span>
-<span class="sd">        :rtype: Optional[pd.DataFrame]</span>
+<span class="sd">        :rtype: pd.DataFrame | None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__bloco_por_tipo</span><span class="p">(</span><span class="n">BlocoCustosDeficit</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">b</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -179,8 +189,16 @@
 <span class="sd">        Tabela com o limite de intercâmbio por par de</span>
 <span class="sd">        subsistemas.</span>
 
+<span class="sd">        - Subsistema De (`int`)</span>
+<span class="sd">        - Subsistema Para (`int`)</span>
+<span class="sd">        - Sentido (`int`)</span>
+<span class="sd">        - Ano (`int`)</span>
+<span class="sd">        - Janeiro (`float`)</span>
+<span class="sd">        - ...</span>
+<span class="sd">        - Dezembro (`float`)</span>
+
 <span class="sd">        :return: A duração por mês em um DataFrame.</span>
-<span class="sd">        :rtype: Optional[pd.DataFrame]</span>
+<span class="sd">        :rtype: pd.DataFrame | None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__bloco_por_tipo</span><span class="p">(</span><span class="n">BlocoIntercambioSubsistema</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">b</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -198,8 +216,14 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Tabela com o mercado total de energia por período de estudo.</span>
 
+<span class="sd">        - Subsistema (`int`)</span>
+<span class="sd">        - Ano (`int`)</span>
+<span class="sd">        - Janeiro (`float`)</span>
+<span class="sd">        - ...</span>
+<span class="sd">        - Dezembro (`float`)</span>
+
 <span class="sd">        :return: A carga por mês em um DataFrame.</span>
-<span class="sd">        :rtype: Optional[pd.DataFrame]</span>
+<span class="sd">        :rtype: pd.DataFrame | None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__bloco_por_tipo</span><span class="p">(</span><span class="n">BlocoMercadoEnergiaSistema</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">b</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -218,8 +242,16 @@
 <span class="sd">        Tabela com a geração das usinas não simuladas por fonte</span>
 <span class="sd">        de geração.</span>
 
+<span class="sd">        - Subsistema (`int`)</span>
+<span class="sd">        - Bloco (`int`)</span>
+<span class="sd">        - Razão (`str`)</span>
+<span class="sd">        - Ano (`int`)</span>
+<span class="sd">        - Janeiro (`float`)</span>
+<span class="sd">        - ...</span>
+<span class="sd">        - Dezembro (`float`)</span>
+
 <span class="sd">        :return: A carga por mês em um DataFrame.</span>
-<span class="sd">        :rtype: Optional[pd.DataFrame]</span>
+<span class="sd">        :rtype: pd.DataFrame | None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__bloco_por_tipo</span><span class="p">(</span><span class="n">BlocoGeracaoUsinasNaoSimuladas</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">b</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>

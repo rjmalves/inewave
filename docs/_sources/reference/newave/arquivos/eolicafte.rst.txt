@@ -6,9 +6,6 @@ Função de Produção Vento-Potência de Usina Eólicas (eolica-fte.csv)
 
 .. currentmodule:: inewave.newave.eolicafte
 
-Visão geral do modelo
-======================
-
 As informações das funções de produção das usinas eólicas no NEWAVE, localizadas no arquivo geralmente denominado
 eolica-fte.csv, são armazenadas na classe:
 
@@ -19,9 +16,6 @@ eolica-fte.csv, são armazenadas na classe:
 
 .. currentmodule:: inewave.newave.modelos.eolicafte
 
-
-Campos
-======================
 
 As informações existentes em cada um dos campos são armazenadas em modelos próprios
 para cada um.

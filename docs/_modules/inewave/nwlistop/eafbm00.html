@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>inewave.nwlistop.eafbm00 &mdash; documentação inewave 0.0.53</title>
+  <title>inewave.nwlistop.eafbm00 &mdash; documentação inewave 0.0.61</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/sg_gallery.css" type="text/css" />
@@ -147,8 +147,14 @@
 <span class="sd">        Tabela com as energias alfuentes totais por série e</span>
 <span class="sd">        por mês/ano de estudo.</span>
 
+<span class="sd">        - Ano (`int`)</span>
+<span class="sd">        - Série (`int`)</span>
+<span class="sd">        - Janeiro (`float`)</span>
+<span class="sd">        - ...</span>
+<span class="sd">        - Dezembro (`float`)</span>
+
 <span class="sd">        :return: A tabela das energias afluentes.</span>
-<span class="sd">        :rtype: Optional[pd.DataFrame]</span>
+<span class="sd">        :rtype: pd.DataFrame</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__earms</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">__earms</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__monta_tabela</span><span class="p">()</span>

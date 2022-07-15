@@ -61,6 +61,7 @@
 <li class="toctree-l4"><a class="reference internal" href="earmfp00.html">Energia Armazenada Final Percentual por REE (earmfp00x.out)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="earmfpm00.html">Energia Armazenada Final Percentual por Submercado (earmfpm00x.out)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="earmfpsin.html">Energia Armazenada Final Percentual para o SIN (earmfpsin.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="earmfm00.html">Energia Armazenada Final por Submercado (earmfm00x.out)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="earmfsin.html">Energia Armazenada Final para o SIN (earmfsin.out)</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">Geração Hidráulica Total por REE (ghtot00x.out)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ghtotm00.html">Geração Hidráulica Total por Submercado (ghtotm00x.out)</a></li>
@@ -114,8 +115,6 @@
              
   <section id="geracao-hidraulica-total-por-ree-ghtot00x-out">
 <span id="ghtot00"></span><h1>Geração Hidráulica Total por REE (ghtot00x.out)<a class="headerlink" href="#geracao-hidraulica-total-por-ree-ghtot00x-out" title="Link permanente para este cabeçalho"></a></h1>
-<section id="visao-geral-do-modelo">
-<h2>Visão geral do modelo<a class="headerlink" href="#visao-geral-do-modelo" title="Link permanente para este cabeçalho"></a></h2>
 <p>Os valores de geração hidráulica por REE, localizados nos arquivos geralmente denominados
 ghtot00x.out, onde x varia conforme o REE, são armazenados na classe:</p>
 <dl class="py class">
@@ -131,12 +130,20 @@ REE em questão.</p>
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">geracao</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">DataFrame</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#inewave.nwlistop.ghtot00.Ghtot00.geracao" title="Link permanente para esta definição"></a></dt>
 <dd><p>Tabela com a geração hidráulica total por série e
 por mês/ano de estudo.</p>
+<ul class="simple">
+<li><p>Ano (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>)</p></li>
+<li><p>Série (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>)</p></li>
+<li><p>Patamar (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>)</p></li>
+<li><p>Janeiro (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>)</p></li>
+<li><p>…</p></li>
+<li><p>Dezembro (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>)</p></li>
+</ul>
 <dl class="field-list simple">
 <dt class="field-odd">Retorna</dt>
 <dd class="field-odd"><p>A tabela da geração hidráulica.</p>
 </dd>
 <dt class="field-even">Tipo de retorno</dt>
-<dd class="field-even"><p>Optional[pd.DataFrame]</p>
+<dd class="field-even"><p>pd.DataFrame | None</p>
 </dd>
 </dl>
 </dd></dl>
@@ -157,7 +164,6 @@ por mês/ano de estudo.</p>
 
 </dd></dl>
 
-</section>
 </section>
 
 

@@ -51,8 +51,14 @@ class EafbSIN(BlockFile):
         Tabela com as energias por série e
         por mês/ano de estudo.
 
+        - Ano (`int`)
+        - Série (`int`)
+        - Janeiro (`float`)
+        - ...
+        - Dezembro (`float`)
+
         :return: A tabela de energia afluente.
-        :rtype: Optional[pd.DataFrame]
+        :rtype: pd.DataFrame
         """
         if self.__earm is None:
             self.__earm = self.__monta_tabela()

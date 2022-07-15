@@ -110,8 +110,6 @@
              
   <section id="subsistemas-ou-submercados-de-energia-sistema-dat">
 <span id="sistema"></span><h1>Subsistemas ou Submercados de Energia (sistema.dat)<a class="headerlink" href="#subsistemas-ou-submercados-de-energia-sistema-dat" title="Link permanente para este cabeçalho"></a></h1>
-<section id="visao-geral-do-modelo">
-<h2>Visão geral do modelo<a class="headerlink" href="#visao-geral-do-modelo" title="Link permanente para este cabeçalho"></a></h2>
 <p>As configurações dos subsistemas ou submercados do NEWAVE
 , localizadas no arquivo geralmente denominado sistema.dat, são armazenadas na classe:</p>
 <dl class="py class">
@@ -124,12 +122,23 @@ dos subsistemas (submercados).</p>
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">custo_deficit</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">DataFrame</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#inewave.newave.sistema.Sistema.custo_deficit" title="Link permanente para esta definição"></a></dt>
 <dd><p>Tabela com o custo de cada patamar de déficit, por
 subsistema.</p>
+<ul class="simple">
+<li><p>Num. Subsistema (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>)</p></li>
+<li><p>Nome (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>)</p></li>
+<li><p>Fictício (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>)</p></li>
+<li><p>Custo Pat 1 (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>)</p></li>
+<li><p>…</p></li>
+<li><p>Custo Pat 5 (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>)</p></li>
+<li><p>Corte Pat 1 (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>)</p></li>
+<li><p>…</p></li>
+<li><p>Corte Pat 5 (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>)</p></li>
+</ul>
 <dl class="field-list simple">
 <dt class="field-odd">Retorna</dt>
 <dd class="field-odd"><p>A duração por mês em um DataFrame.</p>
 </dd>
 <dt class="field-even">Tipo de retorno</dt>
-<dd class="field-even"><p>Optional[pd.DataFrame]</p>
+<dd class="field-even"><p>pd.DataFrame | None</p>
 </dd>
 </dl>
 </dd></dl>
@@ -139,12 +148,21 @@ subsistema.</p>
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">geracao_usinas_nao_simuladas</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">DataFrame</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#inewave.newave.sistema.Sistema.geracao_usinas_nao_simuladas" title="Link permanente para esta definição"></a></dt>
 <dd><p>Tabela com a geração das usinas não simuladas por fonte
 de geração.</p>
+<ul class="simple">
+<li><p>Subsistema (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>)</p></li>
+<li><p>Bloco (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>)</p></li>
+<li><p>Razão (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>)</p></li>
+<li><p>Ano (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>)</p></li>
+<li><p>Janeiro (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>)</p></li>
+<li><p>…</p></li>
+<li><p>Dezembro (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>)</p></li>
+</ul>
 <dl class="field-list simple">
 <dt class="field-odd">Retorna</dt>
 <dd class="field-odd"><p>A carga por mês em um DataFrame.</p>
 </dd>
 <dt class="field-even">Tipo de retorno</dt>
-<dd class="field-even"><p>Optional[pd.DataFrame]</p>
+<dd class="field-even"><p>pd.DataFrame | None</p>
 </dd>
 </dl>
 </dd></dl>
@@ -154,12 +172,21 @@ de geração.</p>
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">limites_intercambio</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">DataFrame</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#inewave.newave.sistema.Sistema.limites_intercambio" title="Link permanente para esta definição"></a></dt>
 <dd><p>Tabela com o limite de intercâmbio por par de
 subsistemas.</p>
+<ul class="simple">
+<li><p>Subsistema De (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>)</p></li>
+<li><p>Subsistema Para (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>)</p></li>
+<li><p>Sentido (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>)</p></li>
+<li><p>Ano (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>)</p></li>
+<li><p>Janeiro (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>)</p></li>
+<li><p>…</p></li>
+<li><p>Dezembro (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>)</p></li>
+</ul>
 <dl class="field-list simple">
 <dt class="field-odd">Retorna</dt>
 <dd class="field-odd"><p>A duração por mês em um DataFrame.</p>
 </dd>
 <dt class="field-even">Tipo de retorno</dt>
-<dd class="field-even"><p>Optional[pd.DataFrame]</p>
+<dd class="field-even"><p>pd.DataFrame | None</p>
 </dd>
 </dl>
 </dd></dl>
@@ -168,12 +195,19 @@ subsistemas.</p>
 <dt class="sig sig-object py" id="inewave.newave.sistema.Sistema.mercado_energia">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">mercado_energia</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">DataFrame</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#inewave.newave.sistema.Sistema.mercado_energia" title="Link permanente para esta definição"></a></dt>
 <dd><p>Tabela com o mercado total de energia por período de estudo.</p>
+<ul class="simple">
+<li><p>Subsistema (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>)</p></li>
+<li><p>Ano (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>)</p></li>
+<li><p>Janeiro (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>)</p></li>
+<li><p>…</p></li>
+<li><p>Dezembro (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>)</p></li>
+</ul>
 <dl class="field-list simple">
 <dt class="field-odd">Retorna</dt>
 <dd class="field-odd"><p>A carga por mês em um DataFrame.</p>
 </dd>
 <dt class="field-even">Tipo de retorno</dt>
-<dd class="field-even"><p>Optional[pd.DataFrame]</p>
+<dd class="field-even"><p>pd.DataFrame | None</p>
 </dd>
 </dl>
 </dd></dl>
@@ -187,14 +221,13 @@ subsistemas.</p>
 <dd class="field-odd"><p>O número de patamares como um inteiro</p>
 </dd>
 <dt class="field-even">Tipo de retorno</dt>
-<dd class="field-even"><p>Optional[int]</p>
+<dd class="field-even"><p>int | None</p>
 </dd>
 </dl>
 </dd></dl>
 
 </dd></dl>
 
-</section>
 </section>
 
 

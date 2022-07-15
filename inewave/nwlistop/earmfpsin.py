@@ -52,8 +52,14 @@ class EarmfpSIN(BlockFile):
         Tabela com as energias armazenadas percentuais por série e
         por mês/ano de estudo.
 
+        - Ano (`int`)
+        - Série (`int`)
+        - Janeiro (`float`)
+        - ...
+        - Dezembro (`float`)
+
         :return: A tabela das energias armazenadas.
-        :rtype: Optional[pd.DataFrame]
+        :rtype: pd.DataFrame
         """
         if self.__earms is None:
             self.__earms = self.__monta_tabela()

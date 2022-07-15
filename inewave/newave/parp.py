@@ -274,8 +274,16 @@ class PARp(BlockFile):
         A tabela de séries de ruído para todos os REEs,
         no mesmo formato do arquivo `parp.dat`.
 
+        - REE (`str`)
+        - Ano (`int`)
+        - Série (`int`)
+        - Janeiro (`float`)
+        - Fevereiro (`float`)
+        - ...
+        - Dezembro (`float`)
+
         :return: A tabela como um DataFrame.
-        :rtype: Optional[pd.DataFrame]
+        :rtype: pd.DataFrame | None
         """
         if self.__series_ruido is None:
             self.__series_ruido = self.__concatena_dados(BlocoSerieRuidosREE)
@@ -292,8 +300,16 @@ class PARp(BlockFile):
         A tabela de séries de médias para todos os REEs,
         no mesmo formato do arquivo `parp.dat`.
 
+        - REE (`str`)
+        - Ano (`int`)
+        - Série (`int`)
+        - Janeiro (`float`)
+        - Fevereiro (`float`)
+        - ...
+        - Dezembro (`float`)
+
         :return: A tabela como um DataFrame.
-        :rtype: Optional[pd.DataFrame]
+        :rtype: pd.DataFrame | None
         """
         if self.__series_media is None:
             self.__series_media = self.__concatena_dados(BlocoSerieMediasREE)
@@ -311,8 +327,15 @@ class PARp(BlockFile):
         todas as configurações vigentes e REEs,
         no mesmo formato do arquivo `parp.dat`.
 
+        - REE (`str`)
+        - Data (`date`)
+        - Lag 1 (`float`)
+        - Lag 2 (`float`)
+        - ...
+        - Lag 11 (`float`)
+
         :return: A tabela como um DataFrame
-        :rtype: Optional[pd.DataFrame]
+        :rtype: pd.DataFrame | None
         """
         if self.__correl_series_energia is None:
             self.__correl_series_energia = self.__concatena_dados(
@@ -330,8 +353,15 @@ class PARp(BlockFile):
         todas as configurações vigentes e REEs,
         no mesmo formato do arquivo `parp.dat`.
 
+        - REE (`str`)
+        - Data (`date`)
+        - Lag 1 (`float`)
+        - Lag 2 (`float`)
+        - ...
+        - Lag 11 (`float`)
+
         :return: A tabela como um DataFrame
-        :rtype: Optional[pd.DataFrame]
+        :rtype: pd.DataFrame | None
         """
         if self.__correl_parcial_series_energia is None:
             self.__correl_parcial_series_energia = self.__concatena_dados(
@@ -349,8 +379,15 @@ class PARp(BlockFile):
         todas as configurações vigentes e REEs,
         no mesmo formato do arquivo `parp.dat`.
 
+        - REE (`str`)
+        - Data (`date`)
+        - Lag 1 (`float`)
+        - Lag 2 (`float`)
+        - ...
+        - Lag 11 (`float`)
+
         :return: A tabela como um DataFrame
-        :rtype: Optional[pd.DataFrame]
+        :rtype: pd.DataFrame | None
         """
         if self.__correl_series_ruido is None:
             self.__correl_series_ruido = self.__concatena_dados(
@@ -368,8 +405,15 @@ class PARp(BlockFile):
         as séries de energia para todas as configurações vigentes e REEs,
         no mesmo formato do arquivo `parp.dat`.
 
+        - REE (`str`)
+        - Data (`date`)
+        - Janeiro (`float`)
+        - Fevereiro (`float`)
+        - ...
+        - Dezembro (`float`)
+
         :return: A tabela como um DataFrame
-        :rtype: Optional[pd.DataFrame]
+        :rtype: pd.DataFrame | None
         """
         if self.__correl_cruzada_media is None:
             self.__correl_cruzada_media = self.__concatena_dados(
@@ -387,8 +431,15 @@ class PARp(BlockFile):
         de cada REE, no mesmo formato do arquivo `parp.dat`,
         organizada por ano de estudo.
 
+        - REE (`str`)
+        - Ano (`int`)
+        - Janeiro (`int`)
+        - Fevereiro (`int`)
+        - ...
+        - Dezembro (`int`)
+
         :return: A tabela como um DataFrame
-        :rtype: Optional[pd.DataFrame]
+        :rtype: pd.DataFrame | None
         """
 
         if self.__ordem_original_modelo is None:
@@ -411,8 +462,15 @@ class PARp(BlockFile):
         de cada REE, no mesmo formato do arquivo `parp.dat`,
         organizada por ano de estudo.
 
+        - REE (`str`)
+        - Ano (`int`)
+        - Janeiro (`int`)
+        - Fevereiro (`int`)
+        - ...
+        - Dezembro (`int`)
+
         :return: A tabela como um DataFrame.
-        :rtype: Optional[pd.DataFrame]
+        :rtype: pd.DataFrame | None
         """
         if self.__ordem_final_modelo is None:
             dados = self.__concatena_dados(BlocoOrdemModeloREE)
@@ -434,8 +492,21 @@ class PARp(BlockFile):
         de cada REE, no mesmo formato do arquivo `parp.dat`,
         organizada por período de estudo.
 
+        - REE (`str`)
+        - Estágio (`int`)
+        - Psi 1 (`int`)
+        - Psi 2 (`int`)
+        - ...
+        - Psi 11 (`int`)
+        - Psi A (`int`)
+        - Psi Norm 1 (`int`)
+        - Psi Norm 2 (`int`)
+        - ...
+        - Psi Norm 11 (`int`)
+        - Psi Norm A (`int`)
+
         :return: A tabela como um DataFrame.
-        :rtype: Optional[pd.DataFrame]
+        :rtype: pd.DataFrame | None
         """
         if self.__coeficientes is None:
             dados = self.__concatena_dados(BlocoCoeficientesModeloREE)
@@ -451,8 +522,15 @@ class PARp(BlockFile):
         A tabela de correlação para todas as configurações
         e REEs, no mesmo formato do arquivo `parp.dat`.
 
+        - Configuração (`int`)
+        - REE (`str`)
+        - <Nome do REE 1> (`str`)
+        - <Nome do REE 2> (`str`)
+        - ...
+        - <Nome do REE N> (`str`)
+
         :return: A tabela como um DataFrame.
-        :rtype: Optional[pd.DataFrame]
+        :rtype: pd.DataFrame | None
         """
         if self.__correl_espacial_anual is None:
             self.__correl_espacial_anual = self.__concatena_dados(
@@ -465,6 +543,14 @@ class PARp(BlockFile):
         """
         A tabela de correlação para todas as configurações
         e REEs, no mesmo formato do arquivo `parp.dat`.
+
+        - Configuração (`int`)
+        - REE (`str`)
+        - MES (`int`)
+        - <Nome do REE 1> (`str`)
+        - <Nome do REE 2> (`str`)
+        - ...
+        - <Nome do REE N> (`str`)
 
         :return: A tabela como um DataFrame.
         :rtype: Optional[pd.DataFrame]
