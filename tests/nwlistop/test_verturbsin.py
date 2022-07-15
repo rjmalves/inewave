@@ -1,4 +1,4 @@
-from inewave.nwlistop.vertubsin import VerturbSIN
+from inewave.nwlistop.verturbsin import VerturbSIN
 
 from tests.mocks.mock_open import mock_open
 from unittest.mock import MagicMock, patch

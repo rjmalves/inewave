@@ -146,7 +146,7 @@ class BlocoCustosDeficit(Section):
         ]
         for _, linha_dados in self.data.iterrows():
             dados_linha = linha_dados[cols].tolist()
-            dados_linha_escrita = linha_dados.tolist()[:3].tolist()
+            dados_linha_escrita = linha_dados.tolist()[:3]
             for d in dados_linha:
                 dados_linha_escrita.append(d if not np.isnan(d) else None)
             file.write(self.__linha.write(dados_linha_escrita))
