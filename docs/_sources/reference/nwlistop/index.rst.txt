@@ -66,10 +66,13 @@ Arquivos
    arquivos/cmarg00
    arquivos/cmarg00med
    arquivos/coper
+   arquivos/eafb00
    arquivos/eafbm00
+   arquivos/eafbsin
    arquivos/earmfp00
    arquivos/earmfpm00
    arquivos/earmfpsin
+   arquivos/earmfm00
    arquivos/earmfsin
    arquivos/ghtot00
    arquivos/ghtotm00
@@ -82,4 +85,8 @@ Arquivos
    arquivos/mediasmerc
    arquivos/mediassin
    arquivos/vagua00
+   arquivos/verturb
+   arquivos/verturbm
+   arquivos/verturbsin
    arquivos/varmuh
+   arquivos/vertuh

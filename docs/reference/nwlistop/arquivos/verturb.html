@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="pt-BR" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vertimento Turbinável por REE (verturb00x.out) &mdash; documentação inewave 0.0.61</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/sg_gallery.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/sg_gallery-binder.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/sg_gallery-dataframe.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/sg_gallery-rendered-html.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/translations.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Índice" href="../../../genindex.html" />
+    <link rel="search" title="Buscar" href="../../../search.html" />
+    <link rel="next" title="Vertimento Turbinável por Submercado (verturbm00x.out)" href="verturbm.html" />
+    <link rel="prev" title="Valor da Água por REE (vagua00x.out)" href="vagua00.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> inewave
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Pesquisar documentos" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Menu de navegação">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Instalação</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../../reference.html">Referência</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../newave/index.html">NEWAVE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../nwlistcf/index.html">NWLISTCF</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">NWLISTOP</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../index.html#basico-da-interface-nwlistop">Básico da interface NWLISTOP</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../index.html#arquivos">Arquivos</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="cmarg00.html">Custos Marginais (cmarg00x.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cmarg00med.html">Custos Marginais Médios (cmarg00x-med.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="coper.html">Custos Totais de Operação (coper.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="eafb00.html">Energia Afluente Bruta por REE (eafb00x.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="eafbm00.html">Energia Afluente Bruta por Submercado (eafbm00x.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="eafbsin.html">Energia Afluente Bruta para o SIN (eafbsin.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="earmfp00.html">Energia Armazenada Final Percentual por REE (earmfp00x.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="earmfpm00.html">Energia Armazenada Final Percentual por Submercado (earmfpm00x.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="earmfpsin.html">Energia Armazenada Final Percentual para o SIN (earmfpsin.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="earmfsin.html">Energia Armazenada Final para o SIN (earmfsin.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ghtot00.html">Geração Hidráulica Total por REE (ghtot00x.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ghtotm00.html">Geração Hidráulica Total por Submercado (ghtotm00x.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ghtotsin.html">Geração Hidráulica Total para o SIN (ghtotsin.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geol.html">Geração Eólica Total por PEE (geol00x.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geolm.html">Geração Eólica Total por Submercado (geolm00x.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geolsin.html">Geração Eólica Total para o SIN (geolsin.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gttot00.html">Geração Térmica Total por Submercado (gttot00x.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gttotsin.html">Geração Térmica Total para o SIN (gttotsin.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mediasmerc.html">Médias por Submercado (MEDIAS-MERC.CSV)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mediassin.html">Médias SIN (MEDIAS-SIN.CSV)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="vagua00.html">Valor da Água por REE (vagua00x.out)</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Vertimento Turbinável por REE (verturb00x.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="verturbm.html">Vertimento Turbinável por Submercado (verturbm00x.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="verturbsin.html">Vertimento Turbinável para o SIN (verturbsin.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="varmuh.html">Volume Armazenado por UH (varmuhx.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="vertuh.html">Volume Vertido por UH (vertuhx.out)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Menu de navegação móvel" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">inewave</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Navegação da página">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../../reference.html">Referência</a> &raquo;</li>
+          <li><a href="../index.html">NWLISTOP</a> &raquo;</li>
+      <li>Vertimento Turbinável por REE (verturb00x.out)</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/reference/nwlistop/arquivos/verturb.rst.txt" rel="nofollow"> Ver código-fonte da página</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="vertimento-turbinavel-por-ree-verturb00x-out">
+<span id="verturb"></span><h1>Vertimento Turbinável por REE (verturb00x.out)<a class="headerlink" href="#vertimento-turbinavel-por-ree-verturb00x-out" title="Link permanente para este cabeçalho"></a></h1>
+<section id="visao-geral-do-modelo">
+<h2>Visão geral do modelo<a class="headerlink" href="#visao-geral-do-modelo" title="Link permanente para este cabeçalho"></a></h2>
+<p>Os valores vertimento turbinável por REE, localizados nos arquivos geralmente denominados
+verturb00x.out, onde x varia conforme o REE, são armazenados na classe:</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="inewave.nwlistop.verturb.Verturb">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Verturb</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">Ellipsis</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/nwlistop/verturb.html#Verturb"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.nwlistop.verturb.Verturb" title="Link permanente para esta definição"></a></dt>
+<dd><p>Armazena os dados das saídas referentes às energias
+vertidas, por REE.</p>
+<p>Esta classe lida com as informações de saída fornecidas pelo
+NWLISTOP e reproduzidas nos <code class="xref py py-obj docutils literal notranslate"><span class="pre">vertub00x.out</span></code>, onde x varia conforme o
+REE em questão.</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.nwlistop.verturb.Verturb.ree">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ree</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#inewave.nwlistop.verturb.Verturb.ree" title="Link permanente para esta definição"></a></dt>
+<dd><p>O REE associado ao arquivo lido.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Retorna</dt>
+<dd class="field-odd"><p>Os nome do REE</p>
+</dd>
+<dt class="field-even">Tipo de retorno</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.nwlistop.verturb.Verturb.vertimentos">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">vertimentos</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">DataFrame</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#inewave.nwlistop.verturb.Verturb.vertimentos" title="Link permanente para esta definição"></a></dt>
+<dd><p>Tabela com as energias vertidas por série e
+por mês/ano de estudo.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Retorna</dt>
+<dd class="field-odd"><p>A tabela das energias vertidas.</p>
+</dd>
+<dt class="field-even">Tipo de retorno</dt>
+<dd class="field-even"><p>Optional[pd.DataFrame]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Rodapé">
+        <a href="vagua00.html" class="btn btn-neutral float-left" title="Valor da Água por REE (vagua00x.out)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Anterior</a>
+        <a href="verturbm.html" class="btn btn-neutral float-right" title="Vertimento Turbinável por Submercado (verturbm00x.out)" accesskey="n" rel="next">Próximo <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Rogerio José Menezes Alves.</p>
+  </div>
+
+  Compilado com <a href="https://www.sphinx-doc.org/">Sphinx</a> usando um
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">tema</a>
+    fornecido por <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
