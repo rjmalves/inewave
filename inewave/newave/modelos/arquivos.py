@@ -11,55 +11,11 @@ class BlocoNomesArquivos(Section):
     entrada do NEWAVE `arquivos.dat`.
     """
 
-    legendas = [
-        "DADOS GERAIS                :",
-        "DADOS DOS SUBSIST/SUBMERCADO:",
-        "CONFIGURACAO HIDRAULICA     :",
-        "ALTERACAO DADOS USINAS HIDRO:",
-        "CONFIGURACAO TERMICA        :",
-        "DADOS DAS USINAS TERMICAS   :",
-        "DADOS DAS CLASSES TERMICAS  :",
-        "DADOS DE EXPANSAO HIDRAULICA:",
-        "ARQUIVO DE EXPANSAO TERMICA :",
-        "ARQUIVO DE PATAMARES MERCADO:",
-        "ARQUIVO DE CORTES DE BENDERS:",
-        "ARQUIVO DE CABECALHO CORTES :",
-        "RELATORIO DE CONVERGENCIA   :",
-        "RELATORIO DE E. SINTETICAS  :",
-        "RELATORIO DETALHADO FORWARD :",
-        "ARQUIVO DE CABECALHO FORWARD:",
-        "ARQUIVO DE S.HISTORICAS S.F.:",
-        "ARQUIVO DE MANUT.PROG. UTE'S:",
-        "ARQUIVO P/DESPACHO HIDROTERM:",
-        "ARQUIVO C/TEND. HIDROLOGICA :",
-        "ARQUIVO C/DADOS DE ITAIPU   :",
-        "ARQUIVO C/DEMAND S. BIDDING :",
-        "ARQUIVO C/CARGAS ADICIONAIS :",
-        "ARQUIVO C/FATORES DE PERDAS :",
-        "ARQUIVO C/PATAMARES GTMIN   :",
-        "ARQUIVO ENSO 1              :",
-        "ARQUIVO ENSO 2              :",
-        "ARQUIVO DSVAGUA             :",
-        "ARQUIVO P/PENALID. POR DESV.:",
-        "ARQUIVO C.GUIA / PENAL.VMINT:",
-        "ARQUIVO AGRUPAMENTO LIVRE   :",
-        "ARQUIVO ANTEC.DESP.GNL      :",
-        "ARQUIVO GER. HIDR. MIN.     :",
-        "ARQUIVO AVERSAO RISCO - SAR :",
-        "ARQUIVO AVERSAO RISCO - CVAR:",
-        "DADOS DOS RESER.EQ.ENERGIA  :",
-        "DADOS DOS REST. ELETRICAS   :",
-        "ARQUIVO DE TECNOLOGIAS      :",
-        "DADOS DE ABERTURAS          :",
-        "ARQUIVO DE EMISSOES GEE     :",
-        "ARQUIVO DE RESTRICAO DE GAS :",
-    ]
-
     FIM_BLOCO = " 9999"
 
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([LiteralField(30, 0), LiteralField(40, 29)])
+        self.__linha = Line([LiteralField(30, 0), LiteralField(40, 30)])
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoNomesArquivos):
