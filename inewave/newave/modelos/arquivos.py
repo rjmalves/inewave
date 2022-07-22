@@ -59,7 +59,7 @@ class BlocoNomesArquivos(Section):
 
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([LiteralField(29, 0), LiteralField(40, 29)])
+        self.__linha = Line([LiteralField(30, 0), LiteralField(40, 29)])
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoNomesArquivos):
