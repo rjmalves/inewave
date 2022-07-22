@@ -506,7 +506,10 @@ class BlocoGeracaoUsinasNaoSimuladas(Section):
         while True:
             linha = file.readline()
             # Confere se terminaram
-            if len(linha) < 3:
+            if (
+                BlocoGeracaoUsinasNaoSimuladas.FIM_BLOCO in linha[:4]
+                or len(linha) < 3
+            ):
                 # Converte para df e salva na variável
                 if i > 0:
                     tabela = tabela[:i, :]
@@ -538,37 +541,45 @@ class BlocoGeracaoUsinasNaoSimuladas(Section):
                 "Dados do sistema.dat não foram lidos com sucesso"
             )
 
-        ultimo_subsistema = 0
+        ultimo_subsistema: Optional[int] = 0
         ultimo_bloco: Optional[int] = 0
         ultima_razao: Optional[str] = ""
 
         for _, linha in self.data.iterrows():
             linha_lida: pd.Series = linha
+            novo_subsis = (
+                int(linha_lida["Subsistema"])
+                if not np.isnan(linha_lida["Subsistema"])
+                else None
+            )
+            novo_bloco = (
+                int(linha_lida["Bloco"])
+                if not np.isnan(linha_lida["Bloco"])
+                else None
+            )
+            nova_razao = (
+                str(linha_lida["Razão"])
+                if not linha_lida["Razão"] is None
+                else None
+            )
             if any(
                 [
-                    linha_lida["Subsistema"] != ultimo_subsistema,
-                    linha_lida["Bloco"] != ultimo_bloco,
-                    linha_lida["Razão"] != ultima_razao,
+                    novo_subsis != ultimo_subsistema,
+                    novo_bloco != ultimo_bloco,
+                    nova_razao != ultima_razao,
                 ]
             ):
                 ultimo_ano = 0
-                ultimo_subsistema = int(linha_lida["Subsistema"])
-                ultimo_bloco = (
-                    int(linha_lida["Bloco"])
-                    if not np.isnan(linha_lida["Bloco"])
-                    else None
-                )
-                ultima_razao = (
-                    str(linha_lida["Razão"])
-                    if not linha_lida["Razão"] is None
-                    else None
-                )
+                ultimo_subsistema = novo_subsis
+                ultimo_bloco = novo_bloco
+                ultima_razao = nova_razao
+                print(ultimo_subsistema, ultimo_bloco, ultima_razao)
                 file.write(
                     self.__linha_subsis.write(
                         [
-                            ultimo_subsistema,
-                            ultimo_bloco,
-                            ultima_razao,
+                            novo_subsis,
+                            novo_bloco,
+                            nova_razao,
                         ]
                     )
                 )
@@ -582,5 +593,6 @@ class BlocoGeracaoUsinasNaoSimuladas(Section):
             dados_linha_escrita = []
             for d in dados_linha:
                 dados_linha_escrita.append(d if not np.isnan(d) else None)
+            print(dados_linha_escrita)
             file.write(self.__linha.write([ano_linha] + dados_linha_escrita))
         file.write(BlocoGeracaoUsinasNaoSimuladas.FIM_BLOCO + "\n")
