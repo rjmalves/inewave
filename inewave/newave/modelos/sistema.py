@@ -242,6 +242,7 @@ class BlocoIntercambioSubsistema(Section):
                 break
             # Confere se é uma linha de subsistema ou tabela
             if len(linha) < 30:
+                print(linha)
                 dados = self.__linha_subsis.read(linha)
                 subsis_de_atual = (
                     subsis_de_atual if dados[0] is None else dados[0]
@@ -250,8 +251,8 @@ class BlocoIntercambioSubsistema(Section):
                     subsis_para_atual if dados[1] is None else dados[1]
                 )
                 sentido_atual = (
-                    sentido_atual
-                    if dados[2] is None
+                    dados[2]
+                    if dados[2] is not None
                     else int(not sentido_atual)
                 )
             else:
