@@ -573,7 +573,6 @@ class BlocoGeracaoUsinasNaoSimuladas(Section):
                 ultimo_subsistema = novo_subsis
                 ultimo_bloco = novo_bloco
                 ultima_razao = nova_razao
-                print(ultimo_subsistema, ultimo_bloco, ultima_razao)
                 file.write(
                     self.__linha_subsis.write(
                         [
@@ -593,6 +592,5 @@ class BlocoGeracaoUsinasNaoSimuladas(Section):
             dados_linha_escrita = []
             for d in dados_linha:
                 dados_linha_escrita.append(d if not np.isnan(d) else None)
-            print(dados_linha_escrita)
             file.write(self.__linha.write([ano_linha] + dados_linha_escrita))
         file.write(BlocoGeracaoUsinasNaoSimuladas.FIM_BLOCO + "\n")
