@@ -49,9 +49,14 @@ class Arquivos(SectionFile):
         except StopIteration:
             return None
 
-    def __le_nome_por_indice(self, indice: int) -> str:
+    def __le_nome_por_indice(self, indice: int) -> Optional[str]:
         b = self.__bloco_por_tipo(BlocoNomesArquivos, 0)
-        return b.data.iloc[indice, 1] if b is not None else ""
+        if b is not None:
+            if indice in b.data.index:
+                dado = b.data.iloc[indice, 1]
+                if isinstance(dado, str):
+                    return dado
+        return None
 
     def __atualiza_nome_por_indice(self, indice: int, nome: str):
         b = self.__bloco_por_tipo(BlocoNomesArquivos, 0)
@@ -87,7 +92,7 @@ class Arquivos(SectionFile):
         return b.data.iloc[indices_entrada, 1]
 
     @property
-    def dger(self) -> str:
+    def dger(self) -> Optional[str]:
         """
         Nome do arquivo de dados gerais utilizado pelo NEWAVE.
         """
@@ -98,7 +103,7 @@ class Arquivos(SectionFile):
         self.__atualiza_nome_por_indice(0, arq)
 
     @property
-    def sistema(self) -> str:
+    def sistema(self) -> Optional[str]:
         """
         Nome do arquivo de subsistemas utilizado pelo NEWAVE.
         """
@@ -109,7 +114,7 @@ class Arquivos(SectionFile):
         self.__atualiza_nome_por_indice(1, arq)
 
     @property
-    def confhd(self) -> str:
+    def confhd(self) -> Optional[str]:
         """
         Nome do arquivo de configuração hidráulica utilizado pelo NEWAVE.
         """
@@ -120,7 +125,7 @@ class Arquivos(SectionFile):
         self.__atualiza_nome_por_indice(2, arq)
 
     @property
-    def modif(self) -> str:
+    def modif(self) -> Optional[str]:
         """
         Nome do arquivo de modificações hidráulicas utilizado pelo NEWAVE.
         """
@@ -131,7 +136,7 @@ class Arquivos(SectionFile):
         self.__atualiza_nome_por_indice(3, arq)
 
     @property
-    def conft(self) -> str:
+    def conft(self) -> Optional[str]:
         """
         Nome do arquivo de configuração térmica utilizado pelo NEWAVE.
         """
@@ -142,7 +147,7 @@ class Arquivos(SectionFile):
         self.__atualiza_nome_por_indice(4, arq)
 
     @property
-    def term(self) -> str:
+    def term(self) -> Optional[str]:
         """
         Nome do arquivo de dados de térmicas utilizado pelo NEWAVE.
         """
@@ -153,7 +158,7 @@ class Arquivos(SectionFile):
         self.__atualiza_nome_por_indice(5, arq)
 
     @property
-    def clast(self) -> str:
+    def clast(self) -> Optional[str]:
         """
         Nome do arquivo de classes térmicas utilizado pelo NEWAVE.
         """
@@ -164,7 +169,7 @@ class Arquivos(SectionFile):
         self.__atualiza_nome_por_indice(6, arq)
 
     @property
-    def exph(self) -> str:
+    def exph(self) -> Optional[str]:
         """
         Nome do arquivo de expansão hidráulica utilizado pelo NEWAVE.
         """
@@ -175,7 +180,7 @@ class Arquivos(SectionFile):
         self.__atualiza_nome_por_indice(7, arq)
 
     @property
-    def expt(self) -> str:
+    def expt(self) -> Optional[str]:
         """
         Nome do arquivo de expansão térmica utilizado pelo NEWAVE.
         """
@@ -186,7 +191,7 @@ class Arquivos(SectionFile):
         self.__atualiza_nome_por_indice(8, arq)
 
     @property
-    def patamar(self) -> str:
+    def patamar(self) -> Optional[str]:
         """
         Nome do arquivo de patamares de mercado utilizado pelo NEWAVE.
         """
@@ -197,7 +202,7 @@ class Arquivos(SectionFile):
         self.__atualiza_nome_por_indice(9, arq)
 
     @property
-    def cortes(self) -> str:
+    def cortes(self) -> Optional[str]:
         """
         Nome do arquivo de cortes utilizado pelo NEWAVE.
         """
@@ -208,7 +213,7 @@ class Arquivos(SectionFile):
         self.__atualiza_nome_por_indice(10, arq)
 
     @property
-    def cortesh(self) -> str:
+    def cortesh(self) -> Optional[str]:
         """
         Nome do arquivo de cabeçalho de cortes utilizado pelo NEWAVE.
         """
@@ -219,7 +224,7 @@ class Arquivos(SectionFile):
         self.__atualiza_nome_por_indice(11, arq)
 
     @property
-    def pmo(self) -> str:
+    def pmo(self) -> Optional[str]:
         """
         Nome do arquivo de relatório de execução utilizado pelo NEWAVE.
         """
@@ -230,7 +235,7 @@ class Arquivos(SectionFile):
         self.__atualiza_nome_por_indice(12, arq)
 
     @property
-    def parp(self) -> str:
+    def parp(self) -> Optional[str]:
         """
         Nome do arquivo de séries sintéticas utilizado pelo NEWAVE.
         """
@@ -241,7 +246,7 @@ class Arquivos(SectionFile):
         self.__atualiza_nome_por_indice(13, arq)
 
     @property
-    def forward(self) -> str:
+    def forward(self) -> Optional[str]:
         """
         Nome do arquivo de relatório da forward utilizado pelo NEWAVE.
         """
@@ -252,7 +257,7 @@ class Arquivos(SectionFile):
         self.__atualiza_nome_por_indice(14, arq)
 
     @property
-    def forwardh(self) -> str:
+    def forwardh(self) -> Optional[str]:
         """
         Nome do arquivo de cabeçalho da forward utilizado pelo NEWAVE.
         """
@@ -263,7 +268,7 @@ class Arquivos(SectionFile):
         self.__atualiza_nome_por_indice(15, arq)
 
     @property
-    def shist(self) -> str:
+    def shist(self) -> Optional[str]:
         """
         Nome do arquivo de séries históricas utilizado pelo NEWAVE.
         """
@@ -274,7 +279,7 @@ class Arquivos(SectionFile):
         self.__atualiza_nome_por_indice(16, arq)
 
     @property
-    def manutt(self) -> str:
+    def manutt(self) -> Optional[str]:
         """
         Nome do arquivo de programação da manutenção de
         térmicas utilizado pelo NEWAVE.
@@ -286,7 +291,7 @@ class Arquivos(SectionFile):
         self.__atualiza_nome_por_indice(17, arq)
 
     @property
-    def newdesp(self) -> str:
+    def newdesp(self) -> Optional[str]:
         """
         Nome do arquivo de despacho hidrotérmico utilizado pelo NEWAVE.
         """
@@ -297,7 +302,7 @@ class Arquivos(SectionFile):
         self.__atualiza_nome_por_indice(18, arq)
 
     @property
-    def vazpast(self) -> str:
+    def vazpast(self) -> Optional[str]:
         """
         Nome do arquivo de tendência hidrológica utilizado pelo NEWAVE.
         """
@@ -308,7 +313,7 @@ class Arquivos(SectionFile):
         self.__atualiza_nome_por_indice(19, arq)
 
     @property
-    def itaipu(self) -> str:
+    def itaipu(self) -> Optional[str]:
         """
         Nome do arquivo de dados de Itaipu utilizado pelo NEWAVE.
         """
@@ -319,7 +324,7 @@ class Arquivos(SectionFile):
         self.__atualiza_nome_por_indice(20, arq)
 
     @property
-    def bid(self) -> str:
+    def bid(self) -> Optional[str]:
         """
         Nome do arquivo de bidding utilizado pelo NEWAVE.
         """
@@ -330,7 +335,7 @@ class Arquivos(SectionFile):
         self.__atualiza_nome_por_indice(21, arq)
 
     @property
-    def c_adic(self) -> str:
+    def c_adic(self) -> Optional[str]:
         """
         Nome do arquivo de cargas adicionais utilizado pelo NEWAVE.
         """
@@ -341,7 +346,7 @@ class Arquivos(SectionFile):
         self.__atualiza_nome_por_indice(22, arq)
 
     @property
-    def perda(self) -> str:
+    def perda(self) -> Optional[str]:
         """
         Nome do arquivo de fatores de perdas utilizado pelo NEWAVE.
         """
@@ -352,7 +357,7 @@ class Arquivos(SectionFile):
         self.__atualiza_nome_por_indice(23, arq)
 
     @property
-    def gtminpat(self) -> str:
+    def gtminpat(self) -> Optional[str]:
         """
         Nome do arquivo de patamares de geração térmica
         mínima utilizado pelo NEWAVE.
@@ -364,7 +369,7 @@ class Arquivos(SectionFile):
         self.__atualiza_nome_por_indice(24, arq)
 
     @property
-    def elnino(self) -> str:
+    def elnino(self) -> Optional[str]:
         """
         Nome do arquivo de ENSO 1 utilizado pelo NEWAVE.
         """
@@ -375,7 +380,7 @@ class Arquivos(SectionFile):
         self.__atualiza_nome_por_indice(25, arq)
 
     @property
-    def ensoaux(self) -> str:
+    def ensoaux(self) -> Optional[str]:
         """
         Nome do arquivo de ENSO 2 utilizado pelo NEWAVE.
         """
@@ -386,7 +391,7 @@ class Arquivos(SectionFile):
         self.__atualiza_nome_por_indice(26, arq)
 
     @property
-    def dsvagua(self) -> str:
+    def dsvagua(self) -> Optional[str]:
         """
         Nome do arquivo de desvio de água utilizado pelo NEWAVE.
         """
@@ -397,7 +402,7 @@ class Arquivos(SectionFile):
         self.__atualiza_nome_por_indice(27, arq)
 
     @property
-    def penalid(self) -> str:
+    def penalid(self) -> Optional[str]:
         """
         Nome do arquivo de penalidades por desvio utilizado pelo NEWAVE.
         """
@@ -408,7 +413,7 @@ class Arquivos(SectionFile):
         self.__atualiza_nome_por_indice(28, arq)
 
     @property
-    def curva(self) -> str:
+    def curva(self) -> Optional[str]:
         """
         Nome do arquivo com a curva guia de penalidades por
         volume mínimo armazenado utilizado pelo NEWAVE.
@@ -420,7 +425,7 @@ class Arquivos(SectionFile):
         self.__atualiza_nome_por_indice(29, arq)
 
     @property
-    def agrint(self) -> str:
+    def agrint(self) -> Optional[str]:
         """
         Nome do arquivo de agrupamento livre de intercâmbios
         utilizado pelo NEWAVE.
@@ -432,7 +437,7 @@ class Arquivos(SectionFile):
         self.__atualiza_nome_por_indice(30, arq)
 
     @property
-    def adterm(self) -> str:
+    def adterm(self) -> Optional[str]:
         """
         Nome do arquivo de atencipação de despacho GNL
         utilizado pelo NEWAVE.
@@ -444,7 +449,7 @@ class Arquivos(SectionFile):
         self.__atualiza_nome_por_indice(31, arq)
 
     @property
-    def ghmin(self) -> str:
+    def ghmin(self) -> Optional[str]:
         """
         Nome do arquivo de geração hidraulica mínima utilizado pelo NEWAVE.
         """
@@ -455,7 +460,7 @@ class Arquivos(SectionFile):
         self.__atualiza_nome_por_indice(32, arq)
 
     @property
-    def sar(self) -> str:
+    def sar(self) -> Optional[str]:
         """
         Nome do arquivo de aversão a risco SAR utilizado pelo NEWAVE.
         """
@@ -466,7 +471,7 @@ class Arquivos(SectionFile):
         self.__atualiza_nome_por_indice(33, arq)
 
     @property
-    def cvar(self) -> str:
+    def cvar(self) -> Optional[str]:
         """
         Nome do arquivo de aversão a risco CVAR utilizado pelo NEWAVE.
         """
@@ -477,7 +482,7 @@ class Arquivos(SectionFile):
         self.__atualiza_nome_por_indice(34, arq)
 
     @property
-    def ree(self) -> str:
+    def ree(self) -> Optional[str]:
         """
         Nome do arquivo de configuração das REEs utilizado pelo NEWAVE.
         """
@@ -488,7 +493,7 @@ class Arquivos(SectionFile):
         self.__atualiza_nome_por_indice(35, arq)
 
     @property
-    def re(self) -> str:
+    def re(self) -> Optional[str]:
         """
         Nome do arquivo de restrições elétricas utilizado pelo NEWAVE.
         """
@@ -499,7 +504,7 @@ class Arquivos(SectionFile):
         self.__atualiza_nome_por_indice(36, arq)
 
     @property
-    def tecno(self) -> str:
+    def tecno(self) -> Optional[str]:
         """
         Nome do arquivo de tecnologias utilizado pelo NEWAVE.
         """
@@ -510,7 +515,7 @@ class Arquivos(SectionFile):
         self.__atualiza_nome_por_indice(37, arq)
 
     @property
-    def abertura(self) -> str:
+    def abertura(self) -> Optional[str]:
         """
         Nome do arquivo de aberturas por período utilizado pelo NEWAVE.
         """
@@ -521,7 +526,7 @@ class Arquivos(SectionFile):
         self.__atualiza_nome_por_indice(38, arq)
 
     @property
-    def gee(self) -> str:
+    def gee(self) -> Optional[str]:
         """
         Nome do arquivo de emissões GEE utilizado pelo NEWAVE.
         """
@@ -532,7 +537,7 @@ class Arquivos(SectionFile):
         self.__atualiza_nome_por_indice(39, arq)
 
     @property
-    def clasgas(self) -> str:
+    def clasgas(self) -> Optional[str]:
         """
         Nome do arquivo de restrições de gás utilizado pelo NEWAVE.
         """

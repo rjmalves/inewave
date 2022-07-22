@@ -61,6 +61,12 @@ class Caso(SectionFile):
             return b.data
         return None
 
+    @arquivos.setter
+    def arquivos(self, a: str):
+        b = self.__bloco_por_tipo(NomeCaso, 0)
+        if b is not None:
+            b.data = a
+
     @property
     def gerenciador_processos(self) -> Optional[str]:
         """
@@ -73,3 +79,9 @@ class Caso(SectionFile):
         if b is not None:
             return b.data
         return None
+
+    @gerenciador_processos.setter
+    def gerenciador_processos(self, a: str):
+        b = self.__bloco_por_tipo(CaminhoGerenciadorProcessos, 0)
+        if b is not None:
+            b.data = a
