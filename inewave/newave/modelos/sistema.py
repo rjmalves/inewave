@@ -168,7 +168,7 @@ class BlocoIntercambioSubsistema(Section):
         )
         campo_ano: List[Field] = [IntegerField(4, 0)]
         campos_interc: List[Field] = [
-            FloatField(7, 8 + i * 8, 0) for i in range(len(MESES_DF))
+            FloatField(6, 8 + i * 8, 0) for i in range(len(MESES_DF))
         ]
         self.__linha = Line(campo_ano + campos_interc)
         self.__cabecalhos: List[str] = []
@@ -242,7 +242,6 @@ class BlocoIntercambioSubsistema(Section):
                 break
             # Confere se é uma linha de subsistema ou tabela
             if len(linha) < 30:
-                print(linha)
                 dados = self.__linha_subsis.read(linha)
                 subsis_de_atual = (
                     subsis_de_atual if dados[0] is None else dados[0]
