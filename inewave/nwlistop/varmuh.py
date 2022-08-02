@@ -68,7 +68,7 @@ class VarmUH(BlockFile):
         return df
 
     @property
-    def armazenamentos(self) -> Optional[pd.DataFrame]:
+    def valores(self) -> Optional[pd.DataFrame]:
         """
         Tabela com valores de armazenamento por série e
         por mês/ano de estudo.

@@ -12,9 +12,9 @@ def test_atributos_encontrados_vertuh():
         n = VertUH.le_arquivo("")
         assert n.usina is not None
         assert n.usina == "ESPORA"
-        assert n.vertimentos is not None
-        assert n.vertimentos.iloc[0, 0] == 2020
-        assert n.vertimentos.iloc[-1, -1] == 30.74
+        assert n.valores is not None
+        assert n.valores.iloc[0, 0] == 2020
+        assert n.valores.iloc[-1, -1] == 30.74
 
 
 def test_atributos_nao_encontrados_vertuh():
@@ -22,7 +22,7 @@ def test_atributos_nao_encontrados_vertuh():
     with patch("builtins.open", m):
         n = VertUH.le_arquivo("")
         assert n.usina is None
-        assert n.vertimentos is None
+        assert n.valores is None
 
 
 def test_eq_vertuh():

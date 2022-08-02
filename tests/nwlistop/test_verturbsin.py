@@ -10,16 +10,16 @@ def test_atributos_encontrados_verturbsin():
     m: MagicMock = mock_open(read_data="".join(MockVerturbSIN))
     with patch("builtins.open", m):
         n = VerturbSIN.le_arquivo("")
-        assert n.vertimentos is not None
-        assert n.vertimentos.iloc[0, 0] == 2020
-        assert n.vertimentos.iloc[-1, -1] == -29007.0
+        assert n.valores is not None
+        assert n.valores.iloc[0, 0] == 2020
+        assert n.valores.iloc[-1, -1] == -29007.0
 
 
 def test_atributos_nao_encontrados_verturbsin():
     m: MagicMock = mock_open(read_data="")
     with patch("builtins.open", m):
         n = VerturbSIN.le_arquivo("")
-        assert n.vertimentos is None
+        assert n.valores is None
 
 
 def test_eq_verturbsin():

@@ -67,7 +67,7 @@ class VerturbSIN(BlockFile):
         return df
 
     @property
-    def vertimentos(self) -> Optional[pd.DataFrame]:
+    def valores(self) -> Optional[pd.DataFrame]:
         """
         Tabela com as energias vertidas por série e
         por mês/ano de estudo.

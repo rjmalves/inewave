@@ -46,7 +46,7 @@ class EarmfSIN(BlockFile):
         return df
 
     @property
-    def energias(self) -> Optional[pd.DataFrame]:
+    def valores(self) -> Optional[pd.DataFrame]:
         """
         Tabela com as energias por série e
         por mês/ano de estudo.

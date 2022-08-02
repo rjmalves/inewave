@@ -67,7 +67,7 @@ class Geol(BlockFile):
         return df
 
     @property
-    def geracao(self) -> Optional[pd.DataFrame]:
+    def valores(self) -> Optional[pd.DataFrame]:
         """
         Tabela com a geração eólica total por série e
         por mês/ano de estudo.

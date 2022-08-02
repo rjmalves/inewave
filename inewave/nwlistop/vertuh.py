@@ -68,7 +68,7 @@ class VertUH(BlockFile):
         return df
 
     @property
-    def vertimentos(self) -> Optional[pd.DataFrame]:
+    def valores(self) -> Optional[pd.DataFrame]:
         """
         Tabela com valores de vertimento por série e
         por mês/ano de estudo.

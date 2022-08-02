@@ -46,7 +46,7 @@ class GhtotSIN(BlockFile):
         return df
 
     @property
-    def geracao(self) -> Optional[pd.DataFrame]:
+    def valores(self) -> Optional[pd.DataFrame]:
         """
         Tabela com a geracao hidraulica por série e
         por mês/ano de estudo.

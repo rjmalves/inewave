@@ -10,9 +10,9 @@ def test_atributos_encontrados_verturb():
     m: MagicMock = mock_open(read_data="".join(MockVerturb))
     with patch("builtins.open", m):
         n = Verturb.le_arquivo("")
-        assert n.vertimentos is not None
-        assert n.vertimentos.iloc[0, 0] == 2020
-        assert n.vertimentos.iloc[-1, -1] == -2347.0
+        assert n.valores is not None
+        assert n.valores.iloc[0, 0] == 2020
+        assert n.valores.iloc[-1, -1] == -2347.0
         assert n.ree is not None
         assert n.ree == "SUDESTE"
 
@@ -21,7 +21,7 @@ def test_atributos_nao_encontrados_verturb():
     m: MagicMock = mock_open(read_data="")
     with patch("builtins.open", m):
         n = Verturb.le_arquivo("")
-        assert n.vertimentos is None
+        assert n.valores is None
         assert n.ree is None
 
 

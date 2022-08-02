@@ -10,9 +10,9 @@ def test_atributos_encontrados_cmarg00med():
     m: MagicMock = mock_open(read_data="".join(MockCmarg00Med))
     with patch("builtins.open", m):
         n = Cmarg00med.le_arquivo("")
-        assert n.custos is not None
-        assert n.custos.iloc[0, 0] == 2021
-        assert n.custos.iloc[-1, -1] == 354.22
+        assert n.valores is not None
+        assert n.valores.iloc[0, 0] == 2021
+        assert n.valores.iloc[-1, -1] == 354.22
         assert n.submercado is not None
         assert n.submercado == "SUDESTE"
 
@@ -21,7 +21,7 @@ def test_atributos_nao_encontrados_cmarg00med():
     m: MagicMock = mock_open(read_data="")
     with patch("builtins.open", m):
         n = Cmarg00med.le_arquivo("")
-        assert n.custos is None
+        assert n.valores is None
         assert n.submercado is None
 
 

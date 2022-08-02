@@ -69,7 +69,7 @@ class Eafb00(BlockFile):
         return df
 
     @property
-    def energias(self) -> Optional[pd.DataFrame]:
+    def valores(self) -> Optional[pd.DataFrame]:
         """
         Tabela com as energias afluentes por série e
         por mês/ano de estudo.

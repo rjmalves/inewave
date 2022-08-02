@@ -10,16 +10,16 @@ def test_atributos_encontrados_eafbsin():
     m: MagicMock = mock_open(read_data="".join(MockEafbSIN))
     with patch("builtins.open", m):
         n = EafbSIN.le_arquivo("")
-        assert n.energias is not None
-        assert n.energias.iloc[0, 0] == 2020
-        assert n.energias.iloc[-1, -1] == 64920.0
+        assert n.valores is not None
+        assert n.valores.iloc[0, 0] == 2020
+        assert n.valores.iloc[-1, -1] == 64920.0
 
 
 def test_atributos_nao_encontrados_eafbsin():
     m: MagicMock = mock_open(read_data="")
     with patch("builtins.open", m):
         n = EafbSIN.le_arquivo("")
-        assert n.energias is None
+        assert n.valores is None
 
 
 def test_eq_eafbsin():

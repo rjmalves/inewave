@@ -12,9 +12,9 @@ def test_atributos_encontrados_ghtot00():
         n = Ghtot00.le_arquivo("")
         assert n.ree is not None
         assert n.ree == "SUDESTE"
-        assert n.geracao is not None
-        assert n.geracao.iloc[0, 0] == 2022
-        assert n.geracao.iloc[-1, -1] == 2578.7
+        assert n.valores is not None
+        assert n.valores.iloc[0, 0] == 2022
+        assert n.valores.iloc[-1, -1] == 2578.7
 
 
 def test_atributos_nao_encontrados_ghtot00():
@@ -22,7 +22,7 @@ def test_atributos_nao_encontrados_ghtot00():
     with patch("builtins.open", m):
         n = Ghtot00.le_arquivo("")
         assert n.ree is None
-        assert n.geracao is None
+        assert n.valores is None
 
 
 def test_eq_ghtot00():

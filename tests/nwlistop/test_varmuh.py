@@ -12,9 +12,9 @@ def test_atributos_encontrados_varmuh():
         n = VarmUH.le_arquivo("")
         assert n.usina is not None
         assert n.usina == "CAMARGOS"
-        assert n.armazenamentos is not None
-        assert n.armazenamentos.iloc[0, 0] == 2022
-        assert n.armazenamentos.iloc[-1, -1] == 662.80
+        assert n.valores is not None
+        assert n.valores.iloc[0, 0] == 2022
+        assert n.valores.iloc[-1, -1] == 662.80
 
 
 def test_atributos_nao_encontrados_varmuh():
@@ -22,7 +22,7 @@ def test_atributos_nao_encontrados_varmuh():
     with patch("builtins.open", m):
         n = VarmUH.le_arquivo("")
         assert n.usina is None
-        assert n.armazenamentos is None
+        assert n.valores is None
 
 
 def test_eq_varmuh():

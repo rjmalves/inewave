@@ -10,16 +10,16 @@ def test_atributos_encontrados_gttotsin():
     m: MagicMock = mock_open(read_data="".join(MockGttotsin))
     with patch("builtins.open", m):
         n = GttotSIN.le_arquivo("")
-        assert n.geracao is not None
-        assert n.geracao.iloc[0, 0] == 2022
-        assert n.geracao.iloc[-1, -1] == 5106.0
+        assert n.valores is not None
+        assert n.valores.iloc[0, 0] == 2022
+        assert n.valores.iloc[-1, -1] == 5106.0
 
 
 def test_atributos_nao_encontrados_gttotsin():
     m: MagicMock = mock_open(read_data="")
     with patch("builtins.open", m):
         n = GttotSIN.le_arquivo("")
-        assert n.geracao is None
+        assert n.valores is None
 
 
 def test_eq_gttotsin():

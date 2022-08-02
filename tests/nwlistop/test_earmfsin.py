@@ -10,16 +10,16 @@ def test_atributos_encontrados_earmfsin():
     m: MagicMock = mock_open(read_data="".join(MockEarmfSIN))
     with patch("builtins.open", m):
         n = EarmfSIN.le_arquivo("")
-        assert n.energias is not None
-        assert n.energias.iloc[0, 0] == 2022
-        assert n.energias.iloc[-1, -1] == 177927.0
+        assert n.valores is not None
+        assert n.valores.iloc[0, 0] == 2022
+        assert n.valores.iloc[-1, -1] == 177927.0
 
 
 def test_atributos_nao_encontrados_earmfsin():
     m: MagicMock = mock_open(read_data="")
     with patch("builtins.open", m):
         n = EarmfSIN.le_arquivo("")
-        assert n.energias is None
+        assert n.valores is None
 
 
 def test_eq_earmfsin():

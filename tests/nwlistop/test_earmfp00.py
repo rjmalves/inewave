@@ -10,9 +10,9 @@ def test_atributos_encontrados_earmfp00():
     m: MagicMock = mock_open(read_data="".join(MockEarmfp00))
     with patch("builtins.open", m):
         n = Earmfp00.le_arquivo("")
-        assert n.energias is not None
-        assert n.energias.iloc[0, 0] == 2022
-        assert n.energias.iloc[-1, -1] == 71.2
+        assert n.valores is not None
+        assert n.valores.iloc[0, 0] == 2022
+        assert n.valores.iloc[-1, -1] == 71.2
         assert n.ree is not None
         assert n.ree == "SUDESTE"
 
@@ -21,7 +21,7 @@ def test_atributos_nao_encontrados_earmfp00():
     m: MagicMock = mock_open(read_data="")
     with patch("builtins.open", m):
         n = Earmfp00.le_arquivo("")
-        assert n.energias is None
+        assert n.valores is None
         assert n.ree is None
 
 

@@ -10,16 +10,16 @@ def test_atributos_encontrados_geolsin():
     m: MagicMock = mock_open(read_data="".join(MockGeolSIN))
     with patch("builtins.open", m):
         n = GeolSIN.le_arquivo("")
-        assert n.geracao is not None
-        assert n.geracao.iloc[0, 0] == 2021
-        assert n.geracao.iloc[-1, -1] == 6574.3
+        assert n.valores is not None
+        assert n.valores.iloc[0, 0] == 2021
+        assert n.valores.iloc[-1, -1] == 6574.3
 
 
 def test_atributos_nao_encontrados_geolsin():
     m: MagicMock = mock_open(read_data="")
     with patch("builtins.open", m):
         n = GeolSIN.le_arquivo("")
-        assert n.geracao is None
+        assert n.valores is None
 
 
 def test_eq_geolsin():

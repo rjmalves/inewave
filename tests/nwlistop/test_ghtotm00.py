@@ -12,9 +12,9 @@ def test_atributos_encontrados_ghtotm00():
         n = Ghtotm00.le_arquivo("")
         assert n.submercado is not None
         assert n.submercado == "SUDESTE"
-        assert n.geracao is not None
-        assert n.geracao.iloc[0, 0] == 2022
-        assert n.geracao.iloc[-1, -1] == 24494.9
+        assert n.valores is not None
+        assert n.valores.iloc[0, 0] == 2022
+        assert n.valores.iloc[-1, -1] == 24494.9
 
 
 def test_atributos_nao_encontrados_ghtotm00():
@@ -22,7 +22,7 @@ def test_atributos_nao_encontrados_ghtotm00():
     with patch("builtins.open", m):
         n = Ghtotm00.le_arquivo("")
         assert n.submercado is None
-        assert n.geracao is None
+        assert n.valores is None
 
 
 def test_eq_ghtotm00():
