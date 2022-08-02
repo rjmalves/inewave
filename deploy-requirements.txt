@@ -9,5 +9,5 @@ sphinx-gallery
 sphinx-rtd-theme
 nb2plots
 numpydoc
-cfinterface
+cfinterface>=0.0.22
 black

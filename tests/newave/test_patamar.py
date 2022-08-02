@@ -45,6 +45,18 @@ def test_bloco_duracao_patamares_patamar():
             b.read(fp)
 
     assert b.data.iloc[0, 0] == 1995
+    assert b.data.iloc[0, 1] == 0.2366
+    assert b.data.iloc[0, 2] == 0.2184
+    assert b.data.iloc[0, 3] == 0.2366
+    assert b.data.iloc[0, 4] == 0.2778
+    assert b.data.iloc[0, 5] == 0.3226
+    assert b.data.iloc[0, 6] == 0.3500
+    assert b.data.iloc[0, 7] == 0.3710
+    assert b.data.iloc[0, 8] == 0.3387
+    assert b.data.iloc[0, 9] == 0.2917
+    assert b.data.iloc[0, 10] == 0.2823
+    assert b.data.iloc[0, 11] == 0.2222
+    assert b.data.iloc[0, 12] == 0.2366
     assert b.data.iloc[-1, -1] == 0.5081
 
 
@@ -57,6 +69,19 @@ def test_bloco_carga_subsistema_patamar():
             b.read(fp)
 
     assert b.data.iloc[0, 0] == 1
+    assert b.data.iloc[0, 1] == 1995
+    assert b.data.iloc[0, 2] == 1.1492
+    assert b.data.iloc[0, 3] == 1.1557
+    assert b.data.iloc[0, 4] == 1.1522
+    assert b.data.iloc[0, 5] == 1.1612
+    assert b.data.iloc[0, 6] == 1.1666
+    assert b.data.iloc[0, 7] == 1.1612
+    assert b.data.iloc[0, 8] == 1.1530
+    assert b.data.iloc[0, 9] == 1.1632
+    assert b.data.iloc[0, 10] == 1.1598
+    assert b.data.iloc[0, 11] == 1.1531
+    assert b.data.iloc[0, 12] == 1.1623
+    assert b.data.iloc[0, 13] == 1.1494
     assert b.data.iloc[-1, -1] == 0.9673
 
 
@@ -71,6 +96,20 @@ def test_bloco_intercambio_patamar():
             b.read(fp)
 
     assert b.data.iloc[0, 0] == 1
+    assert b.data.iloc[0, 1] == 2
+    assert b.data.iloc[0, 2] == 1995
+    assert b.data.iloc[0, 3] == 1.0000
+    assert b.data.iloc[0, 4] == 1.0000
+    assert b.data.iloc[0, 5] == 1.0000
+    assert b.data.iloc[0, 6] == 1.0000
+    assert b.data.iloc[0, 7] == 1.0000
+    assert b.data.iloc[0, 8] == 1.0000
+    assert b.data.iloc[0, 9] == 0.9720
+    assert b.data.iloc[0, 10] == 0.9698
+    assert b.data.iloc[0, 11] == 0.9688
+    assert b.data.iloc[0, 12] == 0.9681
+    assert b.data.iloc[0, 13] == 0.9669
+    assert b.data.iloc[0, 14] == 0.9683
     assert b.data.iloc[-1, -1] == 1.0
 
 
@@ -83,6 +122,20 @@ def test_bloco_usinas_nao_simuladas_patamar():
             b.read(fp)
 
     assert b.data.iloc[0, 0] == 1
+    assert b.data.iloc[0, 1] == 1
+    assert b.data.iloc[0, 2] == 1995
+    assert b.data.iloc[0, 3] == 1.0000
+    assert b.data.iloc[0, 4] == 1.0000
+    assert b.data.iloc[0, 5] == 1.0000
+    assert b.data.iloc[0, 6] == 1.0000
+    assert b.data.iloc[0, 7] == 1.0118
+    assert b.data.iloc[0, 8] == 1.0152
+    assert b.data.iloc[0, 9] == 1.0206
+    assert b.data.iloc[0, 10] == 1.0222
+    assert b.data.iloc[0, 11] == 1.0150
+    assert b.data.iloc[0, 12] == 1.0108
+    assert b.data.iloc[0, 13] == 1.0020
+    assert b.data.iloc[0, 14] == 0.9965
     assert b.data.iloc[-1, -1] == 1.0
 
 

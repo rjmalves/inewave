@@ -1,0 +1,16 @@
+MockExph = [
+    "COD  NOME        ENCHIMENTO  VOLUME MORTO    DATA    POT.   MQ CJ\n",
+    "                  INICIO    DUR.MESES  %    ENTRADA\n",
+    "XXXX XXXXXXXXXXXX XX/XXXX      XX     XX.X  XX/XXXX XXXX.X\n",
+    " 309 JURUENA      10/2024       3      0.0\n",
+    "                                             1/2025   25.0   1  1\n",
+    "                                             1/2025   25.0   2  1\n",
+    "9999\n",
+    "  88 SAO ROQUE                              10/2022   47.3   1  1\n",
+    "                                            12/2022   47.3   3  1\n",
+    "                                             1/2023   47.3   2  1\n",
+    "9999\n",
+    " 272 CURUA-UNA                               3/2023   12.5   1  3\n",
+    "9999\n",
+    "",
+]

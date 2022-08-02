@@ -63,3 +63,9 @@ class AdTerm(SectionFile):
         if b is not None:
             return b.data
         return None
+
+    @despachos.setter
+    def despachos(self, d: pd.DataFrame):
+        b = self.__bloco_por_tipo(BlocoUTEAdTerm, 0)
+        if b is not None:
+            b.data = d
