@@ -10,4 +10,5 @@ sphinx-rtd-theme
 nb2plots
 numpydoc
 cfinterface>=0.0.22
+pyflakes==2.4.0
 black
