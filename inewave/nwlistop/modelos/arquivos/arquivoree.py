@@ -1,6 +1,6 @@
 from inewave.nwlistop.modelos.blocos.ree import REE
-from inewave.nwlistop.modelos.blocos.valoresree import (
-    ValoresREE,
+from inewave.nwlistop.modelos.blocos.valoresserie import (
+    ValoresSerie,
 )
 
 from cfinterface.files.blockfile import BlockFile
@@ -15,7 +15,7 @@ class ArquivoREE(BlockFile):
 
     T = TypeVar("T")
 
-    BLOCKS = [REE, ValoresREE]
+    BLOCKS = [REE, ValoresSerie]
 
     def __init__(self, data=...) -> None:
         super().__init__(data)
@@ -52,7 +52,7 @@ class ArquivoREE(BlockFile):
 
     def __monta_tabela(self) -> pd.DataFrame:
         df = None
-        for b in self.data.of_type(ValoresREE):
+        for b in self.data.of_type(ValoresSerie):
             dados = b.data
             if dados is None:
                 continue

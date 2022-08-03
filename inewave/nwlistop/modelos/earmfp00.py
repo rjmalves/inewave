@@ -5,10 +5,10 @@ from cfinterface.components.integerfield import IntegerField
 from cfinterface.components.floatfield import FloatField
 
 
-from inewave.nwlistop.modelos.blocos.valoresree import ValoresREE  # type: ignore
+from inewave.nwlistop.modelos.blocos.valoresserie import ValoresSerie
 
 
-class EarmsAnos(ValoresREE):
+class EarmsAnos(ValoresSerie):
     """
     Bloco com as informações das tabelas de energias armazenada final
     por série e por mês/ano de estudo.

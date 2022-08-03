@@ -1,17 +1,17 @@
 from cfinterface.components.block import Block
 from cfinterface.components.line import Line
 
-from inewave.config import MESES_DF, MAX_SERIES_SINTETICAS
+from inewave.config import MESES_DF, MAX_PATAMARES, MAX_SERIES_SINTETICAS
 
-from typing import IO
+from typing import IO, List
 import pandas as pd  # type: ignore
 import numpy as np  # type: ignore
 
 
-class ValoresREE(Block):
+class ValoresSeriePatamar(Block):
     """
-    Bloco com a informaçao de uma tabela por REE, com
-    entradas por série.
+    Bloco com a informaçao de uma tabela por submercado, com
+    entradas por série e patamar.
     """
 
     BEGIN_PATTERN = "     ANO: "
@@ -25,9 +25,9 @@ class ValoresREE(Block):
         self.__linha = self.__class__.DATA_LINE
 
     def __eq__(self, o: object) -> bool:
-        if not isinstance(o, ValoresREE):
+        if not isinstance(o, ValoresSeriePatamar):
             return False
-        bloco: ValoresREE = o
+        bloco: ValoresSeriePatamar = o
         if not all(
             [
                 isinstance(self.data, pd.DataFrame),
@@ -41,10 +41,11 @@ class ValoresREE(Block):
     # Override
     def read(self, file: IO):
         def converte_tabela_em_df():
-            cols = ["Série"] + MESES_DF + ["Média"]
-            df = pd.DataFrame(tabela, columns=cols)
+            cols = MESES_DF + ["Média"]
+            df = pd.DataFrame(tabela, columns=["Série"] + cols)
             df["Ano"] = self.__ano
-            df = df[["Ano"] + cols]
+            df["Patamar"] = patamares
+            df = df[["Ano", "Série", "Patamar"] + cols]
             df = df.astype({"Série": "int64", "Ano": "int64"})
             return df
 
@@ -52,7 +53,11 @@ class ValoresREE(Block):
         file.readline()
 
         # Variáveis auxiliares
-        tabela = np.zeros((MAX_SERIES_SINTETICAS, len(MESES_DF) + 2))
+        self.__serie_atual = 0
+        tabela = np.zeros(
+            (MAX_PATAMARES * MAX_SERIES_SINTETICAS, len(MESES_DF) + 2)
+        )
+        patamares: List[str] = []
         i = 0
         while True:
             linha = file.readline()
@@ -60,5 +65,10 @@ class ValoresREE(Block):
                 tabela = tabela[:i, :]
                 self.data = converte_tabela_em_df()
                 break
-            tabela[i, :] = self.__linha.read(linha)
+            dados = self.__linha.read(linha)
+            if dados[0] is not None:
+                self.__serie_atual = dados[0]
+            tabela[i, 0] = self.__serie_atual
+            patamares.append(dados[1])
+            tabela[i, 1:] = dados[2:]
             i += 1

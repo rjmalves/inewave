@@ -1,6 +1,6 @@
-from inewave.nwlistop.modelos.blocos.submercado import Submercado
-from inewave.nwlistop.modelos.blocos.valoresserie import (
-    ValoresSerie,
+from inewave.nwlistop.modelos.blocos.ree import REE
+from inewave.nwlistop.modelos.blocos.valoresseriepatamar import (
+    ValoresSeriePatamar,
 )
 
 from cfinterface.files.blockfile import BlockFile
@@ -8,14 +8,14 @@ import pandas as pd  # type: ignore
 from typing import Type, TypeVar, Optional
 
 
-class ArquivoSubmercado(BlockFile):
+class ArquivoREEPatamar(BlockFile):
     """
-    Armazena os dados das saídas por submercado.
+    Armazena os dados das saídas por patamar, por REE.
     """
 
     T = TypeVar("T")
 
-    BLOCKS = [Submercado, ValoresSerie]
+    BLOCKS = [REE, ValoresSeriePatamar]
 
     def __init__(self, data=...) -> None:
         super().__init__(data)
@@ -24,7 +24,7 @@ class ArquivoSubmercado(BlockFile):
     @classmethod
     def le_arquivo(
         cls, diretorio: str, nome_arquivo="arq.out"
-    ) -> "ArquivoSubmercado":
+    ) -> "ArquivoREEPatamar":
         return cls.read(diretorio, nome_arquivo)
 
     def escreve_arquivo(self, diretorio: str, nome_arquivo="arq.out"):
@@ -52,7 +52,7 @@ class ArquivoSubmercado(BlockFile):
 
     def __monta_tabela(self) -> pd.DataFrame:
         df = None
-        for b in self.data.of_type(ValoresSerie):
+        for b in self.data.of_type(ValoresSeriePatamar):
             dados = b.data
             if dados is None:
                 continue
@@ -65,7 +65,7 @@ class ArquivoSubmercado(BlockFile):
     @property
     def valores(self) -> Optional[pd.DataFrame]:
         """
-        Tabela com os valores, por série e
+        Tabela com os valores por patamar, por série e
         por mês/ano de estudo.
 
         - Ano (`int`)
@@ -75,7 +75,7 @@ class ArquivoSubmercado(BlockFile):
         - ...
         - Dezembro (`float`)
 
-        :return: A tabela dos valores.
+        :return: A tabela dos valores por patamar.
         :rtype: pd.DataFrame | None
         """
         if self.__valores is None:
@@ -83,14 +83,14 @@ class ArquivoSubmercado(BlockFile):
         return self.__valores
 
     @property
-    def submercado(self) -> Optional[str]:
+    def ree(self) -> Optional[str]:
         """
-        O submercado associado ao arquivo lido.
+        O REE associado ao arquivo lido.
 
-        :return: Os nome do submercado
+        :return: O nome do REE
         :rtype: str
         """
-        b = self.__bloco_por_tipo(Submercado, 0)
+        b = self.__bloco_por_tipo(REE, 0)
         if b is not None:
             return b.data
         return None

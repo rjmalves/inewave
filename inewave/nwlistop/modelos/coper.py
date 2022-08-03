@@ -3,10 +3,10 @@ from inewave.config import MESES_DF
 from cfinterface.components.line import Line
 from cfinterface.components.integerfield import IntegerField
 from cfinterface.components.floatfield import FloatField
-from inewave.nwlistop.modelos.blocos.valoressin import ValoresSIN
+from inewave.nwlistop.modelos.blocos.valoresserie import ValoresSerie
 
 
-class CoperAnos(ValoresSIN):
+class CoperAnos(ValoresSerie):
     """
     Bloco com as informações das tabelas de custos de operação.
     """

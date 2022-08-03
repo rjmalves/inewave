@@ -1,5 +1,5 @@
-from inewave.nwlistop.modelos.blocos.valoressin import (
-    ValoresSIN,
+from inewave.nwlistop.modelos.blocos.valoresserie import (
+    ValoresSerie,
 )
 
 from cfinterface.files.blockfile import BlockFile
@@ -14,7 +14,7 @@ class ArquivoSIN(BlockFile):
 
     T = TypeVar("T")
 
-    BLOCKS = [ValoresSIN]
+    BLOCKS = [ValoresSerie]
 
     def __init__(self, data=...) -> None:
         super().__init__(data)
@@ -31,7 +31,7 @@ class ArquivoSIN(BlockFile):
 
     def __monta_tabela(self) -> pd.DataFrame:
         df = None
-        for b in self.data.of_type(ValoresSIN):
+        for b in self.data.of_type(ValoresSerie):
             dados = b.data
             if dados is None:
                 continue

@@ -3,10 +3,10 @@ from inewave.config import MESES_DF
 from cfinterface.components.line import Line
 from cfinterface.components.integerfield import IntegerField
 from cfinterface.components.floatfield import FloatField
-from inewave.nwlistop.modelos.blocos.valoressubmercado import ValoresSubmercado
+from inewave.nwlistop.modelos.blocos.valoresserie import ValoresSerie
 
 
-class CmargsAnos(ValoresSubmercado):
+class CmargsAnos(ValoresSerie):
     """
     Bloco com a informaçao do submercado associado aos valores de Custo
     Marginal de Operação.

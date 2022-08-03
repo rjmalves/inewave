@@ -1,6 +1,6 @@
 from inewave.nwlistop.modelos.blocos.submercado import Submercado
-from inewave.nwlistop.modelos.blocos.valoressubmercadopatamar import (
-    ValoresSubmercadoPatamar,
+from inewave.nwlistop.modelos.blocos.valoresseriepatamar import (
+    ValoresSeriePatamar,
 )
 
 from cfinterface.files.blockfile import BlockFile
@@ -15,7 +15,7 @@ class ArquivoSubmercadoPatamar(BlockFile):
 
     T = TypeVar("T")
 
-    BLOCKS = [Submercado, ValoresSubmercadoPatamar]
+    BLOCKS = [Submercado, ValoresSeriePatamar]
 
     def __init__(self, data=...) -> None:
         super().__init__(data)
@@ -52,7 +52,7 @@ class ArquivoSubmercadoPatamar(BlockFile):
 
     def __monta_tabela(self) -> pd.DataFrame:
         df = None
-        for b in self.data.of_type(ValoresSubmercadoPatamar):
+        for b in self.data.of_type(ValoresSeriePatamar):
             dados = b.data
             if dados is None:
                 continue

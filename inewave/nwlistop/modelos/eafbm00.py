@@ -5,10 +5,10 @@ from cfinterface.components.integerfield import IntegerField
 from cfinterface.components.floatfield import FloatField
 
 
-from inewave.nwlistop.modelos.blocos.valoressubmercado import ValoresSubmercado  # type: ignore
+from inewave.nwlistop.modelos.blocos.valoresserie import ValoresSerie  # type: ignore
 
 
-class EafsAnos(ValoresSubmercado):
+class EafsAnos(ValoresSerie):
     """
     Bloco com as informações das tabelas de energias afluente bruta
     por série e por mês/ano de estudo.

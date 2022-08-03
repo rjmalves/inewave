@@ -1,6 +1,6 @@
 from inewave.nwlistop.modelos.blocos.ree import REE
-from inewave.nwlistop.modelos.eafb00 import EafsAnos
 from inewave.nwlistop.modelos.arquivos.arquivoree import ArquivoREE
+from inewave.nwlistop.modelos.eafb00 import EafsAnos
 
 
 class Eafb00(ArquivoREE):
