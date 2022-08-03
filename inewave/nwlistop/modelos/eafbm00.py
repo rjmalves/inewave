@@ -14,8 +14,6 @@ class EafsAnos(ValoresSubmercado):
     por série e por mês/ano de estudo.
     """
 
-    BEGIN_PATTERN = "     ANO: "
-    END_PATTERN = " MEDIA"
     HEADER_LINE = Line([IntegerField(4, 10)])
     DATA_LINE = Line(
         [IntegerField(4, 2)]  # type: ignore

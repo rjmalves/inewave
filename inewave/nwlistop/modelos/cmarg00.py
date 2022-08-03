@@ -15,7 +15,6 @@ class CmargsAnos(ValoresSubmercadoPatamar):
     """
 
     HEADER_LINE = Line([IntegerField(4, 10)])
-
     DATA_LINE = Line(
         [  # type: ignore
             IntegerField(4, 2),
