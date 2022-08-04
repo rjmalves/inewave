@@ -1,7 +1,7 @@
 .. _geol:
 
 ====================================================================
-Geração Eólica Total por PEE (geol00x.out)
+Geração Eólica Total por PEE (geolx.out)
 ====================================================================
 
 .. currentmodule:: inewave.nwlistop.geol

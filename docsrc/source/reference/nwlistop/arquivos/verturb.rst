@@ -1,7 +1,7 @@
 .. _verturb:
 
 ====================================================================
-Vertimento Turbinável por REE (verturb00x.out)
+Vertimento Turbinável por REE (verturbx.out)
 ====================================================================
 
 .. currentmodule:: inewave.nwlistop.verturb

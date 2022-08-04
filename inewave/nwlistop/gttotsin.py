@@ -1,10 +1,10 @@
 from inewave.nwlistop.modelos.gttotsin import GTAnos
-from inewave.nwlistop.modelos.arquivos.arquivosin import (
-    ArquivoSIN,
+from inewave.nwlistop.modelos.arquivos.arquivosinpatamar import (
+    ArquivoSINPatamar,
 )
 
 
-class GttotSIN(ArquivoSIN):
+class GttotSIN(ArquivoSINPatamar):
     """
     Armazena os dados das saídas referentes à geração térmica total
     por patamar, para o SIN.

@@ -1,10 +1,10 @@
-from inewave.nwlistop.modelos.arquivos.arquivosin import (
-    ArquivoSIN,
+from inewave.nwlistop.modelos.arquivos.arquivosinpatamar import (
+    ArquivoSINPatamar,
 )
 from inewave.nwlistop.modelos.ghtotsin import GHAnos
 
 
-class GhtotSIN(ArquivoSIN):
+class GhtotSIN(ArquivoSINPatamar):
     """
     Armazena os dados das saídas referentes à geração hidraulica total
     por patamar para o SIN.

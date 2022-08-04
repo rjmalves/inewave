@@ -10,7 +10,7 @@ def test_atributos_encontrados_geol():
     m: MagicMock = mock_open(read_data="".join(MockGeol))
     with patch("builtins.open", m):
         n = Geol.le_arquivo("")
-        assert n.pee is not None
+        assert n.usina is not None
         # assert n.pee == "cluster_NE_1"
         assert n.valores is not None
         assert n.valores.iloc[0, 0] == 2021
@@ -21,7 +21,7 @@ def test_atributos_nao_encontrados_geol():
     m: MagicMock = mock_open(read_data="")
     with patch("builtins.open", m):
         n = Geol.le_arquivo("")
-        assert n.pee is None
+        assert n.usina is None
         assert n.valores is None
 
 

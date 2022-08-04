@@ -1,7 +1,7 @@
 .. _verturbm:
 
 ====================================================================
-Vertimento Turbinável por Submercado (verturbm00x.out)
+Vertimento Turbinável por Submercado (verturbmx.out)
 ====================================================================
 
 .. currentmodule:: inewave.nwlistop.verturbm

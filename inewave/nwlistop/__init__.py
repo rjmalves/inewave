@@ -1,16 +1,29 @@
 # Inclui os membros
 
-from .cmarg00 import Cmarg00  # noqa
-from .cmarg00med import Cmarg00med  # noqa
+from .cmarg import Cmarg  # noqa
+from .cmargmed import CmargMed  # noqa
 from .coper import Coper  # noqa
-from .eafbm00 import Eafbm00  # noqa
-from .earmfp00 import Earmfp00  # noqa
-from .earmfpm00 import Earmfpm00  # noqa
+from .eafb import Eafb  # noqa
+from .eafbm import Eafbm  # noqa
+from .eafbsin import EafbSIN  # noqa
+from .earmfp import Earmfp  # noqa
+from .earmfm import Earmfm  # noqa
+from .earmfpm import Earmfpm  # noqa
+from .earmfsin import EarmfSIN  # noqa
 from .earmfpsin import EarmfpSIN  # noqa
-from .ghtot00 import Ghtot00  # noqa
-from .ghtotm00 import Ghtotm00  # noqa
+from .geol import Geol  # noqa
+from .geolm import Geolm  # noqa
+from .geolsin import GeolSIN  # noqa
+from .ghtot import Ghtot  # noqa
+from .ghtotm import Ghtotm  # noqa
 from .ghtotsin import GhtotSIN  # noqa
+from .gttot import Gttot  # noqa
+from .gttotsin import GttotSIN  # noqa
 from .mediasmerc import MediasMerc  # noqa
 from .mediassin import MediasSIN  # noqa
-from .vagua00 import Vagua00  # noqa
+from .vagua import Vagua  # noqa
 from .varmuh import VarmUH  # noqa
+from .vertuh import VertUH  # noqa
+from .verturb import Verturb  # noqa
+from .verturbm import Verturbm  # noqa
+from .verturbsin import VerturbSIN  # noqa

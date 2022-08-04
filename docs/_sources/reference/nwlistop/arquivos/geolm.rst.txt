@@ -1,7 +1,7 @@
 .. _geolm:
 
 ====================================================================
-Geração Eólica Total por Submercado (geolm00x.out)
+Geração Eólica Total por Submercado (geolmx.out)
 ====================================================================
 
 .. currentmodule:: inewave.nwlistop.geolm

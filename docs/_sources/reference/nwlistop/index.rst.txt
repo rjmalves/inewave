@@ -34,12 +34,12 @@ Para a leitura do arquivo `pmo.dat`::
 
 Para a leitura dos arquivos `cmarg00x.out`::
 
-    >>> from inewave.nwlistop.cmarg00 import Cmarg00
+    >>> from inewave.nwlistop.cmarg import Cmarg
     >>>
     >>> diretorio = "/home/usuario/..."
-    >>> cmarg = Cmarg00.le_arquivo(diretorio, "cmarg001.out")
+    >>> cmarg = Cmarg.le_arquivo(diretorio, "cmarg001.out")
     >>> cmarg
-    <inewave.nwlistop.cmarg00.Cmarg00 object at 0x0000020BE9349E20>
+    <inewave.nwlistop.cmarg.Cmarg object at 0x0000020BE9349E20>
     >>> cmarg.custos
             Ano  Série  Patamar  Janeiro  Fevereiro  Março  Abril    Maio   Junho    Julho  Agosto  Setembro  Outubro  Novembro  Dezembro   Média
     0      2021      1        1     0.00       0.00   0.00   0.00    0.00    0.00   497.03  268.43    358.91   249.64    236.99    153.67  294.11
@@ -63,28 +63,28 @@ Arquivos
 .. toctree::
    :maxdepth: 2
 
-   arquivos/cmarg00
-   arquivos/cmarg00med
+   arquivos/cmarg
+   arquivos/cmargmed
    arquivos/coper
-   arquivos/eafb00
-   arquivos/eafbm00
+   arquivos/eafb
+   arquivos/eafbm
    arquivos/eafbsin
-   arquivos/earmfp00
-   arquivos/earmfpm00
+   arquivos/earmfp
+   arquivos/earmfpm
    arquivos/earmfpsin
-   arquivos/earmfm00
+   arquivos/earmfm
    arquivos/earmfsin
-   arquivos/ghtot00
-   arquivos/ghtotm00
+   arquivos/ghtot
+   arquivos/ghtotm
    arquivos/ghtotsin
    arquivos/geol
    arquivos/geolm
    arquivos/geolsin
-   arquivos/gttot00
+   arquivos/gttot
    arquivos/gttotsin
    arquivos/mediasmerc
    arquivos/mediassin
-   arquivos/vagua00
+   arquivos/vagua
    arquivos/verturb
    arquivos/verturbm
    arquivos/verturbsin

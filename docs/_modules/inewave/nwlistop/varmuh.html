@@ -71,14 +71,14 @@
            <div itemprop="articleBody">
              
   <h1>Código fonte para inewave.nwlistop.varmuh</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">inewave.nwlistop.modelos.varmuh</span> <span class="kn">import</span> <span class="n">Usina</span><span class="p">,</span> <span class="n">VarmAnos</span>
+<span></span><span class="kn">from</span> <span class="nn">inewave.nwlistop.modelos.blocos.usina</span> <span class="kn">import</span> <span class="n">Usina</span>
+<span class="kn">from</span> <span class="nn">inewave.nwlistop.modelos.arquivos.arquivousina</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">ArquivoUsina</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">inewave.nwlistop.modelos.varmuh</span> <span class="kn">import</span> <span class="n">VarmAnos</span>
 
-<span class="kn">from</span> <span class="nn">cfinterface.files.blockfile</span> <span class="kn">import</span> <span class="n">BlockFile</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>  <span class="c1"># type: ignore</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Type</span><span class="p">,</span> <span class="n">TypeVar</span><span class="p">,</span> <span class="n">Optional</span>
 
-
-<div class="viewcode-block" id="VarmUH"><a class="viewcode-back" href="../../../reference/nwlistop/arquivos/varmuh.html#inewave.nwlistop.varmuh.VarmUH">[documentos]</a><span class="k">class</span> <span class="nc">VarmUH</span><span class="p">(</span><span class="n">BlockFile</span><span class="p">):</span>
+<div class="viewcode-block" id="VarmUH"><a class="viewcode-back" href="../../../reference/nwlistop/arquivos/varmuh.html#inewave.nwlistop.varmuh.VarmUH">[documentos]</a><span class="k">class</span> <span class="nc">VarmUH</span><span class="p">(</span><span class="n">ArquivoUsina</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Armazena os dados das saídas referentes aos armazenamentos por usina.</span>
 
@@ -88,16 +88,10 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">T</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;T&quot;</span><span class="p">)</span>
-
     <span class="n">BLOCKS</span> <span class="o">=</span> <span class="p">[</span>
         <span class="n">Usina</span><span class="p">,</span>
         <span class="n">VarmAnos</span><span class="p">,</span>
     <span class="p">]</span>
-
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="o">=...</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__varmuh</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">le_arquivo</span><span class="p">(</span>
@@ -106,71 +100,7 @@
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">diretorio</span><span class="p">,</span> <span class="n">nome_arquivo</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">escreve_arquivo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">diretorio</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">nome_arquivo</span><span class="o">=</span><span class="s2">&quot;varmuh001.out&quot;</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">diretorio</span><span class="p">,</span> <span class="n">nome_arquivo</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">__bloco_por_tipo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bloco</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">T</span><span class="p">],</span> <span class="n">indice</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Obtém um gerador de blocos de um tipo, se houver algum no arquivo.</span>
-
-<span class="sd">        :param bloco: Um tipo de bloco para ser lido</span>
-<span class="sd">        :type bloco: T</span>
-<span class="sd">        :param indice: O índice do bloco a ser acessado, dentre os do tipo</span>
-<span class="sd">        :type indice: int</span>
-<span class="sd">        :return: O gerador de blocos, se houver</span>
-<span class="sd">        :rtype: Optional[Generator[T], None, None]</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="k">return</span> <span class="nb">next</span><span class="p">(</span>
-                <span class="n">b</span>
-                <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">of_type</span><span class="p">(</span><span class="n">bloco</span><span class="p">))</span>
-                <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="n">indice</span>
-            <span class="p">)</span>
-        <span class="k">except</span> <span class="ne">StopIteration</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">None</span>
-
-    <span class="k">def</span> <span class="nf">__monta_tabela</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
-        <span class="n">df</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">of_type</span><span class="p">(</span><span class="n">VarmAnos</span><span class="p">):</span>
-            <span class="n">dados</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">data</span>
-            <span class="k">if</span> <span class="n">dados</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="k">continue</span>
-            <span class="k">elif</span> <span class="n">df</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">df</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">data</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df</span><span class="p">,</span> <span class="n">b</span><span class="o">.</span><span class="n">data</span><span class="p">],</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">df</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">valores</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Tabela com valores de armazenamento por série e</span>
-<span class="sd">        por mês/ano de estudo.</span>
-
-<span class="sd">        - Ano (`int`)</span>
-<span class="sd">        - Série (`int`)</span>
-<span class="sd">        - Janeiro (`float`)</span>
-<span class="sd">        - ...</span>
-<span class="sd">        - Dezembro (`float`)</span>
-
-<span class="sd">        :return: A tabela dos valores de armazenamento.</span>
-<span class="sd">        :rtype: pd.DataFrame</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__varmuh</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">__varmuh</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__monta_tabela</span><span class="p">()</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__varmuh</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">usina</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        A usina associada ao arquivo lido.</span>
-
-<span class="sd">        :return: O nome da usina</span>
-<span class="sd">        :rtype: str</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__bloco_por_tipo</span><span class="p">(</span><span class="n">Usina</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">b</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">b</span><span class="o">.</span><span class="n">data</span>
-        <span class="k">return</span> <span class="kc">None</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">diretorio</span><span class="p">,</span> <span class="n">nome_arquivo</span><span class="p">)</span></div>
 </pre></div>
 
            </div>
