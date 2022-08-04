@@ -22,8 +22,10 @@ class Geolm(ArquivoSubmercadoPatamar):
     ]
 
     @classmethod
-    def le_arquivo(cls, diretorio: str, nome_arquivo="geol001.out") -> "Geol":
+    def le_arquivo(
+        cls, diretorio: str, nome_arquivo="geolm001.out"
+    ) -> "Geolm":
         return cls.read(diretorio, nome_arquivo)
 
-    def escreve_arquivo(self, diretorio: str, nome_arquivo="geol001.out"):
+    def escreve_arquivo(self, diretorio: str, nome_arquivo="geolm001.out"):
         self.write(diretorio, nome_arquivo)

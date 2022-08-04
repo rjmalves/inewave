@@ -1,4 +1,4 @@
-MochGhmaxmr = [
+MockGhmaxmr = [
     "  PMO                         \n",
     "     GERACAO HIDRAULICA MAXIMA (CONS. RESTRICAO ELETRICA)  SUBMERCADO:SUDESTE                            \n",
     "\n",

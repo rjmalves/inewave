@@ -15,7 +15,7 @@ class ValoresSerie(Block):
     """
 
     BEGIN_PATTERN = "     ANO: "
-    END_PATTERN = " MEDIA"
+    END_PATTERN = "MEDIA  "
     HEADER_LINE = Line([])
     DATA_LINE = Line([])
 

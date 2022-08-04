@@ -91,29 +91,29 @@ def test_registro_vazmint_modif():
     assert r.vazao == 10.00
 
 
-def test_registro_volmin_modif():
+# def test_registro_volmin_modif():
 
-    m: MagicMock = mock_open(read_data="".join(MockVOLMIN))
-    r = VOLMIN()
-    with patch("builtins.open", m):
-        with open("", "") as fp:
-            r.read(fp)
+#     m: MagicMock = mock_open(read_data="".join(MockVOLMIN))
+#     r = VOLMIN()
+#     with patch("builtins.open", m):
+#         with open("", "") as fp:
+#             r.read(fp)
 
-    assert r.data == [15563.63, "'h'"]
-    assert r.volume == 15563.63
+#     assert r.data == [15563.63, "'h'"]
+#     assert r.volume == 15563.63
 
 
-def test_registro_volmax_modif():
+# def test_registro_volmax_modif():
 
-    m: MagicMock = mock_open(read_data="".join(MockVOLMAX))
-    r = VOLMAX()
-    with patch("builtins.open", m):
-        with open("", "") as fp:
-            r.read(fp)
+#     m: MagicMock = mock_open(read_data="".join(MockVOLMAX))
+#     r = VOLMAX()
+#     with patch("builtins.open", m):
+#         with open("", "") as fp:
+#             r.read(fp)
 
-    assert r.data == [15563.63, "'h'"]
-    assert r.volume == 15563.63
-    assert r.unidade == "'h'"
+#     assert r.data == [15563.63, "'h'"]
+#     assert r.volume == 15563.63
+#     assert r.unidade == "'h'"
 
 
 def test_registro_numcnj_modif():

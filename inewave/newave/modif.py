@@ -453,7 +453,7 @@ class Modif(RegisterFile):
         modificacoes_usina: List[Register] = []
         if len(reg_usina) > 0:
             r = reg_usina[0].next
-            while not isinstance(r, USINA) or r.is_last:
+            while not (isinstance(r, USINA) or r.is_last):
                 modificacoes_usina.append(r)
                 r = r.next
 

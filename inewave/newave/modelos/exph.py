@@ -20,7 +20,7 @@ class BlocoUHEExph(Section):
         super().__init__(previous, next, data)
         self.__linha_uhe = Line(
             [
-                IntegerField(4, 1),
+                IntegerField(4, 0),
                 LiteralField(12, 5),
                 DatetimeField(size=7, starting_position=18, format="%m/%Y"),
                 IntegerField(2, 31),

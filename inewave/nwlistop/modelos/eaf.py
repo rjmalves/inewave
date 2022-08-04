@@ -9,7 +9,7 @@ from inewave.nwlistop.modelos.blocos.valoresserie import ValoresSerie
 
 class EafsAnos(ValoresSerie):
     """
-    Bloco com as informações das tabelas de energias afluente bruta
+    Bloco com as informações das tabelas de energias afluente
     por série e por mês/ano de estudo.
     """
 
