@@ -40,7 +40,7 @@ Para a leitura dos arquivos `cmarg00x.out`::
     >>> cmarg = Cmarg.le_arquivo(diretorio, "cmarg001.out")
     >>> cmarg
     <inewave.nwlistop.cmarg.Cmarg object at 0x0000020BE9349E20>
-    >>> cmarg.custos
+    >>> cmarg.valores
             Ano  Série  Patamar  Janeiro  Fevereiro  Março  Abril    Maio   Junho    Julho  Agosto  Setembro  Outubro  Novembro  Dezembro   Média
     0      2021      1        1     0.00       0.00   0.00   0.00    0.00    0.00   497.03  268.43    358.91   249.64    236.99    153.67  294.11
     1      2021      1        2     0.00       0.00   0.00   0.00    0.00    0.00   497.03  268.43    358.91   249.64    236.99    153.67  294.11
