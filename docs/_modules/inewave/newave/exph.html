@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="pt-BR" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>inewave.newave.exph &mdash; documentação inewave 0.0.68</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/sg_gallery.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/sg_gallery-binder.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/sg_gallery-dataframe.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/sg_gallery-rendered-html.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/translations.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Índice" href="../../../genindex.html" />
+    <link rel="search" title="Buscar" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> inewave
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Pesquisar documentos" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Menu de navegação">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Instalação</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reference.html">Referência</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Menu de navegação móvel" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">inewave</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Navegação da página">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html">Código do módulo</a> &raquo;</li>
+      <li>inewave.newave.exph</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Código fonte para inewave.newave.exph</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">inewave.newave.modelos.exph</span> <span class="kn">import</span> <span class="n">BlocoUHEExph</span>
+
+<span class="kn">from</span> <span class="nn">cfinterface.files.sectionfile</span> <span class="kn">import</span> <span class="n">SectionFile</span>
+<span class="kn">from</span> <span class="nn">cfinterface.components.section</span> <span class="kn">import</span> <span class="n">Section</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TypeVar</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>  <span class="c1"># type: ignore</span>
+
+
+<div class="viewcode-block" id="Exph"><a class="viewcode-back" href="../../../reference/newave/arquivos/exph.html#inewave.newave.exph.Exph">[documentos]</a><span class="k">class</span> <span class="nc">Exph</span><span class="p">(</span><span class="n">SectionFile</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Armazena os dados de entrada do NEWAVE referentes à expansão</span>
+<span class="sd">    hidraulica do sistema.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">T</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;T&quot;</span><span class="p">)</span>
+
+    <span class="n">SECTIONS</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="n">Section</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[</span><span class="n">BlocoUHEExph</span><span class="p">]</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">le_arquivo</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">diretorio</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">nome_arquivo</span><span class="o">=</span><span class="s2">&quot;exph.dat&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Exph&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">diretorio</span><span class="p">,</span> <span class="n">nome_arquivo</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">escreve_arquivo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">diretorio</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">nome_arquivo</span><span class="o">=</span><span class="s2">&quot;exph.dat&quot;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">diretorio</span><span class="p">,</span> <span class="n">nome_arquivo</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__bloco_por_tipo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bloco</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">T</span><span class="p">],</span> <span class="n">indice</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Obtém um gerador de blocos de um tipo, se houver algum no arquivo.</span>
+
+<span class="sd">        :param bloco: Um tipo de bloco para ser lido</span>
+<span class="sd">        :type bloco: T</span>
+<span class="sd">        :param indice: O índice do bloco a ser acessado, dentre os do tipo</span>
+<span class="sd">        :type indice: int</span>
+<span class="sd">        :return: O gerador de blocos, se houver</span>
+<span class="sd">        :rtype: Optional[Generator[T], None, None]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">next</span><span class="p">(</span>
+                <span class="n">b</span>
+                <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">of_type</span><span class="p">(</span><span class="n">bloco</span><span class="p">))</span>
+                <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="n">indice</span>
+            <span class="p">)</span>
+        <span class="k">except</span> <span class="ne">StopIteration</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">expansoes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        A tabela de expansões de máquinas das UHEs.</span>
+
+<span class="sd">        - Código UHE (`int`)</span>
+<span class="sd">        - Nome UHE (`str`)</span>
+<span class="sd">        - Início Enchimento (`datetime`)</span>
+<span class="sd">        - Duração (`int`)</span>
+<span class="sd">        - Volume Morto (`float`)</span>
+<span class="sd">        - Data de Entrada (`datetime`)</span>
+<span class="sd">        - Potência (`float`)</span>
+<span class="sd">        - Máquina (`int`)</span>
+<span class="sd">        - Conjunto (`int`)</span>
+
+<span class="sd">        :return: A tabela como um DataFrame</span>
+<span class="sd">        :rtype: pd.DataFrame | None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__bloco_por_tipo</span><span class="p">(</span><span class="n">BlocoUHEExph</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">b</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">b</span><span class="o">.</span><span class="n">data</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="nd">@expansoes</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">expansoes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">d</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__bloco_por_tipo</span><span class="p">(</span><span class="n">BlocoUHEExph</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">b</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">b</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">d</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Rogerio José Menezes Alves.</p>
+  </div>
+
+  Compilado com <a href="https://www.sphinx-doc.org/">Sphinx</a> usando um
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">tema</a>
+    fornecido por <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

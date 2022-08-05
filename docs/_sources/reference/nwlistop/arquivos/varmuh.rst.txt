@@ -1,7 +1,7 @@
 .. _varmuh:
 
 ====================================================================
-Volume Armazenado por UH (varmuhx.out)
+Volume Armazenado por Usina (varmuhx.out)
 ====================================================================
 
 .. currentmodule:: inewave.nwlistop.varmuh

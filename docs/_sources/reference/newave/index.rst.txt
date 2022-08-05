@@ -65,6 +65,7 @@ Arquivos
    arquivos/patamar
    arquivos/pmo
    arquivos/confhd
+   arquivos/exph
    arquivos/modif
    arquivos/dsvagua
    arquivos/vazpast

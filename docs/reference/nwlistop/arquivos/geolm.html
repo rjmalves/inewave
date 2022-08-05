@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Geração Eólica Total por Submercado (geolmx.out) &mdash; documentação inewave 0.0.67</title>
+  <title>Geração Eólica Total por Submercado (geolmx.out) &mdash; documentação inewave 0.0.68</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/sg_gallery.css" type="text/css" />
@@ -54,10 +54,15 @@
 <li class="toctree-l3 current"><a class="reference internal" href="../index.html#arquivos">Arquivos</a><ul class="current">
 <li class="toctree-l4"><a class="reference internal" href="cmarg.html">Custos Marginais (cmargx.out)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="cmargmed.html">Custos Marginais Médios (cmargx-med.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cterm.html">Custos de Geração Térmica (ctermx.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ctermsin.html">Custos de Geração Térmica para o SIN (ctermsin.out)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="coper.html">Custos Totais de Operação (coper.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="eaf.html">Energia Afluente por REE (eafx.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="eafm.html">Energia Afluente por Submercado (eafmx.out)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="eafb.html">Energia Afluente Bruta por REE (eafbx.out)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="eafbm.html">Energia Afluente Bruta por Submercado (eafbmx.out)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="eafbsin.html">Energia Afluente Bruta para o SIN (eafbsin.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="vento.html">Velocidade do Vento por UE (ventox.out)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="earmfp.html">Energia Armazenada Final Percentual por REE (earmfpx.out)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="earmfpm.html">Energia Armazenada Final Percentual por Submercado (earmfpmx.out)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="earmfpsin.html">Energia Armazenada Final Percentual para o SIN (earmfpsin.out)</a></li>
@@ -66,6 +71,11 @@
 <li class="toctree-l4"><a class="reference internal" href="ghtot.html">Geração Hidráulica Total por REE (ghtotx.out)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ghtotm.html">Geração Hidráulica Total por Submercado (ghtotmx.out)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ghtotsin.html">Geração Hidráulica Total para o SIN (ghtotsin.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ghmax.html">Geração Hidráulica Máxima por REE (ghmax.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ghmaxr.html">Geração Hidráulica Máxima com Restrições Elétricas por REE (ghmaxr.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ghmaxm.html">Geração Hidráulica Máxima por Submercado (ghmaxmx.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ghmaxsin.html">Geração Hidráulica Máxima para o SIN (ghmaxsin.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ghmaxrsin.html">Geração Hidráulica Máxima com Restrições Elétricas para o SIN (ghmaxrsin.out)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="geol.html">Geração Eólica Total por PEE (geolx.out)</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">Geração Eólica Total por Submercado (geolmx.out)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="geolsin.html">Geração Eólica Total para o SIN (geolsin.out)</a></li>
@@ -77,8 +87,13 @@
 <li class="toctree-l4"><a class="reference internal" href="verturb.html">Vertimento Turbinável por REE (verturbx.out)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="verturbm.html">Vertimento Turbinável por Submercado (verturbmx.out)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="verturbsin.html">Vertimento Turbinável para o SIN (verturbsin.out)</a></li>
-<li class="toctree-l4"><a class="reference internal" href="varmuh.html">Volume Armazenado por UH (varmuhx.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qafluh.html">Vazão Afluente por UH (qafluhx.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qincruh.html">Vazão Incremental por UH (qincruh.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="vturuh.html">Volume Turbinado por UH (vturuhx.out)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="vertuh.html">Volume Vertido por UH (vertuhx.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="varmuh.html">Volume Armazenado por UH (varmuhx.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="varmpuh.html">Volume Armazenado Percentual por UH (varmpuhx.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ghiduh.html">Geração Hidráulica por UH (ghiduhx.out)</a></li>
 </ul>
 </li>
 </ul>

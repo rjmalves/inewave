@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>inewave.nwlistop.geolm &mdash; documentação inewave 0.0.67</title>
+  <title>inewave.nwlistop.geolm &mdash; documentação inewave 0.0.68</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/sg_gallery.css" type="text/css" />
@@ -95,10 +95,12 @@
     <span class="p">]</span>
 
     <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">le_arquivo</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">diretorio</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">nome_arquivo</span><span class="o">=</span><span class="s2">&quot;geol001.out&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Geol&quot;</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">le_arquivo</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span> <span class="n">diretorio</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">nome_arquivo</span><span class="o">=</span><span class="s2">&quot;geolm001.out&quot;</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Geolm&quot;</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">diretorio</span><span class="p">,</span> <span class="n">nome_arquivo</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">escreve_arquivo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">diretorio</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">nome_arquivo</span><span class="o">=</span><span class="s2">&quot;geol001.out&quot;</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">escreve_arquivo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">diretorio</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">nome_arquivo</span><span class="o">=</span><span class="s2">&quot;geolm001.out&quot;</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">diretorio</span><span class="p">,</span> <span class="n">nome_arquivo</span><span class="p">)</span></div>
 </pre></div>
 

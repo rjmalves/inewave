@@ -1,11 +1,11 @@
 from inewave.nwlistop.modelos.blocos.submercado import Submercado
 from inewave.nwlistop.modelos.cterm import CtermsAnos
-from inewave.nwlistop.modelos.arquivos.arquivosubmercadopatamar import (
-    ArquivoSubmercadoPatamar,
+from inewave.nwlistop.modelos.arquivos.arquivosubmercado import (
+    ArquivoSubmercado,
 )
 
 
-class Cterm(ArquivoSubmercadoPatamar):
+class Cterm(ArquivoSubmercado):
     """
     Armazena os dados das saídas referentes aos custos de geração térmica
     por patamar, por submercado.

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="pt-BR" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Geração Hidráulica Máxima para o SIN (ghmaxsin.out) &mdash; documentação inewave 0.0.68</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/sg_gallery.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/sg_gallery-binder.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/sg_gallery-dataframe.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/sg_gallery-rendered-html.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/translations.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Índice" href="../../../genindex.html" />
+    <link rel="search" title="Buscar" href="../../../search.html" />
+    <link rel="next" title="Geração Hidráulica Máxima com Restrições Elétricas para o SIN (ghmaxrsin.out)" href="ghmaxrsin.html" />
+    <link rel="prev" title="Geração Hidráulica Máxima por Submercado (ghmaxmx.out)" href="ghmaxm.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> inewave
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Pesquisar documentos" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Menu de navegação">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Instalação</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../../reference.html">Referência</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../newave/index.html">NEWAVE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../nwlistcf/index.html">NWLISTCF</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">NWLISTOP</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../index.html#basico-da-interface-nwlistop">Básico da interface NWLISTOP</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../index.html#arquivos">Arquivos</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="cmarg.html">Custos Marginais (cmargx.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cmargmed.html">Custos Marginais Médios (cmargx-med.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cterm.html">Custos de Geração Térmica (ctermx.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ctermsin.html">Custos de Geração Térmica para o SIN (ctermsin.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="coper.html">Custos Totais de Operação (coper.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="eaf.html">Energia Afluente por REE (eafx.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="eafm.html">Energia Afluente por Submercado (eafmx.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="eafb.html">Energia Afluente Bruta por REE (eafbx.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="eafbm.html">Energia Afluente Bruta por Submercado (eafbmx.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="eafbsin.html">Energia Afluente Bruta para o SIN (eafbsin.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="vento.html">Velocidade do Vento por UE (ventox.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="earmfp.html">Energia Armazenada Final Percentual por REE (earmfpx.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="earmfpm.html">Energia Armazenada Final Percentual por Submercado (earmfpmx.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="earmfpsin.html">Energia Armazenada Final Percentual para o SIN (earmfpsin.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="earmfm.html">Energia Armazenada Final por Submercado (earmfmx.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="earmfsin.html">Energia Armazenada Final para o SIN (earmfsin.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ghtot.html">Geração Hidráulica Total por REE (ghtotx.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ghtotm.html">Geração Hidráulica Total por Submercado (ghtotmx.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ghtotsin.html">Geração Hidráulica Total para o SIN (ghtotsin.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ghmax.html">Geração Hidráulica Máxima por REE (ghmax.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ghmaxr.html">Geração Hidráulica Máxima com Restrições Elétricas por REE (ghmaxr.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ghmaxm.html">Geração Hidráulica Máxima por Submercado (ghmaxmx.out)</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Geração Hidráulica Máxima para o SIN (ghmaxsin.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ghmaxrsin.html">Geração Hidráulica Máxima com Restrições Elétricas para o SIN (ghmaxrsin.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geol.html">Geração Eólica Total por PEE (geolx.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geolm.html">Geração Eólica Total por Submercado (geolmx.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geolsin.html">Geração Eólica Total para o SIN (geolsin.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gttot.html">Geração Térmica Total por Submercado (gttotx.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gttotsin.html">Geração Térmica Total para o SIN (gttotsin.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mediasmerc.html">Médias por Submercado (MEDIAS-MERC.CSV)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mediassin.html">Médias SIN (MEDIAS-SIN.CSV)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="vagua.html">Valor da Água por REE (vaguax.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="verturb.html">Vertimento Turbinável por REE (verturbx.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="verturbm.html">Vertimento Turbinável por Submercado (verturbmx.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="verturbsin.html">Vertimento Turbinável para o SIN (verturbsin.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qafluh.html">Vazão Afluente por UH (qafluhx.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qincruh.html">Vazão Incremental por UH (qincruh.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="vturuh.html">Volume Turbinado por UH (vturuhx.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="vertuh.html">Volume Vertido por UH (vertuhx.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="varmuh.html">Volume Armazenado por UH (varmuhx.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="varmpuh.html">Volume Armazenado Percentual por UH (varmpuhx.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ghiduh.html">Geração Hidráulica por UH (ghiduhx.out)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Menu de navegação móvel" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">inewave</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Navegação da página">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../../reference.html">Referência</a> &raquo;</li>
+          <li><a href="../index.html">NWLISTOP</a> &raquo;</li>
+      <li>Geração Hidráulica Máxima para o SIN (ghmaxsin.out)</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/reference/nwlistop/arquivos/ghmaxsin.rst.txt" rel="nofollow"> Ver código-fonte da página</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="geracao-hidraulica-maxima-para-o-sin-ghmaxsin-out">
+<span id="ghmaxsin"></span><h1>Geração Hidráulica Máxima para o SIN (ghmaxsin.out)<a class="headerlink" href="#geracao-hidraulica-maxima-para-o-sin-ghmaxsin-out" title="Link permanente para este cabeçalho"></a></h1>
+<p>Os valores de geração hidráulica máxima para o SIN, localizados no arquivo geralmente denominado
+ghmaxsin.out são armazenados na classe:</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="inewave.nwlistop.ghmaxsin.GhmaxSIN">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">GhmaxSIN</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">Ellipsis</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/nwlistop/ghmaxsin.html#GhmaxSIN"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.nwlistop.ghmaxsin.GhmaxSIN" title="Link permanente para esta definição"></a></dt>
+<dd><p>Armazena os dados das saídas referentes à geração hidraulica máxima
+por patamar para o SIN.</p>
+<p>Esta classe lida com as informações de saída fornecidas pelo
+NWLISTOP e reproduzidas nos <code class="xref py py-obj docutils literal notranslate"><span class="pre">ghmaxsin.out</span></code>.</p>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Rodapé">
+        <a href="ghmaxm.html" class="btn btn-neutral float-left" title="Geração Hidráulica Máxima por Submercado (ghmaxmx.out)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Anterior</a>
+        <a href="ghmaxrsin.html" class="btn btn-neutral float-right" title="Geração Hidráulica Máxima com Restrições Elétricas para o SIN (ghmaxrsin.out)" accesskey="n" rel="next">Próximo <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Rogerio José Menezes Alves.</p>
+  </div>
+
+  Compilado com <a href="https://www.sphinx-doc.org/">Sphinx</a> usando um
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">tema</a>
+    fornecido por <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

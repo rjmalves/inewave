@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Referência &mdash; documentação inewave 0.0.67</title>
+  <title>Referência &mdash; documentação inewave 0.0.68</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/sg_gallery.css" type="text/css" />
@@ -80,7 +80,7 @@
              
   <section id="referencia">
 <h1>Referência<a class="headerlink" href="#referencia" title="Link permanente para este cabeçalho"></a></h1>
-<p><strong>Versão:</strong> 0.0.67</p>
+<p><strong>Versão:</strong> 0.0.68</p>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="reference/newave/index.html">NEWAVE</a><ul>
@@ -97,6 +97,7 @@
 <li class="toctree-l3"><a class="reference internal" href="reference/newave/arquivos/patamar.html">Patamares de Carga (patamar.dat)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="reference/newave/arquivos/pmo.html">Acompanhamento do Programa (pmo.dat)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="reference/newave/arquivos/confhd.html">Configurações das Hidrelétricas (confhd.dat)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/newave/arquivos/exph.html">Expansões das Hidrelétricas (exph.dat)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="reference/newave/arquivos/modif.html">Modificações das Hidrelétricas (modif.dat)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="reference/newave/arquivos/dsvagua.html">Outros Usos da Água (dsvagua.dat)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="reference/newave/arquivos/vazpast.html">Tendência Hidrológica (vazpast.dat)</a></li>
@@ -125,32 +126,48 @@
 <li class="toctree-l2"><a class="reference internal" href="reference/nwlistop/index.html#basico-da-interface-nwlistop">Básico da interface NWLISTOP</a></li>
 <li class="toctree-l2"><a class="reference internal" href="reference/nwlistop/index.html#arquivos">Arquivos</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="reference/nwlistop/arquivos/cmarg.html">Custos Marginais (cmargx.out)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="reference/nwlistop/arquivos/cmargmed.html">Custos Marginais Médios (cmarg00x-med.out)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/nwlistop/arquivos/cmargmed.html">Custos Marginais Médios (cmargx-med.out)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/nwlistop/arquivos/cterm.html">Custos de Geração Térmica (ctermx.out)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/nwlistop/arquivos/ctermsin.html">Custos de Geração Térmica para o SIN (ctermsin.out)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="reference/nwlistop/arquivos/coper.html">Custos Totais de Operação (coper.out)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/nwlistop/arquivos/eaf.html">Energia Afluente por REE (eafx.out)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/nwlistop/arquivos/eafm.html">Energia Afluente por Submercado (eafmx.out)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="reference/nwlistop/arquivos/eafb.html">Energia Afluente Bruta por REE (eafbx.out)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="reference/nwlistop/arquivos/eafbm.html">Energia Afluente Bruta por Submercado (eafbm00x.out)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/nwlistop/arquivos/eafbm.html">Energia Afluente Bruta por Submercado (eafbmx.out)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="reference/nwlistop/arquivos/eafbsin.html">Energia Afluente Bruta para o SIN (eafbsin.out)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/nwlistop/arquivos/vento.html">Velocidade do Vento por Usina (ventox.out)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="reference/nwlistop/arquivos/earmfp.html">Energia Armazenada Final Percentual por REE (earmfpx.out)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="reference/nwlistop/arquivos/earmfpm.html">Energia Armazenada Final Percentual por Submercado (earmfpm00x.out)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/nwlistop/arquivos/earmfpm.html">Energia Armazenada Final Percentual por Submercado (earmfpmx.out)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="reference/nwlistop/arquivos/earmfpsin.html">Energia Armazenada Final Percentual para o SIN (earmfpsin.out)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="reference/nwlistop/arquivos/earmfm.html">Energia Armazenada Final por Submercado (earmfmx.out)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="reference/nwlistop/arquivos/earmfsin.html">Energia Armazenada Final para o SIN (earmfsin.out)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="reference/nwlistop/arquivos/ghtot.html">Geração Hidráulica Total por REE (ghtot00x.out)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="reference/nwlistop/arquivos/ghtotm.html">Geração Hidráulica Total por Submercado (ghtotm00x.out)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/nwlistop/arquivos/ghtot.html">Geração Hidráulica Total por REE (ghtotx.out)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/nwlistop/arquivos/ghtotm.html">Geração Hidráulica Total por Submercado (ghtotmx.out)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="reference/nwlistop/arquivos/ghtotsin.html">Geração Hidráulica Total para o SIN (ghtotsin.out)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="reference/nwlistop/arquivos/geol.html">Geração Eólica Total por PEE (geol00x.out)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="reference/nwlistop/arquivos/geolm.html">Geração Eólica Total por Submercado (geolm00x.out)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/nwlistop/arquivos/ghmax.html">Geração Hidráulica Máxima por REE (ghmax.out)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/nwlistop/arquivos/ghmaxr.html">Geração Hidráulica Máxima com Restrições Elétricas por REE (ghmaxr.out)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/nwlistop/arquivos/ghmaxm.html">Geração Hidráulica Máxima por Submercado (ghmaxmx.out)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/nwlistop/arquivos/ghmaxmr.html">Geração Hidráulica Máxima com Restrições Elétricas por Submercado (ghmaxmr.out)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/nwlistop/arquivos/ghmaxsin.html">Geração Hidráulica Máxima para o SIN (ghmaxsin.out)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/nwlistop/arquivos/ghmaxrsin.html">Geração Hidráulica Máxima com Restrições Elétricas para o SIN (ghmaxrsin.out)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/nwlistop/arquivos/geol.html">Geração Eólica Total por Usina (geolx.out)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/nwlistop/arquivos/geolm.html">Geração Eólica Total por Submercado (geolmx.out)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="reference/nwlistop/arquivos/geolsin.html">Geração Eólica Total para o SIN (geolsin.out)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="reference/nwlistop/arquivos/gttot.html">Geração Térmica Total por Submercado (gttot00x.out)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/nwlistop/arquivos/gttot.html">Geração Térmica Total por Submercado (gttotx.out)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="reference/nwlistop/arquivos/gttotsin.html">Geração Térmica Total para o SIN (gttotsin.out)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="reference/nwlistop/arquivos/mediasmerc.html">Médias por Submercado (MEDIAS-MERC.CSV)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="reference/nwlistop/arquivos/mediassin.html">Médias SIN (MEDIAS-SIN.CSV)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="reference/nwlistop/arquivos/vagua.html">Valor da Água por REE (vagua00x.out)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="reference/nwlistop/arquivos/verturb.html">Vertimento Turbinável por REE (verturb00x.out)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="reference/nwlistop/arquivos/verturbm.html">Vertimento Turbinável por Submercado (verturbm00x.out)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/nwlistop/arquivos/vagua.html">Valor da Água por REE (vaguax.out)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/nwlistop/arquivos/verturb.html">Vertimento Turbinável por REE (verturbx.out)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/nwlistop/arquivos/verturbm.html">Vertimento Turbinável por Submercado (verturbmx.out)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="reference/nwlistop/arquivos/verturbsin.html">Vertimento Turbinável para o SIN (verturbsin.out)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="reference/nwlistop/arquivos/varmuh.html">Volume Armazenado por UH (varmuhx.out)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="reference/nwlistop/arquivos/vertuh.html">Volume Vertido por UH (vertuhx.out)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/nwlistop/arquivos/qafluh.html">Vazão Afluente por Usina (qafluhx.out)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/nwlistop/arquivos/qincruh.html">Vazão Incremental por Usina (qincruh.out)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/nwlistop/arquivos/vturuh.html">Volume Turbinado por Usina (vturuhx.out)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/nwlistop/arquivos/vertuh.html">Volume Vertido por Usina (vertuhx.out)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/nwlistop/arquivos/varmuh.html">Volume Armazenado por Usina (varmuhx.out)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/nwlistop/arquivos/varmpuh.html">Volume Armazenado Percentual por Usina (varmpuhx.out)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/nwlistop/arquivos/ghiduh.html">Geração Hidráulica por Usina (ghiduhx.out)</a></li>
 </ul>
 </li>
 </ul>

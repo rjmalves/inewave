@@ -21,7 +21,7 @@ o estudo em questão. Desta forma, não é recomendado importar todo o módulo `
 
 A importação recomendada é, por exemplo::
 
-    >>> from inewave.nwlistop.eafbm00 import Eafbm00
+    >>> from inewave.nwlistop.eafbm import Eafbm
     >>> from inewave.nwlistop.mediasmerc import MediasMerc
 
 Para a leitura do arquivo `pmo.dat`::
@@ -65,10 +65,15 @@ Arquivos
 
    arquivos/cmarg
    arquivos/cmargmed
+   arquivos/cterm
+   arquivos/ctermsin
    arquivos/coper
+   arquivos/eaf
+   arquivos/eafm
    arquivos/eafb
    arquivos/eafbm
    arquivos/eafbsin
+   arquivos/vento
    arquivos/earmfp
    arquivos/earmfpm
    arquivos/earmfpsin
@@ -77,6 +82,12 @@ Arquivos
    arquivos/ghtot
    arquivos/ghtotm
    arquivos/ghtotsin
+   arquivos/ghmax
+   arquivos/ghmaxr
+   arquivos/ghmaxm
+   arquivos/ghmaxmr
+   arquivos/ghmaxsin
+   arquivos/ghmaxrsin
    arquivos/geol
    arquivos/geolm
    arquivos/geolsin
@@ -88,5 +99,10 @@ Arquivos
    arquivos/verturb
    arquivos/verturbm
    arquivos/verturbsin
-   arquivos/varmuh
+   arquivos/qafluh
+   arquivos/qincruh
+   arquivos/vturuh
    arquivos/vertuh
+   arquivos/varmuh
+   arquivos/varmpuh
+   arquivos/ghiduh

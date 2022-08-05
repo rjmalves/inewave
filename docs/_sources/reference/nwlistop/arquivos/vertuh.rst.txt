@@ -1,7 +1,7 @@
 .. _vertuh:
 
 ====================================================================
-Volume Vertido por UH (vertuhx.out)
+Volume Vertido por Usina (vertuhx.out)
 ====================================================================
 
 .. currentmodule:: inewave.nwlistop.vertuh
