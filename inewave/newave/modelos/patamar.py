@@ -1,4 +1,9 @@
-from inewave.config import MAX_ANOS_ESTUDO, MAX_SUBMERCADOS, MESES_DF
+from inewave.config import (
+    MAX_ANOS_ESTUDO,
+    MAX_PATAMARES,
+    MAX_SUBMERCADOS,
+    MESES_DF,
+)
 
 from cfinterface.components.section import Section
 from cfinterface.components.line import Line
@@ -194,7 +199,10 @@ class BlocoCargaPatamar(Section):
         subsis_atual = 0
         ano_atual = 0
         tabela = np.zeros(
-            (MAX_SUBMERCADOS * MAX_ANOS_ESTUDO, len(MESES_DF) + 2)
+            (
+                MAX_SUBMERCADOS * MAX_ANOS_ESTUDO * MAX_PATAMARES,
+                len(MESES_DF) + 2,
+            )
         )
         while True:
             linha = file.readline()
