@@ -193,7 +193,7 @@ def test_leitura_escrita_eolicacadastro():
         # Recupera o que foi escrito
         chamadas = m_escrita.mock_calls
         linhas_escritas = [
-            chamadas[i].args[0] for i in range(3, len(chamadas) - 1)
+            chamadas[i].args[0] for i in range(2, len(chamadas) - 1)
         ]
     m_releitura: MagicMock = mock_open(read_data="".join(linhas_escritas))
     with patch("builtins.open", m_releitura):
