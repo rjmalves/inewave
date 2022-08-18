@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="pt-BR" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>inewave.newave.hidr &mdash; documentação inewave 0.0.70</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/sg_gallery.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/sg_gallery-binder.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/sg_gallery-dataframe.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/sg_gallery-rendered-html.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/translations.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Índice" href="../../../genindex.html" />
+    <link rel="search" title="Buscar" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> inewave
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Pesquisar documentos" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Menu de navegação">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Instalação</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reference.html">Referência</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Menu de navegação móvel" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">inewave</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Navegação da página">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html">Código do módulo</a> &raquo;</li>
+      <li>inewave.newave.hidr</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Código fonte para inewave.newave.hidr</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">cfinterface.files.registerfile</span> <span class="kn">import</span> <span class="n">RegisterFile</span>
+<span class="kn">from</span> <span class="nn">inewave.newave.modelos.hidr</span> <span class="kn">import</span> <span class="n">RegistroUHEHidr</span>
+<span class="kn">from</span> <span class="nn">inewave.config</span> <span class="kn">import</span> <span class="n">MESES_ABREV</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>  <span class="c1"># type: ignore</span>
+
+
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TypeVar</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
+
+
+<div class="viewcode-block" id="Hidr"><a class="viewcode-back" href="../../../reference/newave/arquivos/hidr.html#inewave.newave.hidr.Hidr">[documentos]</a><span class="k">class</span> <span class="nc">Hidr</span><span class="p">(</span><span class="n">RegisterFile</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Armazena os dados de entrada do NEWAVE referentes ao cadastro das</span>
+<span class="sd">    usinas hidroelétricas.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">T</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;T&quot;</span><span class="p">)</span>
+
+    <span class="n">REGISTERS</span> <span class="o">=</span> <span class="p">[</span><span class="n">RegistroUHEHidr</span><span class="p">]</span>
+    <span class="n">STORAGE</span> <span class="o">=</span> <span class="s2">&quot;BINARY&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="o">=...</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__df</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">le_arquivo</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">diretorio</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">nome_arquivo</span><span class="o">=</span><span class="s2">&quot;hidr.dat&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Hidr&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">diretorio</span><span class="p">,</span> <span class="n">nome_arquivo</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">escreve_arquivo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">diretorio</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">nome_arquivo</span><span class="o">=</span><span class="s2">&quot;hidr.dat&quot;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__atualiza_registros</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">diretorio</span><span class="p">,</span> <span class="n">nome_arquivo</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__monta_df_de_registros</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]:</span>
+        <span class="n">registros</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">RegistroUHEHidr</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">r</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">of_type</span><span class="p">(</span><span class="n">RegistroUHEHidr</span><span class="p">)</span>
+        <span class="p">]</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">registros</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+            <span class="n">columns</span><span class="o">=</span><span class="p">[</span>
+                <span class="s2">&quot;Nome&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;Posto&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;Subsistema&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;Empresa&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;Jusante&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;Desvio&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;Volume Mínimo&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;Volume Máximo&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;Volume Vertedouro&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;Volume Desvio&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;Cota Mínima&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;Cota Máxima&quot;</span><span class="p">,</span>
+                <span class="o">*</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;A</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> VC&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)],</span>
+                <span class="o">*</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;A</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> CA&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)],</span>
+                <span class="o">*</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;Evaporação </span><span class="si">{</span><span class="n">m</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">MESES_ABREV</span><span class="p">],</span>
+                <span class="s2">&quot;Num. Conjuntos Máquinas&quot;</span><span class="p">,</span>
+                <span class="o">*</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;Num. Máquinas Conjunto </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">)],</span>
+                <span class="o">*</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;PotEf Conjunto </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">)],</span>
+                <span class="o">*</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;HEf Conjunto </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">)],</span>
+                <span class="o">*</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;QEf Conjunto </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">)],</span>
+                <span class="s2">&quot;Produtibilidade Específica&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;Perdas&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;Número PJUS&quot;</span><span class="p">,</span>
+                <span class="o">*</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;A</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> PJUS1&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)],</span>
+                <span class="o">*</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;A</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> PJUS2&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)],</span>
+                <span class="o">*</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;A</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> PJUS3&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)],</span>
+                <span class="o">*</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;A</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> PJUS4&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)],</span>
+                <span class="o">*</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;A</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> PJUS5&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)],</span>
+                <span class="o">*</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;A</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> PJUS6&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)],</span>
+                <span class="o">*</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;REF PJUS </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">)],</span>
+                <span class="s2">&quot;Canal de Fuga Médio&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;Influencia Vert. Cfuga&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;Fator Carga Max.&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;Fator Carga Min.&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;Vazão Mínima Histórica&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;Num. Unidades Base&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;Tipo Turbina&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;Representação Conjunto&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;TEIF&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;IP&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;Tipo de Perda&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;Data&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;Observação&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;Volume de Referência&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;Tipo de Regulação&quot;</span><span class="p">,</span>
+            <span class="p">]</span>
+        <span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">registros</span><span class="p">):</span>
+            <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">r</span><span class="o">.</span><span class="n">nome</span><span class="p">,</span>
+                <span class="n">r</span><span class="o">.</span><span class="n">posto</span><span class="p">,</span>
+                <span class="n">r</span><span class="o">.</span><span class="n">subsistema</span><span class="p">,</span>
+                <span class="n">r</span><span class="o">.</span><span class="n">empresa</span><span class="p">,</span>
+                <span class="n">r</span><span class="o">.</span><span class="n">jusante</span><span class="p">,</span>
+                <span class="n">r</span><span class="o">.</span><span class="n">desvio</span><span class="p">,</span>
+                <span class="n">r</span><span class="o">.</span><span class="n">volume_minimo</span><span class="p">,</span>
+                <span class="n">r</span><span class="o">.</span><span class="n">volume_maximo</span><span class="p">,</span>
+                <span class="n">r</span><span class="o">.</span><span class="n">volume_vertedouro</span><span class="p">,</span>
+                <span class="n">r</span><span class="o">.</span><span class="n">volume_desvio</span><span class="p">,</span>
+                <span class="n">r</span><span class="o">.</span><span class="n">cota_minima</span><span class="p">,</span>
+                <span class="n">r</span><span class="o">.</span><span class="n">cota_maxima</span><span class="p">,</span>
+                <span class="o">*</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">polinomio_volume_cota</span><span class="p">),</span>
+                <span class="o">*</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">polinomio_cota_area</span><span class="p">),</span>
+                <span class="o">*</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">evaporacao</span><span class="p">),</span>
+                <span class="n">r</span><span class="o">.</span><span class="n">numero_conjuntos_maquinas</span><span class="p">,</span>
+                <span class="o">*</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">numero_maquinas_conjunto</span><span class="p">),</span>
+                <span class="o">*</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">potef_conjunto</span><span class="p">),</span>
+                <span class="o">*</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">hef_conjunto</span><span class="p">),</span>
+                <span class="o">*</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">qef_conjunto</span><span class="p">),</span>
+                <span class="n">r</span><span class="o">.</span><span class="n">produtibilidade_especifica</span><span class="p">,</span>
+                <span class="n">r</span><span class="o">.</span><span class="n">perdas</span><span class="p">,</span>
+                <span class="n">r</span><span class="o">.</span><span class="n">numero_polinomios_jusante</span><span class="p">,</span>
+                <span class="o">*</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">polinomios_jusante</span><span class="p">),</span>
+                <span class="n">r</span><span class="o">.</span><span class="n">canal_fuga_medio</span><span class="p">,</span>
+                <span class="n">r</span><span class="o">.</span><span class="n">influencia_vertimento_canal_fuga</span><span class="p">,</span>
+                <span class="n">r</span><span class="o">.</span><span class="n">fator_carga_maximo</span><span class="p">,</span>
+                <span class="n">r</span><span class="o">.</span><span class="n">fator_carga_minimo</span><span class="p">,</span>
+                <span class="n">r</span><span class="o">.</span><span class="n">vazao_minima_historica</span><span class="p">,</span>
+                <span class="n">r</span><span class="o">.</span><span class="n">numero_unidades_base</span><span class="p">,</span>
+                <span class="n">r</span><span class="o">.</span><span class="n">tipo_turbina</span><span class="p">,</span>
+                <span class="n">r</span><span class="o">.</span><span class="n">representacao_conjunto</span><span class="p">,</span>
+                <span class="n">r</span><span class="o">.</span><span class="n">teif</span><span class="p">,</span>
+                <span class="n">r</span><span class="o">.</span><span class="n">ip</span><span class="p">,</span>
+                <span class="n">r</span><span class="o">.</span><span class="n">tipo_perda</span><span class="p">,</span>
+                <span class="n">r</span><span class="o">.</span><span class="n">data_referencia</span><span class="p">,</span>
+                <span class="n">r</span><span class="o">.</span><span class="n">observacao</span><span class="p">,</span>
+                <span class="n">r</span><span class="o">.</span><span class="n">volume_referencia</span><span class="p">,</span>
+                <span class="n">r</span><span class="o">.</span><span class="n">tipo_regulacao</span><span class="p">,</span>
+            <span class="p">]</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Código&quot;</span>
+
+        <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;Nome&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                <span class="s2">&quot;Posto&quot;</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+                <span class="s2">&quot;Subsistema&quot;</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+                <span class="s2">&quot;Empresa&quot;</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+                <span class="s2">&quot;Jusante&quot;</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+                <span class="s2">&quot;Desvio&quot;</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+                <span class="s2">&quot;Volume Mínimo&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                <span class="s2">&quot;Volume Máximo&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                <span class="s2">&quot;Volume Vertedouro&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                <span class="s2">&quot;Volume Desvio&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                <span class="s2">&quot;Cota Mínima&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                <span class="s2">&quot;Cota Máxima&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                <span class="s2">&quot;Produtibilidade Específica&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                <span class="s2">&quot;Perdas&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                <span class="s2">&quot;Canal de Fuga Médio&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                <span class="s2">&quot;Influencia Vert. Cfuga&quot;</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+                <span class="s2">&quot;Fator Carga Max.&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                <span class="s2">&quot;Fator Carga Min.&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                <span class="s2">&quot;Vazão Mínima Histórica&quot;</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+                <span class="s2">&quot;Num. Unidades Base&quot;</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+                <span class="s2">&quot;Tipo Turbina&quot;</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+                <span class="s2">&quot;Representação Conjunto&quot;</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+                <span class="s2">&quot;TEIF&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                <span class="s2">&quot;IP&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                <span class="s2">&quot;Tipo de Perda&quot;</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+                <span class="s2">&quot;Data&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                <span class="s2">&quot;Observação&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                <span class="s2">&quot;Volume de Referência&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                <span class="s2">&quot;Tipo de Regulação&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+            <span class="p">},</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">df</span>
+
+    <span class="k">def</span> <span class="nf">__atualiza_registros</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">registros</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">RegistroUHEHidr</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">r</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">][</span><span class="mi">1</span><span class="p">:]</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">linha</span><span class="p">),</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cadastro</span><span class="o">.</span><span class="n">iterrows</span><span class="p">(),</span> <span class="n">registros</span><span class="p">):</span>
+            <span class="n">r</span><span class="o">.</span><span class="n">nome</span> <span class="o">=</span> <span class="n">linha</span><span class="p">[</span><span class="s2">&quot;Nome&quot;</span><span class="p">]</span>
+            <span class="n">r</span><span class="o">.</span><span class="n">posto</span> <span class="o">=</span> <span class="n">linha</span><span class="p">[</span><span class="s2">&quot;Posto&quot;</span><span class="p">]</span>
+            <span class="n">r</span><span class="o">.</span><span class="n">subsistema</span> <span class="o">=</span> <span class="n">linha</span><span class="p">[</span><span class="s2">&quot;Subsistema&quot;</span><span class="p">]</span>
+            <span class="n">r</span><span class="o">.</span><span class="n">empresa</span> <span class="o">=</span> <span class="n">linha</span><span class="p">[</span><span class="s2">&quot;Empresa&quot;</span><span class="p">]</span>
+            <span class="n">r</span><span class="o">.</span><span class="n">jusante</span> <span class="o">=</span> <span class="n">linha</span><span class="p">[</span><span class="s2">&quot;Jusante&quot;</span><span class="p">]</span>
+            <span class="n">r</span><span class="o">.</span><span class="n">desvio</span> <span class="o">=</span> <span class="n">linha</span><span class="p">[</span><span class="s2">&quot;Desvio&quot;</span><span class="p">]</span>
+            <span class="n">r</span><span class="o">.</span><span class="n">volume_minimo</span> <span class="o">=</span> <span class="n">linha</span><span class="p">[</span><span class="s2">&quot;Volume Mínimo&quot;</span><span class="p">]</span>
+            <span class="n">r</span><span class="o">.</span><span class="n">volume_maximo</span> <span class="o">=</span> <span class="n">linha</span><span class="p">[</span><span class="s2">&quot;Volume Máximo&quot;</span><span class="p">]</span>
+            <span class="n">r</span><span class="o">.</span><span class="n">volume_vertedouro</span> <span class="o">=</span> <span class="n">linha</span><span class="p">[</span><span class="s2">&quot;Volume Vertedouro&quot;</span><span class="p">]</span>
+            <span class="n">r</span><span class="o">.</span><span class="n">volume_desvio</span> <span class="o">=</span> <span class="n">linha</span><span class="p">[</span><span class="s2">&quot;Volume Desvio&quot;</span><span class="p">]</span>
+            <span class="n">r</span><span class="o">.</span><span class="n">cota_minima</span> <span class="o">=</span> <span class="n">linha</span><span class="p">[</span><span class="s2">&quot;Cota Mínima&quot;</span><span class="p">]</span>
+            <span class="n">r</span><span class="o">.</span><span class="n">cota_maxima</span> <span class="o">=</span> <span class="n">linha</span><span class="p">[</span><span class="s2">&quot;Cota Máxima&quot;</span><span class="p">]</span>
+            <span class="n">r</span><span class="o">.</span><span class="n">polinomio_volume_cota</span> <span class="o">=</span> <span class="n">linha</span><span class="p">[</span>
+                <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;A</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> VC&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)]</span>
+            <span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+            <span class="n">r</span><span class="o">.</span><span class="n">polinomio_cota_area</span> <span class="o">=</span> <span class="n">linha</span><span class="p">[</span>
+                <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;A</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> CA&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)]</span>
+            <span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+            <span class="n">r</span><span class="o">.</span><span class="n">evaporacao</span> <span class="o">=</span> <span class="n">linha</span><span class="p">[</span>
+                <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;Evaporação </span><span class="si">{</span><span class="n">m</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">MESES_ABREV</span><span class="p">]</span>
+            <span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+            <span class="n">r</span><span class="o">.</span><span class="n">numero_conjuntos_maquinas</span> <span class="o">=</span> <span class="n">linha</span><span class="p">[</span><span class="s2">&quot;Num. Conjuntos Máquinas&quot;</span><span class="p">]</span>
+            <span class="n">r</span><span class="o">.</span><span class="n">potef_conjunto</span> <span class="o">=</span> <span class="n">linha</span><span class="p">[</span>
+                <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;PotEf Conjunto </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">)]</span>
+            <span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+            <span class="n">r</span><span class="o">.</span><span class="n">hef_conjunto</span> <span class="o">=</span> <span class="n">linha</span><span class="p">[</span>
+                <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;HEf Conjunto </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">)]</span>
+            <span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+            <span class="n">r</span><span class="o">.</span><span class="n">qef_conjunto</span> <span class="o">=</span> <span class="n">linha</span><span class="p">[</span>
+                <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;QEf Conjunto </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">)]</span>
+            <span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+            <span class="n">r</span><span class="o">.</span><span class="n">produtibilidade_especifica</span> <span class="o">=</span> <span class="n">linha</span><span class="p">[</span><span class="s2">&quot;Produtibilidade Específica&quot;</span><span class="p">]</span>
+            <span class="n">r</span><span class="o">.</span><span class="n">perdas</span> <span class="o">=</span> <span class="n">linha</span><span class="p">[</span><span class="s2">&quot;Perdas&quot;</span><span class="p">]</span>
+            <span class="n">r</span><span class="o">.</span><span class="n">numero_polinomios_jusante</span> <span class="o">=</span> <span class="n">linha</span><span class="p">[</span><span class="s2">&quot;Número PJUS&quot;</span><span class="p">]</span>
+            <span class="n">r</span><span class="o">.</span><span class="n">polinomios_jusante</span> <span class="o">=</span> <span class="n">linha</span><span class="p">[</span>
+                <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;A</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> PJUS1&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)]</span>
+                <span class="o">+</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;A</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> PJUS2&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)]</span>
+                <span class="o">+</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;A</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> PJUS3&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)]</span>
+                <span class="o">+</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;A</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> PJUS4&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)]</span>
+                <span class="o">+</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;A</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> PJUS5&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)]</span>
+                <span class="o">+</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;A</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> PJUS6&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)]</span>
+                <span class="o">+</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;REF PJUS </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">)]</span>
+            <span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+            <span class="n">r</span><span class="o">.</span><span class="n">canal_fuga_medio</span> <span class="o">=</span> <span class="n">linha</span><span class="p">[</span><span class="s2">&quot;Canal de Fuga Médio&quot;</span><span class="p">]</span>
+            <span class="n">r</span><span class="o">.</span><span class="n">influencia_vertimento_canal_fuga</span> <span class="o">=</span> <span class="n">linha</span><span class="p">[</span>
+                <span class="s2">&quot;Influencia Vert. Cfuga&quot;</span>
+            <span class="p">]</span>
+            <span class="n">r</span><span class="o">.</span><span class="n">fator_carga_maximo</span> <span class="o">=</span> <span class="n">linha</span><span class="p">[</span><span class="s2">&quot;Fator Carga Max.&quot;</span><span class="p">]</span>
+            <span class="n">r</span><span class="o">.</span><span class="n">fator_carga_minimo</span> <span class="o">=</span> <span class="n">linha</span><span class="p">[</span><span class="s2">&quot;Fator Carga Min.&quot;</span><span class="p">]</span>
+            <span class="n">r</span><span class="o">.</span><span class="n">vazao_minima_historica</span> <span class="o">=</span> <span class="n">linha</span><span class="p">[</span><span class="s2">&quot;Vazão Mínima Histórica&quot;</span><span class="p">]</span>
+            <span class="n">r</span><span class="o">.</span><span class="n">numero_unidades_base</span> <span class="o">=</span> <span class="n">linha</span><span class="p">[</span><span class="s2">&quot;Num. Unidades Base&quot;</span><span class="p">]</span>
+            <span class="n">r</span><span class="o">.</span><span class="n">tipo_turbina</span> <span class="o">=</span> <span class="n">linha</span><span class="p">[</span><span class="s2">&quot;Tipo Turbina&quot;</span><span class="p">]</span>
+            <span class="n">r</span><span class="o">.</span><span class="n">representacao_conjunto</span> <span class="o">=</span> <span class="n">linha</span><span class="p">[</span><span class="s2">&quot;Representação Conjunto&quot;</span><span class="p">]</span>
+            <span class="n">r</span><span class="o">.</span><span class="n">teif</span> <span class="o">=</span> <span class="n">linha</span><span class="p">[</span><span class="s2">&quot;TEIF&quot;</span><span class="p">]</span>
+            <span class="n">r</span><span class="o">.</span><span class="n">ip</span> <span class="o">=</span> <span class="n">linha</span><span class="p">[</span><span class="s2">&quot;IP&quot;</span><span class="p">]</span>
+            <span class="n">r</span><span class="o">.</span><span class="n">tipo_perda</span> <span class="o">=</span> <span class="n">linha</span><span class="p">[</span><span class="s2">&quot;Tipo de Perda&quot;</span><span class="p">]</span>
+            <span class="n">r</span><span class="o">.</span><span class="n">data_referencia</span> <span class="o">=</span> <span class="n">linha</span><span class="p">[</span><span class="s2">&quot;Data&quot;</span><span class="p">]</span>
+            <span class="n">r</span><span class="o">.</span><span class="n">observacao</span> <span class="o">=</span> <span class="n">linha</span><span class="p">[</span><span class="s2">&quot;Observação&quot;</span><span class="p">]</span>
+            <span class="n">r</span><span class="o">.</span><span class="n">volume_referencia</span> <span class="o">=</span> <span class="n">linha</span><span class="p">[</span><span class="s2">&quot;Volume de Referência&quot;</span><span class="p">]</span>
+            <span class="n">r</span><span class="o">.</span><span class="n">tipo_regulacao</span> <span class="o">=</span> <span class="n">linha</span><span class="p">[</span><span class="s2">&quot;Tipo de Regulação&quot;</span><span class="p">]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">cadastro</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Obtém a tabela com os dados cadastrais existentes no arquivo</span>
+<span class="sd">        binário.</span>
+
+<span class="sd">        - Nome (`str`): nome da usina (12 caracteres)</span>
+<span class="sd">        - Posto (`int`): posto de vazão natural da usina</span>
+<span class="sd">        - Subsistema (`int`): subsistema da usina</span>
+<span class="sd">        - Empresa (`int`): agente responsável pela usina</span>
+<span class="sd">        - Jusante (`int`): posto à jusante da usina</span>
+<span class="sd">        - Desvio (`float`): TODO</span>
+<span class="sd">        - Volume Mínimo (`float`): volume mínimo da usina (hm3)</span>
+<span class="sd">        - Volume Máximo (`float`): volume máximo da usina (hm3)</span>
+<span class="sd">        - Volume Vertedouro (`float`): volume do vertedouro da usina (hm3)</span>
+<span class="sd">        - Volume Desvio (`float`): TODO</span>
+<span class="sd">        - Cota Mínima (`float`): cota mínima da usina (m)</span>
+<span class="sd">        - Cota Máxima (`float`): cota máxima da usina (m)</span>
+<span class="sd">        - A[0-4] VC (`float`): coeficientes do polinômio volume-cota</span>
+<span class="sd">        - A[0-4] CA (`float`): coeficientes do polinômio cota-área</span>
+<span class="sd">        - Evaporação [JAN..DEZ] (`float`): coeficientes de evaporação (mm)</span>
+<span class="sd">        - Num Conjunto Máquinas (`int`): número de conjuntos de máquinas</span>
+<span class="sd">        - Num Máquinas Conjunto [1-5] (`int`): máquinas por conjunto</span>
+<span class="sd">        - PotEf. Conjunto [1-5] (`float`): potência das máquinas (MWmed)</span>
+<span class="sd">        - HEf Conjunto [1-5]: alturas nominais de queda por conjunto (m)</span>
+<span class="sd">        - QEf Conjunto [1-5]: vazões nominais por conjunto (m3/s)</span>
+<span class="sd">        - Produtibilidade Específica (`float`): produtibilidade específica</span>
+<span class="sd">        - Perdas (`float`): perdas da usina</span>
+<span class="sd">        - Número PJUS (`int`): número de polinômios de jusante</span>
+<span class="sd">        - C[0-4] PJUS[1-6] (`float`): coeficientes de cada polinjus</span>
+<span class="sd">        - REF PJUS [1-6] (`float`): coeficientes do polinjus de referência</span>
+<span class="sd">        - Canal de Fuga Médio (`float`): cota média do canal de fuga (m)</span>
+<span class="sd">        - Influencia Vert. Cfuga (`int`): TODO (0 ou 1)</span>
+<span class="sd">        - Fator Carga Max. (`float`): TODO (%)</span>
+<span class="sd">        - Fator Carga Min. (`float`): TODO (%)</span>
+<span class="sd">        - Vazão Mínima Histórica (`float`): vazão mínima da usina (m3/s)</span>
+<span class="sd">        - Num. Unidades Base (`int`): TODO</span>
+<span class="sd">        - Tipo Turbina (`int`): TODO</span>
+<span class="sd">        - Representação Conjunto (`int`): TODO</span>
+<span class="sd">        - TEIF (`float`): TODO (%)</span>
+<span class="sd">        - IP (`float`): TODO (%)</span>
+<span class="sd">        - Tipo de Perda (`int`): TODO</span>
+<span class="sd">        - Data (`str`): DD-MM-AA</span>
+<span class="sd">        - Observação (`str`): observação qualquer sobre a usina</span>
+<span class="sd">        - Volume de Referência (`float`): TODO (hm3)</span>
+<span class="sd">        - Tipo de Regulação (`str`): D, S ou M</span>
+
+<span class="sd">        :return: A tabela com os dados cadastrais</span>
+<span class="sd">        :rtype: List[pd.DataFrame]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__df</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__monta_df_de_registros</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__df</span>
+
+    <span class="nd">@cadastro</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">cadastro</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__df</span> <span class="o">=</span> <span class="n">df</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Rogerio José Menezes Alves.</p>
+  </div>
+
+  Compilado com <a href="https://www.sphinx-doc.org/">Sphinx</a> usando um
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">tema</a>
+    fornecido por <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

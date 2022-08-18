@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="pt-BR" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cadastro das Hidrelétricas (hidr.dat) &mdash; documentação inewave 0.0.70</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/sg_gallery.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/sg_gallery-binder.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/sg_gallery-dataframe.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/sg_gallery-rendered-html.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/translations.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Índice" href="../../../genindex.html" />
+    <link rel="search" title="Buscar" href="../../../search.html" />
+    <link rel="next" title="Vazões Históricas por Posto (vazoes.dat)" href="vazoes.html" />
+    <link rel="prev" title="Tendência Hidrológica por REE (eafpast.dat)" href="eafpast.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> inewave
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Pesquisar documentos" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Menu de navegação">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Instalação</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../../reference.html">Referência</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">NEWAVE</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../index.html#basico-da-interface-newave">Básico da interface NEWAVE</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../index.html#arquivos">Arquivos</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="dger.html">Dados Gerais (dger.dat)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="adterm.html">Despacho Antecipado de Térmicas (adterm.dat)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cadic.html">Cargas Adicionais (c_adic.dat)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="curva.html">Curva de Segurança dos Armazenamentos (curva.dat)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="re.html">Restrições Elétricas (re.dat)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ree.html">Reservatórios Equivalentes de Energia (ree.dat)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sistema.html">Subsistemas ou Submercados de Energia (sistema.dat)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="penalid.html">Penalidades (penalid.dat)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="patamar.html">Patamares de Carga (patamar.dat)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pmo.html">Acompanhamento do Programa (pmo.dat)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="confhd.html">Configurações das Hidrelétricas (confhd.dat)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exph.html">Expansões das Hidrelétricas (exph.dat)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="modif.html">Modificações das Hidrelétricas (modif.dat)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dsvagua.html">Outros Usos da Água (dsvagua.dat)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="vazpast.html">Tendência Hidrológica (vazpast.dat)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="eafpast.html">Tendência Hidrológica por REE (eafpast.dat)</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Cadastro das Hidrelétricas (hidr.dat)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="vazoes.html">Vazões Históricas por Posto (vazoes.dat)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="parp.html">Acompanhamento do modelo PAR(p) (parp.dat)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="eolicacadastro.html">Cadastro de Usina Eólicas (eolica-cadastro.csv)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="eolicaconfiguracao.html">Configuração de Usina Eólicas (eolica-config.csv)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="eolicasubmercado.html">Relação de Usina Eólicas com Submercados (eolica-submercado.csv)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="eolicafte.html">Função de Produção Vento-Potência de Usina Eólicas (eolica-fte.csv)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="eolicahistorico.html">Histórico de Vento das Usinas Eólicas (hist-ventos.csv)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="eolicageracao.html">Geração das Usinas Eólicas (eolica-geracao.csv)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../nwlistcf/index.html">NWLISTCF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../nwlistop/index.html">NWLISTOP</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Menu de navegação móvel" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">inewave</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Navegação da página">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../../reference.html">Referência</a> &raquo;</li>
+          <li><a href="../index.html">NEWAVE</a> &raquo;</li>
+      <li>Cadastro das Hidrelétricas (hidr.dat)</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/reference/newave/arquivos/hidr.rst.txt" rel="nofollow"> Ver código-fonte da página</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="cadastro-das-hidreletricas-hidr-dat">
+<span id="hidr"></span><h1>Cadastro das Hidrelétricas (hidr.dat)<a class="headerlink" href="#cadastro-das-hidreletricas-hidr-dat" title="Link permanente para este cabeçalho"></a></h1>
+<p>O cadastro das hidrelétricas do NEWAVE, localizadas no arquivo geralmente denominado
+hidr.dat, são armazenadas na classe:</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="inewave.newave.hidr.Hidr">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Hidr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">Ellipsis</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/newave/hidr.html#Hidr"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.hidr.Hidr" title="Link permanente para esta definição"></a></dt>
+<dd><p>Armazena os dados de entrada do NEWAVE referentes ao cadastro das
+usinas hidroelétricas.</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.hidr.Hidr.cadastro">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">cadastro</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">DataFrame</span></em><a class="headerlink" href="#inewave.newave.hidr.Hidr.cadastro" title="Link permanente para esta definição"></a></dt>
+<dd><p>Obtém a tabela com os dados cadastrais existentes no arquivo
+binário.</p>
+<ul class="simple">
+<li><p>Nome (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>): nome da usina (12 caracteres)</p></li>
+<li><p>Posto (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>): posto de vazão natural da usina</p></li>
+<li><p>Subsistema (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>): subsistema da usina</p></li>
+<li><p>Empresa (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>): agente responsável pela usina</p></li>
+<li><p>Jusante (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>): posto à jusante da usina</p></li>
+<li><p>Desvio (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>): TODO</p></li>
+<li><p>Volume Mínimo (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>): volume mínimo da usina (hm3)</p></li>
+<li><p>Volume Máximo (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>): volume máximo da usina (hm3)</p></li>
+<li><p>Volume Vertedouro (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>): volume do vertedouro da usina (hm3)</p></li>
+<li><p>Volume Desvio (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>): TODO</p></li>
+<li><p>Cota Mínima (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>): cota mínima da usina (m)</p></li>
+<li><p>Cota Máxima (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>): cota máxima da usina (m)</p></li>
+<li><p>A[0-4] VC (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>): coeficientes do polinômio volume-cota</p></li>
+<li><p>A[0-4] CA (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>): coeficientes do polinômio cota-área</p></li>
+<li><p>Evaporação [JAN..DEZ] (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>): coeficientes de evaporação (mm)</p></li>
+<li><p>Num Conjunto Máquinas (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>): número de conjuntos de máquinas</p></li>
+<li><p>Num Máquinas Conjunto [1-5] (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>): máquinas por conjunto</p></li>
+<li><p>PotEf. Conjunto [1-5] (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>): potência das máquinas (MWmed)</p></li>
+<li><p>HEf Conjunto [1-5]: alturas nominais de queda por conjunto (m)</p></li>
+<li><p>QEf Conjunto [1-5]: vazões nominais por conjunto (m3/s)</p></li>
+<li><p>Produtibilidade Específica (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>): produtibilidade específica</p></li>
+<li><p>Perdas (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>): perdas da usina</p></li>
+<li><p>Número PJUS (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>): número de polinômios de jusante</p></li>
+<li><p>C[0-4] PJUS[1-6] (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>): coeficientes de cada polinjus</p></li>
+<li><p>REF PJUS [1-6] (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>): coeficientes do polinjus de referência</p></li>
+<li><p>Canal de Fuga Médio (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>): cota média do canal de fuga (m)</p></li>
+<li><p>Influencia Vert. Cfuga (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>): TODO (0 ou 1)</p></li>
+<li><p>Fator Carga Max. (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>): TODO (%)</p></li>
+<li><p>Fator Carga Min. (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>): TODO (%)</p></li>
+<li><p>Vazão Mínima Histórica (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>): vazão mínima da usina (m3/s)</p></li>
+<li><p>Num. Unidades Base (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>): TODO</p></li>
+<li><p>Tipo Turbina (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>): TODO</p></li>
+<li><p>Representação Conjunto (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>): TODO</p></li>
+<li><p>TEIF (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>): TODO (%)</p></li>
+<li><p>IP (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>): TODO (%)</p></li>
+<li><p>Tipo de Perda (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>): TODO</p></li>
+<li><p>Data (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>): DD-MM-AA</p></li>
+<li><p>Observação (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>): observação qualquer sobre a usina</p></li>
+<li><p>Volume de Referência (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>): TODO (hm3)</p></li>
+<li><p>Tipo de Regulação (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>): D, S ou M</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Retorna</dt>
+<dd class="field-odd"><p>A tabela com os dados cadastrais</p>
+</dd>
+<dt class="field-even">Tipo de retorno</dt>
+<dd class="field-even"><p>List[pd.DataFrame]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Rodapé">
+        <a href="eafpast.html" class="btn btn-neutral float-left" title="Tendência Hidrológica por REE (eafpast.dat)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Anterior</a>
+        <a href="vazoes.html" class="btn btn-neutral float-right" title="Vazões Históricas por Posto (vazoes.dat)" accesskey="n" rel="next">Próximo <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Rogerio José Menezes Alves.</p>
+  </div>
+
+  Compilado com <a href="https://www.sphinx-doc.org/">Sphinx</a> usando um
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">tema</a>
+    fornecido por <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

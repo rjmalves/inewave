@@ -70,6 +70,8 @@ Arquivos
    arquivos/dsvagua
    arquivos/vazpast
    arquivos/eafpast
+   arquivos/hidr
+   arquivos/vazoes
    arquivos/parp
    arquivos/eolicacadastro
    arquivos/eolicaconfiguracao
