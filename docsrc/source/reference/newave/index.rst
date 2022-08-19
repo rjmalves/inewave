@@ -64,6 +64,7 @@ Arquivos
    arquivos/penalid
    arquivos/patamar
    arquivos/pmo
+   arquivos/newavetim
    arquivos/confhd
    arquivos/exph
    arquivos/modif

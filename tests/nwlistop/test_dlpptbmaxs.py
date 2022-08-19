@@ -1,0 +1,34 @@
+from inewave.nwlistop.dlpptbmaxs import DLPPtbmaxs
+
+from tests.mocks.mock_open import mock_open
+from unittest.mock import MagicMock, patch
+
+from tests.mocks.arquivos.dlpptbmaxs import MockDLPPtbmaxs
+
+
+def test_atributos_encontrados_dlpptbmaxs():
+    m: MagicMock = mock_open(read_data="".join(MockDLPPtbmaxs))
+    with patch("builtins.open", m):
+        n = DLPPtbmaxs.le_arquivo("")
+        assert n.valores is not None
+        assert n.valores.iloc[0, 0] == 2020
+        assert n.valores.iloc[-1, -1] == 0.0
+
+
+def test_atributos_nao_encontrados_dlpptbmaxs():
+    m: MagicMock = mock_open(read_data="")
+    with patch("builtins.open", m):
+        n = DLPPtbmaxs.le_arquivo("")
+        assert n.valores is None
+
+
+def test_eq_dlpptbmaxs():
+    m: MagicMock = mock_open(read_data="".join(MockDLPPtbmaxs))
+    with patch("builtins.open", m):
+        n1 = DLPPtbmaxs.le_arquivo("")
+        n2 = DLPPtbmaxs.le_arquivo("")
+        assert n1 == n2
+
+
+# Não deve ter teste de diferença, visto que o atributo é
+# implementado como Lazy Property.

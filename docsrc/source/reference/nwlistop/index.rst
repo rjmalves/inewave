@@ -79,6 +79,8 @@ Arquivos
    arquivos/earmfpsin
    arquivos/earmfm
    arquivos/earmfsin
+   arquivos/invade
+   arquivos/invadem
    arquivos/ghtot
    arquivos/ghtotm
    arquivos/ghtotsin
@@ -88,6 +90,9 @@ Arquivos
    arquivos/ghmaxmr
    arquivos/ghmaxsin
    arquivos/ghmaxrsin
+   arquivos/vevmin
+   arquivos/vevminm
+   arquivos/vevminsin
    arquivos/geol
    arquivos/geolm
    arquivos/geolsin
@@ -106,3 +111,12 @@ Arquivos
    arquivos/varmuh
    arquivos/varmpuh
    arquivos/ghiduh
+   arquivos/dlppdfmax
+   arquivos/dlppdfmaxm
+   arquivos/dlppdfmaxs
+   arquivos/dlpptbmax
+   arquivos/dlpptbmaxm
+   arquivos/dlpptbmaxs
+   arquivos/dlpptbmaxs
+   arquivos/rhslppdf
+   arquivos/rhslpptb
