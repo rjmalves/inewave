@@ -117,6 +117,5 @@ Arquivos
    arquivos/dlpptbmax
    arquivos/dlpptbmaxm
    arquivos/dlpptbmaxs
-   arquivos/dlpptbmaxs
    arquivos/rhslppdf
    arquivos/rhslpptb

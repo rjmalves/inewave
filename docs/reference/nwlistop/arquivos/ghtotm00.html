@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Geração Hidráulica Total por Submercado (ghtotm00x.out) &mdash; documentação inewave 0.0.66</title>
+  <title>Geração Hidráulica Total por Submercado (ghtotm00x.out) &mdash; documentação inewave 0.0.67</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/sg_gallery.css" type="text/css" />
@@ -126,8 +126,22 @@ por patamar, por submercado.</p>
 NWLISTOP e reproduzidas nos <code class="xref py py-obj docutils literal notranslate"><span class="pre">ghtotm00x.out</span></code>, onde x varia conforme o
 submercado em questão.</p>
 <dl class="py property">
-<dt class="sig sig-object py" id="inewave.nwlistop.ghtotm00.Ghtotm00.geracao">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">geracao</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">DataFrame</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#inewave.nwlistop.ghtotm00.Ghtotm00.geracao" title="Link permanente para esta definição"></a></dt>
+<dt class="sig sig-object py" id="inewave.nwlistop.ghtotm00.Ghtotm00.submercado">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">submercado</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#inewave.nwlistop.ghtotm00.Ghtotm00.submercado" title="Link permanente para esta definição"></a></dt>
+<dd><p>O submercado associado ao arquivo lido.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Retorna</dt>
+<dd class="field-odd"><p>O nome do submercado</p>
+</dd>
+<dt class="field-even">Tipo de retorno</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.nwlistop.ghtotm00.Ghtotm00.valores">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">valores</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">DataFrame</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#inewave.nwlistop.ghtotm00.Ghtotm00.valores" title="Link permanente para esta definição"></a></dt>
 <dd><p>Tabela com a geração hidráulica total por série e
 por mês/ano de estudo.</p>
 <ul class="simple">
@@ -144,20 +158,6 @@ por mês/ano de estudo.</p>
 </dd>
 <dt class="field-even">Tipo de retorno</dt>
 <dd class="field-even"><p>pd.DataFrame | None</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="inewave.nwlistop.ghtotm00.Ghtotm00.submercado">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">submercado</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#inewave.nwlistop.ghtotm00.Ghtotm00.submercado" title="Link permanente para esta definição"></a></dt>
-<dd><p>O submercado associado ao arquivo lido.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Retorna</dt>
-<dd class="field-odd"><p>O nome do submercado</p>
-</dd>
-<dt class="field-even">Tipo de retorno</dt>
-<dd class="field-even"><p>str</p>
 </dd>
 </dl>
 </dd></dl>
