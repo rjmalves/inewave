@@ -74,6 +74,7 @@ Arquivos
    arquivos/hidr
    arquivos/vazoes
    arquivos/parp
+   arquivos/parpeol
    arquivos/eolicacadastro
    arquivos/eolicaconfiguracao
    arquivos/eolicasubmercado
