@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dados Gerais (dger.dat) &mdash; documentação inewave 0.0.71</title>
+  <title>Dados Gerais (dger.dat) &mdash; documentação inewave 0.0.72</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/sg_gallery.css" type="text/css" />
@@ -70,6 +70,7 @@
 <li class="toctree-l4"><a class="reference internal" href="hidr.html">Cadastro das Hidrelétricas (hidr.dat)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="vazoes.html">Vazões Históricas por Posto (vazoes.dat)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="parp.html">Acompanhamento do modelo PAR(p) (parp.dat)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="parpeol.html">Acompanhamento do modelo PAR(p) - Usinas Eólicas (parpeol.dat)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="eolicacadastro.html">Cadastro de Usina Eólicas (eolica-cadastro.csv)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="eolicaconfiguracao.html">Configuração de Usina Eólicas (eolica-config.csv)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="eolicasubmercado.html">Relação de Usina Eólicas com Submercados (eolica-submercado.csv)</a></li>
@@ -201,6 +202,20 @@ do arquivo <code class="xref py py-obj docutils literal notranslate"><span class
 </dd>
 <dt class="field-even">Tipo de retorno</dt>
 <dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.aproveitamento_bases_backward">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">aproveitamento_bases_backward</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#inewave.newave.dger.DGer.aproveitamento_bases_backward" title="Link permanente para esta definição"></a></dt>
+<dd><p>Configuração da linha número 90 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Retorna</dt>
+<dd class="field-odd"><p>O valor do campo</p>
+</dd>
+<dt class="field-even">Tipo de retorno</dt>
+<dd class="field-even"><p>int | None</p>
 </dd>
 </dl>
 </dd></dl>
@@ -649,6 +664,20 @@ do arquivo <code class="xref py py-obj docutils literal notranslate"><span class
 </dd>
 <dt class="field-even">Tipo de retorno</dt>
 <dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.impressao_estados_geracao_cortes">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">impressao_estados_geracao_cortes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#inewave.newave.dger.DGer.impressao_estados_geracao_cortes" title="Link permanente para esta definição"></a></dt>
+<dd><p>Configuração da linha número 91 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Retorna</dt>
+<dd class="field-odd"><p>O valor do campo</p>
+</dd>
+<dt class="field-even">Tipo de retorno</dt>
+<dd class="field-even"><p>int | None</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1228,6 +1257,62 @@ do arquivo <code class="xref py py-obj docutils literal notranslate"><span class
 </dd></dl>
 
 <dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.restricao_lpp_defluencia_maxima_ree">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">restricao_lpp_defluencia_maxima_ree</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#inewave.newave.dger.DGer.restricao_lpp_defluencia_maxima_ree" title="Link permanente para esta definição"></a></dt>
+<dd><p>Configuração da linha número 95 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Retorna</dt>
+<dd class="field-odd"><p>O valor do campo</p>
+</dd>
+<dt class="field-even">Tipo de retorno</dt>
+<dd class="field-even"><p>int | None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.restricao_lpp_defluencia_maxima_uhe">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">restricao_lpp_defluencia_maxima_uhe</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#inewave.newave.dger.DGer.restricao_lpp_defluencia_maxima_uhe" title="Link permanente para esta definição"></a></dt>
+<dd><p>Configuração da linha número 97 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Retorna</dt>
+<dd class="field-odd"><p>O valor do campo</p>
+</dd>
+<dt class="field-even">Tipo de retorno</dt>
+<dd class="field-even"><p>int | None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.restricao_lpp_turbinamento_maximo_ree">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">restricao_lpp_turbinamento_maximo_ree</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#inewave.newave.dger.DGer.restricao_lpp_turbinamento_maximo_ree" title="Link permanente para esta definição"></a></dt>
+<dd><p>Configuração da linha número 94 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Retorna</dt>
+<dd class="field-odd"><p>O valor do campo</p>
+</dd>
+<dt class="field-even">Tipo de retorno</dt>
+<dd class="field-even"><p>int | None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.restricao_lpp_turbinamento_maximo_uhe">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">restricao_lpp_turbinamento_maximo_uhe</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#inewave.newave.dger.DGer.restricao_lpp_turbinamento_maximo_uhe" title="Link permanente para esta definição"></a></dt>
+<dd><p>Configuração da linha número 96 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Retorna</dt>
+<dd class="field-odd"><p>O valor do campo</p>
+</dd>
+<dt class="field-even">Tipo de retorno</dt>
+<dd class="field-even"><p>int | None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
 <dt class="sig sig-object py" id="inewave.newave.dger.DGer.restricao_turbinamento">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">restricao_turbinamento</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#inewave.newave.dger.DGer.restricao_turbinamento" title="Link permanente para esta definição"></a></dt>
 <dd><p>Configuração da linha número 88 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
@@ -1368,15 +1453,57 @@ do arquivo <code class="xref py py-obj docutils literal notranslate"><span class
 </dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="inewave.newave.dger.DGer.selecao_de_cortes">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">selecao_de_cortes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#inewave.newave.dger.DGer.selecao_de_cortes" title="Link permanente para esta definição"></a></dt>
-<dd><p>Configuração da linha número 65 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.selecao_de_cortes_backward">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">selecao_de_cortes_backward</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#inewave.newave.dger.DGer.selecao_de_cortes_backward" title="Link permanente para esta definição"></a></dt>
+<dd><p>Configuração do primeiro campo da linha número 65 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Retorna</dt>
 <dd class="field-odd"><p>O valor do campo</p>
 </dd>
 <dt class="field-even">Tipo de retorno</dt>
 <dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.selecao_de_cortes_forward">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">selecao_de_cortes_forward</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#inewave.newave.dger.DGer.selecao_de_cortes_forward" title="Link permanente para esta definição"></a></dt>
+<dd><p>Configuração do segundo campo da linha número 65 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Retorna</dt>
+<dd class="field-odd"><p>O valor do campo</p>
+</dd>
+<dt class="field-even">Tipo de retorno</dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.semente_backward">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">semente_backward</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#inewave.newave.dger.DGer.semente_backward" title="Link permanente para esta definição"></a></dt>
+<dd><p>Configuração da linha número 93 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Retorna</dt>
+<dd class="field-odd"><p>O valor do campo</p>
+</dd>
+<dt class="field-even">Tipo de retorno</dt>
+<dd class="field-even"><p>int | None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="inewave.newave.dger.DGer.semente_forward">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">semente_forward</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#inewave.newave.dger.DGer.semente_forward" title="Link permanente para esta definição"></a></dt>
+<dd><p>Configuração da linha número 92 do arquivo <code class="xref py py-obj docutils literal notranslate"><span class="pre">dger.dat</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Retorna</dt>
+<dd class="field-odd"><p>O valor do campo</p>
+</dd>
+<dt class="field-even">Tipo de retorno</dt>
+<dd class="field-even"><p>int | None</p>
 </dd>
 </dl>
 </dd></dl>

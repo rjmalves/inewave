@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Índice &mdash; documentação inewave 0.0.71</title>
+  <title>Índice &mdash; documentação inewave 0.0.72</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/sg_gallery.css" type="text/css" />
@@ -112,8 +112,6 @@
 </li>
       <li><a href="reference/newave/arquivos/dger.html#inewave.newave.dger.DGer.ano_inicio_estudo">ano_inicio_estudo (propriedade DGer )</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/newave/arquivos/eolicacadastro.html#inewave.newave.eolicacadastro.EolicaCadastro.append_registro">append_registro() (método EolicaCadastro)</a>
 
       <ul>
@@ -130,6 +128,10 @@
         <li><a href="reference/newave/arquivos/modif.html#inewave.newave.modif.Modif.append_registro">(método Modif)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/newave/arquivos/dger.html#inewave.newave.dger.DGer.aproveitamento_bases_backward">aproveitamento_bases_backward (propriedade DGer )</a>
+</li>
       <li><a href="reference/newave/arquivos/dger.html#inewave.newave.dger.DGer.armazenamento_local_arquivos_temporarios">armazenamento_local_arquivos_temporarios (propriedade DGer )</a>
 </li>
   </ul></td>
@@ -480,6 +482,8 @@
 </li>
       <li><a href="reference/newave/arquivos/dger.html#inewave.newave.dger.DGer.impressao_ena">impressao_ena (propriedade DGer )</a>
 </li>
+      <li><a href="reference/newave/arquivos/dger.html#inewave.newave.dger.DGer.impressao_estados_geracao_cortes">impressao_estados_geracao_cortes (propriedade DGer )</a>
+</li>
       <li><a href="reference/newave/arquivos/dger.html#inewave.newave.dger.DGer.impressao_operacao">impressao_operacao (propriedade DGer )</a>
 </li>
       <li><a href="reference/newave/arquivos/curva.html#inewave.newave.curva.Curva.impressao_relatorio_etapa2">impressao_relatorio_etapa2 (propriedade Curva )</a>
@@ -716,12 +720,12 @@
 </li>
       <li><a href="reference/newave/arquivos/eolicahistorico.html#inewave.newave.modelos.eolicahistorico.RegistroEolicaHistoricoVento">RegistroEolicaHistoricoVento (classe em inewave.newave.modelos.eolicahistorico)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/newave/arquivos/eolicahistorico.html#inewave.newave.modelos.eolicahistorico.RegistroEolicaHistoricoVentoHorizonte">RegistroEolicaHistoricoVentoHorizonte (classe em inewave.newave.modelos.eolicahistorico)</a>
 </li>
       <li><a href="reference/newave/arquivos/eolicasubmercado.html#inewave.newave.modelos.eolicasubmercado.RegistroEolicaSubmercado">RegistroEolicaSubmercado (classe em inewave.newave.modelos.eolicasubmercado)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/newave/arquivos/ree.html#inewave.newave.ree.REE.remocao_ficticias">remocao_ficticias (propriedade REE )</a>
 </li>
       <li><a href="reference/newave/arquivos/dger.html#inewave.newave.dger.DGer.representacao_agregacao">representacao_agregacao (propriedade DGer )</a>
@@ -731,6 +735,14 @@
       <li><a href="reference/newave/arquivos/dger.html#inewave.newave.dger.DGer.restricao_defluencia">restricao_defluencia (propriedade DGer )</a>
 </li>
       <li><a href="reference/newave/arquivos/dger.html#inewave.newave.dger.DGer.restricao_itaipu">restricao_itaipu (propriedade DGer )</a>
+</li>
+      <li><a href="reference/newave/arquivos/dger.html#inewave.newave.dger.DGer.restricao_lpp_defluencia_maxima_ree">restricao_lpp_defluencia_maxima_ree (propriedade DGer )</a>
+</li>
+      <li><a href="reference/newave/arquivos/dger.html#inewave.newave.dger.DGer.restricao_lpp_defluencia_maxima_uhe">restricao_lpp_defluencia_maxima_uhe (propriedade DGer )</a>
+</li>
+      <li><a href="reference/newave/arquivos/dger.html#inewave.newave.dger.DGer.restricao_lpp_turbinamento_maximo_ree">restricao_lpp_turbinamento_maximo_ree (propriedade DGer )</a>
+</li>
+      <li><a href="reference/newave/arquivos/dger.html#inewave.newave.dger.DGer.restricao_lpp_turbinamento_maximo_uhe">restricao_lpp_turbinamento_maximo_uhe (propriedade DGer )</a>
 </li>
       <li><a href="reference/newave/arquivos/dger.html#inewave.newave.dger.DGer.restricao_turbinamento">restricao_turbinamento (propriedade DGer )</a>
 </li>
@@ -768,10 +780,16 @@
 </li>
       <li><a href="reference/newave/arquivos/dger.html#inewave.newave.dger.DGer.segunda_profundidade_risco_deficit">segunda_profundidade_risco_deficit (propriedade DGer )</a>
 </li>
-      <li><a href="reference/newave/arquivos/dger.html#inewave.newave.dger.DGer.selecao_de_cortes">selecao_de_cortes (propriedade DGer )</a>
+      <li><a href="reference/newave/arquivos/dger.html#inewave.newave.dger.DGer.selecao_de_cortes_backward">selecao_de_cortes_backward (propriedade DGer )</a>
+</li>
+      <li><a href="reference/newave/arquivos/dger.html#inewave.newave.dger.DGer.selecao_de_cortes_forward">selecao_de_cortes_forward (propriedade DGer )</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/newave/arquivos/dger.html#inewave.newave.dger.DGer.semente_backward">semente_backward (propriedade DGer )</a>
+</li>
+      <li><a href="reference/newave/arquivos/dger.html#inewave.newave.dger.DGer.semente_forward">semente_forward (propriedade DGer )</a>
+</li>
       <li><a href="reference/newave/arquivos/parp.html#inewave.newave.parp.PARp.series_energia_ree">series_energia_ree (propriedade PARp )</a>
 </li>
       <li><a href="reference/newave/arquivos/parp.html#inewave.newave.parp.PARp.series_media_ree">series_media_ree (propriedade PARp )</a>
