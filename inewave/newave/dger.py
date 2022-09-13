@@ -87,10 +87,18 @@ from inewave.newave.modelos.dger import BlocoRestricoesFornecGas
 from inewave.newave.modelos.dger import BlocoMemCalculoCortes
 from inewave.newave.modelos.dger import BlocoGeracaoEolica
 from inewave.newave.modelos.dger import BlocoCompensacaoCorrelacaoCruzada
-from inewave.newave.modelos.dger import BlocoConsideracaoDefluenciaMaxima
 from inewave.newave.modelos.dger import (
     BlocoConsideracaoTurbinamentoMinimoMaximo,
 )
+from inewave.newave.modelos.dger import BlocoConsideracaoDefluenciaMaxima
+from inewave.newave.modelos.dger import BlocoAproveitamentoBasePLsBackward
+from inewave.newave.modelos.dger import BlocoImpressaoEstadosGeracaoCortes
+from inewave.newave.modelos.dger import BlocoSementeForward
+from inewave.newave.modelos.dger import BlocoSementeBackward
+from inewave.newave.modelos.dger import BlocoRestricaoLPPTurbinamentoMaximoREE
+from inewave.newave.modelos.dger import BlocoRestricaoLPPDefluenciaMaximaREE
+from inewave.newave.modelos.dger import BlocoRestricaoLPPTurbinamentoMaximoUHE
+from inewave.newave.modelos.dger import BlocoRestricaoLPPDefluenciaMaximaUHE
 
 
 class DGer(SectionFile):
@@ -190,6 +198,14 @@ class DGer(SectionFile):
         BlocoCompensacaoCorrelacaoCruzada,
         BlocoConsideracaoTurbinamentoMinimoMaximo,
         BlocoConsideracaoDefluenciaMaxima,
+        BlocoAproveitamentoBasePLsBackward,
+        BlocoImpressaoEstadosGeracaoCortes,
+        BlocoSementeForward,
+        BlocoSementeBackward,
+        BlocoRestricaoLPPTurbinamentoMaximoREE,
+        BlocoRestricaoLPPDefluenciaMaximaREE,
+        BlocoRestricaoLPPTurbinamentoMaximoUHE,
+        BlocoRestricaoLPPDefluenciaMaximaUHE,
     ]
 
     def __init__(self, data=...) -> None:
@@ -1576,23 +1592,42 @@ class DGer(SectionFile):
             b.valor = dado
 
     @property
-    def selecao_de_cortes(self) -> Optional[int]:
+    def selecao_de_cortes_backward(self) -> Optional[int]:
         """
-        Configuração da linha número 65 do arquivo `dger.dat`.
+        Configuração do primeiro campo da linha número 65 do arquivo `dger.dat`.
 
         :return: O valor do campo
         :rtype: int
         """
         b = self.__bloco_por_tipo(BlocoSelecaoCortes, 0)
         if b is not None:
-            return b.valor
+            return b.considera_na_backward
         return None
 
-    @selecao_de_cortes.setter
-    def selecao_de_cortes(self, dado: int):
+    @selecao_de_cortes_backward.setter
+    def selecao_de_cortes_backward(self, dado: int):
         b = self.__bloco_por_tipo(BlocoSelecaoCortes, 0)
         if b is not None:
-            b.valor = dado
+            b.considera_na_backward = dado
+
+    @property
+    def selecao_de_cortes_forward(self) -> Optional[int]:
+        """
+        Configuração do segundo campo da linha número 65 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
+        """
+        b = self.__bloco_por_tipo(BlocoSelecaoCortes, 0)
+        if b is not None:
+            return b.considera_na_forward
+        return None
+
+    @selecao_de_cortes_forward.setter
+    def selecao_de_cortes_forward(self, dado: int):
+        b = self.__bloco_por_tipo(BlocoSelecaoCortes, 0)
+        if b is not None:
+            b.considera_na_forward = dado
 
     @property
     def janela_de_cortes(self) -> Optional[int]:
@@ -2123,5 +2158,157 @@ class DGer(SectionFile):
     @restricao_defluencia.setter
     def restricao_defluencia(self, dado: int):
         b = self.__bloco_por_tipo(BlocoConsideracaoDefluenciaMaxima, 0)
+        if b is not None:
+            b.valor = dado
+
+    @property
+    def aproveitamento_bases_backward(self) -> Optional[int]:
+        """
+        Configuração da linha número 90 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int | None
+        """
+        b = self.__bloco_por_tipo(BlocoAproveitamentoBasePLsBackward, 0)
+        if b is not None:
+            return b.valor
+        return None
+
+    @aproveitamento_bases_backward.setter
+    def aproveitamento_bases_backward(self, dado: int):
+        b = self.__bloco_por_tipo(BlocoAproveitamentoBasePLsBackward, 0)
+        if b is not None:
+            b.valor = dado
+
+    @property
+    def impressao_estados_geracao_cortes(self) -> Optional[int]:
+        """
+        Configuração da linha número 91 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int | None
+        """
+        b = self.__bloco_por_tipo(BlocoImpressaoEstadosGeracaoCortes, 0)
+        if b is not None:
+            return b.valor
+        return None
+
+    @impressao_estados_geracao_cortes.setter
+    def impressao_estados_geracao_cortes(self, dado: int):
+        b = self.__bloco_por_tipo(BlocoImpressaoEstadosGeracaoCortes, 0)
+        if b is not None:
+            b.valor = dado
+
+    @property
+    def semente_forward(self) -> Optional[int]:
+        """
+        Configuração da linha número 92 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int | None
+        """
+        b = self.__bloco_por_tipo(BlocoSementeForward, 0)
+        if b is not None:
+            return b.valor
+        return None
+
+    @semente_forward.setter
+    def semente_forward(self, dado: int):
+        b = self.__bloco_por_tipo(BlocoSementeForward, 0)
+        if b is not None:
+            b.valor = dado
+
+    @property
+    def semente_backward(self) -> Optional[int]:
+        """
+        Configuração da linha número 93 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int | None
+        """
+        b = self.__bloco_por_tipo(BlocoSementeBackward, 0)
+        if b is not None:
+            return b.valor
+        return None
+
+    @semente_backward.setter
+    def semente_backward(self, dado: int):
+        b = self.__bloco_por_tipo(BlocoSementeBackward, 0)
+        if b is not None:
+            b.valor = dado
+
+    @property
+    def restricao_lpp_turbinamento_maximo_ree(self) -> Optional[int]:
+        """
+        Configuração da linha número 94 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int | None
+        """
+        b = self.__bloco_por_tipo(BlocoRestricaoLPPTurbinamentoMaximoREE, 0)
+        if b is not None:
+            return b.valor
+        return None
+
+    @restricao_lpp_turbinamento_maximo_ree.setter
+    def restricao_lpp_turbinamento_maximo_ree(self, dado: int):
+        b = self.__bloco_por_tipo(BlocoRestricaoLPPTurbinamentoMaximoREE, 0)
+        if b is not None:
+            b.valor = dado
+
+    @property
+    def restricao_lpp_defluencia_maxima_ree(self) -> Optional[int]:
+        """
+        Configuração da linha número 95 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int | None
+        """
+        b = self.__bloco_por_tipo(BlocoRestricaoLPPDefluenciaMaximaREE, 0)
+        if b is not None:
+            return b.valor
+        return None
+
+    @restricao_lpp_defluencia_maxima_ree.setter
+    def restricao_lpp_defluencia_maxima_ree(self, dado: int):
+        b = self.__bloco_por_tipo(BlocoRestricaoLPPDefluenciaMaximaREE, 0)
+        if b is not None:
+            b.valor = dado
+
+    @property
+    def restricao_lpp_turbinamento_maximo_uhe(self) -> Optional[int]:
+        """
+        Configuração da linha número 96 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int | None
+        """
+        b = self.__bloco_por_tipo(BlocoRestricaoLPPTurbinamentoMaximoUHE, 0)
+        if b is not None:
+            return b.valor
+        return None
+
+    @restricao_lpp_turbinamento_maximo_uhe.setter
+    def restricao_lpp_turbinamento_maximo_uhe(self, dado: int):
+        b = self.__bloco_por_tipo(BlocoRestricaoLPPTurbinamentoMaximoUHE, 0)
+        if b is not None:
+            b.valor = dado
+
+    @property
+    def restricao_lpp_defluencia_maxima_uhe(self) -> Optional[int]:
+        """
+        Configuração da linha número 97 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int | None
+        """
+        b = self.__bloco_por_tipo(BlocoRestricaoLPPDefluenciaMaximaUHE, 0)
+        if b is not None:
+            return b.valor
+        return None
+
+    @restricao_lpp_defluencia_maxima_uhe.setter
+    def restricao_lpp_defluencia_maxima_uhe(self, dado: int):
+        b = self.__bloco_por_tipo(BlocoRestricaoLPPDefluenciaMaximaUHE, 0)
         if b is not None:
             b.valor = dado

@@ -17,7 +17,7 @@ class GTAnos(ValoresSeriePatamar):
     HEADER_LINE = Line([IntegerField(4, 10)])
     DATA_LINE = Line(
         [  # type: ignore
-            IntegerField(4, 2),
+            IntegerField(4, 1),
             LiteralField(5, 6),
         ]
         + [FloatField(8, 12 + 9 * i, 1) for i in range(len(MESES_DF) + 1)]  # type: ignore

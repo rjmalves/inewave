@@ -1174,7 +1174,7 @@ class BlocoTipoSimFinal(Section):
                 LiteralField(24, 0),
                 IntegerField(1, 24),
                 IntegerField(1, 28),
-                LiteralField(76, 30),
+                LiteralField(76, 31),
             ]
         )
 
@@ -3062,7 +3062,12 @@ class BlocoSelecaoCortes(Section):
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line(
-            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(33, 28)]
+            [
+                LiteralField(24, 0),
+                IntegerField(1, 24),
+                IntegerField(1, 29),
+                LiteralField(134, 34),
+            ]
         )
 
     def __eq__(self, o: object) -> bool:
@@ -3086,18 +3091,32 @@ class BlocoSelecaoCortes(Section):
         file.write(self.__linha.write(self.data))
 
     @property
-    def valor(self) -> Optional[int]:
+    def considera_na_backward(self) -> Optional[int]:
         """
-        O valor da opção configurada
+        A seleção de cortes na etapa backward
 
         :return: A consideração da seleção de cortes
         :rtype: int
         """
         return self.data[1]
 
-    @valor.setter
-    def valor(self, v: int):
+    @considera_na_backward.setter
+    def considera_na_backward(self, v: int):
         self.data[1] = v
+
+    @property
+    def considera_na_forward(self) -> Optional[int]:
+        """
+        A seleção de cortes na etapa forward
+
+        :return: A consideração da seleção de cortes
+        :rtype: int
+        """
+        return self.data[2]
+
+    @considera_na_forward.setter
+    def considera_na_forward(self, v: int):
+        self.data[2] = v
 
 
 class BlocoJanelaCortes(Section):
@@ -3331,7 +3350,7 @@ class BlocoImpressaoENA(Section):
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line(
-            [LiteralField(21, 0), IntegerField(4, 21), LiteralField(29, 28)]
+            [LiteralField(21, 0), IntegerField(4, 21), LiteralField(29, 139)]
         )
 
     def __eq__(self, o: object) -> bool:
@@ -4211,6 +4230,53 @@ class BlocoCompensacaoCorrelacaoCruzada(Section):
         self.data[1] = v
 
 
+class BlocoConsideracaoTurbinamentoMinimoMaximo(Section):
+    """
+    Bloco com a escolha da consideração, ou não, das restrições de
+    turbinamento mínimo e máximo nos períodos individualizados do NEWAVE.
+    """
+
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(120, 28)]
+        )
+
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoConsideracaoTurbinamentoMinimoMaximo):
+            return False
+        bloco: BlocoConsideracaoTurbinamentoMinimoMaximo = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
+
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
+
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data))
+
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: A opção de consideração da restrição
+        :rtype: int | None
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
+
+
 class BlocoConsideracaoDefluenciaMaxima(Section):
     """
     Bloco com a escolha da consideração, ou não, das restrições de
@@ -4258,22 +4324,22 @@ class BlocoConsideracaoDefluenciaMaxima(Section):
         self.data[1] = v
 
 
-class BlocoConsideracaoTurbinamentoMinimoMaximo(Section):
+class BlocoAproveitamentoBasePLsBackward(Section):
     """
-    Bloco com a escolha da consideração, ou não, das restrições de
-    turbinamento mínimo e máximo nos períodos individualizados do NEWAVE.
+    Bloco com a escolha da consideração, ou não, das bases dos PLs
+    calculadas na forward para a execução da backward.
     """
 
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line(
-            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(120, 28)]
+            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(41, 28)]
         )
 
     def __eq__(self, o: object) -> bool:
-        if not isinstance(o, BlocoConsideracaoTurbinamentoMinimoMaximo):
+        if not isinstance(o, BlocoAproveitamentoBasePLsBackward):
             return False
-        bloco: BlocoConsideracaoTurbinamentoMinimoMaximo = o
+        bloco: BlocoAproveitamentoBasePLsBackward = o
         if not all(
             [
                 isinstance(self.data, list),
@@ -4295,7 +4361,336 @@ class BlocoConsideracaoTurbinamentoMinimoMaximo(Section):
         """
         O valor da opção configurada
 
-        :return: A opção de consideração da restrição
+        :return: A consideração ou não do aproveitamento
+        :rtype: int | None
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
+
+
+class BlocoImpressaoEstadosGeracaoCortes(Section):
+    """
+    Bloco com a escolha da consideração, ou não, da impressão dos estados
+    nos quais foram construídos os cortes (cortese.dat).
+    """
+
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
+        self.__linha = Line(
+            [LiteralField(21, 0), IntegerField(1, 24), LiteralField(52, 28)]
+        )
+
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoImpressaoEstadosGeracaoCortes):
+            return False
+        bloco: BlocoImpressaoEstadosGeracaoCortes = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
+
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
+
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data))
+
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: A impressão ou não do arquivo
+        :rtype: int | None
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
+
+
+class BlocoSementeForward(Section):
+    """
+    Bloco com a escolha da semente utilizada para geração de
+    valores aleatórios durante a simulação forward.
+    """
+
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
+        self.__linha = Line(
+            [LiteralField(21, 0), IntegerField(4, 21), LiteralField(25, 28)]
+        )
+
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoSementeForward):
+            return False
+        bloco: BlocoSementeForward = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
+
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
+
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data))
+
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: O valor da semente utilizada
+        :rtype: int | None
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
+
+
+class BlocoSementeBackward(Section):
+    """
+    Bloco com a escolha da semente utilizada para geração de
+    valores aleatórios durante a etapa backward.
+    """
+
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
+        self.__linha = Line(
+            [LiteralField(21, 0), IntegerField(4, 21), LiteralField(25, 28)]
+        )
+
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoSementeBackward):
+            return False
+        bloco: BlocoSementeBackward = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
+
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
+
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data))
+
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: O valor da semente utilizada
+        :rtype: int | None
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
+
+
+class BlocoRestricaoLPPTurbinamentoMaximoREE(Section):
+    """
+    Bloco com a escolha da consideração, ou não, das restrições LPP
+    de turbinamento máximo por REE.
+    """
+
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(33, 28)]
+        )
+
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoRestricaoLPPTurbinamentoMaximoREE):
+            return False
+        bloco: BlocoRestricaoLPPTurbinamentoMaximoREE = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
+
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
+
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data))
+
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: A consideração ou não das restrições
+        :rtype: int | None
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
+
+
+class BlocoRestricaoLPPDefluenciaMaximaREE(Section):
+    """
+    Bloco com a escolha da consideração, ou não, das restrições LPP
+    de defluência máxima por REE.
+    """
+
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(33, 28)]
+        )
+
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoRestricaoLPPDefluenciaMaximaREE):
+            return False
+        bloco: BlocoRestricaoLPPDefluenciaMaximaREE = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
+
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
+
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data))
+
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: A consideração ou não das restrições
+        :rtype: int | None
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
+
+
+class BlocoRestricaoLPPTurbinamentoMaximoUHE(Section):
+    """
+    Bloco com a escolha da consideração, ou não, das restrições LPP
+    de turbinamento máximo por UHE.
+    """
+
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(33, 28)]
+        )
+
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoRestricaoLPPTurbinamentoMaximoUHE):
+            return False
+        bloco: BlocoRestricaoLPPTurbinamentoMaximoUHE = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
+
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
+
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data))
+
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: A consideração ou não das restrições
+        :rtype: int | None
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
+
+
+class BlocoRestricaoLPPDefluenciaMaximaUHE(Section):
+    """
+    Bloco com a escolha da consideração, ou não, das restrições LPP
+    de defluência máxima por UHE.
+    """
+
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(33, 28)]
+        )
+
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoRestricaoLPPDefluenciaMaximaUHE):
+            return False
+        bloco: BlocoRestricaoLPPDefluenciaMaximaUHE = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
+
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
+
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data))
+
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: A consideração ou não das restrições
         :rtype: int | None
         """
         return self.data[1]

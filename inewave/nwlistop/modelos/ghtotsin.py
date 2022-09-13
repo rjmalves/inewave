@@ -19,7 +19,7 @@ class GHAnos(ValoresSeriePatamar):
     HEADER_LINE = Line([IntegerField(4, 10)])
     DATA_LINE = Line(
         [
-            IntegerField(4, 2),
+            IntegerField(4, 1),
             LiteralField(5, 6),
         ]  # type: ignore
         + [

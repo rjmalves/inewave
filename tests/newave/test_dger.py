@@ -88,7 +88,8 @@ def test_atributos_nao_encontrados_dger():
         assert d.considera_zsup_min_convergencia is None
         assert d.desconsidera_vazao_minima is None
         assert d.restricoes_eletricas is None
-        assert d.selecao_de_cortes is None
+        assert d.selecao_de_cortes_backward is None
+        assert d.selecao_de_cortes_forward is None
         assert d.janela_de_cortes is None
         assert d.considera_reamostragem_cenarios is None
         assert d.tipo_reamostragem_cenarios is None
@@ -117,6 +118,14 @@ def test_atributos_nao_encontrados_dger():
         assert d.compensacao_correlacao_cruzada is None
         assert d.restricao_defluencia is None
         assert d.restricao_turbinamento is None
+        assert d.aproveitamento_bases_backward is None
+        assert d.impressao_estados_geracao_cortes is None
+        assert d.semente_forward is None
+        assert d.semente_backward is None
+        assert d.restricao_lpp_turbinamento_maximo_ree is None
+        assert d.restricao_lpp_defluencia_maxima_ree is None
+        assert d.restricao_lpp_turbinamento_maximo_uhe is None
+        assert d.restricao_lpp_defluencia_maxima_uhe is None
 
 
 def test_atributos_encontrados_dger():
@@ -200,7 +209,8 @@ def test_atributos_encontrados_dger():
         assert d.considera_zsup_min_convergencia is not None
         assert d.desconsidera_vazao_minima is not None
         assert d.restricoes_eletricas is not None
-        assert d.selecao_de_cortes is not None
+        assert d.selecao_de_cortes_backward is not None
+        assert d.selecao_de_cortes_forward is not None
         assert d.janela_de_cortes is not None
         assert d.considera_reamostragem_cenarios is not None
         assert d.tipo_reamostragem_cenarios is not None
@@ -229,6 +239,14 @@ def test_atributos_encontrados_dger():
         assert d.compensacao_correlacao_cruzada is not None
         assert d.restricao_defluencia is not None
         assert d.restricao_turbinamento is not None
+        assert d.aproveitamento_bases_backward is not None
+        assert d.impressao_estados_geracao_cortes is not None
+        assert d.semente_forward is not None
+        assert d.semente_backward is not None
+        assert d.restricao_lpp_turbinamento_maximo_ree is not None
+        assert d.restricao_lpp_defluencia_maxima_ree is not None
+        assert d.restricao_lpp_turbinamento_maximo_uhe is not None
+        assert d.restricao_lpp_defluencia_maxima_uhe is not None
 
 
 def test_nome_caso_dger():
@@ -902,14 +920,24 @@ def test_restricoes_eletricas_dger():
         assert d.restricoes_eletricas == novo_valor
 
 
-def test_selecao_de_cortes_dger():
+def test_selecao_de_cortes_backward_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
         d = DGer.le_arquivo("")
-        assert d.selecao_de_cortes == 1
+        assert d.selecao_de_cortes_backward == 1
         novo_valor = 0
-        d.selecao_de_cortes = novo_valor
-        assert d.selecao_de_cortes == novo_valor
+        d.selecao_de_cortes_backward = novo_valor
+        assert d.selecao_de_cortes_backward == novo_valor
+
+
+def test_selecao_de_cortes_forward_dger():
+    m: MagicMock = mock_open(read_data="".join(MockDger))
+    with patch("builtins.open", m):
+        d = DGer.le_arquivo("")
+        assert d.selecao_de_cortes_forward == 1
+        novo_valor = 0
+        d.selecao_de_cortes_forward = novo_valor
+        assert d.selecao_de_cortes_forward == novo_valor
 
 
 def test_janela_de_cortes_dger():
@@ -1169,6 +1197,86 @@ def test_restricao_defluencia_dger():
         novo_valor = 0
         d.restricao_defluencia = novo_valor
         assert d.restricao_defluencia == novo_valor
+
+
+def test_aproveitamento_base_pls_backward_dger():
+    m: MagicMock = mock_open(read_data="".join(MockDger))
+    with patch("builtins.open", m):
+        d = DGer.le_arquivo("")
+        assert d.aproveitamento_bases_backward == 1
+        novo_valor = 0
+        d.aproveitamento_bases_backward = novo_valor
+        assert d.aproveitamento_bases_backward == novo_valor
+
+
+def test_impressao_estados_geracao_cortes_dger():
+    m: MagicMock = mock_open(read_data="".join(MockDger))
+    with patch("builtins.open", m):
+        d = DGer.le_arquivo("")
+        assert d.impressao_estados_geracao_cortes == 1
+        novo_valor = 0
+        d.impressao_estados_geracao_cortes = novo_valor
+        assert d.impressao_estados_geracao_cortes == novo_valor
+
+
+def test_semente_forward_dger():
+    m: MagicMock = mock_open(read_data="".join(MockDger))
+    with patch("builtins.open", m):
+        d = DGer.le_arquivo("")
+        assert d.semente_forward == 0
+        novo_valor = 1000
+        d.semente_forward = novo_valor
+        assert d.semente_forward == novo_valor
+
+
+def test_semente_backward_dger():
+    m: MagicMock = mock_open(read_data="".join(MockDger))
+    with patch("builtins.open", m):
+        d = DGer.le_arquivo("")
+        assert d.semente_backward == 0
+        novo_valor = 1000
+        d.semente_backward = novo_valor
+        assert d.semente_backward == novo_valor
+
+
+def test_restricao_lpp_turbinamento_maximo_ree_dger():
+    m: MagicMock = mock_open(read_data="".join(MockDger))
+    with patch("builtins.open", m):
+        d = DGer.le_arquivo("")
+        assert d.restricao_lpp_turbinamento_maximo_ree == 1
+        novo_valor = 0
+        d.restricao_lpp_turbinamento_maximo_ree = novo_valor
+        assert d.restricao_lpp_turbinamento_maximo_ree == novo_valor
+
+
+def test_restricao_lpp_defluencia_maxima_ree_dger():
+    m: MagicMock = mock_open(read_data="".join(MockDger))
+    with patch("builtins.open", m):
+        d = DGer.le_arquivo("")
+        assert d.restricao_lpp_defluencia_maxima_ree == 1
+        novo_valor = 0
+        d.restricao_lpp_defluencia_maxima_ree = novo_valor
+        assert d.restricao_lpp_defluencia_maxima_ree == novo_valor
+
+
+def test_restricao_lpp_turbinamento_maximo_uhe_dger():
+    m: MagicMock = mock_open(read_data="".join(MockDger))
+    with patch("builtins.open", m):
+        d = DGer.le_arquivo("")
+        assert d.restricao_lpp_turbinamento_maximo_uhe == 1
+        novo_valor = 0
+        d.restricao_lpp_turbinamento_maximo_uhe = novo_valor
+        assert d.restricao_lpp_turbinamento_maximo_uhe == novo_valor
+
+
+def test_restricao_lpp_defluencia_maxima_uhe_dger():
+    m: MagicMock = mock_open(read_data="".join(MockDger))
+    with patch("builtins.open", m):
+        d = DGer.le_arquivo("")
+        assert d.restricao_lpp_defluencia_maxima_uhe == 1
+        novo_valor = 0
+        d.restricao_lpp_defluencia_maxima_uhe = novo_valor
+        assert d.restricao_lpp_defluencia_maxima_uhe == novo_valor
 
 
 def test_eq_dger():

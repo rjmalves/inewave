@@ -62,7 +62,6 @@ class BlocoSerieVentosUEE(Block):
             df["UEE"] = uee
             df["Configuração"] = cfg
             df = df[["UEE", "Configuração", "Ano"] + MESES_DF]
-            print(df)
             df = df.astype({"Ano": "int64"})
             return df
 
