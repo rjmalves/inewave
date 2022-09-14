@@ -77,6 +77,7 @@ Arquivos
    arquivos/earmfp
    arquivos/earmfpm
    arquivos/earmfpsin
+   arquivos/earmf
    arquivos/earmfm
    arquivos/earmfsin
    arquivos/invade
