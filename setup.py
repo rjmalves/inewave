@@ -22,9 +22,9 @@ setup(
     package_data={"inewave": ["py.typed"]},
     classifiers=[
         "Programming Language :: Python :: 3",
-        "License :: OSI Approved :: GNU Affero General Public License v3",
+        "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
-        "Development Status :: 2 - Pre-Alpha",
+        "Development Status :: 3 - Alpha",
     ],
     python_requires=">=3.5",
     install_requires=requirements,
