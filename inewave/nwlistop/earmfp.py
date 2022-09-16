@@ -10,7 +10,7 @@ class Earmfp(ArquivoREE):
     armazenadas finais, por REE e em % da energia armazenável máxima.
 
     Esta classe lida com as informações de saída fornecidas pelo
-    NWLISTOP e reproduzidas nos `earmfpm00x.out`, onde x varia conforme o
+    NWLISTOP e reproduzidas nos `earmfp00x.out`, onde x varia conforme o
     REE em questão.
 
     """
