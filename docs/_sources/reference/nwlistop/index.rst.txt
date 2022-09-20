@@ -99,6 +99,7 @@ Arquivos
    arquivos/geolsin
    arquivos/gttot
    arquivos/gttotsin
+   arquivos/intercambio
    arquivos/mediasmerc
    arquivos/mediassin
    arquivos/vagua

@@ -1,0 +1,26 @@
+# Interface de Programação para o NEWAVE
+
+
+O *inewave* é um pacote Python para manipulação dos arquivos
+de entrada e saída do programa [NEWAVE](http://www.cepel.br/pt_br/produtos/newave-modelo-de-planejamento-da-operacao-de-sistemas-hidrotermicos-interligados-de-longo-e-medio-prazo.htm). O NEWAVE é
+desenvolvido pelo [CEPEL](http://www.cepel.br/) e utilizado para os estudos de planejamento e operação do Sistema Interligado Nacional (SIN).
+
+O inewave oferece:
+
+* Meios para leitura dos arquivos de entrada e saída do NEWAVE e programas associados: NWLISTCF e NWLISTOP
+* Armazenamento e processamento de dados otimizados com o uso de [numpy](https://numpy.org/)
+* Facilidades para estudo e análise dos dados utilizando DataFrames de [pandas](https://pandas.pydata.org/pandas-docs/stable/index.html)
+* Dados estruturados em modelos com o uso do paradigma de orientação a objetos (OOP)
+* Utilidades de escritas dos arquivos de entrada do NEWAVE para elaboração automatizada de estudos
+
+
+## Documentação
+
+```{toctree}
+---
+maxdepth: 3
+---
+./install.md
+./tutorial.md
+./reference.md
+```

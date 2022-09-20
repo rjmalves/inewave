@@ -1,0 +1,32 @@
+# Cadastro de Usina Eólicas (eolica-cadastro.csv)
+
+```{currentmodule} inewave.newave.eolicacadastro
+```
+
+As informações de cadastro das usinas eólicas no NEWAVE, localizadas no arquivo geralmente denominado
+eolica-cadastro.csv, são armazenadas na classe:
+
+```{eval-rst}
+.. autoclass:: EolicaCadastro
+    :members:
+```
+
+As informações existentes em cada um dos campos são armazenadas em modelos próprios
+para cada um.
+
+```{eval-rst}
+.. autoclass:: RegistroEolicaCadastro
+   :members:
+
+.. autoclass:: RegistroEolicaCadastroConjuntoAerogeradores
+   :members:
+
+.. autoclass:: RegistroEolicaCadastroAerogerador
+   :members:
+
+.. autoclass:: RegistroEolicaConjuntoAerogeradoresQuantidadeOperandoPeriodo
+   :members:
+
+.. autoclass:: RegistroEolicaConjuntoAerogeradoresPotenciaEfetiva
+   :members:
+```
