@@ -2105,7 +2105,7 @@ class BlocoIteracaoParaSimFinal(Section):
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line(
-            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(33, 28)]
+            [LiteralField(24, 0), IntegerField(3, 22), LiteralField(33, 28)]
         )
 
     def __eq__(self, o: object) -> bool:
