@@ -416,7 +416,7 @@ class PARpvaz(BlockFile):
         de cada UHE, no mesmo formato do arquivo `parpvaz.dat`,
         organizada por período de estudo.
 
-        - REE (`str`)
+        - UHE (`str`)
         - Estágio (`int`)
         - Psi 1 (`int`)
         - Psi 2 (`int`)
