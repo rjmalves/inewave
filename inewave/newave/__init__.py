@@ -29,6 +29,7 @@ from .manutt import ManutT  # noqa
 from .modif import Modif  # noqa
 from .newavetim import NewaveTim  # noqa
 from .parp import PARp  # noqa
+from .parpvaz import PARpvaz  # noqa
 from .parpeol import PARpeol  # noqa
 from .patamar import Patamar  # noqa
 from .penalid import Penalid  # noqa
