@@ -44,6 +44,7 @@ class ValoresSeriePatamar(Block):
             cols = MESES_DF + ["Média"]
             df = pd.DataFrame(tabela, columns=["Série"] + cols)
             df["Ano"] = self.__ano
+            df.loc[df["Série"].isna(), "Série"] = 1
             df["Patamar"] = patamares
             df = df[["Ano", "Série", "Patamar"] + cols]
             df = df.astype({"Série": "int64", "Ano": "int64"})
@@ -61,7 +62,7 @@ class ValoresSeriePatamar(Block):
         i = 0
         while True:
             linha = file.readline()
-            if self.ends(linha):
+            if self.ends(linha) or len(linha) <= 1:
                 tabela = tabela[:i, :]
                 self.data = converte_tabela_em_df()
                 break

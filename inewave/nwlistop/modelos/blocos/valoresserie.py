@@ -44,6 +44,7 @@ class ValoresSerie(Block):
             cols = ["Série"] + MESES_DF + ["Média"]
             df = pd.DataFrame(tabela, columns=cols)
             df["Ano"] = self.__ano
+            df.loc[df["Série"].isna(), "Série"] = 1
             df = df[["Ano"] + cols]
             df = df.astype({"Série": "int64", "Ano": "int64"})
             return df
@@ -56,7 +57,7 @@ class ValoresSerie(Block):
         i = 0
         while True:
             linha = file.readline()
-            if self.ends(linha):
+            if self.ends(linha) or len(linha) <= 1:
                 tabela = tabela[:i, :]
                 self.data = converte_tabela_em_df()
                 break

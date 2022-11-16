@@ -2,6 +2,7 @@ from inewave.nwlistop.modelos.cdef import CdefAnos
 
 from inewave.nwlistop.modelos.arquivos.arquivosubmercado import (
     ArquivoSubmercado,
+    Submercado,
 )
 
 
@@ -14,9 +15,7 @@ class Cdef(ArquivoSubmercado):
     NWLISTOP e reproduzidas nos `cdef00x.out`.
     """
 
-    BLOCKS = [
-        CdefAnos,
-    ]
+    BLOCKS = [CdefAnos, Submercado]
 
     @classmethod
     def le_arquivo(cls, diretorio: str, nome_arquivo="cdef001.out") -> "Cdef":
