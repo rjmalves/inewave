@@ -67,12 +67,18 @@ Arquivos
    arquivos/cmargmed
    arquivos/cterm
    arquivos/ctermsin
+   arquivos/cdef
+   arquivos/cdefsin
+   arquivos/deficit
+   arquivos/defsin
    arquivos/coper
    arquivos/eaf
    arquivos/eafm
    arquivos/eafb
    arquivos/eafbm
    arquivos/eafbsin
+   arquivos/mercl
+   arquivos/merclsin
    arquivos/vento
    arquivos/earmfp
    arquivos/earmfpm
@@ -113,6 +119,9 @@ Arquivos
    arquivos/varmuh
    arquivos/varmpuh
    arquivos/ghiduh
+   arquivos/dtbmax
+   arquivos/dtbmin
+   arquivos/dvazmax
    arquivos/dlppdfmax
    arquivos/dlppdfmaxm
    arquivos/dlppdfmaxs
