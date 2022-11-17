@@ -97,7 +97,7 @@ class BlocoDuracaoPatamar(Section):
     def read(self, file: IO):
         def converte_tabela_em_df():
             df = pd.DataFrame(tabela, columns=["Ano"] + MESES_DF)
-            df.fillna(1.0)
+            df = df.fillna(1.0)
             df = df.astype({"Ano": "int64"})
             return df
 
@@ -189,7 +189,7 @@ class BlocoCargaPatamar(Section):
     def read(self, file: IO):
         def converte_tabela_em_df():
             df = pd.DataFrame(tabela, columns=["Subsistema", "Ano"] + MESES_DF)
-            df.fillna(1.0)
+            df = df.fillna(1.0)
             df = df.astype({"Subsistema": "int64", "Ano": "int64"})
             return df
 
