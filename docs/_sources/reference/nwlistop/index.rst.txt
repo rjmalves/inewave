@@ -140,3 +140,7 @@ Arquivos
    arquivos/dlpptbmaxs
    arquivos/rhslppdf
    arquivos/rhslpptb
+   arquivos/vghmin
+   arquivos/vghminm
+   arquivos/vghminsin
+   arquivos/vghminuh
