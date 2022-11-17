@@ -71,6 +71,8 @@ Arquivos
    arquivos/cdefsin
    arquivos/deficit
    arquivos/defsin
+   arquivos/exces
+   arquivos/excessin
    arquivos/coper
    arquivos/eaf
    arquivos/eafm
@@ -103,12 +105,20 @@ Arquivos
    arquivos/geol
    arquivos/geolm
    arquivos/geolsin
+   arquivos/fteolm
+   arquivos/fteolsin
    arquivos/gttot
    arquivos/gttotsin
    arquivos/intercambio
    arquivos/mediasmerc
    arquivos/mediassin
    arquivos/vagua
+   arquivos/evert
+   arquivos/evertm
+   arquivos/evertsin
+   arquivos/perdf
+   arquivos/perdfm
+   arquivos/perdfsin
    arquivos/verturb
    arquivos/verturbm
    arquivos/verturbsin

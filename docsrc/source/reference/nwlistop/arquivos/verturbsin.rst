@@ -1,12 +1,12 @@
 .. _verturbsin:
 
 ====================================================================
-Vertimento Turbinável para o SIN (verturbsin.out)
+Vertimento Turbinável Fio d'Água para o SIN (verturbsin.out)
 ====================================================================
 
 .. currentmodule:: inewave.nwlistop.verturbsin
 
-Os valores vertimento turbinável para o SIN, localizados nos arquivos geralmente denominados
+Os valores de vertimento turbinável fio d'água para o SIN, localizados no arquivo geralmente denominado
 verturbsin.out, são armazenados na classe:
 
 .. autoclass:: VerturbSIN

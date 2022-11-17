@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Vazão Incremental por Usina (qincruh.out) &mdash; documentação inewave 0.0.77</title>
+  <title>Vazão Incremental por Usina (qincruh.out) &mdash; documentação inewave 0.0.78</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/sg_gallery.css" type="text/css" />
@@ -56,12 +56,20 @@
 <li class="toctree-l4"><a class="reference internal" href="cmargmed.html">Custos Marginais Médios (cmargx-med.out)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="cterm.html">Custos de Geração Térmica (ctermx.out)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ctermsin.html">Custos de Geração Térmica para o SIN (ctermsin.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cdef.html">Custos de Déficit (cdefx.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cdefsin.html">Custos de Déficit para o SIN (cdefsin.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="deficit.html">Déficit (defx.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="defsin.html">Déficit para o SIN (defsin.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exces.html">Excesso de Energia (excesx.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="excessin.html">Excesso de Energia para o SIN (excessin.out)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="coper.html">Custos Totais de Operação (coper.out)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="eaf.html">Energia Afluente por REE (eafx.out)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="eafm.html">Energia Afluente por Submercado (eafmx.out)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="eafb.html">Energia Afluente Bruta por REE (eafbx.out)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="eafbm.html">Energia Afluente Bruta por Submercado (eafbmx.out)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="eafbsin.html">Energia Afluente Bruta para o SIN (eafbsin.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mercl.html">Mercado Líquido por Submercado (mercl.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="merclsin.html">Mercado Líquido para o SIN (merclsin.out)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="vento.html">Velocidade do Vento por Usina (ventox.out)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="earmfp.html">Energia Armazenada Final Percentual por REE (earmfpx.out)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="earmfpm.html">Energia Armazenada Final Percentual por Submercado (earmfpmx.out)</a></li>
@@ -86,15 +94,23 @@
 <li class="toctree-l4"><a class="reference internal" href="geol.html">Geração Eólica Total por Usina (geolx.out)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="geolm.html">Geração Eólica Total por Submercado (geolmx.out)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="geolsin.html">Geração Eólica Total para o SIN (geolsin.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="fteolm.html">Folga da Restrição de Geração Eólica por Submercado (fteolmx.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="fteolsin.html">Folga da Restrição de Geração Eólica para o SIN (fteolsin.out)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="gttot.html">Geração Térmica Total por Submercado (gttotx.out)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="gttotsin.html">Geração Térmica Total para o SIN (gttotsin.out)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="intercambio.html">Intercâmbio entre Submercados (int00x00y.out)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="mediasmerc.html">Médias por Submercado (MEDIAS-MERC.CSV)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="mediassin.html">Médias SIN (MEDIAS-SIN.CSV)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="vagua.html">Valor da Água por REE (vaguax.out)</a></li>
-<li class="toctree-l4"><a class="reference internal" href="verturb.html">Vertimento Turbinável por REE (verturbx.out)</a></li>
-<li class="toctree-l4"><a class="reference internal" href="verturbm.html">Vertimento Turbinável por Submercado (verturbmx.out)</a></li>
-<li class="toctree-l4"><a class="reference internal" href="verturbsin.html">Vertimento Turbinável para o SIN (verturbsin.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="evert.html">Vertimento de Reservatórios por REE (evertx.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="evertm.html">Vertimento de Reservatórios por Submercado (evertmx.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="evertsin.html">Vertimento de Reservatórios para o SIN (evertsin.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="perdf.html">Vertimento Fio d’Água por REE (perdfx.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="perdfm.html">Vertimento Fio d’Água por Submercado (perdfmx.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="perdfsin.html">Vertimento Fio d’Água para o SIN (perdfsin.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="verturb.html">Vertimento Turbinável Fio d’Água por REE (verturbx.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="verturbm.html">Vertimento Turbinável Fio d’Água por Submercado (verturbmx.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="verturbsin.html">Vertimento Turbinável Fio d’Água para o SIN (verturbsin.out)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="qafluh.html">Vazão Afluente por Usina (qafluhx.out)</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">Vazão Incremental por Usina (qincruh.out)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="vturuh.html">Volume Turbinado por Usina (vturuhx.out)</a></li>
@@ -102,6 +118,9 @@
 <li class="toctree-l4"><a class="reference internal" href="varmuh.html">Volume Armazenado por Usina (varmuhx.out)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="varmpuh.html">Volume Armazenado Percentual por Usina (varmpuhx.out)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="ghiduh.html">Geração Hidráulica por Usina (ghiduhx.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dtbmax.html">Violação das Restrições de Turbinamento Máximo por UHE (dtbmax00x.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dtbmin.html">Violação das Restrições de Turbinamento Mínimo por UHE (dtbmin00x.out)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dvazmax.html">Violação das Restrições de Vazão Máxima por UHE (dvazmax00x.out)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="dlppdfmax.html">Violação das LPP de Defluência Máxima por REE (dlppdfmax00x.out)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="dlppdfmaxm.html">Violação das LPP de Defluência Máxima por Submercado (dlppdfmaxm00x.out)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="dlppdfmaxs.html">Violação das LPP de Defluência Máxima para o SIN (dlppdfmaxs.out)</a></li>
