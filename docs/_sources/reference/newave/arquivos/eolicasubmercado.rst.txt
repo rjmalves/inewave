@@ -22,3 +22,6 @@ para cada um.
 
 .. autoclass:: RegistroEolicaSubmercado
    :members:
+
+.. autoclass:: RegistroPEESubmercado
+   :members:

@@ -6,6 +6,8 @@ from inewave.newave.modelos.eolicacadastro import (
     RegistroEolicaCadastroAerogerador,
     RegistroEolicaConjuntoAerogeradoresQuantidadeOperandoPeriodo,
     RegistroEolicaConjuntoAerogeradoresPotenciaEfetiva,
+    RegistroPEECadastro,
+    RegistroPEEPotenciaInstaladaPeriodo,
 )
 
 from inewave.newave import EolicaCadastro
@@ -19,6 +21,8 @@ from tests.mocks.arquivos.eolicacadastro import (
     MockRegistroEolicaCadastroConjuntoAerogeradores,
     MockRegistroEolicaConjuntoAerogeradoresQuantidadeOperandoPeriodo,
     MockRegistroEolicaConjuntoAerogeradoresPotenciaEfetiva,
+    MockRegistroPEECadastro,
+    MockRegistroPEEPotenciaInstaladaPeriodo,
     MockEolicaCadastro,
 )
 
@@ -148,6 +152,47 @@ def test_registro_potenciaefetiva_eolicacadastro():
     r.periodo_final = datetime(2025, 12, 1)
     assert r.potencia_efetiva == 6058.890
     r.potencia_efetiva = 5
+
+
+def test_registro_pee_cadastro():
+
+    m: MagicMock = mock_open(read_data="".join(MockRegistroPEECadastro))
+    r = RegistroPEECadastro()
+    with patch("builtins.open", m):
+        with open("", "") as fp:
+            r.read(fp)
+
+    assert r.data == [1, "NEInterior"]
+    assert r.codigo_pee == 1
+    r.codigo_pee = 2
+    assert r.nome_pee == "NEInterior"
+    r.nome_pee = "NEInterior"
+
+
+def test_registro_pee_potencia_instalada_periodo():
+
+    m: MagicMock = mock_open(
+        read_data="".join(MockRegistroPEEPotenciaInstaladaPeriodo)
+    )
+    r = RegistroPEEPotenciaInstaladaPeriodo()
+    with patch("builtins.open", m):
+        with open("", "") as fp:
+            r.read(fp)
+
+    assert r.data == [
+        1,
+        datetime(year=2021, month=1, day=1),
+        datetime(year=2030, month=12, day=1),
+        6058.890,
+    ]
+    assert r.codigo_pee == 1
+    r.codigo_pee = 2
+    assert r.periodo_inicial == datetime(year=2021, month=1, day=1)
+    r.periodo_inicial = datetime(year=2021, month=2, day=1)
+    assert r.periodo_final == datetime(year=2030, month=12, day=1)
+    r.periodo_final = datetime(year=2021, month=2, day=1)
+    assert r.potencia_instalada == 6058.89
+    r.potencia_instalada = 1000.0
 
 
 def test_atributos_encontrados_eolicacadastro():

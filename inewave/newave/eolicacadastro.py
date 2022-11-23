@@ -9,6 +9,8 @@ from inewave.newave.modelos.eolicacadastro import (
     RegistroEolicaCadastroAerogerador,
     RegistroEolicaConjuntoAerogeradoresQuantidadeOperandoPeriodo,
     RegistroEolicaConjuntoAerogeradoresPotenciaEfetiva,
+    RegistroPEECadastro,
+    RegistroPEEPotenciaInstaladaPeriodo,
 )
 
 
@@ -26,6 +28,8 @@ class EolicaCadastro(RegisterFile):
         RegistroEolicaCadastro,
         RegistroEolicaConjuntoAerogeradoresQuantidadeOperandoPeriodo,
         RegistroEolicaConjuntoAerogeradoresPotenciaEfetiva,
+        RegistroPEECadastro,
+        RegistroPEEPotenciaInstaladaPeriodo,
     ]
 
     def __init__(self, data=...) -> None:
@@ -309,4 +313,62 @@ class EolicaCadastro(RegisterFile):
             periodo_inicial=periodo_inicial,
             periodo_final=periodo_final,
             potencia_efetiva=potencia_efetiva,
+        )
+
+    def pee_cad(
+        self,
+        codigo_pee: Optional[int] = None,
+        nome_pee: Optional[str] = None,
+    ) -> Optional[Union[RegistroPEECadastro, List[RegistroPEECadastro]]]:
+        """
+        Obtém um registro que cadastra um PEE.
+
+        :param codigo_pee: código que especifica o PEE
+        :type codigo_pee: int | None
+        :param nome_pee: nome do PEE
+        :type nome_pee: str | None
+        :return: Um ou mais registros, se existirem.
+        :rtype: :class:`RegistroPEECadastro` |
+            list[:class:`RegistroPEECadastro`] | None
+        """
+        return self.__obtem_registros_com_filtros(
+            RegistroPEECadastro,
+            codigo_pee=codigo_pee,
+            nome_pee=nome_pee,
+        )
+
+    def pee_pot_inst_per(
+        self,
+        codigo_pee: Optional[int] = None,
+        periodo_inicial: Optional[datetime] = None,
+        periodo_final: Optional[datetime] = None,
+        potencia_instalada: Optional[float] = None,
+    ) -> Optional[
+        Union[
+            RegistroPEEPotenciaInstaladaPeriodo,
+            List[RegistroPEEPotenciaInstaladaPeriodo],
+        ]
+    ]:
+        """
+        Obtém um registro que contém a potência instalada por período
+        para um PEE.
+
+        :param codigo_pee: código que especifica o PEE
+        :type codigo_pee: int | None
+        :param periodo_inicial: período de início de operação
+        :type periodo_inicial: datetime | None
+        :param periodo_final: período de fim de operação
+        :type periodo_final: datetime | None
+        :param potencia_instalada: potência efetiva do PEE
+        :type potencia_instalada: float | None
+        :return: Um ou mais registros, se existirem.
+        :rtype: :class:`RegistroPEEPotenciaInstaladaPeriodo` |
+            list[:class:`RegistroPEEPotenciaInstaladaPeriodo`] | None
+        """
+        return self.__obtem_registros_com_filtros(
+            RegistroPEEPotenciaInstaladaPeriodo,
+            codigo_pee=codigo_pee,
+            periodo_inicial=periodo_inicial,
+            periodo_final=periodo_final,
+            potencia_instalada=potencia_instalada,
         )

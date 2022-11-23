@@ -2,6 +2,7 @@
 from datetime import datetime
 from inewave.newave.modelos.eolicaconfiguracao import (
     RegistroEolicaConfiguracao,
+    RegistroPEEConfiguracaoPeriodo,
 )
 
 from inewave.newave.eolicaconfiguracao import EolicaConfiguracao
@@ -11,6 +12,7 @@ from unittest.mock import MagicMock, patch
 
 from tests.mocks.arquivos.eolicaconfig import (
     MockRegistroEolicaConfiguracaoPeriodo,
+    MockRegistroPEEConfiguracaoPeriodo,
     MockEolicaConfig,
 )
 
@@ -33,6 +35,32 @@ def test_registro_eolica_configuracao_periodo_eolicaconfig():
     ]
     assert r.codigo_eolica == 1
     r.codigo_eolica = 5
+    assert r.data_inicial_estado_operacao == datetime(2021, 1, 1)
+    r.data_inicial_estado_operacao = datetime(2021, 2, 1)
+    assert r.data_final_estado_operacao == datetime(2030, 12, 1)
+    r.data_final_estado_operacao = datetime(2030, 11, 1)
+    assert r.estado_operacao == "centralizado"
+    r.estado_operacao = "fixo"
+
+
+def test_registro_pee_configuracao_periodo_eolicaconfig():
+
+    m: MagicMock = mock_open(
+        read_data="".join(MockRegistroPEEConfiguracaoPeriodo)
+    )
+    r = RegistroPEEConfiguracaoPeriodo()
+    with patch("builtins.open", m):
+        with open("", "") as fp:
+            r.read(fp)
+
+    assert r.data == [
+        1,
+        datetime(2021, 1, 1),
+        datetime(2030, 12, 1),
+        "centralizado",
+    ]
+    assert r.codigo_pee == 1
+    r.codigo_pee = 5
     assert r.data_inicial_estado_operacao == datetime(2021, 1, 1)
     r.data_inicial_estado_operacao = datetime(2021, 2, 1)
     assert r.data_final_estado_operacao == datetime(2030, 12, 1)

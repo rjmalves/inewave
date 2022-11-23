@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>inewave.newave.modelos.eolicafte &mdash; documentação inewave 0.0.56</title>
+  <title>inewave.newave.modelos.eolicafte &mdash; documentação inewave 0.0.79</title>
       <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/sg_gallery.css" type="text/css" />
@@ -105,6 +105,66 @@
 
     <span class="nd">@codigo_eolica</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span> <span class="nf">codigo_eolica</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">c</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">c</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">data_inicial</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">datetime</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="nd">@data_inicial</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">data_inicial</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">c</span><span class="p">:</span> <span class="n">datetime</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">c</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">data_final</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">datetime</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+
+    <span class="nd">@data_final</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">data_final</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">c</span><span class="p">:</span> <span class="n">datetime</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">c</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">coeficiente_linear</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+
+    <span class="nd">@coeficiente_linear</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">coeficiente_linear</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">c</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">c</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">coeficiente_angular</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+
+    <span class="nd">@coeficiente_angular</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">coeficiente_angular</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">c</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="n">c</span></div>
+
+
+<div class="viewcode-block" id="RegistroPEEFTE"><a class="viewcode-back" href="../../../../reference/newave/arquivos/eolicafte.html#inewave.newave.modelos.eolicafte.RegistroPEEFTE">[documentos]</a><span class="k">class</span> <span class="nc">RegistroPEEFTE</span><span class="p">(</span><span class="n">Register</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Registro que contém as informações da função de produção</span>
+<span class="sd">    linear vento-potência para um PEE.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">IDENTIFIER</span> <span class="o">=</span> <span class="s2">&quot;PEE-FPVP-LIN-PU-PER&quot;</span>
+    <span class="n">IDENTIFIER_DIGITS</span> <span class="o">=</span> <span class="mi">19</span>
+    <span class="n">LINE</span> <span class="o">=</span> <span class="n">Line</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="n">IntegerField</span><span class="p">(),</span>
+            <span class="n">DatetimeField</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;%Y/%m&quot;</span><span class="p">),</span>
+            <span class="n">DatetimeField</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;%Y/%m&quot;</span><span class="p">),</span>
+            <span class="n">FloatField</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">decimal_digits</span><span class="o">=</span><span class="mi">17</span><span class="p">),</span>
+            <span class="n">FloatField</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">decimal_digits</span><span class="o">=</span><span class="mi">17</span><span class="p">),</span>
+        <span class="p">],</span>
+        <span class="n">delimiter</span><span class="o">=</span><span class="s2">&quot;;&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">codigo_pee</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="nd">@codigo_pee</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">codigo_pee</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">c</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">c</span>
 
     <span class="nd">@property</span>

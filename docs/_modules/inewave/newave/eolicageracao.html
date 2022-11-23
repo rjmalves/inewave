@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>inewave.newave.eolicageracao &mdash; documentação inewave 0.0.56</title>
+  <title>inewave.newave.eolicageracao &mdash; documentação inewave 0.0.79</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/sg_gallery.css" type="text/css" />
@@ -79,6 +79,7 @@
 <span class="kn">from</span> <span class="nn">inewave.newave.modelos.eolicageracao</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">RegistroEolicaGeracaoPeriodo</span><span class="p">,</span>
     <span class="n">RegistroEolicaGeracaoPatamar</span><span class="p">,</span>
+    <span class="n">RegistroPEEGeracaoPatamar</span><span class="p">,</span>
 <span class="p">)</span>
 
 
@@ -93,6 +94,7 @@
     <span class="n">REGISTERS</span> <span class="o">=</span> <span class="p">[</span>
         <span class="n">RegistroEolicaGeracaoPeriodo</span><span class="p">,</span>
         <span class="n">RegistroEolicaGeracaoPatamar</span><span class="p">,</span>
+        <span class="n">RegistroPEEGeracaoPatamar</span><span class="p">,</span>
     <span class="p">]</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="o">=...</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -249,6 +251,46 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__obtem_registros_com_filtros</span><span class="p">(</span>
             <span class="n">RegistroEolicaGeracaoPatamar</span><span class="p">,</span>
             <span class="n">codigo_eolica</span><span class="o">=</span><span class="n">codigo_eolica</span><span class="p">,</span>
+            <span class="n">data_inicial</span><span class="o">=</span><span class="n">data_inicial</span><span class="p">,</span>
+            <span class="n">data_final</span><span class="o">=</span><span class="n">data_final</span><span class="p">,</span>
+            <span class="n">indice_patamar</span><span class="o">=</span><span class="n">indice_patamar</span><span class="p">,</span>
+            <span class="n">profundidade</span><span class="o">=</span><span class="n">profundidade</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="EolicaGeracao.pee_ger_prof_per_pat"><a class="viewcode-back" href="../../../reference/newave/arquivos/eolicageracao.html#inewave.newave.eolicageracao.EolicaGeracao.pee_ger_prof_per_pat">[documentos]</a>    <span class="k">def</span> <span class="nf">pee_ger_prof_per_pat</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">codigo_pee</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">data_inicial</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">datetime</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">data_final</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">datetime</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">indice_patamar</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">profundidade</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span>
+        <span class="n">Union</span><span class="p">[</span>
+            <span class="n">RegistroPEEGeracaoPatamar</span><span class="p">,</span>
+            <span class="n">List</span><span class="p">[</span><span class="n">RegistroPEEGeracaoPatamar</span><span class="p">],</span>
+        <span class="p">]</span>
+    <span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Obtém um registro que contém a profundidade de um patamar</span>
+<span class="sd">        de geração para um período, para um PEE.</span>
+
+<span class="sd">        :param codigo_pee: código do PEE</span>
+<span class="sd">        :type codigo_pee: int | None</span>
+<span class="sd">        :param data_inicial: data de início do registro histórico</span>
+<span class="sd">        :type data_inicial: datetime | None</span>
+<span class="sd">        :param data_final: data de fim do registro histórico</span>
+<span class="sd">        :type data_final: datetime | None</span>
+<span class="sd">        :param indice_patamar: patamar de geração eólica</span>
+<span class="sd">        :type indice_patamar: int | None</span>
+<span class="sd">        :param profundidade: profundidade do patamar de geração</span>
+<span class="sd">        :type profundidade: float | None</span>
+<span class="sd">        :return: Um ou mais registros, se existirem.</span>
+<span class="sd">        :rtype: :class:`RegistroPEEGeracaoPatamar` |</span>
+<span class="sd">            list[:class:`RegistroPEEGeracaoPatamar`] | None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__obtem_registros_com_filtros</span><span class="p">(</span>
+            <span class="n">RegistroPEEGeracaoPatamar</span><span class="p">,</span>
+            <span class="n">codigo_pee</span><span class="o">=</span><span class="n">codigo_pee</span><span class="p">,</span>
             <span class="n">data_inicial</span><span class="o">=</span><span class="n">data_inicial</span><span class="p">,</span>
             <span class="n">data_final</span><span class="o">=</span><span class="n">data_final</span><span class="p">,</span>
             <span class="n">indice_patamar</span><span class="o">=</span><span class="n">indice_patamar</span><span class="p">,</span>

@@ -6,6 +6,8 @@ from cfinterface.files.registerfile import RegisterFile
 from inewave.newave.modelos.eolicahistorico import (
     RegistroEolicaHistoricoVentoHorizonte,
     RegistroEolicaHistoricoVento,
+    RegistroHistoricoVentoHorizonte,
+    RegistroHistoricoVento,
 )
 
 
@@ -20,6 +22,8 @@ class EolicaHistorico(RegisterFile):
     REGISTERS = [
         RegistroEolicaHistoricoVentoHorizonte,
         RegistroEolicaHistoricoVento,
+        RegistroHistoricoVentoHorizonte,
+        RegistroHistoricoVento,
     ]
 
     def __init__(self, data=...) -> None:
@@ -164,6 +168,73 @@ class EolicaHistorico(RegisterFile):
         """
         return self.__obtem_registros_com_filtros(
             RegistroEolicaHistoricoVento,
+            codigo_eolica=codigo_eolica,
+            data_inicial=data_inicial,
+            data_final=data_final,
+            velocidade=velocidade,
+            direcao=direcao,
+        )
+
+    def vento_hist_horiz(
+        self,
+        data_inicial: Optional[datetime] = None,
+        data_final: Optional[datetime] = None,
+    ) -> Optional[
+        Union[
+            RegistroHistoricoVentoHorizonte,
+            List[RegistroHistoricoVentoHorizonte],
+        ]
+    ]:
+        """
+        Obtém um registro que contém o horizonte de um histórico.
+
+        :param data_inicial: data de início do histórico
+        :type data_inicial: datetime | None
+        :param data_final: data de fim do histórico
+        :type data_final: datetime | None
+        :return: Um ou mais registros, se existirem.
+        :rtype: :class:`RegistroHistoricoVentoHorizonte` |
+            list[:class:`RegistroHistoricoVentoHorizonte`] | None
+        """
+        return self.__obtem_registros_com_filtros(
+            RegistroHistoricoVentoHorizonte,
+            data_inicial=data_inicial,
+            data_final=data_final,
+        )
+
+    def vento_hist(
+        self,
+        codigo_eolica: Optional[int] = None,
+        data_inicial: Optional[datetime] = None,
+        data_final: Optional[datetime] = None,
+        velocidade: Optional[float] = None,
+        direcao: Optional[float] = None,
+    ) -> Optional[
+        Union[
+            RegistroHistoricoVento,
+            List[RegistroHistoricoVento],
+        ]
+    ]:
+        """
+        Obtém um registro que contém a o valor de vento para um
+        intervalo do histórico.
+
+        :param codigo_eolica: código da usina eólica
+        :type codigo_eolica: int | None
+        :param data_inicial: data de início do registro histórico
+        :type data_inicial: datetime | None
+        :param data_final: data de fim do registro histórico
+        :type data_final: datetime | None
+        :param velocidade: velocidade do vento
+        :type velocidade: float | None
+        :param direcao: direção do vento
+        :type direcao: float | None
+        :return: Um ou mais registros, se existirem.
+        :rtype: :class:`RegistroHistoricoVento` |
+            list[:class:`RegistroHistoricoVento`] | None
+        """
+        return self.__obtem_registros_com_filtros(
+            RegistroHistoricoVento,
             codigo_eolica=codigo_eolica,
             data_inicial=data_inicial,
             data_final=data_final,

@@ -34,3 +34,35 @@ class RegistroEolicaSubmercado(Register):
     @codigo_submercado.setter
     def codigo_submercado(self, c: int):
         self.data[1] = c
+
+
+class RegistroPEESubmercado(Register):
+    """
+    Registro que contém uma relação entre PEE e submercado.
+    """
+
+    IDENTIFIER = "PEE-SUBM"
+    IDENTIFIER_DIGITS = 8
+    LINE = Line(
+        [
+            IntegerField(),
+            IntegerField(),
+        ],
+        delimiter=";",
+    )
+
+    @property
+    def codigo_pee(self) -> Optional[int]:
+        return self.data[0]
+
+    @codigo_pee.setter
+    def codigo_pee(self, c: int):
+        self.data[0] = c
+
+    @property
+    def codigo_submercado(self) -> Optional[int]:
+        return self.data[1]
+
+    @codigo_submercado.setter
+    def codigo_submercado(self, c: int):
+        self.data[1] = c

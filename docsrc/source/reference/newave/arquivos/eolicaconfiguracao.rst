@@ -23,3 +23,5 @@ para cada um.
 .. autoclass:: RegistroEolicaConfiguracao
    :members:
 
+.. autoclass:: RegistroPEEConfiguracaoPeriodo
+   :members:

@@ -12,6 +12,12 @@ MockRegistroEolicaConjuntoAerogeradoresQuantidadeOperandoPeriodo = "EOLICA-CONJU
 
 MockRegistroEolicaConjuntoAerogeradoresPotenciaEfetiva = "EOLICA-CONJUNTO-AEROGERADORES-POTENCIAEFETIVA-PERIODO; 1 ; 1 ;2021/01; 2030/12; 6058.890\n"
 
+MockRegistroPEECadastro = "PEE-CAD  ; 1         ; NEInterior\n"
+
+MockRegistroPEEPotenciaInstaladaPeriodo = (
+    "PEE-POT-INST-PER  ;  1        ; 2021/01; 2030/12; 6058.890\n"
+)
+
 MockEolicaCadastro = [
     "& EOLICA-CADASTRO ; Codigo ; Nome ; Identificador ; QuantidadeIConjunto\n",
     "EOLICA-CADASTRO ; 1 ; NEInterior ;  ; 1\n",

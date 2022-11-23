@@ -1,5 +1,9 @@
 MockRegistroEolicaGeracaoPatamar = "EOLICA-GERACAO-PROFUNDIDADE-PERIODO-PATAMAR; 1 ; 2021/01; 2021/01; 2 ; 1.0496\n"
 
+MockRegistroPEEGeracaoPatamar = (
+    "PEE-GER-PROF-PER-PAT  ; 1         ; 2021/01; 2021/01; 1   ; 0.8800\n"
+)
+
 MockEolicaGeracao = [
     "& EOLICA-GERACAO-PROFUNDIDADE-PERIODO-PATAMAR; CodEolica;PerIni ;PerFin ;Pat   ;PROFUNDIDADE\n",
     "EOLICA-GERACAO-PROFUNDIDADE-PERIODO-PATAMAR; 1 ; 2021/01; 2021/01; 1 ; 0.8800\n",

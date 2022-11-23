@@ -24,3 +24,9 @@ para cada um.
 
 .. autoclass:: RegistroEolicaHistoricoVento
    :members:
+
+.. autoclass:: RegistroHistoricoVentoHorizonte
+   :members:
+
+.. autoclass:: RegistroHistoricoVento
+   :members:

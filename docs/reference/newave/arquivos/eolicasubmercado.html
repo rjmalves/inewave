@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Relação de Usina Eólicas com Submercados (eolica-submercado.csv) &mdash; documentação inewave 0.0.78</title>
+  <title>Relação de Usina Eólicas com Submercados (eolica-submercado.csv) &mdash; documentação inewave 0.0.79</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/sg_gallery.css" type="text/css" />
@@ -170,6 +170,27 @@ list[<code class="xref py py-class docutils literal notranslate"><span class="pr
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="inewave.newave.eolicasubmercado.EolicaSubmercado.pee_subm">
+<span class="sig-name descname"><span class="pre">pee_subm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">codigo_pee</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">codigo_submercado</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#inewave.newave.modelos.eolicasubmercado.RegistroPEESubmercado" title="inewave.newave.modelos.eolicasubmercado.RegistroPEESubmercado"><span class="pre">RegistroPEESubmercado</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#inewave.newave.modelos.eolicasubmercado.RegistroPEESubmercado" title="inewave.newave.modelos.eolicasubmercado.RegistroPEESubmercado"><span class="pre">RegistroPEESubmercado</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../../_modules/inewave/newave/eolicasubmercado.html#EolicaSubmercado.pee_subm"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.eolicasubmercado.EolicaSubmercado.pee_subm" title="Link permanente para esta definição"></a></dt>
+<dd><p>Obtém um registro que contém o mapeamento PEE-submercado.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parâmetros</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>codigo_pee</strong> (<em>int</em><em> | </em><em>None</em>) – código que especifica o PEE</p></li>
+<li><p><strong>codigo_submercado</strong> (<em>int</em><em> | </em><em>None</em>) – código que especifica o submercado</p></li>
+</ul>
+</dd>
+<dt class="field-even">Retorna</dt>
+<dd class="field-even"><p>Um ou mais registros, se existirem.</p>
+</dd>
+<dt class="field-odd">Tipo de retorno</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">RegistroPEESubmercado</span></code> |
+list[<code class="xref py py-class docutils literal notranslate"><span class="pre">RegistroPEESubmercado</span></code>] | None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="inewave.newave.eolicasubmercado.EolicaSubmercado.preppend_registro">
 <span class="sig-name descname"><span class="pre">preppend_registro</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">registro</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Register</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/newave/eolicasubmercado.html#EolicaSubmercado.preppend_registro"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.eolicasubmercado.EolicaSubmercado.preppend_registro" title="Link permanente para esta definição"></a></dt>
 <dd><p>Adiciona um registro ao arquivo na primeira posição.
@@ -185,6 +206,12 @@ para cada um.</p>
 <dt class="sig sig-object py" id="inewave.newave.modelos.eolicasubmercado.RegistroEolicaSubmercado">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">RegistroEolicaSubmercado</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">previous</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">next</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/newave/modelos/eolicasubmercado.html#RegistroEolicaSubmercado"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.modelos.eolicasubmercado.RegistroEolicaSubmercado" title="Link permanente para esta definição"></a></dt>
 <dd><p>Registro que contém uma relação entre usina eólica e submercado.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="inewave.newave.modelos.eolicasubmercado.RegistroPEESubmercado">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">RegistroPEESubmercado</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">previous</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">next</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/inewave/newave/modelos/eolicasubmercado.html#RegistroPEESubmercado"><span class="viewcode-link"><span class="pre">[código</span> <span class="pre">fonte]</span></span></a><a class="headerlink" href="#inewave.newave.modelos.eolicasubmercado.RegistroPEESubmercado" title="Link permanente para esta definição"></a></dt>
+<dd><p>Registro que contém uma relação entre PEE e submercado.</p>
 </dd></dl>
 
 </section>

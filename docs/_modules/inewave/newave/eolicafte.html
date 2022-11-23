@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>inewave.newave.eolicafte &mdash; documentação inewave 0.0.56</title>
+  <title>inewave.newave.eolicafte &mdash; documentação inewave 0.0.79</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/sg_gallery.css" type="text/css" />
@@ -76,9 +76,7 @@
 
 <span class="kn">from</span> <span class="nn">cfinterface.components.register</span> <span class="kn">import</span> <span class="n">Register</span>
 <span class="kn">from</span> <span class="nn">cfinterface.files.registerfile</span> <span class="kn">import</span> <span class="n">RegisterFile</span>
-<span class="kn">from</span> <span class="nn">inewave.newave.modelos.eolicafte</span> <span class="kn">import</span> <span class="p">(</span>
-    <span class="n">RegistroEolicaFTE</span><span class="p">,</span>
-<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">inewave.newave.modelos.eolicafte</span> <span class="kn">import</span> <span class="n">RegistroEolicaFTE</span><span class="p">,</span> <span class="n">RegistroPEEFTE</span>
 
 
 <div class="viewcode-block" id="EolicaFTE"><a class="viewcode-back" href="../../../reference/newave/arquivos/eolicafte.html#inewave.newave.eolicafte.EolicaFTE">[documentos]</a><span class="k">class</span> <span class="nc">EolicaFTE</span><span class="p">(</span><span class="n">RegisterFile</span><span class="p">):</span>
@@ -89,9 +87,7 @@
 
     <span class="n">T</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;T&quot;</span><span class="p">)</span>
 
-    <span class="n">REGISTERS</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="n">RegistroEolicaFTE</span><span class="p">,</span>
-    <span class="p">]</span>
+    <span class="n">REGISTERS</span> <span class="o">=</span> <span class="p">[</span><span class="n">RegistroEolicaFTE</span><span class="p">,</span> <span class="n">RegistroPEEFTE</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="o">=...</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
@@ -189,8 +185,14 @@
 
 <span class="sd">        :param codigo_eolica: código que especifica a usina</span>
 <span class="sd">        :type codigo_eolica: int | None</span>
-<span class="sd">        :param codigo_submercado: código que especifica o submercado</span>
-<span class="sd">        :type codigo_submercado: int | None</span>
+<span class="sd">        :param data_inicial: a data inicial de validade para a função</span>
+<span class="sd">        :type data_inicial: datetime | None</span>
+<span class="sd">        :param data_final: a data final de validade para a função</span>
+<span class="sd">        :type data_final: datetime | None</span>
+<span class="sd">        :param coeficiente_linear: o coeficiente linear</span>
+<span class="sd">        :type coeficiente_linear: float | None</span>
+<span class="sd">        :param coeficiente_angular: o coeficiente angular</span>
+<span class="sd">        :type coeficiente_angular: float | None</span>
 <span class="sd">        :return: Um ou mais registros, se existirem.</span>
 <span class="sd">        :rtype: :class:`RegistroEolicaFTE` |</span>
 <span class="sd">            list[:class:`RegistroEolicaFTE`] | None</span>
@@ -198,6 +200,41 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__obtem_registros_com_filtros</span><span class="p">(</span>
             <span class="n">RegistroEolicaFTE</span><span class="p">,</span>
             <span class="n">codigo_eolica</span><span class="o">=</span><span class="n">codigo_eolica</span><span class="p">,</span>
+            <span class="n">data_inicial</span><span class="o">=</span><span class="n">data_inicial</span><span class="p">,</span>
+            <span class="n">data_final</span><span class="o">=</span><span class="n">data_final</span><span class="p">,</span>
+            <span class="n">coeficiente_linear</span><span class="o">=</span><span class="n">coeficiente_linear</span><span class="p">,</span>
+            <span class="n">coeficiente_angular</span><span class="o">=</span><span class="n">coeficiente_angular</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="EolicaFTE.pee_fpvp_lin_pu_per"><a class="viewcode-back" href="../../../reference/newave/arquivos/eolicafte.html#inewave.newave.eolicafte.EolicaFTE.pee_fpvp_lin_pu_per">[documentos]</a>    <span class="k">def</span> <span class="nf">pee_fpvp_lin_pu_per</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">codigo_pee</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">data_inicial</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">datetime</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">data_final</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">datetime</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">coeficiente_linear</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">coeficiente_angular</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">RegistroPEEFTE</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">RegistroPEEFTE</span><span class="p">]]]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Obtém um registro que contém a função de produção vento-geração</span>
+<span class="sd">        para um período de tempo para um PEE, em p.u.</span>
+
+<span class="sd">        :param codigo_pee: código que especifica o PEE</span>
+<span class="sd">        :type codigo_pee: int | None</span>
+<span class="sd">        :param data_inicial: a data inicial de validade para a função</span>
+<span class="sd">        :type data_inicial: datetime | None</span>
+<span class="sd">        :param data_final: a data final de validade para a função</span>
+<span class="sd">        :type data_final: datetime | None</span>
+<span class="sd">        :param coeficiente_linear: o coeficiente linear</span>
+<span class="sd">        :type coeficiente_linear: float | None</span>
+<span class="sd">        :param coeficiente_angular: o coeficiente angular</span>
+<span class="sd">        :type coeficiente_angular: float | None</span>
+<span class="sd">        :return: Um ou mais registros, se existirem.</span>
+<span class="sd">        :rtype: :class:`RegistroPEEFTE` |</span>
+<span class="sd">            list[:class:`RegistroPEEFTE`] | None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__obtem_registros_com_filtros</span><span class="p">(</span>
+            <span class="n">RegistroPEEFTE</span><span class="p">,</span>
+            <span class="n">codigo_pee</span><span class="o">=</span><span class="n">codigo_pee</span><span class="p">,</span>
             <span class="n">data_inicial</span><span class="o">=</span><span class="n">data_inicial</span><span class="p">,</span>
             <span class="n">data_final</span><span class="o">=</span><span class="n">data_final</span><span class="p">,</span>
             <span class="n">coeficiente_linear</span><span class="o">=</span><span class="n">coeficiente_linear</span><span class="p">,</span>

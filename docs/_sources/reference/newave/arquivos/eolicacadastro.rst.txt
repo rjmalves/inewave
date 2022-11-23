@@ -31,3 +31,9 @@ para cada um.
 
 .. autoclass:: RegistroEolicaConjuntoAerogeradoresPotenciaEfetiva
    :members:
+
+.. autoclass:: RegistroPEECadastro
+   :members:
+
+.. autoclass:: RegistroPEEPotenciaInstaladaPeriodo
+   :members:

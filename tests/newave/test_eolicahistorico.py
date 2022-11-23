@@ -3,6 +3,8 @@ from datetime import datetime
 from inewave.newave.modelos.eolicahistorico import (
     RegistroEolicaHistoricoVentoHorizonte,
     RegistroEolicaHistoricoVento,
+    RegistroHistoricoVentoHorizonte,
+    RegistroHistoricoVento,
 )
 
 from inewave.newave.eolicahistorico import EolicaHistorico
@@ -13,6 +15,8 @@ from unittest.mock import MagicMock, patch
 from tests.mocks.arquivos.eolicahistorico import (
     MockRegistroEolicaHistoricoHorizonte,
     MockRegistroEolicaHistorico,
+    MockRegistroHistoricoVentoHorizonte,
+    MockRegistroHistoricoVento,
     MockEolicaHistorico,
 )
 
@@ -50,6 +54,44 @@ def test_registro_eolica_historico_eolicahistorico():
     assert r.data_final == datetime(1979, 2, 1)
     r.data_final = datetime(1980, 2, 1)
     assert r.velocidade == 3.43
+    r.velocidade = 5.0
+    assert r.direcao == 1.0
+    r.direcao = 0.0
+
+
+def test_registro_historico_vento_horizonte_eolicahistorico():
+
+    m: MagicMock = mock_open(
+        read_data="".join(MockRegistroHistoricoVentoHorizonte)
+    )
+    r = RegistroHistoricoVentoHorizonte()
+    with patch("builtins.open", m):
+        with open("", "") as fp:
+            r.read(fp)
+
+    assert r.data == [datetime(1979, 1, 1), datetime(2016, 1, 1)]
+    assert r.data_inicial == datetime(1979, 1, 1)
+    r.data_inicial = datetime(1980, 1, 1)
+    assert r.data_final == datetime(2016, 1, 1)
+    r.data_final = datetime(2018, 1, 1)
+
+
+def test_registro_historico_vento_eolicahistorico():
+
+    m: MagicMock = mock_open(read_data="".join(MockRegistroHistoricoVento))
+    r = RegistroHistoricoVento()
+    with patch("builtins.open", m):
+        with open("", "") as fp:
+            r.read(fp)
+
+    assert r.data == [1, datetime(1979, 1, 1), datetime(1979, 2, 1), 4.05, 1.0]
+    assert r.codigo_posto == 1
+    r.codigo_posto = 2
+    assert r.data_inicial == datetime(1979, 1, 1)
+    r.data_inicial = datetime(1980, 1, 1)
+    assert r.data_final == datetime(1979, 2, 1)
+    r.data_final = datetime(1980, 2, 1)
+    assert r.velocidade == 4.05
     r.velocidade = 5.0
     assert r.direcao == 1.0
     r.direcao = 0.0

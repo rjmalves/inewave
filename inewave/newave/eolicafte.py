@@ -3,9 +3,7 @@ from datetime import datetime
 
 from cfinterface.components.register import Register
 from cfinterface.files.registerfile import RegisterFile
-from inewave.newave.modelos.eolicafte import (
-    RegistroEolicaFTE,
-)
+from inewave.newave.modelos.eolicafte import RegistroEolicaFTE, RegistroPEEFTE
 
 
 class EolicaFTE(RegisterFile):
@@ -16,9 +14,7 @@ class EolicaFTE(RegisterFile):
 
     T = TypeVar("T")
 
-    REGISTERS = [
-        RegistroEolicaFTE,
-    ]
+    REGISTERS = [RegistroEolicaFTE, RegistroPEEFTE]
 
     def __init__(self, data=...) -> None:
         super().__init__(data)
@@ -116,8 +112,14 @@ class EolicaFTE(RegisterFile):
 
         :param codigo_eolica: código que especifica a usina
         :type codigo_eolica: int | None
-        :param codigo_submercado: código que especifica o submercado
-        :type codigo_submercado: int | None
+        :param data_inicial: a data inicial de validade para a função
+        :type data_inicial: datetime | None
+        :param data_final: a data final de validade para a função
+        :type data_final: datetime | None
+        :param coeficiente_linear: o coeficiente linear
+        :type coeficiente_linear: float | None
+        :param coeficiente_angular: o coeficiente angular
+        :type coeficiente_angular: float | None
         :return: Um ou mais registros, se existirem.
         :rtype: :class:`RegistroEolicaFTE` |
             list[:class:`RegistroEolicaFTE`] | None
@@ -125,6 +127,41 @@ class EolicaFTE(RegisterFile):
         return self.__obtem_registros_com_filtros(
             RegistroEolicaFTE,
             codigo_eolica=codigo_eolica,
+            data_inicial=data_inicial,
+            data_final=data_final,
+            coeficiente_linear=coeficiente_linear,
+            coeficiente_angular=coeficiente_angular,
+        )
+
+    def pee_fpvp_lin_pu_per(
+        self,
+        codigo_pee: Optional[int] = None,
+        data_inicial: Optional[datetime] = None,
+        data_final: Optional[datetime] = None,
+        coeficiente_linear: Optional[float] = None,
+        coeficiente_angular: Optional[float] = None,
+    ) -> Optional[Union[RegistroPEEFTE, List[RegistroPEEFTE]]]:
+        """
+        Obtém um registro que contém a função de produção vento-geração
+        para um período de tempo para um PEE, em p.u.
+
+        :param codigo_pee: código que especifica o PEE
+        :type codigo_pee: int | None
+        :param data_inicial: a data inicial de validade para a função
+        :type data_inicial: datetime | None
+        :param data_final: a data final de validade para a função
+        :type data_final: datetime | None
+        :param coeficiente_linear: o coeficiente linear
+        :type coeficiente_linear: float | None
+        :param coeficiente_angular: o coeficiente angular
+        :type coeficiente_angular: float | None
+        :return: Um ou mais registros, se existirem.
+        :rtype: :class:`RegistroPEEFTE` |
+            list[:class:`RegistroPEEFTE`] | None
+        """
+        return self.__obtem_registros_com_filtros(
+            RegistroPEEFTE,
+            codigo_pee=codigo_pee,
             data_inicial=data_inicial,
             data_final=data_final,
             coeficiente_linear=coeficiente_linear,

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>inewave.newave.eolicacadastro &mdash; documentação inewave 0.0.56</title>
+  <title>inewave.newave.eolicacadastro &mdash; documentação inewave 0.0.79</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/sg_gallery.css" type="text/css" />
@@ -82,6 +82,8 @@
     <span class="n">RegistroEolicaCadastroAerogerador</span><span class="p">,</span>
     <span class="n">RegistroEolicaConjuntoAerogeradoresQuantidadeOperandoPeriodo</span><span class="p">,</span>
     <span class="n">RegistroEolicaConjuntoAerogeradoresPotenciaEfetiva</span><span class="p">,</span>
+    <span class="n">RegistroPEECadastro</span><span class="p">,</span>
+    <span class="n">RegistroPEEPotenciaInstaladaPeriodo</span><span class="p">,</span>
 <span class="p">)</span>
 
 
@@ -99,6 +101,8 @@
         <span class="n">RegistroEolicaCadastro</span><span class="p">,</span>
         <span class="n">RegistroEolicaConjuntoAerogeradoresQuantidadeOperandoPeriodo</span><span class="p">,</span>
         <span class="n">RegistroEolicaConjuntoAerogeradoresPotenciaEfetiva</span><span class="p">,</span>
+        <span class="n">RegistroPEECadastro</span><span class="p">,</span>
+        <span class="n">RegistroPEEPotenciaInstaladaPeriodo</span><span class="p">,</span>
     <span class="p">]</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="o">=...</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -382,6 +386,64 @@
             <span class="n">periodo_inicial</span><span class="o">=</span><span class="n">periodo_inicial</span><span class="p">,</span>
             <span class="n">periodo_final</span><span class="o">=</span><span class="n">periodo_final</span><span class="p">,</span>
             <span class="n">potencia_efetiva</span><span class="o">=</span><span class="n">potencia_efetiva</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="EolicaCadastro.pee_cad"><a class="viewcode-back" href="../../../reference/newave/arquivos/eolicacadastro.html#inewave.newave.eolicacadastro.EolicaCadastro.pee_cad">[documentos]</a>    <span class="k">def</span> <span class="nf">pee_cad</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">codigo_pee</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">nome_pee</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">RegistroPEECadastro</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">RegistroPEECadastro</span><span class="p">]]]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Obtém um registro que cadastra um PEE.</span>
+
+<span class="sd">        :param codigo_pee: código que especifica o PEE</span>
+<span class="sd">        :type codigo_pee: int | None</span>
+<span class="sd">        :param nome_pee: nome do PEE</span>
+<span class="sd">        :type nome_pee: str | None</span>
+<span class="sd">        :return: Um ou mais registros, se existirem.</span>
+<span class="sd">        :rtype: :class:`RegistroPEECadastro` |</span>
+<span class="sd">            list[:class:`RegistroPEECadastro`] | None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__obtem_registros_com_filtros</span><span class="p">(</span>
+            <span class="n">RegistroPEECadastro</span><span class="p">,</span>
+            <span class="n">codigo_pee</span><span class="o">=</span><span class="n">codigo_pee</span><span class="p">,</span>
+            <span class="n">nome_pee</span><span class="o">=</span><span class="n">nome_pee</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="EolicaCadastro.pee_pot_inst_per"><a class="viewcode-back" href="../../../reference/newave/arquivos/eolicacadastro.html#inewave.newave.eolicacadastro.EolicaCadastro.pee_pot_inst_per">[documentos]</a>    <span class="k">def</span> <span class="nf">pee_pot_inst_per</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">codigo_pee</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">periodo_inicial</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">datetime</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">periodo_final</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">datetime</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">potencia_instalada</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span>
+        <span class="n">Union</span><span class="p">[</span>
+            <span class="n">RegistroPEEPotenciaInstaladaPeriodo</span><span class="p">,</span>
+            <span class="n">List</span><span class="p">[</span><span class="n">RegistroPEEPotenciaInstaladaPeriodo</span><span class="p">],</span>
+        <span class="p">]</span>
+    <span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Obtém um registro que contém a potência instalada por período</span>
+<span class="sd">        para um PEE.</span>
+
+<span class="sd">        :param codigo_pee: código que especifica o PEE</span>
+<span class="sd">        :type codigo_pee: int | None</span>
+<span class="sd">        :param periodo_inicial: período de início de operação</span>
+<span class="sd">        :type periodo_inicial: datetime | None</span>
+<span class="sd">        :param periodo_final: período de fim de operação</span>
+<span class="sd">        :type periodo_final: datetime | None</span>
+<span class="sd">        :param potencia_instalada: potência efetiva do PEE</span>
+<span class="sd">        :type potencia_instalada: float | None</span>
+<span class="sd">        :return: Um ou mais registros, se existirem.</span>
+<span class="sd">        :rtype: :class:`RegistroPEEPotenciaInstaladaPeriodo` |</span>
+<span class="sd">            list[:class:`RegistroPEEPotenciaInstaladaPeriodo`] | None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__obtem_registros_com_filtros</span><span class="p">(</span>
+            <span class="n">RegistroPEEPotenciaInstaladaPeriodo</span><span class="p">,</span>
+            <span class="n">codigo_pee</span><span class="o">=</span><span class="n">codigo_pee</span><span class="p">,</span>
+            <span class="n">periodo_inicial</span><span class="o">=</span><span class="n">periodo_inicial</span><span class="p">,</span>
+            <span class="n">periodo_final</span><span class="o">=</span><span class="n">periodo_final</span><span class="p">,</span>
+            <span class="n">potencia_instalada</span><span class="o">=</span><span class="n">potencia_instalada</span><span class="p">,</span>
         <span class="p">)</span></div></div>
 </pre></div>
 

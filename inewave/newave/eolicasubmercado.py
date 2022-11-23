@@ -4,6 +4,7 @@ from cfinterface.components.register import Register
 from cfinterface.files.registerfile import RegisterFile
 from inewave.newave.modelos.eolicasubmercado import (
     RegistroEolicaSubmercado,
+    RegistroPEESubmercado,
 )
 
 
@@ -127,5 +128,27 @@ class EolicaSubmercado(RegisterFile):
         return self.__obtem_registros_com_filtros(
             RegistroEolicaSubmercado,
             codigo_eolica=codigo_eolica,
+            codigo_submercado=codigo_submercado,
+        )
+
+    def pee_subm(
+        self,
+        codigo_pee: Optional[int] = None,
+        codigo_submercado: Optional[int] = None,
+    ) -> Optional[Union[RegistroPEESubmercado, List[RegistroPEESubmercado],]]:
+        """
+        Obtém um registro que contém o mapeamento PEE-submercado.
+
+        :param codigo_pee: código que especifica o PEE
+        :type codigo_pee: int | None
+        :param codigo_submercado: código que especifica o submercado
+        :type codigo_submercado: int | None
+        :return: Um ou mais registros, se existirem.
+        :rtype: :class:`RegistroPEESubmercado` |
+            list[:class:`RegistroPEESubmercado`] | None
+        """
+        return self.__obtem_registros_com_filtros(
+            RegistroPEESubmercado,
+            codigo_pee=codigo_pee,
             codigo_submercado=codigo_submercado,
         )

@@ -1,8 +1,6 @@
 # Rotinas de testes associadas ao arquivo eolica-fte.csv do NEWAVE
 from datetime import datetime
-from inewave.newave.modelos.eolicafte import (
-    RegistroEolicaFTE,
-)
+from inewave.newave.modelos.eolicafte import RegistroEolicaFTE, RegistroPEEFTE
 
 from inewave.newave.eolicafte import EolicaFTE
 
@@ -12,6 +10,7 @@ from unittest.mock import MagicMock, patch
 from tests.mocks.arquivos.eolicafte import (
     MockRegistroFuncaoProducao,
     MockEolicaFTE,
+    MockRegistroPEEFTE,
 )
 
 
@@ -39,6 +38,33 @@ def test_registro_eolica_funcao_producao_eolicafte():
     assert r.coeficiente_linear == -0.14454132
     r.coeficiente_linear = -0.5
     assert r.coeficiente_angular == 0.10904637
+    r.coeficiente_angular = 0.5
+
+
+def test_registro_peefte():
+
+    m: MagicMock = mock_open(read_data="".join(MockRegistroPEEFTE))
+    r = RegistroPEEFTE()
+    with patch("builtins.open", m):
+        with open("", "") as fp:
+            r.read(fp)
+
+    assert r.data == [
+        1,
+        datetime(2021, 1, 1),
+        datetime(2030, 12, 1),
+        -0.14454132687670500,
+        0.10904637648150100,
+    ]
+    assert r.codigo_pee == 1
+    r.codigo_pee = 5
+    assert r.data_inicial == datetime(2021, 1, 1)
+    r.data_inicial = datetime(2021, 2, 1)
+    assert r.data_final == datetime(2030, 12, 1)
+    r.data_final = datetime(2030, 11, 1)
+    assert r.coeficiente_linear == -0.14454132687670500
+    r.coeficiente_linear = -0.5
+    assert r.coeficiente_angular == 0.10904637648150100
     r.coeficiente_angular = 0.5
 
 

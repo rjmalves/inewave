@@ -1,6 +1,7 @@
 # Rotinas de testes associadas ao arquivo eolica-submercado.csv do NEWAVE
 from inewave.newave.modelos.eolicasubmercado import (
     RegistroEolicaSubmercado,
+    RegistroPEESubmercado,
 )
 
 from inewave.newave.eolicasubmercado import EolicaSubmercado
@@ -10,6 +11,7 @@ from unittest.mock import MagicMock, patch
 
 from tests.mocks.arquivos.eolicasubmercado import (
     MockRegistroEolicaSubmercado,
+    MockRegistroPEESubmercado,
     MockEolicaSubmercado,
 )
 
@@ -26,6 +28,21 @@ def test_registro_eolica_submercado_eolicasubmercado():
     assert r.codigo_eolica == 5
     r.codigo_eolica = 2
     assert r.codigo_submercado == 2
+    r.codigo_submercado = 1
+
+
+def test_registro_pee_submercado_eolicasubmercado():
+
+    m: MagicMock = mock_open(read_data="".join(MockRegistroPEESubmercado))
+    r = RegistroPEESubmercado()
+    with patch("builtins.open", m):
+        with open("", "") as fp:
+            r.read(fp)
+
+    assert r.data == [1, 3]
+    assert r.codigo_pee == 1
+    r.codigo_pee = 2
+    assert r.codigo_submercado == 3
     r.codigo_submercado = 1
 
 

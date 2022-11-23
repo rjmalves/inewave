@@ -1,5 +1,7 @@
 MockRegistroFuncaoProducao = "EOLICA-FUNCAO-PRODUCAO-VENTO-POTENCIA-LINEAR-PU-PERIODO ; 1; 2021/01; 2030/12;  -0.14454132; 0.109046370\n"
 
+MockRegistroPEEFTE = "PEE-FPVP-LIN-PU-PER	  ; 1         ; 2021/01; 2030/12; -0.14454132687670500 ; 0.10904637648150100\n"
+
 MockEolicaFTE = [
     "& EOLICA-FUNCAO-PRODUCAO-VENTO-POTENCIA-LINEAR-PU-PERIODO ; CodEolica;PerIni ;PerFin ; CoeficienteLinear; CoeficienteAngular\n",
     "\n",

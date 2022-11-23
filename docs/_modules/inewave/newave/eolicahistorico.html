@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>inewave.newave.eolicahistorico &mdash; documentação inewave 0.0.56</title>
+  <title>inewave.newave.eolicahistorico &mdash; documentação inewave 0.0.79</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/sg_gallery.css" type="text/css" />
@@ -79,6 +79,8 @@
 <span class="kn">from</span> <span class="nn">inewave.newave.modelos.eolicahistorico</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">RegistroEolicaHistoricoVentoHorizonte</span><span class="p">,</span>
     <span class="n">RegistroEolicaHistoricoVento</span><span class="p">,</span>
+    <span class="n">RegistroHistoricoVentoHorizonte</span><span class="p">,</span>
+    <span class="n">RegistroHistoricoVento</span><span class="p">,</span>
 <span class="p">)</span>
 
 
@@ -93,6 +95,8 @@
     <span class="n">REGISTERS</span> <span class="o">=</span> <span class="p">[</span>
         <span class="n">RegistroEolicaHistoricoVentoHorizonte</span><span class="p">,</span>
         <span class="n">RegistroEolicaHistoricoVento</span><span class="p">,</span>
+        <span class="n">RegistroHistoricoVentoHorizonte</span><span class="p">,</span>
+        <span class="n">RegistroHistoricoVento</span><span class="p">,</span>
     <span class="p">]</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="o">=...</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -237,6 +241,73 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__obtem_registros_com_filtros</span><span class="p">(</span>
             <span class="n">RegistroEolicaHistoricoVento</span><span class="p">,</span>
+            <span class="n">codigo_eolica</span><span class="o">=</span><span class="n">codigo_eolica</span><span class="p">,</span>
+            <span class="n">data_inicial</span><span class="o">=</span><span class="n">data_inicial</span><span class="p">,</span>
+            <span class="n">data_final</span><span class="o">=</span><span class="n">data_final</span><span class="p">,</span>
+            <span class="n">velocidade</span><span class="o">=</span><span class="n">velocidade</span><span class="p">,</span>
+            <span class="n">direcao</span><span class="o">=</span><span class="n">direcao</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="EolicaHistorico.vento_hist_horiz"><a class="viewcode-back" href="../../../reference/newave/arquivos/eolicahistorico.html#inewave.newave.eolicahistorico.EolicaHistorico.vento_hist_horiz">[documentos]</a>    <span class="k">def</span> <span class="nf">vento_hist_horiz</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">data_inicial</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">datetime</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">data_final</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">datetime</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span>
+        <span class="n">Union</span><span class="p">[</span>
+            <span class="n">RegistroHistoricoVentoHorizonte</span><span class="p">,</span>
+            <span class="n">List</span><span class="p">[</span><span class="n">RegistroHistoricoVentoHorizonte</span><span class="p">],</span>
+        <span class="p">]</span>
+    <span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Obtém um registro que contém o horizonte de um histórico.</span>
+
+<span class="sd">        :param data_inicial: data de início do histórico</span>
+<span class="sd">        :type data_inicial: datetime | None</span>
+<span class="sd">        :param data_final: data de fim do histórico</span>
+<span class="sd">        :type data_final: datetime | None</span>
+<span class="sd">        :return: Um ou mais registros, se existirem.</span>
+<span class="sd">        :rtype: :class:`RegistroHistoricoVentoHorizonte` |</span>
+<span class="sd">            list[:class:`RegistroHistoricoVentoHorizonte`] | None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__obtem_registros_com_filtros</span><span class="p">(</span>
+            <span class="n">RegistroHistoricoVentoHorizonte</span><span class="p">,</span>
+            <span class="n">data_inicial</span><span class="o">=</span><span class="n">data_inicial</span><span class="p">,</span>
+            <span class="n">data_final</span><span class="o">=</span><span class="n">data_final</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="EolicaHistorico.vento_hist"><a class="viewcode-back" href="../../../reference/newave/arquivos/eolicahistorico.html#inewave.newave.eolicahistorico.EolicaHistorico.vento_hist">[documentos]</a>    <span class="k">def</span> <span class="nf">vento_hist</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">codigo_eolica</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">data_inicial</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">datetime</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">data_final</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">datetime</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">velocidade</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">direcao</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span>
+        <span class="n">Union</span><span class="p">[</span>
+            <span class="n">RegistroHistoricoVento</span><span class="p">,</span>
+            <span class="n">List</span><span class="p">[</span><span class="n">RegistroHistoricoVento</span><span class="p">],</span>
+        <span class="p">]</span>
+    <span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Obtém um registro que contém a o valor de vento para um</span>
+<span class="sd">        intervalo do histórico.</span>
+
+<span class="sd">        :param codigo_eolica: código da usina eólica</span>
+<span class="sd">        :type codigo_eolica: int | None</span>
+<span class="sd">        :param data_inicial: data de início do registro histórico</span>
+<span class="sd">        :type data_inicial: datetime | None</span>
+<span class="sd">        :param data_final: data de fim do registro histórico</span>
+<span class="sd">        :type data_final: datetime | None</span>
+<span class="sd">        :param velocidade: velocidade do vento</span>
+<span class="sd">        :type velocidade: float | None</span>
+<span class="sd">        :param direcao: direção do vento</span>
+<span class="sd">        :type direcao: float | None</span>
+<span class="sd">        :return: Um ou mais registros, se existirem.</span>
+<span class="sd">        :rtype: :class:`RegistroHistoricoVento` |</span>
+<span class="sd">            list[:class:`RegistroHistoricoVento`] | None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__obtem_registros_com_filtros</span><span class="p">(</span>
+            <span class="n">RegistroHistoricoVento</span><span class="p">,</span>
             <span class="n">codigo_eolica</span><span class="o">=</span><span class="n">codigo_eolica</span><span class="p">,</span>
             <span class="n">data_inicial</span><span class="o">=</span><span class="n">data_inicial</span><span class="p">,</span>
             <span class="n">data_final</span><span class="o">=</span><span class="n">data_final</span><span class="p">,</span>

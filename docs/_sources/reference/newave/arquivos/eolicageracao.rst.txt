@@ -24,3 +24,6 @@ para cada um.
 
 .. autoclass:: RegistroEolicaGeracaoPatamar
    :members:
+
+.. autoclass:: RegistroPEEGeracaoPatamar
+   :members:

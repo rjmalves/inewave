@@ -325,3 +325,87 @@ class RegistroEolicaConjuntoAerogeradoresPotenciaEfetiva(Register):
     @potencia_efetiva.setter
     def potencia_efetiva(self, n: float):
         self.data[4] = n
+
+
+class RegistroPEECadastro(Register):
+    """
+    Registro que contém um cadastro de um parque eólico equivalente.
+    """
+
+    IDENTIFIER = "PEE-CAD"
+    IDENTIFIER_DIGITS = 7
+    LINE = Line(
+        [
+            IntegerField(),
+            LiteralField(),
+        ],
+        delimiter=";",
+    )
+
+    @property
+    def codigo_pee(self) -> Optional[int]:
+        return self.data[0]
+
+    @codigo_pee.setter
+    def codigo_pee(self, c: int):
+        self.data[0] = c
+
+    @property
+    def nome_pee(self) -> Optional[str]:
+        return self.data[1]
+
+    @nome_pee.setter
+    def nome_pee(self, n: str):
+        self.data[1] = n
+
+
+class RegistroPEEPotenciaInstaladaPeriodo(Register):
+    """
+    Registro que contém a informação de início e fim de
+    operação para uma certa potência instalada de um parque
+    eólico equivalente.
+    """
+
+    IDENTIFIER = "PEE-POT-INST-PER"
+    IDENTIFIER_DIGITS = 16
+    LINE = Line(
+        [
+            IntegerField(),
+            DatetimeField(size=7, format="%Y/%m"),
+            DatetimeField(size=7, format="%Y/%m"),
+            FloatField(decimal_digits=3),
+        ],
+        delimiter=";",
+    )
+
+    @property
+    def codigo_pee(self) -> Optional[int]:
+        return self.data[0]
+
+    @codigo_pee.setter
+    def codigo_pee(self, c: int):
+        self.data[0] = c
+
+    @property
+    def periodo_inicial(self) -> Optional[datetime]:
+        return self.data[1]
+
+    @periodo_inicial.setter
+    def periodo_inicial(self, p: datetime):
+        self.data[1] = p
+
+    @property
+    def periodo_final(self) -> Optional[datetime]:
+        return self.data[2]
+
+    @periodo_final.setter
+    def periodo_final(self, p: datetime):
+        self.data[2] = p
+
+    @property
+    def potencia_instalada(self) -> Optional[float]:
+        return self.data[3]
+
+    @potencia_instalada.setter
+    def potencia_instalada(self, n: float):
+        self.data[3] = n

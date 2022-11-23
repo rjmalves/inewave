@@ -6,6 +6,7 @@ from cfinterface.files.registerfile import RegisterFile
 from inewave.newave.modelos.eolicageracao import (
     RegistroEolicaGeracaoPeriodo,
     RegistroEolicaGeracaoPatamar,
+    RegistroPEEGeracaoPatamar,
 )
 
 
@@ -20,6 +21,7 @@ class EolicaGeracao(RegisterFile):
     REGISTERS = [
         RegistroEolicaGeracaoPeriodo,
         RegistroEolicaGeracaoPatamar,
+        RegistroPEEGeracaoPatamar,
     ]
 
     def __init__(self, data=...) -> None:
@@ -176,6 +178,46 @@ class EolicaGeracao(RegisterFile):
         return self.__obtem_registros_com_filtros(
             RegistroEolicaGeracaoPatamar,
             codigo_eolica=codigo_eolica,
+            data_inicial=data_inicial,
+            data_final=data_final,
+            indice_patamar=indice_patamar,
+            profundidade=profundidade,
+        )
+
+    def pee_ger_prof_per_pat(
+        self,
+        codigo_pee: Optional[int] = None,
+        data_inicial: Optional[datetime] = None,
+        data_final: Optional[datetime] = None,
+        indice_patamar: Optional[int] = None,
+        profundidade: Optional[float] = None,
+    ) -> Optional[
+        Union[
+            RegistroPEEGeracaoPatamar,
+            List[RegistroPEEGeracaoPatamar],
+        ]
+    ]:
+        """
+        Obtém um registro que contém a profundidade de um patamar
+        de geração para um período, para um PEE.
+
+        :param codigo_pee: código do PEE
+        :type codigo_pee: int | None
+        :param data_inicial: data de início do registro histórico
+        :type data_inicial: datetime | None
+        :param data_final: data de fim do registro histórico
+        :type data_final: datetime | None
+        :param indice_patamar: patamar de geração eólica
+        :type indice_patamar: int | None
+        :param profundidade: profundidade do patamar de geração
+        :type profundidade: float | None
+        :return: Um ou mais registros, se existirem.
+        :rtype: :class:`RegistroPEEGeracaoPatamar` |
+            list[:class:`RegistroPEEGeracaoPatamar`] | None
+        """
+        return self.__obtem_registros_com_filtros(
+            RegistroPEEGeracaoPatamar,
+            codigo_pee=codigo_pee,
             data_inicial=data_inicial,
             data_final=data_final,
             indice_patamar=indice_patamar,

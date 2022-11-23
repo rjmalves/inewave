@@ -22,3 +22,6 @@ para cada um.
 
 .. autoclass:: RegistroEolicaFTE
    :members:
+
+.. autoclass:: RegistroPEEFTE
+   :members:

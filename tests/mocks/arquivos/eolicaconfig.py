@@ -2,6 +2,9 @@ MockRegistroEolicaConfiguracaoPeriodo = (
     "EOLICA-CONFIGURACAO-PERIODO ; 1 ; 2021/01; 2030/12; centralizado\n"
 )
 
+MockRegistroPEEConfiguracaoPeriodo = (
+    "PEE-CONFIG-PER  ; 1         ; 2021/01; 2030/12; centralizado\n"
+)
 
 MockEolicaConfig = [
     "&EOLICA-CONFIGURACAO-PERIODO; CodigoEolica; PeriodoInicial; PeriodoFinal  ; EstadoEolica (centralizado = 1, fixo = 2, nãoexistente = 3)\n",

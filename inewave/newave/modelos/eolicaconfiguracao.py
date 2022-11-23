@@ -56,3 +56,54 @@ class RegistroEolicaConfiguracao(Register):
     @estado_operacao.setter
     def estado_operacao(self, n: str):
         self.data[3] = n
+
+
+class RegistroPEEConfiguracaoPeriodo(Register):
+    """
+    Registro que contém um estado de operação de um PEE por
+    período.
+    """
+
+    IDENTIFIER = "PEE-CONFIG-PER"
+    IDENTIFIER_DIGITS = 14
+    LINE = Line(
+        [
+            IntegerField(),
+            DatetimeField(size=7, format="%Y/%m"),
+            DatetimeField(size=7, format="%Y/%m"),
+            LiteralField(),
+        ],
+        delimiter=";",
+    )
+
+    @property
+    def codigo_pee(self) -> Optional[int]:
+        return self.data[0]
+
+    @codigo_pee.setter
+    def codigo_pee(self, c: int):
+        self.data[0] = c
+
+    @property
+    def data_inicial_estado_operacao(self) -> Optional[datetime]:
+        return self.data[1]
+
+    @data_inicial_estado_operacao.setter
+    def data_inicial_estado_operacao(self, n: datetime):
+        self.data[1] = n
+
+    @property
+    def data_final_estado_operacao(self) -> Optional[datetime]:
+        return self.data[2]
+
+    @data_final_estado_operacao.setter
+    def data_final_estado_operacao(self, n: datetime):
+        self.data[2] = n
+
+    @property
+    def estado_operacao(self) -> Optional[str]:
+        return self.data[3]
+
+    @estado_operacao.setter
+    def estado_operacao(self, n: str):
+        self.data[3] = n
