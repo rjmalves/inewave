@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>inewave.newave.eolicasubmercado &mdash; documentação inewave 0.0.79</title>
+  <title>inewave.newave.eolicasubmercado &mdash; documentação inewave 0.0.80</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/sg_gallery.css" type="text/css" />
@@ -89,9 +89,7 @@
 
     <span class="n">T</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;T&quot;</span><span class="p">)</span>
 
-    <span class="n">REGISTERS</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="n">RegistroEolicaSubmercado</span><span class="p">,</span>
-    <span class="p">]</span>
+    <span class="n">REGISTERS</span> <span class="o">=</span> <span class="p">[</span><span class="n">RegistroEolicaSubmercado</span><span class="p">,</span> <span class="n">RegistroPEESubmercado</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="o">=...</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
@@ -208,7 +206,7 @@
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">codigo_pee</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">codigo_submercado</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">RegistroPEESubmercado</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">RegistroPEESubmercado</span><span class="p">],]]:</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">RegistroPEESubmercado</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">RegistroPEESubmercado</span><span class="p">]]]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Obtém um registro que contém o mapeamento PEE-submercado.</span>
 

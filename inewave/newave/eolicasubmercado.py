@@ -16,9 +16,7 @@ class EolicaSubmercado(RegisterFile):
 
     T = TypeVar("T")
 
-    REGISTERS = [
-        RegistroEolicaSubmercado,
-    ]
+    REGISTERS = [RegistroEolicaSubmercado, RegistroPEESubmercado]
 
     def __init__(self, data=...) -> None:
         super().__init__(data)
