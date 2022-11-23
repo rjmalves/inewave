@@ -136,7 +136,7 @@ class EolicaPosto(RegisterFile):
         self,
         codigo_pee: Optional[datetime] = None,
         codigo_posto: Optional[datetime] = None,
-    ) -> Optional[Union[RegistroPEEPostoVento, List[RegistroPEEPostoVento],]]:
+    ) -> Optional[Union[RegistroPEEPostoVento, List[RegistroPEEPostoVento]]]:
         """
         Obtém um registro que contém o mapeamento entre um posto
             e um PEE.

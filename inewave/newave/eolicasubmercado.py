@@ -135,7 +135,7 @@ class EolicaSubmercado(RegisterFile):
         self,
         codigo_pee: Optional[int] = None,
         codigo_submercado: Optional[int] = None,
-    ) -> Optional[Union[RegistroPEESubmercado, List[RegistroPEESubmercado],]]:
+    ) -> Optional[Union[RegistroPEESubmercado, List[RegistroPEESubmercado]]]:
         """
         Obtém um registro que contém o mapeamento PEE-submercado.
 
