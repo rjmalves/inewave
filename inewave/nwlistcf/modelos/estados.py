@@ -1,4 +1,4 @@
-from inewave.config import MAX_CORTES, MAX_REES
+from inewave.config import MAX_CORTES, MAX_UHES
 
 from cfinterface.components.block import Block
 from cfinterface.components.line import Line
@@ -22,18 +22,6 @@ class EstadosPeriodoNwlistcf(Block):
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
         self.__linha_periodo = Line([IntegerField(4, 19)])
-        campos_iniciais: List[Field] = [
-            IntegerField(8, 2),
-            IntegerField(4, 11),
-            IntegerField(4, 16),
-            IntegerField(4, 21),
-            IntegerField(4, 26),
-            FloatField(17, 31, 4),
-        ]
-        campos_pis: List[Field] = [
-            FloatField(17, 49 + 18 * i, 9) for i in range(18)
-        ]
-        self.__linha = Line(campos_iniciais + campos_pis)
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, EstadosPeriodoNwlistcf):
@@ -52,13 +40,7 @@ class EstadosPeriodoNwlistcf(Block):
     # Override
     def read(self, file: IO):
         def converte_tabela_em_df() -> pd.DataFrame:
-            cols = (
-                ["IREG", "ITEc", "SIMc", "ITEf", "REE", "FUNC. OBJ.", "EARM"]
-                + [f"EAF({i})" for i in range(1, 7)]
-                + [f"SGT(P{i}E{j})" for i in range(1, 4) for j in range(1, 4)]
-                + ["MX_SAR", "MX_CURVA"]
-            )
-            df = pd.DataFrame(tabela, columns=cols)
+            df = pd.DataFrame(tabela, columns=campos_cabecalho)
             df = df.astype(
                 {
                     "IREG": "int64",
@@ -69,20 +51,47 @@ class EstadosPeriodoNwlistcf(Block):
                 }
             )
             df["PERIODO"] = self.__periodo
-            df = df[["PERIODO"] + cols]
+            df = df[["PERIODO"] + campos_cabecalho]
+            df = df.fillna(0.0)
             return df
 
         # Lê o período e as linhas de cabeçalho
         self.__periodo = self.__linha_periodo.read(file.readline())[0]
-        for _ in range(2):
-            file.readline()
+        file.readline()
+        cabecalho = file.readline()
+        campos_cabecalho = [c for c in cabecalho.split("  ")]
+        campos_cabecalho = [c.strip() for c in campos_cabecalho]
+        campos_cabecalho = [c for c in campos_cabecalho if len(c) > 1]
+        campos_cabecalho = [c.replace(" ", "") for c in campos_cabecalho]
+        campos_cabecalho = (
+            [campos_cabecalho[0]]
+            + [
+                campos_cabecalho[1][:4],
+                campos_cabecalho[1][4:8],
+                campos_cabecalho[1][8:],
+            ]
+            + campos_cabecalho[2:]
+        )
+        campos_iniciais: List[Field] = [
+            IntegerField(8, 2),
+            IntegerField(4, 11),
+            IntegerField(4, 16),
+            IntegerField(4, 21),
+            IntegerField(4, 26),
+            FloatField(17, 31, 4),
+        ]
+        campos_pis: List[Field] = [
+            FloatField(17, 49 + 18 * i, 9)
+            for i in range(len(campos_cabecalho) - len(campos_iniciais))
+        ]
+        self.__linha = Line(campos_iniciais + campos_pis)
 
         # Lê as linhas de cortes
         self.__ireg_atual = 0
         self.__itec_atual = 0
         self.__simc_atual = 0
         self.__itef_atual = 0
-        tabela = np.zeros((MAX_CORTES * MAX_REES, 24))
+        tabela = np.zeros((MAX_CORTES * MAX_UHES, len(campos_cabecalho)))
         i = 0
         while True:
             ultima_posicao = file.tell()

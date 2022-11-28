@@ -10,6 +10,7 @@ def test_atributos_encontrados_estados():
     m: MagicMock = mock_open(read_data="".join(MockEstados))
     with patch("builtins.open", m):
         n = Estados.le_arquivo("")
+        print(n.estados)
         assert n.estados is not None
 
 

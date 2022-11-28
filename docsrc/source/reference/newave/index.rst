@@ -80,5 +80,6 @@ Arquivos
    arquivos/eolicaconfiguracao
    arquivos/eolicasubmercado
    arquivos/eolicafte
+   arquivos/eolicaposto
    arquivos/eolicahistorico
    arquivos/eolicageracao

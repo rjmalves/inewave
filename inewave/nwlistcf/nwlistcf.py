@@ -51,17 +51,17 @@ class Nwlistcf(BlockFile):
 
         - PERIODO (`int`)
         - IREG (`int`)
-        - REE (`int`)
+        - REE ou UHE (`int`)
         - RHS (`int`)
-        - PIV (`int`)
-        - PIH 1 (`float`)
+        - PIV ou PIEARM (`int`)
+        - PIH(1) (`float`)
         - ...
-        - PIH 6 (`float`)
+        - PIH(12) (`float`)
         - PIGTAD(P1L1) (`float`)
         - ...
         - PIGTAD(P3L2) (`float`)
         - PIMX_SAR (`float`)
-        - PIMX_CURVA (`float`)
+        - PIMX_VMN (`float`)
 
         :return: A tabela de cortes como um DataFrame
         :rtype: pd.DataFrame | None

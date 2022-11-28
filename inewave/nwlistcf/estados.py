@@ -55,17 +55,17 @@ class Estados(BlockFile):
         - ITEc (`int`)
         - SIMc (`int`)
         - ITEf (`int`)
-        - REE (`int`)
+        - REE ou UHE (`int`)
         - FUNC. OBJ. (`float`)
-        - EARM (`float`)
-        - EAF 1 (`float`)
+        - EARM ou VARM (`float`)
+        - EAF(1) (`float`)
         - ...
-        - EAF 6 (`float`)
+        - EAF(12) (`float`)
         - SGT(P1E1) (`float`)
         - ...
         - SGT(P3E2) (`float`)
         - MX_SAR (`float`)
-        - MX_CURVA (`float`)
+        - MX_VMN (`float`)
 
         :return: A tabela de estados como um DataFrame
         :rtype: pd.DataFrame | None
