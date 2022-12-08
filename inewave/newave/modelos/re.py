@@ -104,7 +104,7 @@ class BlocoConfiguracaoRestricoesRE(Section):
                 IntegerField(2, 12),
                 IntegerField(4, 15),
                 IntegerField(1, 20),
-                FloatField(15, 22, 2),
+                FloatField(10, 22, 2),
                 LiteralField(23, 38),
             ]
         )
