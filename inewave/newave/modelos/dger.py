@@ -4698,3 +4698,97 @@ class BlocoRestricaoLPPDefluenciaMaximaUHE(Section):
     @valor.setter
     def valor(self, v: int):
         self.data[1] = v
+
+
+class BlocoRestricoesEletricasEspeciais(Section):
+    """
+    Bloco com a escolha da consideração, ou não, das restrições
+    elétricas especiais.
+    """
+
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(33, 28)]
+        )
+
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoRestricoesEletricasEspeciais):
+            return False
+        bloco: BlocoRestricoesEletricasEspeciais = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
+
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
+
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data))
+
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: A consideração ou não das restrições
+        :rtype: int | None
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
+
+
+class BlocoFuncaoProducaoUHE(Section):
+    """
+    Bloco com a escolha da consideração, ou não, da função de produção
+    hidroelétricas via FPHA ou linear.
+    """
+
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(33, 28)]
+        )
+
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoFuncaoProducaoUHE):
+            return False
+        bloco: BlocoFuncaoProducaoUHE = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
+
+    def read(self, file: IO):
+        self.data = self.__linha.read(file.readline())
+
+    def write(self, file: IO):
+        file.write(self.__linha.write(self.data))
+
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: A consideração ou não das restrições
+        :rtype: int | None
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v

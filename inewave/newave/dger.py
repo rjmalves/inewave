@@ -99,6 +99,8 @@ from inewave.newave.modelos.dger import BlocoRestricaoLPPTurbinamentoMaximoREE
 from inewave.newave.modelos.dger import BlocoRestricaoLPPDefluenciaMaximaREE
 from inewave.newave.modelos.dger import BlocoRestricaoLPPTurbinamentoMaximoUHE
 from inewave.newave.modelos.dger import BlocoRestricaoLPPDefluenciaMaximaUHE
+from inewave.newave.modelos.dger import BlocoRestricoesEletricasEspeciais
+from inewave.newave.modelos.dger import BlocoFuncaoProducaoUHE
 
 
 class DGer(SectionFile):
@@ -206,6 +208,8 @@ class DGer(SectionFile):
         BlocoRestricaoLPPDefluenciaMaximaREE,
         BlocoRestricaoLPPTurbinamentoMaximoUHE,
         BlocoRestricaoLPPDefluenciaMaximaUHE,
+        BlocoRestricoesEletricasEspeciais,
+        BlocoFuncaoProducaoUHE,
     ]
 
     def __init__(self, data=...) -> None:
@@ -2310,5 +2314,43 @@ class DGer(SectionFile):
     @restricao_lpp_defluencia_maxima_uhe.setter
     def restricao_lpp_defluencia_maxima_uhe(self, dado: int):
         b = self.__bloco_por_tipo(BlocoRestricaoLPPDefluenciaMaximaUHE, 0)
+        if b is not None:
+            b.valor = dado
+
+    @property
+    def restricoes_eletricas_espeicais(self) -> Optional[int]:
+        """
+        Configuração da linha número 98 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int | None
+        """
+        b = self.__bloco_por_tipo(BlocoRestricoesEletricasEspeciais, 0)
+        if b is not None:
+            return b.valor
+        return None
+
+    @restricoes_eletricas_espeicais.setter
+    def restricoes_eletricas_espeicais(self, dado: int):
+        b = self.__bloco_por_tipo(BlocoRestricoesEletricasEspeciais, 0)
+        if b is not None:
+            b.valor = dado
+
+    @property
+    def funcao_producao_uhe(self) -> Optional[int]:
+        """
+        Configuração da linha número 99 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int | None
+        """
+        b = self.__bloco_por_tipo(BlocoFuncaoProducaoUHE, 0)
+        if b is not None:
+            return b.valor
+        return None
+
+    @funcao_producao_uhe.setter
+    def funcao_producao_uhe(self, dado: int):
+        b = self.__bloco_por_tipo(BlocoFuncaoProducaoUHE, 0)
         if b is not None:
             b.valor = dado
