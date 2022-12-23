@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>inewave.newave.dger &mdash; documentação inewave 0.0.83</title>
+  <title>inewave.newave.dger &mdash; documentação inewave 0.0.84</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/sg_gallery.css" type="text/css" />
@@ -2391,7 +2391,7 @@
             <span class="n">b</span><span class="o">.</span><span class="n">valor</span> <span class="o">=</span> <span class="n">dado</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">restricoes_eletricas_espeicais</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">restricoes_eletricas_especiais</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Configuração da linha número 98 do arquivo `dger.dat`.</span>
 
@@ -2403,8 +2403,8 @@
             <span class="k">return</span> <span class="n">b</span><span class="o">.</span><span class="n">valor</span>
         <span class="k">return</span> <span class="kc">None</span>
 
-    <span class="nd">@restricoes_eletricas_espeicais</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">restricoes_eletricas_espeicais</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dado</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="nd">@restricoes_eletricas_especiais</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">restricoes_eletricas_especiais</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dado</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
         <span class="n">b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__bloco_por_tipo</span><span class="p">(</span><span class="n">BlocoRestricoesEletricasEspeciais</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">b</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">b</span><span class="o">.</span><span class="n">valor</span> <span class="o">=</span> <span class="n">dado</span>

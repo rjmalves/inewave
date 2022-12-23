@@ -3,6 +3,7 @@ from inewave.newave.modelos.arquivos import BlocoNomesArquivos
 from cfinterface.files.sectionfile import SectionFile
 
 from typing import List, TypeVar, Type, Optional
+import pandas as pd  # type: ignore
 
 
 class Arquivos(SectionFile):
@@ -61,6 +62,21 @@ class Arquivos(SectionFile):
     def __atualiza_nome_por_indice(self, indice: int, nome: str):
         b = self.__bloco_por_tipo(BlocoNomesArquivos, 0)
         if b is not None:
+            dif = indice - b.data.shape[0] + 1
+            if dif > 0:
+                col_vazia = [None] * dif
+                b.data = pd.concat(
+                    [
+                        b.data,
+                        pd.DataFrame(
+                            data={
+                                "Legenda": col_vazia,
+                                "Nome": col_vazia,
+                            }
+                        ),
+                    ],
+                    ignore_index=True,
+                )
             b.data.iloc[indice, 1] = nome
 
     @property

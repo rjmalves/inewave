@@ -2318,7 +2318,7 @@ class DGer(SectionFile):
             b.valor = dado
 
     @property
-    def restricoes_eletricas_espeicais(self) -> Optional[int]:
+    def restricoes_eletricas_especiais(self) -> Optional[int]:
         """
         Configuração da linha número 98 do arquivo `dger.dat`.
 
@@ -2330,8 +2330,8 @@ class DGer(SectionFile):
             return b.valor
         return None
 
-    @restricoes_eletricas_espeicais.setter
-    def restricoes_eletricas_espeicais(self, dado: int):
+    @restricoes_eletricas_especiais.setter
+    def restricoes_eletricas_especiais(self, dado: int):
         b = self.__bloco_por_tipo(BlocoRestricoesEletricasEspeciais, 0)
         if b is not None:
             b.valor = dado

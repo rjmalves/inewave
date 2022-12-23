@@ -126,7 +126,7 @@ def test_atributos_nao_encontrados_dger():
         assert d.restricao_lpp_defluencia_maxima_ree is None
         assert d.restricao_lpp_turbinamento_maximo_uhe is None
         assert d.restricao_lpp_defluencia_maxima_uhe is None
-        assert d.restricoes_eletricas_espeicais is None
+        assert d.restricoes_eletricas_especiais is None
         assert d.funcao_producao_uhe is None
 
 
@@ -249,7 +249,7 @@ def test_atributos_encontrados_dger():
         assert d.restricao_lpp_defluencia_maxima_ree is not None
         assert d.restricao_lpp_turbinamento_maximo_uhe is not None
         assert d.restricao_lpp_defluencia_maxima_uhe is not None
-        assert d.restricoes_eletricas_espeicais is not None
+        assert d.restricoes_eletricas_especiais is not None
         assert d.funcao_producao_uhe is not None
 
 
@@ -1287,10 +1287,10 @@ def test_restricoes_eletricas_especiais():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
         d = DGer.le_arquivo("")
-        assert d.restricoes_eletricas_espeicais == 0
+        assert d.restricoes_eletricas_especiais == 0
         novo_valor = 1
-        d.restricoes_eletricas_espeicais = novo_valor
-        assert d.restricoes_eletricas_espeicais == novo_valor
+        d.restricoes_eletricas_especiais = novo_valor
+        assert d.restricoes_eletricas_especiais == novo_valor
 
 
 def test_funcao_producao_uhe():
