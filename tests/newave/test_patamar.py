@@ -123,19 +123,20 @@ def test_bloco_usinas_nao_simuladas_patamar():
 
     assert b.data.iloc[0, 0] == 1
     assert b.data.iloc[0, 1] == 1
-    assert b.data.iloc[0, 2] == 1995
-    assert b.data.iloc[0, 3] == 1.0000
+    assert b.data.iloc[0, 2] == 1
+    assert b.data.iloc[0, 3] == 1995
     assert b.data.iloc[0, 4] == 1.0000
     assert b.data.iloc[0, 5] == 1.0000
     assert b.data.iloc[0, 6] == 1.0000
-    assert b.data.iloc[0, 7] == 1.0118
-    assert b.data.iloc[0, 8] == 1.0152
-    assert b.data.iloc[0, 9] == 1.0206
-    assert b.data.iloc[0, 10] == 1.0222
-    assert b.data.iloc[0, 11] == 1.0150
-    assert b.data.iloc[0, 12] == 1.0108
-    assert b.data.iloc[0, 13] == 1.0020
-    assert b.data.iloc[0, 14] == 0.9965
+    assert b.data.iloc[0, 7] == 1.0000
+    assert b.data.iloc[0, 8] == 1.0118
+    assert b.data.iloc[0, 9] == 1.0152
+    assert b.data.iloc[0, 10] == 1.0206
+    assert b.data.iloc[0, 11] == 1.0222
+    assert b.data.iloc[0, 12] == 1.0150
+    assert b.data.iloc[0, 13] == 1.0108
+    assert b.data.iloc[0, 14] == 1.0020
+    assert b.data.iloc[0, 15] == 0.9965
     assert b.data.iloc[-1, -1] == 1.0
 
 

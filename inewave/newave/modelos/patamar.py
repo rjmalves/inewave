@@ -421,10 +421,16 @@ class BlocoUsinasNaoSimuladas(Section):
     def read(self, file: IO):
         def converte_tabela_em_df():
             df = pd.DataFrame(
-                tabela, columns=["Subsistema", "Bloco", "Ano"] + MESES_DF
+                tabela,
+                columns=["Subsistema", "Patamar", "Bloco", "Ano"] + MESES_DF,
             )
             df = df.astype(
-                {"Subsistema": "int64", "Bloco": "int64", "Ano": "int64"}
+                {
+                    "Subsistema": "int64",
+                    "Patamar": "int64",
+                    "Bloco": "int64",
+                    "Ano": "int64",
+                }
             )
             return df
 
@@ -434,12 +440,13 @@ class BlocoUsinasNaoSimuladas(Section):
 
         i = 0
         subsis_atual = 0
+        patamar_atual = 1
         bloco_atual = 0
         ano_atual = 0
         tabela = np.zeros(
             (
                 MAX_SUBMERCADOS * MAX_SUBMERCADOS * MAX_ANOS_ESTUDO,
-                len(MESES_DF) + 3,
+                len(MESES_DF) + 4,
             )
         )
         while True:
@@ -456,14 +463,18 @@ class BlocoUsinasNaoSimuladas(Section):
                 dados = self.__linha_subsis.read(linha)
                 subsis_atual = dados[0]
                 bloco_atual = dados[1]
+                patamar_atual = 1
             else:
                 dados = self.__linha.read(linha)
                 if isinstance(dados[0], int) and dados[0] != ano_atual:
                     ano_atual = dados[0]
+                    patamar_atual = 1
                 tabela[i, 0] = subsis_atual
-                tabela[i, 1] = bloco_atual
-                tabela[i, 2] = ano_atual
-                tabela[i, 3:] = dados[1:]
+                tabela[i, 1] = patamar_atual
+                tabela[i, 2] = bloco_atual
+                tabela[i, 3] = ano_atual
+                tabela[i, 4:] = dados[1:]
+                patamar_atual += 1
                 i += 1
 
     # Override

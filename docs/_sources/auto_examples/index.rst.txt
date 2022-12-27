@@ -1,5 +1,9 @@
 :orphan:
 
+
+
+.. _sphx_glr_auto_examples:
+
 .. _examples_gallery:
 
 Gallery
@@ -8,28 +12,27 @@ Gallery
 General-purpose and introductory examples for inewave.
 
 
-
 .. raw:: html
 
-    <div class="sphx-glr-thumbnails">
+    <div class="sphx-glr-clear"></div>
 
 
-.. raw:: html
 
-    </div>
+.. only :: html
+
+ .. container:: sphx-glr-footer
+    :class: sphx-glr-footer-gallery
 
 
-.. only:: html
+  .. container:: sphx-glr-download sphx-glr-download-python
 
-  .. container:: sphx-glr-footer sphx-glr-footer-gallery
+    :download:`Download all examples in Python source code: auto_examples_python.zip </auto_examples/auto_examples_python.zip>`
 
-    .. container:: sphx-glr-download sphx-glr-download-python
 
-      :download:`Download all examples in Python source code: auto_examples_python.zip </auto_examples/auto_examples_python.zip>`
 
-    .. container:: sphx-glr-download sphx-glr-download-jupyter
+  .. container:: sphx-glr-download sphx-glr-download-jupyter
 
-      :download:`Download all examples in Jupyter notebooks: auto_examples_jupyter.zip </auto_examples/auto_examples_jupyter.zip>`
+    :download:`Download all examples in Jupyter notebooks: auto_examples_jupyter.zip </auto_examples/auto_examples_jupyter.zip>`
 
 
 .. only:: html

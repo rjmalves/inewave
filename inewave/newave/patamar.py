@@ -162,7 +162,8 @@ class Patamar(SectionFile):
         """
         Tabela com os fatores das usinas não simuladas em P.U.
 
-        - Subsistema (`str`)
+        - Subsistema (`int`)
+        - Patamar (`int`)
         - Bloco (`int`)
         - Ano (`int`)
         - Janeiro (`float`)
