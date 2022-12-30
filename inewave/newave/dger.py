@@ -101,6 +101,7 @@ from inewave.newave.modelos.dger import BlocoRestricaoLPPTurbinamentoMaximoUHE
 from inewave.newave.modelos.dger import BlocoRestricaoLPPDefluenciaMaximaUHE
 from inewave.newave.modelos.dger import BlocoRestricoesEletricasEspeciais
 from inewave.newave.modelos.dger import BlocoFuncaoProducaoUHE
+from inewave.newave.modelos.dger import BlocoFCFPosEstudo
 
 
 class DGer(SectionFile):
@@ -210,6 +211,7 @@ class DGer(SectionFile):
         BlocoRestricaoLPPDefluenciaMaximaUHE,
         BlocoRestricoesEletricasEspeciais,
         BlocoFuncaoProducaoUHE,
+        BlocoFCFPosEstudo,
     ]
 
     def __init__(self, data=...) -> None:
@@ -2352,5 +2354,24 @@ class DGer(SectionFile):
     @funcao_producao_uhe.setter
     def funcao_producao_uhe(self, dado: int):
         b = self.__bloco_por_tipo(BlocoFuncaoProducaoUHE, 0)
+        if b is not None:
+            b.valor = dado
+
+    @property
+    def fcf_pos_estudo(self) -> Optional[int]:
+        """
+        Configuração da linha número 100 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int | None
+        """
+        b = self.__bloco_por_tipo(BlocoFCFPosEstudo, 0)
+        if b is not None:
+            return b.valor
+        return None
+
+    @fcf_pos_estudo.setter
+    def fcf_pos_estudo(self, dado: int):
+        b = self.__bloco_por_tipo(BlocoFCFPosEstudo, 0)
         if b is not None:
             b.valor = dado

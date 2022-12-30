@@ -23,7 +23,7 @@ class BlocoConfUHE(Section):
                 IntegerField(4, 25),
                 IntegerField(4, 30),
                 FloatField(6, 35, 2),
-                LiteralField(4, 42),
+                LiteralField(2, 44),
                 IntegerField(4, 49),
                 IntegerField(4, 58),
                 IntegerField(4, 67),

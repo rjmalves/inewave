@@ -128,6 +128,7 @@ def test_atributos_nao_encontrados_dger():
         assert d.restricao_lpp_defluencia_maxima_uhe is None
         assert d.restricoes_eletricas_especiais is None
         assert d.funcao_producao_uhe is None
+        assert d.fcf_pos_estudo is None
 
 
 def test_atributos_encontrados_dger():
@@ -251,6 +252,7 @@ def test_atributos_encontrados_dger():
         assert d.restricao_lpp_defluencia_maxima_uhe is not None
         assert d.restricoes_eletricas_especiais is not None
         assert d.funcao_producao_uhe is not None
+        assert d.fcf_pos_estudo is not None
 
 
 def test_nome_caso_dger():
@@ -1301,6 +1303,16 @@ def test_funcao_producao_uhe():
         novo_valor = 1
         d.funcao_producao_uhe = novo_valor
         assert d.funcao_producao_uhe == novo_valor
+
+
+def test_fcf_pos_estudo():
+    m: MagicMock = mock_open(read_data="".join(MockDger))
+    with patch("builtins.open", m):
+        d = DGer.le_arquivo("")
+        assert d.fcf_pos_estudo == 0
+        novo_valor = 1
+        d.fcf_pos_estudo = novo_valor
+        assert d.fcf_pos_estudo == novo_valor
 
 
 def test_eq_dger():
