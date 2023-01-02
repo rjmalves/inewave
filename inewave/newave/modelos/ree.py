@@ -15,7 +15,7 @@ class BlocoReesSubmercados(Section):
     submercados.
     """
 
-    FIM_BLOCO = "999"
+    FIM_BLOCO = " 999"
 
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
