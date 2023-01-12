@@ -19,7 +19,7 @@ Com inewave é possível ler os arquivos de texto, característicos do NEWAVE, p
 
 ## Instalação
 
-O inewave é compatível com versões de Python >= 3.5 e é construído com base no framework [cfinterface](https://github.com/rjmalves/cfi), que deve sempre ser mantido na versão mais atualizada para a distribuição de Python instalada.
+O inewave é compatível com versões de Python >= 3.8 e é construído com base no framework [cfinterface](https://github.com/rjmalves/cfi), que deve sempre ser mantido na versão mais atualizada para a distribuição de Python instalada.
 
 Em posse de uma instalação local de Python, é recomendado que se use um ambiente virtual para instalação de módulos de terceiros, sendo que o inewave não é uma exceção. Para mais detalhes sobre o uso de ambientes virtuais, recomenda-se a leitura do recurso oficial de Python para ambientes virtuais: [venv](https://docs.python.org/3/library/venv.html).
 
