@@ -7,13 +7,13 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.5, 3.6, 3.7, 3.8, 3.9, 3.10.6]
+        python-version: ["3.7", "3.8", "3.9", "3.10.6", "3.11"]
     steps:
-    - uses: actions/checkout@v2
-    - name: Configura o Python
-      uses: actions/setup-python@v2
+    - uses: actions/checkout@v3
+    - name: Configura o Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
       with:
-        python-version: ${{ matrix.poetry-version }}
+        python-version: ${{ matrix.python-version }}
     - name: Instala os requisitos do módulo
       run: |
         python -m pip install -r deploy-requirements.txt
