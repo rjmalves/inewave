@@ -15,10 +15,10 @@ def test_bloco_nomes_arquivos():
         with open("", "") as fp:
             b.read(fp)
 
-    assert b.data.shape[0] == 41
+    assert b.data.shape[0] == 44
     assert b.data.shape[1] == 2
     assert b.data.iloc[0, 1] == "dger.dat"
-    assert b.data.iloc[-1, 1] == "clasgas.dat"
+    assert b.data.iloc[-1, 1] == "cortesh-pos.dat"
 
 
 def test_atributos_encontrados_arquivos():
@@ -66,6 +66,9 @@ def test_atributos_encontrados_arquivos():
         assert ad.abertura is not None
         assert ad.gee is not None
         assert ad.clasgas is not None
+        assert ad.dados_simulacao_final is not None
+        assert ad.cortes_pos_estudo is not None
+        assert ad.cortesh_pos_estudo is not None
 
 
 def test_atributos_nao_encontrados_arquivos():
@@ -113,6 +116,9 @@ def test_atributos_nao_encontrados_arquivos():
         assert ad.abertura is None
         assert ad.gee is None
         assert ad.clasgas is None
+        assert ad.dados_simulacao_final is None
+        assert ad.cortes_pos_estudo is None
+        assert ad.cortesh_pos_estudo is None
 
 
 def test_eq_arquivos():

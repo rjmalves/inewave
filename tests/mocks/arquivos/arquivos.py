@@ -40,4 +40,7 @@ MockArquivos = [
     "DADOS DE ABERTURAS          : abertura.dat\n",
     "ARQUIVO DE EMISSOES GEE     : gee.dat\n",
     "ARQUIVO DE RESTRICAO DE GAS : clasgas.dat\n",
+    "ARQUIVO DE DADOS SIM. FINAL : simfinal.dat \n",
+    "ARQ. DE CORTES POS ESTUDO   : cortes-pos.dat\n",
+    "ARQ. DE CABECALHO CORTES POS: cortesh-pos.dat  \n",
 ]

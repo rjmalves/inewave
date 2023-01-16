@@ -91,23 +91,6 @@ class Arquivos(SectionFile):
         return [] if b is None else b.data.iloc[:, 1]
 
     @property
-    def arquivos_entrada(self) -> List[str]:
-        """
-        Os nomes dos arquivos de entrada utilizados.
-
-        :return: Os arquivos de entrada
-            na mesma ordem em que são declarados
-        :rtype: List[str]
-        """
-        b = self.__bloco_por_tipo(BlocoNomesArquivos, 0)
-        if b is None:
-            return []
-        todos_indices = set(list(range(len(b.data.index.tolist()))))
-        indices_saida = set([10, 11, 12, 13, 14, 15, 18])
-        indices_entrada = list(todos_indices.difference(indices_saida))
-        return b.data.iloc[indices_entrada, 1]
-
-    @property
     def dger(self) -> Optional[str]:
         """
         Nome do arquivo de dados gerais utilizado pelo NEWAVE.
@@ -562,3 +545,39 @@ class Arquivos(SectionFile):
     @clasgas.setter
     def clasgas(self, arq: str):
         self.__atualiza_nome_por_indice(40, arq)
+
+    @property
+    def dados_simulacao_final(self) -> Optional[str]:
+        """
+        Nome do arquivo com saídas da simulação final escrito
+        pelo NEWAVE.
+        """
+        return self.__le_nome_por_indice(41)
+
+    @dados_simulacao_final.setter
+    def dados_simulacao_final(self, arq: str):
+        self.__atualiza_nome_por_indice(41, arq)
+
+    @property
+    def cortes_pos_estudo(self) -> Optional[str]:
+        """
+        Nome do arquivo com cortes para uso no final do horizonte
+        de estudo.
+        """
+        return self.__le_nome_por_indice(42)
+
+    @cortes_pos_estudo.setter
+    def cortes_pos_estudo(self, arq: str):
+        self.__atualiza_nome_por_indice(42, arq)
+
+    @property
+    def cortesh_pos_estudo(self) -> Optional[str]:
+        """
+        Nome do arquivo com cabeçalho dos cortes para uso
+        no final do horizonte de estudo.
+        """
+        return self.__le_nome_por_indice(43)
+
+    @cortesh_pos_estudo.setter
+    def cortesh_pos_estudo(self, arq: str):
+        self.__atualiza_nome_por_indice(43, arq)
