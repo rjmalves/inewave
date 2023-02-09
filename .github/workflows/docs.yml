@@ -1,0 +1,33 @@
+name: Docs
+on: [push, pull_request, workflow_dispatch]
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.10.6'
+      - name: Install dependencies
+        run: |
+          pip install -r deploy-requirements.txt
+      - name: Runs tests
+        run: |
+          pytest --cov=inewave tests/
+      - name: Static typing check
+        run: |
+          mypy ./inewave
+      - name: PEP8 check
+        run: |
+          pylama --ignore E203 ./inewave
+      - name: Sphinx build
+        run: |
+          sphinx-build -M html docs/source docs/build
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+        with:
+          publish_branch: gh-pages
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: docs/build/html
+          force_orphan: true

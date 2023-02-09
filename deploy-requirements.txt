@@ -12,3 +12,4 @@ numpydoc
 cfinterface==1.1.0
 pyflakes==2.4.0
 black
+plotly
