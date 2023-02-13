@@ -108,6 +108,7 @@ intersphinx_mapping = {
     ),
     "pandas": ("http://pandas.pydata.org/pandas-docs/stable/", None),
     "numpy": ("https://numpy.org/doc/stable/", None),
+    "cfinterface": ("https://rjmalves.github.io/cfi/", None),
 }
 
 # https://github.com/sphinx-gallery/sphinx-gallery
