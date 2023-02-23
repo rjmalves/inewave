@@ -83,3 +83,6 @@ Arquivos
    arquivos/eolicaposto
    arquivos/eolicahistorico
    arquivos/eolicageracao
+   arquivos/nwv_avl_evap
+   arquivos/nwv_cortes_evap
+   arquivos/nwv_eco_evap
