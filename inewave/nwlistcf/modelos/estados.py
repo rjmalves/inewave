@@ -47,9 +47,12 @@ class EstadosPeriodoNwlistcf(Block):
                     "ITEc": "int64",
                     "SIMc": "int64",
                     "ITEf": "int64",
-                    "REE": "int64",
                 }
             )
+            if "REE" in df.columns:
+                df = df.astype({"REE": "int64"})
+            elif "UHE" in df.columns:
+                df = df.astype({"UHE": "int64"})
             df["PERIODO"] = self.__periodo
             df = df[["PERIODO"] + campos_cabecalho]
             df = df.fillna(0.0)

@@ -58,14 +58,14 @@ class Estados(BlockFile):
         - REE ou UHE (`int`)
         - FUNC. OBJ. (`float`)
         - EARM ou VARM (`float`)
-        - EAF(1) (`float`)
+        - EAF(1) ou VAF(1) (`float`)
         - ...
-        - EAF(12) (`float`)
+        - EAF(12) ou VAF(12) (`float`)
         - SGT(P1E1) (`float`)
         - ...
-        - SGT(P3E2) (`float`)
+        - SGT(P3E3) (`float`)
         - MX_SAR (`float`)
-        - MX_VMN (`float`)
+        - MX_VMN ou MX_CURVA (`float`)
 
         :return: A tabela de estados como um DataFrame
         :rtype: pd.DataFrame | None
