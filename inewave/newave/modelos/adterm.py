@@ -42,12 +42,12 @@ class BlocoUTEAdTerm(Section):
     # Override
     def read(self, file: IO):
         def converte_tabela_em_df():
-            cols = [f"Patamar {i}" for i in range(1, n_pat + 1)]
+            cols = [f"patamar_{i}" for i in range(1, n_pat + 1)]
             df = pd.DataFrame(tabela, columns=cols)
-            df["Código UTE"] = codigo_utes
-            df["Nome UTE"] = nome_utes
-            df["Lag"] = lag_utes
-            df = df[["Código UTE", "Nome UTE", "Lag"] + cols]
+            df["codigo_usina"] = codigo_utes
+            df["nome_usina"] = nome_utes
+            df["lag"] = lag_utes
+            df = df[["codigo_usina", "nome_usina", "lag"] + cols]
             return df
 
         # Salta as linhas adicionais
@@ -104,14 +104,16 @@ class BlocoUTEAdTerm(Section):
             raise ValueError("Dados do adterm.dat não foram lidos com sucesso")
 
         ultima_ute = 0
-        cols_despachos = [c for c in list(self.data.columns) if "Patamar" in c]
+        cols_despachos = [c for c in list(self.data.columns) if "patamar" in c]
         for _, linha in self.data.iterrows():
             linha_lida: pd.Series = linha
-            if linha_lida["Código UTE"] != ultima_ute:
-                ultima_ute = linha_lida["Código UTE"]
+            if linha_lida["codigo_usina"] != ultima_ute:
+                ultima_ute = linha_lida["codigo_usina"]
                 file.write(
                     self.__linha_ute.write(
-                        linha_lida[["Código UTE", "Nome UTE", "Lag"]].tolist()
+                        linha_lida[
+                            ["codigo_usina", "nome_usina", "lag"]
+                        ].tolist()
                     )
                 )
             file.write(

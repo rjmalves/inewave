@@ -2,7 +2,7 @@
 from inewave.newave.modelos.curva import (
     BlocoConfiguracoesPenalizacaoCurva,
     BlocoPenalidadesViolacaoREECurva,
-    BlocoCurvaSegurancaSubsistema,
+    BlocoCurvaSegurancaREE,
     BlocoMaximoIteracoesProcessoIterativoEtapa2,
     BlocoIteracaoAPartirProcessoIterativoEtapa2,
     BlocoToleranciaProcessoIterativoEtapa2,
@@ -28,7 +28,6 @@ from tests.mocks.arquivos.curva import (
 
 
 def test_bloco_configuracoes_penalizacao_curva():
-
     m: MagicMock = mock_open(read_data="".join(MockBlockTipoPenalizacao))
     b = BlocoConfiguracoesPenalizacaoCurva()
     with patch("builtins.open", m):
@@ -39,7 +38,6 @@ def test_bloco_configuracoes_penalizacao_curva():
 
 
 def test_bloco_penalidades_ree():
-
     m: MagicMock = mock_open(read_data="".join(MockBlocoCustoPorSistema))
     b = BlocoPenalidadesViolacaoREECurva()
     with patch("builtins.open", m):
@@ -51,9 +49,8 @@ def test_bloco_penalidades_ree():
 
 
 def test_bloco_curva_seguranca():
-
     m: MagicMock = mock_open(read_data="".join(MockBlocoCurvaSeguranca))
-    b = BlocoCurvaSegurancaSubsistema()
+    b = BlocoCurvaSegurancaREE()
     with patch("builtins.open", m):
         with open("", "") as fp:
             b.read(fp)
@@ -63,7 +60,6 @@ def test_bloco_curva_seguranca():
 
 
 def test_bloco_maximo_iteracoes():
-
     m: MagicMock = mock_open(
         read_data="".join(MockMaximoIteracoesProcessoIterativoEtapa2)
     )
@@ -76,7 +72,6 @@ def test_bloco_maximo_iteracoes():
 
 
 def test_bloco_iteracao_a_partir():
-
     m: MagicMock = mock_open(
         read_data="".join(MockIteracaoAPartirProcessoIterativoEtapa2)
     )
@@ -89,7 +84,6 @@ def test_bloco_iteracao_a_partir():
 
 
 def test_bloco_tolerancia_processo():
-
     m: MagicMock = mock_open(
         read_data="".join(MockToleranciaProcessoIterativoEtapa2)
     )
@@ -102,7 +96,6 @@ def test_bloco_tolerancia_processo():
 
 
 def test_bloco_impressao_relatorio():
-
     m: MagicMock = mock_open(
         read_data="".join(MockImpressaoRelatorioProcessoIterativoEtapa2)
     )

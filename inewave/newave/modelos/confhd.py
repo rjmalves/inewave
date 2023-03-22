@@ -63,16 +63,16 @@ class BlocoConfUHE(Section):
             col_inic_hist = extrai_coluna_de_listas(dados_uhes, 8)
             col_fim_hist = extrai_coluna_de_listas(dados_uhes, 9)
             dados = {
-                "Número": col_num,
-                "Nome": col_nome,
-                "Posto": col_posto,
-                "Jusante": col_jus,
-                "REE": col_ree,
-                "Volume Inicial": col_vinic,
-                "Usina Existente": col_exis,
-                "Modificada": col_modif,
-                "Início do Histórico": col_inic_hist,
-                "Fim do Histórico": col_fim_hist,
+                "codigo_usina": col_num,
+                "nome_usina": col_nome,
+                "posto": col_posto,
+                "codigo_usina_jusante": col_jus,
+                "ree": col_ree,
+                "volume_inicial_percentual": col_vinic,
+                "usina_existente": col_exis,
+                "usina_modificada": col_modif,
+                "ano_inicio_historico": col_inic_hist,
+                "ano_fim_historico": col_fim_hist,
             }
             return pd.DataFrame(data=dados)
 

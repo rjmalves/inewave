@@ -38,51 +38,51 @@ class Hidr(RegisterFile):
             return None
         df = pd.DataFrame(
             columns=[
-                "Nome",
-                "Posto",
-                "Subsistema",
-                "Empresa",
-                "Jusante",
-                "Desvio",
-                "Volume Mínimo",
-                "Volume Máximo",
-                "Volume Vertedouro",
-                "Volume Desvio",
-                "Cota Mínima",
-                "Cota Máxima",
-                *[f"A{i} VC" for i in range(5)],
-                *[f"A{i} CA" for i in range(5)],
-                *[f"Evaporação {m}" for m in MESES_ABREV],
-                "Num. Conjuntos Máquinas",
-                *[f"Num. Máquinas Conjunto {i}" for i in range(1, 6)],
-                *[f"PotEf Conjunto {i}" for i in range(1, 6)],
-                *[f"HEf Conjunto {i}" for i in range(1, 6)],
-                *[f"QEf Conjunto {i}" for i in range(1, 6)],
-                "Produtibilidade Específica",
-                "Perdas",
-                "Número PJUS",
-                *[f"A{i} PJUS1" for i in range(5)],
-                *[f"A{i} PJUS2" for i in range(5)],
-                *[f"A{i} PJUS3" for i in range(5)],
-                *[f"A{i} PJUS4" for i in range(5)],
-                *[f"A{i} PJUS5" for i in range(5)],
-                *[f"A{i} PJUS6" for i in range(5)],
-                *[f"REF PJUS {i}" for i in range(1, 7)],
-                "Canal de Fuga Médio",
-                "Influencia Vert. Cfuga",
-                "Fator Carga Max.",
-                "Fator Carga Min.",
-                "Vazão Mínima Histórica",
-                "Num. Unidades Base",
-                "Tipo Turbina",
-                "Representação Conjunto",
-                "TEIF",
-                "IP",
-                "Tipo de Perda",
-                "Data",
-                "Observação",
-                "Volume de Referência",
-                "Tipo de Regulação",
+                "nome_usina",
+                "posto",
+                "submercado",
+                "empresa",
+                "codigo_usina_jusante",
+                "desvio",
+                "volume_minimo",
+                "volume_maximo",
+                "volume_vertedouro",
+                "volume_desvio",
+                "cota_minima",
+                "cota_maxima",
+                *[f"a{i}_volume_cota" for i in range(5)],
+                *[f"a{i}_cota_area" for i in range(5)],
+                *[f"evaporacao_{m}" for m in MESES_ABREV],
+                "numero_conjuntos_maquinas",
+                *[f"maquinas_conjunto_{i}" for i in range(1, 6)],
+                *[f"potencia_nominal_conjunto_{i}" for i in range(1, 6)],
+                *[f"queda_nominal_conjunto_{i}" for i in range(1, 6)],
+                *[f"vazao_nominal_conjunto_{i}" for i in range(1, 6)],
+                "produtibilidade_especifica",
+                "perdas",
+                "numero_polinomios_jusante",
+                *[f"a{i}_jusante_1" for i in range(5)],
+                *[f"a{i}_jusante_2" for i in range(5)],
+                *[f"a{i}_jusante_3" for i in range(5)],
+                *[f"a{i}_jusante_4" for i in range(5)],
+                *[f"a{i}_jusante_5" for i in range(5)],
+                *[f"a{i}_jusante_6" for i in range(5)],
+                *[f"referencia_jusante_{i}" for i in range(1, 7)],
+                "canal_fuga_medio",
+                "influencia_vertimento_canal_fuga",
+                "fator_carga_maximo",
+                "fator_carga_minimo",
+                "vazao_minima_historica",
+                "numero_unidades_base",
+                "tipo_turbina",
+                "representacao_conjunto",
+                "teif",
+                "ip",
+                "tipo_perda",
+                "data",
+                "observacao",
+                "volume_referencia",
+                "tipo_regulacao",
             ]
         )
         for i, r in enumerate(registros):
@@ -127,39 +127,39 @@ class Hidr(RegisterFile):
                 r.volume_referencia,
                 r.tipo_regulacao,
             ]
-        df.index.name = "Código"
+        df.index.name = "codigo_usina"
 
         df = df.astype(
             {
-                "Nome": str,
-                "Posto": int,
-                "Subsistema": int,
-                "Empresa": int,
-                "Jusante": int,
-                "Desvio": int,
-                "Volume Mínimo": float,
-                "Volume Máximo": float,
-                "Volume Vertedouro": float,
-                "Volume Desvio": float,
-                "Cota Mínima": float,
-                "Cota Máxima": float,
-                "Produtibilidade Específica": float,
-                "Perdas": float,
-                "Canal de Fuga Médio": float,
-                "Influencia Vert. Cfuga": int,
-                "Fator Carga Max.": float,
-                "Fator Carga Min.": float,
-                "Vazão Mínima Histórica": int,
-                "Num. Unidades Base": int,
-                "Tipo Turbina": int,
-                "Representação Conjunto": int,
-                "TEIF": float,
-                "IP": float,
-                "Tipo de Perda": int,
-                "Data": str,
-                "Observação": str,
-                "Volume de Referência": float,
-                "Tipo de Regulação": str,
+                "nome_usina": str,
+                "posto": int,
+                "submercado": int,
+                "empresa": int,
+                "codigo_usina_jusante": int,
+                "desvio": int,
+                "volume_minimo": float,
+                "volume_maximo": float,
+                "volume_vertedouro": float,
+                "volume_desvio": float,
+                "cota_minima": float,
+                "cota_maxima": float,
+                "produtibilidade_especifica": float,
+                "perdas": float,
+                "canal_fuga_medio": float,
+                "influencia_vertimento_canal_fuga": int,
+                "fator_carga_maximo": float,
+                "fator_carga_minimo": float,
+                "vazao_minima_historica": int,
+                "numero_unidades_base": int,
+                "tipo_turbina": int,
+                "representacao_conjunto": int,
+                "teif": float,
+                "ip": float,
+                "tipo_perda": int,
+                "data": str,
+                "observacao": str,
+                "volume_referencia": float,
+                "tipo_regulacao": str,
             },
         )
         return df
@@ -167,66 +167,66 @@ class Hidr(RegisterFile):
     def __atualiza_registros(self):
         registros: List[RegistroUHEHidr] = [r for r in self.data][1:]
         for (_, linha), r in zip(self.cadastro.iterrows(), registros):
-            r.nome = linha["Nome"]
-            r.posto = linha["Posto"]
-            r.subsistema = linha["Subsistema"]
-            r.empresa = linha["Empresa"]
-            r.jusante = linha["Jusante"]
-            r.desvio = linha["Desvio"]
-            r.volume_minimo = linha["Volume Mínimo"]
-            r.volume_maximo = linha["Volume Máximo"]
-            r.volume_vertedouro = linha["Volume Vertedouro"]
-            r.volume_desvio = linha["Volume Desvio"]
-            r.cota_minima = linha["Cota Mínima"]
-            r.cota_maxima = linha["Cota Máxima"]
+            r.nome = linha["nome_usina"]
+            r.posto = linha["posto"]
+            r.subsistema = linha["submercado"]
+            r.empresa = linha["empresa"]
+            r.jusante = linha["codigo_usina_jusante"]
+            r.desvio = linha["desvio"]
+            r.volume_minimo = linha["volume_minimo"]
+            r.volume_maximo = linha["volume_maximo"]
+            r.volume_vertedouro = linha["volume_vertedouro"]
+            r.volume_desvio = linha["volume_desvio"]
+            r.cota_minima = linha["cota_minima"]
+            r.cota_maxima = linha["cota_maxima"]
             r.polinomio_volume_cota = linha[
-                [f"A{i} VC" for i in range(5)]
+                [f"a{i}_volume_cota" for i in range(5)]
             ].tolist()
             r.polinomio_cota_area = linha[
-                [f"A{i} CA" for i in range(5)]
+                [f"a{i}_cota_area" for i in range(5)]
             ].tolist()
             r.evaporacao = linha[
-                [f"Evaporação {m}" for m in MESES_ABREV]
+                [f"evaporacao_{m}" for m in MESES_ABREV]
             ].tolist()
-            r.numero_conjuntos_maquinas = linha["Num. Conjuntos Máquinas"]
+            r.numero_conjuntos_maquinas = linha["numero_conjuntos_maquinas"]
             r.potef_conjunto = linha[
-                [f"PotEf Conjunto {i}" for i in range(1, 6)]
+                [f"potencia_nominal_conjunto_{i}" for i in range(1, 6)]
             ].tolist()
             r.hef_conjunto = linha[
-                [f"HEf Conjunto {i}" for i in range(1, 6)]
+                [f"queda_nominal_conjunto_{i}" for i in range(1, 6)]
             ].tolist()
             r.qef_conjunto = linha[
-                [f"QEf Conjunto {i}" for i in range(1, 6)]
+                [f"vazao_nominal_conjunto_{i}" for i in range(1, 6)]
             ].tolist()
-            r.produtibilidade_especifica = linha["Produtibilidade Específica"]
-            r.perdas = linha["Perdas"]
-            r.numero_polinomios_jusante = linha["Número PJUS"]
+            r.produtibilidade_especifica = linha["produtibilidade_especifica"]
+            r.perdas = linha["perdas"]
+            r.numero_polinomios_jusante = linha["numero_polinomios_jusante"]
             r.polinomios_jusante = linha[
-                [f"A{i} PJUS1" for i in range(5)]
-                + [f"A{i} PJUS2" for i in range(5)]
-                + [f"A{i} PJUS3" for i in range(5)]
-                + [f"A{i} PJUS4" for i in range(5)]
-                + [f"A{i} PJUS5" for i in range(5)]
-                + [f"A{i} PJUS6" for i in range(5)]
-                + [f"REF PJUS {i}" for i in range(1, 7)]
+                [f"a{i}_jusante_1" for i in range(5)]
+                + [f"a{i}_jusante_2" for i in range(5)]
+                + [f"a{i}_jusante_3" for i in range(5)]
+                + [f"a{i}_jusante_4" for i in range(5)]
+                + [f"a{i}_jusante_5" for i in range(5)]
+                + [f"a{i}_jusante_6" for i in range(5)]
+                + [f"referencia_jusante_{i}" for i in range(1, 7)]
             ].tolist()
-            r.canal_fuga_medio = linha["Canal de Fuga Médio"]
+            r.canal_fuga_medio = linha["canal_fuga_medio"]
             r.influencia_vertimento_canal_fuga = linha[
-                "Influencia Vert. Cfuga"
+                "influencia_vertimento_canal_fuga"
             ]
-            r.fator_carga_maximo = linha["Fator Carga Max."]
-            r.fator_carga_minimo = linha["Fator Carga Min."]
-            r.vazao_minima_historica = linha["Vazão Mínima Histórica"]
-            r.numero_unidades_base = linha["Num. Unidades Base"]
-            r.tipo_turbina = linha["Tipo Turbina"]
-            r.representacao_conjunto = linha["Representação Conjunto"]
-            r.teif = linha["TEIF"]
-            r.ip = linha["IP"]
-            r.tipo_perda = linha["Tipo de Perda"]
-            r.data_referencia = linha["Data"]
-            r.observacao = linha["Observação"]
-            r.volume_referencia = linha["Volume de Referência"]
-            r.tipo_regulacao = linha["Tipo de Regulação"]
+            r.fator_carga_maximo = linha["fator_carga_maximo"]
+            r.fator_carga_minimo = linha["fator_carga_minimo"]
+            r.vazao_minima_historica = linha["vazao_minima_historica"]
+            r.numero_unidades_base = linha["numero_unidades_base"]
+            r.tipo_turbina = linha["tipo_turbina"]
+            r.representacao_conjunto = linha["representacao_conjunto"]
+            r.teif = linha["teif"]
+            r.ip = linha["ip"]
+            r.tipo_perda = linha["tipo_perda"]
+            r.data_referencia = linha["data"]
+            r.observacao = linha["observacao"]
+            r.volume_referencia = linha["volume_referencia"]
+            r.tipo_regulacao = linha["tipo_regulacao"]
 
     @property
     def cadastro(self) -> pd.DataFrame:
@@ -234,46 +234,46 @@ class Hidr(RegisterFile):
         Obtém a tabela com os dados cadastrais existentes no arquivo
         binário.
 
-        - Nome (`str`): nome da usina (12 caracteres)
-        - Posto (`int`): posto de vazão natural da usina
-        - Subsistema (`int`): subsistema da usina
-        - Empresa (`int`): agente responsável pela usina
-        - Jusante (`int`): posto à jusante da usina
-        - Desvio (`float`): TODO
-        - Volume Mínimo (`float`): volume mínimo da usina (hm3)
-        - Volume Máximo (`float`): volume máximo da usina (hm3)
-        - Volume Vertedouro (`float`): volume do vertedouro da usina (hm3)
-        - Volume Desvio (`float`): TODO
-        - Cota Mínima (`float`): cota mínima da usina (m)
-        - Cota Máxima (`float`): cota máxima da usina (m)
-        - A[0-4] VC (`float`): coeficientes do polinômio volume-cota
-        - A[0-4] CA (`float`): coeficientes do polinômio cota-área
-        - Evaporação [JAN..DEZ] (`float`): coeficientes de evaporação (mm)
-        - Num Conjunto Máquinas (`int`): número de conjuntos de máquinas
-        - Num Máquinas Conjunto [1-5] (`int`): máquinas por conjunto
-        - PotEf. Conjunto [1-5] (`float`): potência das máquinas (MWmed)
-        - HEf Conjunto [1-5]: alturas nominais de queda por conjunto (m)
-        - QEf Conjunto [1-5]: vazões nominais por conjunto (m3/s)
-        - Produtibilidade Específica (`float`): produtibilidade específica
-        - Perdas (`float`): perdas da usina
-        - Número PJUS (`int`): número de polinômios de jusante
-        - C[0-4] PJUS[1-6] (`float`): coeficientes de cada polinjus
-        - REF PJUS [1-6] (`float`): coeficientes do polinjus de referência
-        - Canal de Fuga Médio (`float`): cota média do canal de fuga (m)
-        - Influencia Vert. Cfuga (`int`): TODO (0 ou 1)
-        - Fator Carga Max. (`float`): TODO (%)
-        - Fator Carga Min. (`float`): TODO (%)
-        - Vazão Mínima Histórica (`float`): vazão mínima da usina (m3/s)
-        - Num. Unidades Base (`int`): TODO
-        - Tipo Turbina (`int`): TODO
-        - Representação Conjunto (`int`): TODO
-        - TEIF (`float`): TODO (%)
-        - IP (`float`): TODO (%)
-        - Tipo de Perda (`int`): TODO
-        - Data (`str`): DD-MM-AA
-        - Observação (`str`): observação qualquer sobre a usina
-        - Volume de Referência (`float`): TODO (hm3)
-        - Tipo de Regulação (`str`): D, S ou M
+        - nome_usina (`str`): nome da usina (12 caracteres)
+        - posto (`int`): posto de vazão natural da usina
+        - submercado (`int`): submercado da usina
+        - empresa (`int`): agente responsável pela usina
+        - codigo_usina_jusante (`int`): posto à jusante da usina
+        - desvio (`float`): TODO
+        - volume_minimo (`float`): volume mínimo da usina (hm3)
+        - volume_maximo (`float`): volume máximo da usina (hm3)
+        - volume_vertedouro (`float`): volume do vertedouro da usina (hm3)
+        - volume_desvio (`float`): TODO
+        - cota_minima (`float`): cota mínima da usina (m)
+        - cota_maxima (`float`): cota máxima da usina (m)
+        - a[0-4]_volume_cota (`float`): coeficientes do polinômio volume-cota
+        - a[0-4]_cota_area (`float`): coeficientes do polinômio cota-área
+        - evaporacao_[JAN..DEZ] (`float`): coeficientes de evaporação (mm)
+        - numero_conjuntos_maquinas (`int`): número de conjuntos de máquinas
+        - maquinas_conjunto_[1-5] (`int`): máquinas por conjunto
+        - potencia_nominal_conjunto_[1-5] (`float`): potência das máquinas (MWmed)
+        - queda_nominal_conjunto_[1-5]: alturas nominais de queda por conjunto (m)
+        - vazao_nominal_conjunto_[1-5]: vazões nominais por conjunto (m3/s)
+        - produtibilidade_especifica (`float`): produtibilidade específica
+        - perdas (`float`): perdas da usina
+        - numero_polinomios_jusante (`int`): número de polinômios de jusante
+        - a[0-4]_jusante_[1-6] (`float`): coeficientes de cada polinjus
+        - referencia_jusante_[1-6] (`float`): coeficientes do polinjus de referência
+        - canal_fuga_medio (`float`): cota média do canal de fuga (m)
+        - influencia_vertimento_canal_fuga (`int`): TODO (0 ou 1)
+        - fator_carga_maximo (`float`): TODO (%)
+        - fator_carga_minimo (`float`): TODO (%)
+        - vazao_minima_historica (`float`): vazão mínima da usina (m3/s)
+        - numero_unidades_base (`int`): TODO
+        - tipo_turbina (`int`): TODO
+        - representacao_conjunto (`int`): TODO
+        - teif (`float`): TODO (%)
+        - ip (`float`): TODO (%)
+        - tipo_perda (`int`): TODO
+        - data (`str`): DD-MM-AA
+        - observacao (`str`): observação qualquer sobre a usina
+        - volume_referencia (`float`): TODO (hm3)
+        - tipo_regulacao (`str`): D, S ou M
 
         :return: A tabela com os dados cadastrais
         :rtype: List[pd.DataFrame]

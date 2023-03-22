@@ -13,8 +13,8 @@ import numpy as np  # type: ignore
 
 class BlocoConfiguracoesPenalizacaoCurva(Section):
     """
-    Bloco de informações das usinas cadastradas
-    no arquivo do NEWAVE `conft.dat`.
+    Bloco com as configurações de penalização da curva de aversão,
+    existente no arquivo do NEWAVE `curva.dat`.
     """
 
     def __init__(self, previous=None, next=None, data=None) -> None:
@@ -92,8 +92,8 @@ class BlocoPenalidadesViolacaoREECurva(Section):
     # Override
     def read(self, file: IO):
         def converte_tabela_em_df():
-            df = pd.DataFrame(tabela, columns=["Sistema", "Custo"])
-            df = df.astype({"Sistema": "int64"})
+            df = pd.DataFrame(tabela, columns=["ree", "penalidade"])
+            df = df.astype({"ree": "int64"})
             return df
 
         # Salta as linhas adicionais
@@ -126,15 +126,15 @@ class BlocoPenalidadesViolacaoREECurva(Section):
 
         for _, lin in self.data.iterrows():
             file.write(
-                self.__linha.write([int(lin["Sistema"])] + [lin["Custo"]])
+                self.__linha.write([int(lin["ree"])] + [lin["penalidade"]])
             )
         file.write(BlocoPenalidadesViolacaoREECurva.FIM_BLOCO + "\n")
 
 
-class BlocoCurvaSegurancaSubsistema(Section):
+class BlocoCurvaSegurancaREE(Section):
     """
     Bloco com informações da curva de segurança de operação por mês/ano
-    e por subsistema.
+    e por REE.
     """
 
     FIM_BLOCO = "9999"
@@ -150,9 +150,9 @@ class BlocoCurvaSegurancaSubsistema(Section):
         self.__cabecalhos: List[str] = []
 
     def __eq__(self, o: object) -> bool:
-        if not isinstance(o, BlocoCurvaSegurancaSubsistema):
+        if not isinstance(o, BlocoCurvaSegurancaREE):
             return False
-        bloco: BlocoCurvaSegurancaSubsistema = o
+        bloco: BlocoCurvaSegurancaREE = o
         if not all(
             [
                 isinstance(self.data, pd.DataFrame),
@@ -166,8 +166,8 @@ class BlocoCurvaSegurancaSubsistema(Section):
     # Override
     def read(self, file: IO):
         def converte_tabela_em_df():
-            df = pd.DataFrame(tabela, columns=["REE", "Ano"] + MESES_DF)
-            df = df.astype({"REE": "int64", "Ano": "int64"})
+            df = pd.DataFrame(tabela, columns=["ree", "ano"] + MESES_DF)
+            df = df.astype({"ree": "int64", "ano": "int64"})
             return df
 
         # Salta as linhas adicionais
@@ -182,10 +182,7 @@ class BlocoCurvaSegurancaSubsistema(Section):
         while True:
             linha = file.readline()
             # Confere se terminaram
-            if (
-                len(linha) < 3
-                or BlocoCurvaSegurancaSubsistema.FIM_BLOCO in linha
-            ):
+            if len(linha) < 3 or BlocoCurvaSegurancaREE.FIM_BLOCO in linha:
                 # Converte para df e salva na variável
                 if i > 0:
                     tabela = tabela[:i, :]
@@ -209,16 +206,16 @@ class BlocoCurvaSegurancaSubsistema(Section):
         ultimo_ree = 0
         for _, linha in self.data.iterrows():
             linha_lida: pd.Series = linha
-            if linha_lida["REE"] != ultimo_ree:
-                ultimo_ree = linha_lida["REE"]
+            if linha_lida["ree"] != ultimo_ree:
+                ultimo_ree = linha_lida["ree"]
                 file.write(self.__linha_subsis.write([int(ultimo_ree)]))
             file.write(
                 self.__linha.write(
-                    [int(linha_lida["Ano"])] + linha_lida[MESES_DF].tolist()
+                    [int(linha_lida["ano"])] + linha_lida[MESES_DF].tolist()
                 )
             )
 
-        file.write(BlocoCurvaSegurancaSubsistema.FIM_BLOCO + "\n")
+        file.write(BlocoCurvaSegurancaREE.FIM_BLOCO + "\n")
 
 
 class BlocoMaximoIteracoesProcessoIterativoEtapa2(Section):
@@ -252,7 +249,6 @@ class BlocoMaximoIteracoesProcessoIterativoEtapa2(Section):
 
     # Override
     def read(self, file: IO):
-
         # Salta as linhas adicionais
         self.__cabecalhos.append(file.readline())
 
@@ -302,7 +298,6 @@ class BlocoIteracaoAPartirProcessoIterativoEtapa2(Section):
 
     # Override
     def read(self, file: IO):
-
         self.__campo, self.data, self.__comentario = self.__linha.read(
             file.readline()
         )
@@ -347,7 +342,6 @@ class BlocoToleranciaProcessoIterativoEtapa2(Section):
 
     # Override
     def read(self, file: IO):
-
         self.__campo, self.data, self.__comentario = self.__linha.read(
             file.readline()
         )

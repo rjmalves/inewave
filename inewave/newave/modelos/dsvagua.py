@@ -51,13 +51,23 @@ class BlocoDsvUHE(Section):
     # Override
     def read(self, file: IO):
         def converte_tabela_em_df() -> pd.DataFrame:
-            cols = ["Ano", "Usina"] + MESES_DF + ["Flag"]
+            cols = (
+                ["ano", "codigo_usina"]
+                + MESES_DF
+                + ["considera_desvio_usina_NC"]
+            )
             df = pd.DataFrame(
                 tabela,
                 columns=cols,
             )
             df["Comentário"] = comentarios
-            df = df.astype({"Ano": "int64", "Usina": "int64", "Flag": "int64"})
+            df = df.astype(
+                {
+                    "ano": "int64",
+                    "codigo_usina": "int64",
+                    "considera_desvio_usina_NC": "int64",
+                }
+            )
             return df
 
         # Salta as linhas adicionais

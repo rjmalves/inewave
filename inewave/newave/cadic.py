@@ -52,14 +52,14 @@ class CAdic(SectionFile):
         Tabela com as cargas adicionais por mês/ano e por subsistema
         para cada razão de carga adicional. As colunas são:
 
-        - Código Subsistema (`int`)
-        - Nome Subsistema (`str`)
-        - Razão (`str`)
-        - Ano (`str`)
-        - Janeiro (`float`)
-        - Fevereiro (`float`)
+        - codigo_subsistema (`int`)
+        - nome_subsistema (`str`)
+        - razao (`str`)
+        - ano (`str`)
+        - janeiro (`float`)
+        - fevereiro (`float`)
         - ...
-        - Dezembro (`float`)
+        - dezembro (`float`)
 
         :return: A tabela como um DataFrame
         :rtype: pd.DataFrame | None

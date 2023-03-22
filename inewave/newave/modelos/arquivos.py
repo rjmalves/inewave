@@ -34,7 +34,7 @@ class BlocoNomesArquivos(Section):
     # Override
     def read(self, file: IO):
         def converte_tabela_em_df():
-            df = pd.DataFrame(data={"Legenda": legendas, "Nome": nomes})
+            df = pd.DataFrame(data={"legenda": legendas, "nome": nomes})
             return df
 
         legendas: List[str] = []

@@ -49,12 +49,12 @@ class BlocoUTEClasT(Section):
     # Override
     def read(self, file: IO):
         def converte_tabela_em_df():
-            cols = [f"Custo {i}" for i in range(1, 6)]
+            cols = [f"custo_{i}" for i in range(1, 6)]
             df = pd.DataFrame(tabela, columns=cols)
-            df["Número"] = numero_ute
-            df["Nome"] = nome_ute
-            df["Tipo Combustível"] = tipo_combustivel
-            df = df[["Número", "Nome", "Tipo Combustível"] + cols]
+            df["numero"] = numero_ute
+            df["nome"] = nome_ute
+            df["tipo_combustivel"] = tipo_combustivel
+            df = df[["numero", "nome", "tipo_combustivel"] + cols]
             return df
 
         # Salta as linhas adicionais
@@ -135,13 +135,13 @@ class BlocoModificacaoUTEClasT(Section):
         def converte_tabela_em_df():
             df = pd.DataFrame(
                 data={
-                    "Número": numero_ute,
-                    "Custo": custo,
-                    "Mês Início": mes_ini,
-                    "Ano Início": ano_ini,
-                    "Mês Fim": mes_fim,
-                    "Ano Fim": ano_fim,
-                    "Nome": nomes,
+                    "numero": numero_ute,
+                    "custo": custo,
+                    "mes_inicio": mes_ini,
+                    "ano_inicio": ano_ini,
+                    "mes_fim": mes_fim,
+                    "ano_fim": ano_fim,
+                    "nome": nomes,
                 }
             )
             return df

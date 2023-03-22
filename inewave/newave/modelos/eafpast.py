@@ -42,14 +42,14 @@ class BlocoEafPast(Section):
     # Override
     def read(self, file: IO):
         def converte_tabela_em_df() -> pd.DataFrame:
-            cols = ["Índice"] + MESES_DF
+            cols = ["codigo_ree"] + MESES_DF
             df = pd.DataFrame(
                 tabela,
                 columns=cols,
             )
-            df["REE"] = rees
-            df = df.astype({"Índice": "int64"})
-            df = df[["Índice", "REE"] + MESES_DF]
+            df["nome_ree"] = rees
+            df = df.astype({"codigo_ree": "int64"})
+            df = df[["codigo_ree", "nome_ree"] + MESES_DF]
             return df
 
         # Salta as linhas adicionais

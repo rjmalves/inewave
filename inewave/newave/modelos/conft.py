@@ -52,11 +52,11 @@ class BlocoConfUTE(Section):
             col_exis = extrai_coluna_de_listas(dados_utes, 3)
             col_clas = extrai_coluna_de_listas(dados_utes, 4)
             dados = {
-                "Número": col_num,
-                "Nome": col_nome,
-                "Subsistema": col_subsis,
-                "Usina Existente": col_exis,
-                "Classe": col_clas,
+                "codigo_usina": col_num,
+                "nome_usina": col_nome,
+                "submercado": col_subsis,
+                "usina_existente": col_exis,
+                "classe": col_clas,
             }
             return pd.DataFrame(data=dados)
 
