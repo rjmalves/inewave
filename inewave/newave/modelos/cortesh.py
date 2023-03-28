@@ -1,8 +1,7 @@
 from cfinterface.components.section import Section
 from cfinterface.components.line import Line
-from cfinterface.components.literalfield import LiteralField
 from cfinterface.components.integerfield import IntegerField
-from typing import List, IO
+from typing import IO
 
 
 class SecaoDadosCortesH(Section):

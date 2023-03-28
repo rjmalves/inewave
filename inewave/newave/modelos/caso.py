@@ -29,11 +29,11 @@ class NomeCaso(Section):
             return self.data == bloco.data
 
     # Override
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())[0]
 
     # Override
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write([self.data]))
 
 
@@ -62,9 +62,9 @@ class CaminhoGerenciadorProcessos(Section):
             return self.data == bloco.data
 
     # Override
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())[0]
 
     # Override
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write([self.data]))

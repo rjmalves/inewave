@@ -1,10 +1,9 @@
 from cfinterface.files.sectionfile import SectionFile
 from inewave.newave.modelos.cortesh import SecaoDadosCortesH
-from inewave.config import MESES_ABREV
 import pandas as pd  # type: ignore
 
 
-from typing import TypeVar, List, Optional
+from typing import TypeVar, Optional
 
 
 class CortesH(SectionFile):
@@ -29,7 +28,6 @@ class CortesH(SectionFile):
         return cls.read(diretorio, nome_arquivo)
 
     def escreve_arquivo(self, diretorio: str, nome_arquivo="cortesh.dat"):
-        self.__atualiza_registros()
         self.write(diretorio, nome_arquivo)
 
     def cabecalho(self):

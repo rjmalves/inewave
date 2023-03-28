@@ -276,7 +276,7 @@ class Hidr(RegisterFile):
         - Tipo de Regulação (`str`): D, S ou M
 
         :return: A tabela com os dados cadastrais
-        :rtype: List[pd.DataFrame]
+        :rtype: pd.DataFrame | None
         """
         if self.__df is None:
             self.__df = self.__monta_df_de_registros()
