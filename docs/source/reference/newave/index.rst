@@ -86,3 +86,14 @@ Arquivos
    arquivos/nwv_avl_evap
    arquivos/nwv_cortes_evap
    arquivos/nwv_eco_evap
+   arquivos/energiaf
+   arquivos/energiaaf
+   arquivos/energiab
+   arquivos/energias
+   arquivos/enavazf
+   arquivos/enavazb
+   arquivos/vazaof
+   arquivos/vazaoaf
+   arquivos/vazaob
+   arquivos/vazaos
+
