@@ -37,7 +37,7 @@ class CortesPeriodoNwlistcf(Block):
             return self.data.equals(bloco.data)
 
     # Override
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df() -> pd.DataFrame:
             df = pd.DataFrame(tabela, columns=campos_cabecalho)
             df = df.astype({"IREG": "int64"})

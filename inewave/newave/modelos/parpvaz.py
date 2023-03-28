@@ -55,7 +55,7 @@ class BlocoSerieVazoesUHE(Block):
             return self.data.equals(bloco.data)
 
     # Override
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df():
             df = pd.DataFrame(tabela, columns=["Ano"] + MESES_DF)
             df["UHE"] = uhe
@@ -122,7 +122,7 @@ class BlocoCorrelVazoesUHE(Block):
             return self.data.equals(bloco.data)
 
     # Override
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         def converte_vetor_anos(anos: List[str]) -> List[int]:
             # Descobre os anos pré e pós estudo
             numero_anos_pre = len([p for p in anos if p == "PRE"]) // 12
@@ -224,7 +224,7 @@ class BlocoCorrelParcialVazoesUHE(Block):
             return self.data.equals(bloco.data)
 
     # Override
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         def converte_vetor_anos(anos: List[str]) -> List[int]:
             # Descobre os anos pré e pós estudo
             numero_anos_pre = len([p for p in anos if p == "PRE"]) // 12
@@ -325,7 +325,7 @@ class BlocoOrdemModeloUHE(Block):
             return self.data.equals(bloco.data)
 
     # Override
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         def converte_vetor_anos(anos: List[str]) -> List[int]:
             # Descobre os anos pré e pós estudo
             numero_anos_pre = len([p for p in anos if p == "PRE"])
@@ -413,7 +413,7 @@ class BlocoCoeficientesModeloUHE(Block):
             return self.data.equals(bloco.data)
 
     # Override
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df():
             cols = (
                 [f"Psi {i}" for i in range(1, len(MESES_DF))]
@@ -476,7 +476,7 @@ class BlocoSerieRuidosUHE(Block):
             return self.data.equals(bloco.data)
 
     # Override
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df():
             df = pd.DataFrame(tabela, columns=MESES_DF)
             df["Ano"] = ano
@@ -541,7 +541,7 @@ class BlocoCorrelRuidosUHE(Block):
             return self.data.equals(bloco.data)
 
     # Override
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         def converte_vetor_anos(anos: List[str]) -> List[int]:
             # Descobre os anos pré e pós estudo
             numero_anos_pre = len([p for p in anos if p == "PRE"]) // 12
@@ -641,7 +641,7 @@ class BlocoCorrelEspacialAnualMensalUHE(Block):
             return self.data.equals(bloco.data)
 
     # Override
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df():
             df = pd.DataFrame(tabela, columns=MESES_DF + ["Anual"])
             df["UHE 1"] = uhes1

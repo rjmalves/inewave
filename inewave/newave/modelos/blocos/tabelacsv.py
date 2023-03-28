@@ -30,7 +30,7 @@ class TabelaCSV(Block):
             else:
                 return self.data.equals(o.data)
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         if len(self.__class__.LINE_MODEL.fields) != len(
             self.__class__.COLUMN_NAMES
         ):

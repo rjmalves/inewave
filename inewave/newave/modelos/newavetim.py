@@ -39,7 +39,7 @@ class BlocoTemposEtapasTim(Block):
             return self.data.equals(bloco.data)
 
     # Override
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df() -> pd.DataFrame:
             df = pd.DataFrame(data={"Etapa": etapas, "Tempo": tempos})
             return df

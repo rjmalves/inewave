@@ -45,7 +45,7 @@ class BlocoReesSubmercados(Section):
             return self.data.equals(bloco.data)
 
     # Override
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df():
             cols = [
                 "Número",
@@ -91,7 +91,7 @@ class BlocoReesSubmercados(Section):
                 i += 1
 
     # Override
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         for linha in self.__cabecalhos:
             file.write(linha)
         if not isinstance(self.data, pd.DataFrame):
@@ -129,8 +129,8 @@ class BlocoFicticiasIndividualizado(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))

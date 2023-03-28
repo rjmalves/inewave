@@ -31,10 +31,10 @@ class BlocoNomeCaso(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -78,10 +78,10 @@ class BlocoTipoExecucao(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -123,10 +123,10 @@ class BlocoDuracaoPeriodo(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -168,10 +168,10 @@ class BlocoNumAnosEstudo(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -213,10 +213,10 @@ class BlocoMesInicioPreEstudo(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -258,10 +258,10 @@ class BlocoMesInicioEstudo(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -303,10 +303,10 @@ class BlocoAnoInicioEstudo(Section):
         super().__init__(previous, next, data)
         self.__linha = Line([LiteralField(24, 0), IntegerField(4, 21)])
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -348,10 +348,10 @@ class BlocoNumAnosPreEstudo(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -393,10 +393,10 @@ class BlocoNumAnosPosEstudo(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -438,10 +438,10 @@ class BlocoNumAnosPosEstudoSimFinal(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -483,10 +483,10 @@ class BlocoImprimeDados(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -528,10 +528,10 @@ class BlocoImprimeMercados(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -573,10 +573,10 @@ class BlocoImprimeEnergias(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -618,10 +618,10 @@ class BlocoImprimeModeloEstocastico(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -663,10 +663,10 @@ class BlocoImprimeSubsistema(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -708,10 +708,10 @@ class BlocoNumMaxIteracoes(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -753,10 +753,10 @@ class BlocoNumForwards(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -798,10 +798,10 @@ class BlocoNumAberturas(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -843,10 +843,10 @@ class BlocoNumSeriesSinteticas(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -888,10 +888,10 @@ class BlocoOrdemMaximaPARp(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -935,10 +935,10 @@ class BlocoAnoInicialHistorico(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -998,10 +998,10 @@ class BlocoCalculaVolInicial(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -1048,11 +1048,11 @@ class BlocoVolInicialSubsistema(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.__cabecalho = file.readline()
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__cabecalho)
         file.write(self.__linha.write(self.data))
 
@@ -1095,10 +1095,10 @@ class BlocoTolerancia(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -1140,10 +1140,10 @@ class BlocoTaxaDesconto(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -1192,10 +1192,10 @@ class BlocoTipoSimFinal(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -1239,10 +1239,10 @@ class BlocoImpressaoOperacao(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -1286,10 +1286,10 @@ class BlocoImpressaoConvergencia(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -1333,10 +1333,10 @@ class BlocoIntervaloGravar(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -1378,10 +1378,10 @@ class BlocoMinIteracoes(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -1425,10 +1425,10 @@ class BlocoRacionamentoPreventivo(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -1472,10 +1472,10 @@ class BlocoNumAnosManutUTE(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -1524,10 +1524,10 @@ class BlocoTendenciaHidrologica(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -1589,10 +1589,10 @@ class BlocoRestricaoItaipu(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -1636,10 +1636,10 @@ class BlocoBid(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -1683,10 +1683,10 @@ class BlocoPerdasTransmissao(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -1730,10 +1730,10 @@ class BlocoElNino(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -1777,10 +1777,10 @@ class BlocoEnso(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -1824,10 +1824,10 @@ class BlocoDuracaoPorPatamar(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -1871,10 +1871,10 @@ class BlocoOutrosUsosAgua(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -1918,10 +1918,10 @@ class BlocoCorrecaoDesvio(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -1965,10 +1965,10 @@ class BlocoCurvaAversao(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -2012,10 +2012,10 @@ class BlocoTipoGeracaoENA(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -2059,10 +2059,10 @@ class BlocoRiscoDeficit(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -2122,10 +2122,10 @@ class BlocoIteracaoParaSimFinal(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -2169,10 +2169,10 @@ class BlocoAgrupamentoLivre(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -2216,10 +2216,10 @@ class BlocoEqualizacaoPenalInt(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -2263,10 +2263,10 @@ class BlocoRepresentacaoSubmot(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -2310,10 +2310,10 @@ class BlocoOrdenacaoAutomatica(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -2357,10 +2357,10 @@ class BlocoConsideraCargaAdicional(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -2404,10 +2404,10 @@ class BlocoDeltaZSUP(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -2451,10 +2451,10 @@ class BlocoDeltaZINF(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -2496,10 +2496,10 @@ class BlocoDeltasConsecutivos(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -2543,10 +2543,10 @@ class BlocoDespachoAntecipadoGNL(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -2590,10 +2590,10 @@ class BlocoModifAutomaticaAdTerm(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -2637,10 +2637,10 @@ class BlocoGeracaoHidraulicaMin(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -2684,10 +2684,10 @@ class BlocoSimFinalComData(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -2739,10 +2739,10 @@ class BlocoGerenciamentoPLs(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -2844,10 +2844,10 @@ class BlocoSAR(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -2891,10 +2891,10 @@ class BlocoCVAR(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -2938,10 +2938,10 @@ class BlocoZSUPMinConvergencia(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -2985,10 +2985,10 @@ class BlocoDesconsideraVazaoMinima(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -3032,10 +3032,10 @@ class BlocoRestricoesEletricas(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -3084,10 +3084,10 @@ class BlocoSelecaoCortes(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -3145,10 +3145,10 @@ class BlocoJanelaCortes(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -3198,10 +3198,10 @@ class BlocoReamostragemCenarios(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -3273,10 +3273,10 @@ class BlocoConvergeNoZero(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -3320,10 +3320,10 @@ class BlocoConsultaFCF(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -3367,10 +3367,10 @@ class BlocoImpressaoENA(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -3414,10 +3414,10 @@ class BlocoImpressaoCortesAtivosSimFinal(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -3461,10 +3461,10 @@ class BlocoRepresentacaoAgregacao(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -3508,10 +3508,10 @@ class BlocoMatrizCorrelacaoEspacial(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -3555,10 +3555,10 @@ class BlocoDesconsideraConvEstatistica(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -3602,10 +3602,10 @@ class BlocoMomentoReamostragem(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -3649,10 +3649,10 @@ class BlocoMantemArquivosEnergias(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -3696,10 +3696,10 @@ class BlocoInicioTesteConvergencia(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -3743,10 +3743,10 @@ class BlocoSazonalizarVminT(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -3790,10 +3790,10 @@ class BlocoSazonalizarVmaxT(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -3837,10 +3837,10 @@ class BlocoSazonalizarVminP(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -3884,10 +3884,10 @@ class BlocoSazonalizarCfugaCmont(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -3931,10 +3931,10 @@ class BlocoRestricoesEmissaoGEE(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -3983,10 +3983,10 @@ class BlocoAfluenciaAnualPARp(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -4046,10 +4046,10 @@ class BlocoRestricoesFornecGas(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -4094,10 +4094,10 @@ class BlocoMemCalculoCortes(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -4147,10 +4147,10 @@ class BlocoGeracaoEolica(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -4208,10 +4208,10 @@ class BlocoCompensacaoCorrelacaoCruzada(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -4256,10 +4256,10 @@ class BlocoConsideracaoTurbinamentoMinimoMaximo(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -4303,10 +4303,10 @@ class BlocoConsideracaoDefluenciaMaxima(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -4350,10 +4350,10 @@ class BlocoAproveitamentoBasePLsBackward(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -4397,10 +4397,10 @@ class BlocoImpressaoEstadosGeracaoCortes(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -4444,10 +4444,10 @@ class BlocoSementeForward(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -4491,10 +4491,10 @@ class BlocoSementeBackward(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -4538,10 +4538,10 @@ class BlocoRestricaoLPPTurbinamentoMaximoREE(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -4585,10 +4585,10 @@ class BlocoRestricaoLPPDefluenciaMaximaREE(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -4632,10 +4632,10 @@ class BlocoRestricaoLPPTurbinamentoMaximoUHE(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -4679,10 +4679,10 @@ class BlocoRestricaoLPPDefluenciaMaximaUHE(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -4726,10 +4726,10 @@ class BlocoRestricoesEletricasEspeciais(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -4773,10 +4773,10 @@ class BlocoFuncaoProducaoUHE(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property
@@ -4820,10 +4820,10 @@ class BlocoFCFPosEstudo(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         file.write(self.__linha.write(self.data))
 
     @property

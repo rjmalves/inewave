@@ -49,7 +49,7 @@ class BlocoEafPastTendenciaHidrolPMO(Block):
             return self.data.equals(bloco.data)
 
     # Override
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df():
             df = pd.DataFrame(tabela, columns=MESES_DF)
             df["REE"] = rees
@@ -112,7 +112,7 @@ class BlocoEafPastCfugaMedioPMO(Block):
             return self.data.equals(bloco.data)
 
     # Override
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df():
             df = pd.DataFrame(tabela, columns=MESES_DF)
             df["REE"] = rees
@@ -174,7 +174,7 @@ class BlocoConvergenciaPMO(Block):
             return self.data.equals(bloco.data)
 
     # Override
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df() -> pd.DataFrame:
             df = pd.DataFrame(tabela)
             df.columns = [
@@ -251,7 +251,7 @@ class BlocoConfiguracoesExpansaoPMO(Block):
             return self.data.equals(bloco.data)
 
     # Override
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df():
             df = pd.DataFrame(tabela, columns=["Ano"] + MESES_DF)
             return df
@@ -313,7 +313,7 @@ class BlocoMARSPMO(Block):
             return self.data.equals(bloco.data)
 
     # Override
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df():
             colunas = ["Reta", "Coeficiente Angular", "Constante"]
             df = pd.DataFrame(tabela, columns=colunas)
@@ -370,7 +370,7 @@ class BlocoRiscoDeficitENSPMO(Block):
             return self.data.equals(bloco.data)
 
     # Override
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df() -> pd.DataFrame:
             df = pd.DataFrame(tabela)
             cols = ["Ano"]
@@ -449,7 +449,7 @@ class BlocoCustoOperacaoPMO(Block):
             return self.data.equals(bloco.data)
 
     # Override
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df() -> pd.DataFrame:
             cols = ["Valor Esperado", "Desvio Padrão do VE", "(%)"]
             df = pd.DataFrame(tabela, columns=cols)
@@ -504,7 +504,7 @@ class BlocoCustoOperacaoTotalPMO(Block):
             return all([sd == d for sd, d in zip(self.data, bloco.data)])
 
     # Override
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         data = [0, 0]
         for i in range(2):
             data[i] = self.__line.read(file.readline())[0]

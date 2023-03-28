@@ -51,7 +51,7 @@ class SecaoDadosCortesH(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         dados_cabecalho = self.__linha_cabecalho.read(
             file.read(self.__linha_cabecalho.size)
         )

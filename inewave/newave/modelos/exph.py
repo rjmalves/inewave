@@ -48,7 +48,7 @@ class BlocoUHEExph(Section):
             return self.data.equals(bloco.data)
 
     # Override
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df():
             df = pd.DataFrame()
             df["Código UHE"] = codigo_uhes
@@ -124,7 +124,7 @@ class BlocoUHEExph(Section):
             conjunto.append(conjunto_atual)
 
     # Override
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         for linha in self.__cabecalhos:
             file.write(linha)
         if not isinstance(self.data, pd.DataFrame):

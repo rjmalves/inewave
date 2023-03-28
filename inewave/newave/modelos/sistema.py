@@ -40,14 +40,14 @@ class BlocoNumeroPatamaresDeficit(Section):
             return self.data == bloco.data
 
     # Override
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         for _ in range(3):
             self.__cabecalhos.append(file.readline())
 
         self.data = self.__linha.read(file.readline())[0]
 
     # Override
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         for linha in self.__cabecalhos:
             file.write(linha)
         if not isinstance(self.data, int):
@@ -96,7 +96,7 @@ class BlocoCustosDeficit(Section):
             return self.data.equals(bloco.data)
 
     # Override
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df():
             cols = [f"Custo Pat. {p}" for p in range(1, 5)] + [
                 f"Corte Pat. {p}" for p in range(1, 5)
@@ -134,7 +134,7 @@ class BlocoCustosDeficit(Section):
                 i += 1
 
     # Override
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         for linha in self.__cabecalhos:
             file.write(linha)
         if not isinstance(self.data, pd.DataFrame):
@@ -188,7 +188,7 @@ class BlocoIntercambioSubsistema(Section):
             return self.data.equals(bloco.data)
 
     # Override
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df():
             df = pd.DataFrame(
                 tabela,
@@ -266,7 +266,7 @@ class BlocoIntercambioSubsistema(Section):
                 i += 1
 
     # Override
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         for linha in self.__cabecalhos:
             file.write(linha)
         if not isinstance(self.data, pd.DataFrame):
@@ -347,7 +347,7 @@ class BlocoMercadoEnergiaSistema(Section):
             return self.data.equals(bloco.data)
 
     # Override
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df():
             df = pd.DataFrame(
                 tabela,
@@ -402,7 +402,7 @@ class BlocoMercadoEnergiaSistema(Section):
                 i += 1
 
     # Override
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         for linha in self.__cabecalhos:
             file.write(linha)
         if not isinstance(self.data, pd.DataFrame):
@@ -476,7 +476,7 @@ class BlocoGeracaoUsinasNaoSimuladas(Section):
             return self.data.equals(bloco.data)
 
     # Override
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df():
             df = pd.DataFrame(
                 tabela, columns=["Subsistema", "Bloco", "Ano"] + MESES_DF
@@ -532,7 +532,7 @@ class BlocoGeracaoUsinasNaoSimuladas(Section):
                 i += 1
 
     # Override
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         for linha in self.__cabecalhos:
             file.write(linha)
         if not isinstance(self.data, pd.DataFrame):

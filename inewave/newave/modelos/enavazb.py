@@ -37,6 +37,8 @@ class SecaoDadosEnavazb(Section):
         numero_aberturas: int = 20,
         numero_rees: int = 12,
         numero_estagios: int = 60,
+        *args,
+        **kwargs,
     ):
         numero_registros = (
             (numero_estagios)
@@ -82,10 +84,7 @@ class SecaoDadosEnavazb(Section):
         )
         self.data = df
 
-    def write(
-        self,
-        file: IO,
-    ):
+    def write(self, file: IO, *args, **kwargs):
         dados = self.data["valor"].to_numpy()
         linha = Line(
             [
