@@ -15,7 +15,6 @@ from tests.mocks.arquivos.eolicafte import (
 
 
 def test_registro_eolica_funcao_producao_eolicafte():
-
     m: MagicMock = mock_open(read_data="".join(MockRegistroFuncaoProducao))
     r = RegistroEolicaFTE()
     with patch("builtins.open", m):
@@ -26,8 +25,8 @@ def test_registro_eolica_funcao_producao_eolicafte():
         1,
         datetime(2021, 1, 1),
         datetime(2030, 12, 1),
-        -0.14454132,
-        0.10904637,
+        -0.14454,
+        0.109046,
     ]
     assert r.codigo_eolica == 1
     r.codigo_eolica = 5
@@ -35,14 +34,13 @@ def test_registro_eolica_funcao_producao_eolicafte():
     r.data_inicial = datetime(2021, 2, 1)
     assert r.data_final == datetime(2030, 12, 1)
     r.data_final = datetime(2030, 11, 1)
-    assert r.coeficiente_linear == -0.14454132
+    assert r.coeficiente_linear == -0.14454
     r.coeficiente_linear = -0.5
-    assert r.coeficiente_angular == 0.10904637
+    assert r.coeficiente_angular == 0.109046
     r.coeficiente_angular = 0.5
 
 
 def test_registro_peefte():
-
     m: MagicMock = mock_open(read_data="".join(MockRegistroPEEFTE))
     r = RegistroPEEFTE()
     with patch("builtins.open", m):
