@@ -31,21 +31,21 @@ O inewave oferece:
    ./install.rst
 
 .. toctree::
-   :caption: Referência - NEWAVE
+   :caption: NEWAVE
    :maxdepth: 3
    :hidden:
 
    reference/newave/index.rst
 
 .. toctree::
-   :caption: Referência - NWLISTCF
+   :caption: NWLISTCF
    :maxdepth: 3
    :hidden:
 
    reference/nwlistcf/index.rst
 
 .. toctree::
-   :caption: Referência - NWLISTOP
+   :caption: NWLISTOP
    :maxdepth: 3
    :hidden:
 
