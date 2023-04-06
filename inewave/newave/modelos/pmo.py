@@ -509,3 +509,40 @@ class BlocoCustoOperacaoTotalPMO(Block):
         for i in range(2):
             data[i] = self.__line.read(file.readline())[0]
         self.data = data
+
+
+class BlocoProdutibilidadesConfiguracaoPMO(Block):
+    """
+    Bloco de informações sobre as produtibilidades das UHEs por
+    configuração.
+    """
+
+    BEGIN_PATTERN = r"***PRODUTIBILIDADE***"
+    END_PATTERN = ""
+
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
+        # Cria a estrutura de uma linha da tabela
+        self.__cfg_line = Line([IntegerField(14, 2)])
+        self.__prodt_line = Line([LiteralField(14, 2), FloatField(9, 17, 4)])
+
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoProdutibilidadesConfiguracaoPMO):
+            return False
+        bloco: BlocoProdutibilidadesConfiguracaoPMO = o
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(bloco.data, pd.DataFrame),
+            ]
+        ):
+            return False
+        else:
+            return self.data.equals(bloco.data)
+
+    # Override
+    def read(self, file: IO, *args, **kwargs):
+        data = [0, 0]
+        for i in range(2):
+            data[i] = self.__line.read(file.readline())[0]
+        self.data = data
