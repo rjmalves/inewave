@@ -517,14 +517,22 @@ class BlocoProdutibilidadesConfiguracaoPMO(Block):
     configuração.
     """
 
-    BEGIN_PATTERN = r"***PRODUTIBILIDADE***"
+    BEGIN_PATTERN = r"PRODUTIBILIDADES \(MW/m3/s\)"
     END_PATTERN = ""
 
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
         # Cria a estrutura de uma linha da tabela
-        self.__cfg_line = Line([IntegerField(14, 2)])
+        self.__cfg_line = Line([IntegerField(4, 16)])
         self.__prodt_line = Line([LiteralField(14, 2), FloatField(9, 17, 4)])
+        self.__prodt_reserv_line = Line(
+            [LiteralField(12, 2)]
+            + [FloatField(8, 15 + 9 * i, 4) for i in range(4)]
+        )
+        self.__prod_acum_line = Line(
+            [LiteralField(12, 2)]
+            + [FloatField(8, 15 + 9 * i, 4) for i in range(9)]
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoProdutibilidadesConfiguracaoPMO):
@@ -540,9 +548,146 @@ class BlocoProdutibilidadesConfiguracaoPMO(Block):
         else:
             return self.data.equals(bloco.data)
 
+    def __le_produtibilidade_usinas(self, file: IO) -> pd.DataFrame:
+        # Salta 3 linhas
+        for _ in range(3):
+            file.readline()
+        nomes: List[str] = []
+        prodts: List[float] = []
+        while True:
+            linha = file.readline()
+            # Confere se acabou
+            if "X------------X" in linha:
+                return pd.DataFrame(
+                    data={
+                        "nome_usina": nomes,
+                        "produtibilidade_equivalente_volmin_volmax": prodts,
+                    }
+                )
+            dados = self.__prodt_line.read(linha)
+            nomes.append(dados[0])
+            prodts.append(dados[1])
+
+    def __le_produtibilidade_reservatorios(self, file: IO) -> pd.DataFrame:
+        # Salta 1 linha
+        file.readline()
+        cols = self.__colunas_produtibilidades_reservatorios()
+        nomes: List[str] = []
+        prodts: List[List[float]] = [[] for _ in range(len(cols))]
+        while True:
+            linha = file.readline()
+            # Confere se acabou
+            if "X--------------" in linha:
+                dados_df = {c: p for c, p in zip(cols, prodts)}
+                df = pd.DataFrame(data=dados_df)
+                df["nome_usina"] = nomes
+                return df
+            dados = self.__prodt_reserv_line.read(linha)
+            nomes.append(dados[0])
+            for i in range(len(cols)):
+                prodts[i].append(dados[i + 1])
+
+    def __le_produtibilidade_acumulada(self, file: IO) -> pd.DataFrame:
+        # Salta 3 linhas
+        for _ in range(3):
+            file.readline()
+        cols = self.__colunas_produtibilidades_acumuladas()
+        nomes: List[str] = []
+        prodts: List[List[float]] = [[] for _ in range(len(cols))]
+        while True:
+            linha = file.readline()
+            # Confere se acabou
+            if "X--------------" in linha or len(linha.strip()) < 3:
+                dados_df = {c: p for c, p in zip(cols, prodts)}
+                df = pd.DataFrame(data=dados_df)
+                df["nome_usina"] = nomes
+                return df
+            dados = self.__prod_acum_line.read(linha)
+            nomes.append(dados[0])
+            for i in range(len(cols)):
+                prodts[i].append(dados[i + 1])
+
+    def __colunas_produtibilidades_reservatorios(self) -> List[str]:
+        return [
+            "produtibilidade_equivalente_volmin_vol65",
+            "produtibilidade_altura_minima",
+            "produtibilidade_altura_65",
+            "produtibilidade_altura_maxima",
+        ]
+
+    def __colunas_produtibilidades_acumuladas(self) -> List[str]:
+        return [
+            "produtibilidade_acumulada_calculo_earm",
+            "produtibilidade_acumulada_calculo_earm_65",
+            "produtibilidade_acumulada_calculo_econ",
+            "produtibilidade_acumulada_calculo_altura_minima",
+            "produtibilidade_acumulada_calculo_altura_65",
+            "produtibilidade_acumulada_calculo_altura_maxima",
+            "produtibilidade_acumulada_calculo_evaporacao_altura_minima",
+            "produtibilidade_acumulada_calculo_evaporacao_altura_65",
+            "produtibilidade_acumulada_calculo_evaporacao_altura_maxima",
+        ]
+
     # Override
     def read(self, file: IO, *args, **kwargs):
-        data = [0, 0]
-        for i in range(2):
-            data[i] = self.__line.read(file.readline())[0]
-        self.data = data
+        cfg_atual = 0
+        df_atual = pd.DataFrame()
+        df_usinas = pd.DataFrame()
+        df_reservatorios = pd.DataFrame()
+        df_acumuladas = pd.DataFrame()
+        while True:
+            linha = file.readline()
+            # Verifica se acabou:
+            if "PRODUTIBILIDADES ACUMULADAS PARA CALCULO DE" in linha:
+                self.data = df_atual.rename(columns={"index": "nome_usina"})[
+                    [
+                        "nome_usina",
+                        "configuracao",
+                        "produtibilidade_equivalente_volmin_volmax",
+                    ]
+                    + self.__colunas_produtibilidades_reservatorios()
+                    + self.__colunas_produtibilidades_acumuladas()
+                ]
+                break
+            if "CONFIGURACAO :   " in linha:
+                if cfg_atual != 0:
+                    todas_usinas = list(
+                        set(
+                            df_usinas.index.tolist()
+                            + df_reservatorios.index.tolist()
+                            + df_acumuladas.index.tolist()
+                        )
+                    )
+                    todas_usinas.sort()
+                    df_agregado = pd.DataFrame(index=todas_usinas)
+                    df_agregado.loc[
+                        df_usinas.index,
+                        "produtibilidade_equivalente_volmin_volmax",
+                    ] = df_usinas["produtibilidade_equivalente_volmin_volmax"]
+                    for col in self.__colunas_produtibilidades_reservatorios():
+                        df_agregado.loc[
+                            df_reservatorios.index,
+                            col,
+                        ] = df_reservatorios[col]
+                    for col in self.__colunas_produtibilidades_acumuladas():
+                        df_agregado.loc[
+                            df_acumuladas.index,
+                            col,
+                        ] = df_acumuladas[col]
+                    df_agregado["configuracao"] = cfg_atual
+                    df_atual = pd.concat(
+                        [df_atual, df_agregado.reset_index()],
+                        ignore_index=True,
+                    )
+                cfg_atual = self.__cfg_line.read(linha)[0]
+            if "PRODUTIBILIDADES DAS USINAS (MW/m3/s)" in linha:
+                df_usinas = self.__le_produtibilidade_usinas(file)
+                df_usinas.set_index("nome_usina", inplace=True)
+            if "USINA      PRODTM   PDTMIN   PDTMED   PDTMAX" in linha:
+                df_reservatorios = self.__le_produtibilidade_reservatorios(
+                    file
+                )
+                df_reservatorios.set_index("nome_usina", inplace=True)
+            if "PRODUTIBILIDADES DOS RESERVATORIOS (MW/m3/s)" in linha:
+                df_acumuladas = self.__le_produtibilidade_acumulada(file)
+                df_acumuladas.set_index("nome_usina", inplace=True)

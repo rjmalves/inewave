@@ -6,6 +6,7 @@ from inewave.newave.modelos.pmo import BlocoMARSPMO
 from inewave.newave.modelos.pmo import BlocoRiscoDeficitENSPMO
 from inewave.newave.modelos.pmo import BlocoCustoOperacaoPMO
 from inewave.newave.modelos.pmo import BlocoCustoOperacaoTotalPMO
+from inewave.newave.modelos.pmo import BlocoProdutibilidadesConfiguracaoPMO
 
 from cfinterface.components.block import Block
 from cfinterface.files.blockfile import BlockFile
@@ -38,6 +39,7 @@ class PMO(BlockFile):
         BlocoRiscoDeficitENSPMO,
         BlocoCustoOperacaoPMO,
         BlocoCustoOperacaoTotalPMO,
+        BlocoProdutibilidadesConfiguracaoPMO,
     ]
 
     @classmethod
@@ -294,3 +296,34 @@ class PMO(BlockFile):
         if isinstance(b, list):
             return b[1]
         return None
+
+    @property
+    def produtibilidades_equivalentes(self) -> Optional[pd.DataFrame]:
+        """
+        Tabela de produtibilidades calculadas para diversos fins do NEWAVE
+        por usina e por configuração.
+
+        - nome_usina (`str`)
+        - configuracao (`int`)
+        - produtibilidade_equivalente_volmin_volmax (`float`)
+        - produtibilidade_equivalente_volmin_vol65 (`float`)
+        - produtibilidade_altura_minima (`float`)
+        - produtibilidade_altura_65 (`float`)
+        - produtibilidade_altura_maxima (`float`)
+        - produtibilidade_acumulada_calculo_earm (`float`)
+        - produtibilidade_acumulada_calculo_earm_65 (`float`)
+        - produtibilidade_acumulada_calculo_econ (`float`)
+        - produtibilidade_acumulada_calculo_altura_minima (`float`)
+        - produtibilidade_acumulada_calculo_altura_65 (`float`)
+        - produtibilidade_acumulada_calculo_altura_maxima (`float`)
+        - produtibilidade_acumulada_calculo_evaporacao_altura_minima (`float`)
+        - produtibilidade_acumulada_calculo_evaporacao_altura_65 (`float`)
+        - produtibilidade_acumulada_calculo_evaporacao_altura_maxima (`float`)
+
+
+        :return: As produtibilidades em um DataFrame.
+        :rtype: pd.DataFrame | None
+        """
+        return self.__extrai_dados_se_existe(
+            BlocoProdutibilidadesConfiguracaoPMO, 0
+        )
