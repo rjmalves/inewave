@@ -83,9 +83,6 @@ Arquivos
    arquivos/eolicaposto
    arquivos/eolicahistorico
    arquivos/eolicageracao
-   arquivos/nwv_avl_evap
-   arquivos/nwv_cortes_evap
-   arquivos/nwv_eco_evap
    arquivos/energiaf
    arquivos/energiab
    arquivos/energias
@@ -94,4 +91,10 @@ Arquivos
    arquivos/vazaof
    arquivos/vazaob
    arquivos/vazaos
+   arquivos/nwv_avl_evap
+   arquivos/nwv_cortes_evap
+   arquivos/nwv_eco_evap
+   arquivos/avl_cortesfpha_nwv
+   arquivos/avl_desvfpha_s
+   arquivos/avl_desvfpha_v_q
 
