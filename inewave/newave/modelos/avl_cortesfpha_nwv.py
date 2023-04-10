@@ -1,12 +1,13 @@
 # Imports de módulos externos
-from cfinterface.components.block import Block
 from cfinterface.components.line import Line
 from cfinterface.components.integerfield import IntegerField
 from cfinterface.components.literalfield import LiteralField
 from cfinterface.components.floatfield import FloatField
 
+from inewave.newave.modelos.blocos.tabelacsv import TabelaCSV
 
-class TabelaAvlCortesFpha(Block):
+
+class TabelaAvlCortesFpha(TabelaCSV):
     """
     Bloco com as informações dos cortes da função de produção para as
     UHEs do modelo NEWAVE.
