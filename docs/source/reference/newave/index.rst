@@ -97,4 +97,7 @@ Arquivos
    arquivos/avl_cortesfpha_nwv
    arquivos/avl_desvfpha_s
    arquivos/avl_desvfpha_v_q
+   arquivos/restricaoenergia
+   arquivos/restricaovazao
+   arquivos/restricaoeletrica
 
