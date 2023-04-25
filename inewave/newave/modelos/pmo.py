@@ -628,6 +628,44 @@ class BlocoProdutibilidadesConfiguracaoPMO(Block):
             "produtibilidade_acumulada_calculo_evaporacao_altura_maxima",
         ]
 
+    def __fecha_configuracao(
+        self,
+        df_usinas: pd.DataFrame,
+        df_reservatorios: pd.DataFrame,
+        df_acumuladas: pd.DataFrame,
+        cfg_atual: int,
+        df_atual: pd.DataFrame,
+    ) -> pd.DataFrame:
+        todas_usinas = list(
+            set(
+                df_usinas.index.tolist()
+                + df_reservatorios.index.tolist()
+                + df_acumuladas.index.tolist()
+            )
+        )
+        todas_usinas.sort()
+        df_agregado = pd.DataFrame(index=todas_usinas)
+        df_agregado.loc[
+            df_usinas.index,
+            "produtibilidade_equivalente_volmin_volmax",
+        ] = df_usinas["produtibilidade_equivalente_volmin_volmax"]
+        for col in self.__colunas_produtibilidades_reservatorios():
+            df_agregado.loc[
+                df_reservatorios.index,
+                col,
+            ] = df_reservatorios[col]
+        for col in self.__colunas_produtibilidades_acumuladas():
+            df_agregado.loc[
+                df_acumuladas.index,
+                col,
+            ] = df_acumuladas[col]
+        df_agregado["configuracao"] = cfg_atual
+        df_atual = pd.concat(
+            [df_atual, df_agregado.reset_index()],
+            ignore_index=True,
+        )
+        return df_atual
+
     # Override
     def read(self, file: IO, *args, **kwargs):
         cfg_atual = 0
@@ -639,6 +677,14 @@ class BlocoProdutibilidadesConfiguracaoPMO(Block):
             linha = file.readline()
             # Verifica se acabou:
             if "PRODUTIBILIDADES ACUMULADAS PARA CALCULO DE" in linha:
+                if cfg_atual != 0:
+                    df_atual = self.__fecha_configuracao(
+                        df_usinas,
+                        df_reservatorios,
+                        df_acumuladas,
+                        cfg_atual,
+                        df_atual,
+                    )
                 self.data = df_atual.rename(columns={"index": "nome_usina"})[
                     [
                         "nome_usina",
@@ -651,33 +697,12 @@ class BlocoProdutibilidadesConfiguracaoPMO(Block):
                 break
             if "CONFIGURACAO :   " in linha:
                 if cfg_atual != 0:
-                    todas_usinas = list(
-                        set(
-                            df_usinas.index.tolist()
-                            + df_reservatorios.index.tolist()
-                            + df_acumuladas.index.tolist()
-                        )
-                    )
-                    todas_usinas.sort()
-                    df_agregado = pd.DataFrame(index=todas_usinas)
-                    df_agregado.loc[
-                        df_usinas.index,
-                        "produtibilidade_equivalente_volmin_volmax",
-                    ] = df_usinas["produtibilidade_equivalente_volmin_volmax"]
-                    for col in self.__colunas_produtibilidades_reservatorios():
-                        df_agregado.loc[
-                            df_reservatorios.index,
-                            col,
-                        ] = df_reservatorios[col]
-                    for col in self.__colunas_produtibilidades_acumuladas():
-                        df_agregado.loc[
-                            df_acumuladas.index,
-                            col,
-                        ] = df_acumuladas[col]
-                    df_agregado["configuracao"] = cfg_atual
-                    df_atual = pd.concat(
-                        [df_atual, df_agregado.reset_index()],
-                        ignore_index=True,
+                    df_atual = self.__fecha_configuracao(
+                        df_usinas,
+                        df_reservatorios,
+                        df_acumuladas,
+                        cfg_atual,
+                        df_atual,
                     )
                 cfg_atual = self.__cfg_line.read(linha)[0]
             if "PRODUTIBILIDADES DAS USINAS (MW/m3/s)" in linha:

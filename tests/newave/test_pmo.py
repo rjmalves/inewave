@@ -146,7 +146,7 @@ def test_leitura_produtibilidades():
         with open("", "") as fp:
             b.read(fp)
 
-    assert len(list(b.data.index)) == 1148
+    assert len(list(b.data.index)) == 1312
     assert b.data.iloc[1, 1] == 1
     assert b.data.iloc[1, 2] == 0.4483
     assert b.data.iloc[1, 3] == 0.4334
