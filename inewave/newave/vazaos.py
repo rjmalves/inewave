@@ -4,6 +4,10 @@ import pandas as pd  # type: ignore
 
 from typing import TypeVar, Optional
 
+# Para compatibilidade - até versão 1.0.0
+from os.path import join
+import warnings
+
 
 class Vazaos(SectionFile):
     """
@@ -29,17 +33,18 @@ class Vazaos(SectionFile):
         numero_estagios: int = 60,
         numero_estagios_th: int = 12,
     ) -> "Vazaos":
+        msg = (
+            "O método le_arquivo(diretorio, nome_arquivo) será descontinuado"
+            + " na versão 1.0.0 - use o método read(caminho_arquivo)"
+        )
+        warnings.warn(msg, category=FutureWarning)
         return cls.read(
-            diretorio,
-            nome_arquivo,
+            join(diretorio, nome_arquivo),
             numero_series=numero_series,
             numero_uhes=numero_uhes,
             numero_estagios=numero_estagios,
             numero_estagios_th=numero_estagios_th,
         )
-
-    def escreve_arquivo(self, diretorio: str, nome_arquivo="vazaos.dat"):
-        self.write(diretorio, nome_arquivo)
 
     @property
     def series(self) -> Optional[pd.DataFrame]:

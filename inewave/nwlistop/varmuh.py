@@ -4,6 +4,10 @@ from inewave.nwlistop.modelos.arquivos.arquivousina import (
 )
 from inewave.nwlistop.modelos.varmuh import VarmAnos
 
+# Para compatibilidade - até versão 1.0.0
+from os.path import join
+import warnings
+
 
 class VarmUH(ArquivoUsina):
     """
@@ -24,7 +28,9 @@ class VarmUH(ArquivoUsina):
     def le_arquivo(
         cls, diretorio: str, nome_arquivo="varmuh001.out"
     ) -> "VarmUH":
-        return cls.read(diretorio, nome_arquivo)
-
-    def escreve_arquivo(self, diretorio: str, nome_arquivo="varmuh001.out"):
-        self.write(diretorio, nome_arquivo)
+        msg = (
+            "O método le_arquivo(diretorio, nome_arquivo) será descontinuado"
+            + " na versão 1.0.0 - use o método read(caminho_arquivo)"
+        )
+        warnings.warn(msg, category=FutureWarning)
+        return cls.read(join(diretorio, nome_arquivo))
