@@ -26,9 +26,10 @@ from tests.mocks.arquivos.curva import (
     MockCurva,
 )
 
+ARQ_TESTE = "./tests/mocks/arquivos/__init__.py"
+
 
 def test_bloco_configuracoes_penalizacao_curva():
-
     m: MagicMock = mock_open(read_data="".join(MockBlockTipoPenalizacao))
     b = BlocoConfiguracoesPenalizacaoCurva()
     with patch("builtins.open", m):
@@ -39,7 +40,6 @@ def test_bloco_configuracoes_penalizacao_curva():
 
 
 def test_bloco_penalidades_ree():
-
     m: MagicMock = mock_open(read_data="".join(MockBlocoCustoPorSistema))
     b = BlocoPenalidadesViolacaoREECurva()
     with patch("builtins.open", m):
@@ -51,7 +51,6 @@ def test_bloco_penalidades_ree():
 
 
 def test_bloco_curva_seguranca():
-
     m: MagicMock = mock_open(read_data="".join(MockBlocoCurvaSeguranca))
     b = BlocoCurvaSegurancaSubsistema()
     with patch("builtins.open", m):
@@ -63,7 +62,6 @@ def test_bloco_curva_seguranca():
 
 
 def test_bloco_maximo_iteracoes():
-
     m: MagicMock = mock_open(
         read_data="".join(MockMaximoIteracoesProcessoIterativoEtapa2)
     )
@@ -76,7 +74,6 @@ def test_bloco_maximo_iteracoes():
 
 
 def test_bloco_iteracao_a_partir():
-
     m: MagicMock = mock_open(
         read_data="".join(MockIteracaoAPartirProcessoIterativoEtapa2)
     )
@@ -89,7 +86,6 @@ def test_bloco_iteracao_a_partir():
 
 
 def test_bloco_tolerancia_processo():
-
     m: MagicMock = mock_open(
         read_data="".join(MockToleranciaProcessoIterativoEtapa2)
     )
@@ -102,7 +98,6 @@ def test_bloco_tolerancia_processo():
 
 
 def test_bloco_impressao_relatorio():
-
     m: MagicMock = mock_open(
         read_data="".join(MockImpressaoRelatorioProcessoIterativoEtapa2)
     )
@@ -117,7 +112,7 @@ def test_bloco_impressao_relatorio():
 def test_atributos_encontrados_curva():
     m: MagicMock = mock_open(read_data="".join(MockCurva))
     with patch("builtins.open", m):
-        ad = Curva.le_arquivo("")
+        ad = Curva.read(ARQ_TESTE)
         assert ad.configuracoes_penalizacao != [None, None, None]
         assert ad.custos_penalidades is not None
         assert ad.curva_seguranca is not None
@@ -130,7 +125,7 @@ def test_atributos_encontrados_curva():
 def test_atributos_nao_encontrados_curva():
     m: MagicMock = mock_open(read_data="")
     with patch("builtins.open", m):
-        ad = Curva.le_arquivo("")
+        ad = Curva.read(ARQ_TESTE)
         assert ad.configuracoes_penalizacao == [None, None, None]
         assert ad.custos_penalidades is None
         assert ad.curva_seguranca is None
@@ -143,16 +138,16 @@ def test_atributos_nao_encontrados_curva():
 def test_eq_curva():
     m: MagicMock = mock_open(read_data="".join(MockCurva))
     with patch("builtins.open", m):
-        cf1 = Curva.le_arquivo("")
-        cf2 = Curva.le_arquivo("")
+        cf1 = Curva.read(ARQ_TESTE)
+        cf2 = Curva.read(ARQ_TESTE)
         assert cf1 == cf2
 
 
 def test_neq_curva():
     m: MagicMock = mock_open(read_data="".join(MockCurva))
     with patch("builtins.open", m):
-        cf1 = Curva.le_arquivo("")
-        cf2 = Curva.le_arquivo("")
+        cf1 = Curva.read(ARQ_TESTE)
+        cf2 = Curva.read(ARQ_TESTE)
         cf2.curva_seguranca.iloc[0, 0] = -1
         assert cf1 != cf2
 
@@ -160,10 +155,10 @@ def test_neq_curva():
 def test_leitura_escrita_curva():
     m_leitura: MagicMock = mock_open(read_data="".join(MockCurva))
     with patch("builtins.open", m_leitura):
-        cf1 = Curva.le_arquivo("")
+        cf1 = Curva.read(ARQ_TESTE)
     m_escrita: MagicMock = mock_open(read_data="")
     with patch("builtins.open", m_escrita):
-        cf1.escreve_arquivo("", "")
+        cf1.write(ARQ_TESTE)
         # Recupera o que foi escrito
         chamadas = m_escrita.mock_calls
         linhas_escritas = [
@@ -171,5 +166,5 @@ def test_leitura_escrita_curva():
         ]
     m_releitura: MagicMock = mock_open(read_data="".join(linhas_escritas))
     with patch("builtins.open", m_releitura):
-        cf2 = Curva.le_arquivo("")
+        cf2 = Curva.read(ARQ_TESTE)
         assert cf1 == cf2

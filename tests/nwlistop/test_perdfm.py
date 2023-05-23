@@ -5,11 +5,13 @@ from unittest.mock import MagicMock, patch
 
 from tests.mocks.arquivos.perdfm import MockPerdfm
 
+ARQ_TESTE = "./tests/mocks/arquivos/__init__.py"
+
 
 def test_atributos_encontrados_perdfm():
     m: MagicMock = mock_open(read_data="".join(MockPerdfm))
     with patch("builtins.open", m):
-        n = Perdfm.le_arquivo("")
+        n = Perdfm.read(ARQ_TESTE)
         assert n.submercado == "SUDESTE"
         assert n.valores is not None
         assert n.valores.iloc[0, 0] == 2020
@@ -19,7 +21,7 @@ def test_atributos_encontrados_perdfm():
 def test_atributos_nao_encontrados_perdfm():
     m: MagicMock = mock_open(read_data="")
     with patch("builtins.open", m):
-        n = Perdfm.le_arquivo("")
+        n = Perdfm.read(ARQ_TESTE)
         assert n.submercado is None
         assert n.valores is None
 
@@ -27,8 +29,8 @@ def test_atributos_nao_encontrados_perdfm():
 def test_eq_perdfm():
     m: MagicMock = mock_open(read_data="".join(MockPerdfm))
     with patch("builtins.open", m):
-        n1 = Perdfm.le_arquivo("")
-        n2 = Perdfm.le_arquivo("")
+        n1 = Perdfm.read(ARQ_TESTE)
+        n2 = Perdfm.read(ARQ_TESTE)
         assert n1 == n2
 
 

@@ -26,9 +26,10 @@ from tests.mocks.arquivos.eolicacadastro import (
     MockEolicaCadastro,
 )
 
+ARQ_TESTE = "./tests/mocks/arquivos/__init__.py"
+
 
 def test_registro_eolica_cadastro_eolicacadastro():
-
     m: MagicMock = mock_open(read_data="".join(MockRegistroEolicaCadastro))
     r = RegistroEolicaCadastro()
     with patch("builtins.open", m):
@@ -47,7 +48,6 @@ def test_registro_eolica_cadastro_eolicacadastro():
 
 
 def test_registro_cadastro_aerogerador_eolicacadastro():
-
     m: MagicMock = mock_open(
         read_data="".join(MockRegistroEolicaCadastroAerogerador)
     )
@@ -78,7 +78,6 @@ def test_registro_cadastro_aerogerador_eolicacadastro():
 
 
 def test_registro_cadastro_conjunto_eolicacadastro():
-
     m: MagicMock = mock_open(
         read_data="".join(MockRegistroEolicaCadastroConjuntoAerogeradores)
     )
@@ -99,7 +98,6 @@ def test_registro_cadastro_conjunto_eolicacadastro():
 
 
 def test_registro_cadastro_operacao_eolicacadastro():
-
     m: MagicMock = mock_open(
         read_data="".join(
             MockRegistroEolicaConjuntoAerogeradoresQuantidadeOperandoPeriodo
@@ -124,7 +122,6 @@ def test_registro_cadastro_operacao_eolicacadastro():
 
 
 def test_registro_potenciaefetiva_eolicacadastro():
-
     m: MagicMock = mock_open(
         read_data="".join(
             MockRegistroEolicaConjuntoAerogeradoresPotenciaEfetiva
@@ -155,7 +152,6 @@ def test_registro_potenciaefetiva_eolicacadastro():
 
 
 def test_registro_pee_cadastro():
-
     m: MagicMock = mock_open(read_data="".join(MockRegistroPEECadastro))
     r = RegistroPEECadastro()
     with patch("builtins.open", m):
@@ -170,7 +166,6 @@ def test_registro_pee_cadastro():
 
 
 def test_registro_pee_potencia_instalada_periodo():
-
     m: MagicMock = mock_open(
         read_data="".join(MockRegistroPEEPotenciaInstaladaPeriodo)
     )
@@ -198,7 +193,7 @@ def test_registro_pee_potencia_instalada_periodo():
 def test_atributos_encontrados_eolicacadastro():
     m: MagicMock = mock_open(read_data="".join(MockEolicaCadastro))
     with patch("builtins.open", m):
-        e = EolicaCadastro.le_arquivo("")
+        e = EolicaCadastro.read(ARQ_TESTE)
         assert len(e.eolica_cadastro()) > 0
         assert len(e.eolica_cadastro_aerogerador()) > 0
         assert len(e.eolica_cadastro_conjunto_aerogeradores()) > 0
@@ -214,16 +209,16 @@ def test_atributos_encontrados_eolicacadastro():
 def test_eq_eolicacadastro():
     m: MagicMock = mock_open(read_data="".join(MockEolicaCadastro))
     with patch("builtins.open", m):
-        cf1 = EolicaCadastro.le_arquivo("")
-        cf2 = EolicaCadastro.le_arquivo("")
+        cf1 = EolicaCadastro.read(ARQ_TESTE)
+        cf2 = EolicaCadastro.read(ARQ_TESTE)
         assert cf1 == cf2
 
 
 def test_neq_eolicacadastro():
     m: MagicMock = mock_open(read_data="".join(MockEolicaCadastro))
     with patch("builtins.open", m):
-        cf1 = EolicaCadastro.le_arquivo("")
-        cf2 = EolicaCadastro.le_arquivo("")
+        cf1 = EolicaCadastro.read(ARQ_TESTE)
+        cf2 = EolicaCadastro.read(ARQ_TESTE)
         cf2.deleta_registro(cf1.eolica_cadastro()[0])
         assert cf1 != cf2
 
@@ -231,10 +226,10 @@ def test_neq_eolicacadastro():
 def test_leitura_escrita_eolicacadastro():
     m_leitura: MagicMock = mock_open(read_data="".join(MockEolicaCadastro))
     with patch("builtins.open", m_leitura):
-        cf1 = EolicaCadastro.le_arquivo("")
+        cf1 = EolicaCadastro.read(ARQ_TESTE)
     m_escrita: MagicMock = mock_open(read_data="")
     with patch("builtins.open", m_escrita):
-        cf1.escreve_arquivo("", "")
+        cf1.write(ARQ_TESTE)
         # Recupera o que foi escrito
         chamadas = m_escrita.mock_calls
         linhas_escritas = [
@@ -242,5 +237,5 @@ def test_leitura_escrita_eolicacadastro():
         ]
     m_releitura: MagicMock = mock_open(read_data="".join(linhas_escritas))
     with patch("builtins.open", m_releitura):
-        cf2 = EolicaCadastro.le_arquivo("")
+        cf2 = EolicaCadastro.read(ARQ_TESTE)
         assert cf1 == cf2

@@ -23,9 +23,10 @@ from tests.mocks.arquivos.parpeol import (
     MockPARpeol,
 )
 
+ARQ_TESTE = "./tests/mocks/arquivos/__init__.py"
+
 
 def test_series_ventos_uee():
-
     m: MagicMock = mock_open(read_data="".join(MockSeriesVentosUEE))
     b = BlocoSerieVentosUEE()
     with patch("builtins.open", m):
@@ -39,7 +40,6 @@ def test_series_ventos_uee():
 
 
 def test_correlacao_series_ventos_uee():
-
     m: MagicMock = mock_open(read_data="".join(MockCorrelacaoSeriesVentosUEE))
     b = BlocoCorrelVentosUEE()
     with patch("builtins.open", m):
@@ -53,7 +53,6 @@ def test_correlacao_series_ventos_uee():
 
 
 def test_serie_ruidos_uee():
-
     m: MagicMock = mock_open(read_data="".join(MockSerieRuidosUEE))
     b = BlocoSerieRuidosUEE()
     with patch("builtins.open", m):
@@ -67,7 +66,6 @@ def test_serie_ruidos_uee():
 
 
 def test_correl_serie_ruidos_uee():
-
     m: MagicMock = mock_open(read_data="".join(MockCorrelSerieRuidosUEE))
     b = BlocoCorrelRuidosUEE()
     with patch("builtins.open", m):
@@ -81,7 +79,6 @@ def test_correl_serie_ruidos_uee():
 
 
 def test_correl_espacial_anual():
-
     m: MagicMock = mock_open(read_data="".join(MockCorrelEspacialAnual))
     b = BlocoCorrelEspacialAnualConfig()
     with patch("builtins.open", m):
@@ -95,7 +92,6 @@ def test_correl_espacial_anual():
 
 
 def test_correl_espacial_mensal():
-
     m: MagicMock = mock_open(read_data="".join(MockCorrelEspacialMensal))
     b = BlocoCorrelEspacialMensalConfig()
     with patch("builtins.open", m):
@@ -111,7 +107,7 @@ def test_correl_espacial_mensal():
 def test_atributos_encontrados_parpeol():
     m: MagicMock = mock_open(read_data="".join(MockPARpeol))
     with patch("builtins.open", m):
-        parp = PARpeol.le_arquivo("")
+        parp = PARpeol.read(ARQ_TESTE)
         assert parp.series_ventos_uee is not None
         assert parp.correlacao_series_ventos_uee is not None
         assert parp.series_ruido_uee is not None
@@ -123,7 +119,7 @@ def test_atributos_encontrados_parpeol():
 def test_atributos_nao_encontrados_parp():
     m: MagicMock = mock_open(read_data="".join(""))
     with patch("builtins.open", m):
-        parp = PARpeol.le_arquivo("")
+        parp = PARpeol.read(ARQ_TESTE)
         assert parp.series_ventos_uee is None
         assert parp.correlacao_series_ventos_uee is None
         assert parp.series_ruido_uee is None
@@ -135,15 +131,15 @@ def test_atributos_nao_encontrados_parp():
 def test_eq_parpeol():
     m: MagicMock = mock_open(read_data="".join(MockPARpeol))
     with patch("builtins.open", m):
-        parp1 = PARpeol.le_arquivo("")
-        parp2 = PARpeol.le_arquivo("")
+        parp1 = PARpeol.read(ARQ_TESTE)
+        parp2 = PARpeol.read(ARQ_TESTE)
         assert parp1 == parp2
 
 
 def test_neq_parpeol():
     m: MagicMock = mock_open(read_data="".join(MockPARpeol))
     with patch("builtins.open", m):
-        parp1 = PARpeol.le_arquivo("")
-        parp2 = PARpeol.le_arquivo("")
+        parp1 = PARpeol.read(ARQ_TESTE)
+        parp2 = PARpeol.read(ARQ_TESTE)
         parp2.series_ventos_uee.iloc[0, 0] = -1
         assert parp1 != parp2

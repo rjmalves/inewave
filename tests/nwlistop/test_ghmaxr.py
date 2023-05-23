@@ -5,11 +5,13 @@ from unittest.mock import MagicMock, patch
 
 from tests.mocks.arquivos.ghmaxr import MockGhmaxr
 
+ARQ_TESTE = "./tests/mocks/arquivos/__init__.py"
+
 
 def test_atributos_encontrados_ghmaxr():
     m: MagicMock = mock_open(read_data="".join(MockGhmaxr))
     with patch("builtins.open", m):
-        n = Ghmaxr.le_arquivo("")
+        n = Ghmaxr.read(ARQ_TESTE)
         assert n.ree is not None
         assert n.ree == "SUDESTE"
         assert n.valores is not None
@@ -20,7 +22,7 @@ def test_atributos_encontrados_ghmaxr():
 def test_atributos_nao_encontrados_ghmaxr():
     m: MagicMock = mock_open(read_data="")
     with patch("builtins.open", m):
-        n = Ghmaxr.le_arquivo("")
+        n = Ghmaxr.read(ARQ_TESTE)
         assert n.ree is None
         assert n.valores is None
 
@@ -28,8 +30,8 @@ def test_atributos_nao_encontrados_ghmaxr():
 def test_eq_ghmaxr():
     m: MagicMock = mock_open(read_data="".join(MockGhmaxr))
     with patch("builtins.open", m):
-        n1 = Ghmaxr.le_arquivo("")
-        n2 = Ghmaxr.le_arquivo("")
+        n1 = Ghmaxr.read(ARQ_TESTE)
+        n2 = Ghmaxr.read(ARQ_TESTE)
         assert n1 == n2
 
 

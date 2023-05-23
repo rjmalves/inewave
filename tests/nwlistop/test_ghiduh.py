@@ -5,11 +5,13 @@ from unittest.mock import MagicMock, patch
 
 from tests.mocks.arquivos.ghiduh import MockGhidUH
 
+ARQ_TESTE = "./tests/mocks/arquivos/__init__.py"
+
 
 def test_atributos_encontrados_ghiduh():
     m: MagicMock = mock_open(read_data="".join(MockGhidUH))
     with patch("builtins.open", m):
-        n = GhidUH.le_arquivo("")
+        n = GhidUH.read(ARQ_TESTE)
         assert n.usina is not None
         assert n.usina == "CAMARGOS"
         assert n.valores is not None
@@ -20,7 +22,7 @@ def test_atributos_encontrados_ghiduh():
 def test_atributos_nao_encontrados_ghiduh():
     m: MagicMock = mock_open(read_data="")
     with patch("builtins.open", m):
-        n = GhidUH.le_arquivo("")
+        n = GhidUH.read(ARQ_TESTE)
         assert n.usina is None
         assert n.valores is None
 
@@ -28,8 +30,8 @@ def test_atributos_nao_encontrados_ghiduh():
 def test_eq_ghiduh():
     m: MagicMock = mock_open(read_data="".join(MockGhidUH))
     with patch("builtins.open", m):
-        n1 = GhidUH.le_arquivo("")
-        n2 = GhidUH.le_arquivo("")
+        n1 = GhidUH.read(ARQ_TESTE)
+        n2 = GhidUH.read(ARQ_TESTE)
         assert n1 == n2
 
 

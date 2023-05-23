@@ -6,9 +6,10 @@ from unittest.mock import MagicMock, patch
 
 from tests.mocks.arquivos.arquivos import MockArquivos
 
+ARQ_TESTE = "./tests/mocks/arquivos/__init__.py"
+
 
 def test_bloco_nomes_arquivos():
-
     m: MagicMock = mock_open(read_data="".join(MockArquivos))
     b = BlocoNomesArquivos()
     with patch("builtins.open", m):
@@ -24,7 +25,7 @@ def test_bloco_nomes_arquivos():
 def test_atributos_encontrados_arquivos():
     m: MagicMock = mock_open(read_data="".join(MockArquivos))
     with patch("builtins.open", m):
-        ad = Arquivos.le_arquivo("")
+        ad = Arquivos.read(ARQ_TESTE)
         assert ad.dger is not None
         assert ad.sistema is not None
         assert ad.confhd is not None
@@ -74,7 +75,7 @@ def test_atributos_encontrados_arquivos():
 def test_atributos_nao_encontrados_arquivos():
     m: MagicMock = mock_open(read_data="")
     with patch("builtins.open", m):
-        ad = Arquivos.le_arquivo("")
+        ad = Arquivos.read(ARQ_TESTE)
         assert ad.dger is None
         assert ad.sistema is None
         assert ad.confhd is None
@@ -124,16 +125,16 @@ def test_atributos_nao_encontrados_arquivos():
 def test_eq_arquivos():
     m: MagicMock = mock_open(read_data="".join(MockArquivos))
     with patch("builtins.open", m):
-        ad1 = Arquivos.le_arquivo("")
-        ad2 = Arquivos.le_arquivo("")
+        ad1 = Arquivos.read(ARQ_TESTE)
+        ad2 = Arquivos.read(ARQ_TESTE)
         assert ad1 == ad2
 
 
 def test_neq_arquivos():
     m: MagicMock = mock_open(read_data="".join(MockArquivos))
     with patch("builtins.open", m):
-        ad1 = Arquivos.le_arquivo("")
-        ad2 = Arquivos.le_arquivo("")
+        ad1 = Arquivos.read(ARQ_TESTE)
+        ad2 = Arquivos.read(ARQ_TESTE)
         ad2.dger = "teste"
         assert ad1 != ad2
 
@@ -141,10 +142,10 @@ def test_neq_arquivos():
 def test_leitura_escrita_arquivos():
     m_leitura: MagicMock = mock_open(read_data="".join(MockArquivos))
     with patch("builtins.open", m_leitura):
-        ad1 = Arquivos.le_arquivo("")
+        ad1 = Arquivos.read(ARQ_TESTE)
     m_escrita: MagicMock = mock_open(read_data="")
     with patch("builtins.open", m_escrita):
-        ad1.escreve_arquivo("", "")
+        ad1.write(ARQ_TESTE)
         # Recupera o que foi escrito
         chamadas = m_escrita.mock_calls
         linhas_escritas = [
@@ -152,5 +153,5 @@ def test_leitura_escrita_arquivos():
         ]
     m_releitura: MagicMock = mock_open(read_data="".join(linhas_escritas))
     with patch("builtins.open", m_releitura):
-        ad2 = Arquivos.le_arquivo("")
+        ad2 = Arquivos.read(ARQ_TESTE)
         assert ad1 == ad2

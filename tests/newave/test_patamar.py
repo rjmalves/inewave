@@ -22,9 +22,10 @@ from tests.mocks.arquivos.patamar import (
     MockPatamar,
 )
 
+ARQ_TESTE = "./tests/mocks/arquivos/__init__.py"
+
 
 def test_bloco_numero_patamares_patamar():
-
     m: MagicMock = mock_open(read_data="".join(MockBlocoNumeroPatamares))
     b = BlocoNumeroPatamares()
     with patch("builtins.open", m):
@@ -35,7 +36,6 @@ def test_bloco_numero_patamares_patamar():
 
 
 def test_bloco_duracao_patamares_patamar():
-
     m: MagicMock = mock_open(
         read_data="".join(MockBlocoDuracaoMensalPatamares)
     )
@@ -61,7 +61,6 @@ def test_bloco_duracao_patamares_patamar():
 
 
 def test_bloco_carga_subsistema_patamar():
-
     m: MagicMock = mock_open(read_data="".join(MockBlocoCargaSubsistema))
     b = BlocoCargaPatamar()
     with patch("builtins.open", m):
@@ -86,7 +85,6 @@ def test_bloco_carga_subsistema_patamar():
 
 
 def test_bloco_intercambio_patamar():
-
     m: MagicMock = mock_open(
         read_data="".join(MockBlocoIntercambioSubsistemas)
     )
@@ -114,7 +112,6 @@ def test_bloco_intercambio_patamar():
 
 
 def test_bloco_usinas_nao_simuladas_patamar():
-
     m: MagicMock = mock_open(read_data="".join(MockBlocoUsinasNaoSimuladas))
     b = BlocoUsinasNaoSimuladas()
     with patch("builtins.open", m):
@@ -143,7 +140,7 @@ def test_bloco_usinas_nao_simuladas_patamar():
 def test_atributos_encontrados_patamar():
     m: MagicMock = mock_open(read_data="".join(MockPatamar))
     with patch("builtins.open", m):
-        ad = Patamar.le_arquivo("")
+        ad = Patamar.read(ARQ_TESTE)
         assert ad.numero_patamares is not None
         assert ad.duracao_mensal_patamares is not None
         assert ad.carga_patamares is not None
@@ -154,7 +151,7 @@ def test_atributos_encontrados_patamar():
 def test_atributos_nao_encontrados_patamar():
     m: MagicMock = mock_open(read_data="")
     with patch("builtins.open", m):
-        ad = Patamar.le_arquivo("")
+        ad = Patamar.read(ARQ_TESTE)
         assert ad.numero_patamares is None
         assert ad.duracao_mensal_patamares is None
         assert ad.carga_patamares is None
@@ -165,16 +162,16 @@ def test_atributos_nao_encontrados_patamar():
 def test_eq_patamar():
     m: MagicMock = mock_open(read_data="".join(MockPatamar))
     with patch("builtins.open", m):
-        cf1 = Patamar.le_arquivo("")
-        cf2 = Patamar.le_arquivo("")
+        cf1 = Patamar.read(ARQ_TESTE)
+        cf2 = Patamar.read(ARQ_TESTE)
         assert cf1 == cf2
 
 
 def test_neq_patamar():
     m: MagicMock = mock_open(read_data="".join(MockPatamar))
     with patch("builtins.open", m):
-        cf1 = Patamar.le_arquivo("")
-        cf2 = Patamar.le_arquivo("")
+        cf1 = Patamar.read(ARQ_TESTE)
+        cf2 = Patamar.read(ARQ_TESTE)
         cf2.numero_patamares = 0
         assert cf1 != cf2
 
@@ -182,10 +179,10 @@ def test_neq_patamar():
 def test_leitura_escrita_patamar():
     m_leitura: MagicMock = mock_open(read_data="".join(MockPatamar))
     with patch("builtins.open", m_leitura):
-        cf1 = Patamar.le_arquivo("")
+        cf1 = Patamar.read(ARQ_TESTE)
     m_escrita: MagicMock = mock_open(read_data="")
     with patch("builtins.open", m_escrita):
-        cf1.escreve_arquivo("", "")
+        cf1.write(ARQ_TESTE)
         # Recupera o que foi escrito
         chamadas = m_escrita.mock_calls
         linhas_escritas = [
@@ -193,5 +190,5 @@ def test_leitura_escrita_patamar():
         ]
     m_releitura: MagicMock = mock_open(read_data="".join(linhas_escritas))
     with patch("builtins.open", m_releitura):
-        cf2 = Patamar.le_arquivo("")
+        cf2 = Patamar.read(ARQ_TESTE)
         assert cf1 == cf2

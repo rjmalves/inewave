@@ -33,9 +33,10 @@ from tests.mocks.arquivos.parp import (
     MockPARp,
 )
 
+ARQ_TESTE = "./tests/mocks/arquivos/__init__.py"
+
 
 def test_series_energia_ree():
-
     m: MagicMock = mock_open(read_data="".join(MockSeriesEnergiaPARp))
     b = BlocoSerieEnergiaREE()
     with patch("builtins.open", m):
@@ -49,7 +50,6 @@ def test_series_energia_ree():
 
 
 def test_correlacao_series_energia_ree():
-
     m: MagicMock = mock_open(
         read_data="".join(MockCorrelacaoSeriesEnergiasREE)
     )
@@ -65,7 +65,6 @@ def test_correlacao_series_energia_ree():
 
 
 def test_correlacao_parcial_series_energia_ree():
-
     m: MagicMock = mock_open(
         read_data="".join(MockCorrelacaoParcialSeriesEnergiaREE)
     )
@@ -81,7 +80,6 @@ def test_correlacao_parcial_series_energia_ree():
 
 
 def test_ordem_modelo_ree():
-
     m: MagicMock = mock_open(read_data="".join(MockOrdemOriginalModeloREE))
     b = BlocoOrdemModeloREE()
     with patch("builtins.open", m):
@@ -95,7 +93,6 @@ def test_ordem_modelo_ree():
 
 
 def test_coeficientes_modelo_ree():
-
     m: MagicMock = mock_open(read_data="".join(MockCoeficientesModeloREE))
     b = BlocoCoeficientesModeloREE()
     with patch("builtins.open", m):
@@ -111,7 +108,6 @@ def test_coeficientes_modelo_ree():
 
 
 def test_serie_ruidos_ree():
-
     m: MagicMock = mock_open(read_data="".join(MockSerieRuidosREE))
     b = BlocoSerieRuidosREE()
     with patch("builtins.open", m):
@@ -125,7 +121,6 @@ def test_serie_ruidos_ree():
 
 
 def test_correl_serie_ruidos_ree():
-
     m: MagicMock = mock_open(read_data="".join(MockCorrelSerieRuidosREE))
     b = BlocoCorrelRuidosREE()
     with patch("builtins.open", m):
@@ -139,7 +134,6 @@ def test_correl_serie_ruidos_ree():
 
 
 def test_serie_media_12_meses_ree():
-
     m: MagicMock = mock_open(read_data="".join(MockSerieMedia12MesesREE))
     b = BlocoSerieMediasREE()
     with patch("builtins.open", m):
@@ -153,7 +147,6 @@ def test_serie_media_12_meses_ree():
 
 
 def test_correl_cruzada_media_12_meses_ree():
-
     m: MagicMock = mock_open(read_data="".join(MockCorrelCruzadaMedia12Meses))
     b = BlocoCorrelCruzadaMediaREE()
     with patch("builtins.open", m):
@@ -167,7 +160,6 @@ def test_correl_cruzada_media_12_meses_ree():
 
 
 def test_correl_espacial_anual():
-
     m: MagicMock = mock_open(read_data="".join(MockCorrelEspacialAnual))
     b = BlocoCorrelEspacialAnualConfig()
     with patch("builtins.open", m):
@@ -181,7 +173,6 @@ def test_correl_espacial_anual():
 
 
 def test_correl_espacial_mensal():
-
     m: MagicMock = mock_open(read_data="".join(MockCorrelEspacialMensal))
     b = BlocoCorrelEspacialMensalConfig()
     with patch("builtins.open", m):
@@ -197,7 +188,7 @@ def test_correl_espacial_mensal():
 def test_atributos_encontrados_parp():
     m: MagicMock = mock_open(read_data="".join(MockPARp))
     with patch("builtins.open", m):
-        parp = PARp.le_arquivo("")
+        parp = PARp.read(ARQ_TESTE)
         assert parp.series_energia_ree is not None
         assert parp.correlacao_series_energia_ree is not None
         assert parp.correlacao_parcial_series_energia_ree is not None
@@ -215,7 +206,7 @@ def test_atributos_encontrados_parp():
 def test_atributos_nao_encontrados_parp():
     m: MagicMock = mock_open(read_data="".join(MockSeriesEnergiaPARp))
     with patch("builtins.open", m):
-        parp = PARp.le_arquivo("")
+        parp = PARp.read(ARQ_TESTE)
         assert parp.series_energia_ree is not None
         assert parp.correlacao_series_energia_ree is None
         assert parp.correlacao_parcial_series_energia_ree is None
@@ -233,15 +224,15 @@ def test_atributos_nao_encontrados_parp():
 def test_eq_parp():
     m: MagicMock = mock_open(read_data="".join(MockPARp))
     with patch("builtins.open", m):
-        parp1 = PARp.le_arquivo("")
-        parp2 = PARp.le_arquivo("")
+        parp1 = PARp.read(ARQ_TESTE)
+        parp2 = PARp.read(ARQ_TESTE)
         assert parp1 == parp2
 
 
 def test_neq_parp():
     m: MagicMock = mock_open(read_data="".join(MockPARp))
     with patch("builtins.open", m):
-        parp1 = PARp.le_arquivo("")
-        parp2 = PARp.le_arquivo("")
+        parp1 = PARp.read(ARQ_TESTE)
+        parp2 = PARp.read(ARQ_TESTE)
         parp2.series_energia_ree.iloc[0, 0] = -1
         assert parp1 != parp2

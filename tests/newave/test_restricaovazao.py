@@ -18,6 +18,8 @@ from tests.mocks.arquivos.restricaovazao import (
     MockRestricaoVazao,
 )
 
+ARQ_TESTE = "./tests/mocks/arquivos/__init__.py"
+
 
 def test_registro_rhq_restricaovazao():
     m: MagicMock = mock_open(read_data="".join(MockRHQ))
@@ -70,7 +72,7 @@ def test_registro_rhq_ls_lpp_voli_restricaovazao():
 def test_atributos_encontrados_restricaovazao():
     m: MagicMock = mock_open(read_data="".join(MockRestricaoVazao))
     with patch("builtins.open", m):
-        e = RestricaoVazao.le_arquivo("")
+        e = RestricaoVazao.read(ARQ_TESTE)
         assert len(e.rhq()) > 0
         assert len(e.rhq_horiz_per()) > 0
         assert len(e.rhq_ls_lpp_voli()) > 0
@@ -79,16 +81,16 @@ def test_atributos_encontrados_restricaovazao():
 def test_eq_restricaovazao():
     m: MagicMock = mock_open(read_data="".join(MockRestricaoVazao))
     with patch("builtins.open", m):
-        cf1 = RestricaoVazao.le_arquivo("")
-        cf2 = RestricaoVazao.le_arquivo("")
+        cf1 = RestricaoVazao.read(ARQ_TESTE)
+        cf2 = RestricaoVazao.read(ARQ_TESTE)
         assert cf1 == cf2
 
 
 def test_neq_restricaovazao():
     m: MagicMock = mock_open(read_data="".join(MockRestricaoVazao))
     with patch("builtins.open", m):
-        cf1 = RestricaoVazao.le_arquivo("")
-        cf2 = RestricaoVazao.le_arquivo("")
+        cf1 = RestricaoVazao.read(ARQ_TESTE)
+        cf2 = RestricaoVazao.read(ARQ_TESTE)
         cf2.deleta_registro(cf1.rhq()[0])
         assert cf1 != cf2
 
@@ -96,10 +98,10 @@ def test_neq_restricaovazao():
 def test_leitura_escrita_restricaovazao():
     m_leitura: MagicMock = mock_open(read_data="".join(MockRestricaoVazao))
     with patch("builtins.open", m_leitura):
-        cf1 = RestricaoVazao.le_arquivo("")
+        cf1 = RestricaoVazao.read(ARQ_TESTE)
     m_escrita: MagicMock = mock_open(read_data="")
     with patch("builtins.open", m_escrita):
-        cf1.escreve_arquivo("", "")
+        cf1.write(ARQ_TESTE)
         # Recupera o que foi escrito
         chamadas = m_escrita.mock_calls
         linhas_escritas = [
@@ -107,5 +109,5 @@ def test_leitura_escrita_restricaovazao():
         ]
     m_releitura: MagicMock = mock_open(read_data="".join(linhas_escritas))
     with patch("builtins.open", m_releitura):
-        cf2 = RestricaoVazao.le_arquivo("")
+        cf2 = RestricaoVazao.read(ARQ_TESTE)
         assert cf1 == cf2

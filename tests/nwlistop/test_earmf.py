@@ -5,11 +5,13 @@ from unittest.mock import MagicMock, patch
 
 from tests.mocks.arquivos.earmf import MockEarmf
 
+ARQ_TESTE = "./tests/mocks/arquivos/__init__.py"
+
 
 def test_atributos_encontrados_earmf():
     m: MagicMock = mock_open(read_data="".join(MockEarmf))
     with patch("builtins.open", m):
-        n = Earmf.le_arquivo("")
+        n = Earmf.read(ARQ_TESTE)
         assert n.valores is not None
         assert n.valores.iloc[0, 0] == 2021
         assert n.valores.iloc[-1, -1] == 20770.0
@@ -20,7 +22,7 @@ def test_atributos_encontrados_earmf():
 def test_atributos_nao_encontrados_earmf():
     m: MagicMock = mock_open(read_data="")
     with patch("builtins.open", m):
-        n = Earmf.le_arquivo("")
+        n = Earmf.read(ARQ_TESTE)
         assert n.valores is None
         assert n.ree is None
 
@@ -28,8 +30,8 @@ def test_atributos_nao_encontrados_earmf():
 def test_eq_earmf():
     m: MagicMock = mock_open(read_data="".join(MockEarmf))
     with patch("builtins.open", m):
-        n1 = Earmf.le_arquivo("")
-        n2 = Earmf.le_arquivo("")
+        n1 = Earmf.read(ARQ_TESTE)
+        n2 = Earmf.read(ARQ_TESTE)
         assert n1 == n2
 
 

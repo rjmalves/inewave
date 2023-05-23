@@ -6,7 +6,7 @@ from tests.mocks.mock_open import mock_open
 from unittest.mock import MagicMock, patch
 
 
-ARQ_TEST = "./tests/mocks/arquivos"
+ARQ_TESTE = "./tests/mocks/arquivos/energiab.dat"
 
 NUM_FORWARDS = 2
 NUM_REES = 1
@@ -17,7 +17,7 @@ NUM_ENTRADAS = NUM_FORWARDS * NUM_ABERTURAS * NUM_REES * NUM_ESTAGIOS
 
 def test_secao_energia():
     r = SecaoDadosEnergiab()
-    with open(join(ARQ_TEST, "energiab.dat"), "rb") as fp:
+    with open(ARQ_TESTE, "rb") as fp:
         r.read(
             fp,
             numero_forwards=NUM_FORWARDS,
@@ -30,8 +30,8 @@ def test_secao_energia():
 
 
 def test_atributos_encontrados_energia():
-    h = Energiab.le_arquivo(
-        ARQ_TEST,
+    h = Energiab.read(
+        ARQ_TESTE,
         numero_forwards=NUM_FORWARDS,
         numero_aberturas=NUM_ABERTURAS,
         numero_rees=NUM_REES,
@@ -44,8 +44,8 @@ def test_atributos_encontrados_energia():
 def test_atributos_nao_encontrados_energia():
     m: MagicMock = mock_open(read_data="")
     with patch("builtins.open", m):
-        h = Energiab.le_arquivo(
-            "",
+        h = Energiab.read(
+            ARQ_TESTE,
             numero_forwards=NUM_FORWARDS,
             numero_aberturas=NUM_ABERTURAS,
             numero_rees=NUM_REES,
@@ -55,15 +55,15 @@ def test_atributos_nao_encontrados_energia():
 
 
 def test_eq_energia():
-    h1 = Energiab.le_arquivo(
-        ARQ_TEST,
+    h1 = Energiab.read(
+        ARQ_TESTE,
         numero_forwards=NUM_FORWARDS,
         numero_aberturas=NUM_ABERTURAS,
         numero_rees=NUM_REES,
         numero_estagios=NUM_ESTAGIOS,
     )
-    h2 = Energiab.le_arquivo(
-        ARQ_TEST,
+    h2 = Energiab.read(
+        ARQ_TESTE,
         numero_forwards=NUM_FORWARDS,
         numero_aberturas=NUM_ABERTURAS,
         numero_rees=NUM_REES,

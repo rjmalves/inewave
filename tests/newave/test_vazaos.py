@@ -6,7 +6,7 @@ from tests.mocks.mock_open import mock_open
 from unittest.mock import MagicMock, patch
 
 
-ARQ_TEST = "./tests/mocks/arquivos"
+ARQ_TESTE = "./tests/mocks/arquivos/vazaos.dat"
 
 NUM_SERIES = 2
 NUM_UHES = 1
@@ -17,7 +17,7 @@ NUM_ENTRADAS = NUM_SERIES * NUM_UHES * (NUM_ESTAGIOS_TH + NUM_ESTAGIOS)
 
 def test_secao_vazao():
     r = SecaoDadosVazaos()
-    with open(join(ARQ_TEST, "vazaos.dat"), "rb") as fp:
+    with open(ARQ_TESTE, "rb") as fp:
         r.read(
             fp,
             numero_series=NUM_SERIES,
@@ -30,8 +30,8 @@ def test_secao_vazao():
 
 
 def test_atributos_encontrados_vazao():
-    h = Vazaos.le_arquivo(
-        ARQ_TEST,
+    h = Vazaos.read(
+        ARQ_TESTE,
         numero_series=NUM_SERIES,
         numero_uhes=NUM_UHES,
         numero_estagios=NUM_ESTAGIOS,
@@ -44,8 +44,8 @@ def test_atributos_encontrados_vazao():
 def test_atributos_nao_encontrados_vazao():
     m: MagicMock = mock_open(read_data="")
     with patch("builtins.open", m):
-        h = Vazaos.le_arquivo(
-            "",
+        h = Vazaos.read(
+            ARQ_TESTE,
             numero_series=NUM_SERIES,
             numero_uhes=NUM_UHES,
             numero_estagios=NUM_ESTAGIOS,
@@ -55,15 +55,15 @@ def test_atributos_nao_encontrados_vazao():
 
 
 def test_eq_vazao():
-    h1 = Vazaos.le_arquivo(
-        ARQ_TEST,
+    h1 = Vazaos.read(
+        ARQ_TESTE,
         numero_series=NUM_SERIES,
         numero_uhes=NUM_UHES,
         numero_estagios=NUM_ESTAGIOS,
         numero_estagios_th=NUM_ESTAGIOS_TH,
     )
-    h2 = Vazaos.le_arquivo(
-        ARQ_TEST,
+    h2 = Vazaos.read(
+        ARQ_TESTE,
         numero_series=NUM_SERIES,
         numero_uhes=NUM_UHES,
         numero_estagios=NUM_ESTAGIOS,

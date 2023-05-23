@@ -6,7 +6,7 @@ from tests.mocks.mock_open import mock_open
 from unittest.mock import MagicMock, patch
 
 
-ARQ_TEST = "./tests/mocks/arquivos"
+ARQ_TESTE = "./tests/mocks/arquivos/engnat.dat"
 
 NUM_CONFIGURACOES = 1
 NUM_REES = 12
@@ -16,7 +16,7 @@ NUM_ENTRADAS = NUM_CONFIGURACOES * NUM_REES * 12 * MAX_ANOS_HISTORICO
 
 def test_secao_engnat():
     r = SecaoDadosEngnat()
-    with open(join(ARQ_TEST, "engnat.dat"), "rb") as fp:
+    with open(ARQ_TESTE, "rb") as fp:
         r.read(
             fp,
             numero_rees=NUM_REES,
@@ -28,8 +28,8 @@ def test_secao_engnat():
 
 
 def test_atributos_encontrados_engnat():
-    h = Engnat.le_arquivo(
-        ARQ_TEST,
+    h = Engnat.read(
+        ARQ_TESTE,
         numero_rees=NUM_REES,
         ano_inicio_historico=ANO_INICIO_HISTORICO,
         numero_configuracoes=NUM_CONFIGURACOES,
@@ -41,8 +41,8 @@ def test_atributos_encontrados_engnat():
 def test_atributos_nao_encontrados_engnat():
     m: MagicMock = mock_open(read_data="")
     with patch("builtins.open", m):
-        h = Engnat.le_arquivo(
-            "",
+        h = Engnat.read(
+            ARQ_TESTE,
             numero_rees=NUM_REES,
             ano_inicio_historico=ANO_INICIO_HISTORICO,
             numero_configuracoes=NUM_CONFIGURACOES,
@@ -51,14 +51,14 @@ def test_atributos_nao_encontrados_engnat():
 
 
 def test_eq_engnat():
-    h1 = Engnat.le_arquivo(
-        ARQ_TEST,
+    h1 = Engnat.read(
+        ARQ_TESTE,
         numero_rees=NUM_REES,
         ano_inicio_historico=ANO_INICIO_HISTORICO,
         numero_configuracoes=NUM_CONFIGURACOES,
     )
-    h2 = Engnat.le_arquivo(
-        ARQ_TEST,
+    h2 = Engnat.read(
+        ARQ_TESTE,
         numero_rees=NUM_REES,
         ano_inicio_historico=ANO_INICIO_HISTORICO,
         numero_configuracoes=NUM_CONFIGURACOES,
