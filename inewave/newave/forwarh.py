@@ -1,5 +1,5 @@
 from cfinterface.files.sectionfile import SectionFile
-from inewave.newave.modelos.cortesh import SecaoDadosCortesh
+from inewave.newave.modelos.forwarh import SecaoDadosForwarh
 import pandas as pd  # type: ignore
 
 
@@ -10,15 +10,15 @@ from os.path import join
 import warnings
 
 
-class Cortesh(SectionFile):
+class Forwarh(SectionFile):
     """
     Armazena os dados de saída do NEWAVE referentes ao
-    cabeçalho dos cortes de Benders.
+    cabeçalho dos dados das simulações forward.
     """
 
     T = TypeVar("T")
 
-    SECTIONS = [SecaoDadosCortesh]
+    SECTIONS = [SecaoDadosForwarh]
     STORAGE = "BINARY"
 
     def __init__(self, data=...) -> None:
@@ -26,8 +26,8 @@ class Cortesh(SectionFile):
 
     @classmethod
     def le_arquivo(
-        cls, diretorio: str, nome_arquivo="cortesh.dat"
-    ) -> "Cortesh":
+        cls, diretorio: str, nome_arquivo="forwarh.dat"
+    ) -> "Forwarh":
         msg = (
             "O método le_arquivo(diretorio, nome_arquivo) será descontinuado"
             + " na versão 1.0.0 - use o método read(caminho_arquivo)"
@@ -35,7 +35,7 @@ class Cortesh(SectionFile):
         warnings.warn(msg, category=FutureWarning)
         return cls.read(join(diretorio, nome_arquivo))
 
-    def escreve_arquivo(self, diretorio: str, nome_arquivo="cortesh.dat"):
+    def escreve_arquivo(self, diretorio: str, nome_arquivo="forwarh.dat"):
         msg = (
             "O método escreve_arquivo(diretorio, nome_arquivo) será"
             + " descontinuado na versão 1.0.0 -"
@@ -45,8 +45,8 @@ class Cortesh(SectionFile):
         self.write(join(diretorio, nome_arquivo))
 
     @property
-    def dados(self) -> Optional[SecaoDadosCortesh]:
-        dados = [r for r in self.data.of_type(SecaoDadosCortesh)]
+    def dados(self) -> Optional[SecaoDadosForwarh]:
+        dados = [r for r in self.data.of_type(SecaoDadosForwarh)]
         if len(dados) == 1:
             return dados[0]
         else:

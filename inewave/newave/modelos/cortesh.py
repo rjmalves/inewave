@@ -5,7 +5,7 @@ from typing import List
 from typing import IO
 
 
-class SecaoDadosCortesH(Section):
+class SecaoDadosCortesh(Section):
     """
     Registro com os dados da execução do caso existente no
     arquivo cortesh.dat
@@ -20,9 +20,9 @@ class SecaoDadosCortesH(Section):
         self.__df_dados_uhes = pd.DataFrame()
 
     def __eq__(self, o: object) -> bool:
-        if not isinstance(o, SecaoDadosCortesH):
+        if not isinstance(o, SecaoDadosCortesh):
             return False
-        bloco: SecaoDadosCortesH = o
+        bloco: SecaoDadosCortesh = o
         if not all(
             [
                 isinstance(self.data, list),
@@ -169,7 +169,7 @@ class SecaoDadosCortesH(Section):
     def __le_oitavo_registro(self, file: IO):
         file.seek(7 * self.__class__.REGISTER_SIZE)
         self.__tamanho_oitavo_registro = (
-            (2 + self.numero_estagios_estudo + 2 * self.npea)
+            (2 + self.numero_estagios_estudo + 2 * self.numero_estagios_ano)
             if self.usa_sar
             else 0
         )
@@ -196,7 +196,11 @@ class SecaoDadosCortesH(Section):
     def __le_nono_registro(self, file: IO):
         file.seek(8 * self.__class__.REGISTER_SIZE)
         self.__tamanho_nono_registro = (
-            (1 + 2 * (self.numero_estagios_estudo + 2 * self.npea))
+            (
+                1
+                + 2
+                * (self.numero_estagios_estudo + 2 * self.numero_estagios_ano)
+            )
             if self.usa_cvar
             else 0
         )
@@ -415,11 +419,11 @@ class SecaoDadosCortesH(Section):
         self.data[6] = v
 
     @property
-    def npea(self) -> int:
+    def numero_estagios_ano(self) -> int:
         return self.data[7]
 
-    @npea.setter
-    def npea(self, v: int):
+    @numero_estagios_ano.setter
+    def numero_estagios_ano(self, v: int):
         self.data[7] = v
 
     @property
@@ -714,7 +718,9 @@ class SecaoDadosCortesH(Section):
             return []
         offset = self.__offset_setimo_registro() + 2
         return self.data[
-            offset : offset + self.numero_estagios_estudo + 2 * self.npea
+            offset : offset
+            + self.numero_estagios_estudo
+            + 2 * self.numero_estagios_ano
         ]
 
     @property
@@ -730,7 +736,9 @@ class SecaoDadosCortesH(Section):
             return []
         offset = self.__offset_oitavo_registro() + 1
         return self.data[
-            offset : offset + self.numero_estagios_estudo + 2 * self.npea
+            offset : offset
+            + self.numero_estagios_estudo
+            + 2 * self.numero_estagios_ano
         ]
 
     @property
@@ -741,10 +749,12 @@ class SecaoDadosCortesH(Section):
             self.__offset_oitavo_registro()
             + 1
             + self.numero_estagios_estudo
-            + 2 * self.npea
+            + 2 * self.numero_estagios_ano
         )
         return self.data[
-            offset : offset + self.numero_estagios_estudo + 2 * self.npea
+            offset : offset
+            + self.numero_estagios_estudo
+            + 2 * self.numero_estagios_ano
         ]
 
     @property

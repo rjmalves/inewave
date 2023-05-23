@@ -1,5 +1,5 @@
-from inewave.newave.modelos.cortesh import SecaoDadosCortesH
-from inewave.newave.cortesh import CortesH
+from inewave.newave.modelos.cortesh import SecaoDadosCortesh
+from inewave.newave.cortesh import Cortesh
 
 from tests.mocks.mock_open import mock_open
 from unittest.mock import MagicMock, patch
@@ -9,7 +9,7 @@ ARQ_TESTE = "./tests/mocks/arquivos/cortesh.dat"
 
 
 def test_secao_dados_cortesh():
-    r = SecaoDadosCortesH()
+    r = SecaoDadosCortesh()
     with open(ARQ_TESTE, "rb") as fp:
         r.read(fp, storage="BINARY")
 
@@ -17,7 +17,7 @@ def test_secao_dados_cortesh():
 
 
 def test_atributos_encontrados_cortesh():
-    h = CortesH.read(ARQ_TESTE)
+    h = Cortesh.read(ARQ_TESTE)
     assert h.dados is not None
 
 
@@ -25,17 +25,17 @@ def test_atributos_nao_encontrados_cortesh():
     m: MagicMock = mock_open(read_data=b"")
     with pytest.raises(ValueError):
         with patch("builtins.open", m):
-            h = CortesH.read(ARQ_TESTE)
+            h = Cortesh.read(ARQ_TESTE)
 
 
 def test_eq_cortesh():
-    h1 = CortesH.read(ARQ_TESTE)
-    h2 = CortesH.read(ARQ_TESTE)
+    h1 = Cortesh.read(ARQ_TESTE)
+    h2 = Cortesh.read(ARQ_TESTE)
     assert h1 == h2
 
 
 def test_atributos_cortesh():
-    h1 = CortesH.read(ARQ_TESTE)
+    h1 = Cortesh.read(ARQ_TESTE)
     assert h1.dados.versao_newave == 281200
     assert h1.dados.tamanho_corte == 17568
     assert h1.dados.tamanho_estado == 0
@@ -43,7 +43,7 @@ def test_atributos_cortesh():
     assert h1.dados.numero_estagios_pre == 0
     assert h1.dados.numero_estagios_estudo == 60
     assert h1.dados.numero_estagios_pos == 60
-    assert h1.dados.npea == 12
+    assert h1.dados.numero_estagios_ano == 12
     assert h1.dados.numero_configuracoes == 56
     assert h1.dados.numero_forwards == 200
     assert h1.dados.numero_patamares == 3
