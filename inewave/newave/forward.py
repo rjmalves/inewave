@@ -41,6 +41,23 @@ class Forward(SectionFile):
         lag_maximo_usinas_gnl: int = 2,
         numero_parques_eolicos_equivalentes: int = 2,
         numero_estacoes_bombeamento: int = 0,
+        nomes_submercados: List[str] = ["SUDESTE", "SUL", "NORDESTE", "NORTE"],
+        nomes_rees: List[str] = [
+            "SUDESTE",
+            "MADEIRA",
+            "TPIRES",
+            "ITAIPU",
+            "PARANA",
+            "PRNPANEMA",
+            "SUL",
+            "IGUACU",
+            "NORDESTE",
+            "NORTE",
+            "BMONTE",
+            "MAN-AP",
+        ],
+        nomes_classes_termicas: List[str] = [],
+        nomes_usinas_hidreletricas: List[str] = [],
         *args,
         **kwargs
     ) -> "Forward":
@@ -60,6 +77,10 @@ class Forward(SectionFile):
             lag_maximo_usinas_gnl=lag_maximo_usinas_gnl,
             numero_parques_eolicos_equivalentes=numero_parques_eolicos_equivalentes,
             numero_estacoes_bombeamento=numero_estacoes_bombeamento,
+            nomes_submercados=nomes_submercados,
+            nomes_rees=nomes_rees,
+            nomes_classes_termicas=nomes_classes_termicas,
+            nomes_usinas_hidreletricas=nomes_usinas_hidreletricas,
             *args,
             **kwargs
         )

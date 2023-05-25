@@ -1,6 +1,7 @@
 from cfinterface.components.section import Section
 from typing import IO, List
 import numpy as np  # type: ignore
+import pandas as pd  # type: ignore
 
 
 class SecaoDadosForward(Section):
@@ -51,42 +52,53 @@ class SecaoDadosForward(Section):
     def __inicializa_variaveis(
         self, numero_estagios: int, numero_forwards: int
     ):
-        num_simulacoes = numero_estagios * numero_forwards
-        self.estagio = np.zeros((1 * num_simulacoes,), dtype=np.int32)
+        self.__estagios_df = np.repeat(
+            np.arange(1, numero_estagios + 1), numero_forwards
+        )
+        self.__cenarios_df = np.tile(
+            np.arange(1, numero_forwards + 1), numero_estagios
+        )
+        self.__num_simulacoes = numero_estagios * numero_forwards
+        self.estagio = np.zeros((1 * self.__num_simulacoes,), dtype=np.int32)
         self.mercado_liquido = np.zeros(
-            (self.numero_submercados * num_simulacoes,), dtype=np.float32
+            (self.numero_submercados * self.__num_simulacoes,),
+            dtype=np.float32,
         )
         self.energia_armazenada_inicial = np.zeros(
-            (self.numero_rees * num_simulacoes,), dtype=np.float32
+            (self.numero_rees * self.__num_simulacoes,), dtype=np.float32
         )
         self.energia_afluente_total = np.zeros(
-            (self.numero_rees * num_simulacoes,), dtype=np.float32
+            (self.numero_rees * self.__num_simulacoes,), dtype=np.float32
         )
         self.geracao_hidraulica_controlavel = np.zeros(
-            (self.numero_rees * self.numero_patamares_carga * num_simulacoes,),
+            (
+                self.numero_rees
+                * self.numero_patamares_carga
+                * self.__num_simulacoes,
+            ),
             dtype=np.float32,
         )
         self.energia_vertida = np.zeros(
-            (self.numero_rees * num_simulacoes,), dtype=np.float32
+            (self.numero_rees * self.__num_simulacoes,), dtype=np.float32
         )
         self.energia_armazenada_final = np.zeros(
-            (self.numero_rees * num_simulacoes,), dtype=np.float32
+            (self.numero_rees * self.__num_simulacoes,), dtype=np.float32
         )
         self.energia_fio_dagua = np.zeros(
-            (self.numero_rees * num_simulacoes,), dtype=np.float32
+            (self.numero_rees * self.__num_simulacoes,), dtype=np.float32
         )
         self.energia_evaporada = np.zeros(
-            (self.numero_rees * num_simulacoes,), dtype=np.float32
+            (self.numero_rees * self.__num_simulacoes,), dtype=np.float32
         )
         self.energia_enchimento_volume_morto = np.zeros(
-            (self.numero_rees * num_simulacoes,), dtype=np.float32
+            (self.numero_rees * self.__num_simulacoes,), dtype=np.float32
         )
         self.geracao_termica = np.zeros(
             (
                 2
                 * self.total_classes_termicas
                 * self.numero_patamares_carga
-                * num_simulacoes,
+                * self.__num_simulacoes,
             ),
             dtype=np.float32,
         )
@@ -95,28 +107,28 @@ class SecaoDadosForward(Section):
                 self.numero_submercados
                 * self.numero_patamares_deficit
                 * self.numero_patamares_carga
-                * num_simulacoes,
+                * self.__num_simulacoes,
             ),
             dtype=np.float32,
         )
         self.pi_balanco_hidrico = np.zeros(
-            (self.numero_rees * num_simulacoes,),
+            (self.numero_rees * self.__num_simulacoes,),
             dtype=np.float32,
         )
         self.pi_balanco_demanda = np.zeros(
             (
                 self.numero_submercados
                 * self.numero_patamares_carga
-                * num_simulacoes,
+                * self.__num_simulacoes,
             ),
             dtype=np.float32,
         )
         self.geracao_fio_dagua_liquida = np.zeros(
-            (self.numero_rees * num_simulacoes,),
+            (self.numero_rees * self.__num_simulacoes,),
             dtype=np.float32,
         )
         self.perdas_fio_dagua = np.zeros(
-            (self.numero_rees * num_simulacoes,),
+            (self.numero_rees * self.__num_simulacoes,),
             dtype=np.float32,
         )
         self.intercambios = np.zeros(
@@ -124,7 +136,7 @@ class SecaoDadosForward(Section):
                 self.numero_total_submercados
                 * (self.numero_total_submercados - 1)
                 * self.numero_patamares_carga
-                * num_simulacoes,
+                * self.__num_simulacoes,
             ),
             dtype=np.float32,
         )
@@ -132,28 +144,32 @@ class SecaoDadosForward(Section):
             (
                 self.numero_submercados
                 * self.numero_patamares_carga
-                * num_simulacoes,
+                * self.__num_simulacoes,
             ),
             dtype=np.float32,
         )
         self.energia_afluente_bruta_sem_correcao = np.zeros(
-            (self.numero_rees * num_simulacoes,),
+            (self.numero_rees * self.__num_simulacoes,),
             dtype=np.float32,
         )
         self.energia_afluente_controlavel_corrigida = np.zeros(
-            (self.numero_rees * num_simulacoes,),
+            (self.numero_rees * self.__num_simulacoes,),
             dtype=np.float32,
         )
         self.geracao_hidraulica_maxima = np.zeros(
-            (self.numero_rees * self.numero_patamares_carga * num_simulacoes,),
+            (
+                self.numero_rees
+                * self.numero_patamares_carga
+                * self.__num_simulacoes,
+            ),
             dtype=np.float32,
         )
         self.energia_controlavel_referente_desvio = np.zeros(
-            (self.numero_rees * num_simulacoes,),
+            (self.numero_rees * self.__num_simulacoes,),
             dtype=np.float32,
         )
         self.energia_fio_dagua_referente_desvio = np.zeros(
-            (self.numero_rees * num_simulacoes,),
+            (self.numero_rees * self.__num_simulacoes,),
             dtype=np.float32,
         )
         self.beneficio_intercambio = np.zeros(
@@ -161,44 +177,44 @@ class SecaoDadosForward(Section):
                 self.numero_total_submercados
                 * (self.numero_total_submercados - 1)
                 * self.numero_patamares_carga
-                * num_simulacoes,
+                * self.__num_simulacoes,
             ),
             dtype=np.float32,
         )
         self.fator_correcao_energia_controlavel = np.zeros(
-            (self.numero_rees * num_simulacoes,),
+            (self.numero_rees * self.__num_simulacoes,),
             dtype=np.float32,
         )
         self.invasao_curva_aversao = np.zeros(
-            (self.numero_rees * num_simulacoes,),
+            (self.numero_rees * self.__num_simulacoes,),
             dtype=np.float32,
         )
         self.acionamento_curva_aversao = np.zeros(
-            (self.numero_rees * num_simulacoes,),
+            (self.numero_rees * self.__num_simulacoes,),
             dtype=np.float32,
         )
         self.penalidade_invasao_curva_aversao = np.zeros(
-            (self.numero_rees * num_simulacoes,),
+            (self.numero_rees * self.__num_simulacoes,),
             dtype=np.float32,
         )
         self.custo_total_operacao = np.zeros(
-            (1 * num_simulacoes,),
+            (1 * self.__num_simulacoes,),
             dtype=np.float32,
         )
         self.custo_geracao_termica = np.zeros(
-            (self.numero_submercados * num_simulacoes,),
+            (self.numero_submercados * self.__num_simulacoes,),
             dtype=np.float32,
         )
         self.beneficio_agrupamento_intercambios = np.zeros(
             (
                 self.numero_patamares_carga
                 * self.numero_agrupamentos_intercambio
-                * num_simulacoes,
+                * self.__num_simulacoes,
             ),
             dtype=np.float32,
         )
         self.energia_afluente_fio_dagua = np.zeros(
-            (self.numero_rees * num_simulacoes,),
+            (self.numero_rees * self.__num_simulacoes,),
             dtype=np.float32,
         )
         self.beneficio_despacho_gnl = np.zeros(
@@ -206,43 +222,51 @@ class SecaoDadosForward(Section):
                 self.numero_submercados
                 * self.numero_patamares_carga
                 * self.lag_maximo_usinas_gnl
-                * num_simulacoes,
+                * self.__num_simulacoes,
             ),
             dtype=np.float32,
         )
         self.violacao_ghmin_ree = np.zeros(
-            (self.numero_rees * self.numero_patamares_carga * num_simulacoes,),
+            (
+                self.numero_rees
+                * self.numero_patamares_carga
+                * self.__num_simulacoes,
+            ),
             dtype=np.float32,
         )
         self.violacao_energia_vazao_minima = np.zeros(
-            (self.numero_rees * num_simulacoes,),
+            (self.numero_rees * self.__num_simulacoes,),
             dtype=np.float32,
         )
         self.invasao_sar = np.zeros(
-            (1 * num_simulacoes,),
+            (1 * self.__num_simulacoes,),
             dtype=np.float32,
         )
         self.acionamento_sar = np.zeros(
-            (1 * num_simulacoes,),
+            (1 * self.__num_simulacoes,),
             dtype=np.int32,
         )
         self.penalidade_sar = np.zeros(
-            (1 * num_simulacoes,),
+            (1 * self.__num_simulacoes,),
             dtype=np.float32,
         )
         self.capacidade_hidraulica_maxima_considerando_re = np.zeros(
-            (self.numero_rees * self.numero_patamares_carga * num_simulacoes,),
+            (
+                self.numero_rees
+                * self.numero_patamares_carga
+                * self.__num_simulacoes,
+            ),
             dtype=np.float32,
         )
         self.volume_armazenado_final = np.zeros(
-            (self.numero_usinas_hidreletricas * num_simulacoes,),
+            (self.numero_usinas_hidreletricas * self.__num_simulacoes,),
             dtype=np.float32,
         )
         self.geracao_hidraulica_usina = np.zeros(
             (
                 self.numero_usinas_hidreletricas
                 * self.numero_patamares_carga
-                * num_simulacoes,
+                * self.__num_simulacoes,
             ),
             dtype=np.float32,
         )
@@ -250,7 +274,7 @@ class SecaoDadosForward(Section):
             (
                 self.numero_usinas_hidreletricas
                 * self.numero_patamares_carga
-                * num_simulacoes,
+                * self.__num_simulacoes,
             ),
             dtype=np.float32,
         )
@@ -258,7 +282,7 @@ class SecaoDadosForward(Section):
             (
                 self.numero_usinas_hidreletricas
                 * self.numero_patamares_carga
-                * num_simulacoes,
+                * self.__num_simulacoes,
             ),
             dtype=np.float32,
         )
@@ -266,95 +290,102 @@ class SecaoDadosForward(Section):
             (
                 self.numero_usinas_hidreletricas
                 * self.numero_patamares_carga
-                * num_simulacoes,
+                * self.__num_simulacoes,
             ),
             dtype=np.float32,
         )
         self.enchimento_volume_morto_usina = np.zeros(
-            (self.numero_usinas_hidreletricas * num_simulacoes,),
+            (self.numero_usinas_hidreletricas * self.__num_simulacoes,),
             dtype=np.float32,
         )
         self.violacao_vazao_minima_usina = np.zeros(
             (
                 self.numero_usinas_hidreletricas
                 * self.numero_patamares_carga
-                * num_simulacoes,
+                * self.__num_simulacoes,
             ),
             dtype=np.float32,
         )
         self.volume_desvio_usina = np.zeros(
-            (self.numero_usinas_hidreletricas * num_simulacoes,),
+            (self.numero_usinas_hidreletricas * self.__num_simulacoes,),
             dtype=np.float32,
         )
         self.volume_desvio_positivo_usina = np.zeros(
-            (self.numero_usinas_hidreletricas * num_simulacoes,),
+            (self.numero_usinas_hidreletricas * self.__num_simulacoes,),
             dtype=np.float32,
         )
         self.volume_desvio_negativo_usina = np.zeros(
-            (self.numero_usinas_hidreletricas * num_simulacoes,),
+            (self.numero_usinas_hidreletricas * self.__num_simulacoes,),
             dtype=np.float32,
         )
         self.violacao_fpha_usina = np.zeros(
             (
                 self.numero_usinas_hidreletricas
                 * self.numero_patamares_carga
-                * num_simulacoes,
+                * self.__num_simulacoes,
             ),
             dtype=np.float32,
         )
         self.vazao_afluente_usina = np.zeros(
-            (self.numero_usinas_hidreletricas * num_simulacoes,),
+            (self.numero_usinas_hidreletricas * self.__num_simulacoes,),
             dtype=np.float32,
         )
         self.vazao_incremental_usina = np.zeros(
-            (self.numero_usinas_hidreletricas * num_simulacoes,),
+            (self.numero_usinas_hidreletricas * self.__num_simulacoes,),
             dtype=np.float32,
         )
         self.volume_armazenado_final_percentual_usina = np.zeros(
-            (self.numero_usinas_hidreletricas * num_simulacoes,),
+            (self.numero_usinas_hidreletricas * self.__num_simulacoes,),
             dtype=np.float32,
         )
         self.custo_violacao_energia_vazao_minima = np.zeros(
-            (self.numero_rees * num_simulacoes,),
+            (self.numero_rees * self.__num_simulacoes,),
             dtype=np.float32,
         )
         self.custo_desvio_agua_controlavel = np.zeros(
-            (self.numero_rees * num_simulacoes,),
+            (self.numero_rees * self.__num_simulacoes,),
             dtype=np.float32,
         )
         self.custo_desvio_agua_fio_dagua = np.zeros(
-            (self.numero_rees * num_simulacoes,),
+            (self.numero_rees * self.__num_simulacoes,),
             dtype=np.float32,
         )
         self.custo_violacao_ghmin = np.zeros(
-            (self.numero_rees * self.numero_patamares_carga * num_simulacoes,),
+            (
+                self.numero_rees
+                * self.numero_patamares_carga
+                * self.__num_simulacoes,
+            ),
             dtype=np.float32,
         )
         self.soma_afluencias_passadas_ree = np.zeros(
-            (self.numero_rees * num_simulacoes,),
+            (self.numero_rees * self.__num_simulacoes,),
             dtype=np.float32,
         )
         self.soma_afluencias_passadas_usina = np.zeros(
-            (self.numero_usinas_hidreletricas * num_simulacoes,),
+            (self.numero_usinas_hidreletricas * self.__num_simulacoes,),
             dtype=np.float32,
         )
         self.geracao_eolica_pee = np.zeros(
             (
                 self.numero_parques_eolicos_equivalentes
                 * self.numero_patamares_carga
-                * num_simulacoes,
+                * self.__num_simulacoes,
             ),
             dtype=np.float32,
         )
         self.vento_pee = np.zeros(
-            (self.numero_parques_eolicos_equivalentes * num_simulacoes,),
+            (
+                self.numero_parques_eolicos_equivalentes
+                * self.__num_simulacoes,
+            ),
             dtype=np.float32,
         )
         self.violacao_funcao_producao_eolica_pee = np.zeros(
             (
                 self.numero_parques_eolicos_equivalentes
                 * self.numero_patamares_carga
-                * num_simulacoes,
+                * self.__num_simulacoes,
             ),
             dtype=np.float32,
         )
@@ -362,7 +393,7 @@ class SecaoDadosForward(Section):
             (
                 self.numero_usinas_hidreletricas
                 * self.numero_patamares_carga
-                * num_simulacoes,
+                * self.__num_simulacoes,
             ),
             dtype=np.float32,
         )
@@ -370,7 +401,7 @@ class SecaoDadosForward(Section):
             (
                 self.numero_usinas_hidreletricas
                 * self.numero_patamares_carga
-                * num_simulacoes,
+                * self.__num_simulacoes,
             ),
             dtype=np.float32,
         )
@@ -378,23 +409,31 @@ class SecaoDadosForward(Section):
             (
                 self.numero_usinas_hidreletricas
                 * self.numero_patamares_carga
-                * num_simulacoes,
+                * self.__num_simulacoes,
             ),
             dtype=np.float32,
         )
         self.violacao_lpp_turbinamento_maximo = np.zeros(
-            (self.numero_rees * self.numero_patamares_carga * num_simulacoes,),
+            (
+                self.numero_rees
+                * self.numero_patamares_carga
+                * self.__num_simulacoes,
+            ),
             dtype=np.float32,
         )
         self.violacao_lpp_defluencia_maxima = np.zeros(
-            (self.numero_rees * self.numero_patamares_carga * num_simulacoes,),
+            (
+                self.numero_rees
+                * self.numero_patamares_carga
+                * self.__num_simulacoes,
+            ),
             dtype=np.float32,
         )
         self.violacao_lpp_turbinamento_maximo_usina = np.zeros(
             (
                 self.numero_usinas_hidreletricas
                 * self.numero_patamares_carga
-                * num_simulacoes,
+                * self.__num_simulacoes,
             ),
             dtype=np.float32,
         )
@@ -402,23 +441,31 @@ class SecaoDadosForward(Section):
             (
                 self.numero_usinas_hidreletricas
                 * self.numero_patamares_carga
-                * num_simulacoes,
+                * self.__num_simulacoes,
             ),
             dtype=np.float32,
         )
         self.rhs_lpp_turbinamento_maximo = np.zeros(
-            (self.numero_rees * self.numero_patamares_carga * num_simulacoes,),
+            (
+                self.numero_rees
+                * self.numero_patamares_carga
+                * self.__num_simulacoes,
+            ),
             dtype=np.float32,
         )
         self.rhs_lpp_defluencia_maxima = np.zeros(
-            (self.numero_rees * self.numero_patamares_carga * num_simulacoes,),
+            (
+                self.numero_rees
+                * self.numero_patamares_carga
+                * self.__num_simulacoes,
+            ),
             dtype=np.float32,
         )
         self.rhs_lpp_turbinamento_maximo_usina = np.zeros(
             (
                 self.numero_usinas_hidreletricas
                 * self.numero_patamares_carga
-                * num_simulacoes,
+                * self.__num_simulacoes,
             ),
             dtype=np.float32,
         )
@@ -426,7 +473,7 @@ class SecaoDadosForward(Section):
             (
                 self.numero_usinas_hidreletricas
                 * self.numero_patamares_carga
-                * num_simulacoes,
+                * self.__num_simulacoes,
             ),
             dtype=np.float32,
         )
@@ -434,7 +481,7 @@ class SecaoDadosForward(Section):
             (
                 self.numero_restricoes_eletricas_especiais
                 * self.numero_patamares_carga
-                * num_simulacoes,
+                * self.__num_simulacoes,
             ),
             dtype=np.float32,
         )
@@ -442,31 +489,31 @@ class SecaoDadosForward(Section):
             (
                 self.numero_restricoes_eletricas_especiais
                 * self.numero_patamares_carga
-                * num_simulacoes,
+                * self.__num_simulacoes,
             ),
             dtype=np.float32,
         )
         self.volume_armazenado_inicial_usina = np.zeros(
-            (self.numero_usinas_hidreletricas * num_simulacoes,),
+            (self.numero_usinas_hidreletricas * self.__num_simulacoes,),
             dtype=np.float32,
         )
         self.lambda_balanco_hidrico_usina = np.zeros(
-            (self.numero_usinas_hidreletricas * num_simulacoes,),
+            (self.numero_usinas_hidreletricas * self.__num_simulacoes,),
             dtype=np.float32,
         )
         self.volume_evaporado_usina = np.zeros(
-            (self.numero_usinas_hidreletricas * num_simulacoes,),
+            (self.numero_usinas_hidreletricas * self.__num_simulacoes,),
             dtype=np.float32,
         )
         self.volume_bombeado_estacao_bombeamento = np.zeros(
-            (self.numero_estacoes_bombeamento * num_simulacoes,),
+            (self.numero_estacoes_bombeamento * self.__num_simulacoes,),
             dtype=np.float32,
         )
         self.consumo_energia_estacao_bombeamento = np.zeros(
             (
                 self.numero_estacoes_bombeamento
                 * self.numero_patamares_carga
-                * num_simulacoes,
+                * self.__num_simulacoes,
             ),
             dtype=np.float32,
         )
@@ -474,7 +521,7 @@ class SecaoDadosForward(Section):
             (
                 self.numero_usinas_hidreletricas
                 * self.numero_patamares_carga
-                * num_simulacoes,
+                * self.__num_simulacoes,
             ),
             dtype=np.float32,
         )
@@ -976,8 +1023,242 @@ class SecaoDadosForward(Section):
             indice,
         )
 
+    def __converte_array_em_dataframe(
+        self,
+        variavel: np.ndarray,
+        colunas_identificacao: dict,
+        num_elementos: int,
+    ):
+        # print([v.shape for k, v in colunas_identificacao.items()])
+        return pd.DataFrame(
+            data={
+                **{
+                    "estagio": np.repeat(self.__estagios_df, num_elementos),
+                    "cenario": np.repeat(self.__cenarios_df, num_elementos),
+                },
+                **colunas_identificacao,
+                **{"valor": variavel},
+            }
+        )
+
     def __converte_arrays_em_dataframes(self):
-        pass
+        self.mercado_liquido = self.__converte_array_em_dataframe(
+            self.mercado_liquido,
+            {
+                "submercado": np.tile(
+                    self.nomes_submercados, self.__num_simulacoes
+                )
+            },
+            self.numero_submercados,
+        )
+        self.energia_armazenada_inicial = self.__converte_array_em_dataframe(
+            self.energia_armazenada_inicial,
+            {"ree": np.tile(self.nomes_rees, self.__num_simulacoes)},
+            self.numero_rees,
+        )
+        self.energia_afluente_total = self.__converte_array_em_dataframe(
+            self.energia_afluente_total,
+            {"ree": np.tile(self.nomes_rees, self.__num_simulacoes)},
+            self.numero_rees,
+        )
+        self.geracao_hidraulica_controlavel = (
+            self.__converte_array_em_dataframe(
+                self.geracao_hidraulica_controlavel,
+                {
+                    "ree": np.tile(
+                        np.repeat(
+                            self.nomes_rees,
+                            self.numero_patamares_carga,
+                        ),
+                        self.__num_simulacoes,
+                    ),
+                    "patamar": np.tile(
+                        np.repeat(
+                            np.arange(1, self.numero_patamares_carga + 1),
+                            self.numero_rees,
+                        ),
+                        self.__num_simulacoes,
+                    ),
+                },
+                self.numero_rees * self.numero_patamares_carga,
+            )
+        )
+        self.energia_vertida = self.__converte_array_em_dataframe(
+            self.energia_vertida,
+            {"ree": np.tile(self.nomes_rees, self.__num_simulacoes)},
+            self.numero_rees,
+        )
+        self.energia_armazenada_final = self.__converte_array_em_dataframe(
+            self.energia_armazenada_final,
+            {"ree": np.tile(self.nomes_rees, self.__num_simulacoes)},
+            self.numero_rees,
+        )
+        self.energia_fio_dagua = self.__converte_array_em_dataframe(
+            self.energia_fio_dagua,
+            {"ree": np.tile(self.nomes_rees, self.__num_simulacoes)},
+            self.numero_rees,
+        )
+        self.energia_evaporada = self.__converte_array_em_dataframe(
+            self.energia_evaporada,
+            {"ree": np.tile(self.nomes_rees, self.__num_simulacoes)},
+            self.numero_rees,
+        )
+        self.energia_enchimento_volume_morto = (
+            self.__converte_array_em_dataframe(
+                self.energia_enchimento_volume_morto,
+                {"ree": np.tile(self.nomes_rees, self.__num_simulacoes)},
+                self.numero_rees,
+            )
+        )
+        # Soma GTMIN e GTFLEX
+        self.geracao_termica = (
+            self.geracao_termica[::2] + self.geracao_termica[1::2]
+        )
+        # TODO - talvez tenha uma diferença aqui, pois o NEWAVE
+        # escreve por submercado. Para casos de PMO, as térmicas são
+        # cadastradas por submercado no conft, então não deve
+        # dar diferença. Os nomes deveriam ser fornecidos por
+        # submercado já..
+        self.geracao_termica = self.__converte_array_em_dataframe(
+            self.geracao_termica,
+            {
+                "usina": np.tile(
+                    np.tile(
+                        self.nomes_classes_termicas,
+                        self.numero_patamares_carga,
+                    ),
+                    self.__num_simulacoes,
+                ),
+                "patamar": np.tile(
+                    np.repeat(
+                        np.arange(1, self.numero_patamares_carga + 1),
+                        self.total_classes_termicas,
+                    ),
+                    self.__num_simulacoes,
+                ),
+            },
+            self.total_classes_termicas * self.numero_patamares_carga,
+        )
+        self.deficit = self.__converte_array_em_dataframe(
+            self.deficit,
+            {
+                "submercado": np.tile(
+                    np.repeat(
+                        self.nomes_submercados,
+                        self.numero_patamares_deficit
+                        * self.numero_patamares_carga,
+                    ),
+                    self.__num_simulacoes,
+                ),
+                "patamarDeficit": np.tile(
+                    np.tile(
+                        np.arange(1, self.numero_patamares_deficit + 1),
+                        self.numero_patamares_carga * self.numero_submercados,
+                    ),
+                    self.__num_simulacoes,
+                ),
+                "patamar": np.tile(
+                    np.tile(
+                        np.repeat(
+                            np.arange(1, self.numero_patamares_carga + 1),
+                            self.numero_patamares_deficit,
+                        ),
+                        self.numero_submercados,
+                    ),
+                    self.__num_simulacoes,
+                ),
+            },
+            self.numero_submercados
+            * self.numero_patamares_deficit
+            * self.numero_patamares_carga,
+        )
+        self.pi_balanco_hidrico = self.__converte_array_em_dataframe(
+            self.pi_balanco_hidrico,
+            {"ree": np.tile(self.nomes_rees, self.__num_simulacoes)},
+            self.numero_rees,
+        )
+        self.pi_balanco_demanda = self.__converte_array_em_dataframe(
+            self.pi_balanco_demanda,
+            {
+                "submercado": np.tile(
+                    np.repeat(
+                        self.nomes_submercados, self.numero_patamares_carga
+                    ),
+                    self.__num_simulacoes,
+                ),
+                "patamar": np.tile(
+                    np.tile(
+                        np.arange(1, self.numero_patamares_carga + 1),
+                        self.numero_submercados,
+                    ),
+                    self.__num_simulacoes,
+                ),
+            },
+            self.numero_submercados * self.numero_patamares_carga,
+        )
+        self.geracao_fio_dagua_liquida = self.__converte_array_em_dataframe(
+            self.geracao_fio_dagua_liquida,
+            {"ree": np.tile(self.nomes_rees, self.__num_simulacoes)},
+            self.numero_rees,
+        )
+        self.perdas_fio_dagua = self.__converte_array_em_dataframe(
+            self.perdas_fio_dagua,
+            {"ree": np.tile(self.nomes_rees, self.__num_simulacoes)},
+            self.numero_rees,
+        )
+        self.intercambios = self.__converte_array_em_dataframe(
+            self.intercambios,
+            {
+                "submercadoDe": np.tile(
+                    np.tile(
+                        self.nomes_submercados_totais[:-1],
+                        self.numero_total_submercados
+                        * self.numero_patamares_carga,
+                    ),
+                    self.__num_simulacoes,
+                ),
+                "submercadoPara": np.tile(
+                    np.tile(
+                        np.repeat(
+                            self.nomes_submercados_totais,
+                            self.numero_total_submercados - 1,
+                        ),
+                        self.numero_patamares_carga,
+                    ),
+                    self.__num_simulacoes,
+                ),
+                "patamar": np.tile(
+                    np.tile(
+                        np.arange(1, self.numero_patamares_carga + 1),
+                        self.numero_total_submercados
+                        * (self.numero_total_submercados - 1),
+                    ),
+                    self.__num_simulacoes,
+                ),
+            },
+            self.numero_total_submercados
+            * (self.numero_total_submercados - 1)
+            * self.numero_patamares_carga,
+        )
+        self.excesso = self.__converte_array_em_dataframe(
+            self.excesso,
+            {
+                "submercado": np.tile(
+                    np.repeat(
+                        self.nomes_submercados, self.numero_patamares_carga
+                    ),
+                    self.__num_simulacoes,
+                ),
+                "patamar": np.tile(
+                    np.tile(
+                        np.arange(1, self.numero_patamares_carga + 1),
+                        self.numero_submercados,
+                    ),
+                    self.__num_simulacoes,
+                ),
+            },
+            self.numero_submercados * self.numero_patamares_carga,
+        )
 
     def __cria_objeto_data(self):
         self.data = [
@@ -1082,6 +1363,30 @@ class SecaoDadosForward(Section):
         numero_parques_eolicos_equivalentes: int = 2,
         numero_restricoes_eletricas_especiais: int = 0,
         numero_estacoes_bombeamento: int = 0,
+        nomes_submercados: List[str] = ["SUDESTE", "SUL", "NORDESTE", "NORTE"],
+        nomes_submercados_totais: List[str] = [
+            "SUDESTE",
+            "SUL",
+            "NORDESTE",
+            "NORTE",
+            "NOFICT1",
+        ],
+        nomes_rees: List[str] = [
+            "SUDESTE",
+            "MADEIRA",
+            "TPIRES",
+            "ITAIPU",
+            "PARANA",
+            "PRNPANEMA",
+            "SUL",
+            "IGUACU",
+            "NORDESTE",
+            "NORTE",
+            "BMONTE",
+            "MAN-AP",
+        ],
+        nomes_classes_termicas: List[str] = [],
+        nomes_usinas_hidreletricas: List[str] = [],
         *args,
         **kwargs,
     ):
@@ -1107,6 +1412,11 @@ class SecaoDadosForward(Section):
             numero_restricoes_eletricas_especiais
         )
         self.numero_estacoes_bombeamento = numero_estacoes_bombeamento
+        self.nomes_submercados = np.array(nomes_submercados)
+        self.nomes_submercados_totais = np.array(nomes_submercados_totais)
+        self.nomes_rees = np.array(nomes_rees)
+        self.nomes_classes_termicas = np.array(nomes_classes_termicas)
+        self.nomes_usinas_hidreletricas = np.array(nomes_usinas_hidreletricas)
         # Realiza leitura
         self.__inicializa_variaveis(numero_estagios, numero_forwards)
         for estagio in range(numero_estagios):
