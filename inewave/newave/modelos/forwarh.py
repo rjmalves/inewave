@@ -1,6 +1,5 @@
 from cfinterface.components.section import Section
 import numpy as np  # type: ignore
-import pandas as pd  # type: ignore
 from typing import List
 from typing import IO
 
