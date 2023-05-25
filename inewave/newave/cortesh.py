@@ -1,6 +1,5 @@
 from cfinterface.files.sectionfile import SectionFile
 from inewave.newave.modelos.cortesh import SecaoDadosCortesh
-import pandas as pd  # type: ignore
 
 
 from typing import TypeVar, Optional
