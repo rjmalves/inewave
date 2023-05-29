@@ -119,7 +119,7 @@ class BlocoCustosDeficit(Section):
         while True:
             linha = file.readline()
             # Confere se terminaram
-            if len(linha) < 3 or BlocoCustosDeficit.FIM_BLOCO in linha:
+            if len(linha) < 3 or BlocoCustosDeficit.FIM_BLOCO in linha[:4]:
                 # Converte para df e salva na variável
                 if i > 0:
                     tabela = tabela[:i, :]
