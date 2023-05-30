@@ -1073,7 +1073,7 @@ class SecaoDadosForward(Section):
                         self.__num_simulacoes,
                     ),
                     "patamar": np.tile(
-                        np.repeat(
+                        np.tile(
                             np.arange(1, self.numero_patamares_carga + 1),
                             self.numero_rees,
                         ),
@@ -1259,6 +1259,935 @@ class SecaoDadosForward(Section):
             },
             self.numero_submercados * self.numero_patamares_carga,
         )
+        self.energia_afluente_bruta_sem_correcao = (
+            self.__converte_array_em_dataframe(
+                self.energia_afluente_bruta_sem_correcao,
+                {"ree": np.tile(self.nomes_rees, self.__num_simulacoes)},
+                self.numero_rees,
+            )
+        )
+        self.energia_afluente_controlavel_corrigida = (
+            self.__converte_array_em_dataframe(
+                self.energia_afluente_controlavel_corrigida,
+                {"ree": np.tile(self.nomes_rees, self.__num_simulacoes)},
+                self.numero_rees,
+            )
+        )
+        self.geracao_hidraulica_maxima = self.__converte_array_em_dataframe(
+            self.geracao_hidraulica_maxima,
+            {
+                "ree": np.tile(
+                    np.repeat(
+                        self.nomes_rees,
+                        self.numero_patamares_carga,
+                    ),
+                    self.__num_simulacoes,
+                ),
+                "patamar": np.tile(
+                    np.tile(
+                        np.arange(1, self.numero_patamares_carga + 1),
+                        self.numero_rees,
+                    ),
+                    self.__num_simulacoes,
+                ),
+            },
+            self.numero_rees * self.numero_patamares_carga,
+        )
+        self.energia_controlavel_referente_desvio = (
+            self.__converte_array_em_dataframe(
+                self.energia_controlavel_referente_desvio,
+                {"ree": np.tile(self.nomes_rees, self.__num_simulacoes)},
+                self.numero_rees,
+            )
+        )
+        self.energia_fio_dagua_referente_desvio = (
+            self.__converte_array_em_dataframe(
+                self.energia_fio_dagua_referente_desvio,
+                {"ree": np.tile(self.nomes_rees, self.__num_simulacoes)},
+                self.numero_rees,
+            )
+        )
+        self.beneficio_intercambio = self.__converte_array_em_dataframe(
+            self.beneficio_intercambio,
+            {
+                "submercadoDe": np.tile(
+                    np.tile(
+                        self.nomes_submercados_totais[:-1],
+                        self.numero_total_submercados
+                        * self.numero_patamares_carga,
+                    ),
+                    self.__num_simulacoes,
+                ),
+                "submercadoPara": np.tile(
+                    np.tile(
+                        np.repeat(
+                            self.nomes_submercados_totais,
+                            self.numero_total_submercados - 1,
+                        ),
+                        self.numero_patamares_carga,
+                    ),
+                    self.__num_simulacoes,
+                ),
+                "patamar": np.tile(
+                    np.tile(
+                        np.arange(1, self.numero_patamares_carga + 1),
+                        self.numero_total_submercados
+                        * (self.numero_total_submercados - 1),
+                    ),
+                    self.__num_simulacoes,
+                ),
+            },
+            self.numero_total_submercados
+            * (self.numero_total_submercados - 1)
+            * self.numero_patamares_carga,
+        )
+        self.fator_correcao_energia_controlavel = (
+            self.__converte_array_em_dataframe(
+                self.fator_correcao_energia_controlavel,
+                {"ree": np.tile(self.nomes_rees, self.__num_simulacoes)},
+                self.numero_rees,
+            )
+        )
+        self.invasao_curva_aversao = self.__converte_array_em_dataframe(
+            self.invasao_curva_aversao,
+            {"ree": np.tile(self.nomes_rees, self.__num_simulacoes)},
+            self.numero_rees,
+        )
+        self.acionamento_curva_aversao = self.__converte_array_em_dataframe(
+            self.acionamento_curva_aversao,
+            {"ree": np.tile(self.nomes_rees, self.__num_simulacoes)},
+            self.numero_rees,
+        )
+        self.penalidade_invasao_curva_aversao = (
+            self.__converte_array_em_dataframe(
+                self.penalidade_invasao_curva_aversao,
+                {"ree": np.tile(self.nomes_rees, self.__num_simulacoes)},
+                self.numero_rees,
+            )
+        )
+        self.custo_total_operacao = self.__converte_array_em_dataframe(
+            self.custo_total_operacao,
+            {},
+            1,
+        )
+        self.custo_geracao_termica = self.__converte_array_em_dataframe(
+            self.custo_geracao_termica,
+            {
+                "submercado": np.tile(
+                    self.nomes_submercados, self.__num_simulacoes
+                )
+            },
+            self.numero_submercados,
+        )
+        self.beneficio_agrupamento_intercambios = (
+            self.__converte_array_em_dataframe(
+                self.beneficio_agrupamento_intercambios,
+                {
+                    "agrupamentoIntercambio": np.tile(
+                        np.repeat(
+                            np.arange(
+                                1, self.numero_agrupamentos_intercambio + 1
+                            ),
+                            self.numero_patamares_carga,
+                        ),
+                        self.__num_simulacoes,
+                    ),
+                    "patamar": np.tile(
+                        np.arange(1, self.numero_patamares_carga + 1),
+                        self.numero_agrupamentos_intercambio
+                        * self.__num_simulacoes,
+                    ),
+                },
+                self.numero_agrupamentos_intercambio
+                * self.numero_patamares_carga,
+            )
+        )
+        self.energia_afluente_fio_dagua = self.__converte_array_em_dataframe(
+            self.energia_afluente_fio_dagua,
+            {"ree": np.tile(self.nomes_rees, self.__num_simulacoes)},
+            self.numero_rees,
+        )
+        self.beneficio_despacho_gnl = self.__converte_array_em_dataframe(
+            self.beneficio_despacho_gnl,
+            {
+                "lag": np.tile(
+                    np.arange(1, self.lag_maximo_usinas_gnl + 1),
+                    self.numero_patamares_carga
+                    * self.numero_submercados
+                    * self.__num_simulacoes,
+                ),
+                "patamar": np.tile(
+                    np.repeat(
+                        np.arange(1, self.numero_patamares_carga + 1),
+                        self.lag_maximo_usinas_gnl,
+                    ),
+                    self.numero_submercados * self.__num_simulacoes,
+                ),
+                "submercado": np.tile(
+                    np.repeat(
+                        self.nomes_submercados,
+                        self.lag_maximo_usinas_gnl
+                        * self.numero_patamares_carga,
+                    ),
+                    self.__num_simulacoes,
+                ),
+            },
+            self.lag_maximo_usinas_gnl
+            * self.numero_submercados
+            * self.numero_patamares_carga,
+        )
+        self.violacao_ghmin_ree = self.__converte_array_em_dataframe(
+            self.violacao_ghmin_ree,
+            {
+                "ree": np.tile(
+                    np.repeat(
+                        self.nomes_rees,
+                        self.numero_patamares_carga,
+                    ),
+                    self.__num_simulacoes,
+                ),
+                "patamar": np.tile(
+                    np.tile(
+                        np.arange(1, self.numero_patamares_carga + 1),
+                        self.numero_rees,
+                    ),
+                    self.__num_simulacoes,
+                ),
+            },
+            self.numero_rees * self.numero_patamares_carga,
+        )
+        self.violacao_energia_vazao_minima = (
+            self.__converte_array_em_dataframe(
+                self.violacao_energia_vazao_minima,
+                {"ree": np.tile(self.nomes_rees, self.__num_simulacoes)},
+                self.numero_rees,
+            )
+        )
+        self.invasao_sar = self.__converte_array_em_dataframe(
+            self.invasao_sar,
+            {},
+            1,
+        )
+        self.acionamento_sar = self.__converte_array_em_dataframe(
+            self.acionamento_sar,
+            {},
+            1,
+        )
+        self.penalidade_sar = self.__converte_array_em_dataframe(
+            self.penalidade_sar,
+            {},
+            1,
+        )
+        self.capacidade_hidraulica_maxima_considerando_re = (
+            self.__converte_array_em_dataframe(
+                self.capacidade_hidraulica_maxima_considerando_re,
+                {
+                    "ree": np.tile(
+                        np.repeat(
+                            self.nomes_rees,
+                            self.numero_patamares_carga,
+                        ),
+                        self.__num_simulacoes,
+                    ),
+                    "patamar": np.tile(
+                        np.tile(
+                            np.arange(1, self.numero_patamares_carga + 1),
+                            self.numero_rees,
+                        ),
+                        self.__num_simulacoes,
+                    ),
+                },
+                self.numero_rees * self.numero_patamares_carga,
+            )
+        )
+        self.volume_armazenado_final = self.__converte_array_em_dataframe(
+            self.volume_armazenado_final,
+            {
+                "usina": np.tile(
+                    self.nomes_usinas_hidreletricas, self.__num_simulacoes
+                )
+            },
+            self.numero_usinas_hidreletricas,
+        )
+        self.geracao_hidraulica_usina = self.__converte_array_em_dataframe(
+            self.geracao_hidraulica_usina,
+            {
+                "usina": np.tile(
+                    np.repeat(
+                        self.nomes_usinas_hidreletricas,
+                        self.numero_patamares_carga,
+                    ),
+                    self.__num_simulacoes,
+                ),
+                "patamar": np.tile(
+                    np.tile(
+                        np.arange(1, self.numero_patamares_carga + 1),
+                        self.numero_usinas_hidreletricas,
+                    ),
+                    self.__num_simulacoes,
+                ),
+            },
+            self.numero_usinas_hidreletricas * self.numero_patamares_carga,
+        )
+        self.volume_turbinado_usina = self.__converte_array_em_dataframe(
+            self.volume_turbinado_usina,
+            {
+                "usina": np.tile(
+                    np.repeat(
+                        self.nomes_usinas_hidreletricas,
+                        self.numero_patamares_carga,
+                    ),
+                    self.__num_simulacoes,
+                ),
+                "patamar": np.tile(
+                    np.tile(
+                        np.arange(1, self.numero_patamares_carga + 1),
+                        self.numero_usinas_hidreletricas,
+                    ),
+                    self.__num_simulacoes,
+                ),
+            },
+            self.numero_usinas_hidreletricas * self.numero_patamares_carga,
+        )
+        self.volume_vertido_usina = self.__converte_array_em_dataframe(
+            self.volume_vertido_usina,
+            {
+                "usina": np.tile(
+                    np.repeat(
+                        self.nomes_usinas_hidreletricas,
+                        self.numero_patamares_carga,
+                    ),
+                    self.__num_simulacoes,
+                ),
+                "patamar": np.tile(
+                    np.tile(
+                        np.arange(1, self.numero_patamares_carga + 1),
+                        self.numero_usinas_hidreletricas,
+                    ),
+                    self.__num_simulacoes,
+                ),
+            },
+            self.numero_usinas_hidreletricas * self.numero_patamares_carga,
+        )
+        self.violacao_ghmin_usina = self.__converte_array_em_dataframe(
+            self.violacao_ghmin_usina,
+            {
+                "usina": np.tile(
+                    np.repeat(
+                        self.nomes_usinas_hidreletricas,
+                        self.numero_patamares_carga,
+                    ),
+                    self.__num_simulacoes,
+                ),
+                "patamar": np.tile(
+                    np.tile(
+                        np.arange(1, self.numero_patamares_carga + 1),
+                        self.numero_usinas_hidreletricas,
+                    ),
+                    self.__num_simulacoes,
+                ),
+            },
+            self.numero_usinas_hidreletricas * self.numero_patamares_carga,
+        )
+        self.enchimento_volume_morto_usina = (
+            self.__converte_array_em_dataframe(
+                self.enchimento_volume_morto_usina,
+                {
+                    "usina": np.tile(
+                        self.nomes_usinas_hidreletricas, self.__num_simulacoes
+                    )
+                },
+                self.numero_usinas_hidreletricas,
+            )
+        )
+        self.violacao_vazao_minima_usina = self.__converte_array_em_dataframe(
+            self.violacao_vazao_minima_usina,
+            {
+                "usina": np.tile(
+                    np.repeat(
+                        self.nomes_usinas_hidreletricas,
+                        self.numero_patamares_carga,
+                    ),
+                    self.__num_simulacoes,
+                ),
+                "patamar": np.tile(
+                    np.tile(
+                        np.arange(1, self.numero_patamares_carga + 1),
+                        self.numero_usinas_hidreletricas,
+                    ),
+                    self.__num_simulacoes,
+                ),
+            },
+            self.numero_usinas_hidreletricas * self.numero_patamares_carga,
+        )
+        self.volume_desvio_usina = self.__converte_array_em_dataframe(
+            self.volume_desvio_usina,
+            {
+                "usina": np.tile(
+                    self.nomes_usinas_hidreletricas, self.__num_simulacoes
+                )
+            },
+            self.numero_usinas_hidreletricas,
+        )
+        self.volume_desvio_positivo_usina = self.__converte_array_em_dataframe(
+            self.volume_desvio_positivo_usina,
+            {
+                "usina": np.tile(
+                    self.nomes_usinas_hidreletricas, self.__num_simulacoes
+                )
+            },
+            self.numero_usinas_hidreletricas,
+        )
+        self.volume_desvio_negativo_usina = self.__converte_array_em_dataframe(
+            self.volume_desvio_negativo_usina,
+            {
+                "usina": np.tile(
+                    self.nomes_usinas_hidreletricas, self.__num_simulacoes
+                )
+            },
+            self.numero_usinas_hidreletricas,
+        )
+        self.violacao_fpha_usina = self.__converte_array_em_dataframe(
+            self.violacao_fpha_usina,
+            {
+                "usina": np.tile(
+                    np.repeat(
+                        self.nomes_usinas_hidreletricas,
+                        self.numero_patamares_carga,
+                    ),
+                    self.__num_simulacoes,
+                ),
+                "patamar": np.tile(
+                    np.tile(
+                        np.arange(1, self.numero_patamares_carga + 1),
+                        self.numero_usinas_hidreletricas,
+                    ),
+                    self.__num_simulacoes,
+                ),
+            },
+            self.numero_usinas_hidreletricas * self.numero_patamares_carga,
+        )
+        self.vazao_afluente_usina = self.__converte_array_em_dataframe(
+            self.vazao_afluente_usina,
+            {
+                "usina": np.tile(
+                    self.nomes_usinas_hidreletricas, self.__num_simulacoes
+                )
+            },
+            self.numero_usinas_hidreletricas,
+        )
+        self.vazao_incremental_usina = self.__converte_array_em_dataframe(
+            self.vazao_incremental_usina,
+            {
+                "usina": np.tile(
+                    self.nomes_usinas_hidreletricas, self.__num_simulacoes
+                )
+            },
+            self.numero_usinas_hidreletricas,
+        )
+        self.volume_armazenado_final_percentual_usina = (
+            self.__converte_array_em_dataframe(
+                self.volume_armazenado_final_percentual_usina,
+                {
+                    "usina": np.tile(
+                        self.nomes_usinas_hidreletricas, self.__num_simulacoes
+                    )
+                },
+                self.numero_usinas_hidreletricas,
+            )
+        )
+        self.custo_violacao_energia_vazao_minima = (
+            self.__converte_array_em_dataframe(
+                self.custo_violacao_energia_vazao_minima,
+                {"ree": np.tile(self.nomes_rees, self.__num_simulacoes)},
+                self.numero_rees,
+            )
+        )
+        self.custo_desvio_agua_controlavel = (
+            self.__converte_array_em_dataframe(
+                self.custo_desvio_agua_controlavel,
+                {"ree": np.tile(self.nomes_rees, self.__num_simulacoes)},
+                self.numero_rees,
+            )
+        )
+        self.custo_desvio_agua_fio_dagua = self.__converte_array_em_dataframe(
+            self.custo_desvio_agua_fio_dagua,
+            {"ree": np.tile(self.nomes_rees, self.__num_simulacoes)},
+            self.numero_rees,
+        )
+        self.custo_violacao_ghmin = self.__converte_array_em_dataframe(
+            self.custo_violacao_ghmin,
+            {
+                "ree": np.tile(
+                    np.repeat(
+                        self.nomes_rees,
+                        self.numero_patamares_carga,
+                    ),
+                    self.__num_simulacoes,
+                ),
+                "patamar": np.tile(
+                    np.tile(
+                        np.arange(1, self.numero_patamares_carga + 1),
+                        self.numero_rees,
+                    ),
+                    self.__num_simulacoes,
+                ),
+            },
+            self.numero_rees * self.numero_patamares_carga,
+        )
+        self.soma_afluencias_passadas_ree = self.__converte_array_em_dataframe(
+            self.soma_afluencias_passadas_ree,
+            {"ree": np.tile(self.nomes_rees, self.__num_simulacoes)},
+            self.numero_rees,
+        )
+        self.soma_afluencias_passadas_usina = (
+            self.__converte_array_em_dataframe(
+                self.soma_afluencias_passadas_usina,
+                {
+                    "usina": np.tile(
+                        self.nomes_usinas_hidreletricas, self.__num_simulacoes
+                    )
+                },
+                self.numero_usinas_hidreletricas,
+            )
+        )
+        self.geracao_eolica_pee = self.__converte_array_em_dataframe(
+            self.geracao_eolica_pee,
+            {
+                "pee": np.tile(
+                    np.repeat(
+                        self.nomes_parques_eolicos_equivalentes,
+                        self.numero_patamares_carga,
+                    ),
+                    self.__num_simulacoes,
+                ),
+                "patamar": np.tile(
+                    np.tile(
+                        np.arange(1, self.numero_patamares_carga + 1),
+                        self.numero_parques_eolicos_equivalentes,
+                    ),
+                    self.__num_simulacoes,
+                ),
+            },
+            self.numero_parques_eolicos_equivalentes
+            * self.numero_patamares_carga,
+        )
+        self.vento_pee = self.__converte_array_em_dataframe(
+            self.vento_pee,
+            {
+                "pee": np.tile(
+                    self.nomes_parques_eolicos_equivalentes,
+                    self.__num_simulacoes,
+                )
+            },
+            self.numero_parques_eolicos_equivalentes,
+        )
+        self.violacao_funcao_producao_eolica_pee = (
+            self.__converte_array_em_dataframe(
+                self.violacao_funcao_producao_eolica_pee,
+                {
+                    "pee": np.tile(
+                        np.repeat(
+                            self.nomes_parques_eolicos_equivalentes,
+                            self.numero_patamares_carga,
+                        ),
+                        self.__num_simulacoes,
+                    ),
+                    "patamar": np.tile(
+                        np.tile(
+                            np.arange(1, self.numero_patamares_carga + 1),
+                            self.numero_parques_eolicos_equivalentes,
+                        ),
+                        self.__num_simulacoes,
+                    ),
+                },
+                self.numero_parques_eolicos_equivalentes
+                * self.numero_patamares_carga,
+            )
+        )
+        self.violacao_vazao_maxima_usina = self.__converte_array_em_dataframe(
+            self.violacao_vazao_maxima_usina,
+            {
+                "usina": np.tile(
+                    np.repeat(
+                        self.nomes_usinas_hidreletricas,
+                        self.numero_patamares_carga,
+                    ),
+                    self.__num_simulacoes,
+                ),
+                "patamar": np.tile(
+                    np.tile(
+                        np.arange(1, self.numero_patamares_carga + 1),
+                        self.numero_usinas_hidreletricas,
+                    ),
+                    self.__num_simulacoes,
+                ),
+            },
+            self.numero_usinas_hidreletricas * self.numero_patamares_carga,
+        )
+        self.violacao_turbinamento_maximo_usina = (
+            self.__converte_array_em_dataframe(
+                self.violacao_turbinamento_maximo_usina,
+                {
+                    "usina": np.tile(
+                        np.repeat(
+                            self.nomes_usinas_hidreletricas,
+                            self.numero_patamares_carga,
+                        ),
+                        self.__num_simulacoes,
+                    ),
+                    "patamar": np.tile(
+                        np.tile(
+                            np.arange(1, self.numero_patamares_carga + 1),
+                            self.numero_usinas_hidreletricas,
+                        ),
+                        self.__num_simulacoes,
+                    ),
+                },
+                self.numero_usinas_hidreletricas * self.numero_patamares_carga,
+            )
+        )
+        self.violacao_turbinamento_minimo_usina = (
+            self.__converte_array_em_dataframe(
+                self.violacao_turbinamento_minimo_usina,
+                {
+                    "usina": np.tile(
+                        np.repeat(
+                            self.nomes_usinas_hidreletricas,
+                            self.numero_patamares_carga,
+                        ),
+                        self.__num_simulacoes,
+                    ),
+                    "patamar": np.tile(
+                        np.tile(
+                            np.arange(1, self.numero_patamares_carga + 1),
+                            self.numero_usinas_hidreletricas,
+                        ),
+                        self.__num_simulacoes,
+                    ),
+                },
+                self.numero_usinas_hidreletricas * self.numero_patamares_carga,
+            )
+        )
+        self.violacao_lpp_turbinamento_maximo = (
+            self.__converte_array_em_dataframe(
+                self.violacao_lpp_turbinamento_maximo,
+                {
+                    "ree": np.tile(
+                        np.repeat(
+                            self.nomes_rees,
+                            self.numero_patamares_carga,
+                        ),
+                        self.__num_simulacoes,
+                    ),
+                    "patamar": np.tile(
+                        np.tile(
+                            np.arange(1, self.numero_patamares_carga + 1),
+                            self.numero_rees,
+                        ),
+                        self.__num_simulacoes,
+                    ),
+                },
+                self.numero_rees * self.numero_patamares_carga,
+            )
+        )
+        self.violacao_lpp_defluencia_maxima = (
+            self.__converte_array_em_dataframe(
+                self.violacao_lpp_defluencia_maxima,
+                {
+                    "ree": np.tile(
+                        np.repeat(
+                            self.nomes_rees,
+                            self.numero_patamares_carga,
+                        ),
+                        self.__num_simulacoes,
+                    ),
+                    "patamar": np.tile(
+                        np.tile(
+                            np.arange(1, self.numero_patamares_carga + 1),
+                            self.numero_rees,
+                        ),
+                        self.__num_simulacoes,
+                    ),
+                },
+                self.numero_rees * self.numero_patamares_carga,
+            )
+        )
+        self.violacao_lpp_turbinamento_maximo_usina = (
+            self.__converte_array_em_dataframe(
+                self.violacao_lpp_turbinamento_maximo_usina,
+                {
+                    "usina": np.tile(
+                        np.repeat(
+                            self.nomes_usinas_hidreletricas,
+                            self.numero_patamares_carga,
+                        ),
+                        self.__num_simulacoes,
+                    ),
+                    "patamar": np.tile(
+                        np.tile(
+                            np.arange(1, self.numero_patamares_carga + 1),
+                            self.numero_usinas_hidreletricas,
+                        ),
+                        self.__num_simulacoes,
+                    ),
+                },
+                self.numero_usinas_hidreletricas * self.numero_patamares_carga,
+            )
+        )
+        self.violacao_lpp_defluencia_maxima_usina = (
+            self.__converte_array_em_dataframe(
+                self.violacao_lpp_defluencia_maxima_usina,
+                {
+                    "usina": np.tile(
+                        np.repeat(
+                            self.nomes_usinas_hidreletricas,
+                            self.numero_patamares_carga,
+                        ),
+                        self.__num_simulacoes,
+                    ),
+                    "patamar": np.tile(
+                        np.tile(
+                            np.arange(1, self.numero_patamares_carga + 1),
+                            self.numero_usinas_hidreletricas,
+                        ),
+                        self.__num_simulacoes,
+                    ),
+                },
+                self.numero_usinas_hidreletricas * self.numero_patamares_carga,
+            )
+        )
+        self.rhs_lpp_turbinamento_maximo = self.__converte_array_em_dataframe(
+            self.rhs_lpp_turbinamento_maximo,
+            {
+                "ree": np.tile(
+                    np.repeat(
+                        self.nomes_rees,
+                        self.numero_patamares_carga,
+                    ),
+                    self.__num_simulacoes,
+                ),
+                "patamar": np.tile(
+                    np.tile(
+                        np.arange(1, self.numero_patamares_carga + 1),
+                        self.numero_rees,
+                    ),
+                    self.__num_simulacoes,
+                ),
+            },
+            self.numero_rees * self.numero_patamares_carga,
+        )
+        self.rhs_lpp_defluencia_maxima = self.__converte_array_em_dataframe(
+            self.rhs_lpp_defluencia_maxima,
+            {
+                "ree": np.tile(
+                    np.repeat(
+                        self.nomes_rees,
+                        self.numero_patamares_carga,
+                    ),
+                    self.__num_simulacoes,
+                ),
+                "patamar": np.tile(
+                    np.tile(
+                        np.arange(1, self.numero_patamares_carga + 1),
+                        self.numero_rees,
+                    ),
+                    self.__num_simulacoes,
+                ),
+            },
+            self.numero_rees * self.numero_patamares_carga,
+        )
+        self.rhs_lpp_turbinamento_maximo_usina = (
+            self.__converte_array_em_dataframe(
+                self.rhs_lpp_turbinamento_maximo_usina,
+                {
+                    "usina": np.tile(
+                        np.repeat(
+                            self.nomes_usinas_hidreletricas,
+                            self.numero_patamares_carga,
+                        ),
+                        self.__num_simulacoes,
+                    ),
+                    "patamar": np.tile(
+                        np.tile(
+                            np.arange(1, self.numero_patamares_carga + 1),
+                            self.numero_usinas_hidreletricas,
+                        ),
+                        self.__num_simulacoes,
+                    ),
+                },
+                self.numero_usinas_hidreletricas * self.numero_patamares_carga,
+            )
+        )
+        self.rhs_lpp_defluencia_maxima_usina = (
+            self.__converte_array_em_dataframe(
+                self.rhs_lpp_defluencia_maxima_usina,
+                {
+                    "usina": np.tile(
+                        np.repeat(
+                            self.nomes_usinas_hidreletricas,
+                            self.numero_patamares_carga,
+                        ),
+                        self.__num_simulacoes,
+                    ),
+                    "patamar": np.tile(
+                        np.tile(
+                            np.arange(1, self.numero_patamares_carga + 1),
+                            self.numero_usinas_hidreletricas,
+                        ),
+                        self.__num_simulacoes,
+                    ),
+                },
+                self.numero_usinas_hidreletricas * self.numero_patamares_carga,
+            )
+        )
+        self.violacao_restricao_eletrica_especial = (
+            self.__converte_array_em_dataframe(
+                self.violacao_restricao_eletrica_especial,
+                {
+                    "restricao": np.tile(
+                        np.repeat(
+                            np.arange(
+                                1,
+                                self.numero_restricoes_eletricas_especiais + 1,
+                            ),
+                            self.numero_patamares_carga,
+                        ),
+                        self.__num_simulacoes,
+                    ),
+                    "patamar": np.tile(
+                        np.tile(
+                            np.arange(1, self.numero_patamares_carga + 1),
+                            self.numero_restricoes_eletricas_especiais,
+                        ),
+                        self.__num_simulacoes,
+                    ),
+                },
+                self.numero_restricoes_eletricas_especiais
+                * self.numero_patamares_carga,
+            )
+        )
+        self.custo_restricao_eletrica_especial = (
+            self.__converte_array_em_dataframe(
+                self.custo_restricao_eletrica_especial,
+                {
+                    "restricao": np.tile(
+                        np.repeat(
+                            np.arange(
+                                1,
+                                self.numero_restricoes_eletricas_especiais + 1,
+                            ),
+                            self.numero_patamares_carga,
+                        ),
+                        self.__num_simulacoes,
+                    ),
+                    "patamar": np.tile(
+                        np.tile(
+                            np.arange(1, self.numero_patamares_carga + 1),
+                            self.numero_restricoes_eletricas_especiais,
+                        ),
+                        self.__num_simulacoes,
+                    ),
+                },
+                self.numero_restricoes_eletricas_especiais
+                * self.numero_patamares_carga,
+            )
+        )
+        self.volume_armazenado_inicial_usina = (
+            self.__converte_array_em_dataframe(
+                self.volume_armazenado_inicial_usina,
+                {
+                    "usina": np.tile(
+                        self.nomes_usinas_hidreletricas, self.__num_simulacoes
+                    )
+                },
+                self.numero_usinas_hidreletricas,
+            )
+        )
+        self.lambda_balanco_hidrico_usina = self.__converte_array_em_dataframe(
+            self.lambda_balanco_hidrico_usina,
+            {
+                "usina": np.tile(
+                    self.nomes_usinas_hidreletricas, self.__num_simulacoes
+                )
+            },
+            self.numero_usinas_hidreletricas,
+        )
+        self.volume_evaporado_usina = self.__converte_array_em_dataframe(
+            self.volume_evaporado_usina,
+            {
+                "usina": np.tile(
+                    self.nomes_usinas_hidreletricas, self.__num_simulacoes
+                )
+            },
+            self.numero_usinas_hidreletricas,
+        )
+        self.volume_bombeado_estacao_bombeamento = (
+            self.__converte_array_em_dataframe(
+                self.volume_bombeado_estacao_bombeamento,
+                {
+                    "estacao": np.tile(
+                        np.repeat(
+                            self.nomes_estacoes_bombeamento,
+                            self.numero_patamares_carga,
+                        ),
+                        self.__num_simulacoes,
+                    ),
+                    "patamar": np.tile(
+                        np.tile(
+                            np.arange(1, self.numero_patamares_carga + 1),
+                            self.numero_estacoes_bombeamento,
+                        ),
+                        self.__num_simulacoes,
+                    ),
+                },
+                self.numero_estacoes_bombeamento * self.numero_patamares_carga,
+            )
+        )
+        self.consumo_energia_estacao_bombeamento = (
+            self.__converte_array_em_dataframe(
+                self.consumo_energia_estacao_bombeamento,
+                {
+                    "estacao": np.tile(
+                        np.repeat(
+                            self.nomes_estacoes_bombeamento,
+                            self.numero_patamares_carga,
+                        ),
+                        self.__num_simulacoes,
+                    ),
+                    "patamar": np.tile(
+                        np.tile(
+                            np.arange(1, self.numero_patamares_carga + 1),
+                            self.numero_estacoes_bombeamento,
+                        ),
+                        self.__num_simulacoes,
+                    ),
+                },
+                self.numero_estacoes_bombeamento * self.numero_patamares_carga,
+            )
+        )
+        self.volume_desvio_canal_desvio_usina = (
+            self.__converte_array_em_dataframe(
+                self.volume_desvio_canal_desvio_usina,
+                {
+                    "usina": np.tile(
+                        np.repeat(
+                            self.nomes_usinas_hidreletricas,
+                            self.numero_patamares_carga,
+                        ),
+                        self.__num_simulacoes,
+                    ),
+                    "patamar": np.tile(
+                        np.tile(
+                            np.arange(1, self.numero_patamares_carga + 1),
+                            self.numero_usinas_hidreletricas,
+                        ),
+                        self.__num_simulacoes,
+                    ),
+                },
+                self.numero_usinas_hidreletricas * self.numero_patamares_carga,
+            )
+        )
 
     def __cria_objeto_data(self):
         self.data = [
@@ -1387,6 +2316,8 @@ class SecaoDadosForward(Section):
         ],
         nomes_classes_termicas: List[str] = [],
         nomes_usinas_hidreletricas: List[str] = [],
+        nomes_parques_eolicos_equivalentes: List[str] = [],
+        nomes_estacoes_bombeamento: List[str] = [],
         *args,
         **kwargs,
     ):
@@ -1417,6 +2348,10 @@ class SecaoDadosForward(Section):
         self.nomes_rees = np.array(nomes_rees)
         self.nomes_classes_termicas = np.array(nomes_classes_termicas)
         self.nomes_usinas_hidreletricas = np.array(nomes_usinas_hidreletricas)
+        self.nomes_parques_eolicos_equivalentes = np.array(
+            nomes_parques_eolicos_equivalentes
+        )
+        self.nomes_estacoes_bombeamento = np.array(nomes_estacoes_bombeamento)
         # Realiza leitura
         self.__inicializa_variaveis(numero_estagios, numero_forwards)
         for estagio in range(numero_estagios):
