@@ -9,9 +9,6 @@ class SecaoDadosCortes(Section):
     Registro com os cortes da FCF.
     """
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
-        super().__init__(previous, next, data)
-
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, SecaoDadosCortes):
             return False
@@ -72,7 +69,7 @@ class SecaoDadosCortes(Section):
         self.__tabela_int[indice, 0] = indice
         return indice_proximo_corte
 
-    def __converte_array_ree(self, cortes_lidos: int) -> List[pd.DataFrame]:
+    def __converte_array_ree(self, cortes_lidos: int) -> pd.DataFrame:
         self.__tabela_int = self.__tabela_int[:cortes_lidos, :]
         df_int = pd.DataFrame(
             self.__tabela_int,

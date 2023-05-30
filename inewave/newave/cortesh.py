@@ -2,7 +2,7 @@ from cfinterface.files.sectionfile import SectionFile
 from inewave.newave.modelos.cortesh import SecaoDadosCortesh
 
 import pandas as pd  # type: ignore
-from typing import TypeVar, Optional
+from typing import TypeVar
 
 # Para compatibilidade - até versão 1.0.0
 from os.path import join
@@ -43,7 +43,7 @@ class Cortesh(SectionFile):
         warnings.warn(msg, category=FutureWarning)
         self.write(join(diretorio, nome_arquivo))
 
-    def __obtem_dados(self) -> Optional[SecaoDadosCortesh]:
+    def __obtem_dados(self) -> SecaoDadosCortesh:
         dados = [r for r in self.data.of_type(SecaoDadosCortesh)]
         return dados[0]
 
