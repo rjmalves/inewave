@@ -1,19 +1,190 @@
 from cfinterface.components.section import Section
-from typing import IO, List
+from typing import IO, List, Dict, Union, Callable, Any
 import numpy as np  # type: ignore
+import numpy.typing as npt
 import pandas as pd  # type: ignore
+from enum import Enum
+
+
+class VariavelOperacao(Enum):
+    MERCADO = "MER"
+    ENERGIA_ARMAZENADA_ABSOLUTA_INICIAL = "EARMI"
+    ENERGIA_NATURAL_AFLUENTE_ABSOLUTA = "ENAA"
+    GERACAO_HIDRAULICA_CONTROLAVEL = "GHIDC"
+    ENERGIA_VERTIDA = "EVER"
+    ENERGIA_ARMAZENADA_ABSOLUTA_FINAL = "EARMF"
+    ENERGIA_NATURAL_AFLUENTE_FIO_BRUTA = "ENAFB"
+    ENERGIA_EVAPORADA = "EVAP"
+    ENERGIA_ENCHIMENTO_VOLUME_MORTO = "EVMOR"
+    GERACAO_TERMICA = "GTER"
+    DEFICIT = "DEF"
+    VALOR_AGUA = "VAGUA"
+    CUSTO_MARGINAL_OPERACAO = "CMO"
+    GERACAO_HIDRAULICA_FIO_LIQUIDA = "GHIDFL"
+    PERDAS_GERACAO_HIDRAULICA_FIO = "PGHIDF"
+    INTERCAMBIO = "INT"
+    EXCESSO = "EXC"
+    ENERGIA_NATURAL_AFLUENTE_BRUTA = "ENAB"
+    ENERGIA_NATURAL_AFLUENTE_CONTROLAVEL_CORRIGIDA = "ENAC"
+    GERACAO_HIDRAULICA_MAXIMA = "GHIDMAX"
+    ENERGIA_AFLUENTE_CONTROLAVEL_DESVIO = "ENACD"
+    ENERGIA_AFLUENTE_FIO_DESVIO = "ENAFD"
+    BENEFICIO_INTERCAMBIO = "BINT"
+    FATOR_CORRECAO_ENERGIA_NATURAL_AFLUENTE_CONTROLAVEL = "FCENA"
+    VIOLACAO_CURVA_AVERSAO = "VVMINOP"
+    ACIONAMENTO_CURVA_AVERSAO = "AVMINOP"
+    PENALIDADE_CURVA_AVERSAO = "PVMINOP"
+    CUSTO_OPERACAO = "COP"
+    CUSTO_GERACAO_TERMICA = "CTER"
+    BENEFICIO_AGRUPAMENTO_INTERCAMBIO = "BAGRINT"
+    ENERGIA_NATURAL_AFLUENTE_FIO = "ENAF"
+    BENEFICIO_DESPACHO_GNL = "BGNL"
+    VIOLACAO_GERACAO_HIRAULICA_MINIMA = "VGHIDMIN"
+    VIOLACAO_ENERGIA_VAZAO_MINIMA = "VEVMIN"
+    INVASAO_SAR = "ISAR"
+    ACIONAMENTO_SAR = "ASAR"
+    PENALIDADE_SAR = "PSAR"
+    GERACAO_HIDRAULICA_MAXIMA_CONSIDERANDO_RE = "GHIDMAXR"
+    VOLUME_ARMAZENADO_ABSOLUTO_FINAL = "VARMF"
+    GERACAO_HIDRAULICA_USINA = "GHIDU"
+    VOLUME_TURBINADO = "VTUR"
+    VOLUME_VERTIDO = "VVER"
+    VIOLACAO_GERACAO_HIDRAULICA_MINIMA_USINA = "VGHIDMINU"
+    ENCHIMENTO_VOLUME_MORTO_USINA = "VMORU"
+    VIOLACAO_DEFLUENCIA_MINIMA = "VDEFMIN"
+    VOLUME_DESVIO_USINA = "VOLDU"
+    VOLUME_DESVIO_POSITIVO_USINA = "VOLDPU"
+    VOLUME_DESVIO_NEGATIVO_USINA = "VOLDNU"
+    ##
+    VIOLACAO_FPHA = "VFPHA"
+    VAZAO_AFLUENTE = "QAFL"
+    VAZAO_INCREMENTAL = "QINC"
+    VOLUME_ARMAZENADO_PERCENTUAL_FINAL = "VARPF"
+    GEOL_GSOL_OLD = "GEOL_GSOL_OLD"
+    VIOLACAO_GEE = "VIOLACAO_GEE"
+    CUSTO_VIOLACAO_ENERGIA_VAZAO_MINIMA = "CVEVMIN"
+    CUSTO_ENERGIA_AFLUENTE_CONTROLAVEL_DESVIO = "CENACD"
+    CUSTO_ENERGIA_AFLUENTE_FIO_DESVIO = "CENAFD"
+    CUSTO_VIOLACAO_GERACAO_HIDRAULICA_MINIMA = "CVGHIDMIN"
+    SOMA_ENERGIA_NATURAL_AFLUENTE_12_MESES = "ENA12"
+    SOMA_VAZAO_AFLUENTE_12_MESES = "QAFL12"
+    GERACAO_EOLICA = "GEOL"
+    VELOCIDADE_VENTO = "VENTO"
+    VIOLACAO_FUNCAO_PRODUCAO_EOLICA = "VFPEOL"
+    VIOLACAO_DEFLUENCIA_MAXIMA = "VDEFMAX"
+    VIOLACAO_TURBINAMENTO_MINIMO = "VTURMIN"
+    VIOLACAO_TURBINAMENTO_MAXIMO = "VTURMAX"
+    VIOLACAO_LPP_TURBINAMENTO_MAXIMO = "VLPPTURMAX"
+    VIOLACAO_LPP_DEFLUENCIA_MAXIMA = "VLPPDEFMAX"
+    VIOLACAO_LPP_TURBINAMENTO_MAXIMO_USINA = "VLPPTURMAXU"
+    VIOLACAO_LPP_DEFLUENCIA_MAXIMA_USINA = "VLPPDEFMAXU"
+    RHS_LPP_TURBINAMENTO_MAXIMO = "RHSLPPTURMAX"
+    RHS_LPP_DEFLUENCIA_MAXIMA = "RHSLPPDEFMAX"
+    RHS_LPP_TURBINAMENTO_MAXIMO_USINA = "RHSLPPTURMAXU"
+    RHS_LPP_DEFLUENCIA_MAXIMA_USINA = "RHSLPPDEFMAXU"
+    VIOLACAO_RESTRICOES_ELETRICAS_ESPECIAIS = "VREESP"
+    CUSTO_RESTRICOES_ELETRICAS_ESPECIAIS = "CREESP"
+    VOLUME_ARMAZENADO_ABSOLUTO_INICIAL = "VARMI"
+    VALOR_AGUA_USINA = "VAGUAU"
+    VOLUME_EVAPORADO = "VEVAP"
+    VOLUME_BOMBEADO = "VBOMB"
+    CONSUMO_ENERGIA_ESTACAO_BOMBEAMENTO = "EBOMB"
+    VOLUME_CANAL_DESVIO_USINA = "VOLCDU"
 
 
 class SecaoDadosForward(Section):
     """
-    Registro com os resultados da operação
+    Registro com os resultados da operação do modelo NEWAVE.
     """
 
-    BYTES_FLOAT = 4
-    BYTES_INT = 4
+    VARIAVEIS: List[VariavelOperacao] = [
+        VariavelOperacao.MERCADO,
+        VariavelOperacao.ENERGIA_ARMAZENADA_ABSOLUTA_INICIAL,
+        VariavelOperacao.ENERGIA_NATURAL_AFLUENTE_ABSOLUTA,
+        VariavelOperacao.GERACAO_HIDRAULICA_CONTROLAVEL,
+        VariavelOperacao.ENERGIA_VERTIDA,
+        VariavelOperacao.ENERGIA_ARMAZENADA_ABSOLUTA_FINAL,
+        VariavelOperacao.ENERGIA_NATURAL_AFLUENTE_FIO_BRUTA,
+        VariavelOperacao.ENERGIA_EVAPORADA,
+        VariavelOperacao.ENERGIA_ENCHIMENTO_VOLUME_MORTO,
+        VariavelOperacao.GERACAO_TERMICA,
+        VariavelOperacao.DEFICIT,
+        VariavelOperacao.VALOR_AGUA,
+        VariavelOperacao.CUSTO_MARGINAL_OPERACAO,
+        VariavelOperacao.GERACAO_HIDRAULICA_FIO_LIQUIDA,
+        VariavelOperacao.PERDAS_GERACAO_HIDRAULICA_FIO,
+        VariavelOperacao.INTERCAMBIO,
+        VariavelOperacao.EXCESSO,
+        VariavelOperacao.ENERGIA_NATURAL_AFLUENTE_BRUTA,
+        VariavelOperacao.ENERGIA_NATURAL_AFLUENTE_CONTROLAVEL_CORRIGIDA,
+        VariavelOperacao.GERACAO_HIDRAULICA_MAXIMA,
+        VariavelOperacao.ENERGIA_AFLUENTE_CONTROLAVEL_DESVIO,
+        VariavelOperacao.ENERGIA_AFLUENTE_FIO_DESVIO,
+        VariavelOperacao.BENEFICIO_INTERCAMBIO,
+        VariavelOperacao.FATOR_CORRECAO_ENERGIA_NATURAL_AFLUENTE_CONTROLAVEL,
+        VariavelOperacao.VIOLACAO_CURVA_AVERSAO,
+        VariavelOperacao.ACIONAMENTO_CURVA_AVERSAO,
+        VariavelOperacao.PENALIDADE_CURVA_AVERSAO,
+        VariavelOperacao.CUSTO_OPERACAO,
+        VariavelOperacao.CUSTO_GERACAO_TERMICA,
+        VariavelOperacao.BENEFICIO_AGRUPAMENTO_INTERCAMBIO,
+        VariavelOperacao.ENERGIA_NATURAL_AFLUENTE_FIO,
+        VariavelOperacao.BENEFICIO_DESPACHO_GNL,
+        VariavelOperacao.VIOLACAO_GERACAO_HIRAULICA_MINIMA,
+        VariavelOperacao.VIOLACAO_ENERGIA_VAZAO_MINIMA,
+        VariavelOperacao.INVASAO_SAR,
+        VariavelOperacao.ACIONAMENTO_SAR,
+        VariavelOperacao.PENALIDADE_SAR,
+        VariavelOperacao.GERACAO_HIDRAULICA_MAXIMA_CONSIDERANDO_RE,
+        VariavelOperacao.VOLUME_ARMAZENADO_ABSOLUTO_FINAL,
+        VariavelOperacao.GERACAO_HIDRAULICA_USINA,
+        VariavelOperacao.VOLUME_TURBINADO,
+        VariavelOperacao.VOLUME_VERTIDO,
+        VariavelOperacao.VIOLACAO_GERACAO_HIDRAULICA_MINIMA_USINA,
+        VariavelOperacao.ENCHIMENTO_VOLUME_MORTO_USINA,
+        VariavelOperacao.VIOLACAO_DEFLUENCIA_MINIMA,
+        VariavelOperacao.VOLUME_DESVIO_USINA,
+        VariavelOperacao.VOLUME_DESVIO_POSITIVO_USINA,
+        VariavelOperacao.VOLUME_DESVIO_NEGATIVO_USINA,
+        VariavelOperacao.VIOLACAO_FPHA,
+        VariavelOperacao.VAZAO_AFLUENTE,
+        VariavelOperacao.VAZAO_INCREMENTAL,
+        VariavelOperacao.VOLUME_ARMAZENADO_PERCENTUAL_FINAL,
+        VariavelOperacao.GEOL_GSOL_OLD,
+        VariavelOperacao.VIOLACAO_GEE,
+        VariavelOperacao.CUSTO_VIOLACAO_ENERGIA_VAZAO_MINIMA,
+        VariavelOperacao.CUSTO_ENERGIA_AFLUENTE_CONTROLAVEL_DESVIO,
+        VariavelOperacao.CUSTO_ENERGIA_AFLUENTE_FIO_DESVIO,
+        VariavelOperacao.CUSTO_VIOLACAO_GERACAO_HIDRAULICA_MINIMA,
+        VariavelOperacao.SOMA_ENERGIA_NATURAL_AFLUENTE_12_MESES,
+        VariavelOperacao.SOMA_VAZAO_AFLUENTE_12_MESES,
+        VariavelOperacao.GERACAO_EOLICA,
+        VariavelOperacao.VELOCIDADE_VENTO,
+        VariavelOperacao.VIOLACAO_FUNCAO_PRODUCAO_EOLICA,
+        VariavelOperacao.VIOLACAO_DEFLUENCIA_MAXIMA,
+        VariavelOperacao.VIOLACAO_TURBINAMENTO_MAXIMO,
+        VariavelOperacao.VIOLACAO_TURBINAMENTO_MINIMO,
+        VariavelOperacao.VIOLACAO_LPP_TURBINAMENTO_MAXIMO,
+        VariavelOperacao.VIOLACAO_LPP_DEFLUENCIA_MAXIMA,
+        VariavelOperacao.VIOLACAO_LPP_TURBINAMENTO_MAXIMO_USINA,
+        VariavelOperacao.VIOLACAO_LPP_DEFLUENCIA_MAXIMA_USINA,
+        VariavelOperacao.RHS_LPP_TURBINAMENTO_MAXIMO,
+        VariavelOperacao.RHS_LPP_DEFLUENCIA_MAXIMA,
+        VariavelOperacao.RHS_LPP_TURBINAMENTO_MAXIMO_USINA,
+        VariavelOperacao.RHS_LPP_DEFLUENCIA_MAXIMA_USINA,
+        VariavelOperacao.VIOLACAO_RESTRICOES_ELETRICAS_ESPECIAIS,
+        VariavelOperacao.CUSTO_RESTRICOES_ELETRICAS_ESPECIAIS,
+        VariavelOperacao.VOLUME_ARMAZENADO_ABSOLUTO_INICIAL,
+        VariavelOperacao.VALOR_AGUA_USINA,
+        VariavelOperacao.VOLUME_EVAPORADO,
+        VariavelOperacao.VOLUME_BOMBEADO,
+        VariavelOperacao.CONSUMO_ENERGIA_ESTACAO_BOMBEAMENTO,
+        VariavelOperacao.VOLUME_CANAL_DESVIO_USINA,
+    ]
 
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
+        self.data: Dict[VariavelOperacao, Union[np.ndarray, pd.DataFrame]] = {}
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, SecaoDadosForward):
@@ -21,13 +192,26 @@ class SecaoDadosForward(Section):
         bloco: SecaoDadosForward = o
         if not all(
             [
-                isinstance(self.data, list),
-                isinstance(bloco.data, list),
+                isinstance(self.data, dict),
+                isinstance(bloco.data, dict),
             ]
         ):
             return False
         else:
-            return all([a.equals(b) for a, b in zip(self.data, bloco.data)])
+            if not all(
+                [isinstance(b, pd.DataFrame) for b in self.data.values()]
+                + [isinstance(b, pd.DataFrame) for b in o.data.values()]
+            ):
+                return False
+            else:
+                return all(
+                    [
+                        (k1 == k2) and v1.equals(v2)  # type: ignore
+                        for (k1, v1), (k2, v2) in zip(
+                            self.data.items(), bloco.data.items()
+                        )
+                    ]
+                )
 
     def __le_e_atribui_int(
         self, file: IO, destino: np.ndarray, tamanho: int, indice: int
@@ -52,6 +236,7 @@ class SecaoDadosForward(Section):
     def __inicializa_variaveis(
         self, numero_estagios: int, numero_forwards: int
     ):
+        # Variáveis que sempre existem
         self.__estagios_df = np.repeat(
             np.arange(1, numero_estagios + 1), numero_forwards
         )
@@ -60,471 +245,495 @@ class SecaoDadosForward(Section):
         )
         self.__num_simulacoes = numero_estagios * numero_forwards
         self.estagio = np.zeros((1 * self.__num_simulacoes,), dtype=np.int32)
-        self.mercado_liquido = np.zeros(
-            (self.numero_submercados * self.__num_simulacoes,),
-            dtype=np.float32,
-        )
-        self.energia_armazenada_inicial = np.zeros(
-            (self.numero_rees * self.__num_simulacoes,), dtype=np.float32
-        )
-        self.energia_afluente_total = np.zeros(
-            (self.numero_rees * self.__num_simulacoes,), dtype=np.float32
-        )
-        self.geracao_hidraulica_controlavel = np.zeros(
-            (
-                self.numero_rees
-                * self.numero_patamares_carga
-                * self.__num_simulacoes,
+        # Variáveis que variam com a versão do modelo
+        mapa_variaveis: Dict[
+            VariavelOperacao, Callable[[Any], npt.NDArray[np.float32]]
+        ] = {
+            VariavelOperacao.MERCADO: lambda _: np.zeros(
+                (self.numero_submercados * self.__num_simulacoes,),
+                dtype=np.float32,
             ),
-            dtype=np.float32,
-        )
-        self.energia_vertida = np.zeros(
-            (self.numero_rees * self.__num_simulacoes,), dtype=np.float32
-        )
-        self.energia_armazenada_final = np.zeros(
-            (self.numero_rees * self.__num_simulacoes,), dtype=np.float32
-        )
-        self.energia_fio_dagua = np.zeros(
-            (self.numero_rees * self.__num_simulacoes,), dtype=np.float32
-        )
-        self.energia_evaporada = np.zeros(
-            (self.numero_rees * self.__num_simulacoes,), dtype=np.float32
-        )
-        self.energia_enchimento_volume_morto = np.zeros(
-            (self.numero_rees * self.__num_simulacoes,), dtype=np.float32
-        )
-        self.geracao_termica = np.zeros(
-            (
-                2
-                * self.total_classes_termicas
-                * self.numero_patamares_carga
-                * self.__num_simulacoes,
+            VariavelOperacao.ENERGIA_ARMAZENADA_ABSOLUTA_INICIAL: lambda _: np.zeros(
+                (self.numero_rees * self.__num_simulacoes,), dtype=np.float32
             ),
-            dtype=np.float32,
-        )
-        self.deficit = np.zeros(
-            (
-                self.numero_submercados
-                * self.numero_patamares_deficit
-                * self.numero_patamares_carga
-                * self.__num_simulacoes,
+            VariavelOperacao.ENERGIA_NATURAL_AFLUENTE_ABSOLUTA: lambda _: np.zeros(
+                (self.numero_rees * self.__num_simulacoes,), dtype=np.float32
             ),
-            dtype=np.float32,
-        )
-        self.pi_balanco_hidrico = np.zeros(
-            (self.numero_rees * self.__num_simulacoes,),
-            dtype=np.float32,
-        )
-        self.pi_balanco_demanda = np.zeros(
-            (
-                self.numero_submercados
-                * self.numero_patamares_carga
-                * self.__num_simulacoes,
+            VariavelOperacao.GERACAO_HIDRAULICA_CONTROLAVEL: lambda _: np.zeros(
+                (
+                    self.numero_rees
+                    * self.numero_patamares_carga
+                    * self.__num_simulacoes,
+                ),
+                dtype=np.float32,
             ),
-            dtype=np.float32,
-        )
-        self.geracao_fio_dagua_liquida = np.zeros(
-            (self.numero_rees * self.__num_simulacoes,),
-            dtype=np.float32,
-        )
-        self.perdas_fio_dagua = np.zeros(
-            (self.numero_rees * self.__num_simulacoes,),
-            dtype=np.float32,
-        )
-        self.intercambios = np.zeros(
-            (
-                self.numero_total_submercados
-                * (self.numero_total_submercados - 1)
-                * self.numero_patamares_carga
-                * self.__num_simulacoes,
+            VariavelOperacao.ENERGIA_VERTIDA: lambda _: np.zeros(
+                (self.numero_rees * self.__num_simulacoes,), dtype=np.float32
             ),
-            dtype=np.float32,
-        )
-        self.excesso = np.zeros(
-            (
-                self.numero_submercados
-                * self.numero_patamares_carga
-                * self.__num_simulacoes,
+            VariavelOperacao.ENERGIA_ARMAZENADA_ABSOLUTA_FINAL: lambda _: np.zeros(
+                (self.numero_rees * self.__num_simulacoes,), dtype=np.float32
             ),
-            dtype=np.float32,
-        )
-        self.energia_afluente_bruta_sem_correcao = np.zeros(
-            (self.numero_rees * self.__num_simulacoes,),
-            dtype=np.float32,
-        )
-        self.energia_afluente_controlavel_corrigida = np.zeros(
-            (self.numero_rees * self.__num_simulacoes,),
-            dtype=np.float32,
-        )
-        self.geracao_hidraulica_maxima = np.zeros(
-            (
-                self.numero_rees
-                * self.numero_patamares_carga
-                * self.__num_simulacoes,
+            VariavelOperacao.ENERGIA_NATURAL_AFLUENTE_FIO_BRUTA: lambda _: np.zeros(
+                (self.numero_rees * self.__num_simulacoes,), dtype=np.float32
             ),
-            dtype=np.float32,
-        )
-        self.energia_controlavel_referente_desvio = np.zeros(
-            (self.numero_rees * self.__num_simulacoes,),
-            dtype=np.float32,
-        )
-        self.energia_fio_dagua_referente_desvio = np.zeros(
-            (self.numero_rees * self.__num_simulacoes,),
-            dtype=np.float32,
-        )
-        self.beneficio_intercambio = np.zeros(
-            (
-                self.numero_total_submercados
-                * (self.numero_total_submercados - 1)
-                * self.numero_patamares_carga
-                * self.__num_simulacoes,
+            VariavelOperacao.ENERGIA_EVAPORADA: lambda _: np.zeros(
+                (self.numero_rees * self.__num_simulacoes,), dtype=np.float32
             ),
-            dtype=np.float32,
-        )
-        self.fator_correcao_energia_controlavel = np.zeros(
-            (self.numero_rees * self.__num_simulacoes,),
-            dtype=np.float32,
-        )
-        self.invasao_curva_aversao = np.zeros(
-            (self.numero_rees * self.__num_simulacoes,),
-            dtype=np.float32,
-        )
-        self.acionamento_curva_aversao = np.zeros(
-            (self.numero_rees * self.__num_simulacoes,),
-            dtype=np.float32,
-        )
-        self.penalidade_invasao_curva_aversao = np.zeros(
-            (self.numero_rees * self.__num_simulacoes,),
-            dtype=np.float32,
-        )
-        self.custo_total_operacao = np.zeros(
-            (1 * self.__num_simulacoes,),
-            dtype=np.float32,
-        )
-        self.custo_geracao_termica = np.zeros(
-            (self.numero_submercados * self.__num_simulacoes,),
-            dtype=np.float32,
-        )
-        self.beneficio_agrupamento_intercambios = np.zeros(
-            (
-                self.numero_patamares_carga
-                * self.numero_agrupamentos_intercambio
-                * self.__num_simulacoes,
+            VariavelOperacao.ENERGIA_ENCHIMENTO_VOLUME_MORTO: lambda _: np.zeros(
+                (self.numero_rees * self.__num_simulacoes,), dtype=np.float32
             ),
-            dtype=np.float32,
-        )
-        self.energia_afluente_fio_dagua = np.zeros(
-            (self.numero_rees * self.__num_simulacoes,),
-            dtype=np.float32,
-        )
-        self.beneficio_despacho_gnl = np.zeros(
-            (
-                self.numero_submercados
-                * self.numero_patamares_carga
-                * self.lag_maximo_usinas_gnl
-                * self.__num_simulacoes,
+            VariavelOperacao.GERACAO_TERMICA: lambda _: np.zeros(
+                (
+                    2
+                    * self.total_classes_termicas
+                    * self.numero_patamares_carga
+                    * self.__num_simulacoes,
+                ),
+                dtype=np.float32,
             ),
-            dtype=np.float32,
-        )
-        self.violacao_ghmin_ree = np.zeros(
-            (
-                self.numero_rees
-                * self.numero_patamares_carga
-                * self.__num_simulacoes,
+            VariavelOperacao.DEFICIT: lambda _: np.zeros(
+                (
+                    self.numero_submercados
+                    * self.numero_patamares_deficit
+                    * self.numero_patamares_carga
+                    * self.__num_simulacoes,
+                ),
+                dtype=np.float32,
             ),
-            dtype=np.float32,
-        )
-        self.violacao_energia_vazao_minima = np.zeros(
-            (self.numero_rees * self.__num_simulacoes,),
-            dtype=np.float32,
-        )
-        self.invasao_sar = np.zeros(
-            (1 * self.__num_simulacoes,),
-            dtype=np.float32,
-        )
-        self.acionamento_sar = np.zeros(
-            (1 * self.__num_simulacoes,),
-            dtype=np.int32,
-        )
-        self.penalidade_sar = np.zeros(
-            (1 * self.__num_simulacoes,),
-            dtype=np.float32,
-        )
-        self.capacidade_hidraulica_maxima_considerando_re = np.zeros(
-            (
-                self.numero_rees
-                * self.numero_patamares_carga
-                * self.__num_simulacoes,
+            VariavelOperacao.VALOR_AGUA: lambda _: np.zeros(
+                (self.numero_rees * self.__num_simulacoes,),
+                dtype=np.float32,
             ),
-            dtype=np.float32,
-        )
-        self.volume_armazenado_final = np.zeros(
-            (self.numero_usinas_hidreletricas * self.__num_simulacoes,),
-            dtype=np.float32,
-        )
-        self.geracao_hidraulica_usina = np.zeros(
-            (
-                self.numero_usinas_hidreletricas
-                * self.numero_patamares_carga
-                * self.__num_simulacoes,
+            VariavelOperacao.CUSTO_MARGINAL_OPERACAO: lambda _: np.zeros(
+                (
+                    self.numero_submercados
+                    * self.numero_patamares_carga
+                    * self.__num_simulacoes,
+                ),
+                dtype=np.float32,
             ),
-            dtype=np.float32,
-        )
-        self.volume_turbinado_usina = np.zeros(
-            (
-                self.numero_usinas_hidreletricas
-                * self.numero_patamares_carga
-                * self.__num_simulacoes,
+            VariavelOperacao.GERACAO_HIDRAULICA_FIO_LIQUIDA: lambda _: np.zeros(
+                (self.numero_rees * self.__num_simulacoes,),
+                dtype=np.float32,
             ),
-            dtype=np.float32,
-        )
-        self.volume_vertido_usina = np.zeros(
-            (
-                self.numero_usinas_hidreletricas
-                * self.numero_patamares_carga
-                * self.__num_simulacoes,
+            VariavelOperacao.PERDAS_GERACAO_HIDRAULICA_FIO: lambda _: np.zeros(
+                (self.numero_rees * self.__num_simulacoes,),
+                dtype=np.float32,
             ),
-            dtype=np.float32,
-        )
-        self.violacao_ghmin_usina = np.zeros(
-            (
-                self.numero_usinas_hidreletricas
-                * self.numero_patamares_carga
-                * self.__num_simulacoes,
+            VariavelOperacao.INTERCAMBIO: lambda _: np.zeros(
+                (
+                    self.numero_total_submercados
+                    * (self.numero_total_submercados - 1)
+                    * self.numero_patamares_carga
+                    * self.__num_simulacoes,
+                ),
+                dtype=np.float32,
             ),
-            dtype=np.float32,
-        )
-        self.enchimento_volume_morto_usina = np.zeros(
-            (self.numero_usinas_hidreletricas * self.__num_simulacoes,),
-            dtype=np.float32,
-        )
-        self.violacao_vazao_minima_usina = np.zeros(
-            (
-                self.numero_usinas_hidreletricas
-                * self.numero_patamares_carga
-                * self.__num_simulacoes,
+            VariavelOperacao.EXCESSO: lambda _: np.zeros(
+                (
+                    self.numero_submercados
+                    * self.numero_patamares_carga
+                    * self.__num_simulacoes,
+                ),
+                dtype=np.float32,
             ),
-            dtype=np.float32,
-        )
-        self.volume_desvio_usina = np.zeros(
-            (self.numero_usinas_hidreletricas * self.__num_simulacoes,),
-            dtype=np.float32,
-        )
-        self.volume_desvio_positivo_usina = np.zeros(
-            (self.numero_usinas_hidreletricas * self.__num_simulacoes,),
-            dtype=np.float32,
-        )
-        self.volume_desvio_negativo_usina = np.zeros(
-            (self.numero_usinas_hidreletricas * self.__num_simulacoes,),
-            dtype=np.float32,
-        )
-        self.violacao_fpha_usina = np.zeros(
-            (
-                self.numero_usinas_hidreletricas
-                * self.numero_patamares_carga
-                * self.__num_simulacoes,
+            VariavelOperacao.ENERGIA_NATURAL_AFLUENTE_BRUTA: lambda _: np.zeros(
+                (self.numero_rees * self.__num_simulacoes,),
+                dtype=np.float32,
             ),
-            dtype=np.float32,
-        )
-        self.vazao_afluente_usina = np.zeros(
-            (self.numero_usinas_hidreletricas * self.__num_simulacoes,),
-            dtype=np.float32,
-        )
-        self.vazao_incremental_usina = np.zeros(
-            (self.numero_usinas_hidreletricas * self.__num_simulacoes,),
-            dtype=np.float32,
-        )
-        self.volume_armazenado_final_percentual_usina = np.zeros(
-            (self.numero_usinas_hidreletricas * self.__num_simulacoes,),
-            dtype=np.float32,
-        )
-        self.custo_violacao_energia_vazao_minima = np.zeros(
-            (self.numero_rees * self.__num_simulacoes,),
-            dtype=np.float32,
-        )
-        self.custo_desvio_agua_controlavel = np.zeros(
-            (self.numero_rees * self.__num_simulacoes,),
-            dtype=np.float32,
-        )
-        self.custo_desvio_agua_fio_dagua = np.zeros(
-            (self.numero_rees * self.__num_simulacoes,),
-            dtype=np.float32,
-        )
-        self.custo_violacao_ghmin = np.zeros(
-            (
-                self.numero_rees
-                * self.numero_patamares_carga
-                * self.__num_simulacoes,
+            VariavelOperacao.ENERGIA_NATURAL_AFLUENTE_CONTROLAVEL_CORRIGIDA: lambda _: np.zeros(
+                (self.numero_rees * self.__num_simulacoes,),
+                dtype=np.float32,
             ),
-            dtype=np.float32,
-        )
-        self.soma_afluencias_passadas_ree = np.zeros(
-            (self.numero_rees * self.__num_simulacoes,),
-            dtype=np.float32,
-        )
-        self.soma_afluencias_passadas_usina = np.zeros(
-            (self.numero_usinas_hidreletricas * self.__num_simulacoes,),
-            dtype=np.float32,
-        )
-        self.geracao_eolica_pee = np.zeros(
-            (
-                self.numero_parques_eolicos_equivalentes
-                * self.numero_patamares_carga
-                * self.__num_simulacoes,
+            VariavelOperacao.GERACAO_HIDRAULICA_MAXIMA: lambda _: np.zeros(
+                (
+                    self.numero_rees
+                    * self.numero_patamares_carga
+                    * self.__num_simulacoes,
+                ),
+                dtype=np.float32,
             ),
-            dtype=np.float32,
-        )
-        self.vento_pee = np.zeros(
-            (
-                self.numero_parques_eolicos_equivalentes
-                * self.__num_simulacoes,
+            VariavelOperacao.ENERGIA_AFLUENTE_CONTROLAVEL_DESVIO: lambda _: np.zeros(
+                (self.numero_rees * self.__num_simulacoes,),
+                dtype=np.float32,
             ),
-            dtype=np.float32,
-        )
-        self.violacao_funcao_producao_eolica_pee = np.zeros(
-            (
-                self.numero_parques_eolicos_equivalentes
-                * self.numero_patamares_carga
-                * self.__num_simulacoes,
+            VariavelOperacao.ENERGIA_AFLUENTE_FIO_DESVIO: lambda _: np.zeros(
+                (self.numero_rees * self.__num_simulacoes,),
+                dtype=np.float32,
             ),
-            dtype=np.float32,
-        )
-        self.violacao_vazao_maxima_usina = np.zeros(
-            (
-                self.numero_usinas_hidreletricas
-                * self.numero_patamares_carga
-                * self.__num_simulacoes,
+            VariavelOperacao.BENEFICIO_INTERCAMBIO: lambda _: np.zeros(
+                (
+                    self.numero_total_submercados
+                    * (self.numero_total_submercados - 1)
+                    * self.numero_patamares_carga
+                    * self.__num_simulacoes,
+                ),
+                dtype=np.float32,
             ),
-            dtype=np.float32,
-        )
-        self.violacao_turbinamento_maximo_usina = np.zeros(
-            (
-                self.numero_usinas_hidreletricas
-                * self.numero_patamares_carga
-                * self.__num_simulacoes,
+            VariavelOperacao.FATOR_CORRECAO_ENERGIA_NATURAL_AFLUENTE_CONTROLAVEL: lambda _: np.zeros(  # noqa
+                (self.numero_rees * self.__num_simulacoes,),
+                dtype=np.float32,
             ),
-            dtype=np.float32,
-        )
-        self.violacao_turbinamento_minimo_usina = np.zeros(
-            (
-                self.numero_usinas_hidreletricas
-                * self.numero_patamares_carga
-                * self.__num_simulacoes,
+            VariavelOperacao.VIOLACAO_CURVA_AVERSAO: lambda _: np.zeros(
+                (self.numero_rees * self.__num_simulacoes,),
+                dtype=np.float32,
             ),
-            dtype=np.float32,
-        )
-        self.violacao_lpp_turbinamento_maximo = np.zeros(
-            (
-                self.numero_rees
-                * self.numero_patamares_carga
-                * self.__num_simulacoes,
+            VariavelOperacao.ACIONAMENTO_CURVA_AVERSAO: lambda _: np.zeros(
+                (self.numero_rees * self.__num_simulacoes,),
+                dtype=np.float32,
             ),
-            dtype=np.float32,
-        )
-        self.violacao_lpp_defluencia_maxima = np.zeros(
-            (
-                self.numero_rees
-                * self.numero_patamares_carga
-                * self.__num_simulacoes,
+            VariavelOperacao.PENALIDADE_CURVA_AVERSAO: lambda _: np.zeros(
+                (self.numero_rees * self.__num_simulacoes,),
+                dtype=np.float32,
             ),
-            dtype=np.float32,
-        )
-        self.violacao_lpp_turbinamento_maximo_usina = np.zeros(
-            (
-                self.numero_usinas_hidreletricas
-                * self.numero_patamares_carga
-                * self.__num_simulacoes,
+            VariavelOperacao.CUSTO_OPERACAO: lambda _: np.zeros(
+                (1 * self.__num_simulacoes,),
+                dtype=np.float32,
             ),
-            dtype=np.float32,
-        )
-        self.violacao_lpp_defluencia_maxima_usina = np.zeros(
-            (
-                self.numero_usinas_hidreletricas
-                * self.numero_patamares_carga
-                * self.__num_simulacoes,
+            VariavelOperacao.CUSTO_GERACAO_TERMICA: lambda _: np.zeros(
+                (self.numero_submercados * self.__num_simulacoes,),
+                dtype=np.float32,
             ),
-            dtype=np.float32,
-        )
-        self.rhs_lpp_turbinamento_maximo = np.zeros(
-            (
-                self.numero_rees
-                * self.numero_patamares_carga
-                * self.__num_simulacoes,
+            VariavelOperacao.BENEFICIO_AGRUPAMENTO_INTERCAMBIO: lambda _: np.zeros(
+                (
+                    self.numero_patamares_carga
+                    * self.numero_agrupamentos_intercambio
+                    * self.__num_simulacoes,
+                ),
+                dtype=np.float32,
             ),
-            dtype=np.float32,
-        )
-        self.rhs_lpp_defluencia_maxima = np.zeros(
-            (
-                self.numero_rees
-                * self.numero_patamares_carga
-                * self.__num_simulacoes,
+            VariavelOperacao.ENERGIA_NATURAL_AFLUENTE_FIO: lambda _: np.zeros(
+                (self.numero_rees * self.__num_simulacoes,),
+                dtype=np.float32,
             ),
-            dtype=np.float32,
-        )
-        self.rhs_lpp_turbinamento_maximo_usina = np.zeros(
-            (
-                self.numero_usinas_hidreletricas
-                * self.numero_patamares_carga
-                * self.__num_simulacoes,
+            VariavelOperacao.BENEFICIO_DESPACHO_GNL: lambda _: np.zeros(
+                (
+                    self.numero_submercados
+                    * self.numero_patamares_carga
+                    * self.lag_maximo_usinas_gnl
+                    * self.__num_simulacoes,
+                ),
+                dtype=np.float32,
             ),
-            dtype=np.float32,
-        )
-        self.rhs_lpp_defluencia_maxima_usina = np.zeros(
-            (
-                self.numero_usinas_hidreletricas
-                * self.numero_patamares_carga
-                * self.__num_simulacoes,
+            VariavelOperacao.VIOLACAO_GERACAO_HIRAULICA_MINIMA: lambda _: np.zeros(
+                (
+                    self.numero_rees
+                    * self.numero_patamares_carga
+                    * self.__num_simulacoes,
+                ),
+                dtype=np.float32,
             ),
-            dtype=np.float32,
-        )
-        self.violacao_restricao_eletrica_especial = np.zeros(
-            (
-                self.numero_restricoes_eletricas_especiais
-                * self.numero_patamares_carga
-                * self.__num_simulacoes,
+            VariavelOperacao.VIOLACAO_ENERGIA_VAZAO_MINIMA: lambda _: np.zeros(
+                (self.numero_rees * self.__num_simulacoes,),
+                dtype=np.float32,
             ),
-            dtype=np.float32,
-        )
-        self.custo_restricao_eletrica_especial = np.zeros(
-            (
-                self.numero_restricoes_eletricas_especiais
-                * self.numero_patamares_carga
-                * self.__num_simulacoes,
+            VariavelOperacao.INVASAO_SAR: lambda _: np.zeros(
+                (1 * self.__num_simulacoes,),
+                dtype=np.float32,
             ),
-            dtype=np.float32,
-        )
-        self.volume_armazenado_inicial_usina = np.zeros(
-            (self.numero_usinas_hidreletricas * self.__num_simulacoes,),
-            dtype=np.float32,
-        )
-        self.lambda_balanco_hidrico_usina = np.zeros(
-            (self.numero_usinas_hidreletricas * self.__num_simulacoes,),
-            dtype=np.float32,
-        )
-        self.volume_evaporado_usina = np.zeros(
-            (self.numero_usinas_hidreletricas * self.__num_simulacoes,),
-            dtype=np.float32,
-        )
-        self.volume_bombeado_estacao_bombeamento = np.zeros(
-            (self.numero_estacoes_bombeamento * self.__num_simulacoes,),
-            dtype=np.float32,
-        )
-        self.consumo_energia_estacao_bombeamento = np.zeros(
-            (
-                self.numero_estacoes_bombeamento
-                * self.numero_patamares_carga
-                * self.__num_simulacoes,
+            VariavelOperacao.ACIONAMENTO_SAR: lambda _: np.zeros(
+                (1 * self.__num_simulacoes,),
+                dtype=np.int32,
             ),
-            dtype=np.float32,
-        )
-        self.volume_desvio_canal_desvio_usina = np.zeros(
-            (
-                self.numero_usinas_hidreletricas
-                * self.numero_patamares_carga
-                * self.__num_simulacoes,
+            VariavelOperacao.PENALIDADE_SAR: lambda _: np.zeros(
+                (1 * self.__num_simulacoes,),
+                dtype=np.float32,
             ),
-            dtype=np.float32,
-        )
+            VariavelOperacao.GERACAO_HIDRAULICA_MAXIMA_CONSIDERANDO_RE: lambda _: np.zeros(
+                (
+                    self.numero_rees
+                    * self.numero_patamares_carga
+                    * self.__num_simulacoes,
+                ),
+                dtype=np.float32,
+            ),
+            VariavelOperacao.VOLUME_ARMAZENADO_ABSOLUTO_FINAL: lambda _: np.zeros(
+                (self.numero_usinas_hidreletricas * self.__num_simulacoes,),
+                dtype=np.float32,
+            ),
+            VariavelOperacao.GERACAO_HIDRAULICA_USINA: lambda _: np.zeros(
+                (
+                    self.numero_usinas_hidreletricas
+                    * self.numero_patamares_carga
+                    * self.__num_simulacoes,
+                ),
+                dtype=np.float32,
+            ),
+            VariavelOperacao.VOLUME_TURBINADO: lambda _: np.zeros(
+                (
+                    self.numero_usinas_hidreletricas
+                    * self.numero_patamares_carga
+                    * self.__num_simulacoes,
+                ),
+                dtype=np.float32,
+            ),
+            VariavelOperacao.VOLUME_VERTIDO: lambda _: np.zeros(
+                (
+                    self.numero_usinas_hidreletricas
+                    * self.numero_patamares_carga
+                    * self.__num_simulacoes,
+                ),
+                dtype=np.float32,
+            ),
+            VariavelOperacao.VIOLACAO_GERACAO_HIDRAULICA_MINIMA_USINA: lambda _: np.zeros(
+                (
+                    self.numero_usinas_hidreletricas
+                    * self.numero_patamares_carga
+                    * self.__num_simulacoes,
+                ),
+                dtype=np.float32,
+            ),
+            VariavelOperacao.ENCHIMENTO_VOLUME_MORTO_USINA: lambda _: np.zeros(
+                (self.numero_usinas_hidreletricas * self.__num_simulacoes,),
+                dtype=np.float32,
+            ),
+            VariavelOperacao.VIOLACAO_DEFLUENCIA_MINIMA: lambda _: np.zeros(
+                (
+                    self.numero_usinas_hidreletricas
+                    * self.numero_patamares_carga
+                    * self.__num_simulacoes,
+                ),
+                dtype=np.float32,
+            ),
+            VariavelOperacao.VOLUME_DESVIO_USINA: lambda _: np.zeros(
+                (self.numero_usinas_hidreletricas * self.__num_simulacoes,),
+                dtype=np.float32,
+            ),
+            VariavelOperacao.VOLUME_DESVIO_POSITIVO_USINA: lambda _: np.zeros(
+                (self.numero_usinas_hidreletricas * self.__num_simulacoes,),
+                dtype=np.float32,
+            ),
+            VariavelOperacao.VOLUME_DESVIO_NEGATIVO_USINA: lambda _: np.zeros(
+                (self.numero_usinas_hidreletricas * self.__num_simulacoes,),
+                dtype=np.float32,
+            ),
+            VariavelOperacao.VIOLACAO_FPHA: lambda _: np.zeros(
+                (
+                    self.numero_usinas_hidreletricas
+                    * self.numero_patamares_carga
+                    * self.__num_simulacoes,
+                ),
+                dtype=np.float32,
+            ),
+            VariavelOperacao.VAZAO_AFLUENTE: lambda _: np.zeros(
+                (self.numero_usinas_hidreletricas * self.__num_simulacoes,),
+                dtype=np.float32,
+            ),
+            VariavelOperacao.VAZAO_INCREMENTAL: lambda _: np.zeros(
+                (self.numero_usinas_hidreletricas * self.__num_simulacoes,),
+                dtype=np.float32,
+            ),
+            VariavelOperacao.GEOL_GSOL_OLD: lambda _: np.zeros(
+                (
+                    2
+                    * self.numero_submercados
+                    * self.numero_patamares_carga
+                    * self.__num_simulacoes,
+                ),
+                dtype=np.float32,
+            ),
+            VariavelOperacao.VIOLACAO_GEE: lambda _: np.zeros(
+                (1 * self.__num_simulacoes,),
+                dtype=np.float32,
+            ),
+            VariavelOperacao.VOLUME_ARMAZENADO_PERCENTUAL_FINAL: lambda _: np.zeros(
+                (self.numero_usinas_hidreletricas * self.__num_simulacoes,),
+                dtype=np.float32,
+            ),
+            VariavelOperacao.CUSTO_VIOLACAO_ENERGIA_VAZAO_MINIMA: lambda _: np.zeros(
+                (self.numero_rees * self.__num_simulacoes,),
+                dtype=np.float32,
+            ),
+            VariavelOperacao.CUSTO_ENERGIA_AFLUENTE_CONTROLAVEL_DESVIO: lambda _: np.zeros(
+                (self.numero_rees * self.__num_simulacoes,),
+                dtype=np.float32,
+            ),
+            VariavelOperacao.CUSTO_ENERGIA_AFLUENTE_FIO_DESVIO: lambda _: np.zeros(
+                (self.numero_rees * self.__num_simulacoes,),
+                dtype=np.float32,
+            ),
+            VariavelOperacao.CUSTO_VIOLACAO_GERACAO_HIDRAULICA_MINIMA: lambda _: np.zeros(
+                (
+                    self.numero_rees
+                    * self.numero_patamares_carga
+                    * self.__num_simulacoes,
+                ),
+                dtype=np.float32,
+            ),
+            VariavelOperacao.SOMA_ENERGIA_NATURAL_AFLUENTE_12_MESES: lambda _: np.zeros(
+                (self.numero_rees * self.__num_simulacoes,),
+                dtype=np.float32,
+            ),
+            VariavelOperacao.SOMA_VAZAO_AFLUENTE_12_MESES: lambda _: np.zeros(
+                (self.numero_usinas_hidreletricas * self.__num_simulacoes,),
+                dtype=np.float32,
+            ),
+            VariavelOperacao.GERACAO_EOLICA: lambda _: np.zeros(
+                (
+                    self.numero_parques_eolicos_equivalentes
+                    * self.numero_patamares_carga
+                    * self.__num_simulacoes,
+                ),
+                dtype=np.float32,
+            ),
+            VariavelOperacao.VELOCIDADE_VENTO: lambda _: np.zeros(
+                (
+                    self.numero_parques_eolicos_equivalentes
+                    * self.__num_simulacoes,
+                ),
+                dtype=np.float32,
+            ),
+            VariavelOperacao.VIOLACAO_FUNCAO_PRODUCAO_EOLICA: lambda _: np.zeros(
+                (
+                    self.numero_parques_eolicos_equivalentes
+                    * self.numero_patamares_carga
+                    * self.__num_simulacoes,
+                ),
+                dtype=np.float32,
+            ),
+            VariavelOperacao.VIOLACAO_DEFLUENCIA_MAXIMA: lambda _: np.zeros(
+                (
+                    self.numero_usinas_hidreletricas
+                    * self.numero_patamares_carga
+                    * self.__num_simulacoes,
+                ),
+                dtype=np.float32,
+            ),
+            VariavelOperacao.VIOLACAO_TURBINAMENTO_MINIMO: lambda _: np.zeros(
+                (
+                    self.numero_usinas_hidreletricas
+                    * self.numero_patamares_carga
+                    * self.__num_simulacoes,
+                ),
+                dtype=np.float32,
+            ),
+            VariavelOperacao.VIOLACAO_TURBINAMENTO_MAXIMO: lambda _: np.zeros(
+                (
+                    self.numero_usinas_hidreletricas
+                    * self.numero_patamares_carga
+                    * self.__num_simulacoes,
+                ),
+                dtype=np.float32,
+            ),
+            VariavelOperacao.VIOLACAO_LPP_TURBINAMENTO_MAXIMO: lambda _: np.zeros(
+                (
+                    self.numero_rees
+                    * self.numero_patamares_carga
+                    * self.__num_simulacoes,
+                ),
+                dtype=np.float32,
+            ),
+            VariavelOperacao.VIOLACAO_LPP_DEFLUENCIA_MAXIMA: lambda _: np.zeros(
+                (
+                    self.numero_rees
+                    * self.numero_patamares_carga
+                    * self.__num_simulacoes,
+                ),
+                dtype=np.float32,
+            ),
+            VariavelOperacao.VIOLACAO_LPP_TURBINAMENTO_MAXIMO_USINA: lambda _: np.zeros(
+                (
+                    self.numero_usinas_hidreletricas
+                    * self.numero_patamares_carga
+                    * self.__num_simulacoes,
+                ),
+                dtype=np.float32,
+            ),
+            VariavelOperacao.VIOLACAO_LPP_DEFLUENCIA_MAXIMA_USINA: lambda _: np.zeros(
+                (
+                    self.numero_usinas_hidreletricas
+                    * self.numero_patamares_carga
+                    * self.__num_simulacoes,
+                ),
+                dtype=np.float32,
+            ),
+            VariavelOperacao.RHS_LPP_TURBINAMENTO_MAXIMO: lambda _: np.zeros(
+                (
+                    self.numero_rees
+                    * self.numero_patamares_carga
+                    * self.__num_simulacoes,
+                ),
+                dtype=np.float32,
+            ),
+            VariavelOperacao.RHS_LPP_DEFLUENCIA_MAXIMA: lambda _: np.zeros(
+                (
+                    self.numero_rees
+                    * self.numero_patamares_carga
+                    * self.__num_simulacoes,
+                ),
+                dtype=np.float32,
+            ),
+            VariavelOperacao.RHS_LPP_TURBINAMENTO_MAXIMO_USINA: lambda _: np.zeros(
+                (
+                    self.numero_usinas_hidreletricas
+                    * self.numero_patamares_carga
+                    * self.__num_simulacoes,
+                ),
+                dtype=np.float32,
+            ),
+            VariavelOperacao.RHS_LPP_DEFLUENCIA_MAXIMA_USINA: lambda _: np.zeros(
+                (
+                    self.numero_usinas_hidreletricas
+                    * self.numero_patamares_carga
+                    * self.__num_simulacoes,
+                ),
+                dtype=np.float32,
+            ),
+            VariavelOperacao.VIOLACAO_RESTRICOES_ELETRICAS_ESPECIAIS: lambda _: np.zeros(
+                (
+                    self.numero_restricoes_eletricas_especiais
+                    * self.numero_patamares_carga
+                    * self.__num_simulacoes,
+                ),
+                dtype=np.float32,
+            ),
+            VariavelOperacao.CUSTO_RESTRICOES_ELETRICAS_ESPECIAIS: lambda _: np.zeros(
+                (
+                    self.numero_restricoes_eletricas_especiais
+                    * self.numero_patamares_carga
+                    * self.__num_simulacoes,
+                ),
+                dtype=np.float32,
+            ),
+            VariavelOperacao.VOLUME_ARMAZENADO_ABSOLUTO_INICIAL: lambda _: np.zeros(
+                (self.numero_usinas_hidreletricas * self.__num_simulacoes,),
+                dtype=np.float32,
+            ),
+            VariavelOperacao.VALOR_AGUA_USINA: lambda _: np.zeros(
+                (self.numero_usinas_hidreletricas * self.__num_simulacoes,),
+                dtype=np.float32,
+            ),
+            VariavelOperacao.VOLUME_EVAPORADO: lambda _: np.zeros(
+                (self.numero_usinas_hidreletricas * self.__num_simulacoes,),
+                dtype=np.float32,
+            ),
+            VariavelOperacao.VOLUME_BOMBEADO: lambda _: np.zeros(
+                (
+                    self.numero_estacoes_bombeamento
+                    * self.numero_patamares_carga
+                    * self.__num_simulacoes,
+                ),
+                dtype=np.float32,
+            ),
+            VariavelOperacao.CONSUMO_ENERGIA_ESTACAO_BOMBEAMENTO: lambda _: np.zeros(
+                (
+                    self.numero_estacoes_bombeamento
+                    * self.numero_patamares_carga
+                    * self.__num_simulacoes,
+                ),
+                dtype=np.float32,
+            ),
+            VariavelOperacao.VOLUME_CANAL_DESVIO_USINA: lambda _: np.zeros(
+                (
+                    self.numero_usinas_hidreletricas
+                    * self.numero_patamares_carga
+                    * self.__num_simulacoes,
+                ),
+                dtype=np.float32,
+            ),
+        }
+        for v in self.__class__.VARIAVEIS:
+            self.data[v] = mapa_variaveis[v](v)
 
     def __le_registro(
         self,
@@ -534,494 +743,546 @@ class SecaoDadosForward(Section):
     ):
         file.seek(offset)
         self.__le_e_atribui_int(file, self.estagio, 1, indice)
-        self.__le_e_atribui_float(
-            file, self.mercado_liquido, self.numero_submercados, indice
-        )
-        self.__le_e_atribui_float(
-            file, self.energia_armazenada_inicial, self.numero_rees, indice
-        )
-        self.__le_e_atribui_float(
-            file, self.energia_afluente_total, self.numero_rees, indice
-        )
-        self.__le_e_atribui_float(
-            file,
-            self.geracao_hidraulica_controlavel,
-            self.numero_rees * self.numero_patamares_carga,
-            indice,
-        )
-        self.__le_e_atribui_float(
-            file, self.energia_vertida, self.numero_rees, indice
-        )
-        self.__le_e_atribui_float(
-            file, self.energia_armazenada_final, self.numero_rees, indice
-        )
-        self.__le_e_atribui_float(
-            file, self.energia_fio_dagua, self.numero_rees, indice
-        )
-        self.__le_e_atribui_float(
-            file, self.energia_evaporada, self.numero_rees, indice
-        )
-        self.__le_e_atribui_float(
-            file,
-            self.energia_enchimento_volume_morto,
-            self.numero_rees,
-            indice,
-        )
-        self.__le_e_atribui_float(
-            file,
-            self.geracao_termica,
-            2 * self.total_classes_termicas * self.numero_patamares_carga,
-            indice,
-        )
-        self.__le_e_atribui_float(
-            file,
-            self.deficit,
-            self.numero_submercados
-            * self.numero_patamares_deficit
-            * self.numero_patamares_carga,
-            indice,
-        )
-        self.__le_e_atribui_float(
-            file,
-            self.pi_balanco_hidrico,
-            self.numero_rees,
-            indice,
-        )
-        self.__le_e_atribui_float(
-            file,
-            self.pi_balanco_demanda,
-            self.numero_submercados * self.numero_patamares_carga,
-            indice,
-        )
-        self.__le_e_atribui_float(
-            file,
-            self.geracao_fio_dagua_liquida,
-            self.numero_rees,
-            indice,
-        )
-        self.__le_e_atribui_float(
-            file,
-            self.perdas_fio_dagua,
-            self.numero_rees,
-            indice,
-        )
-        self.__le_e_atribui_float(
-            file,
-            self.intercambios,
-            self.numero_total_submercados
-            * (self.numero_total_submercados - 1)
-            * self.numero_patamares_carga,
-            indice,
-        )
-        self.__le_e_atribui_float(
-            file,
-            self.excesso,
-            self.numero_submercados * self.numero_patamares_carga,
-            indice,
-        )
-        self.__le_e_atribui_float(
-            file,
-            self.energia_afluente_bruta_sem_correcao,
-            self.numero_rees,
-            indice,
-        )
-        self.__le_e_atribui_float(
-            file,
-            self.energia_afluente_controlavel_corrigida,
-            self.numero_rees,
-            indice,
-        )
-        self.__le_e_atribui_float(
-            file,
-            self.geracao_hidraulica_maxima,
-            self.numero_rees * self.numero_patamares_carga,
-            indice,
-        )
-        self.__le_e_atribui_float(
-            file,
-            self.energia_controlavel_referente_desvio,
-            self.numero_rees,
-            indice,
-        )
-        self.__le_e_atribui_float(
-            file,
-            self.energia_fio_dagua_referente_desvio,
-            self.numero_rees,
-            indice,
-        )
-        self.__le_e_atribui_float(
-            file,
-            self.beneficio_intercambio,
-            self.numero_total_submercados
-            * (self.numero_total_submercados - 1)
-            * self.numero_patamares_carga,
-            indice,
-        )
-        self.__le_e_atribui_float(
-            file,
-            self.fator_correcao_energia_controlavel,
-            self.numero_rees,
-            indice,
-        )
-        self.__le_e_atribui_float(
-            file,
-            self.invasao_curva_aversao,
-            self.numero_rees,
-            indice,
-        )
-        self.__le_e_atribui_float(
-            file,
-            self.acionamento_curva_aversao,
-            self.numero_rees,
-            indice,
-        )
-        self.__le_e_atribui_float(
-            file,
-            self.penalidade_invasao_curva_aversao,
-            self.numero_rees,
-            indice,
-        )
-        self.__le_e_atribui_float(
-            file,
-            self.custo_total_operacao,
-            1,
-            indice,
-        )
-        self.__le_e_atribui_float(
-            file,
-            self.custo_geracao_termica,
-            self.numero_submercados,
-            indice,
-        )
-        self.__le_e_atribui_float(
-            file,
-            self.beneficio_agrupamento_intercambios,
-            self.numero_patamares_carga * self.numero_agrupamentos_intercambio,
-            indice,
-        )
-        self.__le_e_atribui_float(
-            file,
-            self.energia_afluente_fio_dagua,
-            self.numero_rees,
-            indice,
-        )
-        self.__le_e_atribui_float(
-            file,
-            self.beneficio_despacho_gnl,
-            self.numero_submercados
-            * self.numero_patamares_carga
-            * self.lag_maximo_usinas_gnl,
-            indice,
-        )
-        self.__le_e_atribui_float(
-            file,
-            self.violacao_ghmin_ree,
-            self.numero_rees * self.numero_patamares_carga,
-            indice,
-        )
-        self.__le_e_atribui_float(
-            file,
-            self.violacao_energia_vazao_minima,
-            self.numero_rees,
-            indice,
-        )
-        self.__le_e_atribui_float(
-            file,
-            self.invasao_sar,
-            1,
-            indice,
-        )
-        self.__le_e_atribui_float(
-            file,
-            self.acionamento_sar,
-            1,
-            indice,
-        )
-        self.__le_e_atribui_float(
-            file,
-            self.penalidade_sar,
-            1,
-            indice,
-        )
-        self.__le_e_atribui_float(
-            file,
-            self.capacidade_hidraulica_maxima_considerando_re,
-            self.numero_rees * self.numero_patamares_carga,
-            indice,
-        )
-        self.__le_e_atribui_float(
-            file,
-            self.volume_armazenado_final,
-            self.numero_usinas_hidreletricas,
-            indice,
-        )
-        self.__le_e_atribui_float(
-            file,
-            self.geracao_hidraulica_usina,
-            self.numero_usinas_hidreletricas * self.numero_patamares_carga,
-            indice,
-        )
-        self.__le_e_atribui_float(
-            file,
-            self.volume_turbinado_usina,
-            self.numero_usinas_hidreletricas * self.numero_patamares_carga,
-            indice,
-        )
-        self.__le_e_atribui_float(
-            file,
-            self.volume_vertido_usina,
-            self.numero_usinas_hidreletricas * self.numero_patamares_carga,
-            indice,
-        )
-        self.__le_e_atribui_float(
-            file,
-            self.violacao_ghmin_usina,
-            self.numero_usinas_hidreletricas * self.numero_patamares_carga,
-            indice,
-        )
-        self.__le_e_atribui_float(
-            file,
-            self.enchimento_volume_morto_usina,
-            self.numero_usinas_hidreletricas,
-            indice,
-        )
-        self.__le_e_atribui_float(
-            file,
-            self.violacao_vazao_minima_usina,
-            self.numero_usinas_hidreletricas * self.numero_patamares_carga,
-            indice,
-        )
-        self.__le_e_atribui_float(
-            file,
-            self.volume_desvio_usina,
-            self.numero_usinas_hidreletricas,
-            indice,
-        )
-        self.__le_e_atribui_float(
-            file,
-            self.volume_desvio_positivo_usina,
-            self.numero_usinas_hidreletricas,
-            indice,
-        )
-        self.__le_e_atribui_float(
-            file,
-            self.volume_desvio_negativo_usina,
-            self.numero_usinas_hidreletricas,
-            indice,
-        )
-        self.__le_e_atribui_float(
-            file,
-            self.violacao_fpha_usina,
-            self.numero_usinas_hidreletricas * self.numero_patamares_carga,
-            indice,
-        )
-        self.__le_e_atribui_float(
-            file,
-            self.vazao_afluente_usina,
-            self.numero_usinas_hidreletricas,
-            indice,
-        )
-        self.__le_e_atribui_float(
-            file,
-            self.vazao_incremental_usina,
-            self.numero_usinas_hidreletricas,
-            indice,
-        )
-        self.__le_e_atribui_float(
-            file,
-            self.volume_armazenado_final_percentual_usina,
-            self.numero_usinas_hidreletricas,
-            indice,
-        )
-        # Campos GEOL e GSOL antigos - ignorados
-        np.frombuffer(
-            file.read(
-                2
-                * self.numero_submercados
-                * self.numero_patamares_carga
-                * SecaoDadosForward.BYTES_FLOAT
+        # Variáveis que variam com a versão do modelo
+        mapa_variaveis: Dict[VariavelOperacao, Callable] = {
+            VariavelOperacao.MERCADO: lambda _: self.__le_e_atribui_float(
+                file,
+                self.data[VariavelOperacao.MERCADO],
+                self.numero_submercados,
+                indice,
             ),
-            dtype=np.float32,
-            count=2 * self.numero_submercados * self.numero_patamares_carga,
-        )
-        # Violação limites GEE - ignorado
-        np.frombuffer(
-            file.read(SecaoDadosForward.BYTES_FLOAT),
-            dtype=np.float32,
-            count=1,
-        )[0]
-        self.__le_e_atribui_float(
-            file,
-            self.custo_violacao_energia_vazao_minima,
-            self.numero_rees,
-            indice,
-        )
-        self.__le_e_atribui_float(
-            file,
-            self.custo_desvio_agua_controlavel,
-            self.numero_rees,
-            indice,
-        )
-        self.__le_e_atribui_float(
-            file,
-            self.custo_desvio_agua_fio_dagua,
-            self.numero_rees,
-            indice,
-        )
-        self.__le_e_atribui_float(
-            file,
-            self.custo_violacao_ghmin,
-            self.numero_rees * self.numero_patamares_carga,
-            indice,
-        )
-        self.__le_e_atribui_float(
-            file,
-            self.soma_afluencias_passadas_ree,
-            self.numero_rees,
-            indice,
-        )
-        self.__le_e_atribui_float(
-            file,
-            self.soma_afluencias_passadas_usina,
-            self.numero_usinas_hidreletricas,
-            indice,
-        )
-        self.__le_e_atribui_float(
-            file,
-            self.geracao_eolica_pee,
-            self.numero_parques_eolicos_equivalentes
-            * self.numero_patamares_carga,
-            indice,
-        )
-        self.__le_e_atribui_float(
-            file,
-            self.vento_pee,
-            self.numero_parques_eolicos_equivalentes,
-            indice,
-        )
-        self.__le_e_atribui_float(
-            file,
-            self.violacao_funcao_producao_eolica_pee,
-            self.numero_parques_eolicos_equivalentes
-            * self.numero_patamares_carga,
-            indice,
-        )
-        self.__le_e_atribui_float(
-            file,
-            self.violacao_vazao_maxima_usina,
-            self.numero_usinas_hidreletricas * self.numero_patamares_carga,
-            indice,
-        )
-        self.__le_e_atribui_float(
-            file,
-            self.violacao_turbinamento_maximo_usina,
-            self.numero_usinas_hidreletricas * self.numero_patamares_carga,
-            indice,
-        )
-        self.__le_e_atribui_float(
-            file,
-            self.violacao_turbinamento_minimo_usina,
-            self.numero_usinas_hidreletricas * self.numero_patamares_carga,
-            indice,
-        )
-        self.__le_e_atribui_float(
-            file,
-            self.violacao_lpp_turbinamento_maximo,
-            self.numero_rees * self.numero_patamares_carga,
-            indice,
-        )
-        self.__le_e_atribui_float(
-            file,
-            self.violacao_lpp_defluencia_maxima,
-            self.numero_rees * self.numero_patamares_carga,
-            indice,
-        )
-        self.__le_e_atribui_float(
-            file,
-            self.violacao_lpp_turbinamento_maximo_usina,
-            self.numero_usinas_hidreletricas * self.numero_patamares_carga,
-            indice,
-        )
-        self.__le_e_atribui_float(
-            file,
-            self.violacao_lpp_defluencia_maxima_usina,
-            self.numero_usinas_hidreletricas * self.numero_patamares_carga,
-            indice,
-        )
-        self.__le_e_atribui_float(
-            file,
-            self.rhs_lpp_turbinamento_maximo,
-            self.numero_rees * self.numero_patamares_carga,
-            indice,
-        )
-        self.__le_e_atribui_float(
-            file,
-            self.rhs_lpp_defluencia_maxima,
-            self.numero_rees * self.numero_patamares_carga,
-            indice,
-        )
-        self.__le_e_atribui_float(
-            file,
-            self.rhs_lpp_turbinamento_maximo_usina,
-            self.numero_usinas_hidreletricas * self.numero_patamares_carga,
-            indice,
-        )
-        self.__le_e_atribui_float(
-            file,
-            self.rhs_lpp_defluencia_maxima_usina,
-            self.numero_usinas_hidreletricas * self.numero_patamares_carga,
-            indice,
-        )
-        self.__le_e_atribui_float(
-            file,
-            self.violacao_restricao_eletrica_especial,
-            self.numero_restricoes_eletricas_especiais
-            * self.numero_patamares_carga,
-            indice,
-        )
-        self.__le_e_atribui_float(
-            file,
-            self.custo_restricao_eletrica_especial,
-            self.numero_restricoes_eletricas_especiais
-            * self.numero_patamares_carga,
-            indice,
-        )
-        self.__le_e_atribui_float(
-            file,
-            self.volume_armazenado_inicial_usina,
-            self.numero_usinas_hidreletricas,
-            indice,
-        )
-        self.__le_e_atribui_float(
-            file,
-            self.lambda_balanco_hidrico_usina,
-            self.numero_usinas_hidreletricas,
-            indice,
-        )
-        self.__le_e_atribui_float(
-            file,
-            self.volume_evaporado_usina,
-            self.numero_usinas_hidreletricas,
-            indice,
-        )
-        self.__le_e_atribui_float(
-            file,
-            self.volume_bombeado_estacao_bombeamento,
-            self.numero_estacoes_bombeamento,
-            indice,
-        )
-        self.__le_e_atribui_float(
-            file,
-            self.consumo_energia_estacao_bombeamento,
-            self.numero_estacoes_bombeamento * self.numero_patamares_carga,
-            indice,
-        )
-        self.__le_e_atribui_float(
-            file,
-            self.volume_desvio_canal_desvio_usina,
-            self.numero_usinas_hidreletricas * self.numero_patamares_carga,
-            indice,
-        )
+            VariavelOperacao.ENERGIA_ARMAZENADA_ABSOLUTA_INICIAL: lambda _: self.__le_e_atribui_float(  # noqa
+                file,
+                self.data[
+                    VariavelOperacao.ENERGIA_ARMAZENADA_ABSOLUTA_INICIAL
+                ],
+                self.numero_rees,
+                indice,
+            ),
+            VariavelOperacao.ENERGIA_NATURAL_AFLUENTE_ABSOLUTA: lambda _: self.__le_e_atribui_float(  # noqa
+                file,
+                self.data[VariavelOperacao.ENERGIA_NATURAL_AFLUENTE_ABSOLUTA],
+                self.numero_rees,
+                indice,
+            ),
+            VariavelOperacao.GERACAO_HIDRAULICA_CONTROLAVEL: lambda _: self.__le_e_atribui_float(
+                file,
+                self.data[VariavelOperacao.GERACAO_HIDRAULICA_CONTROLAVEL],
+                self.numero_rees * self.numero_patamares_carga,
+                indice,
+            ),
+            VariavelOperacao.ENERGIA_VERTIDA: lambda _: self.__le_e_atribui_float(
+                file,
+                self.data[VariavelOperacao.ENERGIA_VERTIDA],
+                self.numero_rees,
+                indice,
+            ),
+            VariavelOperacao.ENERGIA_ARMAZENADA_ABSOLUTA_FINAL: lambda _: self.__le_e_atribui_float(  # noqa
+                file,
+                self.data[VariavelOperacao.ENERGIA_ARMAZENADA_ABSOLUTA_FINAL],
+                self.numero_rees,
+                indice,
+            ),
+            VariavelOperacao.ENERGIA_NATURAL_AFLUENTE_FIO_BRUTA: lambda _: self.__le_e_atribui_float(  # noqa
+                file,
+                self.data[VariavelOperacao.ENERGIA_NATURAL_AFLUENTE_FIO_BRUTA],
+                self.numero_rees,
+                indice,
+            ),
+            VariavelOperacao.ENERGIA_EVAPORADA: lambda _: self.__le_e_atribui_float(
+                file,
+                self.data[VariavelOperacao.ENERGIA_EVAPORADA],
+                self.numero_rees,
+                indice,
+            ),
+            VariavelOperacao.ENERGIA_ENCHIMENTO_VOLUME_MORTO: lambda _: self.__le_e_atribui_float(
+                file,
+                self.data[VariavelOperacao.ENERGIA_ENCHIMENTO_VOLUME_MORTO],
+                self.numero_rees,
+                indice,
+            ),
+            VariavelOperacao.GERACAO_TERMICA: lambda _: self.__le_e_atribui_float(
+                file,
+                self.data[VariavelOperacao.GERACAO_TERMICA],
+                2 * self.total_classes_termicas * self.numero_patamares_carga,
+                indice,
+            ),
+            VariavelOperacao.DEFICIT: lambda _: self.__le_e_atribui_float(
+                file,
+                self.data[VariavelOperacao.DEFICIT],
+                self.numero_submercados
+                * self.numero_patamares_deficit
+                * self.numero_patamares_carga,
+                indice,
+            ),
+            VariavelOperacao.VALOR_AGUA: lambda _: self.__le_e_atribui_float(
+                file,
+                self.data[VariavelOperacao.VALOR_AGUA],
+                self.numero_rees,
+                indice,
+            ),
+            VariavelOperacao.CUSTO_MARGINAL_OPERACAO: lambda _: self.__le_e_atribui_float(
+                file,
+                self.data[VariavelOperacao.CUSTO_MARGINAL_OPERACAO],
+                self.numero_submercados * self.numero_patamares_carga,
+                indice,
+            ),
+            VariavelOperacao.GERACAO_HIDRAULICA_FIO_LIQUIDA: lambda _: self.__le_e_atribui_float(
+                file,
+                self.data[VariavelOperacao.GERACAO_HIDRAULICA_FIO_LIQUIDA],
+                self.numero_rees,
+                indice,
+            ),
+            VariavelOperacao.PERDAS_GERACAO_HIDRAULICA_FIO: lambda _: self.__le_e_atribui_float(
+                file,
+                self.data[VariavelOperacao.PERDAS_GERACAO_HIDRAULICA_FIO],
+                self.numero_rees,
+                indice,
+            ),
+            VariavelOperacao.INTERCAMBIO: lambda _: self.__le_e_atribui_float(
+                file,
+                self.data[VariavelOperacao.INTERCAMBIO],
+                self.numero_total_submercados
+                * (self.numero_total_submercados - 1)
+                * self.numero_patamares_carga,
+                indice,
+            ),
+            VariavelOperacao.EXCESSO: lambda _: self.__le_e_atribui_float(
+                file,
+                self.data[VariavelOperacao.EXCESSO],
+                self.numero_submercados * self.numero_patamares_carga,
+                indice,
+            ),
+            VariavelOperacao.ENERGIA_NATURAL_AFLUENTE_BRUTA: lambda _: self.__le_e_atribui_float(
+                file,
+                self.data[VariavelOperacao.ENERGIA_NATURAL_AFLUENTE_BRUTA],
+                self.numero_rees,
+                indice,
+            ),
+            VariavelOperacao.ENERGIA_NATURAL_AFLUENTE_CONTROLAVEL_CORRIGIDA: lambda _: self.__le_e_atribui_float(  # noqa
+                file,
+                self.data[
+                    VariavelOperacao.ENERGIA_NATURAL_AFLUENTE_CONTROLAVEL_CORRIGIDA
+                ],
+                self.numero_rees,
+                indice,
+            ),
+            VariavelOperacao.GERACAO_HIDRAULICA_MAXIMA: lambda _: self.__le_e_atribui_float(
+                file,
+                self.data[VariavelOperacao.GERACAO_HIDRAULICA_MAXIMA],
+                self.numero_rees * self.numero_patamares_carga,
+                indice,
+            ),
+            VariavelOperacao.ENERGIA_AFLUENTE_CONTROLAVEL_DESVIO: lambda _: self.__le_e_atribui_float(  # noqa
+                file,
+                self.data[
+                    VariavelOperacao.ENERGIA_AFLUENTE_CONTROLAVEL_DESVIO
+                ],
+                self.numero_rees,
+                indice,
+            ),
+            VariavelOperacao.ENERGIA_AFLUENTE_FIO_DESVIO: lambda _: self.__le_e_atribui_float(
+                file,
+                self.data[VariavelOperacao.ENERGIA_AFLUENTE_FIO_DESVIO],
+                self.numero_rees,
+                indice,
+            ),
+            VariavelOperacao.BENEFICIO_INTERCAMBIO: lambda _: self.__le_e_atribui_float(
+                file,
+                self.data[VariavelOperacao.BENEFICIO_INTERCAMBIO],
+                self.numero_total_submercados
+                * (self.numero_total_submercados - 1)
+                * self.numero_patamares_carga,
+                indice,
+            ),
+            VariavelOperacao.FATOR_CORRECAO_ENERGIA_NATURAL_AFLUENTE_CONTROLAVEL: lambda _: self.__le_e_atribui_float(  # noqa
+                file,
+                self.data[
+                    VariavelOperacao.FATOR_CORRECAO_ENERGIA_NATURAL_AFLUENTE_CONTROLAVEL
+                ],
+                self.numero_rees,
+                indice,
+            ),
+            VariavelOperacao.VIOLACAO_CURVA_AVERSAO: lambda _: self.__le_e_atribui_float(
+                file,
+                self.data[VariavelOperacao.VIOLACAO_CURVA_AVERSAO],
+                self.numero_rees,
+                indice,
+            ),
+            VariavelOperacao.ACIONAMENTO_CURVA_AVERSAO: lambda _: self.__le_e_atribui_float(
+                file,
+                self.data[VariavelOperacao.ACIONAMENTO_CURVA_AVERSAO],
+                self.numero_rees,
+                indice,
+            ),
+            VariavelOperacao.PENALIDADE_CURVA_AVERSAO: lambda _: self.__le_e_atribui_float(
+                file,
+                self.data[VariavelOperacao.PENALIDADE_CURVA_AVERSAO],
+                self.numero_rees,
+                indice,
+            ),
+            VariavelOperacao.CUSTO_OPERACAO: lambda _: self.__le_e_atribui_float(
+                file,
+                self.data[VariavelOperacao.CUSTO_OPERACAO],
+                1,
+                indice,
+            ),
+            VariavelOperacao.CUSTO_GERACAO_TERMICA: lambda _: self.__le_e_atribui_float(
+                file,
+                self.data[VariavelOperacao.CUSTO_GERACAO_TERMICA],
+                self.numero_submercados,
+                indice,
+            ),
+            VariavelOperacao.BENEFICIO_AGRUPAMENTO_INTERCAMBIO: lambda _: self.__le_e_atribui_float(
+                file,
+                self.data[VariavelOperacao.BENEFICIO_AGRUPAMENTO_INTERCAMBIO],
+                self.numero_patamares_carga
+                * self.numero_agrupamentos_intercambio,
+                indice,
+            ),
+            VariavelOperacao.ENERGIA_NATURAL_AFLUENTE_FIO: lambda _: self.__le_e_atribui_float(
+                file,
+                self.data[VariavelOperacao.ENERGIA_NATURAL_AFLUENTE_FIO],
+                self.numero_rees,
+                indice,
+            ),
+            VariavelOperacao.BENEFICIO_DESPACHO_GNL: lambda _: self.__le_e_atribui_float(
+                file,
+                self.data[VariavelOperacao.BENEFICIO_DESPACHO_GNL],
+                self.numero_submercados
+                * self.numero_patamares_carga
+                * self.lag_maximo_usinas_gnl,
+                indice,
+            ),
+            VariavelOperacao.VIOLACAO_GERACAO_HIRAULICA_MINIMA: lambda _: self.__le_e_atribui_float(
+                file,
+                self.data[VariavelOperacao.VIOLACAO_GERACAO_HIRAULICA_MINIMA],
+                self.numero_rees * self.numero_patamares_carga,
+                indice,
+            ),
+            VariavelOperacao.VIOLACAO_ENERGIA_VAZAO_MINIMA: lambda _: self.__le_e_atribui_float(
+                file,
+                self.data[VariavelOperacao.VIOLACAO_ENERGIA_VAZAO_MINIMA],
+                self.numero_rees,
+                indice,
+            ),
+            VariavelOperacao.INVASAO_SAR: lambda _: self.__le_e_atribui_float(
+                file,
+                self.data[VariavelOperacao.INVASAO_SAR],
+                1,
+                indice,
+            ),
+            VariavelOperacao.ACIONAMENTO_SAR: lambda _: self.__le_e_atribui_float(
+                file,
+                self.data[VariavelOperacao.ACIONAMENTO_SAR],
+                1,
+                indice,
+            ),
+            VariavelOperacao.PENALIDADE_SAR: lambda _: self.__le_e_atribui_float(
+                file,
+                self.data[VariavelOperacao.PENALIDADE_SAR],
+                1,
+                indice,
+            ),
+            VariavelOperacao.GERACAO_HIDRAULICA_MAXIMA_CONSIDERANDO_RE: lambda _: self.__le_e_atribui_float(  # noqa
+                file,
+                self.data[
+                    VariavelOperacao.GERACAO_HIDRAULICA_MAXIMA_CONSIDERANDO_RE
+                ],
+                self.numero_rees * self.numero_patamares_carga,
+                indice,
+            ),
+            VariavelOperacao.VOLUME_ARMAZENADO_ABSOLUTO_FINAL: lambda _: self.__le_e_atribui_float(
+                file,
+                self.data[VariavelOperacao.VOLUME_ARMAZENADO_ABSOLUTO_FINAL],
+                self.numero_usinas_hidreletricas,
+                indice,
+            ),
+            VariavelOperacao.GERACAO_HIDRAULICA_USINA: lambda _: self.__le_e_atribui_float(
+                file,
+                self.data[VariavelOperacao.GERACAO_HIDRAULICA_USINA],
+                self.numero_usinas_hidreletricas * self.numero_patamares_carga,
+                indice,
+            ),
+            VariavelOperacao.VOLUME_TURBINADO: lambda _: self.__le_e_atribui_float(
+                file,
+                self.data[VariavelOperacao.VOLUME_TURBINADO],
+                self.numero_usinas_hidreletricas * self.numero_patamares_carga,
+                indice,
+            ),
+            VariavelOperacao.VOLUME_VERTIDO: lambda _: self.__le_e_atribui_float(
+                file,
+                self.data[VariavelOperacao.VOLUME_VERTIDO],
+                self.numero_usinas_hidreletricas * self.numero_patamares_carga,
+                indice,
+            ),
+            VariavelOperacao.VIOLACAO_GERACAO_HIDRAULICA_MINIMA_USINA: lambda _: self.__le_e_atribui_float(  # noqa
+                file,
+                self.data[
+                    VariavelOperacao.VIOLACAO_GERACAO_HIDRAULICA_MINIMA_USINA
+                ],
+                self.numero_usinas_hidreletricas * self.numero_patamares_carga,
+                indice,
+            ),
+            VariavelOperacao.ENCHIMENTO_VOLUME_MORTO_USINA: lambda _: self.__le_e_atribui_float(
+                file,
+                self.data[VariavelOperacao.ENCHIMENTO_VOLUME_MORTO_USINA],
+                self.numero_usinas_hidreletricas,
+                indice,
+            ),
+            VariavelOperacao.VIOLACAO_DEFLUENCIA_MINIMA: lambda _: self.__le_e_atribui_float(
+                file,
+                self.data[VariavelOperacao.VIOLACAO_DEFLUENCIA_MINIMA],
+                self.numero_usinas_hidreletricas * self.numero_patamares_carga,
+                indice,
+            ),
+            VariavelOperacao.VOLUME_DESVIO_USINA: lambda _: self.__le_e_atribui_float(
+                file,
+                self.data[VariavelOperacao.VOLUME_DESVIO_USINA],
+                self.numero_usinas_hidreletricas,
+                indice,
+            ),
+            VariavelOperacao.VOLUME_DESVIO_POSITIVO_USINA: lambda _: self.__le_e_atribui_float(
+                file,
+                self.data[VariavelOperacao.VOLUME_DESVIO_POSITIVO_USINA],
+                self.numero_usinas_hidreletricas,
+                indice,
+            ),
+            VariavelOperacao.VOLUME_DESVIO_NEGATIVO_USINA: lambda _: self.__le_e_atribui_float(
+                file,
+                self.data[VariavelOperacao.VOLUME_DESVIO_NEGATIVO_USINA],
+                self.numero_usinas_hidreletricas,
+                indice,
+            ),
+            VariavelOperacao.VIOLACAO_FPHA: lambda _: self.__le_e_atribui_float(
+                file,
+                self.data[VariavelOperacao.VIOLACAO_FPHA],
+                self.numero_usinas_hidreletricas * self.numero_patamares_carga,
+                indice,
+            ),
+            VariavelOperacao.VAZAO_AFLUENTE: lambda _: self.__le_e_atribui_float(
+                file,
+                self.data[VariavelOperacao.VAZAO_AFLUENTE],
+                self.numero_usinas_hidreletricas,
+                indice,
+            ),
+            VariavelOperacao.VAZAO_INCREMENTAL: lambda _: self.__le_e_atribui_float(
+                file,
+                self.data[VariavelOperacao.VAZAO_INCREMENTAL],
+                self.numero_usinas_hidreletricas,
+                indice,
+            ),
+            VariavelOperacao.VOLUME_ARMAZENADO_PERCENTUAL_FINAL: lambda _: self.__le_e_atribui_float(  # noqa
+                file,
+                self.data[VariavelOperacao.VOLUME_ARMAZENADO_PERCENTUAL_FINAL],
+                self.numero_usinas_hidreletricas,
+                indice,
+            ),
+            VariavelOperacao.GEOL_GSOL_OLD: lambda _: self.__le_e_atribui_float(
+                file,
+                self.data[VariavelOperacao.GEOL_GSOL_OLD],
+                2 * self.numero_submercados * self.numero_patamares_carga,
+                indice,
+            ),
+            VariavelOperacao.VIOLACAO_GEE: lambda _: self.__le_e_atribui_float(
+                file,
+                self.data[VariavelOperacao.VIOLACAO_GEE],
+                1,
+                indice,
+            ),
+            VariavelOperacao.CUSTO_VIOLACAO_ENERGIA_VAZAO_MINIMA: lambda _: self.__le_e_atribui_float(  # noqa
+                file,
+                self.data[
+                    VariavelOperacao.CUSTO_VIOLACAO_ENERGIA_VAZAO_MINIMA
+                ],
+                self.numero_rees,
+                indice,
+            ),
+            VariavelOperacao.CUSTO_ENERGIA_AFLUENTE_CONTROLAVEL_DESVIO: lambda _: self.__le_e_atribui_float(  # noqa
+                file,
+                self.data[
+                    VariavelOperacao.CUSTO_ENERGIA_AFLUENTE_CONTROLAVEL_DESVIO
+                ],
+                self.numero_rees,
+                indice,
+            ),
+            VariavelOperacao.CUSTO_ENERGIA_AFLUENTE_FIO_DESVIO: lambda _: self.__le_e_atribui_float(
+                file,
+                self.data[VariavelOperacao.CUSTO_ENERGIA_AFLUENTE_FIO_DESVIO],
+                self.numero_rees,
+                indice,
+            ),
+            VariavelOperacao.CUSTO_VIOLACAO_GERACAO_HIDRAULICA_MINIMA: lambda _: self.__le_e_atribui_float(  # noqa
+                file,
+                self.data[
+                    VariavelOperacao.CUSTO_VIOLACAO_GERACAO_HIDRAULICA_MINIMA
+                ],
+                self.numero_rees * self.numero_patamares_carga,
+                indice,
+            ),
+            VariavelOperacao.SOMA_ENERGIA_NATURAL_AFLUENTE_12_MESES: lambda _: self.__le_e_atribui_float(  # noqa
+                file,
+                self.data[
+                    VariavelOperacao.SOMA_ENERGIA_NATURAL_AFLUENTE_12_MESES
+                ],
+                self.numero_rees,
+                indice,
+            ),
+            VariavelOperacao.SOMA_VAZAO_AFLUENTE_12_MESES: lambda _: self.__le_e_atribui_float(
+                file,
+                self.data[VariavelOperacao.SOMA_VAZAO_AFLUENTE_12_MESES],
+                self.numero_usinas_hidreletricas,
+                indice,
+            ),
+            VariavelOperacao.GERACAO_EOLICA: lambda _: self.__le_e_atribui_float(
+                file,
+                self.data[VariavelOperacao.GERACAO_EOLICA],
+                self.numero_parques_eolicos_equivalentes
+                * self.numero_patamares_carga,
+                indice,
+            ),
+            VariavelOperacao.VELOCIDADE_VENTO: lambda _: self.__le_e_atribui_float(
+                file,
+                self.data[VariavelOperacao.VELOCIDADE_VENTO],
+                self.numero_parques_eolicos_equivalentes,
+                indice,
+            ),
+            VariavelOperacao.VIOLACAO_FUNCAO_PRODUCAO_EOLICA: lambda _: self.__le_e_atribui_float(
+                file,
+                self.data[VariavelOperacao.VIOLACAO_FUNCAO_PRODUCAO_EOLICA],
+                self.numero_parques_eolicos_equivalentes
+                * self.numero_patamares_carga,
+                indice,
+            ),
+            VariavelOperacao.VIOLACAO_DEFLUENCIA_MAXIMA: lambda _: self.__le_e_atribui_float(
+                file,
+                self.data[VariavelOperacao.VIOLACAO_DEFLUENCIA_MAXIMA],
+                self.numero_usinas_hidreletricas * self.numero_patamares_carga,
+                indice,
+            ),
+            VariavelOperacao.VIOLACAO_TURBINAMENTO_MAXIMO: lambda _: self.__le_e_atribui_float(
+                file,
+                self.data[VariavelOperacao.VIOLACAO_TURBINAMENTO_MAXIMO],
+                self.numero_usinas_hidreletricas * self.numero_patamares_carga,
+                indice,
+            ),
+            VariavelOperacao.VIOLACAO_TURBINAMENTO_MINIMO: lambda _: self.__le_e_atribui_float(
+                file,
+                self.data[VariavelOperacao.VIOLACAO_TURBINAMENTO_MINIMO],
+                self.numero_usinas_hidreletricas * self.numero_patamares_carga,
+                indice,
+            ),
+            VariavelOperacao.VIOLACAO_LPP_TURBINAMENTO_MAXIMO: lambda _: self.__le_e_atribui_float(
+                file,
+                self.data[VariavelOperacao.VIOLACAO_LPP_TURBINAMENTO_MAXIMO],
+                self.numero_rees * self.numero_patamares_carga,
+                indice,
+            ),
+            VariavelOperacao.VIOLACAO_LPP_DEFLUENCIA_MAXIMA: lambda _: self.__le_e_atribui_float(
+                file,
+                self.data[VariavelOperacao.VIOLACAO_LPP_DEFLUENCIA_MAXIMA],
+                self.numero_rees * self.numero_patamares_carga,
+                indice,
+            ),
+            VariavelOperacao.VIOLACAO_LPP_TURBINAMENTO_MAXIMO_USINA: lambda _: self.__le_e_atribui_float(  # noqa
+                file,
+                self.data[
+                    VariavelOperacao.VIOLACAO_LPP_TURBINAMENTO_MAXIMO_USINA
+                ],
+                self.numero_usinas_hidreletricas * self.numero_patamares_carga,
+                indice,
+            ),
+            VariavelOperacao.VIOLACAO_LPP_DEFLUENCIA_MAXIMA_USINA: lambda _: self.__le_e_atribui_float(  # noqa
+                file,
+                self.data[
+                    VariavelOperacao.VIOLACAO_LPP_DEFLUENCIA_MAXIMA_USINA
+                ],
+                self.numero_usinas_hidreletricas * self.numero_patamares_carga,
+                indice,
+            ),
+            VariavelOperacao.RHS_LPP_TURBINAMENTO_MAXIMO: lambda _: self.__le_e_atribui_float(
+                file,
+                self.data[VariavelOperacao.RHS_LPP_TURBINAMENTO_MAXIMO],
+                self.numero_rees * self.numero_patamares_carga,
+                indice,
+            ),
+            VariavelOperacao.RHS_LPP_DEFLUENCIA_MAXIMA: lambda _: self.__le_e_atribui_float(
+                file,
+                self.data[VariavelOperacao.RHS_LPP_DEFLUENCIA_MAXIMA],
+                self.numero_rees * self.numero_patamares_carga,
+                indice,
+            ),
+            VariavelOperacao.RHS_LPP_TURBINAMENTO_MAXIMO_USINA: lambda _: self.__le_e_atribui_float(  # noqa
+                file,
+                self.data[VariavelOperacao.RHS_LPP_TURBINAMENTO_MAXIMO_USINA],
+                self.numero_usinas_hidreletricas * self.numero_patamares_carga,
+                indice,
+            ),
+            VariavelOperacao.RHS_LPP_DEFLUENCIA_MAXIMA_USINA: lambda _: self.__le_e_atribui_float(
+                file,
+                self.data[VariavelOperacao.RHS_LPP_DEFLUENCIA_MAXIMA_USINA],
+                self.numero_usinas_hidreletricas * self.numero_patamares_carga,
+                indice,
+            ),
+            VariavelOperacao.VIOLACAO_RESTRICOES_ELETRICAS_ESPECIAIS: lambda _: self.__le_e_atribui_float(  # noqa
+                file,
+                self.data[
+                    VariavelOperacao.VIOLACAO_RESTRICOES_ELETRICAS_ESPECIAIS
+                ],
+                self.numero_restricoes_eletricas_especiais
+                * self.numero_patamares_carga,
+                indice,
+            ),
+            VariavelOperacao.CUSTO_RESTRICOES_ELETRICAS_ESPECIAIS: lambda _: self.__le_e_atribui_float(  # noqa
+                file,
+                self.data[
+                    VariavelOperacao.CUSTO_RESTRICOES_ELETRICAS_ESPECIAIS
+                ],
+                self.numero_restricoes_eletricas_especiais
+                * self.numero_patamares_carga,
+                indice,
+            ),
+            VariavelOperacao.VOLUME_ARMAZENADO_ABSOLUTO_INICIAL: lambda _: self.__le_e_atribui_float(  # noqa
+                file,
+                self.data[VariavelOperacao.VOLUME_ARMAZENADO_ABSOLUTO_INICIAL],
+                self.numero_usinas_hidreletricas,
+                indice,
+            ),
+            VariavelOperacao.VALOR_AGUA_USINA: lambda _: self.__le_e_atribui_float(
+                file,
+                self.data[VariavelOperacao.VALOR_AGUA_USINA],
+                self.numero_usinas_hidreletricas,
+                indice,
+            ),
+            VariavelOperacao.VOLUME_EVAPORADO: lambda _: self.__le_e_atribui_float(
+                file,
+                self.data[VariavelOperacao.VOLUME_EVAPORADO],
+                self.numero_usinas_hidreletricas,
+                indice,
+            ),
+            VariavelOperacao.VOLUME_BOMBEADO: lambda _: self.__le_e_atribui_float(
+                file,
+                self.data[VariavelOperacao.VOLUME_BOMBEADO],
+                self.numero_estacoes_bombeamento * self.numero_patamares_carga,
+                indice,
+            ),
+            VariavelOperacao.CONSUMO_ENERGIA_ESTACAO_BOMBEAMENTO: lambda _: self.__le_e_atribui_float(  # noqa
+                file,
+                self.data[
+                    VariavelOperacao.CONSUMO_ENERGIA_ESTACAO_BOMBEAMENTO
+                ],
+                self.numero_estacoes_bombeamento * self.numero_patamares_carga,
+                indice,
+            ),
+            VariavelOperacao.VOLUME_CANAL_DESVIO_USINA: lambda _: self.__le_e_atribui_float(
+                file,
+                self.data[VariavelOperacao.VOLUME_CANAL_DESVIO_USINA],
+                self.numero_usinas_hidreletricas * self.numero_patamares_carga,
+                indice,
+            ),
+        }
+        for v in self.__class__.VARIAVEIS:
+            mapa_variaveis[v](v)
 
     def __converte_array_em_dataframe(
         self,
@@ -1029,7 +1290,6 @@ class SecaoDadosForward(Section):
         colunas_identificacao: dict,
         num_elementos: int,
     ):
-        # print([v.shape for k, v in colunas_identificacao.items()])
         return pd.DataFrame(
             data={
                 **{
@@ -1041,9 +1301,9 @@ class SecaoDadosForward(Section):
             }
         )
 
-    def __converte_arrays_em_dataframes(self):
-        self.mercado_liquido = self.__converte_array_em_dataframe(
-            self.mercado_liquido,
+    def __converte_array_submercado(self, variavel: np.ndarray):
+        return self.__converte_array_em_dataframe(
+            variavel,
             {
                 "submercado": np.tile(
                     self.nomes_submercados, self.__num_simulacoes
@@ -1051,76 +1311,60 @@ class SecaoDadosForward(Section):
             },
             self.numero_submercados,
         )
-        self.energia_armazenada_inicial = self.__converte_array_em_dataframe(
-            self.energia_armazenada_inicial,
-            {"ree": np.tile(self.nomes_rees, self.__num_simulacoes)},
-            self.numero_rees,
-        )
-        self.energia_afluente_total = self.__converte_array_em_dataframe(
-            self.energia_afluente_total,
-            {"ree": np.tile(self.nomes_rees, self.__num_simulacoes)},
-            self.numero_rees,
-        )
-        self.geracao_hidraulica_controlavel = (
-            self.__converte_array_em_dataframe(
-                self.geracao_hidraulica_controlavel,
-                {
-                    "ree": np.tile(
-                        np.repeat(
-                            self.nomes_rees,
-                            self.numero_patamares_carga,
-                        ),
-                        self.__num_simulacoes,
+
+    def __converte_array_submercado_patamar(self, variavel: np.ndarray):
+        return self.__converte_array_em_dataframe(
+            variavel,
+            {
+                "submercado": np.tile(
+                    np.repeat(
+                        self.nomes_submercados, self.numero_patamares_carga
                     ),
-                    "patamar": np.tile(
-                        np.tile(
-                            np.arange(1, self.numero_patamares_carga + 1),
-                            self.numero_rees,
-                        ),
-                        self.__num_simulacoes,
+                    self.__num_simulacoes,
+                ),
+                "patamar": np.tile(
+                    np.tile(
+                        np.arange(1, self.numero_patamares_carga + 1),
+                        self.numero_submercados,
                     ),
-                },
-                self.numero_rees * self.numero_patamares_carga,
-            )
+                    self.__num_simulacoes,
+                ),
+            },
+            self.numero_submercados * self.numero_patamares_carga,
         )
-        self.energia_vertida = self.__converte_array_em_dataframe(
-            self.energia_vertida,
+
+    def __converte_array_ree(self, variavel: np.ndarray):
+        return self.__converte_array_em_dataframe(
+            variavel,
             {"ree": np.tile(self.nomes_rees, self.__num_simulacoes)},
             self.numero_rees,
         )
-        self.energia_armazenada_final = self.__converte_array_em_dataframe(
-            self.energia_armazenada_final,
-            {"ree": np.tile(self.nomes_rees, self.__num_simulacoes)},
-            self.numero_rees,
+
+    def __converte_array_ree_patamar(self, variavel: np.ndarray):
+        return self.__converte_array_em_dataframe(
+            variavel,
+            {
+                "ree": np.tile(
+                    np.repeat(
+                        self.nomes_rees,
+                        self.numero_patamares_carga,
+                    ),
+                    self.__num_simulacoes,
+                ),
+                "patamar": np.tile(
+                    np.tile(
+                        np.arange(1, self.numero_patamares_carga + 1),
+                        self.numero_rees,
+                    ),
+                    self.__num_simulacoes,
+                ),
+            },
+            self.numero_rees * self.numero_patamares_carga,
         )
-        self.energia_fio_dagua = self.__converte_array_em_dataframe(
-            self.energia_fio_dagua,
-            {"ree": np.tile(self.nomes_rees, self.__num_simulacoes)},
-            self.numero_rees,
-        )
-        self.energia_evaporada = self.__converte_array_em_dataframe(
-            self.energia_evaporada,
-            {"ree": np.tile(self.nomes_rees, self.__num_simulacoes)},
-            self.numero_rees,
-        )
-        self.energia_enchimento_volume_morto = (
-            self.__converte_array_em_dataframe(
-                self.energia_enchimento_volume_morto,
-                {"ree": np.tile(self.nomes_rees, self.__num_simulacoes)},
-                self.numero_rees,
-            )
-        )
-        # Soma GTMIN e GTFLEX
-        self.geracao_termica = (
-            self.geracao_termica[::2] + self.geracao_termica[1::2]
-        )
-        # TODO - talvez tenha uma diferença aqui, pois o NEWAVE
-        # escreve por submercado. Para casos de PMO, as térmicas são
-        # cadastradas por submercado no conft, então não deve
-        # dar diferença. Os nomes deveriam ser fornecidos por
-        # submercado já..
-        self.geracao_termica = self.__converte_array_em_dataframe(
-            self.geracao_termica,
+
+    def __converte_array_ute_patamar(self, variavel: np.ndarray):
+        return self.__converte_array_em_dataframe(
+            variavel,
             {
                 "usina": np.tile(
                     np.tile(
@@ -1139,8 +1383,12 @@ class SecaoDadosForward(Section):
             },
             self.total_classes_termicas * self.numero_patamares_carga,
         )
-        self.deficit = self.__converte_array_em_dataframe(
-            self.deficit,
+
+    def __converte_array_submercado_patamardeficit_patamar(
+        self, variavel: np.ndarray
+    ):
+        return self.__converte_array_em_dataframe(
+            variavel,
             {
                 "submercado": np.tile(
                     np.repeat(
@@ -1172,42 +1420,10 @@ class SecaoDadosForward(Section):
             * self.numero_patamares_deficit
             * self.numero_patamares_carga,
         )
-        self.pi_balanco_hidrico = self.__converte_array_em_dataframe(
-            self.pi_balanco_hidrico,
-            {"ree": np.tile(self.nomes_rees, self.__num_simulacoes)},
-            self.numero_rees,
-        )
-        self.pi_balanco_demanda = self.__converte_array_em_dataframe(
-            self.pi_balanco_demanda,
-            {
-                "submercado": np.tile(
-                    np.repeat(
-                        self.nomes_submercados, self.numero_patamares_carga
-                    ),
-                    self.__num_simulacoes,
-                ),
-                "patamar": np.tile(
-                    np.tile(
-                        np.arange(1, self.numero_patamares_carga + 1),
-                        self.numero_submercados,
-                    ),
-                    self.__num_simulacoes,
-                ),
-            },
-            self.numero_submercados * self.numero_patamares_carga,
-        )
-        self.geracao_fio_dagua_liquida = self.__converte_array_em_dataframe(
-            self.geracao_fio_dagua_liquida,
-            {"ree": np.tile(self.nomes_rees, self.__num_simulacoes)},
-            self.numero_rees,
-        )
-        self.perdas_fio_dagua = self.__converte_array_em_dataframe(
-            self.perdas_fio_dagua,
-            {"ree": np.tile(self.nomes_rees, self.__num_simulacoes)},
-            self.numero_rees,
-        )
-        self.intercambios = self.__converte_array_em_dataframe(
-            self.intercambios,
+
+    def __converte_array_par_submercados_patamar(self, variavel: np.ndarray):
+        return self.__converte_array_em_dataframe(
+            variavel,
             {
                 "submercadoDe": np.tile(
                     np.tile(
@@ -1240,175 +1456,32 @@ class SecaoDadosForward(Section):
             * (self.numero_total_submercados - 1)
             * self.numero_patamares_carga,
         )
-        self.excesso = self.__converte_array_em_dataframe(
-            self.excesso,
+
+    def __converte_array_agrupamentointercambio_patamar(
+        self, variavel: np.ndarray
+    ):
+        return self.__converte_array_em_dataframe(
+            variavel,
             {
-                "submercado": np.tile(
+                "agrupamentoIntercambio": np.tile(
                     np.repeat(
-                        self.nomes_submercados, self.numero_patamares_carga
-                    ),
-                    self.__num_simulacoes,
-                ),
-                "patamar": np.tile(
-                    np.tile(
-                        np.arange(1, self.numero_patamares_carga + 1),
-                        self.numero_submercados,
-                    ),
-                    self.__num_simulacoes,
-                ),
-            },
-            self.numero_submercados * self.numero_patamares_carga,
-        )
-        self.energia_afluente_bruta_sem_correcao = (
-            self.__converte_array_em_dataframe(
-                self.energia_afluente_bruta_sem_correcao,
-                {"ree": np.tile(self.nomes_rees, self.__num_simulacoes)},
-                self.numero_rees,
-            )
-        )
-        self.energia_afluente_controlavel_corrigida = (
-            self.__converte_array_em_dataframe(
-                self.energia_afluente_controlavel_corrigida,
-                {"ree": np.tile(self.nomes_rees, self.__num_simulacoes)},
-                self.numero_rees,
-            )
-        )
-        self.geracao_hidraulica_maxima = self.__converte_array_em_dataframe(
-            self.geracao_hidraulica_maxima,
-            {
-                "ree": np.tile(
-                    np.repeat(
-                        self.nomes_rees,
+                        np.arange(1, self.numero_agrupamentos_intercambio + 1),
                         self.numero_patamares_carga,
                     ),
                     self.__num_simulacoes,
                 ),
                 "patamar": np.tile(
-                    np.tile(
-                        np.arange(1, self.numero_patamares_carga + 1),
-                        self.numero_rees,
-                    ),
-                    self.__num_simulacoes,
+                    np.arange(1, self.numero_patamares_carga + 1),
+                    self.numero_agrupamentos_intercambio
+                    * self.__num_simulacoes,
                 ),
             },
-            self.numero_rees * self.numero_patamares_carga,
+            self.numero_agrupamentos_intercambio * self.numero_patamares_carga,
         )
-        self.energia_controlavel_referente_desvio = (
-            self.__converte_array_em_dataframe(
-                self.energia_controlavel_referente_desvio,
-                {"ree": np.tile(self.nomes_rees, self.__num_simulacoes)},
-                self.numero_rees,
-            )
-        )
-        self.energia_fio_dagua_referente_desvio = (
-            self.__converte_array_em_dataframe(
-                self.energia_fio_dagua_referente_desvio,
-                {"ree": np.tile(self.nomes_rees, self.__num_simulacoes)},
-                self.numero_rees,
-            )
-        )
-        self.beneficio_intercambio = self.__converte_array_em_dataframe(
-            self.beneficio_intercambio,
-            {
-                "submercadoDe": np.tile(
-                    np.tile(
-                        self.nomes_submercados_totais[:-1],
-                        self.numero_total_submercados
-                        * self.numero_patamares_carga,
-                    ),
-                    self.__num_simulacoes,
-                ),
-                "submercadoPara": np.tile(
-                    np.tile(
-                        np.repeat(
-                            self.nomes_submercados_totais,
-                            self.numero_total_submercados - 1,
-                        ),
-                        self.numero_patamares_carga,
-                    ),
-                    self.__num_simulacoes,
-                ),
-                "patamar": np.tile(
-                    np.tile(
-                        np.arange(1, self.numero_patamares_carga + 1),
-                        self.numero_total_submercados
-                        * (self.numero_total_submercados - 1),
-                    ),
-                    self.__num_simulacoes,
-                ),
-            },
-            self.numero_total_submercados
-            * (self.numero_total_submercados - 1)
-            * self.numero_patamares_carga,
-        )
-        self.fator_correcao_energia_controlavel = (
-            self.__converte_array_em_dataframe(
-                self.fator_correcao_energia_controlavel,
-                {"ree": np.tile(self.nomes_rees, self.__num_simulacoes)},
-                self.numero_rees,
-            )
-        )
-        self.invasao_curva_aversao = self.__converte_array_em_dataframe(
-            self.invasao_curva_aversao,
-            {"ree": np.tile(self.nomes_rees, self.__num_simulacoes)},
-            self.numero_rees,
-        )
-        self.acionamento_curva_aversao = self.__converte_array_em_dataframe(
-            self.acionamento_curva_aversao,
-            {"ree": np.tile(self.nomes_rees, self.__num_simulacoes)},
-            self.numero_rees,
-        )
-        self.penalidade_invasao_curva_aversao = (
-            self.__converte_array_em_dataframe(
-                self.penalidade_invasao_curva_aversao,
-                {"ree": np.tile(self.nomes_rees, self.__num_simulacoes)},
-                self.numero_rees,
-            )
-        )
-        self.custo_total_operacao = self.__converte_array_em_dataframe(
-            self.custo_total_operacao,
-            {},
-            1,
-        )
-        self.custo_geracao_termica = self.__converte_array_em_dataframe(
-            self.custo_geracao_termica,
-            {
-                "submercado": np.tile(
-                    self.nomes_submercados, self.__num_simulacoes
-                )
-            },
-            self.numero_submercados,
-        )
-        self.beneficio_agrupamento_intercambios = (
-            self.__converte_array_em_dataframe(
-                self.beneficio_agrupamento_intercambios,
-                {
-                    "agrupamentoIntercambio": np.tile(
-                        np.repeat(
-                            np.arange(
-                                1, self.numero_agrupamentos_intercambio + 1
-                            ),
-                            self.numero_patamares_carga,
-                        ),
-                        self.__num_simulacoes,
-                    ),
-                    "patamar": np.tile(
-                        np.arange(1, self.numero_patamares_carga + 1),
-                        self.numero_agrupamentos_intercambio
-                        * self.__num_simulacoes,
-                    ),
-                },
-                self.numero_agrupamentos_intercambio
-                * self.numero_patamares_carga,
-            )
-        )
-        self.energia_afluente_fio_dagua = self.__converte_array_em_dataframe(
-            self.energia_afluente_fio_dagua,
-            {"ree": np.tile(self.nomes_rees, self.__num_simulacoes)},
-            self.numero_rees,
-        )
-        self.beneficio_despacho_gnl = self.__converte_array_em_dataframe(
-            self.beneficio_despacho_gnl,
+
+    def __converte_array_laggnl_submercado_patamar(self, variavel: np.ndarray):
+        return self.__converte_array_em_dataframe(
+            variavel,
             {
                 "lag": np.tile(
                     np.arange(1, self.lag_maximo_usinas_gnl + 1),
@@ -1436,72 +1509,10 @@ class SecaoDadosForward(Section):
             * self.numero_submercados
             * self.numero_patamares_carga,
         )
-        self.violacao_ghmin_ree = self.__converte_array_em_dataframe(
-            self.violacao_ghmin_ree,
-            {
-                "ree": np.tile(
-                    np.repeat(
-                        self.nomes_rees,
-                        self.numero_patamares_carga,
-                    ),
-                    self.__num_simulacoes,
-                ),
-                "patamar": np.tile(
-                    np.tile(
-                        np.arange(1, self.numero_patamares_carga + 1),
-                        self.numero_rees,
-                    ),
-                    self.__num_simulacoes,
-                ),
-            },
-            self.numero_rees * self.numero_patamares_carga,
-        )
-        self.violacao_energia_vazao_minima = (
-            self.__converte_array_em_dataframe(
-                self.violacao_energia_vazao_minima,
-                {"ree": np.tile(self.nomes_rees, self.__num_simulacoes)},
-                self.numero_rees,
-            )
-        )
-        self.invasao_sar = self.__converte_array_em_dataframe(
-            self.invasao_sar,
-            {},
-            1,
-        )
-        self.acionamento_sar = self.__converte_array_em_dataframe(
-            self.acionamento_sar,
-            {},
-            1,
-        )
-        self.penalidade_sar = self.__converte_array_em_dataframe(
-            self.penalidade_sar,
-            {},
-            1,
-        )
-        self.capacidade_hidraulica_maxima_considerando_re = (
-            self.__converte_array_em_dataframe(
-                self.capacidade_hidraulica_maxima_considerando_re,
-                {
-                    "ree": np.tile(
-                        np.repeat(
-                            self.nomes_rees,
-                            self.numero_patamares_carga,
-                        ),
-                        self.__num_simulacoes,
-                    ),
-                    "patamar": np.tile(
-                        np.tile(
-                            np.arange(1, self.numero_patamares_carga + 1),
-                            self.numero_rees,
-                        ),
-                        self.__num_simulacoes,
-                    ),
-                },
-                self.numero_rees * self.numero_patamares_carga,
-            )
-        )
-        self.volume_armazenado_final = self.__converte_array_em_dataframe(
-            self.volume_armazenado_final,
+
+    def __converte_array_uhe(self, variavel: np.ndarray):
+        return self.__converte_array_em_dataframe(
+            variavel,
             {
                 "usina": np.tile(
                     self.nomes_usinas_hidreletricas, self.__num_simulacoes
@@ -1509,8 +1520,10 @@ class SecaoDadosForward(Section):
             },
             self.numero_usinas_hidreletricas,
         )
-        self.geracao_hidraulica_usina = self.__converte_array_em_dataframe(
-            self.geracao_hidraulica_usina,
+
+    def __converte_array_uhe_patamar(self, variavel: np.ndarray):
+        return self.__converte_array_em_dataframe(
+            variavel,
             {
                 "usina": np.tile(
                     np.repeat(
@@ -1529,230 +1542,22 @@ class SecaoDadosForward(Section):
             },
             self.numero_usinas_hidreletricas * self.numero_patamares_carga,
         )
-        self.volume_turbinado_usina = self.__converte_array_em_dataframe(
-            self.volume_turbinado_usina,
+
+    def __converte_array_pee(self, variavel: np.ndarray):
+        return self.__converte_array_em_dataframe(
+            variavel,
             {
-                "usina": np.tile(
-                    np.repeat(
-                        self.nomes_usinas_hidreletricas,
-                        self.numero_patamares_carga,
-                    ),
+                "pee": np.tile(
+                    self.nomes_parques_eolicos_equivalentes,
                     self.__num_simulacoes,
-                ),
-                "patamar": np.tile(
-                    np.tile(
-                        np.arange(1, self.numero_patamares_carga + 1),
-                        self.numero_usinas_hidreletricas,
-                    ),
-                    self.__num_simulacoes,
-                ),
-            },
-            self.numero_usinas_hidreletricas * self.numero_patamares_carga,
-        )
-        self.volume_vertido_usina = self.__converte_array_em_dataframe(
-            self.volume_vertido_usina,
-            {
-                "usina": np.tile(
-                    np.repeat(
-                        self.nomes_usinas_hidreletricas,
-                        self.numero_patamares_carga,
-                    ),
-                    self.__num_simulacoes,
-                ),
-                "patamar": np.tile(
-                    np.tile(
-                        np.arange(1, self.numero_patamares_carga + 1),
-                        self.numero_usinas_hidreletricas,
-                    ),
-                    self.__num_simulacoes,
-                ),
-            },
-            self.numero_usinas_hidreletricas * self.numero_patamares_carga,
-        )
-        self.violacao_ghmin_usina = self.__converte_array_em_dataframe(
-            self.violacao_ghmin_usina,
-            {
-                "usina": np.tile(
-                    np.repeat(
-                        self.nomes_usinas_hidreletricas,
-                        self.numero_patamares_carga,
-                    ),
-                    self.__num_simulacoes,
-                ),
-                "patamar": np.tile(
-                    np.tile(
-                        np.arange(1, self.numero_patamares_carga + 1),
-                        self.numero_usinas_hidreletricas,
-                    ),
-                    self.__num_simulacoes,
-                ),
-            },
-            self.numero_usinas_hidreletricas * self.numero_patamares_carga,
-        )
-        self.enchimento_volume_morto_usina = (
-            self.__converte_array_em_dataframe(
-                self.enchimento_volume_morto_usina,
-                {
-                    "usina": np.tile(
-                        self.nomes_usinas_hidreletricas, self.__num_simulacoes
-                    )
-                },
-                self.numero_usinas_hidreletricas,
-            )
-        )
-        self.violacao_vazao_minima_usina = self.__converte_array_em_dataframe(
-            self.violacao_vazao_minima_usina,
-            {
-                "usina": np.tile(
-                    np.repeat(
-                        self.nomes_usinas_hidreletricas,
-                        self.numero_patamares_carga,
-                    ),
-                    self.__num_simulacoes,
-                ),
-                "patamar": np.tile(
-                    np.tile(
-                        np.arange(1, self.numero_patamares_carga + 1),
-                        self.numero_usinas_hidreletricas,
-                    ),
-                    self.__num_simulacoes,
-                ),
-            },
-            self.numero_usinas_hidreletricas * self.numero_patamares_carga,
-        )
-        self.volume_desvio_usina = self.__converte_array_em_dataframe(
-            self.volume_desvio_usina,
-            {
-                "usina": np.tile(
-                    self.nomes_usinas_hidreletricas, self.__num_simulacoes
                 )
             },
-            self.numero_usinas_hidreletricas,
+            self.numero_parques_eolicos_equivalentes,
         )
-        self.volume_desvio_positivo_usina = self.__converte_array_em_dataframe(
-            self.volume_desvio_positivo_usina,
-            {
-                "usina": np.tile(
-                    self.nomes_usinas_hidreletricas, self.__num_simulacoes
-                )
-            },
-            self.numero_usinas_hidreletricas,
-        )
-        self.volume_desvio_negativo_usina = self.__converte_array_em_dataframe(
-            self.volume_desvio_negativo_usina,
-            {
-                "usina": np.tile(
-                    self.nomes_usinas_hidreletricas, self.__num_simulacoes
-                )
-            },
-            self.numero_usinas_hidreletricas,
-        )
-        self.violacao_fpha_usina = self.__converte_array_em_dataframe(
-            self.violacao_fpha_usina,
-            {
-                "usina": np.tile(
-                    np.repeat(
-                        self.nomes_usinas_hidreletricas,
-                        self.numero_patamares_carga,
-                    ),
-                    self.__num_simulacoes,
-                ),
-                "patamar": np.tile(
-                    np.tile(
-                        np.arange(1, self.numero_patamares_carga + 1),
-                        self.numero_usinas_hidreletricas,
-                    ),
-                    self.__num_simulacoes,
-                ),
-            },
-            self.numero_usinas_hidreletricas * self.numero_patamares_carga,
-        )
-        self.vazao_afluente_usina = self.__converte_array_em_dataframe(
-            self.vazao_afluente_usina,
-            {
-                "usina": np.tile(
-                    self.nomes_usinas_hidreletricas, self.__num_simulacoes
-                )
-            },
-            self.numero_usinas_hidreletricas,
-        )
-        self.vazao_incremental_usina = self.__converte_array_em_dataframe(
-            self.vazao_incremental_usina,
-            {
-                "usina": np.tile(
-                    self.nomes_usinas_hidreletricas, self.__num_simulacoes
-                )
-            },
-            self.numero_usinas_hidreletricas,
-        )
-        self.volume_armazenado_final_percentual_usina = (
-            self.__converte_array_em_dataframe(
-                self.volume_armazenado_final_percentual_usina,
-                {
-                    "usina": np.tile(
-                        self.nomes_usinas_hidreletricas, self.__num_simulacoes
-                    )
-                },
-                self.numero_usinas_hidreletricas,
-            )
-        )
-        self.custo_violacao_energia_vazao_minima = (
-            self.__converte_array_em_dataframe(
-                self.custo_violacao_energia_vazao_minima,
-                {"ree": np.tile(self.nomes_rees, self.__num_simulacoes)},
-                self.numero_rees,
-            )
-        )
-        self.custo_desvio_agua_controlavel = (
-            self.__converte_array_em_dataframe(
-                self.custo_desvio_agua_controlavel,
-                {"ree": np.tile(self.nomes_rees, self.__num_simulacoes)},
-                self.numero_rees,
-            )
-        )
-        self.custo_desvio_agua_fio_dagua = self.__converte_array_em_dataframe(
-            self.custo_desvio_agua_fio_dagua,
-            {"ree": np.tile(self.nomes_rees, self.__num_simulacoes)},
-            self.numero_rees,
-        )
-        self.custo_violacao_ghmin = self.__converte_array_em_dataframe(
-            self.custo_violacao_ghmin,
-            {
-                "ree": np.tile(
-                    np.repeat(
-                        self.nomes_rees,
-                        self.numero_patamares_carga,
-                    ),
-                    self.__num_simulacoes,
-                ),
-                "patamar": np.tile(
-                    np.tile(
-                        np.arange(1, self.numero_patamares_carga + 1),
-                        self.numero_rees,
-                    ),
-                    self.__num_simulacoes,
-                ),
-            },
-            self.numero_rees * self.numero_patamares_carga,
-        )
-        self.soma_afluencias_passadas_ree = self.__converte_array_em_dataframe(
-            self.soma_afluencias_passadas_ree,
-            {"ree": np.tile(self.nomes_rees, self.__num_simulacoes)},
-            self.numero_rees,
-        )
-        self.soma_afluencias_passadas_usina = (
-            self.__converte_array_em_dataframe(
-                self.soma_afluencias_passadas_usina,
-                {
-                    "usina": np.tile(
-                        self.nomes_usinas_hidreletricas, self.__num_simulacoes
-                    )
-                },
-                self.numero_usinas_hidreletricas,
-            )
-        )
-        self.geracao_eolica_pee = self.__converte_array_em_dataframe(
-            self.geracao_eolica_pee,
+
+    def __converte_array_pee_patamar(self, variavel: np.ndarray):
+        return self.__converte_array_em_dataframe(
+            variavel,
             {
                 "pee": np.tile(
                     np.repeat(
@@ -1772,45 +1577,17 @@ class SecaoDadosForward(Section):
             self.numero_parques_eolicos_equivalentes
             * self.numero_patamares_carga,
         )
-        self.vento_pee = self.__converte_array_em_dataframe(
-            self.vento_pee,
+
+    def __converte_array_restricaoeletrica_patamar(self, variavel: np.ndarray):
+        return self.__converte_array_em_dataframe(
+            variavel,
             {
-                "pee": np.tile(
-                    self.nomes_parques_eolicos_equivalentes,
-                    self.__num_simulacoes,
-                )
-            },
-            self.numero_parques_eolicos_equivalentes,
-        )
-        self.violacao_funcao_producao_eolica_pee = (
-            self.__converte_array_em_dataframe(
-                self.violacao_funcao_producao_eolica_pee,
-                {
-                    "pee": np.tile(
-                        np.repeat(
-                            self.nomes_parques_eolicos_equivalentes,
-                            self.numero_patamares_carga,
-                        ),
-                        self.__num_simulacoes,
-                    ),
-                    "patamar": np.tile(
-                        np.tile(
-                            np.arange(1, self.numero_patamares_carga + 1),
-                            self.numero_parques_eolicos_equivalentes,
-                        ),
-                        self.__num_simulacoes,
-                    ),
-                },
-                self.numero_parques_eolicos_equivalentes
-                * self.numero_patamares_carga,
-            )
-        )
-        self.violacao_vazao_maxima_usina = self.__converte_array_em_dataframe(
-            self.violacao_vazao_maxima_usina,
-            {
-                "usina": np.tile(
+                "restricao": np.tile(
                     np.repeat(
-                        self.nomes_usinas_hidreletricas,
+                        np.arange(
+                            1,
+                            self.numero_restricoes_eletricas_especiais + 1,
+                        ),
                         self.numero_patamares_carga,
                     ),
                     self.__num_simulacoes,
@@ -1818,461 +1595,324 @@ class SecaoDadosForward(Section):
                 "patamar": np.tile(
                     np.tile(
                         np.arange(1, self.numero_patamares_carga + 1),
-                        self.numero_usinas_hidreletricas,
+                        self.numero_restricoes_eletricas_especiais,
                     ),
                     self.__num_simulacoes,
                 ),
             },
-            self.numero_usinas_hidreletricas * self.numero_patamares_carga,
-        )
-        self.violacao_turbinamento_maximo_usina = (
-            self.__converte_array_em_dataframe(
-                self.violacao_turbinamento_maximo_usina,
-                {
-                    "usina": np.tile(
-                        np.repeat(
-                            self.nomes_usinas_hidreletricas,
-                            self.numero_patamares_carga,
-                        ),
-                        self.__num_simulacoes,
-                    ),
-                    "patamar": np.tile(
-                        np.tile(
-                            np.arange(1, self.numero_patamares_carga + 1),
-                            self.numero_usinas_hidreletricas,
-                        ),
-                        self.__num_simulacoes,
-                    ),
-                },
-                self.numero_usinas_hidreletricas * self.numero_patamares_carga,
-            )
-        )
-        self.violacao_turbinamento_minimo_usina = (
-            self.__converte_array_em_dataframe(
-                self.violacao_turbinamento_minimo_usina,
-                {
-                    "usina": np.tile(
-                        np.repeat(
-                            self.nomes_usinas_hidreletricas,
-                            self.numero_patamares_carga,
-                        ),
-                        self.__num_simulacoes,
-                    ),
-                    "patamar": np.tile(
-                        np.tile(
-                            np.arange(1, self.numero_patamares_carga + 1),
-                            self.numero_usinas_hidreletricas,
-                        ),
-                        self.__num_simulacoes,
-                    ),
-                },
-                self.numero_usinas_hidreletricas * self.numero_patamares_carga,
-            )
-        )
-        self.violacao_lpp_turbinamento_maximo = (
-            self.__converte_array_em_dataframe(
-                self.violacao_lpp_turbinamento_maximo,
-                {
-                    "ree": np.tile(
-                        np.repeat(
-                            self.nomes_rees,
-                            self.numero_patamares_carga,
-                        ),
-                        self.__num_simulacoes,
-                    ),
-                    "patamar": np.tile(
-                        np.tile(
-                            np.arange(1, self.numero_patamares_carga + 1),
-                            self.numero_rees,
-                        ),
-                        self.__num_simulacoes,
-                    ),
-                },
-                self.numero_rees * self.numero_patamares_carga,
-            )
-        )
-        self.violacao_lpp_defluencia_maxima = (
-            self.__converte_array_em_dataframe(
-                self.violacao_lpp_defluencia_maxima,
-                {
-                    "ree": np.tile(
-                        np.repeat(
-                            self.nomes_rees,
-                            self.numero_patamares_carga,
-                        ),
-                        self.__num_simulacoes,
-                    ),
-                    "patamar": np.tile(
-                        np.tile(
-                            np.arange(1, self.numero_patamares_carga + 1),
-                            self.numero_rees,
-                        ),
-                        self.__num_simulacoes,
-                    ),
-                },
-                self.numero_rees * self.numero_patamares_carga,
-            )
-        )
-        self.violacao_lpp_turbinamento_maximo_usina = (
-            self.__converte_array_em_dataframe(
-                self.violacao_lpp_turbinamento_maximo_usina,
-                {
-                    "usina": np.tile(
-                        np.repeat(
-                            self.nomes_usinas_hidreletricas,
-                            self.numero_patamares_carga,
-                        ),
-                        self.__num_simulacoes,
-                    ),
-                    "patamar": np.tile(
-                        np.tile(
-                            np.arange(1, self.numero_patamares_carga + 1),
-                            self.numero_usinas_hidreletricas,
-                        ),
-                        self.__num_simulacoes,
-                    ),
-                },
-                self.numero_usinas_hidreletricas * self.numero_patamares_carga,
-            )
-        )
-        self.violacao_lpp_defluencia_maxima_usina = (
-            self.__converte_array_em_dataframe(
-                self.violacao_lpp_defluencia_maxima_usina,
-                {
-                    "usina": np.tile(
-                        np.repeat(
-                            self.nomes_usinas_hidreletricas,
-                            self.numero_patamares_carga,
-                        ),
-                        self.__num_simulacoes,
-                    ),
-                    "patamar": np.tile(
-                        np.tile(
-                            np.arange(1, self.numero_patamares_carga + 1),
-                            self.numero_usinas_hidreletricas,
-                        ),
-                        self.__num_simulacoes,
-                    ),
-                },
-                self.numero_usinas_hidreletricas * self.numero_patamares_carga,
-            )
-        )
-        self.rhs_lpp_turbinamento_maximo = self.__converte_array_em_dataframe(
-            self.rhs_lpp_turbinamento_maximo,
-            {
-                "ree": np.tile(
-                    np.repeat(
-                        self.nomes_rees,
-                        self.numero_patamares_carga,
-                    ),
-                    self.__num_simulacoes,
-                ),
-                "patamar": np.tile(
-                    np.tile(
-                        np.arange(1, self.numero_patamares_carga + 1),
-                        self.numero_rees,
-                    ),
-                    self.__num_simulacoes,
-                ),
-            },
-            self.numero_rees * self.numero_patamares_carga,
-        )
-        self.rhs_lpp_defluencia_maxima = self.__converte_array_em_dataframe(
-            self.rhs_lpp_defluencia_maxima,
-            {
-                "ree": np.tile(
-                    np.repeat(
-                        self.nomes_rees,
-                        self.numero_patamares_carga,
-                    ),
-                    self.__num_simulacoes,
-                ),
-                "patamar": np.tile(
-                    np.tile(
-                        np.arange(1, self.numero_patamares_carga + 1),
-                        self.numero_rees,
-                    ),
-                    self.__num_simulacoes,
-                ),
-            },
-            self.numero_rees * self.numero_patamares_carga,
-        )
-        self.rhs_lpp_turbinamento_maximo_usina = (
-            self.__converte_array_em_dataframe(
-                self.rhs_lpp_turbinamento_maximo_usina,
-                {
-                    "usina": np.tile(
-                        np.repeat(
-                            self.nomes_usinas_hidreletricas,
-                            self.numero_patamares_carga,
-                        ),
-                        self.__num_simulacoes,
-                    ),
-                    "patamar": np.tile(
-                        np.tile(
-                            np.arange(1, self.numero_patamares_carga + 1),
-                            self.numero_usinas_hidreletricas,
-                        ),
-                        self.__num_simulacoes,
-                    ),
-                },
-                self.numero_usinas_hidreletricas * self.numero_patamares_carga,
-            )
-        )
-        self.rhs_lpp_defluencia_maxima_usina = (
-            self.__converte_array_em_dataframe(
-                self.rhs_lpp_defluencia_maxima_usina,
-                {
-                    "usina": np.tile(
-                        np.repeat(
-                            self.nomes_usinas_hidreletricas,
-                            self.numero_patamares_carga,
-                        ),
-                        self.__num_simulacoes,
-                    ),
-                    "patamar": np.tile(
-                        np.tile(
-                            np.arange(1, self.numero_patamares_carga + 1),
-                            self.numero_usinas_hidreletricas,
-                        ),
-                        self.__num_simulacoes,
-                    ),
-                },
-                self.numero_usinas_hidreletricas * self.numero_patamares_carga,
-            )
-        )
-        self.violacao_restricao_eletrica_especial = (
-            self.__converte_array_em_dataframe(
-                self.violacao_restricao_eletrica_especial,
-                {
-                    "restricao": np.tile(
-                        np.repeat(
-                            np.arange(
-                                1,
-                                self.numero_restricoes_eletricas_especiais + 1,
-                            ),
-                            self.numero_patamares_carga,
-                        ),
-                        self.__num_simulacoes,
-                    ),
-                    "patamar": np.tile(
-                        np.tile(
-                            np.arange(1, self.numero_patamares_carga + 1),
-                            self.numero_restricoes_eletricas_especiais,
-                        ),
-                        self.__num_simulacoes,
-                    ),
-                },
-                self.numero_restricoes_eletricas_especiais
-                * self.numero_patamares_carga,
-            )
-        )
-        self.custo_restricao_eletrica_especial = (
-            self.__converte_array_em_dataframe(
-                self.custo_restricao_eletrica_especial,
-                {
-                    "restricao": np.tile(
-                        np.repeat(
-                            np.arange(
-                                1,
-                                self.numero_restricoes_eletricas_especiais + 1,
-                            ),
-                            self.numero_patamares_carga,
-                        ),
-                        self.__num_simulacoes,
-                    ),
-                    "patamar": np.tile(
-                        np.tile(
-                            np.arange(1, self.numero_patamares_carga + 1),
-                            self.numero_restricoes_eletricas_especiais,
-                        ),
-                        self.__num_simulacoes,
-                    ),
-                },
-                self.numero_restricoes_eletricas_especiais
-                * self.numero_patamares_carga,
-            )
-        )
-        self.volume_armazenado_inicial_usina = (
-            self.__converte_array_em_dataframe(
-                self.volume_armazenado_inicial_usina,
-                {
-                    "usina": np.tile(
-                        self.nomes_usinas_hidreletricas, self.__num_simulacoes
-                    )
-                },
-                self.numero_usinas_hidreletricas,
-            )
-        )
-        self.lambda_balanco_hidrico_usina = self.__converte_array_em_dataframe(
-            self.lambda_balanco_hidrico_usina,
-            {
-                "usina": np.tile(
-                    self.nomes_usinas_hidreletricas, self.__num_simulacoes
-                )
-            },
-            self.numero_usinas_hidreletricas,
-        )
-        self.volume_evaporado_usina = self.__converte_array_em_dataframe(
-            self.volume_evaporado_usina,
-            {
-                "usina": np.tile(
-                    self.nomes_usinas_hidreletricas, self.__num_simulacoes
-                )
-            },
-            self.numero_usinas_hidreletricas,
-        )
-        self.volume_bombeado_estacao_bombeamento = (
-            self.__converte_array_em_dataframe(
-                self.volume_bombeado_estacao_bombeamento,
-                {
-                    "estacao": np.tile(
-                        np.repeat(
-                            self.nomes_estacoes_bombeamento,
-                            self.numero_patamares_carga,
-                        ),
-                        self.__num_simulacoes,
-                    ),
-                    "patamar": np.tile(
-                        np.tile(
-                            np.arange(1, self.numero_patamares_carga + 1),
-                            self.numero_estacoes_bombeamento,
-                        ),
-                        self.__num_simulacoes,
-                    ),
-                },
-                self.numero_estacoes_bombeamento * self.numero_patamares_carga,
-            )
-        )
-        self.consumo_energia_estacao_bombeamento = (
-            self.__converte_array_em_dataframe(
-                self.consumo_energia_estacao_bombeamento,
-                {
-                    "estacao": np.tile(
-                        np.repeat(
-                            self.nomes_estacoes_bombeamento,
-                            self.numero_patamares_carga,
-                        ),
-                        self.__num_simulacoes,
-                    ),
-                    "patamar": np.tile(
-                        np.tile(
-                            np.arange(1, self.numero_patamares_carga + 1),
-                            self.numero_estacoes_bombeamento,
-                        ),
-                        self.__num_simulacoes,
-                    ),
-                },
-                self.numero_estacoes_bombeamento * self.numero_patamares_carga,
-            )
-        )
-        self.volume_desvio_canal_desvio_usina = (
-            self.__converte_array_em_dataframe(
-                self.volume_desvio_canal_desvio_usina,
-                {
-                    "usina": np.tile(
-                        np.repeat(
-                            self.nomes_usinas_hidreletricas,
-                            self.numero_patamares_carga,
-                        ),
-                        self.__num_simulacoes,
-                    ),
-                    "patamar": np.tile(
-                        np.tile(
-                            np.arange(1, self.numero_patamares_carga + 1),
-                            self.numero_usinas_hidreletricas,
-                        ),
-                        self.__num_simulacoes,
-                    ),
-                },
-                self.numero_usinas_hidreletricas * self.numero_patamares_carga,
-            )
+            self.numero_restricoes_eletricas_especiais
+            * self.numero_patamares_carga,
         )
 
-    def __cria_objeto_data(self):
-        self.data = [
-            self.estagio,
-            self.mercado_liquido,
-            self.energia_armazenada_inicial,
-            self.energia_afluente_total,
-            self.geracao_hidraulica_controlavel,
-            self.energia_vertida,
-            self.energia_armazenada_final,
-            self.energia_fio_dagua,
-            self.energia_evaporada,
-            self.energia_enchimento_volume_morto,
-            self.geracao_termica,
-            self.deficit,
-            self.pi_balanco_hidrico,
-            self.pi_balanco_demanda,
-            self.geracao_fio_dagua_liquida,
-            self.perdas_fio_dagua,
-            self.intercambios,
-            self.excesso,
-            self.energia_afluente_bruta_sem_correcao,
-            self.energia_afluente_controlavel_corrigida,
-            self.geracao_hidraulica_maxima,
-            self.energia_controlavel_referente_desvio,
-            self.energia_fio_dagua_referente_desvio,
-            self.beneficio_intercambio,
-            self.fator_correcao_energia_controlavel,
-            self.invasao_curva_aversao,
-            self.acionamento_curva_aversao,
-            self.penalidade_invasao_curva_aversao,
-            self.custo_total_operacao,
-            self.custo_geracao_termica,
-            self.beneficio_agrupamento_intercambios,
-            self.energia_afluente_fio_dagua,
-            self.beneficio_despacho_gnl,
-            self.violacao_ghmin_ree,
-            self.violacao_energia_vazao_minima,
-            self.invasao_sar,
-            self.acionamento_sar,
-            self.penalidade_sar,
-            self.capacidade_hidraulica_maxima_considerando_re,
-            self.volume_armazenado_final,
-            self.geracao_hidraulica_usina,
-            self.volume_turbinado_usina,
-            self.volume_vertido_usina,
-            self.violacao_ghmin_usina,
-            self.enchimento_volume_morto_usina,
-            self.violacao_vazao_minima_usina,
-            self.volume_desvio_usina,
-            self.volume_desvio_positivo_usina,
-            self.volume_desvio_negativo_usina,
-            self.violacao_fpha_usina,
-            self.vazao_afluente_usina,
-            self.vazao_incremental_usina,
-            self.volume_armazenado_final_percentual_usina,
-            self.custo_violacao_energia_vazao_minima,
-            self.custo_desvio_agua_controlavel,
-            self.custo_desvio_agua_fio_dagua,
-            self.custo_violacao_ghmin,
-            self.soma_afluencias_passadas_ree,
-            self.soma_afluencias_passadas_usina,
-            self.geracao_eolica_pee,
-            self.vento_pee,
-            self.violacao_funcao_producao_eolica_pee,
-            self.violacao_vazao_maxima_usina,
-            self.violacao_turbinamento_maximo_usina,
-            self.violacao_turbinamento_minimo_usina,
-            self.violacao_lpp_turbinamento_maximo,
-            self.violacao_lpp_defluencia_maxima,
-            self.violacao_lpp_turbinamento_maximo_usina,
-            self.violacao_lpp_defluencia_maxima_usina,
-            self.rhs_lpp_turbinamento_maximo,
-            self.rhs_lpp_defluencia_maxima,
-            self.rhs_lpp_turbinamento_maximo_usina,
-            self.rhs_lpp_defluencia_maxima_usina,
-            self.violacao_restricao_eletrica_especial,
-            self.custo_restricao_eletrica_especial,
-            self.volume_armazenado_inicial_usina,
-            self.lambda_balanco_hidrico_usina,
-            self.volume_evaporado_usina,
-            self.volume_bombeado_estacao_bombeamento,
-            self.consumo_energia_estacao_bombeamento,
-            self.volume_desvio_canal_desvio_usina,
-        ]
+    def __converte_array_estacaobombeamento_patamar(
+        self, variavel: np.ndarray
+    ):
+        return self.__converte_array_em_dataframe(
+            variavel,
+            {
+                "estacao": np.tile(
+                    np.repeat(
+                        self.nomes_estacoes_bombeamento,
+                        self.numero_patamares_carga,
+                    ),
+                    self.__num_simulacoes,
+                ),
+                "patamar": np.tile(
+                    np.tile(
+                        np.arange(1, self.numero_patamares_carga + 1),
+                        self.numero_estacoes_bombeamento,
+                    ),
+                    self.__num_simulacoes,
+                ),
+            },
+            self.numero_estacoes_bombeamento * self.numero_patamares_carga,
+        )
+
+    def __converte_arrays_em_dataframes(self):
+        mapa_variaveis: Dict[VariavelOperacao, Callable] = {
+            VariavelOperacao.MERCADO: lambda _: self.__converte_array_submercado(
+                self.data[VariavelOperacao.MERCADO]
+            ),
+            VariavelOperacao.ENERGIA_ARMAZENADA_ABSOLUTA_INICIAL: lambda _: self.__converte_array_ree(  # noqa
+                self.data[VariavelOperacao.ENERGIA_ARMAZENADA_ABSOLUTA_INICIAL]
+            ),
+            VariavelOperacao.ENERGIA_NATURAL_AFLUENTE_ABSOLUTA: lambda _: self.__converte_array_ree(  # noqa
+                self.data[VariavelOperacao.ENERGIA_NATURAL_AFLUENTE_ABSOLUTA],
+            ),
+            VariavelOperacao.GERACAO_HIDRAULICA_CONTROLAVEL: lambda _: self.__converte_array_ree_patamar(  # noqa
+                self.data[VariavelOperacao.GERACAO_HIDRAULICA_CONTROLAVEL]
+            ),
+            VariavelOperacao.ENERGIA_VERTIDA: lambda _: self.__converte_array_ree(
+                self.data[VariavelOperacao.ENERGIA_VERTIDA]
+            ),
+            VariavelOperacao.ENERGIA_ARMAZENADA_ABSOLUTA_FINAL: lambda _: self.__converte_array_ree(  # noqa
+                self.data[VariavelOperacao.ENERGIA_ARMAZENADA_ABSOLUTA_FINAL]
+            ),
+            VariavelOperacao.ENERGIA_NATURAL_AFLUENTE_FIO_BRUTA: lambda _: self.__converte_array_ree(  # noqa
+                self.data[VariavelOperacao.ENERGIA_NATURAL_AFLUENTE_FIO_BRUTA]
+            ),
+            VariavelOperacao.ENERGIA_EVAPORADA: lambda _: self.__converte_array_ree(
+                self.data[VariavelOperacao.ENERGIA_EVAPORADA]
+            ),
+            VariavelOperacao.ENERGIA_ENCHIMENTO_VOLUME_MORTO: lambda _: self.__converte_array_ree(
+                self.data[VariavelOperacao.ENERGIA_ENCHIMENTO_VOLUME_MORTO]
+            ),
+            VariavelOperacao.GERACAO_TERMICA: lambda _: self.__converte_array_ute_patamar(
+                self.data[VariavelOperacao.GERACAO_TERMICA][::2]
+                + self.data[VariavelOperacao.GERACAO_TERMICA][1::2]
+            ),
+            VariavelOperacao.DEFICIT: lambda _: self.__converte_array_submercado_patamardeficit_patamar(  # noqa
+                self.data[VariavelOperacao.DEFICIT]
+            ),
+            VariavelOperacao.VALOR_AGUA: lambda _: self.__converte_array_ree(
+                self.data[VariavelOperacao.VALOR_AGUA]
+            ),
+            VariavelOperacao.CUSTO_MARGINAL_OPERACAO: lambda _: self.__converte_array_submercado_patamar(  # noqa
+                self.data[VariavelOperacao.CUSTO_MARGINAL_OPERACAO]
+            ),
+            VariavelOperacao.GERACAO_HIDRAULICA_FIO_LIQUIDA: lambda _: self.__converte_array_ree(
+                self.data[VariavelOperacao.GERACAO_HIDRAULICA_FIO_LIQUIDA]
+            ),
+            VariavelOperacao.PERDAS_GERACAO_HIDRAULICA_FIO: lambda _: self.__converte_array_ree(
+                self.data[VariavelOperacao.PERDAS_GERACAO_HIDRAULICA_FIO]
+            ),
+            VariavelOperacao.INTERCAMBIO: lambda _: self.__converte_array_par_submercados_patamar(
+                self.data[VariavelOperacao.INTERCAMBIO]
+            ),
+            VariavelOperacao.EXCESSO: lambda _: self.__converte_array_submercado_patamar(
+                self.data[VariavelOperacao.EXCESSO]
+            ),
+            VariavelOperacao.ENERGIA_NATURAL_AFLUENTE_BRUTA: lambda _: self.__converte_array_ree(
+                self.data[VariavelOperacao.ENERGIA_NATURAL_AFLUENTE_BRUTA]
+            ),
+            VariavelOperacao.ENERGIA_NATURAL_AFLUENTE_CONTROLAVEL_CORRIGIDA: lambda _: self.__converte_array_ree(  # noqa
+                self.data[
+                    VariavelOperacao.ENERGIA_NATURAL_AFLUENTE_CONTROLAVEL_CORRIGIDA
+                ]
+            ),
+            VariavelOperacao.GERACAO_HIDRAULICA_MAXIMA: lambda _: self.__converte_array_ree_patamar(
+                self.data[VariavelOperacao.GERACAO_HIDRAULICA_MAXIMA]
+            ),
+            VariavelOperacao.ENERGIA_AFLUENTE_CONTROLAVEL_DESVIO: lambda _: self.__converte_array_ree(  # noqa
+                self.data[VariavelOperacao.ENERGIA_AFLUENTE_CONTROLAVEL_DESVIO]
+            ),
+            VariavelOperacao.ENERGIA_AFLUENTE_FIO_DESVIO: lambda _: self.__converte_array_ree(
+                self.data[VariavelOperacao.ENERGIA_AFLUENTE_FIO_DESVIO]
+            ),
+            VariavelOperacao.BENEFICIO_INTERCAMBIO: lambda _: self.__converte_array_par_submercados_patamar(  # noqa
+                self.data[VariavelOperacao.BENEFICIO_INTERCAMBIO]
+            ),
+            VariavelOperacao.FATOR_CORRECAO_ENERGIA_NATURAL_AFLUENTE_CONTROLAVEL: lambda _: self.__converte_array_ree(  # noqa
+                self.data[
+                    VariavelOperacao.FATOR_CORRECAO_ENERGIA_NATURAL_AFLUENTE_CONTROLAVEL
+                ]
+            ),
+            VariavelOperacao.VIOLACAO_CURVA_AVERSAO: lambda _: self.__converte_array_ree(
+                self.data[VariavelOperacao.VIOLACAO_CURVA_AVERSAO]
+            ),
+            VariavelOperacao.ACIONAMENTO_CURVA_AVERSAO: lambda _: self.__converte_array_ree(
+                self.data[VariavelOperacao.ACIONAMENTO_CURVA_AVERSAO]
+            ),
+            VariavelOperacao.PENALIDADE_CURVA_AVERSAO: lambda _: self.__converte_array_ree(
+                self.data[VariavelOperacao.PENALIDADE_CURVA_AVERSAO]
+            ),
+            VariavelOperacao.CUSTO_OPERACAO: lambda _: self.__converte_array_em_dataframe(
+                self.data[VariavelOperacao.CUSTO_OPERACAO],
+                {},
+                1,
+            ),
+            VariavelOperacao.CUSTO_GERACAO_TERMICA: lambda _: self.__converte_array_submercado(
+                self.data[VariavelOperacao.CUSTO_GERACAO_TERMICA]
+            ),
+            VariavelOperacao.BENEFICIO_AGRUPAMENTO_INTERCAMBIO: lambda _: self.__converte_array_agrupamentointercambio_patamar(  # noqa
+                self.data[VariavelOperacao.BENEFICIO_AGRUPAMENTO_INTERCAMBIO]
+            ),
+            VariavelOperacao.ENERGIA_NATURAL_AFLUENTE_FIO: lambda _: self.__converte_array_ree(
+                self.data[VariavelOperacao.ENERGIA_NATURAL_AFLUENTE_FIO]
+            ),
+            VariavelOperacao.BENEFICIO_DESPACHO_GNL: lambda _: self.__converte_array_laggnl_submercado_patamar(  # noqa
+                self.data[VariavelOperacao.BENEFICIO_DESPACHO_GNL]
+            ),
+            VariavelOperacao.VIOLACAO_GERACAO_HIRAULICA_MINIMA: lambda _: self.__converte_array_ree_patamar(  # noqa
+                self.data[VariavelOperacao.VIOLACAO_GERACAO_HIRAULICA_MINIMA]
+            ),
+            VariavelOperacao.VIOLACAO_ENERGIA_VAZAO_MINIMA: lambda _: self.__converte_array_ree(
+                self.data[VariavelOperacao.VIOLACAO_ENERGIA_VAZAO_MINIMA]
+            ),
+            VariavelOperacao.INVASAO_SAR: lambda _: self.__converte_array_em_dataframe(
+                self.data[VariavelOperacao.INVASAO_SAR],
+                {},
+                1,
+            ),
+            VariavelOperacao.ACIONAMENTO_SAR: lambda _: self.__converte_array_em_dataframe(
+                self.data[VariavelOperacao.ACIONAMENTO_SAR],
+                {},
+                1,
+            ),
+            VariavelOperacao.PENALIDADE_SAR: lambda _: self.__converte_array_em_dataframe(
+                self.data[VariavelOperacao.PENALIDADE_SAR],
+                {},
+                1,
+            ),
+            VariavelOperacao.GERACAO_HIDRAULICA_MAXIMA_CONSIDERANDO_RE: lambda _: self.__converte_array_ree_patamar(  # noqa
+                self.data[
+                    VariavelOperacao.GERACAO_HIDRAULICA_MAXIMA_CONSIDERANDO_RE
+                ]
+            ),
+            VariavelOperacao.VOLUME_ARMAZENADO_ABSOLUTO_FINAL: lambda _: self.__converte_array_uhe(  # noqa
+                self.data[VariavelOperacao.VOLUME_ARMAZENADO_ABSOLUTO_FINAL]
+            ),
+            VariavelOperacao.GERACAO_HIDRAULICA_USINA: lambda _: self.__converte_array_uhe_patamar(  # noqa
+                self.data[VariavelOperacao.GERACAO_HIDRAULICA_USINA]
+            ),
+            VariavelOperacao.VOLUME_TURBINADO: lambda _: self.__converte_array_uhe_patamar(
+                self.data[VariavelOperacao.VOLUME_TURBINADO]
+            ),
+            VariavelOperacao.VOLUME_VERTIDO: lambda _: self.__converte_array_uhe_patamar(
+                self.data[VariavelOperacao.VOLUME_VERTIDO]
+            ),
+            VariavelOperacao.VIOLACAO_GERACAO_HIDRAULICA_MINIMA_USINA: lambda _: self.__converte_array_uhe_patamar(  # noqa
+                self.data[
+                    VariavelOperacao.VIOLACAO_GERACAO_HIDRAULICA_MINIMA_USINA
+                ]
+            ),
+            VariavelOperacao.ENCHIMENTO_VOLUME_MORTO_USINA: lambda _: self.__converte_array_uhe(
+                self.data[VariavelOperacao.ENCHIMENTO_VOLUME_MORTO_USINA]
+            ),
+            VariavelOperacao.VIOLACAO_DEFLUENCIA_MINIMA: lambda _: self.__converte_array_uhe_patamar(  # noqa
+                self.data[VariavelOperacao.VIOLACAO_DEFLUENCIA_MINIMA]
+            ),
+            VariavelOperacao.VOLUME_DESVIO_USINA: lambda _: self.__converte_array_uhe(
+                self.data[VariavelOperacao.VOLUME_DESVIO_USINA]
+            ),
+            VariavelOperacao.VOLUME_DESVIO_POSITIVO_USINA: lambda _: self.__converte_array_uhe(
+                self.data[VariavelOperacao.VOLUME_DESVIO_POSITIVO_USINA]
+            ),
+            VariavelOperacao.VOLUME_DESVIO_NEGATIVO_USINA: lambda _: self.__converte_array_uhe(
+                self.data[VariavelOperacao.VOLUME_DESVIO_NEGATIVO_USINA]
+            ),
+            VariavelOperacao.VIOLACAO_FPHA: lambda _: self.__converte_array_uhe_patamar(
+                self.data[VariavelOperacao.VIOLACAO_FPHA]
+            ),
+            VariavelOperacao.VAZAO_AFLUENTE: lambda _: self.__converte_array_uhe(
+                self.data[VariavelOperacao.VAZAO_AFLUENTE]
+            ),
+            VariavelOperacao.VAZAO_INCREMENTAL: lambda _: self.__converte_array_uhe(
+                self.data[VariavelOperacao.VAZAO_INCREMENTAL]
+            ),
+            VariavelOperacao.VOLUME_ARMAZENADO_PERCENTUAL_FINAL: lambda _: self.__converte_array_uhe(  # noqa
+                self.data[VariavelOperacao.VOLUME_ARMAZENADO_PERCENTUAL_FINAL]
+            ),
+            VariavelOperacao.GEOL_GSOL_OLD: lambda _: pd.DataFrame(),
+            VariavelOperacao.VIOLACAO_GEE: lambda _: pd.DataFrame(),
+            VariavelOperacao.CUSTO_VIOLACAO_ENERGIA_VAZAO_MINIMA: lambda _: self.__converte_array_ree(  # noqa
+                self.data[VariavelOperacao.CUSTO_VIOLACAO_ENERGIA_VAZAO_MINIMA]
+            ),
+            VariavelOperacao.CUSTO_ENERGIA_AFLUENTE_CONTROLAVEL_DESVIO: lambda _: self.__converte_array_ree(  # noqa
+                self.data[
+                    VariavelOperacao.CUSTO_ENERGIA_AFLUENTE_CONTROLAVEL_DESVIO
+                ]
+            ),
+            VariavelOperacao.CUSTO_ENERGIA_AFLUENTE_FIO_DESVIO: lambda _: self.__converte_array_ree(  # noqa
+                self.data[VariavelOperacao.CUSTO_ENERGIA_AFLUENTE_FIO_DESVIO]
+            ),
+            VariavelOperacao.CUSTO_VIOLACAO_GERACAO_HIDRAULICA_MINIMA: lambda _: self.__converte_array_ree_patamar(  # noqa
+                self.data[
+                    VariavelOperacao.CUSTO_VIOLACAO_GERACAO_HIDRAULICA_MINIMA
+                ]
+            ),
+            VariavelOperacao.SOMA_ENERGIA_NATURAL_AFLUENTE_12_MESES: lambda _: self.__converte_array_ree(  # noqa
+                self.data[
+                    VariavelOperacao.SOMA_ENERGIA_NATURAL_AFLUENTE_12_MESES
+                ]
+            ),
+            VariavelOperacao.SOMA_VAZAO_AFLUENTE_12_MESES: lambda _: self.__converte_array_uhe(
+                self.data[VariavelOperacao.SOMA_VAZAO_AFLUENTE_12_MESES]
+            ),
+            VariavelOperacao.GERACAO_EOLICA: lambda _: self.__converte_array_pee_patamar(
+                self.data[VariavelOperacao.GERACAO_EOLICA]
+            ),
+            VariavelOperacao.VELOCIDADE_VENTO: lambda _: self.__converte_array_pee(
+                self.data[VariavelOperacao.VELOCIDADE_VENTO]
+            ),
+            VariavelOperacao.VIOLACAO_FUNCAO_PRODUCAO_EOLICA: lambda _: self.__converte_array_pee_patamar(  # noqa
+                self.data[VariavelOperacao.VIOLACAO_FUNCAO_PRODUCAO_EOLICA]
+            ),
+            VariavelOperacao.VIOLACAO_DEFLUENCIA_MAXIMA: lambda _: self.__converte_array_uhe_patamar(  # noqa
+                self.data[VariavelOperacao.VIOLACAO_DEFLUENCIA_MAXIMA]
+            ),
+            VariavelOperacao.VIOLACAO_TURBINAMENTO_MAXIMO: lambda _: self.__converte_array_uhe_patamar(  # noqa
+                self.data[VariavelOperacao.VIOLACAO_TURBINAMENTO_MAXIMO]
+            ),
+            VariavelOperacao.VIOLACAO_TURBINAMENTO_MINIMO: lambda _: self.__converte_array_uhe_patamar(  # noqa
+                self.data[VariavelOperacao.VIOLACAO_TURBINAMENTO_MINIMO]
+            ),
+            VariavelOperacao.VIOLACAO_LPP_TURBINAMENTO_MAXIMO: lambda _: self.__converte_array_ree_patamar(  # noqa
+                self.data[VariavelOperacao.VIOLACAO_LPP_TURBINAMENTO_MAXIMO]
+            ),
+            VariavelOperacao.VIOLACAO_LPP_DEFLUENCIA_MAXIMA: lambda _: self.__converte_array_ree_patamar(  # noqa
+                self.data[VariavelOperacao.VIOLACAO_LPP_DEFLUENCIA_MAXIMA]
+            ),
+            VariavelOperacao.VIOLACAO_LPP_TURBINAMENTO_MAXIMO_USINA: lambda _: self.__converte_array_uhe_patamar(  # noqa
+                self.data[
+                    VariavelOperacao.VIOLACAO_LPP_TURBINAMENTO_MAXIMO_USINA
+                ]
+            ),
+            VariavelOperacao.VIOLACAO_LPP_DEFLUENCIA_MAXIMA_USINA: lambda _: self.__converte_array_uhe_patamar(  # noqa
+                self.data[
+                    VariavelOperacao.VIOLACAO_LPP_DEFLUENCIA_MAXIMA_USINA
+                ]
+            ),
+            VariavelOperacao.RHS_LPP_TURBINAMENTO_MAXIMO: lambda _: self.__converte_array_ree_patamar(  # noqa
+                self.data[VariavelOperacao.RHS_LPP_TURBINAMENTO_MAXIMO]
+            ),
+            VariavelOperacao.RHS_LPP_DEFLUENCIA_MAXIMA: lambda _: self.__converte_array_ree_patamar(  # noqa
+                self.data[VariavelOperacao.RHS_LPP_DEFLUENCIA_MAXIMA]
+            ),
+            VariavelOperacao.RHS_LPP_TURBINAMENTO_MAXIMO_USINA: lambda _: self.__converte_array_uhe_patamar(  # noqa
+                self.data[VariavelOperacao.RHS_LPP_TURBINAMENTO_MAXIMO_USINA]
+            ),
+            VariavelOperacao.RHS_LPP_DEFLUENCIA_MAXIMA_USINA: lambda _: self.__converte_array_uhe_patamar(  # noqa
+                self.data[VariavelOperacao.RHS_LPP_DEFLUENCIA_MAXIMA_USINA]
+            ),
+            VariavelOperacao.VIOLACAO_RESTRICOES_ELETRICAS_ESPECIAIS: lambda _: self.__converte_array_restricaoeletrica_patamar(  # noqa
+                self.data[
+                    VariavelOperacao.VIOLACAO_RESTRICOES_ELETRICAS_ESPECIAIS
+                ]
+            ),
+            VariavelOperacao.CUSTO_RESTRICOES_ELETRICAS_ESPECIAIS: lambda _: self.__converte_array_restricaoeletrica_patamar(  # noqa
+                self.data[
+                    VariavelOperacao.CUSTO_RESTRICOES_ELETRICAS_ESPECIAIS
+                ]
+            ),
+            VariavelOperacao.VOLUME_ARMAZENADO_ABSOLUTO_INICIAL: lambda _: self.__converte_array_uhe(  # noqa
+                self.data[VariavelOperacao.VOLUME_ARMAZENADO_ABSOLUTO_INICIAL]
+            ),
+            VariavelOperacao.VALOR_AGUA_USINA: lambda _: self.__converte_array_uhe(
+                self.data[VariavelOperacao.VALOR_AGUA_USINA]
+            ),
+            VariavelOperacao.VOLUME_EVAPORADO: lambda _: self.__converte_array_uhe(
+                self.data[VariavelOperacao.VOLUME_EVAPORADO]
+            ),
+            VariavelOperacao.VOLUME_BOMBEADO: lambda _: self.__converte_array_estacaobombeamento_patamar(  # noqa
+                self.data[VariavelOperacao.VOLUME_BOMBEADO]
+            ),
+            VariavelOperacao.CONSUMO_ENERGIA_ESTACAO_BOMBEAMENTO: lambda _: self.__converte_array_estacaobombeamento_patamar(  # noqa
+                self.data[VariavelOperacao.CONSUMO_ENERGIA_ESTACAO_BOMBEAMENTO]
+            ),
+            VariavelOperacao.VOLUME_CANAL_DESVIO_USINA: lambda _: self.__converte_array_uhe_patamar(  # noqa
+                self.data[VariavelOperacao.VOLUME_CANAL_DESVIO_USINA]
+            ),
+        }
+        for v in self.__class__.VARIAVEIS:
+            self.data[v] = mapa_variaveis[v](v)
+
+        # Soma GTMIN e GTFLEX
+        # TODO - talvez tenha uma diferença aqui, pois o NEWAVE
+        # escreve por submercado. Para casos de PMO, as térmicas são
+        # cadastradas por submercado no conft, então não deve
+        # dar diferença. Os nomes deveriam ser fornecidos por
+        # submercado já..
 
     def read(
         self,
@@ -2360,4 +2000,3 @@ class SecaoDadosForward(Section):
                 offset = tamanho_registro * indice
                 self.__le_registro(file, offset, indice)
         self.__converte_arrays_em_dataframes()
-        self.__cria_objeto_data()
