@@ -5,7 +5,7 @@ from typing import List
 from typing import IO
 
 
-class SecaoDadosCortesH(Section):
+class SecaoDadosCortesh(Section):
     """
     Registro com os dados da execução do caso existente no
     arquivo cortesh.dat
@@ -13,10 +13,16 @@ class SecaoDadosCortesH(Section):
 
     REGISTER_SIZE = 46080
 
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
+        self.__df_ultimo_corte_por_estagio = pd.DataFrame()
+        self.__df_dados_submercado = pd.DataFrame()
+        self.__df_dados_uhes = pd.DataFrame()
+
     def __eq__(self, o: object) -> bool:
-        if not isinstance(o, SecaoDadosCortesH):
+        if not isinstance(o, SecaoDadosCortesh):
             return False
-        bloco: SecaoDadosCortesH = o
+        bloco: SecaoDadosCortesh = o
         if not all(
             [
                 isinstance(self.data, list),
@@ -29,6 +35,35 @@ class SecaoDadosCortesH(Section):
 
     def read(self, file: IO, *args, **kwargs):
         # Leitura do primeiro registro (dados gerais)
+        self.__le_primeiro_registro(file)
+        # Segundo registro (ultimo registro de cortes por estagio)
+        self.__le_segundo_registro(file)
+        # Terceiro registro (ordens dos modelos PARP)
+        self.__le_terceiro_registro(file)
+        # Quarto registro (configuracoes)
+        self.__le_quarto_registro(file)
+        # Quinto registro (duracoes dos patamares)
+        self.__le_quinto_registro(file)
+        # Sexto registro (iteracao atual)
+        self.__le_sexto_registro(file)
+        # Setimo registro (dados da curva de aversao)
+        self.__le_setimo_registro(file)
+        # Oitavo registro (dados da SAR)
+        self.__le_oitavo_registro(file)
+        # Nono registro (dados do CVaR)
+        self.__le_nono_registro(file)
+        # Decimo registro (usinas hidreletricas)
+        self.__le_decimo_registro(file)
+        # Decimo primeiro registro (rees e submercados)
+        self.__le_decimo_primeiro_registro(file)
+        # Decimo segundo registro (dados diversos REEs)
+        self.__le_decimo_segundo_registro(file)
+        # Decimo terceiro registro (numero UHEs estagios individualizados)
+        self.__le_decimo_terceiro_registro(file)
+        # Decimo quarto registro (dados UHEs)
+        self.__le_decimo_quarto_registro(file)
+
+    def __le_primeiro_registro(self, file: IO):
         dados_primeiro_bloco = np.frombuffer(
             file.read(24 * 4),
             dtype=np.int32,
@@ -46,13 +81,12 @@ class SecaoDadosCortesH(Section):
             + list(dados_segundo_bloco)
         )
 
-        # Segundo registro (ultimo registro de cortes
-        # por periodo)
+    def __le_segundo_registro(self, file: IO):
         file.seek(1 * self.__class__.REGISTER_SIZE)
         n_estagios = (
-            self.numero_periodos_pre
-            + self.numero_periodos_estudo
-            + self.numero_periodos_pos
+            self.numero_estagios_pre
+            + self.numero_estagios_estudo
+            + self.numero_estagios_pos
         )
         self.__tamanho_segundo_registro = n_estagios
         dados_segundo_registro = np.frombuffer(
@@ -61,8 +95,14 @@ class SecaoDadosCortesH(Section):
             count=self.__tamanho_segundo_registro,
         )
         self.data += list(dados_segundo_registro)
-        # Terceiro registro (ordens dos modelos PARP)
+
+    def __le_terceiro_registro(self, file: IO):
         file.seek(2 * self.__class__.REGISTER_SIZE)
+        n_estagios = (
+            self.numero_estagios_pre
+            + self.numero_estagios_estudo
+            + self.numero_estagios_pos
+        )
         self.__tamanho_terceiro_registro = n_estagios * self.numero_rees
         dados_terceiro_registro = np.frombuffer(
             file.read(self.__tamanho_terceiro_registro * 4),
@@ -70,8 +110,14 @@ class SecaoDadosCortesH(Section):
             count=self.__tamanho_terceiro_registro,
         )
         self.data += list(dados_terceiro_registro)
-        # Quarto registro (configuracoes)
+
+    def __le_quarto_registro(self, file: IO):
         file.seek(3 * self.__class__.REGISTER_SIZE)
+        n_estagios = (
+            self.numero_estagios_pre
+            + self.numero_estagios_estudo
+            + self.numero_estagios_pos
+        )
         self.__tamanho_quarto_registro = n_estagios
         dados_quarto_registro = np.frombuffer(
             file.read(self.__tamanho_quarto_registro * 4),
@@ -79,10 +125,11 @@ class SecaoDadosCortesH(Section):
             count=self.__tamanho_quarto_registro,
         )
         self.data += list(dados_quarto_registro)
-        # Quinto registro (duracoes dos patamares)
+
+    def __le_quinto_registro(self, file: IO):
         file.seek(4 * self.__class__.REGISTER_SIZE)
         self.__tamanho_quinto_registro = (
-            self.numero_periodos_estudo * self.numero_patamares
+            self.numero_estagios_estudo * self.numero_patamares
         )
         dados_quinto_registro = np.frombuffer(
             file.read(self.__tamanho_quinto_registro * 8),
@@ -90,7 +137,8 @@ class SecaoDadosCortesH(Section):
             count=self.__tamanho_quinto_registro,
         )
         self.data += list(dados_quinto_registro)
-        # Sexto registro (iteracao atual)
+
+    def __le_sexto_registro(self, file: IO):
         file.seek(5 * self.__class__.REGISTER_SIZE)
         self.__tamanho_sexto_registro = 1
         dados_sexto_registro = np.frombuffer(
@@ -99,10 +147,11 @@ class SecaoDadosCortesH(Section):
             count=self.__tamanho_sexto_registro,
         )
         self.data += list(dados_sexto_registro)
-        # Setimo registro (dados da curva de aversao)
+
+    def __le_setimo_registro(self, file: IO):
         file.seek(6 * self.__class__.REGISTER_SIZE)
         self.__tamanho_setimo_registro = (
-            self.numero_rees * (self.numero_periodos_estudo + 1)
+            self.numero_rees * (self.numero_estagios_estudo + 1)
             if self.usa_curva_aversao
             else 0
         )
@@ -116,10 +165,11 @@ class SecaoDadosCortesH(Section):
             else np.array([], dtype=np.float64)
         )
         self.data += list(dados_setimo_registro)
-        # Oitavo registro (dados da SAR)
+
+    def __le_oitavo_registro(self, file: IO):
         file.seek(7 * self.__class__.REGISTER_SIZE)
         self.__tamanho_oitavo_registro = (
-            (2 + self.numero_periodos_estudo + 2 * self.npea)
+            (2 + self.numero_estagios_estudo + 2 * self.numero_estagios_ano)
             if self.usa_sar
             else 0
         )
@@ -142,10 +192,15 @@ class SecaoDadosCortesH(Section):
             else []
         )
         self.data += list(dados_oitavo_registro)
-        # Nono registro (dados do CVaR)
+
+    def __le_nono_registro(self, file: IO):
         file.seek(8 * self.__class__.REGISTER_SIZE)
         self.__tamanho_nono_registro = (
-            (1 + 2 * (self.numero_periodos_estudo + 2 * self.npea))
+            (
+                1
+                + 2
+                * (self.numero_estagios_estudo + 2 * self.numero_estagios_ano)
+            )
             if self.usa_cvar
             else 0
         )
@@ -168,7 +223,8 @@ class SecaoDadosCortesH(Section):
             else []
         )
         self.data += list(dados_nono_registro)
-        # Decimo registro (usinas hidreletricas)
+
+    def __le_decimo_registro(self, file: IO):
         file.seek(9 * self.__class__.REGISTER_SIZE)
         self.__tamanho_decimo_registro = 1 + 2 * self.numero_maximo_uhes
         dados_decimo_registro = np.frombuffer(
@@ -177,7 +233,8 @@ class SecaoDadosCortesH(Section):
             count=self.__tamanho_decimo_registro,
         )
         self.data += list(dados_decimo_registro)
-        # Decimo primeiro registro (rees e submercados)
+
+    def __le_decimo_primeiro_registro(self, file: IO):
         file.seek(10 * self.__class__.REGISTER_SIZE)
         tamanho_decimo_primeiro_registro_bloco_1 = (
             self.numero_submercados + self.numero_rees
@@ -211,6 +268,45 @@ class SecaoDadosCortesH(Section):
             + tamanho_decimo_primeiro_registro_bloco_2
             + tamanho_decimo_primeiro_registro_bloco_3
         )
+
+    def __le_decimo_segundo_registro(self, file: IO):
+        file.seek(11 * self.__class__.REGISTER_SIZE)
+        self.__tamanho_decimo_segundo_registro = 8
+        dados_decimo_segundo_registro = np.frombuffer(
+            file.read(self.__tamanho_decimo_segundo_registro * 4),
+            dtype=np.int32,
+            count=self.__tamanho_decimo_segundo_registro,
+        )
+        self.data += list(dados_decimo_segundo_registro)
+
+    def __le_decimo_terceiro_registro(self, file: IO):
+        file.seek(12 * self.__class__.REGISTER_SIZE)
+        self.__tamanho_decimo_terceiro_registro = self.mes_agregacao
+        dados_decimo_terceiro_registro = np.frombuffer(
+            file.read(self.__tamanho_decimo_terceiro_registro * 4),
+            dtype=np.int32,
+            count=self.__tamanho_decimo_terceiro_registro,
+        )
+        self.data += list(dados_decimo_terceiro_registro)
+
+    def __le_decimo_quarto_registro(self, file: IO):
+        tamanho_bloco_decimo_quarto_registro = (
+            6
+            + self.numero_estagios_pre
+            + self.numero_estagios_estudo
+            + self.numero_estagios_pos
+        )
+        self.__tamanho_decimo_quarto_registro = (
+            self.numero_maximo_uhes * tamanho_bloco_decimo_quarto_registro
+        )
+        for i in range(self.numero_maximo_uhes):
+            file.seek((13 + i) * self.__class__.REGISTER_SIZE)
+            dados_decimo_quarto_registro = np.frombuffer(
+                file.read(tamanho_bloco_decimo_quarto_registro * 4),
+                dtype=np.int32,
+                count=tamanho_bloco_decimo_quarto_registro,
+            )
+            self.data += list(dados_decimo_quarto_registro)
 
     def __offset_primeiro_registro(self) -> int:
         return 35
@@ -248,6 +344,24 @@ class SecaoDadosCortesH(Section):
     def __offset_decimo_registro(self) -> int:
         return self.__offset_nono_registro() + self.__tamanho_decimo_registro
 
+    def __offset_decimo_primeiro_registro(self) -> int:
+        return (
+            self.__offset_decimo_registro()
+            + self.__tamanho_decimo_primeiro_registro
+        )
+
+    def __offset_decimo_segundo_registro(self) -> int:
+        return (
+            self.__offset_decimo_primeiro_registro()
+            + self.__tamanho_decimo_segundo_registro
+        )
+
+    def __offset_decimo_terceiro_registro(self) -> int:
+        return (
+            self.__offset_decimo_segundo_registro()
+            + self.__tamanho_decimo_terceiro_registro
+        )
+
     @property
     def versao_newave(self) -> int:
         return self.data[0]
@@ -281,35 +395,35 @@ class SecaoDadosCortesH(Section):
         self.data[3] = v
 
     @property
-    def numero_periodos_pre(self) -> int:
+    def numero_estagios_pre(self) -> int:
         return self.data[4]
 
-    @numero_periodos_pre.setter
-    def numero_periodos_pre(self, v: int):
+    @numero_estagios_pre.setter
+    def numero_estagios_pre(self, v: int):
         self.data[4] = v
 
     @property
-    def numero_periodos_estudo(self) -> int:
+    def numero_estagios_estudo(self) -> int:
         return self.data[5]
 
-    @numero_periodos_estudo.setter
-    def numero_periodos_estudo(self, v: int):
+    @numero_estagios_estudo.setter
+    def numero_estagios_estudo(self, v: int):
         self.data[5] = v
 
     @property
-    def numero_periodos_pos(self) -> int:
+    def numero_estagios_pos(self) -> int:
         return self.data[6]
 
-    @numero_periodos_pos.setter
-    def numero_periodos_pos(self, v: int):
+    @numero_estagios_pos.setter
+    def numero_estagios_pos(self, v: int):
         self.data[6] = v
 
     @property
-    def npea(self) -> int:
+    def numero_estagios_ano(self) -> int:
         return self.data[7]
 
-    @npea.setter
-    def npea(self, v: int):
+    @numero_estagios_ano.setter
+    def numero_estagios_ano(self, v: int):
         self.data[7] = v
 
     @property
@@ -481,57 +595,72 @@ class SecaoDadosCortesH(Section):
         self.data[28] = v
 
     @property
-    def periodo_individualizado_inicial(self) -> int:
+    def estagio_individualizado_inicial(self) -> int:
         return self.data[29]
 
-    @periodo_individualizado_inicial.setter
-    def periodo_individualizado_inicial(self, v: int):
+    @estagio_individualizado_inicial.setter
+    def estagio_individualizado_inicial(self, v: int):
         self.data[29] = v
 
     @property
-    def periodo_individualizado_final(self) -> int:
+    def estagio_individualizado_final(self) -> int:
         return self.data[30]
 
-    @periodo_individualizado_final.setter
-    def periodo_individualizado_final(self, v: int):
+    @estagio_individualizado_final.setter
+    def estagio_individualizado_final(self, v: int):
         self.data[30] = v
 
     @property
-    def tamanho_registro_arquivos_individualizado(self) -> int:
+    def tamanho_registro_individualizado(self) -> int:
         return self.data[31]
 
-    @tamanho_registro_arquivos_individualizado.setter
-    def tamanho_registro_arquivos_individualizado(self, v: int):
+    @tamanho_registro_individualizado.setter
+    def tamanho_registro_individualizado(self, v: int):
         self.data[31] = v
 
     @property
-    def periodo_agregado_inicial(self) -> int:
+    def estagio_agregado_inicial(self) -> int:
         return self.data[32]
 
-    @periodo_agregado_inicial.setter
-    def periodo_agregado_inicial(self, v: int):
+    @estagio_agregado_inicial.setter
+    def estagio_agregado_inicial(self, v: int):
         self.data[32] = v
 
     @property
-    def periodo_agregado_final(self) -> int:
+    def estagio_agregado_final(self) -> int:
         return self.data[33]
 
-    @periodo_agregado_final.setter
-    def periodo_agregado_final(self, v: int):
+    @estagio_agregado_final.setter
+    def estagio_agregado_final(self, v: int):
         self.data[33] = v
 
     @property
-    def tamanho_registro_arquivos_agregado(self) -> int:
+    def tamanho_registro_agregado(self) -> int:
         return self.data[34]
 
-    @tamanho_registro_arquivos_agregado.setter
-    def tamanho_registro_arquivos_agregado(self, v: int):
+    @tamanho_registro_agregado.setter
+    def tamanho_registro_agregado(self, v: int):
         self.data[34] = v
 
     @property
-    def ultimo_registro_cortes_periodos(self) -> List[int]:
-        offset = self.__offset_primeiro_registro()
-        return self.data[offset : offset + self.__tamanho_segundo_registro]
+    def ultimo_registro_cortes_estagio(self) -> pd.DataFrame:
+        if self.__df_ultimo_corte_por_estagio.empty:
+            offset = self.__offset_primeiro_registro()
+            indices = self.data[
+                offset : offset + self.__tamanho_segundo_registro
+            ]
+            self.__df_ultimo_corte_por_estagio = pd.DataFrame(
+                data={
+                    "tipo_estagio": ["pre"] * self.numero_estagios_pre
+                    + ["estudo"] * self.numero_estagios_estudo
+                    + ["pos"] * self.numero_estagios_pos,
+                    "estagio": list(range(1, self.numero_estagios_pre + 1))
+                    + list(range(1, self.numero_estagios_estudo + 1))
+                    + list(range(1, self.numero_estagios_pos + 1)),
+                    "indice_ultimo_corte": indices,
+                }
+            )
+        return self.__df_ultimo_corte_por_estagio
 
     @property
     def ordens_modelos_parp(self) -> List[int]:
@@ -566,7 +695,7 @@ class SecaoDadosCortesH(Section):
             return []
         offset = self.__offset_sexto_registro() + self.numero_rees
         return self.data[
-            offset : offset + self.numero_rees * self.numero_periodos_estudo
+            offset : offset + self.numero_rees * self.numero_estagios_estudo
         ]
 
     @property
@@ -579,7 +708,7 @@ class SecaoDadosCortesH(Section):
     @property
     def uso_series_condicionadas_sar(self) -> int:
         if self.usa_sar == 0:
-            return 0.0
+            return 0
         offset = self.__offset_setimo_registro() + 1
         return self.data[offset]
 
@@ -589,13 +718,15 @@ class SecaoDadosCortesH(Section):
             return []
         offset = self.__offset_setimo_registro() + 2
         return self.data[
-            offset : offset + self.numero_periodos_estudo + 2 * self.npea
+            offset : offset
+            + self.numero_estagios_estudo
+            + 2 * self.numero_estagios_ano
         ]
 
     @property
     def flag_cvar(self) -> int:
         if self.usa_cvar == 0:
-            return []
+            return 0
         offset = self.__offset_oitavo_registro()
         return self.data[offset]
 
@@ -605,7 +736,9 @@ class SecaoDadosCortesH(Section):
             return []
         offset = self.__offset_oitavo_registro() + 1
         return self.data[
-            offset : offset + self.numero_periodos_estudo + 2 * self.npea
+            offset : offset
+            + self.numero_estagios_estudo
+            + 2 * self.numero_estagios_ano
         ]
 
     @property
@@ -615,11 +748,13 @@ class SecaoDadosCortesH(Section):
         offset = (
             self.__offset_oitavo_registro()
             + 1
-            + self.numero_periodos_estudo
-            + 2 * self.npea
+            + self.numero_estagios_estudo
+            + 2 * self.numero_estagios_ano
         )
         return self.data[
-            offset : offset + self.numero_periodos_estudo + 2 * self.npea
+            offset : offset
+            + self.numero_estagios_estudo
+            + 2 * self.numero_estagios_ano
         ]
 
     @property
@@ -651,7 +786,7 @@ class SecaoDadosCortesH(Section):
     def nomes_rees_submercados(self) -> List[str]:
         offset = (
             self.__offset_decimo_registro()
-            + self.numero_total_submercados
+            + self.numero_submercados
             + self.numero_rees
         )
         return self.data[
@@ -662,9 +797,151 @@ class SecaoDadosCortesH(Section):
     def codigos_rees_submercados(self) -> List[int]:
         offset = (
             self.__offset_decimo_registro()
-            + 2 * self.numero_total_submercados
+            + self.numero_submercados
+            + self.numero_total_submercados
             + 2 * self.numero_rees
         )
         return self.data[
             offset : offset + self.numero_rees + self.numero_submercados
         ]
+
+    @property
+    def dados_submercados(self) -> pd.DataFrame:
+        if self.__df_dados_submercado.empty:
+            offset_codigos = (
+                self.__offset_decimo_registro()
+                + self.numero_submercados
+                + self.numero_total_submercados
+                + 3 * self.numero_rees
+            )
+            offset_nomes = (
+                self.__offset_decimo_registro()
+                + self.numero_submercados
+                + 2 * self.numero_rees
+            )
+            offset_numero_rees = self.__offset_decimo_registro()
+            codigos = self.data[
+                offset_codigos : offset_codigos + self.numero_total_submercados
+            ]
+            nomes = self.data[
+                offset_nomes : offset_nomes + self.numero_total_submercados
+            ]
+            numeros = self.data[
+                offset_numero_rees : offset_numero_rees
+                + self.numero_submercados
+            ]
+            self.__df_dados_submercado = pd.DataFrame(
+                data={
+                    "codigo_submercado": codigos,
+                    "nome_submercado": nomes,
+                    "numero_rees_submercado": numeros
+                    + [0] * (len(codigos) - len(numeros)),
+                }
+            )
+        return self.__df_dados_submercado
+
+    @property
+    def numero_coeficientes_derivacao_inexata_parpa(self) -> int:
+        offset = self.__offset_decimo_primeiro_registro()
+        return self.data[offset]
+
+    @property
+    def constante_numero_rees(self) -> int:
+        offset = self.__offset_decimo_primeiro_registro()
+        return self.data[offset + 2]
+
+    @property
+    def constante_numero_rees_ordem_maxima_parp(self) -> int:
+        offset = self.__offset_decimo_primeiro_registro()
+        return self.data[offset + 3]
+
+    @property
+    def constante_numero_submercados_patamares_carga_lag_maximo_gnl(
+        self,
+    ) -> int:
+        offset = self.__offset_decimo_primeiro_registro()
+        return self.data[offset + 4]
+
+    @property
+    def constante_numero_maximo_uhes(self) -> int:
+        offset = self.__offset_decimo_primeiro_registro()
+        return self.data[offset + 6]
+
+    @property
+    def constante_numero_maximo_uhes_ordem_maxima_parp(self) -> int:
+        offset = self.__offset_decimo_primeiro_registro()
+        return self.data[offset + 7]
+
+    @property
+    def numero_uhes_estagios_individualizados(self) -> List[int]:
+        offset = self.__offset_decimo_segundo_registro()
+        return self.data[offset : offset + self.mes_agregacao]
+
+    @property
+    def dados_uhes(self) -> pd.DataFrame:
+        if self.__df_dados_uhes.empty:
+            offset = self.__offset_decimo_terceiro_registro()
+            tamanho_bloco_dados_uhes = int(
+                self.__tamanho_decimo_quarto_registro / self.numero_maximo_uhes
+            )
+            dados = np.array(
+                self.data[
+                    offset : offset + self.__tamanho_decimo_quarto_registro
+                ]
+            ).reshape((-1, tamanho_bloco_dados_uhes))
+            cols_dados = [
+                "codigo_usina",
+                "indice_usina",
+                "posto",
+                "ficticia",
+                "codigo_submercado",
+                "mes_agregacao",
+            ]
+            df = pd.DataFrame(
+                dados[:, :6],
+                columns=cols_dados,
+            )
+            rees_submercado = np.array(self.rees_por_submercado).cumsum()
+            codigos_internos = self.codigos_internos_rees_por_submercado
+            codigos_externos = self.codigos_rees_submercados[
+                : self.numero_rees
+            ]
+            nomes = self.nomes_rees_submercados[: self.numero_rees]
+            codigos_submercados = self.codigos_rees_submercados[
+                self.numero_rees :
+            ]
+            nomes_submercados = self.nomes_rees_submercados[self.numero_rees :]
+            df["codigo_interno_ree"] = df.apply(
+                lambda linha: self.codigo_interno_ree_uhes[
+                    self.codigos_uhes.index(linha["codigo_usina"])
+                ],
+                axis=1,
+            )
+            df["codigo_ree"] = df.apply(
+                lambda linha: codigos_externos[
+                    codigos_internos.index(linha["codigo_interno_ree"])
+                ],
+                axis=1,
+            )
+            df["nome_ree"] = df.apply(
+                lambda linha: nomes[
+                    codigos_internos.index(linha["codigo_interno_ree"])
+                ],
+                axis=1,
+            )
+            df["codigo_submercado"] = df.apply(
+                lambda linha: codigos_submercados[
+                    np.where(rees_submercado >= linha["codigo_interno_ree"])[
+                        0
+                    ][0]
+                ],
+                axis=1,
+            )
+            df["nome_submercado"] = df.apply(
+                lambda linha: nomes_submercados[
+                    codigos_submercados.index(linha["codigo_submercado"])
+                ],
+                axis=1,
+            )
+            self.__df_dados_uhes = df
+        return self.__df_dados_uhes

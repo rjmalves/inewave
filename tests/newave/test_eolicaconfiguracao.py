@@ -16,9 +16,10 @@ from tests.mocks.arquivos.eolicaconfig import (
     MockEolicaConfig,
 )
 
+ARQ_TESTE = "./tests/mocks/arquivos/__init__.py"
+
 
 def test_registro_eolica_configuracao_periodo_eolicaconfig():
-
     m: MagicMock = mock_open(
         read_data="".join(MockRegistroEolicaConfiguracaoPeriodo)
     )
@@ -44,7 +45,6 @@ def test_registro_eolica_configuracao_periodo_eolicaconfig():
 
 
 def test_registro_pee_configuracao_periodo_eolicaconfig():
-
     m: MagicMock = mock_open(
         read_data="".join(MockRegistroPEEConfiguracaoPeriodo)
     )
@@ -72,23 +72,23 @@ def test_registro_pee_configuracao_periodo_eolicaconfig():
 def test_atributos_encontrados_eolicaconfig():
     m: MagicMock = mock_open(read_data="".join(MockEolicaConfig))
     with patch("builtins.open", m):
-        e = EolicaConfiguracao.le_arquivo("")
+        e = EolicaConfiguracao.read(ARQ_TESTE)
         assert len(e.eolica_configuracao()) > 0
 
 
 def test_eq_eolicaconfig():
     m: MagicMock = mock_open(read_data="".join(MockEolicaConfig))
     with patch("builtins.open", m):
-        cf1 = EolicaConfiguracao.le_arquivo("")
-        cf2 = EolicaConfiguracao.le_arquivo("")
+        cf1 = EolicaConfiguracao.read(ARQ_TESTE)
+        cf2 = EolicaConfiguracao.read(ARQ_TESTE)
         assert cf1 == cf2
 
 
 def test_neq_eolicaconfig():
     m: MagicMock = mock_open(read_data="".join(MockEolicaConfig))
     with patch("builtins.open", m):
-        cf1 = EolicaConfiguracao.le_arquivo("")
-        cf2 = EolicaConfiguracao.le_arquivo("")
+        cf1 = EolicaConfiguracao.read(ARQ_TESTE)
+        cf2 = EolicaConfiguracao.read(ARQ_TESTE)
         cf2.deleta_registro(cf1.eolica_configuracao()[0])
         assert cf1 != cf2
 
@@ -96,10 +96,10 @@ def test_neq_eolicaconfig():
 def test_leitura_escrita_eolicaconfig():
     m_leitura: MagicMock = mock_open(read_data="".join(MockEolicaConfig))
     with patch("builtins.open", m_leitura):
-        cf1 = EolicaConfiguracao.le_arquivo("")
+        cf1 = EolicaConfiguracao.read(ARQ_TESTE)
     m_escrita: MagicMock = mock_open(read_data="")
     with patch("builtins.open", m_escrita):
-        cf1.escreve_arquivo("", "")
+        cf1.write(ARQ_TESTE)
         # Recupera o que foi escrito
         chamadas = m_escrita.mock_calls
         linhas_escritas = [
@@ -107,5 +107,5 @@ def test_leitura_escrita_eolicaconfig():
         ]
     m_releitura: MagicMock = mock_open(read_data="".join(linhas_escritas))
     with patch("builtins.open", m_releitura):
-        cf2 = EolicaConfiguracao.le_arquivo("")
+        cf2 = EolicaConfiguracao.read(ARQ_TESTE)
         assert cf1 == cf2

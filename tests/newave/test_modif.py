@@ -36,9 +36,10 @@ from tests.mocks.arquivos.modif import (
     MockVAZMINT,
 )
 
+ARQ_TESTE = "./tests/mocks/arquivos/__init__.py"
+
 
 def test_registro_usina_modif():
-
     m: MagicMock = mock_open(read_data="".join(MockUSINA))
     r = USINA()
     with patch("builtins.open", m):
@@ -51,7 +52,6 @@ def test_registro_usina_modif():
 
 
 def test_registro_vazmin_modif():
-
     m: MagicMock = mock_open(read_data="".join(MockVAZMIN))
     r = VAZMIN()
     with patch("builtins.open", m):
@@ -63,7 +63,6 @@ def test_registro_vazmin_modif():
 
 
 def test_registro_vmaxt_modif():
-
     m: MagicMock = mock_open(read_data="".join(MockVMAXT))
     r = VMAXT()
     with patch("builtins.open", m):
@@ -78,7 +77,6 @@ def test_registro_vmaxt_modif():
 
 
 def test_registro_vazmint_modif():
-
     m: MagicMock = mock_open(read_data="".join(MockVAZMINT))
     r = VAZMINT()
     with patch("builtins.open", m):
@@ -117,7 +115,6 @@ def test_registro_vazmint_modif():
 
 
 def test_registro_numcnj_modif():
-
     m: MagicMock = mock_open(read_data="".join(MockNUMCNJ))
     r = NUMCNJ()
     with patch("builtins.open", m):
@@ -129,7 +126,6 @@ def test_registro_numcnj_modif():
 
 
 def test_registro_nummaq_modif():
-
     m: MagicMock = mock_open(read_data="".join(MockNUMMAQ))
     r = NUMMAQ()
     with patch("builtins.open", m):
@@ -142,7 +138,6 @@ def test_registro_nummaq_modif():
 
 
 def test_registro_vmint_modif():
-
     m: MagicMock = mock_open(read_data="".join(MockVMINT))
     r = VMINT()
     with patch("builtins.open", m):
@@ -157,7 +152,6 @@ def test_registro_vmint_modif():
 
 
 def test_registro_vminp_modif():
-
     m: MagicMock = mock_open(read_data="".join(MockVMINP))
     r = VMINP()
     with patch("builtins.open", m):
@@ -172,7 +166,6 @@ def test_registro_vminp_modif():
 
 
 def test_registro_cfuga_modif():
-
     m: MagicMock = mock_open(read_data="".join(MockCFUGA))
     r = CFUGA()
     with patch("builtins.open", m):
@@ -186,7 +179,6 @@ def test_registro_cfuga_modif():
 
 
 def test_registro_cmont_modif():
-
     m: MagicMock = mock_open(read_data="".join(MockCMONT))
     r = CMONT()
     with patch("builtins.open", m):
@@ -202,7 +194,7 @@ def test_registro_cmont_modif():
 def test_atributos_encontrados_modif():
     m: MagicMock = mock_open(read_data="".join(MockModif))
     with patch("builtins.open", m):
-        ad = Modif.le_arquivo("")
+        ad = Modif.read(ARQ_TESTE)
         assert len(ad.usina()) > 0
         assert len(ad.vazmin()) > 0
         assert len(ad.vmaxt()) > 0
@@ -220,16 +212,16 @@ def test_atributos_encontrados_modif():
 # def test_eq_patamar():
 #     m: MagicMock = mock_open(read_data="".join(MockPatamar))
 #     with patch("builtins.open", m):
-#         cf1 = Patamar.le_arquivo("")
-#         cf2 = Patamar.le_arquivo("")
+#         cf1 = Patamar.read(ARQ_TESTE)
+#         cf2 = Patamar.read(ARQ_TESTE)
 #         assert cf1 == cf2
 
 
 # def test_neq_patamar():
 #     m: MagicMock = mock_open(read_data="".join(MockPatamar))
 #     with patch("builtins.open", m):
-#         cf1 = Patamar.le_arquivo("")
-#         cf2 = Patamar.le_arquivo("")
+#         cf1 = Patamar.read(ARQ_TESTE)
+#         cf2 = Patamar.read(ARQ_TESTE)
 #         cf2.numero_patamares = 0
 #         assert cf1 != cf2
 
@@ -237,10 +229,10 @@ def test_atributos_encontrados_modif():
 # def test_leitura_escrita_patamar():
 #     m_leitura: MagicMock = mock_open(read_data="".join(MockPatamar))
 #     with patch("builtins.open", m_leitura):
-#         cf1 = Patamar.le_arquivo("")
+#         cf1 = Patamar.read(ARQ_TESTE)
 #     m_escrita: MagicMock = mock_open(read_data="")
 #     with patch("builtins.open", m_escrita):
-#         cf1.escreve_arquivo("", "")
+#         cf1.write(ARQ_TESTE)
 #         # Recupera o que foi escrito
 #         chamadas = m_escrita.mock_calls
 #         linhas_escritas = [
@@ -248,5 +240,5 @@ def test_atributos_encontrados_modif():
 #         ]
 #     m_releitura: MagicMock = mock_open(read_data="".join(linhas_escritas))
 #     with patch("builtins.open", m_releitura):
-#         cf2 = Patamar.le_arquivo("")
+#         cf2 = Patamar.read(ARQ_TESTE)
 #         assert cf1 == cf2

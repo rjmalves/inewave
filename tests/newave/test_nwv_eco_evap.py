@@ -5,11 +5,13 @@ from unittest.mock import MagicMock, patch
 
 from tests.mocks.arquivos.nwv_eco_evap import MockNwvEcoEvap
 
+ARQ_TESTE = "./tests/mocks/arquivos/__init__.py"
+
 
 def test_atributos_encontrados_nwv_eco_evap():
     m: MagicMock = mock_open(read_data="".join(MockNwvEcoEvap))
     with patch("builtins.open", m):
-        rel = NwvEcoEvap.le_arquivo("")
+        rel = NwvEcoEvap.read(ARQ_TESTE)
         assert rel.versao == "FPHA_NEWAVE"
         assert rel.tabela.at[0, "periodo"] == 1
         assert rel.tabela.at[0, "indice_usina"] == 4
@@ -25,15 +27,15 @@ def test_atributos_encontrados_nwv_eco_evap():
 def test_eq_nwv_eco_evap():
     m: MagicMock = mock_open(read_data="".join(MockNwvEcoEvap))
     with patch("builtins.open", m):
-        rel1 = NwvEcoEvap.le_arquivo("")
-        rel2 = NwvEcoEvap.le_arquivo("")
+        rel1 = NwvEcoEvap.read(ARQ_TESTE)
+        rel2 = NwvEcoEvap.read(ARQ_TESTE)
         assert rel1 == rel2
 
 
 def test_neq_nwv_eco_evap():
     m: MagicMock = mock_open(read_data="".join(MockNwvEcoEvap))
     with patch("builtins.open", m):
-        rel1 = NwvEcoEvap.le_arquivo("")
-        rel2 = NwvEcoEvap.le_arquivo("")
+        rel1 = NwvEcoEvap.read(ARQ_TESTE)
+        rel2 = NwvEcoEvap.read(ARQ_TESTE)
         rel1.tabela.iloc[0, 0] = -1
         assert rel1 != rel2

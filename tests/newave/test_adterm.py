@@ -7,8 +7,10 @@ from unittest.mock import MagicMock, patch
 from tests.mocks.arquivos.adterm import MockBlocoUTEAdTerm
 
 
-def test_bloco_ute_adterm():
+ARQ_TESTE = "./tests/mocks/arquivos/__init__.py"
 
+
+def test_bloco_ute_adterm():
     m: MagicMock = mock_open(read_data="".join(MockBlocoUTEAdTerm))
     b = BlocoUTEAdTerm()
     with patch("builtins.open", m):
@@ -24,30 +26,30 @@ def test_bloco_ute_adterm():
 def test_atributos_encontrados_adterm():
     m: MagicMock = mock_open(read_data="".join(MockBlocoUTEAdTerm))
     with patch("builtins.open", m):
-        ad = AdTerm.le_arquivo("")
+        ad = AdTerm.read(ARQ_TESTE)
         assert ad.despachos is not None
 
 
 def test_atributos_nao_encontrados_adterm():
     m: MagicMock = mock_open(read_data="")
     with patch("builtins.open", m):
-        ad = AdTerm.le_arquivo("")
+        ad = AdTerm.read(ARQ_TESTE)
         assert ad.despachos is None
 
 
 def test_eq_adterm():
     m: MagicMock = mock_open(read_data="".join(MockBlocoUTEAdTerm))
     with patch("builtins.open", m):
-        ad1 = AdTerm.le_arquivo("")
-        ad2 = AdTerm.le_arquivo("")
+        ad1 = AdTerm.read(ARQ_TESTE)
+        ad2 = AdTerm.read(ARQ_TESTE)
         assert ad1 == ad2
 
 
 def test_neq_adterm():
     m: MagicMock = mock_open(read_data="".join(MockBlocoUTEAdTerm))
     with patch("builtins.open", m):
-        ad1 = AdTerm.le_arquivo("")
-        ad2 = AdTerm.le_arquivo("")
+        ad1 = AdTerm.read(ARQ_TESTE)
+        ad2 = AdTerm.read(ARQ_TESTE)
         ad2.despachos.iloc[0, 0] = -1
         assert ad1 != ad2
 
@@ -55,10 +57,10 @@ def test_neq_adterm():
 def test_leitura_escrita_adterm():
     m_leitura: MagicMock = mock_open(read_data="".join(MockBlocoUTEAdTerm))
     with patch("builtins.open", m_leitura):
-        ad1 = AdTerm.le_arquivo("")
+        ad1 = AdTerm.read(ARQ_TESTE)
     m_escrita: MagicMock = mock_open(read_data="")
     with patch("builtins.open", m_escrita):
-        ad1.escreve_arquivo("", "")
+        ad1.write(ARQ_TESTE)
         # Recupera o que foi escrito
         chamadas = m_escrita.mock_calls
         linhas_escritas = [
@@ -66,5 +68,5 @@ def test_leitura_escrita_adterm():
         ]
     m_releitura: MagicMock = mock_open(read_data="".join(linhas_escritas))
     with patch("builtins.open", m_releitura):
-        ad2 = AdTerm.le_arquivo("")
+        ad2 = AdTerm.read(ARQ_TESTE)
         assert ad1 == ad2

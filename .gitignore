@@ -131,3 +131,5 @@ dmypy.json
 test.py
 _saidas/
 .vscode
+
+*.zip

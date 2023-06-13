@@ -5,11 +5,13 @@ from unittest.mock import MagicMock, patch
 
 from tests.mocks.arquivos.rhslpptb import MockRHSLPPtb
 
+ARQ_TESTE = "./tests/mocks/arquivos/__init__.py"
+
 
 def test_atributos_encontrados_rhslpptb():
     m: MagicMock = mock_open(read_data="".join(MockRHSLPPtb))
     with patch("builtins.open", m):
-        n = RHSLPPtb.le_arquivo("")
+        n = RHSLPPtb.read(ARQ_TESTE)
         assert n.ree is not None
         assert n.ree == "SUDESTE"
         assert n.valores is not None
@@ -20,7 +22,7 @@ def test_atributos_encontrados_rhslpptb():
 def test_atributos_nao_encontrados_rhslpptb():
     m: MagicMock = mock_open(read_data="")
     with patch("builtins.open", m):
-        n = RHSLPPtb.le_arquivo("")
+        n = RHSLPPtb.read(ARQ_TESTE)
         assert n.ree is None
         assert n.valores is None
 
@@ -28,8 +30,8 @@ def test_atributos_nao_encontrados_rhslpptb():
 def test_eq_rhslpptb():
     m: MagicMock = mock_open(read_data="".join(MockRHSLPPtb))
     with patch("builtins.open", m):
-        n1 = RHSLPPtb.le_arquivo("")
-        n2 = RHSLPPtb.le_arquivo("")
+        n1 = RHSLPPtb.read(ARQ_TESTE)
+        n2 = RHSLPPtb.read(ARQ_TESTE)
         assert n1 == n2
 
 

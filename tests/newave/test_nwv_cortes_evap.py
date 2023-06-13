@@ -5,11 +5,13 @@ from unittest.mock import MagicMock, patch
 
 from tests.mocks.arquivos.nwv_cortes_evap import MockNwvCortesEvap
 
+ARQ_TESTE = "./tests/mocks/arquivos/__init__.py"
+
 
 def test_atributos_encontrados_nwv_cortes_evap():
     m: MagicMock = mock_open(read_data="".join(MockNwvCortesEvap))
     with patch("builtins.open", m):
-        rel = NwvCortesEvap.le_arquivo("")
+        rel = NwvCortesEvap.read(ARQ_TESTE)
         assert rel.versao == "FPHA_NEWAVE"
         assert rel.tabela.at[0, "periodo"] == 1
         assert rel.tabela.at[0, "indice_usina"] == 4
@@ -25,15 +27,15 @@ def test_atributos_encontrados_nwv_cortes_evap():
 def test_eq_nwv_cortes_evap():
     m: MagicMock = mock_open(read_data="".join(MockNwvCortesEvap))
     with patch("builtins.open", m):
-        rel1 = NwvCortesEvap.le_arquivo("")
-        rel2 = NwvCortesEvap.le_arquivo("")
+        rel1 = NwvCortesEvap.read(ARQ_TESTE)
+        rel2 = NwvCortesEvap.read(ARQ_TESTE)
         assert rel1 == rel2
 
 
 def test_neq_nwv_cortes_evap():
     m: MagicMock = mock_open(read_data="".join(MockNwvCortesEvap))
     with patch("builtins.open", m):
-        rel1 = NwvCortesEvap.le_arquivo("")
-        rel2 = NwvCortesEvap.le_arquivo("")
+        rel1 = NwvCortesEvap.read(ARQ_TESTE)
+        rel2 = NwvCortesEvap.read(ARQ_TESTE)
         rel1.tabela.iloc[0, 0] = -1
         assert rel1 != rel2

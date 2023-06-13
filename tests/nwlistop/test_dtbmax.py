@@ -5,11 +5,13 @@ from unittest.mock import MagicMock, patch
 
 from tests.mocks.arquivos.dtbmax import MockDtbmax
 
+ARQ_TESTE = "./tests/mocks/arquivos/__init__.py"
+
 
 def test_atributos_encontrados_dtbmax():
     m: MagicMock = mock_open(read_data="".join(MockDtbmax))
     with patch("builtins.open", m):
-        n = Dtbmax.le_arquivo("")
+        n = Dtbmax.read(ARQ_TESTE)
         assert n.usina is not None
         assert n.usina == "CAMARGOS"
         assert n.valores is not None
@@ -20,7 +22,7 @@ def test_atributos_encontrados_dtbmax():
 def test_atributos_nao_encontrados_dtbmax():
     m: MagicMock = mock_open(read_data="")
     with patch("builtins.open", m):
-        n = Dtbmax.le_arquivo("")
+        n = Dtbmax.read(ARQ_TESTE)
         assert n.usina is None
         assert n.valores is None
 
@@ -28,8 +30,8 @@ def test_atributos_nao_encontrados_dtbmax():
 def test_eq_dtbmax():
     m: MagicMock = mock_open(read_data="".join(MockDtbmax))
     with patch("builtins.open", m):
-        n1 = Dtbmax.le_arquivo("")
-        n2 = Dtbmax.le_arquivo("")
+        n1 = Dtbmax.read(ARQ_TESTE)
+        n2 = Dtbmax.read(ARQ_TESTE)
         assert n1 == n2
 
 

@@ -18,6 +18,8 @@ from tests.mocks.arquivos.restricaoeletrica import (
     MockRestricaoEletrica,
 )
 
+ARQ_TESTE = "./tests/mocks/arquivos/__init__.py"
+
 
 def test_registro_re_restricaoeletrica():
     m: MagicMock = mock_open(read_data="".join(MockRE))
@@ -79,7 +81,7 @@ def test_registro_rhq_lim_form_per_restricaoeletrica():
 def test_atributos_encontrados_restricaoeletrica():
     m: MagicMock = mock_open(read_data="".join(MockRestricaoEletrica))
     with patch("builtins.open", m):
-        e = RestricaoEletrica.le_arquivo("")
+        e = RestricaoEletrica.read(ARQ_TESTE)
         assert len(e.re()) > 0
         assert len(e.re_horiz_per()) > 0
         assert len(e.re_lim_form_per()) > 0
@@ -88,16 +90,16 @@ def test_atributos_encontrados_restricaoeletrica():
 def test_eq_restricaoeletrica():
     m: MagicMock = mock_open(read_data="".join(MockRestricaoEletrica))
     with patch("builtins.open", m):
-        cf1 = RestricaoEletrica.le_arquivo("")
-        cf2 = RestricaoEletrica.le_arquivo("")
+        cf1 = RestricaoEletrica.read(ARQ_TESTE)
+        cf2 = RestricaoEletrica.read(ARQ_TESTE)
         assert cf1 == cf2
 
 
 def test_neq_restricaoeletrica():
     m: MagicMock = mock_open(read_data="".join(MockRestricaoEletrica))
     with patch("builtins.open", m):
-        cf1 = RestricaoEletrica.le_arquivo("")
-        cf2 = RestricaoEletrica.le_arquivo("")
+        cf1 = RestricaoEletrica.read(ARQ_TESTE)
+        cf2 = RestricaoEletrica.read(ARQ_TESTE)
         cf2.deleta_registro(cf1.re()[0])
         assert cf1 != cf2
 
@@ -105,10 +107,10 @@ def test_neq_restricaoeletrica():
 def test_leitura_escrita_restricaoeletrica():
     m_leitura: MagicMock = mock_open(read_data="".join(MockRestricaoEletrica))
     with patch("builtins.open", m_leitura):
-        cf1 = RestricaoEletrica.le_arquivo("")
+        cf1 = RestricaoEletrica.read(ARQ_TESTE)
     m_escrita: MagicMock = mock_open(read_data="")
     with patch("builtins.open", m_escrita):
-        cf1.escreve_arquivo("", "")
+        cf1.write(ARQ_TESTE)
         # Recupera o que foi escrito
         chamadas = m_escrita.mock_calls
         linhas_escritas = [
@@ -116,5 +118,5 @@ def test_leitura_escrita_restricaoeletrica():
         ]
     m_releitura: MagicMock = mock_open(read_data="".join(linhas_escritas))
     with patch("builtins.open", m_releitura):
-        cf2 = RestricaoEletrica.le_arquivo("")
+        cf2 = RestricaoEletrica.read(ARQ_TESTE)
         assert cf1 == cf2

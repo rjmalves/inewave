@@ -5,11 +5,13 @@ from unittest.mock import MagicMock, patch
 
 from tests.mocks.arquivos.vghmin import MockVghmin
 
+ARQ_TESTE = "./tests/mocks/arquivos/__init__.py"
+
 
 def test_atributos_encontrados_vghmin():
     m: MagicMock = mock_open(read_data="".join(MockVghmin))
     with patch("builtins.open", m):
-        n = Vghmin.le_arquivo("")
+        n = Vghmin.read(ARQ_TESTE)
         assert n.ree is not None
         assert n.ree == "SUDESTE"
         assert n.valores is not None
@@ -20,7 +22,7 @@ def test_atributos_encontrados_vghmin():
 def test_atributos_nao_encontrados_vghmin():
     m: MagicMock = mock_open(read_data="")
     with patch("builtins.open", m):
-        n = Vghmin.le_arquivo("")
+        n = Vghmin.read(ARQ_TESTE)
         assert n.ree is None
         assert n.valores is None
 
@@ -28,8 +30,8 @@ def test_atributos_nao_encontrados_vghmin():
 def test_eq_vghmin():
     m: MagicMock = mock_open(read_data="".join(MockVghmin))
     with patch("builtins.open", m):
-        n1 = Vghmin.le_arquivo("")
-        n2 = Vghmin.le_arquivo("")
+        n1 = Vghmin.read(ARQ_TESTE)
+        n2 = Vghmin.read(ARQ_TESTE)
         assert n1 == n2
 
 

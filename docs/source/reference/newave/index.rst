@@ -64,6 +64,10 @@ Arquivos
    arquivos/penalid
    arquivos/patamar
    arquivos/pmo
+   arquivos/forwarh
+   arquivos/forward
+   arquivos/cortesh
+   arquivos/cortes
    arquivos/newavetim
    arquivos/confhd
    arquivos/exph

@@ -22,9 +22,10 @@ from tests.mocks.arquivos.sistema import (
     MockSistema,
 )
 
+ARQ_TESTE = "./tests/mocks/arquivos/__init__.py"
+
 
 def test_bloco_numero_patamares_deficit_sistema():
-
     m: MagicMock = mock_open(
         read_data="".join(MockBlocoNumeroPatamaresDeficit)
     )
@@ -37,7 +38,6 @@ def test_bloco_numero_patamares_deficit_sistema():
 
 
 def test_bloco_custos_deficit_sistema():
-
     m: MagicMock = mock_open(read_data="".join(MockBlocoCustoDeficit))
     b = BlocoCustosDeficit()
     with patch("builtins.open", m):
@@ -50,7 +50,6 @@ def test_bloco_custos_deficit_sistema():
 
 
 def test_bloco_limites_intercambio_sistema():
-
     m: MagicMock = mock_open(read_data="".join(MockBlocoLimitesIntercambio))
     b = BlocoIntercambioSubsistema()
     with patch("builtins.open", m):
@@ -62,7 +61,6 @@ def test_bloco_limites_intercambio_sistema():
 
 
 def test_bloco_mercado_energia_sistema():
-
     m: MagicMock = mock_open(read_data="".join(MockBlocoMercadoEnergia))
     b = BlocoMercadoEnergiaSistema()
     with patch("builtins.open", m):
@@ -74,7 +72,6 @@ def test_bloco_mercado_energia_sistema():
 
 
 def test_bloco_usinas_nao_simuladas_sistema():
-
     m: MagicMock = mock_open(
         read_data="".join(MockBlocoGeracaoUsinasNaoSimuladas)
     )
@@ -90,7 +87,7 @@ def test_bloco_usinas_nao_simuladas_sistema():
 def test_atributos_encontrados_sistema():
     m: MagicMock = mock_open(read_data="".join(MockSistema))
     with patch("builtins.open", m):
-        ad = Sistema.le_arquivo("")
+        ad = Sistema.read(ARQ_TESTE)
         assert ad.numero_patamares_deficit is not None
         assert ad.custo_deficit is not None
         assert ad.limites_intercambio is not None
@@ -101,7 +98,7 @@ def test_atributos_encontrados_sistema():
 def test_atributos_nao_encontrados_sistema():
     m: MagicMock = mock_open(read_data="")
     with patch("builtins.open", m):
-        ad = Sistema.le_arquivo("")
+        ad = Sistema.read(ARQ_TESTE)
         assert ad.numero_patamares_deficit is None
         assert ad.custo_deficit is None
         assert ad.limites_intercambio is None
@@ -112,16 +109,16 @@ def test_atributos_nao_encontrados_sistema():
 def test_eq_sistema():
     m: MagicMock = mock_open(read_data="".join(MockSistema))
     with patch("builtins.open", m):
-        cf1 = Sistema.le_arquivo("")
-        cf2 = Sistema.le_arquivo("")
+        cf1 = Sistema.read(ARQ_TESTE)
+        cf2 = Sistema.read(ARQ_TESTE)
         assert cf1 == cf2
 
 
 def test_neq_sistema():
     m: MagicMock = mock_open(read_data="".join(MockSistema))
     with patch("builtins.open", m):
-        cf1 = Sistema.le_arquivo("")
-        cf2 = Sistema.le_arquivo("")
+        cf1 = Sistema.read(ARQ_TESTE)
+        cf2 = Sistema.read(ARQ_TESTE)
         cf2.numero_patamares_deficit = 0
         assert cf1 != cf2
 
@@ -129,10 +126,10 @@ def test_neq_sistema():
 def test_leitura_escrita_sistema():
     m_leitura: MagicMock = mock_open(read_data="".join(MockSistema))
     with patch("builtins.open", m_leitura):
-        cf1 = Sistema.le_arquivo("")
+        cf1 = Sistema.read(ARQ_TESTE)
     m_escrita: MagicMock = mock_open(read_data="")
     with patch("builtins.open", m_escrita):
-        cf1.escreve_arquivo("", "")
+        cf1.write(ARQ_TESTE)
         # Recupera o que foi escrito
         chamadas = m_escrita.mock_calls
         linhas_escritas = [
@@ -140,5 +137,5 @@ def test_leitura_escrita_sistema():
         ]
     m_releitura: MagicMock = mock_open(read_data="".join(linhas_escritas))
     with patch("builtins.open", m_releitura):
-        cf2 = Sistema.le_arquivo("")
+        cf2 = Sistema.read(ARQ_TESTE)
         assert cf1 == cf2

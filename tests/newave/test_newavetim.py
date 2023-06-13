@@ -11,9 +11,10 @@ from unittest.mock import MagicMock, patch
 
 from tests.mocks.arquivos.newavetim import MockBlocoTemposEtapas, MockNewaveTim
 
+ARQ_TESTE = "./tests/mocks/arquivos/__init__.py"
+
 
 def test_tempos_etapas():
-
     m: MagicMock = mock_open(read_data="".join(MockBlocoTemposEtapas))
     b = BlocoTemposEtapasTim()
     with patch("builtins.open", m):
@@ -29,29 +30,29 @@ def test_tempos_etapas():
 def test_atributos_encontrados_newavetim():
     m: MagicMock = mock_open(read_data="".join(MockNewaveTim))
     with patch("builtins.open", m):
-        nt = NewaveTim.le_arquivo("")
+        nt = NewaveTim.read(ARQ_TESTE)
         assert nt.tempos_etapas is not None
 
 
 def test_atributos_nao_encontrados_newavetim():
     m: MagicMock = mock_open(read_data="")
     with patch("builtins.open", m):
-        nt = NewaveTim.le_arquivo("")
+        nt = NewaveTim.read(ARQ_TESTE)
         assert nt.tempos_etapas is None
 
 
 def test_eq_newavetim():
     m: MagicMock = mock_open(read_data="".join(MockNewaveTim))
     with patch("builtins.open", m):
-        nt1 = NewaveTim.le_arquivo("")
-        nt2 = NewaveTim.le_arquivo("")
+        nt1 = NewaveTim.read(ARQ_TESTE)
+        nt2 = NewaveTim.read(ARQ_TESTE)
         assert nt1 == nt2
 
 
 def test_neq_newavetim():
     m: MagicMock = mock_open(read_data="".join(MockNewaveTim))
     with patch("builtins.open", m):
-        nt1 = NewaveTim.le_arquivo("")
-        nt2 = NewaveTim.le_arquivo("")
+        nt1 = NewaveTim.read(ARQ_TESTE)
+        nt2 = NewaveTim.read(ARQ_TESTE)
         nt2.tempos_etapas.iloc[0, 0] = ""
         assert nt1 != nt2

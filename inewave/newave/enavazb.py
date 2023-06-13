@@ -4,6 +4,10 @@ import pandas as pd  # type: ignore
 
 from typing import TypeVar, Optional
 
+# Para compatibilidade - até versão 1.0.0
+from os.path import join
+import warnings
+
 
 class Enavazb(SectionFile):
     """
@@ -30,17 +34,18 @@ class Enavazb(SectionFile):
         numero_rees: int = 12,
         numero_estagios: int = 60,
     ) -> "Enavazb":
+        msg = (
+            "O método le_arquivo(diretorio, nome_arquivo) será descontinuado"
+            + " na versão 1.0.0 - use o método read(caminho_arquivo)"
+        )
+        warnings.warn(msg, category=FutureWarning)
         return cls.read(
-            diretorio,
-            nome_arquivo,
+            join(diretorio, nome_arquivo),
+            numero_rees=numero_rees,
             numero_forwards=numero_forwards,
             numero_aberturas=numero_aberturas,
-            numero_rees=numero_rees,
             numero_estagios=numero_estagios,
         )
-
-    def escreve_arquivo(self, diretorio: str, nome_arquivo="enavazb.dat"):
-        self.write(diretorio, nome_arquivo)
 
     @property
     def series(self) -> Optional[pd.DataFrame]:

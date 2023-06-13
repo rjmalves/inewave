@@ -5,11 +5,13 @@ from unittest.mock import MagicMock, patch
 
 from tests.mocks.arquivos.avl_desvfpha_v_q import MockAvlDesvFphaVQ
 
+ARQ_TESTE = "./tests/mocks/arquivos/__init__.py"
+
 
 def test_atributos_encontrados_avl_desvfpha_v_q():
     m: MagicMock = mock_open(read_data="".join(MockAvlDesvFphaVQ))
     with patch("builtins.open", m):
-        rel = AvlDesvFphaVQ.le_arquivo("")
+        rel = AvlDesvFphaVQ.read(ARQ_TESTE)
         assert rel.versao == "FPHA_NEWAVE"
         assert rel.tabela.at[0, "indice_usina"] == 4
         assert rel.tabela.at[0, "nome_usina"] == "FUNIL-GRANDE"
@@ -21,8 +23,8 @@ def test_atributos_encontrados_avl_desvfpha_v_q():
 def test_eq_avl_desvfpha_v_q():
     m: MagicMock = mock_open(read_data="".join(MockAvlDesvFphaVQ))
     with patch("builtins.open", m):
-        rel1 = AvlDesvFphaVQ.le_arquivo("")
-        rel2 = AvlDesvFphaVQ.le_arquivo("")
+        rel1 = AvlDesvFphaVQ.read(ARQ_TESTE)
+        rel2 = AvlDesvFphaVQ.read(ARQ_TESTE)
         assert rel1 == rel2
 
 
@@ -30,7 +32,7 @@ def test_eq_avl_desvfpha_v_q():
 # def test_neq_avl_desvfpha_v_q():
 #     m: MagicMock = mock_open(read_data="".join(MockAvlDesvFphaVQ))
 #     with patch("builtins.open", m):
-#         rel1 = AvlDesvFphaVQ.le_arquivo("")
-#         rel2 = AvlDesvFphaVQ.le_arquivo("")
+#         rel1 = AvlDesvFphaVQ.read(ARQ_TESTE)
+#         rel2 = AvlDesvFphaVQ.read(ARQ_TESTE)
 #         rel1.tabela.iloc[0, 0] = -1
 #         assert rel1 != rel2
