@@ -1920,18 +1920,12 @@ class SecaoDadosForward(Section):
         tamanho_registro: int = 41264,
         numero_estagios: int = 60,
         numero_forwards: int = 200,
-        numero_rees: int = 12,
-        numero_submercados: int = 4,
-        numero_total_submercados: int = 5,
         numero_patamares_carga: int = 3,
         numero_patamares_deficit: int = 1,
         numero_agrupamentos_intercambio: int = 1,
         numero_classes_termicas_submercados: List[int] = [],
-        numero_usinas_hidreletricas: int = 164,
         lag_maximo_usinas_gnl: int = 2,
-        numero_parques_eolicos_equivalentes: int = 2,
         numero_restricoes_eletricas_especiais: int = 0,
-        numero_estacoes_bombeamento: int = 0,
         nomes_submercados: List[str] = ["SUDESTE", "SUL", "NORDESTE", "NORTE"],
         nomes_submercados_totais: List[str] = [
             "SUDESTE",
@@ -1962,9 +1956,9 @@ class SecaoDadosForward(Section):
         **kwargs,
     ):
         # Atribui variáveis locais
-        self.numero_rees = numero_rees
-        self.numero_submercados = numero_submercados
-        self.numero_total_submercados = numero_total_submercados
+        self.numero_rees = len(nomes_rees)
+        self.numero_submercados = len(nomes_submercados)
+        self.numero_total_submercados = len(nomes_submercados_totais)
         self.numero_patamares_carga = numero_patamares_carga
         self.numero_patamares_deficit = numero_patamares_deficit
         self.numero_agrupamentos_intercambio = numero_agrupamentos_intercambio
@@ -1974,15 +1968,15 @@ class SecaoDadosForward(Section):
         self.total_classes_termicas = sum(
             self.numero_classes_termicas_submercados
         )
-        self.numero_usinas_hidreletricas = numero_usinas_hidreletricas
+        self.numero_usinas_hidreletricas = len(nomes_usinas_hidreletricas)
         self.lag_maximo_usinas_gnl = lag_maximo_usinas_gnl
-        self.numero_parques_eolicos_equivalentes = (
-            numero_parques_eolicos_equivalentes
+        self.numero_parques_eolicos_equivalentes = len(
+            nomes_parques_eolicos_equivalentes
         )
         self.numero_restricoes_eletricas_especiais = (
             numero_restricoes_eletricas_especiais
         )
-        self.numero_estacoes_bombeamento = numero_estacoes_bombeamento
+        self.numero_estacoes_bombeamento = len(nomes_estacoes_bombeamento)
         self.nomes_submercados = np.array(nomes_submercados)
         self.nomes_submercados_totais = np.array(nomes_submercados_totais)
         self.nomes_rees = np.array(nomes_rees)

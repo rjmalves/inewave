@@ -131,6 +131,8 @@ def test_atributos_nao_encontrados_dger():
         assert d.restricoes_eletricas_especiais is None
         assert d.funcao_producao_uhe is None
         assert d.fcf_pos_estudo is None
+        assert d.estacoes_bombeamento is None
+        assert d.canal_desvio is None
 
 
 def test_atributos_encontrados_dger():
@@ -255,6 +257,8 @@ def test_atributos_encontrados_dger():
         assert d.restricoes_eletricas_especiais is not None
         assert d.funcao_producao_uhe is not None
         assert d.fcf_pos_estudo is not None
+        assert d.estacoes_bombeamento is not None
+        assert d.canal_desvio is not None
 
 
 def test_nome_caso_dger():
@@ -1315,6 +1319,26 @@ def test_fcf_pos_estudo():
         novo_valor = 1
         d.fcf_pos_estudo = novo_valor
         assert d.fcf_pos_estudo == novo_valor
+
+
+def test_estacoes_bombeamento():
+    m: MagicMock = mock_open(read_data="".join(MockDger))
+    with patch("builtins.open", m):
+        d = DGer.read(ARQ_TESTE)
+        assert d.estacoes_bombeamento == 1
+        novo_valor = 0
+        d.estacoes_bombeamento = novo_valor
+        assert d.estacoes_bombeamento == novo_valor
+
+
+def test_canal_desvio():
+    m: MagicMock = mock_open(read_data="".join(MockDger))
+    with patch("builtins.open", m):
+        d = DGer.read(ARQ_TESTE)
+        assert d.canal_desvio == 1
+        novo_valor = 0
+        d.canal_desvio = novo_valor
+        assert d.canal_desvio == novo_valor
 
 
 def test_eq_dger():

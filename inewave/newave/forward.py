@@ -31,18 +31,19 @@ class Forward(SectionFile):
         tamanho_registro: int = 41264,
         numero_estagios: int = 60,
         numero_forwards: int = 200,
-        numero_rees: int = 12,
-        numero_submercados: int = 4,
-        numero_total_submercados: int = 5,
         numero_patamares_carga: int = 3,
         numero_patamares_deficit: int = 1,
         numero_agrupamentos_intercambio: int = 1,
         numero_classes_termicas_submercados: List[int] = [],
-        numero_usinas_hidreletricas: int = 164,
         lag_maximo_usinas_gnl: int = 2,
-        numero_parques_eolicos_equivalentes: int = 2,
-        numero_estacoes_bombeamento: int = 0,
         nomes_submercados: List[str] = ["SUDESTE", "SUL", "NORDESTE", "NORTE"],
+        nomes_submercados_totais: List[str] = [
+            "SUDESTE",
+            "SUL",
+            "NORDESTE",
+            "NORTE",
+            "NOFICT1",
+        ],
         nomes_rees: List[str] = [
             "SUDESTE",
             "MADEIRA",
@@ -69,18 +70,13 @@ class Forward(SectionFile):
             tamanho_registro=tamanho_registro,
             numero_estagios=numero_estagios,
             numero_forwards=numero_forwards,
-            numero_rees=numero_rees,
-            numero_submercados=numero_submercados,
-            numero_total_submercados=numero_total_submercados,
             numero_patamares_carga=numero_patamares_carga,
             numero_patamares_deficit=numero_patamares_deficit,
             numero_agrupamentos_intercambio=numero_agrupamentos_intercambio,
             numero_classes_termicas_submercados=numero_classes_termicas_submercados,
-            numero_usinas_hidreletricas=numero_usinas_hidreletricas,
             lag_maximo_usinas_gnl=lag_maximo_usinas_gnl,
-            numero_parques_eolicos_equivalentes=numero_parques_eolicos_equivalentes,
-            numero_estacoes_bombeamento=numero_estacoes_bombeamento,
             nomes_submercados=nomes_submercados,
+            nomes_submercados_totais=nomes_submercados_totais,
             nomes_rees=nomes_rees,
             nomes_classes_termicas=nomes_classes_termicas,
             nomes_usinas_hidreletricas=nomes_usinas_hidreletricas,
@@ -208,7 +204,6 @@ class Forward(SectionFile):
         - estagio (`int`)
         - cenario (`int`)
         - ree (`str`)
-        - patamar (`int`)
         - valor (`float`)
 
         :return: A tabela como um DataFrame.
@@ -312,6 +307,7 @@ class Forward(SectionFile):
         - estagio (`int`)
         - cenario (`int`)
         - submercado (`str`)
+        - patamarDeficit (`int`)
         - patamar (`int`)
         - valor (`float`)
 

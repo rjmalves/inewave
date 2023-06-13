@@ -84,26 +84,41 @@ class Cortes(SectionFile):
 
         Se o estágio em questão for agregado em REE:
 
-        - pi_earm (`float`)
-        - pi_ena1 (`float`)
+        - pi_earm_ree1 (`float`)
+        - pi_ena_ree1_lag1 (`float`)
         - ...
-        - pi_enaN (`float`)
+        - pi_ena_ree1_lagN (`float`)
+        - pi_earm_ree2 (`float`)
+        - ...
+        - pi_ena_reeR_lagN (`float`)
 
         Se o estágio em questão for individualizado:
 
-        - pi_varm (`float`)
-        - pi_qafl1 (`float`)
+        - pi_varm_uhe1 (`float`)
+        - pi_qafl_uhe1_lag1 (`float`)
         - ...
-        - pi_qaflN (`float`)
+        - pi_qafl_uhe1_lagN (`float`)
+        - pi_varm_uhe2 (`float`)
+        - ...
+        - pi_qafl_uheU_lagN (`float`)
 
         Para todos os estágios:
 
-        - pi_gnl_pat1_lag1 (`float`)
+        - pi_gnl_sbm1_pat1_lag1 (`float`)
         - ...
-        - pi_gnl_pat1_lagL (`float`)
-        - pi_gnl_pat2_lag1 (`float`)
+        - pi_gnl_sbm1_pat1_lagL (`float`)
+        - pi_gnl_sbm1_pat2_lag1 (`float`)
         - ...
-        - pi_gnl_patP_lagL (`float`)
+        - pi_gnl_sbm1_patP_lagL (`float`)
+        - pi_gnl_sbm2_pat1_lag1 (`float`)
+        - ...
+        - pi_gnl_sbmS_patP_lagL (`float`)
+
+        R é o número de REEs.
+
+        U é o número de UHEs.
+
+        S é o número de submercados.
 
         N é a máxima ordem do modelo PAR(p) ajustado.
 

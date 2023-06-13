@@ -102,6 +102,8 @@ from inewave.newave.modelos.dger import BlocoRestricaoLPPDefluenciaMaximaUHE
 from inewave.newave.modelos.dger import BlocoRestricoesEletricasEspeciais
 from inewave.newave.modelos.dger import BlocoFuncaoProducaoUHE
 from inewave.newave.modelos.dger import BlocoFCFPosEstudo
+from inewave.newave.modelos.dger import BlocoEstacoesBombeamento
+from inewave.newave.modelos.dger import BlocoCanalDesvio
 
 # Para compatibilidade - até versão 1.0.0
 from os.path import join
@@ -216,6 +218,8 @@ class DGer(SectionFile):
         BlocoRestricoesEletricasEspeciais,
         BlocoFuncaoProducaoUHE,
         BlocoFCFPosEstudo,
+        BlocoEstacoesBombeamento,
+        BlocoCanalDesvio,
     ]
 
     def __init__(self, data=...) -> None:
@@ -2388,5 +2392,43 @@ class DGer(SectionFile):
     @fcf_pos_estudo.setter
     def fcf_pos_estudo(self, dado: int):
         b = self.__bloco_por_tipo(BlocoFCFPosEstudo, 0)
+        if b is not None:
+            b.valor = dado
+
+    @property
+    def estacoes_bombeamento(self) -> Optional[int]:
+        """
+        Configuração da linha número 101 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int | None
+        """
+        b = self.__bloco_por_tipo(BlocoEstacoesBombeamento, 0)
+        if b is not None:
+            return b.valor
+        return None
+
+    @estacoes_bombeamento.setter
+    def estacoes_bombeamento(self, dado: int):
+        b = self.__bloco_por_tipo(BlocoEstacoesBombeamento, 0)
+        if b is not None:
+            b.valor = dado
+
+    @property
+    def canal_desvio(self) -> Optional[int]:
+        """
+        Configuração da linha número 102 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int | None
+        """
+        b = self.__bloco_por_tipo(BlocoCanalDesvio, 0)
+        if b is not None:
+            return b.valor
+        return None
+
+    @canal_desvio.setter
+    def canal_desvio(self, dado: int):
+        b = self.__bloco_por_tipo(BlocoCanalDesvio, 0)
         if b is not None:
             b.valor = dado

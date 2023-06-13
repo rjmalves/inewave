@@ -229,13 +229,13 @@ class SecaoDadosForwarh(Section):
         self.data[self.__offset_primeiro_bloco() + 12] = v
 
     @property
-    def ano_inicio_series_historicas_simuladas(self) -> int:
+    def ano_inicio_series_historicas_simuladas(self) -> List[int]:
         return self.data[
             self.__offset_primeiro_bloco() + 13 : self.__offset_segundo_bloco()
         ]
 
     @ano_inicio_series_historicas_simuladas.setter
-    def ano_inicio_series_historicas_simuladas(self, v: int):
+    def ano_inicio_series_historicas_simuladas(self, v: List[int]):
         self.data = (
             self.data[self.__offset_primeiro_bloco() + 13 :]
             + v
@@ -259,9 +259,9 @@ class SecaoDadosForwarh(Section):
         self.data[self.__offset_segundo_bloco() + 1] = v
 
     @property
-    def simulacao_final_individualizada(self) -> str:
+    def simulacao_final_individualizada(self) -> int:
         return self.data[self.__offset_segundo_bloco() + 2]
 
     @simulacao_final_individualizada.setter
-    def simulacao_final_individualizada(self, v: str):
+    def simulacao_final_individualizada(self, v: int):
         self.data[self.__offset_segundo_bloco() + 2] = v

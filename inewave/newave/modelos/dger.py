@@ -1173,7 +1173,7 @@ class BlocoTipoSimFinal(Section):
             [
                 LiteralField(24, 0),
                 IntegerField(1, 24),
-                IntegerField(1, 28),
+                IntegerField(4, 26),
                 LiteralField(76, 31),
             ]
         )
@@ -4832,6 +4832,100 @@ class BlocoFCFPosEstudo(Section):
         O valor da opção configurada
 
         :return: A consideração ou não da FCF externa
+        :rtype: int | None
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
+
+
+class BlocoEstacoesBombeamento(Section):
+    """
+    Bloco com a escolha da consideração, ou não, de estações de bombeamento
+    no estudo.
+    """
+
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(14, 28)]
+        )
+
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoEstacoesBombeamento):
+            return False
+        bloco: BlocoEstacoesBombeamento = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
+
+    def read(self, file: IO, *args, **kwargs):
+        self.data = self.__linha.read(file.readline())
+
+    def write(self, file: IO, *args, **kwargs):
+        file.write(self.__linha.write(self.data))
+
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: A consideração ou não de estações de bombeamento
+        :rtype: int | None
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
+
+
+class BlocoCanalDesvio(Section):
+    """
+    Bloco com a escolha da consideração, ou não, de canais de desvio entre usinas
+    hidrelétricas e reservatórios.
+    """
+
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(14, 28)]
+        )
+
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoCanalDesvio):
+            return False
+        bloco: BlocoCanalDesvio = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
+
+    def read(self, file: IO, *args, **kwargs):
+        self.data = self.__linha.read(file.readline())
+
+    def write(self, file: IO, *args, **kwargs):
+        file.write(self.__linha.write(self.data))
+
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: A consideração ou não de canais de desvio
         :rtype: int | None
         """
         return self.data[1]
