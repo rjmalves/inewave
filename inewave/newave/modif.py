@@ -1,10 +1,7 @@
 from cfinterface.components.register import Register
 from cfinterface.files.registerfile import RegisterFile
 from inewave.newave.modelos.modif import (
-    TURBMAXT,
-    TURBMINT,
     USINA,
-    VAZMAXT,
     VOLMIN,
     VOLMAX,
     NUMCNJ,
@@ -16,6 +13,9 @@ from inewave.newave.modelos.modif import (
     VMINT,
     VMINP,
     VAZMINT,
+    VAZMAXT,
+    TURBMAXT,
+    TURBMINT,
 )
 
 
@@ -47,6 +47,9 @@ class Modif(RegisterFile):
         VMINT,
         VMINP,
         VAZMINT,
+        VAZMAXT,
+        TURBMAXT,
+        TURBMINT,
     ]
 
     def __init__(self, data=...) -> None:

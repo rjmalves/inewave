@@ -10,7 +10,7 @@ MockVAZMINT = " VAZMINT  10 2021   10.00 \n"
 
 MockVOLMIN = " VOLMIN          15563.63 'h'\n"
 
-MockVOLMAX = " VOLMAX          15563.63 'h'\n"
+MockVOLMAX = " VOLMAX   55.000 '%'\n"
 
 MockNUMCNJ = " NUMCNJ     2\n"
 
@@ -23,6 +23,12 @@ MockVMINP = " VMINP    10 2021  20.000 '%'\n"
 MockCFUGA = " CFUGA    10 2021    5.60\n"
 
 MockCMONT = " CMONT    10 2021   71.30\n"
+
+MockVAZMAXT = " VAZMAXT   1 2020    0.00"
+
+MockTURBMAXT = " TURBMAXT  1 2020    0.00"
+
+MockTURBMINT = " TURBMINT  1 2020    0.00"
 
 MockModif = [
     " P.CHAVE  MODIFICACOES E INDICES\n",
