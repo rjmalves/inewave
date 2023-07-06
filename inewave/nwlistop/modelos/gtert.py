@@ -5,7 +5,9 @@ from cfinterface.components.integerfield import IntegerField
 from cfinterface.components.literalfield import LiteralField
 from cfinterface.components.floatfield import FloatField
 
-from inewave.nwlistop.modelos.blocos.valoresclassetermicaseriepatamar import ValoresClasseTermicaSeriePatamar  # type: ignore
+from inewave.nwlistop.modelos.blocos.valoresclassetermicaseriepatamar import (
+    ValoresClasseTermicaSeriePatamar,  # type: ignore
+)
 
 
 class GTAnos(ValoresClasseTermicaSeriePatamar):
