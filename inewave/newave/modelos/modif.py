@@ -53,36 +53,35 @@ class VOLMIN(Register):
 
     IDENTIFIER = " VOLMIN"
     IDENTIFIER_DIGITS = 8
-    LINE = Line([LiteralField(30, 10)])
-    # LINE = Line([FloatField(15, 10, 2), LiteralField(3, 26)])
+    LINE = Line([FloatField(8, 10, 2), LiteralField(3, 19)])
 
-    # @property
-    # def volume(self) -> Optional[float]:
-    #     """
-    #     O novo valor de volume
+    @property
+    def volume(self) -> Optional[float]:
+        """
+        O novo valor de volume
 
-    #     :return: O novo valor de volume
-    #     :rtype: Optional[float]
-    #     """
-    #     return self.data[0]
+        :return: O novo valor de volume
+        :rtype: Optional[float]
+        """
+        return self.data[0]
 
-    # @volume.setter
-    # def volume(self, t: float):
-    #     self.data[0] = t
+    @volume.setter
+    def volume(self, t: float):
+        self.data[0] = t
 
-    # @property
-    # def unidade(self) -> Optional[str]:
-    #     """
-    #     A unidade do volume informado
+    @property
+    def unidade(self) -> Optional[str]:
+        """
+        A unidade do volume informado
 
-    #     :return: A unidade do volume
-    #     :rtype: Optional[str]
-    #     """
-    #     return self.data[1]
+        :return: A unidade do volume
+        :rtype: Optional[str]
+        """
+        return self.data[1]
 
-    # @unidade.setter
-    # def unidade(self, t: str):
-    #     self.data[1] = t
+    @unidade.setter
+    def unidade(self, t: str):
+        self.data[1] = t
 
 
 class VOLMAX(Register):
@@ -93,36 +92,35 @@ class VOLMAX(Register):
 
     IDENTIFIER = " VOLMAX"
     IDENTIFIER_DIGITS = 8
-    LINE = Line([LiteralField(30, 10)])
-    # LINE = Line([FloatField(15, 10, 2), LiteralField(3, 26)])
+    LINE = Line([FloatField(6, 10, 3), LiteralField(3, 17)])
 
-    # @property
-    # def volume(self) -> Optional[float]:
-    #     """
-    #     O novo valor de volume
+    @property
+    def volume(self) -> Optional[float]:
+        """
+        O novo valor de volume
 
-    #     :return: O novo valor de volume
-    #     :rtype: Optional[float]
-    #     """
-    #     return self.data[0]
+        :return: O novo valor de volume
+        :rtype: Optional[float]
+        """
+        return self.data[0]
 
-    # @volume.setter
-    # def volume(self, t: float):
-    #     self.data[0] = t
+    @volume.setter
+    def volume(self, t: float):
+        self.data[0] = t
 
-    # @property
-    # def unidade(self) -> Optional[str]:
-    #     """
-    #     A unidade do volume informado
+    @property
+    def unidade(self) -> Optional[str]:
+        """
+        A unidade do volume informado
 
-    #     :return: A unidade do volume
-    #     :rtype: Optional[str]
-    #     """
-    #     return self.data[1]
+        :return: A unidade do volume
+        :rtype: Optional[str]
+        """
+        return self.data[1]
 
-    # @unidade.setter
-    # def unidade(self, t: str):
-    #     self.data[1] = t
+    @unidade.setter
+    def unidade(self, t: str):
+        self.data[1] = t
 
 
 class NUMCNJ(Register):
@@ -668,7 +666,7 @@ class TURBMAXT(Register):
     """
 
     IDENTIFIER = " TURBMAXT"
-    IDENTIFIER_DIGITS = 8
+    IDENTIFIER_DIGITS = 9
     LINE = Line(
         [
             IntegerField(2, 10),
@@ -727,7 +725,7 @@ class TURBMINT(Register):
     """
 
     IDENTIFIER = " TURBMINT"
-    IDENTIFIER_DIGITS = 8
+    IDENTIFIER_DIGITS = 9
     LINE = Line(
         [
             IntegerField(2, 10),
