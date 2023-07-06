@@ -423,8 +423,8 @@ class Modif(RegisterFile):
         :type mes: int | None
         :param ano: ano de validade do turbinamento
         :type ano: int | None
-        :param vazao: o turbinamento máximo
-        :type vazao: float | None
+        :param turbinamento: o turbinamento máximo
+        :type turbinamento: float | None
         :return: Um ou mais registros, se existirem.
         :rtype: :class:`TURBMAXT` | list[:class:`TURBMAXT`] | None
         """
@@ -444,8 +444,8 @@ class Modif(RegisterFile):
         :type mes: int | None
         :param ano: ano de validade do turbinamento
         :type ano: int | None
-        :param vazao: o turbinamento mínimo
-        :type vazao: float | None
+        :param turbinamento: o turbinamento mínimo
+        :type turbinamento: float | None
         :return: Um ou mais registros, se existirem.
         :rtype: :class:`TURBMINT` | list[:class:`TURBMINT`] | None
         """

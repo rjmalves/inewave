@@ -8,7 +8,7 @@ MockVMAXT = " VMAXT    12 2021  61.310 '%'\n"
 
 MockVAZMINT = " VAZMINT  10 2021   10.00 \n"
 
-MockVOLMIN = " VOLMIN          15563.63 'h'\n"
+MockVOLMIN = " VOLMIN   15563.63 'h' \n"
 
 MockVOLMAX = " VOLMAX   55.000 '%'\n"
 
@@ -35,6 +35,12 @@ MockModif = [
     " XXXXXXXX XXXXXXXXXXXXXXXXXXXXX\n",
     " USINA    1                                 CAMARGOS            \n",
     " VAZMIN       34\n",
+    " VAZMAXT   1 2020    0.00\n",
+    " VAZMAXT   2 2020    0.00\n",
+    " TURBMAXT  1 2020    0.00\n",
+    " TURBMAXT  2 2020    0.00\n",
+    " TURBMINT  1 2020    0.00\n",
+    " TURBMINT  2 2020    0.00\n",
     " NUMCNJ     2\n",
     " NUMMAQ     2  5\n",
     " VMAXT    11 2021  92.560 '%'\n",
@@ -617,7 +623,7 @@ MockModif = [
     " VAZMIN       72\n",
     " USINA    34                                I. SOLTEIRA        \n",
     " VAZMIN      1450 \n",
-    " VOLMIN          15563.63 'h'\n",
+    " VOLMIN   15563.63 'h' \n",
     " VMINT    12 2021  45.890 '%'\n",
     " VMAXT    11 2021  48.770 '%'\n",
     " VMAXT    12 2021  45.990 '%'\n",
