@@ -73,6 +73,7 @@ Arquivos
    arquivos/conft
    arquivos/clast
    arquivos/exph
+   arquivos/expt
    arquivos/modif
    arquivos/dsvagua
    arquivos/vazpast
