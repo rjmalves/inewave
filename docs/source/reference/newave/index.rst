@@ -72,6 +72,7 @@ Arquivos
    arquivos/confhd
    arquivos/exph
    arquivos/modif
+   arquivos/ghmin
    arquivos/dsvagua
    arquivos/vazpast
    arquivos/eafpast
