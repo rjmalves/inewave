@@ -70,6 +70,8 @@ Arquivos
    arquivos/cortes
    arquivos/newavetim
    arquivos/confhd
+   arquivos/conft
+   arquivos/clast
    arquivos/exph
    arquivos/modif
    arquivos/dsvagua
