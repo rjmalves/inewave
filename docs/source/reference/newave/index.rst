@@ -73,6 +73,7 @@ Arquivos
    arquivos/confhd
    arquivos/exph
    arquivos/modif
+   arquivos/manutt
    arquivos/dsvagua
    arquivos/vazpast
    arquivos/eafpast
