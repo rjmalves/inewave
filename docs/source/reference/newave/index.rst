@@ -83,6 +83,7 @@ Arquivos
    arquivos/eafpast
    arquivos/hidr
    arquivos/vazoes
+   arquivos/shist
    arquivos/parp
    arquivos/parpeol
    arquivos/parpvaz
