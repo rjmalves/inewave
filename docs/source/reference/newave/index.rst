@@ -56,6 +56,7 @@ Arquivos
 
    arquivos/dger
    arquivos/adterm
+   arquivos/agrint
    arquivos/cadic
    arquivos/curva
    arquivos/re
@@ -70,9 +71,13 @@ Arquivos
    arquivos/cortes
    arquivos/newavetim
    arquivos/confhd
+   arquivos/conft
+   arquivos/clast
    arquivos/exph
+   arquivos/expt
    arquivos/modif
    arquivos/ghmin
+   arquivos/manutt
    arquivos/dsvagua
    arquivos/vazpast
    arquivos/eafpast
