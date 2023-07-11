@@ -39,6 +39,7 @@ from .re import RE  # noqa
 from .ree import REE  # noqa
 from .sar import SAR  # noqa
 from .shist import Shist  # noqa
+from .selcor import Selcor  # noqa
 from .sistema import Sistema  # noqa
 from .tecno import Tecno  # noqa
 from .term import Term  # noqa
