@@ -84,6 +84,7 @@ Arquivos
    arquivos/hidr
    arquivos/vazoes
    arquivos/shist
+   arquivos/selcor
    arquivos/parp
    arquivos/parpeol
    arquivos/parpvaz
