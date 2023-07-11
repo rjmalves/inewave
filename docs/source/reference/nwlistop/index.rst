@@ -108,6 +108,7 @@ Arquivos
    arquivos/geolsin
    arquivos/fteolm
    arquivos/fteolsin
+   arquivos/gtert
    arquivos/gttot
    arquivos/gttotsin
    arquivos/intercambio
