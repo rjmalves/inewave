@@ -56,6 +56,7 @@ Arquivos
 
    arquivos/dger
    arquivos/adterm
+   arquivos/agrint
    arquivos/cadic
    arquivos/curva
    arquivos/re

@@ -2,7 +2,7 @@
 
 from .abertura import Abertura  # noqa
 from .adterm import AdTerm  # noqa
-from .agrint import AgrInt  # noqa
+from .agrint import Agrint  # noqa
 from .arquivos import Arquivos  # noqa
 from .bid import BID  # noqa
 from .cadic import CAdic  # noqa
