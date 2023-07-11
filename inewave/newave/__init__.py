@@ -21,7 +21,7 @@ from .ensoaux import ENSOAux  # noqa
 from .exph import Exph  # noqa
 from .expt import Expt  # noqa
 from .gee import GEE  # noqa
-from .ghmin import GHMin  # noqa
+from .ghmin import Ghmin  # noqa
 from .gtminpat import GTMinPat  # noqa
 from .hidr import Hidr  # noqa
 from .itaipu import Itaipu  # noqa

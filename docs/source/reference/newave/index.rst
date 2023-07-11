@@ -76,6 +76,7 @@ Arquivos
    arquivos/exph
    arquivos/expt
    arquivos/modif
+   arquivos/ghmin
    arquivos/manutt
    arquivos/dsvagua
    arquivos/vazpast
