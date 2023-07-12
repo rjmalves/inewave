@@ -54,6 +54,8 @@ Arquivos
 .. toctree::
    :maxdepth: 2
 
+   arquivos/caso
+   arquivos/arquivos
    arquivos/dger
    arquivos/adterm
    arquivos/agrint

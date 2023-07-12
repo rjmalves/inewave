@@ -1,4 +1,4 @@
-from inewave.newave.modelos.caso import NomeCaso, CaminhoGerenciadorProcessos
+from inewave.nwlistcf.modelos.caso import NomeCaso
 
 from cfinterface.files.sectionfile import SectionFile
 from typing import Type, TypeVar, Optional
@@ -10,16 +10,16 @@ import warnings
 
 class Caso(SectionFile):
     """
-    Armazena os dados de entrada do NEWAVE referentes ao caso de estudo.
+    Armazena os dados de entrada do NWLISTCF referentes ao caso de estudo.
 
-    Esta classe lida com informações de entrada fornecidas ao NEWAVE e
+    Esta classe lida com informações de entrada fornecidas ao NWLISTCF e
     que podem ser modificadas através do arquivo `caso.dat`.
 
     """
 
     T = TypeVar("T")
 
-    SECTIONS = [NomeCaso, CaminhoGerenciadorProcessos]
+    SECTIONS = [NomeCaso]
 
     def __init__(self, data=...) -> None:
         super().__init__(data)
@@ -65,7 +65,7 @@ class Caso(SectionFile):
     @property
     def arquivos(self) -> Optional[str]:
         """
-        Caminho para o arquivo `arquivos.dat` de entrada do NEWAVE.
+        Caminho para o arquivo `arquivos.dat` de entrada do NWLISTCF.
 
         :return: O caminho para o arquivo
         :rtype: str | None
@@ -78,24 +78,5 @@ class Caso(SectionFile):
     @arquivos.setter
     def arquivos(self, a: str):
         b = self.__bloco_por_tipo(NomeCaso, 0)
-        if b is not None:
-            b.data = a
-
-    @property
-    def gerenciador_processos(self) -> Optional[str]:
-        """
-        Caminho para o gerenciador de processos do NEWAVE.
-
-        :return: O caminho para o arquivo
-        :rtype: str | None
-        """
-        b = self.__bloco_por_tipo(CaminhoGerenciadorProcessos, 0)
-        if b is not None:
-            return b.data
-        return None
-
-    @gerenciador_processos.setter
-    def gerenciador_processos(self, a: str):
-        b = self.__bloco_por_tipo(CaminhoGerenciadorProcessos, 0)
         if b is not None:
             b.data = a
