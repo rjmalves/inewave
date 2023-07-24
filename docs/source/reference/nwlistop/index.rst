@@ -64,6 +64,7 @@ Arquivos
 .. toctree::
    :maxdepth: 2
 
+   arquivos/nwlistopdat
    arquivos/cmarg
    arquivos/cmargmed
    arquivos/cterm
