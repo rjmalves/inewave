@@ -1,4 +1,4 @@
-MockNwlistcf = [
+MockNwlistcfrel = [
     "\n",
     "=>  CORTES A SEREM IMPRESSOS NESTE RELATORIO:  SOMENTE CORTES VALIDOS ATE A ULTIMA ITERACAO\n",
     "\n",

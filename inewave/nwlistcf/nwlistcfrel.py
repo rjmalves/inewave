@@ -1,4 +1,4 @@
-from inewave.nwlistcf.modelos.nwlistcf import CortesPeriodoNwlistcf
+from inewave.nwlistcf.modelos.nwlistcfrel import CortesPeriodoNwlistcf
 
 from cfinterface.files.blockfile import BlockFile
 from typing import TypeVar, Optional
@@ -9,7 +9,7 @@ from os.path import join
 import warnings
 
 
-class Nwlistcf(BlockFile):
+class Nwlistcfrel(BlockFile):
     """
     Armazena os dados dos cortes construídos pelo NEWAVE existentes
     no arquivo `nwlistcf.rel` do NWLISTCF.
@@ -30,7 +30,7 @@ class Nwlistcf(BlockFile):
     @classmethod
     def le_arquivo(
         cls, diretorio: str, nome_arquivo="nwlistcf.rel"
-    ) -> "Nwlistcf":
+    ) -> "Nwlistcfrel":
         msg = (
             "O método le_arquivo(diretorio, nome_arquivo) será descontinuado"
             + " na versão 1.0.0 - use o método read(caminho_arquivo)"

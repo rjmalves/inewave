@@ -55,5 +55,8 @@ Arquivos
 .. toctree::
    :maxdepth: 2
 
+   arquivos/caso
+   arquivos/arquivos
+   arquivos/nwlistcfdat
    arquivos/estados
-   arquivos/nwlistcf
+   arquivos/nwlistcfrel

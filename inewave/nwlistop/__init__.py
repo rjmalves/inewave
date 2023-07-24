@@ -1,5 +1,6 @@
 # Inclui os membros
 
+from .nwlistopdat import Nwlistopdat  # noqa
 from .cmarg import Cmarg  # noqa
 from .cmargmed import CmargMed  # noqa
 from .coper import Coper  # noqa
@@ -39,6 +40,8 @@ from .invade import Invade  # noqa
 from .invadem import Invadem  # noqa
 from .mediasmerc import MediasMerc  # noqa
 from .mediassin import MediasSIN  # noqa
+from .mercl import Mercl  # noqa
+from .merclsin import MerclSIN  # noqa
 from .qafluh import QaflUH  # noqa
 from .qincruh import QincrUH  # noqa
 from .rhslppdf import RHSLPPdf  # noqa
