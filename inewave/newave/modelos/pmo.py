@@ -695,7 +695,7 @@ class BlocoProdutibilidadesConfiguracaoPMO(Block):
                     + self.__colunas_produtibilidades_acumuladas()
                 ]
                 break
-            if "CONFIGURACAO :   " in linha:
+            if "CONFIGURACAO :" in linha:
                 if cfg_atual != 0:
                     df_atual = self.__fecha_configuracao(
                         df_usinas,
