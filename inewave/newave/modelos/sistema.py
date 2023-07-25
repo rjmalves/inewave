@@ -98,15 +98,17 @@ class BlocoCustosDeficit(Section):
     # Override
     def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df():
-            cols = [f"Custo Pat. {p}" for p in range(1, 5)] + [
-                f"Corte Pat. {p}" for p in range(1, 5)
+            cols = [f"custo_deficit_patamar_{p}" for p in range(1, 5)] + [
+                f"corte_patamar_{p}" for p in range(1, 5)
             ]
             df = pd.DataFrame(
-                tabela, columns=["Num. Subsistema", "Fictício"] + cols
+                tabela, columns=["codigo_submercado", "ficticio"] + cols
             )
-            df["Nome"] = subsistemas
-            df = df[["Num. Subsistema", "Nome", "Fictício"] + cols]
-            df = df.astype({"Num. Subsistema": "int64", "Fictício": "int64"})
+            df["nome_submercado"] = subsistemas
+            df = df[
+                ["codigo_submercado", "nome_submercado", "ficticio"] + cols
+            ]
+            df = df.astype({"codigo_submercado": "int64", "ficticio": "int64"})
             return df
 
         # Salta as linhas adicionais
@@ -141,8 +143,8 @@ class BlocoCustosDeficit(Section):
             raise ValueError(
                 "Dados do sistema.dat não foram lidos com sucesso"
             )
-        cols = [f"Custo Pat. {p}" for p in range(1, 5)] + [
-            f"Corte Pat. {p}" for p in range(1, 5)
+        cols = [f"custo_deficit_patamar_{p}" for p in range(1, 5)] + [
+            f"corte_patamar_{p}" for p in range(1, 5)
         ]
         for _, linha_dados in self.data.iterrows():
             dados_linha = linha_dados[cols].tolist()
@@ -192,21 +194,21 @@ class BlocoIntercambioSubsistema(Section):
         def converte_tabela_em_df():
             df = pd.DataFrame(
                 tabela,
-                columns=["Ano"] + MESES_DF,
+                columns=["ano"] + MESES_DF,
             )
-            df["Subsistema De"] = subsistemas_de
-            df["Subsistema Para"] = subsistemas_para
-            df["Sentido"] = sentidos
+            df["submercado_de"] = subsistemas_de
+            df["submercado_para"] = subsistemas_para
+            df["sentido"] = sentidos
             df = df[
-                ["Subsistema De", "Subsistema Para", "Sentido", "Ano"]
+                ["submercado_de", "submercado_para", "sentido", "ano"]
                 + MESES_DF
             ]
             df = df.astype(
                 {
-                    "Subsistema De": "int64",
-                    "Subsistema Para": "int64",
-                    "Sentido": "int64",
-                    "Ano": "int64",
+                    "submercado_de": "int64",
+                    "submercado_para": "int64",
+                    "sentido": "int64",
+                    "ano": "int64",
                 }
             )
             return df
@@ -282,15 +284,15 @@ class BlocoIntercambioSubsistema(Section):
             linha_lida: pd.Series = linha
             if any(
                 [
-                    linha_lida["Subsistema De"] != ultimo_subsistema_de,
-                    linha_lida["Subsistema Para"] != ultimo_subsistema_para,
-                    linha_lida["Sentido"] != ultimo_sentido,
+                    linha_lida["submercado_de"] != ultimo_subsistema_de,
+                    linha_lida["submercado_para"] != ultimo_subsistema_para,
+                    linha_lida["sentido"] != ultimo_sentido,
                 ]
             ):
                 ultimo_ano = 0
-                ultimo_subsistema_de = linha_lida["Subsistema De"]
-                ultimo_subsistema_para = linha_lida["Subsistema Para"]
-                ultimo_sentido = linha_lida["Sentido"]
+                ultimo_subsistema_de = linha_lida["submercado_de"]
+                ultimo_subsistema_para = linha_lida["submercado_para"]
+                ultimo_sentido = linha_lida["sentido"]
                 file.write(
                     self.__linha_subsis.write(
                         [
@@ -301,11 +303,11 @@ class BlocoIntercambioSubsistema(Section):
                     )
                 )
             ano_linha = (
-                int(linha_lida["Ano"])
-                if linha_lida["Ano"] != ultimo_ano
+                int(linha_lida["ano"])
+                if linha_lida["ano"] != ultimo_ano
                 else None
             )
-            ultimo_ano = int(linha_lida["Ano"])
+            ultimo_ano = int(linha_lida["ano"])
             dados_linha = linha_lida[MESES_DF].tolist()
             dados_linha_escrita = []
             for d in dados_linha:
@@ -351,15 +353,15 @@ class BlocoMercadoEnergiaSistema(Section):
         def converte_tabela_em_df():
             df = pd.DataFrame(
                 tabela,
-                columns=["Subsistema"] + MESES_DF,
+                columns=["submercado"] + MESES_DF,
             )
             df = df.astype(
                 {
-                    "Subsistema": "int64",
+                    "submercado": "int64",
                 }
             )
-            df["Ano"] = anos
-            df = df[["Subsistema", "Ano"] + MESES_DF]
+            df["ano"] = anos
+            df = df[["submercado", "ano"] + MESES_DF]
             return df
 
         # Salta as linhas adicionais
@@ -416,11 +418,11 @@ class BlocoMercadoEnergiaSistema(Section):
             linha_lida: pd.Series = linha
             if any(
                 [
-                    linha_lida["Subsistema"] != ultimo_subsistema,
+                    linha_lida["submercado"] != ultimo_subsistema,
                 ]
             ):
                 ultimo_ano = ""
-                ultimo_subsistema = linha_lida["Subsistema"]
+                ultimo_subsistema = linha_lida["submercado"]
                 file.write(
                     self.__linha_subsis.write(
                         [
@@ -429,9 +431,9 @@ class BlocoMercadoEnergiaSistema(Section):
                     )
                 )
             ano_linha = (
-                linha_lida["Ano"] if linha_lida["Ano"] != ultimo_ano else None
+                linha_lida["ano"] if linha_lida["ano"] != ultimo_ano else None
             )
-            ultimo_ano = linha_lida["Ano"]
+            ultimo_ano = linha_lida["ano"]
             dados_linha = linha_lida[MESES_DF].tolist()
             dados_linha_escrita = []
             for d in dados_linha:
@@ -479,11 +481,11 @@ class BlocoGeracaoUsinasNaoSimuladas(Section):
     def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df():
             df = pd.DataFrame(
-                tabela, columns=["Subsistema", "Bloco", "Ano"] + MESES_DF
+                tabela, columns=["submercado", "bloco", "ano"] + MESES_DF
             )
-            df["Razão"] = razoes
-            df = df.astype({"Subsistema": "int64", "Ano": "int64"})
-            df = df[["Subsistema", "Bloco", "Razão", "Ano"] + MESES_DF]
+            df["fonte"] = razoes
+            df = df.astype({"submercado": "int64", "ano": "int64"})
+            df = df[["submercado", "bloco", "fonte", "ano"] + MESES_DF]
             return df
 
         # Salta as linhas adicionais
@@ -547,18 +549,18 @@ class BlocoGeracaoUsinasNaoSimuladas(Section):
         for _, linha in self.data.iterrows():
             linha_lida: pd.Series = linha
             novo_subsis = (
-                int(linha_lida["Subsistema"])
-                if not np.isnan(linha_lida["Subsistema"])
+                int(linha_lida["submercado"])
+                if not np.isnan(linha_lida["submercado"])
                 else None
             )
             novo_bloco = (
-                int(linha_lida["Bloco"])
-                if not np.isnan(linha_lida["Bloco"])
+                int(linha_lida["bloco"])
+                if not np.isnan(linha_lida["bloco"])
                 else None
             )
             nova_razao = (
-                str(linha_lida["Razão"])
-                if not linha_lida["Razão"] is None
+                str(linha_lida["fonte"])
+                if not linha_lida["fonte"] is None
                 else None
             )
             if any(
@@ -582,11 +584,11 @@ class BlocoGeracaoUsinasNaoSimuladas(Section):
                     )
                 )
             ano_linha = (
-                int(linha_lida["Ano"])
-                if linha_lida["Ano"] != ultimo_ano
+                int(linha_lida["ano"])
+                if linha_lida["ano"] != ultimo_ano
                 else None
             )
-            ultimo_ano = int(linha_lida["Ano"])
+            ultimo_ano = int(linha_lida["ano"])
             dados_linha = linha_lida[MESES_DF].tolist()
             dados_linha_escrita = []
             for d in dados_linha:

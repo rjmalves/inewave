@@ -95,10 +95,10 @@ def test_coeficientes_modelo_uhe():
     print(b.data)
     assert b.data.shape[0] == 1
     assert b.data.shape[1] == 24
-    assert b.data.loc[0, "Psi 1"] == 0.450
-    assert b.data.loc[0, "Psi Norm 1"] == 0.727
-    assert b.data.loc[0, "Psi A"] == 0.0
-    assert b.data.loc[0, "Psi Norm A"] == 0.0
+    assert b.data.loc[0, "psi_1"] == 0.450
+    assert b.data.loc[0, "psi_norm_1"] == 0.727
+    assert b.data.loc[0, "psi_A"] == 0.0
+    assert b.data.loc[0, "psi_norm_A"] == 0.0
 
 
 def test_serie_ruidos_uhe():

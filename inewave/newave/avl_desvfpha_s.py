@@ -41,7 +41,7 @@ class AvlDesvFphaS(BlockFile):
         """
         A tabela de dados que está contida no arquivo.
 
-        - indice_usina (`int`)
+        - codigo_usina (`int`)
         - nome_usina (`str`)
         - volume_armazenado_percentual (`float`)
         - vazao_turbinada_m3s (`float`)

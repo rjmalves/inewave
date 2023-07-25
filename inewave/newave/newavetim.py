@@ -75,8 +75,8 @@ class NewaveTim(BlockFile):
         """
         Tempos de execução do modelo por etapa do modelo.
 
-        - Etapa (`str`)
-        - Tempo (`timedelta`)
+        - etapa (`str`)
+        - tempo (`timedelta`)
 
         :return: Os tempos em um DataFrame.
         :rtype: pd.DataFrame | None

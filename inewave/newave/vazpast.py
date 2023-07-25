@@ -69,13 +69,13 @@ class VazPast(SectionFile):
     @property
     def tendencia(self) -> Optional[pd.DataFrame]:
         """
-        Tabela com a tendência hidrológica por REE.
+        Tabela com a tendência hidrológica por UHE.
 
-        - Índice (`int`)
-        - Usina (`str`)
-        - Janeiro (`float`)
+        - codigo_usina (`int`)
+        - nome_usina (`str`)
+        - janeiro (`float`)
         - ...
-        - Dezembro (`float`)
+        - dezembro (`float`)
 
         :return: A tabela como um DataFrame
         :rtype: pd.DataFrame | None

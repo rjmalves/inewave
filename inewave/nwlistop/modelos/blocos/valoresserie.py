@@ -41,12 +41,12 @@ class ValoresSerie(Block):
     # Override
     def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df():
-            cols = ["Série"] + MESES_DF + ["Média"]
+            cols = ["serie"] + MESES_DF + ["media"]
             df = pd.DataFrame(tabela, columns=cols)
-            df["Ano"] = self.__ano
-            df.loc[df["Série"].isna(), "Série"] = 1
-            df = df[["Ano"] + cols]
-            df = df.astype({"Série": "int64", "Ano": "int64"})
+            df["ano"] = self.__ano
+            df.loc[df["serie"].isna(), "serie"] = 1
+            df = df[["ano"] + cols]
+            df = df.astype({"serie": "int64", "ano": "int64"})
             return df
 
         self.__ano = self.__linha_ano.read(file.readline())[0]

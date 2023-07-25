@@ -46,13 +46,13 @@ class ValoresClasseTermicaSeriePatamar(Block):
     # Override
     def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df():
-            cols = MESES_DF + ["Média"]
-            df = pd.DataFrame(tabela, columns=["Classe", "Série"] + cols)
-            df["Ano"] = self.__ano
-            df["Patamar"] = patamares
-            df = df[["Ano", "Classe", "Série", "Patamar"] + cols]
+            cols = MESES_DF + ["media"]
+            df = pd.DataFrame(tabela, columns=["classe", "serie"] + cols)
+            df["ano"] = self.__ano
+            df["patamar"] = patamares
+            df = df[["ano", "classe", "serie", "patamar"] + cols]
             df = df.astype(
-                {"Classe": "int64", "Série": "int64", "Ano": "int64"}
+                {"classe": "int64", "serie": "int64", "ano": "int64"}
             )
             return df
 

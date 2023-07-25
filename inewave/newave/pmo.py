@@ -100,11 +100,11 @@ class PMO(BlockFile):
         hidrológica, em relação à primeira configuração do sistema,
         em MWmes.
 
-        - REE (`str`)
-        - Janeiro (`float`)
-        - Fevereiro (`float`)
+        - ree (`str`)
+        - janeiro (`float`)
+        - fevereiro (`float`)
         - ...
-        - Dezembro (`float`)
+        - dezembro (`float`)
 
         :return: A tendência hidrológica em um DataFrame.
         :rtype: pd.DataFrame | None
@@ -118,11 +118,11 @@ class PMO(BlockFile):
         fuga médio, em relação à primeira configuração do sistema,
         em MWmes.
 
-        - REE (`str`)
-        - Janeiro (`float`)
-        - Fevereiro (`float`)
+        - ree (`str`)
+        - janeiro (`float`)
+        - fevereiro (`float`)
         - ...
-        - Dezembro (`float`)
+        - dezembro (`float`)
 
         :return: As energias afluentes passadas.
         :rtype: pd.DataFrame | None
@@ -135,11 +135,11 @@ class PMO(BlockFile):
         Configurações do sistema em cada período devido a entrada
         de reservatórios e/ou potência de base.
 
-        - Ano (`int`)
-        - Janeiro (`float`)
-        - Fevereiro (`float`)
+        - ano (`int`)
+        - janeiro (`float`)
+        - fevereiro (`float`)
         - ...
-        - Dezembro (`float`)
+        - dezembro (`float`)
 
         :return: As configurações em um DataFrame.
         :rtype: pd.DataFrame | None
@@ -152,11 +152,11 @@ class PMO(BlockFile):
         Configurações do sistema em cada período devido a alterações
         de potência.
 
-        - Ano (`int`)
-        - Janeiro (`float`)
-        - Fevereiro (`float`)
+        - ano (`int`)
+        - janeiro (`float`)
+        - fevereiro (`float`)
         - ...
-        - Dezembro (`float`)
+        - dezembro (`float`)
 
         :return: As configurações em um DataFrame.
         :rtype: pd.DataFrame | None
@@ -169,11 +169,11 @@ class PMO(BlockFile):
         Configurações do sistema em cada período devido a alterações
         de potência.
 
-        - Ano (`int`)
-        - Janeiro (`float`)
-        - Fevereiro (`float`)
+        - ano (`int`)
+        - janeiro (`float`)
+        - fevereiro (`float`)
         - ...
-        - Dezembro (`float`)
+        - dezembro (`float`)
 
         :return: As configurações em um DataFrame.
         :rtype: pd.DataFrame | None
@@ -185,10 +185,10 @@ class PMO(BlockFile):
         Retas ajustadas segundo o modelo MARS para corrigir a
         energia fio d'água com as perdas por engolimento máximo.
 
-        - REE (`str`)
-        - Reta (`int`)
-        - Coeficiente Angular (`float`)
-        - Constante (`float`)
+        - ree (`str`)
+        - reta (`int`)
+        - coeficiente_angular (`float`)
+        - coeficiente_linear (`float`)
 
         :return: As retas em um DataFrame.
         :rtype: pd.DataFrame | None
@@ -200,13 +200,14 @@ class PMO(BlockFile):
         """
         Tabela de convergência da execução do NEWAVE.
 
-        - Iteração (`int`)
-        - Lim. Inf. ZINF (`float`)
-        - ZINF (`float`)
-        - Lim. Sup. ZINF (`float`)
-        - ZSUP (`float`)
-        - Delta ZINF (`float`)
-        - ZSUP Iteração (`float`)
+        - iteracao (`int`)
+        - limite_inferior_zinf (`float`)
+        - zinf (`float`)
+        - limite_superior_zinf (`float`)
+        - zsup (`float`)
+        - delta_zinf (`float`)
+        - zsup_iteracao (`float`)
+        - tempo (`timedelta`)
 
         :return: As convergência em um DataFrame.
         :rtype: pd.DataFrame | None
@@ -218,12 +219,12 @@ class PMO(BlockFile):
         """
         Tabela de riscos de déficit e enegia não suprida (ENS).
 
-        - Ano (`int`)
-        - Risco - <nome_subsistema_1> (`float`)
-        - EENS - <nome_subsistema_1> (`float`)
+        - ano (`int`)
+        - risco_<nome_submercado_1> (`float`)
+        - eens_<nome_submercado_1> (`float`)
         - ...
-        - Risco - <nome_subsistema_N> (`float`)
-        - EENS - <nome_subsistema_N> (`float`)
+        - risco_<nome_submercado_N> (`float`)
+        - eens_<nome_submercado_N> (`float`)
 
         :return: Os ricos em um DataFrame.
         :rtype: pd.DataFrame | None
@@ -236,10 +237,10 @@ class PMO(BlockFile):
         Tabela de custos de operação categorizados para as
         séries simuladas.
 
-        - Parcela (`str`)
-        - Valor Esperado (`float`)
-        - Desvio Padrão do VE (`float`)
-        - (%) (`float`)
+        - parcela (`str`)
+        - valor_esperado (`float`)
+        - desvio_padrao (`float`)
+        - percentual (`float`)
 
         :return: Os custos em um DataFrame.
         :rtype: pd.DataFrame | None
@@ -252,10 +253,10 @@ class PMO(BlockFile):
         Tabela de custos de operação esperados para o período
         de estudo.
 
-        - Parcela (`str`)
-        - Valor Esperado (`float`)
-        - Desvio Padrão do VE (`float`)
-        - (%) (`float`)
+        - parcela (`str`)
+        - valor_esperado (`float`)
+        - desvio_padrao (`float`)
+        - percentual (`float`)
 
         :return: Os custos em um DataFrame.
         :rtype: pd.DataFrame | None
@@ -270,10 +271,10 @@ class PMO(BlockFile):
         Tabela de custos de operação esperados para o período
         de estudo, referenciados ao primeiro mês.
 
-        - Parcela (`str`)
-        - Valor Esperado (`float`)
-        - Desvio Padrão do VE (`float`)
-        - (%) (`float`)
+        - parcela (`str`)
+        - valor_esperado (`float`)
+        - desvio_padrao (`float`)
+        - percentual (`float`)
 
         :return: Os custos em um DataFrame.
         :rtype: pd.DataFrame | None

@@ -57,11 +57,11 @@ class BlocoSerieVazoesUHE(Block):
     # Override
     def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df():
-            df = pd.DataFrame(tabela, columns=["Ano"] + MESES_DF)
-            df["UHE"] = uhe
-            df["Configuração"] = cfg
-            df = df[["UHE", "Configuração", "Ano"] + MESES_DF]
-            df = df.astype({"Ano": "int64"})
+            df = pd.DataFrame(tabela, columns=["ano"] + MESES_DF)
+            df["uhe"] = uhe
+            df["configuracao"] = cfg
+            df = df[["uhe", "configuracao", "ano"] + MESES_DF]
+            df = df.astype({"ano": "int64"})
             return df
 
         # Identifica a usina e a configuração
@@ -155,15 +155,15 @@ class BlocoCorrelVazoesUHE(Block):
             return [MESES_ABREV.index(m) + 1 for m in meses]
 
         def converte_tabela_em_df():
-            cols = [f"Lag {i}" for i in range(1, 12)]
+            cols = [f"lag_{i}" for i in range(1, 12)]
             df = pd.DataFrame(tabela, columns=cols)
             anos_conv = converte_vetor_anos(anos)
             meses_conv = converte_vetor_meses(meses)
-            df["Data"] = [
+            df["data"] = [
                 date(year=a, month=m, day=1)
                 for a, m in zip(anos_conv, meses_conv)
             ]
-            df = df[["Data"] + cols]
+            df = df[["data"] + cols]
             return df
 
         # Salta as linhas adicionais
@@ -257,15 +257,15 @@ class BlocoCorrelParcialVazoesUHE(Block):
             return [MESES_ABREV.index(m) + 1 for m in meses]
 
         def converte_tabela_em_df():
-            cols = [f"Lag {i}" for i in range(1, 12)]
+            cols = [f"lag_{i}" for i in range(1, 12)]
             df = pd.DataFrame(tabela, columns=cols)
             anos_conv = converte_vetor_anos(anos)
             meses_conv = converte_vetor_meses(meses)
-            df["Data"] = [
+            df["data"] = [
                 date(year=a, month=m, day=1)
                 for a, m in zip(anos_conv, meses_conv)
             ]
-            df = df[["Data"] + cols]
+            df = df[["data"] + cols]
             return df
 
         # Salta as linhas adicionais
@@ -354,9 +354,9 @@ class BlocoOrdemModeloUHE(Block):
 
         def converte_tabela_em_df():
             df = pd.DataFrame(tabela, columns=MESES_DF)
-            df["Tipo"] = self.__tipo
-            df["Ano"] = converte_vetor_anos(anos)
-            df = df[["Tipo", "Ano"] + MESES_DF]
+            df["tipo"] = self.__tipo
+            df["ano"] = converte_vetor_anos(anos)
+            df = df[["tipo", "ano"] + MESES_DF]
             return df
 
         # Salta as linhas adicionais
@@ -416,10 +416,10 @@ class BlocoCoeficientesModeloUHE(Block):
     def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df():
             cols = (
-                [f"Psi {i}" for i in range(1, len(MESES_DF))]
-                + ["Psi A"]
-                + [f"Psi Norm {i}" for i in range(1, len(MESES_DF))]
-                + ["Psi Norm A"]
+                [f"psi_{i}" for i in range(1, len(MESES_DF))]
+                + ["psi_A"]
+                + [f"psi_norm_{i}" for i in range(1, len(MESES_DF))]
+                + ["psi_norm_A"]
             )
             return pd.DataFrame(tabela, columns=cols)
 
@@ -479,9 +479,9 @@ class BlocoSerieRuidosUHE(Block):
     def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df():
             df = pd.DataFrame(tabela, columns=MESES_DF)
-            df["Ano"] = ano
-            df["Série"] = list(range(i))
-            df = df[["Ano", "Série"] + MESES_DF]
+            df["ano"] = ano
+            df["serie"] = list(range(i))
+            df = df[["ano", "serie"] + MESES_DF]
             return df
 
         # Identifica o ano em questão
@@ -574,15 +574,15 @@ class BlocoCorrelRuidosUHE(Block):
             return [MESES_ABREV.index(m) + 1 for m in meses]
 
         def converte_tabela_em_df():
-            cols = [f"Lag {i}" for i in range(1, 12)]
+            cols = [f"lag_{i}" for i in range(1, 12)]
             df = pd.DataFrame(tabela, columns=cols)
             anos_conv = converte_vetor_anos(anos)
             meses_conv = converte_vetor_meses(meses)
-            df["Data"] = [
+            df["data"] = [
                 date(year=a, month=m, day=1)
                 for a, m in zip(anos_conv, meses_conv)
             ]
-            df = df[["Data"] + cols]
+            df = df[["data"] + cols]
             return df
 
         # Salta as linhas adicionais
@@ -643,10 +643,10 @@ class BlocoCorrelEspacialAnualMensalUHE(Block):
     # Override
     def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df():
-            df = pd.DataFrame(tabela, columns=MESES_DF + ["Anual"])
-            df["UHE 1"] = uhes1
-            df["UHE 2"] = uhes2
-            return df[["UHE 1", "UHE 2"] + MESES_DF + ["Anual"]]
+            df = pd.DataFrame(tabela, columns=MESES_DF + ["anual"])
+            df["uhe_1"] = uhes1
+            df["uhe_2"] = uhes2
+            return df[["uhe_1", "uhe_2"] + MESES_DF + ["anual"]]
 
         for _ in range(4):
             file.readline()

@@ -13,7 +13,7 @@ def test_atributos_encontrados_avl_desvfpha_s():
     with patch("builtins.open", m):
         rel = AvlDesvFphaS.read(ARQ_TESTE)
         assert rel.versao == "FPHA_NEWAVE"
-        assert rel.tabela.at[0, "indice_usina"] == 4
+        assert rel.tabela.at[0, "codigo_usina"] == 4
         assert rel.tabela.at[0, "nome_usina"] == "FUNIL-GRANDE"
         assert rel.tabela.at[0, "volume_armazenado_percentual"] == 100.0
         assert rel.tabela.at[0, "vazao_turbinada_m3s"] == 0.0

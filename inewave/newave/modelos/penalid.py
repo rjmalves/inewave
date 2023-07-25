@@ -46,18 +46,18 @@ class BlocoPenalidades(Section):
     def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df():
             cols = [
-                "Penalidade 1",
-                "Penalidade 2",
-                "Subsistema",
+                "penalidade_1",
+                "penalidade_2",
+                "submercado",
             ]
             df = pd.DataFrame(tabela, columns=cols)
-            df["Chave"] = chaves
+            df["mnemonico"] = chaves
             df = df[
                 [
-                    "Chave",
-                    "Penalidade 1",
-                    "Penalidade 2",
-                    "Subsistema",
+                    "mnemonico",
+                    "penalidade_1",
+                    "penalidade_2",
+                    "submercado",
                 ]
             ]
             return df

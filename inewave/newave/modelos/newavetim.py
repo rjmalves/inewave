@@ -41,7 +41,7 @@ class BlocoTemposEtapasTim(Block):
     # Override
     def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df() -> pd.DataFrame:
-            df = pd.DataFrame(data={"Etapa": etapas, "Tempo": tempos})
+            df = pd.DataFrame(data={"etapa": etapas, "tempo": tempos})
             return df
 
         # Variáveis auxiliares

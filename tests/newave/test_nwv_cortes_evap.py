@@ -14,7 +14,7 @@ def test_atributos_encontrados_nwv_cortes_evap():
         rel = NwvCortesEvap.read(ARQ_TESTE)
         assert rel.versao == "FPHA_NEWAVE"
         assert rel.tabela.at[0, "periodo"] == 1
-        assert rel.tabela.at[0, "indice_usina"] == 4
+        assert rel.tabela.at[0, "codigo_usina"] == 4
         assert rel.tabela.at[0, "nome_usina"] == "FUNIL-GRANDE"
         assert rel.tabela.at[0, "derivada_cota_area"] == 0.0000000000
         assert rel.tabela.at[0, "derivada_volume_cota"] == 0.0000000000

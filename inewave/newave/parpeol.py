@@ -67,7 +67,7 @@ class PARpeol(BlockFile):
         if self.series_ventos_uee is None:
             return None
         else:
-            return self.series_ventos_uee["UEE"].unique().tolist()
+            return self.series_ventos_uee["uee"].unique().tolist()
 
     def __bloco_por_tipo(self, bloco: Type[T], indice: int) -> Optional[T]:
         """
@@ -138,8 +138,8 @@ class PARpeol(BlockFile):
         col_uee: List[str] = []
         for uee in uees:
             col_uee += [uee] * int(linhas_por_uee)
-        df["UEE"] = col_uee
-        return df[["UEE"] + cols]
+        df["uee"] = col_uee
+        return df[["uee"] + cols]
 
     def __adiciona_coluna_uee_com_estagios(
         self, df: pd.DataFrame
@@ -169,9 +169,9 @@ class PARpeol(BlockFile):
         for uee in uees:
             col_uee += [uee] * int(linhas_por_uee)
             col_estagio += list(range(1, int(linhas_por_uee) + 1))
-        df["UEE"] = col_uee
-        df["Estágio"] = col_estagio
-        return df[["UEE", "Estágio"] + cols]
+        df["uee"] = col_uee
+        df["estagio"] = col_estagio
+        return df[["uee", "estagio"] + cols]
 
     def __adiciona_coluna_uee_corrigindo_pre_pos(
         self, df: Optional[pd.DataFrame]
@@ -226,18 +226,18 @@ class PARpeol(BlockFile):
         col_uee: List[str] = []
         for uee in uees:
             col_uee += [uee] * int(linhas_por_uee)
-        df["UEE"] = col_uee
+        df["uee"] = col_uee
         uee0 = uees[0]
-        ano0 = df["Ano"].unique().tolist()[0]
-        filtro = (df["Ano"] == ano0) & (df["UEE"] == uee0)
+        ano0 = df["ano"].unique().tolist()[0]
+        filtro = (df["ano"] == ano0) & (df["uee"] == uee0)
         n_series = df.loc[filtro].shape[0]
         for i, uee in enumerate(uees):
             i_i = i * int(linhas_por_uee)
             i_f = i_i + int(linhas_por_uee) - 1
-            df.loc[i_i:i_f, "Ano"] = converte_vetor_anos(
-                df.loc[i_i:i_f, "Ano"].tolist(), n_series
+            df.loc[i_i:i_f, "ano"] = converte_vetor_anos(
+                df.loc[i_i:i_f, "ano"].tolist(), n_series
             )
-        return df[["UEE"] + cols]
+        return df[["uee"] + cols]
 
     @property
     def series_ventos_uee(self) -> Optional[pd.DataFrame]:
@@ -245,13 +245,13 @@ class PARpeol(BlockFile):
         A tabela de séries de ventos para todas as configurações
         e UEEs, no mesmo formato do arquivo `parpeol.dat`.
 
-        - UEE (`str`)
-        - Configuração (`int`)
-        - Ano (`int`)
-        - Janeiro (`float`)
-        - Fevereiro (`float`)
+        - uee (`str`)
+        - configuracao (`int`)
+        - ano (`int`)
+        - janeiro (`float`)
+        - fevereiro (`float`)
         - ...
-        - Dezembro (`float`)
+        - dezembro (`float`)
 
         :return: A tabela como um DataFrame.
         :rtype: pd.DataFrame | None
@@ -266,13 +266,13 @@ class PARpeol(BlockFile):
         A tabela de séries de ruído para todos os UEEs,
         no mesmo formato do arquivo `parpeol.dat`.
 
-        - UEE (`str`)
-        - Ano (`int`)
+        - uee (`str`)
+        - ano (`int`)
         - Série (`int`)
-        - Janeiro (`float`)
-        - Fevereiro (`float`)
+        - janeiro (`float`)
+        - fevereiro (`float`)
         - ...
-        - Dezembro (`float`)
+        - dezembro (`float`)
 
         :return: A tabela como um DataFrame.
         :rtype: pd.DataFrame | None
@@ -293,7 +293,7 @@ class PARpeol(BlockFile):
         todas as configurações vigentes e UEEs,
         no mesmo formato do arquivo `parpeol.dat`.
 
-        - UEE (`str`)
+        - uee (`str`)
         - Data (`date`)
         - Lag 1 (`float`)
         - Lag 2 (`float`)
@@ -319,7 +319,7 @@ class PARpeol(BlockFile):
         todas as configurações vigentes e UEEs,
         no mesmo formato do arquivo `parpeol.dat`.
 
-        - UEE (`str`)
+        - uee (`str`)
         - Data (`date`)
         - Lag 1 (`float`)
         - Lag 2 (`float`)
@@ -344,8 +344,8 @@ class PARpeol(BlockFile):
         A tabela de correlação para todas as configurações
         e REEs / UEEs, no mesmo formato do arquivo `parpeol.dat`.
 
-        - Configuração (`int`)
-        - UEE (`str`)
+        - configuracao (`int`)
+        - uee (`str`)
         - <Nome do REE 1> (`str`)
         - <Nome do REE 2> (`str`)
         - ...
@@ -369,9 +369,9 @@ class PARpeol(BlockFile):
         A tabela de correlação para todas as configurações
         e REEs / UEEs, no mesmo formato do arquivo `parpeol.dat`.
 
-        - Configuração (`int`)
-        - REE (`str`)
-        - MES (`int`)
+        - configuracao (`int`)
+        - uee (`str`)
+        - mes (`int`)
         - <Nome do REE 1> (`str`)
         - <Nome do REE 2> (`str`)
         - ...

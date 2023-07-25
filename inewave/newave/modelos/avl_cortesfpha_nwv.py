@@ -30,7 +30,7 @@ class TabelaAvlCortesFpha(TabelaCSV):
         delimiter=";",
     )
     COLUMN_NAMES = [
-        "indice_usina",
+        "codigo_usina",
         "periodo",
         "nome_usina",
         "indice_corte",

@@ -51,10 +51,10 @@ class BlocoUTEClasT(Section):
         def converte_tabela_em_df():
             cols = [f"custo_{i}" for i in range(1, 6)]
             df = pd.DataFrame(tabela, columns=cols)
-            df["numero"] = numero_ute
+            df["codigo"] = codigo_ute
             df["nome"] = nome_ute
             df["tipo_combustivel"] = tipo_combustivel
-            df = df[["numero", "nome", "tipo_combustivel"] + cols]
+            df = df[["codigo", "nome", "tipo_combustivel"] + cols]
             return df
 
         # Salta as linhas adicionais
@@ -62,7 +62,7 @@ class BlocoUTEClasT(Section):
             self.__cabecalhos.append(file.readline())
 
         # Variáveis auxiliares
-        numero_ute: List[int] = []
+        codigo_ute: List[int] = []
         nome_ute: List[str] = []
         tipo_combustivel: List[str] = []
         tabela = np.zeros((MAX_UTES, 5))
@@ -78,7 +78,7 @@ class BlocoUTEClasT(Section):
                 break
             dados = self.__linha.read(linha)
             tabela[i, :] = dados[3:]
-            numero_ute.append(dados[0])
+            codigo_ute.append(dados[0])
             nome_ute.append(dados[1])
             tipo_combustivel.append(dados[2])
             i += 1
@@ -135,7 +135,7 @@ class BlocoModificacaoUTEClasT(Section):
         def converte_tabela_em_df():
             df = pd.DataFrame(
                 data={
-                    "numero": numero_ute,
+                    "codigo": codigo_ute,
                     "custo": custo,
                     "mes_inicio": mes_ini,
                     "ano_inicio": ano_ini,
@@ -151,7 +151,7 @@ class BlocoModificacaoUTEClasT(Section):
             self.__cabecalhos.append(file.readline())
 
         # Variáveis auxiliares
-        numero_ute: List[int] = []
+        codigo_ute: List[int] = []
         custo: List[float] = []
         mes_ini: List[int] = []
         ano_ini: List[int] = []
@@ -162,11 +162,11 @@ class BlocoModificacaoUTEClasT(Section):
             linha = file.readline()
             # Confere se acabou
             if len(linha) < 3:
-                if len(numero_ute) > 0:
+                if len(codigo_ute) > 0:
                     self.data = converte_tabela_em_df()
                 break
             dados = self.__linha.read(linha)
-            numero_ute.append(dados[0])
+            codigo_ute.append(dados[0])
             custo.append(dados[1])
             mes_ini.append(dados[2])
             ano_ini.append(dados[3])

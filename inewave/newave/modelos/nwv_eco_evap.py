@@ -31,7 +31,7 @@ class TabelaEcoEvap(TabelaCSV):
     )
     COLUMN_NAMES = [
         "periodo",
-        "indice_usina",
+        "codigo_usina",
         "nome_usina",
         "volume_referencia_hm3",
         "evaporacao_referencia_hm3",

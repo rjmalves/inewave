@@ -42,14 +42,14 @@ class BlocoVazPast(Section):
     # Override
     def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df() -> pd.DataFrame:
-            cols = ["Índice"] + MESES_DF
+            cols = ["codigo_usina"] + MESES_DF
             df = pd.DataFrame(
                 tabela,
                 columns=cols,
             )
-            df["Usina"] = usinas
-            df = df.astype({"Índice": "int64"})
-            df = df[["Índice", "Usina"] + MESES_DF]
+            df["nome_usina"] = usinas
+            df = df.astype({"codigo_usina": "int64"})
+            df = df[["codigo_usina", "nome_usina"] + MESES_DF]
             return df
 
         # Salta as linhas adicionais

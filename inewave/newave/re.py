@@ -72,11 +72,11 @@ class RE(SectionFile):
         """
         Tabela com os conjuntos de usinas com restrições elétricas.
 
-        - Conjunto (`int`)
-        - Usina 1 (`float`)
-        - Usina 2 (`float`)
+        - conjunto (`int`)
+        - codigo_usina_1 (`float`)
+        - codigo_usina_2 (`float`)
         - ...
-        - Usina N (`float`)
+        - codigo_usina_N (`float`)
 
         :return: A tabela como um DataFrame.
         :rtype: pd.DataFrame | None
@@ -97,12 +97,13 @@ class RE(SectionFile):
         """
         Tabela com as configurações das restrições elétricas.
 
-        - Conjunto (`int`)
-        - Mês Início (`int`)
-        - Mês Fim (`int`)
-        - Ano Início (`int`)
-        - Ano Fim (`int`)
-        - Flag P (`int`)
+        - conjunto (`int`)
+        - mes_inicio (`int`)
+        - mes_fim (`int`)
+        - ano_inicio (`int`)
+        - ano_fim (`int`)
+        - patamar (`int`)
+        - restricao (`float`)
 
         :return: A tabela como um DataFrame.
         :rtype: pd.DataFrame | None

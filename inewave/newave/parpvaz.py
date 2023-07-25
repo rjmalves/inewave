@@ -75,7 +75,7 @@ class PARpvaz(BlockFile):
         if self.series_vazoes_uhe is None:
             return None
         else:
-            return self.series_vazoes_uhe["UHE"].unique().tolist()
+            return self.series_vazoes_uhe["uhe"].unique().tolist()
 
     def __concatena_dados(self, bloco: Type[Block]) -> Optional[Any]:
         """
@@ -126,8 +126,8 @@ class PARpvaz(BlockFile):
         col_uhe: List[str] = []
         for uhe in uhes:
             col_uhe += [uhe] * int(linhas_por_uhe)
-        df["UHE"] = col_uhe
-        return df[["UHE"] + cols]
+        df["uhe"] = col_uhe
+        return df[["uhe"] + cols]
 
     def __adiciona_coluna_uhe_com_estagios(
         self, df: pd.DataFrame
@@ -157,9 +157,9 @@ class PARpvaz(BlockFile):
         for uhe in uhes:
             col_uhe += [uhe] * int(linhas_por_uhe)
             col_estagio += list(range(1, int(linhas_por_uhe) + 1))
-        df["UHE"] = col_uhe
-        df["Estágio"] = col_estagio
-        return df[["UHE", "Estágio"] + cols]
+        df["uhe"] = col_uhe
+        df["estagio"] = col_estagio
+        return df[["uhe", "estagio"] + cols]
 
     def __adiciona_coluna_uhe_corrigindo_pre_pos(
         self, df: Optional[pd.DataFrame]
@@ -219,18 +219,18 @@ class PARpvaz(BlockFile):
         col_uhe: List[str] = []
         for uhe in uhes:
             col_uhe += [uhe] * int(linhas_por_uhe)
-        df["UHE"] = col_uhe
+        df["uhe"] = col_uhe
         uhe0 = uhes[0]
-        ano0 = df["Ano"].unique().tolist()[0]
-        filtro = (df["Ano"] == ano0) & (df["UHE"] == uhe0)
+        ano0 = df["ano"].unique().tolist()[0]
+        filtro = (df["ano"] == ano0) & (df["uhe"] == uhe0)
         n_series = df.loc[filtro].shape[0]
         for i, uhe in enumerate(uhes):
             i_i = i * int(linhas_por_uhe)
             i_f = i_i + int(linhas_por_uhe) - 1
-            df.loc[i_i:i_f, "Ano"] = converte_vetor_anos(
-                df.loc[i_i:i_f, "Ano"].tolist(), n_series
+            df.loc[i_i:i_f, "ano"] = converte_vetor_anos(
+                df.loc[i_i:i_f, "ano"].tolist(), n_series
             )
-        return df[["UHE"] + cols]
+        return df[["uhe"] + cols]
 
     @property
     def series_vazoes_uhe(self) -> Optional[pd.DataFrame]:
@@ -238,13 +238,13 @@ class PARpvaz(BlockFile):
         A tabela de séries de vazões para todas as configurações
         e UHEs, no mesmo formato do arquivo `parpvaz.dat`.
 
-        - UHE (`str`)
-        - Configuração (`int`)
-        - Ano (`int`)
-        - Janeiro (`float`)
-        - Fevereiro (`float`)
+        - uhe (`str`)
+        - configuracao (`int`)
+        - ano (`int`)
+        - janeiro (`float`)
+        - fevereiro (`float`)
         - ...
-        - Dezembro (`float`)
+        - dezembro (`float`)
 
         :return: A tabela como um DataFrame.
         :rtype: pd.DataFrame | None
@@ -259,13 +259,13 @@ class PARpvaz(BlockFile):
         A tabela de séries de ruído para todas as UHEs,
         no mesmo formato do arquivo `parpvaz.dat`.
 
-        - UHE (`str`)
-        - Ano (`int`)
+        - uhe (`str`)
+        - ano (`int`)
         - Série (`int`)
-        - Janeiro (`float`)
-        - Fevereiro (`float`)
+        - janeiro (`float`)
+        - fevereiro (`float`)
         - ...
-        - Dezembro (`float`)
+        - dezembro (`float`)
 
         :return: A tabela como um DataFrame.
         :rtype: pd.DataFrame | None
@@ -286,12 +286,12 @@ class PARpvaz(BlockFile):
         todas as configurações vigentes e UHEs,
         no mesmo formato do arquivo `parpvaz.dat`.
 
-        - UHE (`str`)
-        - Data (`date`)
-        - Lag 1 (`float`)
-        - Lag 2 (`float`)
+        - uhe (`str`)
+        - data (`date`)
+        - lag_1 (`float`)
+        - lag_2 (`float`)
         - ...
-        - Lag 11 (`float`)
+        - lag_11 (`float`)
 
         :return: A tabela como um DataFrame
         :rtype: pd.DataFrame | None
@@ -312,12 +312,12 @@ class PARpvaz(BlockFile):
         todas as configurações vigentes e UHEs,
         no mesmo formato do arquivo `parpvaz.dat`.
 
-        - UHE (`str`)
-        - Data (`date`)
-        - Lag 1 (`float`)
-        - Lag 2 (`float`)
+        - uhe (`str`)
+        - data (`date`)
+        - lag_1 (`float`)
+        - lag_2 (`float`)
         - ...
-        - Lag 11 (`float`)
+        - lag_11 (`float`)
 
         :return: A tabela como um DataFrame
         :rtype: pd.DataFrame | None
@@ -338,12 +338,12 @@ class PARpvaz(BlockFile):
         todas as configurações vigentes e UHEs,
         no mesmo formato do arquivo `parpvaz.dat`.
 
-        - UHE (`str`)
-        - Data (`date`)
-        - Lag 1 (`float`)
-        - Lag 2 (`float`)
+        - uhe (`str`)
+        - data (`date`)
+        - lag_1 (`float`)
+        - lag_2 (`float`)
         - ...
-        - Lag 11 (`float`)
+        - lag_11 (`float`)
 
         :return: A tabela como um DataFrame
         :rtype: pd.DataFrame | None
@@ -364,12 +364,12 @@ class PARpvaz(BlockFile):
         de cada UHE, no mesmo formato do arquivo `parpvaz.dat`,
         organizada por ano de estudo.
 
-        - UHE (`str`)
-        - Ano (`int`)
-        - Janeiro (`int`)
-        - Fevereiro (`int`)
+        - uhe (`str`)
+        - ano (`int`)
+        - janeiro (`int`)
+        - fevereiro (`int`)
         - ...
-        - Dezembro (`int`)
+        - dezembro (`int`)
 
         :return: A tabela como um DataFrame
         :rtype: pd.DataFrame | None
@@ -379,8 +379,8 @@ class PARpvaz(BlockFile):
             dados = self.__concatena_dados(BlocoOrdemModeloUHE)
             if dados is not None:
                 dados = (
-                    dados.loc[dados["Tipo"] == "ORIGINAL", :]
-                    .drop(columns=["Tipo"])
+                    dados.loc[dados["tipo"] == "ORIGINAL", :]
+                    .drop(columns=["tipo"])
                     .copy()
                 )
                 dados = self.__adiciona_coluna_uhe(dados)
@@ -395,12 +395,12 @@ class PARpvaz(BlockFile):
         de cada UHE, no mesmo formato do arquivo `parpvaz.dat`,
         organizada por ano de estudo.
 
-        - UHE (`str`)
-        - Ano (`int`)
-        - Janeiro (`int`)
-        - Fevereiro (`int`)
+        - uhe (`str`)
+        - ano (`int`)
+        - janeiro (`int`)
+        - fevereiro (`int`)
         - ...
-        - Dezembro (`int`)
+        - dezembro (`int`)
 
         :return: A tabela como um DataFrame.
         :rtype: pd.DataFrame | None
@@ -409,8 +409,8 @@ class PARpvaz(BlockFile):
             dados = self.__concatena_dados(BlocoOrdemModeloUHE)
             if dados is not None:
                 dados = (
-                    dados.loc[dados["Tipo"] == "FINAL", :]
-                    .drop(columns=["Tipo"])
+                    dados.loc[dados["tipo"] == "FINAL", :]
+                    .drop(columns=["tipo"])
                     .copy()
                 )
                 dados = self.__adiciona_coluna_uhe(dados)
@@ -425,18 +425,18 @@ class PARpvaz(BlockFile):
         de cada UHE, no mesmo formato do arquivo `parpvaz.dat`,
         organizada por período de estudo.
 
-        - UHE (`str`)
-        - Estágio (`int`)
-        - Psi 1 (`int`)
-        - Psi 2 (`int`)
+        - uhe (`str`)
+        - estagio (`int`)
+        - psi_1 (`int`)
+        - psi_2 (`int`)
         - ...
-        - Psi 11 (`int`)
-        - Psi A (`int`)
-        - Psi Norm 1 (`int`)
-        - Psi Norm 2 (`int`)
+        - psi_11 (`int`)
+        - psi_A (`int`)
+        - psi_norm_1 (`int`)
+        - psi_norm_2 (`int`)
         - ...
-        - Psi Norm 11 (`int`)
-        - Psi Norm A (`int`)
+        - psi_norm_11 (`int`)
+        - psi_norm_A (`int`)
 
         :return: A tabela como um DataFrame.
         :rtype: pd.DataFrame | None
@@ -455,13 +455,13 @@ class PARpvaz(BlockFile):
         A tabela de correlação para todas as UHEs,
         no mesmo formato do arquivo `parpvaz.dat`.
 
-        - UHE 1 (`str`)
-        - UHE 2 (`str`)
-        - Janeiro (`str`)
-        - Fevereiro (`str`)
+        - uhe_1 (`str`)
+        - uhe_2 (`str`)
+        - janeiro (`str`)
+        - fevereiro (`str`)
         - ...
-        - Dezembro (`str`)
-        - Anual (`str`)
+        - dezembro (`str`)
+        - anual (`str`)
 
         :return: A tabela como um DataFrame.
         :rtype: pd.DataFrame | None

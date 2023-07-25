@@ -69,7 +69,7 @@ class ClasT(SectionFile):
         """
         Tabela com as usinas e seus custos.
 
-        - numero (`int`)
+        - codigo (`int`)
         - nome (`str`)
         - tipo_combustivel (`str`)
         - custo_1 (`float`)
@@ -98,7 +98,7 @@ class ClasT(SectionFile):
         Tabela com as modificações de custos das usinas
         organizadas por usina.
 
-        - numero (`int`)
+        - codigo (`int`)
         - custo (`float`)
         - mes_inicio (`int`)
         - ano_inicio (`int`)

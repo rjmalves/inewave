@@ -41,13 +41,13 @@ class ValoresSeriePatamar(Block):
     # Override
     def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df():
-            cols = MESES_DF + ["Média"]
-            df = pd.DataFrame(tabela, columns=["Série"] + cols)
-            df["Ano"] = self.__ano
-            df.loc[df["Série"].isna(), "Série"] = 1
-            df["Patamar"] = patamares
-            df = df[["Ano", "Série", "Patamar"] + cols]
-            df = df.astype({"Série": "int64", "Ano": "int64"})
+            cols = MESES_DF + ["media"]
+            df = pd.DataFrame(tabela, columns=["serie"] + cols)
+            df["ano"] = self.__ano
+            df.loc[df["serie"].isna(), "serie"] = 1
+            df["patamar"] = patamares
+            df = df[["ano", "serie", "patamar"] + cols]
+            df = df.astype({"serie": "int64", "ano": "int64"})
             return df
 
         self.__ano = self.__linha_ano.read(file.readline())[0]

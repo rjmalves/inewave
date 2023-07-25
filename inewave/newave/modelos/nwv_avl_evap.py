@@ -30,7 +30,7 @@ class TabelaAvlEvap(TabelaCSV):
     )
     COLUMN_NAMES = [
         "periodo",
-        "indice_usina",
+        "codigo_usina",
         "nome_usina",
         "volume_armazenado_hm3",
         "evaporacao_calculada_hm3",

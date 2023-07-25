@@ -101,15 +101,15 @@ class Sistema(SectionFile):
         Tabela com o custo de cada patamar de déficit, por
         subsistema.
 
-        - Num. Subsistema (`int`)
-        - Nome (`str`)
-        - Fictício (`int`)
-        - Custo Pat 1 (`float`)
+        - codigo_submercado (`int`)
+        - nome_submercado (`str`)
+        - ficticio (`int`)
+        - custo_deficit_patamar_1 (`float`)
         - ...
-        - Custo Pat 5 (`float`)
-        - Corte Pat 1 (`float`)
+        - custo_deficit_patamar_5 (`float`)
+        - corte_patamar_1 (`float`)
         - ...
-        - Corte Pat 5 (`float`)
+        - corte_patamar_5 (`float`)
 
         :return: A duração por mês em um DataFrame.
         :rtype: pd.DataFrame | None
@@ -131,13 +131,13 @@ class Sistema(SectionFile):
         Tabela com o limite de intercâmbio por par de
         subsistemas.
 
-        - Subsistema De (`int`)
-        - Subsistema Para (`int`)
-        - Sentido (`int`)
-        - Ano (`int`)
-        - Janeiro (`float`)
+        - submercado_de (`int`)
+        - submercado_para (`int`)
+        - sentido (`int`)
+        - ano (`int`)
+        - janeiro (`float`)
         - ...
-        - Dezembro (`float`)
+        - dezembro (`float`)
 
         :return: A duração por mês em um DataFrame.
         :rtype: pd.DataFrame | None
@@ -158,11 +158,11 @@ class Sistema(SectionFile):
         """
         Tabela com o mercado total de energia por período de estudo.
 
-        - Subsistema (`int`)
-        - Ano (`int`)
-        - Janeiro (`float`)
+        - submercado (`int`)
+        - ano (`int`)
+        - janeiro (`float`)
         - ...
-        - Dezembro (`float`)
+        - dezembro (`float`)
 
         :return: A carga por mês em um DataFrame.
         :rtype: pd.DataFrame | None
@@ -184,13 +184,13 @@ class Sistema(SectionFile):
         Tabela com a geração das usinas não simuladas por fonte
         de geração.
 
-        - Subsistema (`int`)
-        - Bloco (`int`)
-        - Razão (`str`)
-        - Ano (`int`)
-        - Janeiro (`float`)
+        - submercado (`int`)
+        - bloco (`int`)
+        - fonte (`str`)
+        - ano (`int`)
+        - janeiro (`float`)
         - ...
-        - Dezembro (`float`)
+        - dezembro (`float`)
 
         :return: A carga por mês em um DataFrame.
         :rtype: pd.DataFrame | None
