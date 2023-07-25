@@ -12,6 +12,9 @@ from inewave.newave.modelos.modif import (
     VMINT,
     VMINP,
     VAZMINT,
+    VAZMAXT,
+    TURBMAXT,
+    TURBMINT,
 )
 
 from inewave.newave import Modif
@@ -34,11 +37,15 @@ from tests.mocks.arquivos.modif import (
     MockVMINT,
     MockVMINP,
     MockVAZMINT,
+    MockVAZMAXT,
+    MockTURBMAXT,
+    MockTURBMINT,
 )
+
+ARQ_TESTE = "./tests/mocks/arquivos/__init__.py"
 
 
 def test_registro_usina_modif():
-
     m: MagicMock = mock_open(read_data="".join(MockUSINA))
     r = USINA()
     with patch("builtins.open", m):
@@ -51,7 +58,6 @@ def test_registro_usina_modif():
 
 
 def test_registro_vazmin_modif():
-
     m: MagicMock = mock_open(read_data="".join(MockVAZMIN))
     r = VAZMIN()
     with patch("builtins.open", m):
@@ -63,7 +69,6 @@ def test_registro_vazmin_modif():
 
 
 def test_registro_vmaxt_modif():
-
     m: MagicMock = mock_open(read_data="".join(MockVMAXT))
     r = VMAXT()
     with patch("builtins.open", m):
@@ -78,7 +83,6 @@ def test_registro_vmaxt_modif():
 
 
 def test_registro_vazmint_modif():
-
     m: MagicMock = mock_open(read_data="".join(MockVAZMINT))
     r = VAZMINT()
     with patch("builtins.open", m):
@@ -91,33 +95,30 @@ def test_registro_vazmint_modif():
     assert r.vazao == 10.00
 
 
-# def test_registro_volmin_modif():
+def test_registro_volmin_modif():
+    m: MagicMock = mock_open(read_data="".join(MockVOLMIN))
+    r = VOLMIN()
+    with patch("builtins.open", m):
+        with open("", "") as fp:
+            r.read(fp)
 
-#     m: MagicMock = mock_open(read_data="".join(MockVOLMIN))
-#     r = VOLMIN()
-#     with patch("builtins.open", m):
-#         with open("", "") as fp:
-#             r.read(fp)
-
-#     assert r.data == [15563.63, "'h'"]
-#     assert r.volume == 15563.63
+    assert r.data == [15563.63, "'h'"]
+    assert r.volume == 15563.63
 
 
-# def test_registro_volmax_modif():
+def test_registro_volmax_modif():
+    m: MagicMock = mock_open(read_data="".join(MockVOLMAX))
+    r = VOLMAX()
+    with patch("builtins.open", m):
+        with open("", "") as fp:
+            r.read(fp)
 
-#     m: MagicMock = mock_open(read_data="".join(MockVOLMAX))
-#     r = VOLMAX()
-#     with patch("builtins.open", m):
-#         with open("", "") as fp:
-#             r.read(fp)
-
-#     assert r.data == [15563.63, "'h'"]
-#     assert r.volume == 15563.63
-#     assert r.unidade == "'h'"
+    assert r.data == [55.0, "'%'"]
+    assert r.volume == 55.0
+    assert r.unidade == "'%'"
 
 
 def test_registro_numcnj_modif():
-
     m: MagicMock = mock_open(read_data="".join(MockNUMCNJ))
     r = NUMCNJ()
     with patch("builtins.open", m):
@@ -129,7 +130,6 @@ def test_registro_numcnj_modif():
 
 
 def test_registro_nummaq_modif():
-
     m: MagicMock = mock_open(read_data="".join(MockNUMMAQ))
     r = NUMMAQ()
     with patch("builtins.open", m):
@@ -142,7 +142,6 @@ def test_registro_nummaq_modif():
 
 
 def test_registro_vmint_modif():
-
     m: MagicMock = mock_open(read_data="".join(MockVMINT))
     r = VMINT()
     with patch("builtins.open", m):
@@ -157,7 +156,6 @@ def test_registro_vmint_modif():
 
 
 def test_registro_vminp_modif():
-
     m: MagicMock = mock_open(read_data="".join(MockVMINP))
     r = VMINP()
     with patch("builtins.open", m):
@@ -172,7 +170,6 @@ def test_registro_vminp_modif():
 
 
 def test_registro_cfuga_modif():
-
     m: MagicMock = mock_open(read_data="".join(MockCFUGA))
     r = CFUGA()
     with patch("builtins.open", m):
@@ -186,7 +183,6 @@ def test_registro_cfuga_modif():
 
 
 def test_registro_cmont_modif():
-
     m: MagicMock = mock_open(read_data="".join(MockCMONT))
     r = CMONT()
     with patch("builtins.open", m):
@@ -199,10 +195,49 @@ def test_registro_cmont_modif():
     assert r.nivel == 71.30
 
 
+def test_registro_vazmaxt_modif():
+    m: MagicMock = mock_open(read_data="".join(MockVAZMAXT))
+    r = VAZMAXT()
+    with patch("builtins.open", m):
+        with open("", "") as fp:
+            r.read(fp)
+
+    assert r.data == [1, 2020, 0.00]
+    assert r.mes == 1
+    assert r.ano == 2020
+    assert r.vazao == 0.0
+
+
+def test_registro_turbmaxt_modif():
+    m: MagicMock = mock_open(read_data="".join(MockTURBMAXT))
+    r = TURBMAXT()
+    with patch("builtins.open", m):
+        with open("", "") as fp:
+            r.read(fp)
+
+    assert r.data == [1, 2020, 0.00]
+    assert r.mes == 1
+    assert r.ano == 2020
+    assert r.turbinamento == 0.0
+
+
+def test_registro_turbmint_modif():
+    m: MagicMock = mock_open(read_data="".join(MockTURBMINT))
+    r = TURBMINT()
+    with patch("builtins.open", m):
+        with open("", "") as fp:
+            r.read(fp)
+
+    assert r.data == [1, 2020, 0.00]
+    assert r.mes == 1
+    assert r.ano == 2020
+    assert r.turbinamento == 0.0
+
+
 def test_atributos_encontrados_modif():
     m: MagicMock = mock_open(read_data="".join(MockModif))
     with patch("builtins.open", m):
-        ad = Modif.le_arquivo("")
+        ad = Modif.read(ARQ_TESTE)
         assert len(ad.usina()) > 0
         assert len(ad.vazmin()) > 0
         assert len(ad.vmaxt()) > 0
@@ -215,38 +250,24 @@ def test_atributos_encontrados_modif():
         assert len(ad.vminp()) > 0
         assert len(ad.cfuga()) > 0
         assert len(ad.cmont()) > 0
+        assert len(ad.vazmaxt()) > 0
+        assert len(ad.turbmaxt()) > 0
+        assert len(ad.turbmint()) > 0
 
 
-# def test_eq_patamar():
-#     m: MagicMock = mock_open(read_data="".join(MockPatamar))
-#     with patch("builtins.open", m):
-#         cf1 = Patamar.le_arquivo("")
-#         cf2 = Patamar.le_arquivo("")
-#         assert cf1 == cf2
-
-
-# def test_neq_patamar():
-#     m: MagicMock = mock_open(read_data="".join(MockPatamar))
-#     with patch("builtins.open", m):
-#         cf1 = Patamar.le_arquivo("")
-#         cf2 = Patamar.le_arquivo("")
-#         cf2.numero_patamares = 0
-#         assert cf1 != cf2
-
-
-# def test_leitura_escrita_patamar():
-#     m_leitura: MagicMock = mock_open(read_data="".join(MockPatamar))
-#     with patch("builtins.open", m_leitura):
-#         cf1 = Patamar.le_arquivo("")
-#     m_escrita: MagicMock = mock_open(read_data="")
-#     with patch("builtins.open", m_escrita):
-#         cf1.escreve_arquivo("", "")
-#         # Recupera o que foi escrito
-#         chamadas = m_escrita.mock_calls
-#         linhas_escritas = [
-#             chamadas[i].args[0] for i in range(2, len(chamadas) - 1)
-#         ]
-#     m_releitura: MagicMock = mock_open(read_data="".join(linhas_escritas))
-#     with patch("builtins.open", m_releitura):
-#         cf2 = Patamar.le_arquivo("")
-#         assert cf1 == cf2
+def test_leitura_escrita_modif():
+    m_leitura: MagicMock = mock_open(read_data="".join(MockModif))
+    with patch("builtins.open", m_leitura):
+        cf1 = Modif.read(ARQ_TESTE)
+    m_escrita: MagicMock = mock_open(read_data="")
+    with patch("builtins.open", m_escrita):
+        cf1.write(ARQ_TESTE)
+        # Recupera o que foi escrito
+        chamadas = m_escrita.mock_calls
+        linhas_escritas = [
+            chamadas[i].args[0] for i in range(1, len(chamadas) - 1)
+        ]
+    m_releitura: MagicMock = mock_open(read_data="".join(linhas_escritas))
+    with patch("builtins.open", m_releitura):
+        cf2 = Modif.read(ARQ_TESTE)
+        assert cf1 == cf2

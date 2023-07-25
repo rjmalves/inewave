@@ -50,7 +50,7 @@ class BlocoCargasAdicionais(Section):
             return self.data.equals(bloco.data)
 
     # Override
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df():
             df = pd.DataFrame(tabela, columns=MESES_DF)
             df["codigo_subsistema"] = codigo_subsis
@@ -102,7 +102,7 @@ class BlocoCargasAdicionais(Section):
                 i += 1
 
     # Override
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         for linha in self.__cabecalhos:
             file.write(linha)
         ultimo_codigo = 0

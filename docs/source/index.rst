@@ -21,20 +21,39 @@ O inewave oferece:
 - Utilidades de escritas dos arquivos de entrada do NEWAVE para elaboração automatizada de estudos
 
 
-Documentação
-=============
+* :ref:`genindex`
 
 .. toctree::
+   :caption: Apresentação 
    :maxdepth: 3
+   :hidden:
 
    ./install.rst
-   ./tutorial.rst
-   ./reference.rst
 
+.. toctree::
+   :caption: NEWAVE
+   :maxdepth: 3
+   :hidden:
 
-Índices e Tabelas
-==================
+   reference/newave/index.rst
 
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+.. toctree::
+   :caption: NWLISTCF
+   :maxdepth: 3
+   :hidden:
+
+   reference/nwlistcf/index.rst
+
+.. toctree::
+   :caption: NWLISTOP
+   :maxdepth: 3
+   :hidden:
+
+   reference/nwlistop/index.rst
+
+.. toctree::
+   :caption: Exemplos 
+   :maxdepth: 3
+   :hidden:
+
+   examples/index.rst

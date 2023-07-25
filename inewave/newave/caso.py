@@ -3,14 +3,17 @@ from inewave.newave.modelos.caso import NomeCaso, CaminhoGerenciadorProcessos
 from cfinterface.files.sectionfile import SectionFile
 from typing import Type, TypeVar, Optional
 
+# Para compatibilidade - até versão 1.0.0
+from os.path import join
+import warnings
+
 
 class Caso(SectionFile):
     """
-    Armazena os dados de entrada do NEWAVE referentes às
-    configurações das usinas hidrelétricas.
+    Armazena os dados de entrada do NEWAVE referentes ao caso de estudo.
 
     Esta classe lida com informações de entrada fornecidas ao NEWAVE e
-    que podem ser modificadas através do arquivo `modif.dat`.
+    que podem ser modificadas através do arquivo `caso.dat`.
 
     """
 
@@ -23,10 +26,21 @@ class Caso(SectionFile):
 
     @classmethod
     def le_arquivo(cls, diretorio: str, nome_arquivo="caso.dat") -> "Caso":
-        return cls.read(diretorio, nome_arquivo)
+        msg = (
+            "O método le_arquivo(diretorio, nome_arquivo) será descontinuado"
+            + " na versão 1.0.0 - use o método read(caminho_arquivo)"
+        )
+        warnings.warn(msg, category=FutureWarning)
+        return cls.read(join(diretorio, nome_arquivo))
 
     def escreve_arquivo(self, diretorio: str, nome_arquivo="caso.dat"):
-        self.write(diretorio, nome_arquivo)
+        msg = (
+            "O método escreve_arquivo(diretorio, nome_arquivo) será"
+            + " descontinuado na versão 1.0.0 -"
+            + " use o método write(caminho_arquivo)"
+        )
+        warnings.warn(msg, category=FutureWarning)
+        self.write(join(diretorio, nome_arquivo))
 
     def __bloco_por_tipo(self, bloco: Type[T], indice: int) -> Optional[T]:
         """

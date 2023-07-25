@@ -22,7 +22,7 @@ class VersaoModelo(Block):
                 return False
             return self.data == o.data
 
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         linha = file.readline()
         modelo_linha = Line([LiteralField(size=12, starting_position=29)])
         self.data = modelo_linha.read(linha)[0]

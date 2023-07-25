@@ -13,9 +13,10 @@ from tests.mocks.arquivos.eolicafte import (
     MockRegistroPEEFTE,
 )
 
+ARQ_TESTE = "./tests/mocks/arquivos/__init__.py"
+
 
 def test_registro_eolica_funcao_producao_eolicafte():
-
     m: MagicMock = mock_open(read_data="".join(MockRegistroFuncaoProducao))
     r = RegistroEolicaFTE()
     with patch("builtins.open", m):
@@ -26,8 +27,8 @@ def test_registro_eolica_funcao_producao_eolicafte():
         1,
         datetime(2021, 1, 1),
         datetime(2030, 12, 1),
-        -0.14454132,
-        0.10904637,
+        -0.14454,
+        0.109046,
     ]
     assert r.codigo_eolica == 1
     r.codigo_eolica = 5
@@ -35,14 +36,13 @@ def test_registro_eolica_funcao_producao_eolicafte():
     r.data_inicial = datetime(2021, 2, 1)
     assert r.data_final == datetime(2030, 12, 1)
     r.data_final = datetime(2030, 11, 1)
-    assert r.coeficiente_linear == -0.14454132
+    assert r.coeficiente_linear == -0.14454
     r.coeficiente_linear = -0.5
-    assert r.coeficiente_angular == 0.10904637
+    assert r.coeficiente_angular == 0.109046
     r.coeficiente_angular = 0.5
 
 
 def test_registro_peefte():
-
     m: MagicMock = mock_open(read_data="".join(MockRegistroPEEFTE))
     r = RegistroPEEFTE()
     with patch("builtins.open", m):
@@ -71,23 +71,23 @@ def test_registro_peefte():
 def test_atributos_encontrados_eolicafte():
     m: MagicMock = mock_open(read_data="".join(MockEolicaFTE))
     with patch("builtins.open", m):
-        e = EolicaFTE.le_arquivo("")
+        e = EolicaFTE.read(ARQ_TESTE)
         assert len(e.eolica_funcao_producao()) > 0
 
 
 def test_eq_eolicafte():
     m: MagicMock = mock_open(read_data="".join(MockEolicaFTE))
     with patch("builtins.open", m):
-        cf1 = EolicaFTE.le_arquivo("")
-        cf2 = EolicaFTE.le_arquivo("")
+        cf1 = EolicaFTE.read(ARQ_TESTE)
+        cf2 = EolicaFTE.read(ARQ_TESTE)
         assert cf1 == cf2
 
 
 def test_neq_eolicafte():
     m: MagicMock = mock_open(read_data="".join(MockEolicaFTE))
     with patch("builtins.open", m):
-        cf1 = EolicaFTE.le_arquivo("")
-        cf2 = EolicaFTE.le_arquivo("")
+        cf1 = EolicaFTE.read(ARQ_TESTE)
+        cf2 = EolicaFTE.read(ARQ_TESTE)
         cf2.deleta_registro(cf1.eolica_funcao_producao()[0])
         assert cf1 != cf2
 
@@ -95,16 +95,16 @@ def test_neq_eolicafte():
 def test_leitura_escrita_eolicafte():
     m_leitura: MagicMock = mock_open(read_data="".join(MockEolicaFTE))
     with patch("builtins.open", m_leitura):
-        cf1 = EolicaFTE.le_arquivo("")
+        cf1 = EolicaFTE.read(ARQ_TESTE)
     m_escrita: MagicMock = mock_open(read_data="")
     with patch("builtins.open", m_escrita):
-        cf1.escreve_arquivo("", "")
+        cf1.write(ARQ_TESTE)
         # Recupera o que foi escrito
         chamadas = m_escrita.mock_calls
         linhas_escritas = [
-            chamadas[i].args[0] for i in range(2, len(chamadas) - 1)
+            chamadas[i].args[0] for i in range(1, len(chamadas) - 1)
         ]
     m_releitura: MagicMock = mock_open(read_data="".join(linhas_escritas))
     with patch("builtins.open", m_releitura):
-        cf2 = EolicaFTE.le_arquivo("")
+        cf2 = EolicaFTE.read(ARQ_TESTE)
         assert cf1 == cf2

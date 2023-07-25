@@ -20,9 +20,10 @@ from tests.mocks.arquivos.eolicahistorico import (
     MockEolicaHistorico,
 )
 
+ARQ_TESTE = "./tests/mocks/arquivos/__init__.py"
+
 
 def test_registro_eolica_historico_horizonte_eolicahistorico():
-
     m: MagicMock = mock_open(
         read_data="".join(MockRegistroEolicaHistoricoHorizonte)
     )
@@ -39,7 +40,6 @@ def test_registro_eolica_historico_horizonte_eolicahistorico():
 
 
 def test_registro_eolica_historico_eolicahistorico():
-
     m: MagicMock = mock_open(read_data="".join(MockRegistroEolicaHistorico))
     r = RegistroEolicaHistoricoVento()
     with patch("builtins.open", m):
@@ -60,7 +60,6 @@ def test_registro_eolica_historico_eolicahistorico():
 
 
 def test_registro_historico_vento_horizonte_eolicahistorico():
-
     m: MagicMock = mock_open(
         read_data="".join(MockRegistroHistoricoVentoHorizonte)
     )
@@ -77,7 +76,6 @@ def test_registro_historico_vento_horizonte_eolicahistorico():
 
 
 def test_registro_historico_vento_eolicahistorico():
-
     m: MagicMock = mock_open(read_data="".join(MockRegistroHistoricoVento))
     r = RegistroHistoricoVento()
     with patch("builtins.open", m):
@@ -100,23 +98,23 @@ def test_registro_historico_vento_eolicahistorico():
 def test_atributos_encontrados_eolicahistorico():
     m: MagicMock = mock_open(read_data="".join(MockEolicaHistorico))
     with patch("builtins.open", m):
-        e = EolicaHistorico.le_arquivo("")
+        e = EolicaHistorico.read(ARQ_TESTE)
         assert len(e.eolica_historico_vento()) > 0
 
 
 def test_eq_eolicahistorico():
     m: MagicMock = mock_open(read_data="".join(MockEolicaHistorico))
     with patch("builtins.open", m):
-        cf1 = EolicaHistorico.le_arquivo("")
-        cf2 = EolicaHistorico.le_arquivo("")
+        cf1 = EolicaHistorico.read(ARQ_TESTE)
+        cf2 = EolicaHistorico.read(ARQ_TESTE)
         assert cf1 == cf2
 
 
 def test_neq_eolicahistorico():
     m: MagicMock = mock_open(read_data="".join(MockEolicaHistorico))
     with patch("builtins.open", m):
-        cf1 = EolicaHistorico.le_arquivo("")
-        cf2 = EolicaHistorico.le_arquivo("")
+        cf1 = EolicaHistorico.read(ARQ_TESTE)
+        cf2 = EolicaHistorico.read(ARQ_TESTE)
         cf2.deleta_registro(cf1.eolica_historico_vento()[0])
         assert cf1 != cf2
 
@@ -124,16 +122,16 @@ def test_neq_eolicahistorico():
 def test_leitura_escrita_eolicahistorico():
     m_leitura: MagicMock = mock_open(read_data="".join(MockEolicaHistorico))
     with patch("builtins.open", m_leitura):
-        cf1 = EolicaHistorico.le_arquivo("")
+        cf1 = EolicaHistorico.read(ARQ_TESTE)
     m_escrita: MagicMock = mock_open(read_data="")
     with patch("builtins.open", m_escrita):
-        cf1.escreve_arquivo("", "")
+        cf1.write(ARQ_TESTE)
         # Recupera o que foi escrito
         chamadas = m_escrita.mock_calls
         linhas_escritas = [
-            chamadas[i].args[0] for i in range(2, len(chamadas) - 1)
+            chamadas[i].args[0] for i in range(1, len(chamadas) - 1)
         ]
     m_releitura: MagicMock = mock_open(read_data="".join(linhas_escritas))
     with patch("builtins.open", m_releitura):
-        cf2 = EolicaHistorico.le_arquivo("")
+        cf2 = EolicaHistorico.read(ARQ_TESTE)
         assert cf1 == cf2

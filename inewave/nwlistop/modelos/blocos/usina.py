@@ -32,5 +32,5 @@ class Usina(Block):
             return self.data == bloco.data
 
     # Override
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.data = self.__linha.read(file.readline())[0]

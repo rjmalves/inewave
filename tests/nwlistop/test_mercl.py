@@ -5,11 +5,13 @@ from unittest.mock import MagicMock, patch
 
 from tests.mocks.arquivos.mercl import MockMercl
 
+ARQ_TESTE = "./tests/mocks/arquivos/__init__.py"
+
 
 def test_atributos_encontrados_mercl():
     m: MagicMock = mock_open(read_data="".join(MockMercl))
     with patch("builtins.open", m):
-        n = Mercl.le_arquivo("")
+        n = Mercl.read(ARQ_TESTE)
         assert n.valores is not None
         print(n.valores)
         assert n.valores.iloc[0, 0] == 2022
@@ -21,7 +23,7 @@ def test_atributos_encontrados_mercl():
 def test_atributos_nao_encontrados_mercl():
     m: MagicMock = mock_open(read_data="")
     with patch("builtins.open", m):
-        n = Mercl.le_arquivo("")
+        n = Mercl.read(ARQ_TESTE)
         assert n.valores is None
         assert n.submercado is None
 
@@ -29,8 +31,8 @@ def test_atributos_nao_encontrados_mercl():
 def test_eq_mercl():
     m: MagicMock = mock_open(read_data="".join(MockMercl))
     with patch("builtins.open", m):
-        n1 = Mercl.le_arquivo("")
-        n2 = Mercl.le_arquivo("")
+        n1 = Mercl.read(ARQ_TESTE)
+        n2 = Mercl.read(ARQ_TESTE)
         assert n1 == n2
 
 

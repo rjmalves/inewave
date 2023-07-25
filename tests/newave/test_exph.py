@@ -7,9 +7,10 @@ from unittest.mock import MagicMock, patch
 
 from tests.mocks.arquivos.exph import MockExph
 
+ARQ_TESTE = "./tests/mocks/arquivos/__init__.py"
+
 
 def test_bloco_uhe_exph():
-
     m: MagicMock = mock_open(read_data="".join(MockExph))
     b = BlocoUHEExph()
     with patch("builtins.open", m):
@@ -33,30 +34,30 @@ def test_bloco_uhe_exph():
 def test_atributos_encontrados_exph():
     m: MagicMock = mock_open(read_data="".join(MockExph))
     with patch("builtins.open", m):
-        ad = Exph.le_arquivo("")
+        ad = Exph.read(ARQ_TESTE)
         assert ad.expansoes is not None
 
 
 def test_atributos_nao_encontrados_exph():
     m: MagicMock = mock_open(read_data="")
     with patch("builtins.open", m):
-        ad = Exph.le_arquivo("")
+        ad = Exph.read(ARQ_TESTE)
         assert ad.expansoes is None
 
 
 def test_eq_exph():
     m: MagicMock = mock_open(read_data="".join(MockExph))
     with patch("builtins.open", m):
-        ad1 = Exph.le_arquivo("")
-        ad2 = Exph.le_arquivo("")
+        ad1 = Exph.read(ARQ_TESTE)
+        ad2 = Exph.read(ARQ_TESTE)
         assert ad1 == ad2
 
 
 def test_neq_exph():
     m: MagicMock = mock_open(read_data="".join(MockExph))
     with patch("builtins.open", m):
-        ad1 = Exph.le_arquivo("")
-        ad2 = Exph.le_arquivo("")
+        ad1 = Exph.read(ARQ_TESTE)
+        ad2 = Exph.read(ARQ_TESTE)
         ad2.expansoes.iloc[0, 0] = -1
         assert ad1 != ad2
 
@@ -64,16 +65,16 @@ def test_neq_exph():
 def test_leitura_escrita_exph():
     m_leitura: MagicMock = mock_open(read_data="".join(MockExph))
     with patch("builtins.open", m_leitura):
-        ad1 = Exph.le_arquivo("")
+        ad1 = Exph.read(ARQ_TESTE)
     m_escrita: MagicMock = mock_open(read_data="")
     with patch("builtins.open", m_escrita):
-        ad1.escreve_arquivo("", "")
+        ad1.write(ARQ_TESTE)
         # Recupera o que foi escrito
         chamadas = m_escrita.mock_calls
         linhas_escritas = [
-            chamadas[i].args[0] for i in range(2, len(chamadas) - 1)
+            chamadas[i].args[0] for i in range(1, len(chamadas) - 1)
         ]
     m_releitura: MagicMock = mock_open(read_data="".join(linhas_escritas))
     with patch("builtins.open", m_releitura):
-        ad2 = Exph.le_arquivo("")
+        ad2 = Exph.read(ARQ_TESTE)
         assert ad1 == ad2

@@ -9,9 +9,10 @@ from unittest.mock import MagicMock, patch
 
 from tests.mocks.arquivos.dsvagua import MockBlocoDesviosAgua
 
+ARQ_TESTE = "./tests/mocks/arquivos/__init__.py"
+
 
 def test_bloco_desvios_dsvagua():
-
     m: MagicMock = mock_open(read_data="".join(MockBlocoDesviosAgua))
     b = BlocoDsvUHE()
     with patch("builtins.open", m):
@@ -26,30 +27,30 @@ def test_bloco_desvios_dsvagua():
 def test_atributos_encontrados_dsvagua():
     m: MagicMock = mock_open(read_data="".join(MockBlocoDesviosAgua))
     with patch("builtins.open", m):
-        ad = DSVAgua.le_arquivo("")
+        ad = DSVAgua.read(ARQ_TESTE)
         assert ad.desvios is not None
 
 
 def test_atributos_nao_encontrados_dsvagua():
     m: MagicMock = mock_open(read_data="")
     with patch("builtins.open", m):
-        ad = DSVAgua.le_arquivo("")
+        ad = DSVAgua.read(ARQ_TESTE)
         assert ad.desvios is None
 
 
 def test_eq_dsvagua():
     m: MagicMock = mock_open(read_data="".join(MockBlocoDesviosAgua))
     with patch("builtins.open", m):
-        cf1 = DSVAgua.le_arquivo("")
-        cf2 = DSVAgua.le_arquivo("")
+        cf1 = DSVAgua.read(ARQ_TESTE)
+        cf2 = DSVAgua.read(ARQ_TESTE)
         assert cf1 == cf2
 
 
 def test_neq_dsvagua():
     m: MagicMock = mock_open(read_data="".join(MockBlocoDesviosAgua))
     with patch("builtins.open", m):
-        cf1 = DSVAgua.le_arquivo("")
-        cf2 = DSVAgua.le_arquivo("")
+        cf1 = DSVAgua.read(ARQ_TESTE)
+        cf2 = DSVAgua.read(ARQ_TESTE)
         cf2.desvios.iloc[0, 0] = -1
         assert cf1 != cf2
 
@@ -57,16 +58,16 @@ def test_neq_dsvagua():
 def test_leitura_escrita_dsvagua():
     m_leitura: MagicMock = mock_open(read_data="".join(MockBlocoDesviosAgua))
     with patch("builtins.open", m_leitura):
-        cf1 = DSVAgua.le_arquivo("")
+        cf1 = DSVAgua.read(ARQ_TESTE)
     m_escrita: MagicMock = mock_open(read_data="")
     with patch("builtins.open", m_escrita):
-        cf1.escreve_arquivo("", "")
+        cf1.write(ARQ_TESTE)
         # Recupera o que foi escrito
         chamadas = m_escrita.mock_calls
         linhas_escritas = [
-            chamadas[i].args[0] for i in range(2, len(chamadas) - 1)
+            chamadas[i].args[0] for i in range(1, len(chamadas) - 1)
         ]
     m_releitura: MagicMock = mock_open(read_data="".join(linhas_escritas))
     with patch("builtins.open", m_releitura):
-        cf2 = DSVAgua.le_arquivo("")
+        cf2 = DSVAgua.read(ARQ_TESTE)
         assert cf1 == cf2

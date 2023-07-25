@@ -5,11 +5,13 @@ from unittest.mock import MagicMock, patch
 
 from tests.mocks.arquivos.geol import MockGeol
 
+ARQ_TESTE = "./tests/mocks/arquivos/__init__.py"
+
 
 def test_atributos_encontrados_geol():
     m: MagicMock = mock_open(read_data="".join(MockGeol))
     with patch("builtins.open", m):
-        n = Geol.le_arquivo("")
+        n = Geol.read(ARQ_TESTE)
         assert n.usina is not None
         # assert n.pee == "cluster_NE_1"
         assert n.valores is not None
@@ -20,7 +22,7 @@ def test_atributos_encontrados_geol():
 def test_atributos_nao_encontrados_geol():
     m: MagicMock = mock_open(read_data="")
     with patch("builtins.open", m):
-        n = Geol.le_arquivo("")
+        n = Geol.read(ARQ_TESTE)
         assert n.usina is None
         assert n.valores is None
 
@@ -28,8 +30,8 @@ def test_atributos_nao_encontrados_geol():
 def test_eq_geol():
     m: MagicMock = mock_open(read_data="".join(MockGeol))
     with patch("builtins.open", m):
-        n1 = Geol.le_arquivo("")
-        n2 = Geol.le_arquivo("")
+        n1 = Geol.read(ARQ_TESTE)
+        n2 = Geol.read(ARQ_TESTE)
         assert n1 == n2
 
 

@@ -5,11 +5,13 @@ from unittest.mock import MagicMock, patch
 
 from tests.mocks.arquivos.cmargmed import MockCmargMed
 
+ARQ_TESTE = "./tests/mocks/arquivos/__init__.py"
+
 
 def test_atributos_encontrados_cmargmed():
     m: MagicMock = mock_open(read_data="".join(MockCmargMed))
     with patch("builtins.open", m):
-        n = CmargMed.le_arquivo("")
+        n = CmargMed.read(ARQ_TESTE)
         assert n.valores is not None
         assert n.valores.iloc[0, 0] == 2021
         assert n.valores.iloc[-1, -1] == 354.22
@@ -20,7 +22,7 @@ def test_atributos_encontrados_cmargmed():
 def test_atributos_nao_encontrados_cmargmed():
     m: MagicMock = mock_open(read_data="")
     with patch("builtins.open", m):
-        n = CmargMed.le_arquivo("")
+        n = CmargMed.read(ARQ_TESTE)
         assert n.valores is None
         assert n.submercado is None
 
@@ -28,8 +30,8 @@ def test_atributos_nao_encontrados_cmargmed():
 def test_eq_cmargmed():
     m: MagicMock = mock_open(read_data="".join(MockCmargMed))
     with patch("builtins.open", m):
-        n1 = CmargMed.le_arquivo("")
-        n2 = CmargMed.le_arquivo("")
+        n1 = CmargMed.read(ARQ_TESTE)
+        n2 = CmargMed.read(ARQ_TESTE)
         assert n1 == n2
 
 

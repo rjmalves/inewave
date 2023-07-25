@@ -56,7 +56,7 @@ class BlocoSerieEnergiaREE(Block):
             return self.data.equals(bloco.data)
 
     # Override
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df():
             df = pd.DataFrame(tabela, columns=["Ano"] + MESES_DF)
             df["REE"] = ree
@@ -123,7 +123,7 @@ class BlocoCorrelEnergiasREE(Block):
             return self.data.equals(bloco.data)
 
     # Override
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         def converte_vetor_anos(anos: List[str]) -> List[int]:
             # Descobre os anos pré e pós estudo
             numero_anos_pre = len([p for p in anos if p == "PRE"]) // 12
@@ -220,7 +220,7 @@ class BlocoCorrelParcialEnergiasREE(Block):
             return self.data.equals(bloco.data)
 
     # Override
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         def converte_vetor_anos(anos: List[str]) -> List[int]:
             # Descobre os anos pré e pós estudo
             numero_anos_pre = len([p for p in anos if p == "PRE"]) // 12
@@ -316,7 +316,7 @@ class BlocoOrdemModeloREE(Block):
             return self.data.equals(bloco.data)
 
     # Override
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         def converte_vetor_anos(anos: List[str]) -> List[int]:
             # Descobre os anos pré e pós estudo
             numero_anos_pre = len([p for p in anos if p == "PRE"])
@@ -399,7 +399,7 @@ class BlocoCoeficientesModeloREE(Block):
             return self.data.equals(bloco.data)
 
     # Override
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df():
             cols = (
                 [f"Psi {i}" for i in range(1, len(MESES_DF))]
@@ -462,7 +462,7 @@ class BlocoSerieRuidosREE(Block):
             return self.data.equals(bloco.data)
 
     # Override
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df():
             df = pd.DataFrame(tabela, columns=MESES_DF)
             df["Ano"] = ano
@@ -527,7 +527,7 @@ class BlocoCorrelRuidosREE(Block):
             return self.data.equals(bloco.data)
 
     # Override
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         def converte_vetor_anos(anos: List[str]) -> List[int]:
             # Descobre os anos pré e pós estudo
             numero_anos_pre = len([p for p in anos if p == "PRE"]) // 12
@@ -623,7 +623,7 @@ class BlocoSerieMediasREE(Block):
             return self.data.equals(bloco.data)
 
     # Override
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df():
             df = pd.DataFrame(tabela, columns=MESES_DF)
             df["Ano"] = ano
@@ -688,7 +688,7 @@ class BlocoCorrelCruzadaMediaREE(Block):
             return self.data.equals(bloco.data)
 
     # Override
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         def converte_vetor_anos(anos: List[str]) -> List[int]:
             # Descobre os anos pré e pós estudo
             numero_anos_pre = len([p for p in anos if p == "PRE"]) // 12
@@ -779,7 +779,7 @@ class BlocoCorrelEspacialAnualConfig(Block):
             return self.data.equals(bloco.data)
 
     # Override
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df():
             df = pd.DataFrame(tabela, columns=rees)
             df["REE"] = rees
@@ -843,7 +843,7 @@ class BlocoCorrelEspacialMensalConfig(Block):
             return self.data.equals(bloco.data)
 
     # Override
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df():
             df = pd.DataFrame(tabela, columns=rees)
             df["REE"] = valores_rees

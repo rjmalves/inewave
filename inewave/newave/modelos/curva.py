@@ -43,13 +43,13 @@ class BlocoConfiguracoesPenalizacaoCurva(Section):
             return self.data == bloco.data
 
     # Override
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.__cabecalhos.append(file.readline())
 
         self.data = self.__linha.read(file.readline())
 
     # Override
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         for linha in self.__cabecalhos:
             file.write(linha)
         if not isinstance(self.data, list):
@@ -90,7 +90,7 @@ class BlocoPenalidadesViolacaoREECurva(Section):
             return self.data.equals(bloco.data)
 
     # Override
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df():
             df = pd.DataFrame(tabela, columns=["ree", "penalidade"])
             df = df.astype({"ree": "int64"})
@@ -118,7 +118,7 @@ class BlocoPenalidadesViolacaoREECurva(Section):
             i += 1
 
     # Override
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         for linha in self.__cabecalhos:
             file.write(linha)
         if not isinstance(self.data, pd.DataFrame):
@@ -164,7 +164,7 @@ class BlocoCurvaSegurancaREE(Section):
             return self.data.equals(bloco.data)
 
     # Override
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df():
             df = pd.DataFrame(tabela, columns=["ree", "ano"] + MESES_DF)
             df = df.astype({"ree": "int64", "ano": "int64"})
@@ -197,7 +197,7 @@ class BlocoCurvaSegurancaREE(Section):
                 i += 1
 
     # Override
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         for linha in self.__cabecalhos:
             file.write(linha)
         if not isinstance(self.data, pd.DataFrame):
@@ -248,7 +248,7 @@ class BlocoMaximoIteracoesProcessoIterativoEtapa2(Section):
             return self.data == bloco.data
 
     # Override
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         # Salta as linhas adicionais
         self.__cabecalhos.append(file.readline())
 
@@ -257,7 +257,7 @@ class BlocoMaximoIteracoesProcessoIterativoEtapa2(Section):
         )
 
     # Override
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         for linha in self.__cabecalhos:
             file.write(linha)
         if not isinstance(self.data, int):
@@ -303,7 +303,7 @@ class BlocoIteracaoAPartirProcessoIterativoEtapa2(Section):
         )
 
     # Override
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         if not isinstance(self.data, int):
             raise ValueError("Dados do curva.dat não foram lidos com sucesso")
 
@@ -347,7 +347,7 @@ class BlocoToleranciaProcessoIterativoEtapa2(Section):
         )
 
     # Override
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         if not isinstance(self.data, float):
             raise ValueError("Dados do curva.dat não foram lidos com sucesso")
 
@@ -385,13 +385,13 @@ class BlocoImpressaoRelatorioProcessoIterativoEtapa2(Section):
             return self.data == bloco.data
 
     # Override
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         self.__campo, self.data, self.__comentario = self.__linha.read(
             file.readline()
         )
 
     # Override
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         if not isinstance(self.data, int):
             raise ValueError("Dados do curva.dat não foram lidos com sucesso")
 

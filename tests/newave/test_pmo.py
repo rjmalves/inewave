@@ -7,6 +7,7 @@ from inewave.newave.modelos.pmo import (
     BlocoRiscoDeficitENSPMO,
     BlocoCustoOperacaoPMO,
     BlocoCustoOperacaoTotalPMO,
+    BlocoProdutibilidadesConfiguracaoPMO,
 )
 
 from inewave.newave import PMO
@@ -21,6 +22,7 @@ from tests.mocks.arquivos.pmo import MockBlocoConvergenciaPMO
 from tests.mocks.arquivos.pmo import (
     MockBlocoConfiguracoesExpansaoEntradaReservatorioPMO,
 )
+from tests.mocks.arquivos.pmo import MockBlocoProdutibilidadesPMO
 from tests.mocks.arquivos.pmo import MockBlocoMARSPMOInicial
 from tests.mocks.arquivos.pmo import MockBlocoMARSPMOFinal
 from tests.mocks.arquivos.pmo import MockBlocoRiscoDeficitENSPMO
@@ -28,9 +30,10 @@ from tests.mocks.arquivos.pmo import MockBlocoCustoOperacaoPMO
 from tests.mocks.arquivos.pmo import MockBlocoCustoOperacaoTotalPMO
 from tests.mocks.arquivos.pmo import MockPMO
 
+ARQ_TESTE = "./tests/mocks/arquivos/__init__.py"
+
 
 def test_eafpast_tendencia_hidrologica():
-
     m: MagicMock = mock_open(
         read_data="".join(MockBlocoEafPastTendenciaHidrolPMO)
     )
@@ -46,7 +49,6 @@ def test_eafpast_tendencia_hidrologica():
 
 
 def test_eafpast_cfuga_medio():
-
     m: MagicMock = mock_open(read_data="".join(MockBlocoEafPastCfugaMedioPMO))
     b = BlocoEafPastCfugaMedioPMO()
     with patch("builtins.open", m):
@@ -60,7 +62,6 @@ def test_eafpast_cfuga_medio():
 
 
 def test_convergencia():
-
     m: MagicMock = mock_open(read_data="".join(MockBlocoConvergenciaPMO))
     b = BlocoConvergenciaPMO()
     with patch("builtins.open", m):
@@ -140,10 +141,35 @@ def test_leitura_custo_total():
     assert b.data[1] == 107.00
 
 
+def test_leitura_produtibilidades():
+    m: MagicMock = mock_open(read_data="".join(MockBlocoProdutibilidadesPMO))
+    b = BlocoProdutibilidadesConfiguracaoPMO()
+    with patch("builtins.open", m):
+        with open("", "") as fp:
+            b.read(fp)
+
+    assert len(list(b.data.index)) == 1312
+    assert b.data.iloc[1, 1] == 1
+    assert b.data.iloc[1, 2] == 0.4483
+    assert b.data.iloc[1, 3] == 0.4334
+    assert b.data.iloc[1, 4] == 0.4005
+    assert b.data.iloc[1, 5] == 0.4625
+    assert b.data.iloc[1, 6] == 0.4886
+    assert b.data.iloc[1, 7] == 2.2083
+    assert b.data.iloc[1, 8] == 2.1858
+    assert b.data.iloc[1, 9] == 2.2292
+    assert b.data.iloc[1, 10] == 2.1382
+    assert b.data.iloc[1, 11] == 2.2292
+    assert b.data.iloc[1, 12] == 2.2697
+    assert b.data.iloc[1, 13] == 2.1382
+    assert b.data.iloc[1, 14] == 2.2292
+    assert b.data.iloc[1, 15] == 2.2697
+
+
 def test_atributos_encontrados_pmo():
     m: MagicMock = mock_open(read_data="".join(MockPMO))
     with patch("builtins.open", m):
-        pmo = PMO.le_arquivo("")
+        pmo = PMO.read(ARQ_TESTE)
         assert pmo.eafpast_tendencia_hidrologica is not None
         assert pmo.eafpast_cfuga_medio is not None
         assert pmo.convergencia is not None
@@ -158,30 +184,32 @@ def test_atributos_encontrados_pmo():
         assert pmo.valor_esperado_periodo_estudo is not None
         assert pmo.custo_operacao_total is not None
         assert pmo.desvio_custo_operacao_total is not None
+        assert pmo.produtibilidades_equivalentes is not None
 
 
 def test_atributos_nao_encontrados_pmo():
     m: MagicMock = mock_open(read_data="".join(MockBlocoConvergenciaPMO))
     with patch("builtins.open", m):
-        pmo = PMO.le_arquivo("")
+        pmo = PMO.read(ARQ_TESTE)
         assert pmo.convergencia is not None
         assert pmo.custo_operacao_series_simuladas is None
         assert pmo.custo_operacao_total is None
         assert pmo.desvio_custo_operacao_total is None
+        assert pmo.produtibilidades_equivalentes is None
 
 
 def test_eq_pmo():
     m: MagicMock = mock_open(read_data="".join(MockPMO))
     with patch("builtins.open", m):
-        pmo1 = PMO.le_arquivo("")
-        pmo2 = PMO.le_arquivo("")
+        pmo1 = PMO.read(ARQ_TESTE)
+        pmo2 = PMO.read(ARQ_TESTE)
         assert pmo1 == pmo2
 
 
 def test_neq_pmo():
     m: MagicMock = mock_open(read_data="".join(MockPMO))
     with patch("builtins.open", m):
-        pmo1 = PMO.le_arquivo("")
-        pmo2 = PMO.le_arquivo("")
+        pmo1 = PMO.read(ARQ_TESTE)
+        pmo2 = PMO.read(ARQ_TESTE)
         pmo2.configuracoes_alteracao_potencia
         assert pmo1 == pmo2

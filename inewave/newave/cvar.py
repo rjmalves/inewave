@@ -8,6 +8,10 @@ from cfinterface.files.blockfile import BlockFile
 from typing import Type, TypeVar, Optional
 import pandas as pd  # type: ignore
 
+# Para compatibilidade - até versão 1.0.0
+from os.path import join
+import warnings
+
 
 class CVAR(BlockFile):
     """
@@ -28,10 +32,21 @@ class CVAR(BlockFile):
 
     @classmethod
     def le_arquivo(cls, diretorio: str, nome_arquivo="cvar.dat") -> "CVAR":
-        return cls.read(diretorio, nome_arquivo)
+        msg = (
+            "O método le_arquivo(diretorio, nome_arquivo) será descontinuado"
+            + " na versão 1.0.0 - use o método read(caminho_arquivo)"
+        )
+        warnings.warn(msg, category=FutureWarning)
+        return cls.read(join(diretorio, nome_arquivo))
 
     def escreve_arquivo(self, diretorio: str, nome_arquivo="cvar.dat"):
-        self.write(diretorio, nome_arquivo)
+        msg = (
+            "O método escreve_arquivo(diretorio, nome_arquivo) será"
+            + " descontinuado na versão 1.0.0 -"
+            + " use o método write(caminho_arquivo)"
+        )
+        warnings.warn(msg, category=FutureWarning)
+        self.write(join(diretorio, nome_arquivo))
 
     def __bloco_por_tipo(self, bloco: Type[T], indice: int) -> Optional[T]:
         """

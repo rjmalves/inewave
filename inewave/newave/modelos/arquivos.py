@@ -32,7 +32,7 @@ class BlocoNomesArquivos(Section):
             return self.data.equals(bloco.data)
 
     # Override
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df():
             df = pd.DataFrame(data={"legenda": legendas, "nome": nomes})
             return df
@@ -49,7 +49,7 @@ class BlocoNomesArquivos(Section):
             nomes.append(dados[1])
 
     # Override
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         if not isinstance(self.data, pd.DataFrame):
             raise ValueError("Dados do arquivos.dat não foram lidos")
         for _, linha in self.data.iterrows():

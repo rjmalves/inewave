@@ -5,11 +5,13 @@ from unittest.mock import MagicMock, patch
 
 from tests.mocks.arquivos.geolm import MockGeolm
 
+ARQ_TESTE = "./tests/mocks/arquivos/__init__.py"
+
 
 def test_atributos_encontrados_geolm():
     m: MagicMock = mock_open(read_data="".join(MockGeolm))
     with patch("builtins.open", m):
-        n = Geolm.le_arquivo("")
+        n = Geolm.read(ARQ_TESTE)
         assert n.submercado is not None
         assert n.submercado == "NORDESTE"
         assert n.valores is not None
@@ -20,7 +22,7 @@ def test_atributos_encontrados_geolm():
 def test_atributos_nao_encontrados_geolm():
     m: MagicMock = mock_open(read_data="")
     with patch("builtins.open", m):
-        n = Geolm.le_arquivo("")
+        n = Geolm.read(ARQ_TESTE)
         assert n.submercado is None
         assert n.valores is None
 
@@ -28,8 +30,8 @@ def test_atributos_nao_encontrados_geolm():
 def test_eq_geolm():
     m: MagicMock = mock_open(read_data="".join(MockGeolm))
     with patch("builtins.open", m):
-        n1 = Geolm.le_arquivo("")
-        n2 = Geolm.le_arquivo("")
+        n1 = Geolm.read(ARQ_TESTE)
+        n2 = Geolm.read(ARQ_TESTE)
         assert n1 == n2
 
 

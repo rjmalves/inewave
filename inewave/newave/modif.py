@@ -1,10 +1,7 @@
 from cfinterface.components.register import Register
 from cfinterface.files.registerfile import RegisterFile
 from inewave.newave.modelos.modif import (
-    TURBMAXT,
-    TURBMINT,
     USINA,
-    VAZMAXT,
     VOLMIN,
     VOLMAX,
     NUMCNJ,
@@ -16,10 +13,17 @@ from inewave.newave.modelos.modif import (
     VMINT,
     VMINP,
     VAZMINT,
+    VAZMAXT,
+    TURBMAXT,
+    TURBMINT,
 )
 
 
 from typing import Type, TypeVar, List, Optional, Union
+
+# Para compatibilidade - até versão 1.0.0
+from os.path import join
+import warnings
 
 
 class Modif(RegisterFile):
@@ -43,6 +47,9 @@ class Modif(RegisterFile):
         VMINT,
         VMINP,
         VAZMINT,
+        VAZMAXT,
+        TURBMAXT,
+        TURBMINT,
     ]
 
     def __init__(self, data=...) -> None:
@@ -50,10 +57,21 @@ class Modif(RegisterFile):
 
     @classmethod
     def le_arquivo(cls, diretorio: str, nome_arquivo="modif.dat") -> "Modif":
-        return cls.read(diretorio, nome_arquivo)
+        msg = (
+            "O método le_arquivo(diretorio, nome_arquivo) será descontinuado"
+            + " na versão 1.0.0 - use o método read(caminho_arquivo)"
+        )
+        warnings.warn(msg, category=FutureWarning)
+        return cls.read(join(diretorio, nome_arquivo))
 
     def escreve_arquivo(self, diretorio: str, nome_arquivo="modif.dat"):
-        self.write(diretorio, nome_arquivo)
+        msg = (
+            "O método escreve_arquivo(diretorio, nome_arquivo) será"
+            + " descontinuado na versão 1.0.0 -"
+            + " use o método write(caminho_arquivo)"
+        )
+        warnings.warn(msg, category=FutureWarning)
+        self.write(join(diretorio, nome_arquivo))
 
     def __registros_por_tipo(self, registro: Type[T]) -> List[T]:
         """
@@ -405,8 +423,8 @@ class Modif(RegisterFile):
         :type mes: int | None
         :param ano: ano de validade do turbinamento
         :type ano: int | None
-        :param vazao: o turbinamento máximo
-        :type vazao: float | None
+        :param turbinamento: o turbinamento máximo
+        :type turbinamento: float | None
         :return: Um ou mais registros, se existirem.
         :rtype: :class:`TURBMAXT` | list[:class:`TURBMAXT`] | None
         """
@@ -426,8 +444,8 @@ class Modif(RegisterFile):
         :type mes: int | None
         :param ano: ano de validade do turbinamento
         :type ano: int | None
-        :param vazao: o turbinamento mínimo
-        :type vazao: float | None
+        :param turbinamento: o turbinamento mínimo
+        :type turbinamento: float | None
         :return: Um ou mais registros, se existirem.
         :rtype: :class:`TURBMINT` | list[:class:`TURBMINT`] | None
         """

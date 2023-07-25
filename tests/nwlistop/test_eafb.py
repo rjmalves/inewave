@@ -5,11 +5,13 @@ from unittest.mock import MagicMock, patch
 
 from tests.mocks.arquivos.eafb import MockEafb
 
+ARQ_TESTE = "./tests/mocks/arquivos/__init__.py"
+
 
 def test_atributos_encontrados_eafb():
     m: MagicMock = mock_open(read_data="".join(MockEafb))
     with patch("builtins.open", m):
-        n = Eafb.le_arquivo("")
+        n = Eafb.read(ARQ_TESTE)
         assert n.valores is not None
         assert n.valores.iloc[0, 0] == 2020
         assert n.valores.iloc[-1, -1] == 4523.0
@@ -20,7 +22,7 @@ def test_atributos_encontrados_eafb():
 def test_atributos_nao_encontrados_eafb():
     m: MagicMock = mock_open(read_data="")
     with patch("builtins.open", m):
-        n = Eafb.le_arquivo("")
+        n = Eafb.read(ARQ_TESTE)
         assert n.valores is None
         assert n.ree is None
 
@@ -28,8 +30,8 @@ def test_atributos_nao_encontrados_eafb():
 def test_eq_eafb():
     m: MagicMock = mock_open(read_data="".join(MockEafb))
     with patch("builtins.open", m):
-        n1 = Eafb.le_arquivo("")
-        n2 = Eafb.le_arquivo("")
+        n1 = Eafb.read(ARQ_TESTE)
+        n2 = Eafb.read(ARQ_TESTE)
         assert n1 == n2
 
 

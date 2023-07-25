@@ -99,5 +99,7 @@ MockDger = [
     "REST.ELETRI ESPECIAIS   0   (=0 NAO CONSIDERA , =1 CONSIDERA)\n",
     "FUNCAO DE PROD. UHE     0   (0=FPHA, 1=LINEAR GH=rho*Q)\n",
     "FCF POS ESTUDO          0   (0=NAO, 1=SIM)\n",
+    "ESTACOES BOMBEAMENTO    1   (=0 NAO CONSIDERA , =1 CONSIDERA)\n",
+    "CANAL DE DESVIO         1   (=0 NAO CONSIDERA , =1 CONSIDERA)\n",
     "",
 ]

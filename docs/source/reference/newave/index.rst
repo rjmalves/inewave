@@ -1,7 +1,7 @@
 .. _newave:
 
-NEWAVE
-=======
+Referência
+===========
 
 
 A estrutura do *inewave* padroniza os objetos de interface existentes para cada um dos três módulos desenvolvidos. 
@@ -54,8 +54,11 @@ Arquivos
 .. toctree::
    :maxdepth: 2
 
+   arquivos/caso
+   arquivos/arquivos
    arquivos/dger
    arquivos/adterm
+   arquivos/agrint
    arquivos/cadic
    arquivos/curva
    arquivos/re
@@ -64,15 +67,26 @@ Arquivos
    arquivos/penalid
    arquivos/patamar
    arquivos/pmo
+   arquivos/forwarh
+   arquivos/forward
+   arquivos/cortesh
+   arquivos/cortes
    arquivos/newavetim
    arquivos/confhd
+   arquivos/conft
+   arquivos/clast
    arquivos/exph
+   arquivos/expt
    arquivos/modif
+   arquivos/ghmin
+   arquivos/manutt
    arquivos/dsvagua
    arquivos/vazpast
    arquivos/eafpast
    arquivos/hidr
    arquivos/vazoes
+   arquivos/shist
+   arquivos/selcor
    arquivos/parp
    arquivos/parpeol
    arquivos/parpvaz
@@ -83,6 +97,22 @@ Arquivos
    arquivos/eolicaposto
    arquivos/eolicahistorico
    arquivos/eolicageracao
+   arquivos/energiaf
+   arquivos/energiab
+   arquivos/energias
+   arquivos/enavazf
+   arquivos/enavazb
+   arquivos/engnat
+   arquivos/vazaof
+   arquivos/vazaob
+   arquivos/vazaos
    arquivos/nwv_avl_evap
    arquivos/nwv_cortes_evap
    arquivos/nwv_eco_evap
+   arquivos/avl_cortesfpha_nwv
+   arquivos/avl_desvfpha_s
+   arquivos/avl_desvfpha_v_q
+   arquivos/restricaoenergia
+   arquivos/restricaovazao
+   arquivos/restricaoeletrica
+

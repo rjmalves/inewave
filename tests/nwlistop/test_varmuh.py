@@ -5,11 +5,13 @@ from unittest.mock import MagicMock, patch
 
 from tests.mocks.arquivos.varmpuh import MockVarmpUH
 
+ARQ_TESTE = "./tests/mocks/arquivos/__init__.py"
+
 
 def test_atributos_encontrados_varmpuh():
     m: MagicMock = mock_open(read_data="".join(MockVarmpUH))
     with patch("builtins.open", m):
-        n = VarmpUH.le_arquivo("")
+        n = VarmpUH.read(ARQ_TESTE)
         assert n.usina is not None
         assert n.usina == "CAMARGOS"
         assert n.valores is not None
@@ -20,7 +22,7 @@ def test_atributos_encontrados_varmpuh():
 def test_atributos_nao_encontrados_varmpuh():
     m: MagicMock = mock_open(read_data="")
     with patch("builtins.open", m):
-        n = VarmpUH.le_arquivo("")
+        n = VarmpUH.read(ARQ_TESTE)
         assert n.usina is None
         assert n.valores is None
 
@@ -28,8 +30,8 @@ def test_atributos_nao_encontrados_varmpuh():
 def test_eq_varmpuh():
     m: MagicMock = mock_open(read_data="".join(MockVarmpUH))
     with patch("builtins.open", m):
-        n1 = VarmpUH.le_arquivo("")
-        n2 = VarmpUH.le_arquivo("")
+        n1 = VarmpUH.read(ARQ_TESTE)
+        n2 = VarmpUH.read(ARQ_TESTE)
         assert n1 == n2
 
 

@@ -47,7 +47,7 @@ class BlocoUTEClasT(Section):
             return self.data.equals(bloco.data)
 
     # Override
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df():
             cols = [f"custo_{i}" for i in range(1, 6)]
             df = pd.DataFrame(tabela, columns=cols)
@@ -84,7 +84,7 @@ class BlocoUTEClasT(Section):
             i += 1
 
     # Override
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         for linha in self.__cabecalhos:
             file.write(linha)
         if not isinstance(self.data, pd.DataFrame):
@@ -131,7 +131,7 @@ class BlocoModificacaoUTEClasT(Section):
             return self.data.equals(bloco.data)
 
     # Override
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df():
             df = pd.DataFrame(
                 data={
@@ -175,7 +175,7 @@ class BlocoModificacaoUTEClasT(Section):
             nomes.append(dados[6])
 
     # Override
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         for linha in self.__cabecalhos:
             file.write(linha)
         if not isinstance(self.data, pd.DataFrame):

@@ -1,7 +1,8 @@
 .. _nwlistop:
 
-NWLISTOP
-========
+Referência
+===========
+
 
 
 A estrutura do *inewave* padroniza os objetos de interface existentes para cada um dos três módulos desenvolvidos. 
@@ -63,6 +64,7 @@ Arquivos
 .. toctree::
    :maxdepth: 2
 
+   arquivos/nwlistopdat
    arquivos/cmarg
    arquivos/cmargmed
    arquivos/cterm
@@ -107,6 +109,7 @@ Arquivos
    arquivos/geolsin
    arquivos/fteolm
    arquivos/fteolsin
+   arquivos/gtert
    arquivos/gttot
    arquivos/gttotsin
    arquivos/intercambio

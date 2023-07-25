@@ -39,7 +39,7 @@ class ValoresSerie(Block):
             return self.data.equals(bloco.data)
 
     # Override
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df():
             cols = ["Série"] + MESES_DF + ["Média"]
             df = pd.DataFrame(tabela, columns=cols)

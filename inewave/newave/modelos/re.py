@@ -43,7 +43,7 @@ class BlocoUsinasConjuntoRE(Section):
             return self.data.equals(bloco.data)
 
     # Override
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df():
             cols = ["Conjunto"] + [f"Usina {i}" for i in range(1, 11)]
             df = pd.DataFrame(tabela, columns=cols)
@@ -72,7 +72,7 @@ class BlocoUsinasConjuntoRE(Section):
                 i += 1
 
     # Override
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         for linha in self.__cabecalhos:
             file.write(linha)
         if not isinstance(self.data, pd.DataFrame):
@@ -125,7 +125,7 @@ class BlocoConfiguracaoRestricoesRE(Section):
             return self.data.equals(bloco.data)
 
     # Override
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df():
             cols = [
                 "Conjunto",
@@ -174,7 +174,7 @@ class BlocoConfiguracaoRestricoesRE(Section):
                 i += 1
 
     # Override
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         for linha in self.__cabecalhos:
             file.write(linha)
         if not isinstance(self.data, pd.DataFrame):

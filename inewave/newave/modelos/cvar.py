@@ -43,13 +43,13 @@ class BlocoValoresConstantesCVAR(Block):
             return self.data == bloco.data
 
     # Override
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         for _ in range(2):
             self.__cabecalhos.append(file.readline())
         self.data = self.__linha.read(file.readline())
 
     # Override
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         for linha in self.__cabecalhos:
             file.write(linha)
         if not isinstance(self.data, list):
@@ -90,7 +90,7 @@ class BlocoAlfaVariavelNoTempo(Block):
             return self.data.equals(bloco.data)
 
     # Override
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df():
             df = pd.DataFrame(tabela, columns=MESES_DF)
             df["ano"] = anos
@@ -122,7 +122,7 @@ class BlocoAlfaVariavelNoTempo(Block):
             i += 1
 
     # Override
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         for linha in self.__cabecalhos:
             file.write(linha)
         if not isinstance(self.data, pd.DataFrame):
@@ -165,7 +165,7 @@ class BlocoLambdaVariavelNoTempo(Block):
             return self.data.equals(bloco.data)
 
     # Override
-    def read(self, file: IO):
+    def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df():
             df = pd.DataFrame(tabela, columns=MESES_DF)
             df["ano"] = anos
@@ -194,7 +194,7 @@ class BlocoLambdaVariavelNoTempo(Block):
             i += 1
 
     # Override
-    def write(self, file: IO):
+    def write(self, file: IO, *args, **kwargs):
         for linha in self.__cabecalhos:
             file.write(linha)
         if not isinstance(self.data, pd.DataFrame):
