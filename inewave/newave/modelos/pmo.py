@@ -352,7 +352,7 @@ class BlocoRiscoDeficitENSPMO(Block):
     ENS (energia não suprida) existentes no arquivo `pmo.dat`.
     """
 
-    BEGIN_PATTERN = "RISCO ANUAL DE DEFICIT E E\(ENS\) \(%\)"  # noqa
+    BEGIN_PATTERN = r"RISCO ANUAL DE DEFICIT E E\(ENS\) \(%\)"  # noqa
     END_PATTERN = ""
 
     def __eq__(self, o: object) -> bool:
