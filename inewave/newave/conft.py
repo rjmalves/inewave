@@ -65,11 +65,11 @@ class ConfT(SectionFile):
         """
         Tabela com as usinas.
 
-        - Número (`int`)
-        - Nome (`str`)
-        - Subsistema (`int`)
-        - Usina Existente (`str`)
-        - Classe (`int`)
+        - codigo_usina (`int`)
+        - nome_usina (`str`)
+        - submercado (`int`)
+        - usina_existente (`str`)
+        - classe (`int`)
 
         :return: A tabela como um DataFrame
         :rtype: pd.DataFrame | None

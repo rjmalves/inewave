@@ -85,8 +85,8 @@ class Arquivos(SectionFile):
                         b.data,
                         pd.DataFrame(
                             data={
-                                "Legenda": col_vazia,
-                                "Nome": col_vazia,
+                                "legenda": col_vazia,
+                                "nome": col_vazia,
                             }
                         ),
                     ],

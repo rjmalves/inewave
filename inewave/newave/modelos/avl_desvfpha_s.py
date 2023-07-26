@@ -17,7 +17,7 @@ class TabelaAvlDesvFphaS(Block):
     BEGIN_PATTERN = "-----;--------------;--------;"
 
     COLUMN_NAMES = [
-        "indice_usina",
+        "codigo_usina",
         "nome_usina",
         "volume_armazenado_percentual",
         "vazao_turbinada_m3s",
@@ -78,7 +78,7 @@ class TabelaAvlDesvFphaS(Block):
                 self.data = self._monta_df(dados)
                 return
             dados_linha = self.__linha.read(linha)
-            dados["indice_usina"] += [dados_linha[0]] * num_valores_vert
+            dados["codigo_usina"] += [dados_linha[0]] * num_valores_vert
             dados["nome_usina"] += [dados_linha[1]] * num_valores_vert
             dados["volume_armazenado_percentual"] += [
                 dados_linha[2]

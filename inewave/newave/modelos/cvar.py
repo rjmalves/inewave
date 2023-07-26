@@ -93,9 +93,9 @@ class BlocoAlfaVariavelNoTempo(Block):
     def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df():
             df = pd.DataFrame(tabela, columns=MESES_DF)
-            df["Ano"] = anos
+            df["ano"] = anos
             df = df
-            df = df[["Ano"] + MESES_DF]
+            df = df[["ano"] + MESES_DF]
             return df
 
         # Salta as linhas adicionais
@@ -168,9 +168,9 @@ class BlocoLambdaVariavelNoTempo(Block):
     def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df():
             df = pd.DataFrame(tabela, columns=MESES_DF)
-            df["Ano"] = anos
+            df["ano"] = anos
             df = df
-            df = df[["Ano"] + MESES_DF]
+            df = df[["ano"] + MESES_DF]
             return df
 
         # Salta as linhas adicionais

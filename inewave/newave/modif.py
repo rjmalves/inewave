@@ -20,6 +20,7 @@ from inewave.newave.modelos.modif import (
 
 
 from typing import Type, TypeVar, List, Optional, Union
+import pandas as pd  # type: ignore
 
 # Para compatibilidade - até versão 1.0.0
 from os.path import join
@@ -150,8 +151,11 @@ class Modif(RegisterFile):
         self.data.preppend(registro)
 
     def usina(
-        self, codigo: Optional[int] = None, nome: Optional[str] = None
-    ) -> Optional[Union[USINA, List[USINA]]]:
+        self,
+        codigo: Optional[int] = None,
+        nome: Optional[str] = None,
+        df: bool = False,
+    ) -> Optional[Union[USINA, List[USINA], pd.DataFrame]]:
         """
         Obtém um registro que define a usina modificada.
 
@@ -160,15 +164,21 @@ class Modif(RegisterFile):
         :param nome: nome da usina
         :type nome: str | None
         :return: Um ou mais registros, se existirem.
-        :rtype: :class:`USINA` | list[:class:`USINA`] | None
+        :rtype: :class:`USINA` | list[:class:`USINA`] | :class:`pd.DataFrame` | None
         """
-        return self.__obtem_registros_com_filtros(
-            USINA, codigo=codigo, nome=nome
-        )
+        if df:
+            return self._as_df(USINA)
+        else:
+            return self.__obtem_registros_com_filtros(
+                USINA, codigo=codigo, nome=nome
+            )
 
     def volmin(
-        self, volume: Optional[float] = None, unidade: Optional[str] = None
-    ) -> Optional[Union[VOLMIN, List[VOLMIN]]]:
+        self,
+        volume: Optional[float] = None,
+        unidade: Optional[str] = None,
+        df: bool = False,
+    ) -> Optional[Union[VOLMIN, List[VOLMIN], pd.DataFrame]]:
         """
         Obtém um registro que define um volume mínimo.
 
@@ -177,15 +187,21 @@ class Modif(RegisterFile):
         :param unidade: unidade do volume
         :type unidade: str | None
         :return: Um ou mais registros, se existirem.
-        :rtype: :class:`VOLMIN` | list[:class:`VOLMIN`] | None
+        :rtype: :class:`VOLMIN` | list[:class:`VOLMIN`] | :class:`pd.DataFrame`| None
         """
-        return self.__obtem_registros_com_filtros(
-            VOLMIN, volume=volume, unidade=unidade
-        )
+        if df:
+            return self._as_df(USINA)
+        else:
+            return self.__obtem_registros_com_filtros(
+                VOLMIN, volume=volume, unidade=unidade
+            )
 
     def volmax(
-        self, volume: Optional[float] = None, unidade: Optional[str] = None
-    ) -> Optional[Union[VOLMAX, List[VOLMAX]]]:
+        self,
+        volume: Optional[float] = None,
+        unidade: Optional[str] = None,
+        df: bool = False,
+    ) -> Optional[Union[VOLMAX, List[VOLMAX], pd.DataFrame]]:
         """
         Obtém um registro que define um volume máximo.
 
@@ -194,31 +210,39 @@ class Modif(RegisterFile):
         :param unidade: unidade do volume
         :type unidade: str | None
         :return: Um ou mais registros, se existirem.
-        :rtype: :class:`VOLMAX` | list[:class:`VOLMAX`] | None
+        :rtype: :class:`VOLMAX` | list[:class:`VOLMAX`] | :class:`pd.DataFrame` | None
         """
-        return self.__obtem_registros_com_filtros(
-            VOLMAX, volume=volume, unidade=unidade
-        )
+        if df:
+            return self._as_df(USINA)
+        else:
+            return self.__obtem_registros_com_filtros(
+                VOLMAX, volume=volume, unidade=unidade
+            )
 
     def numcnj(
         self,
         numero: Optional[int] = None,
-    ) -> Optional[Union[NUMCNJ, List[NUMCNJ]]]:
+        df: bool = False,
+    ) -> Optional[Union[NUMCNJ, List[NUMCNJ], pd.DataFrame]]:
         """
         Obtém um registro que um número de conjuntos de máquinas.
 
         :param numero: o número
         :type numero: int | None
         :return: Um ou mais registros, se existirem.
-        :rtype: :class:`NUMCNJ` | list[:class:`NUMCNJ`] | None
+        :rtype: :class:`NUMCNJ` | list[:class:`NUMCNJ`] | :class:`pd.DataFrame` | None
         """
-        return self.__obtem_registros_com_filtros(NUMCNJ, numero=numero)
+        if df:
+            return self._as_df(USINA)
+        else:
+            return self.__obtem_registros_com_filtros(NUMCNJ, numero=numero)
 
     def nummaq(
         self,
         conjunto: Optional[int] = None,
         numero_maquinas: Optional[int] = None,
-    ) -> Optional[Union[NUMMAQ, List[NUMMAQ]]]:
+        df: bool = False,
+    ) -> Optional[Union[NUMMAQ, List[NUMMAQ], pd.DataFrame]]:
         """
         Obtém um registro que um número de máquinas por
             conjunto de máquinas.
@@ -228,31 +252,40 @@ class Modif(RegisterFile):
         :param numero_maquinas: o número de máquinas
         :type numero_maquinas: int | None
         :return: Um ou mais registros, se existirem.
-        :rtype: :class:`NUMMAQ` | list[:class:`NUMMAQ`] | None
+        :rtype: :class:`NUMMAQ` | list[:class:`NUMMAQ`] | :class:`pd.DataFrame` | None
         """
-        return self.__obtem_registros_com_filtros(
-            NUMMAQ, conjunto=conjunto, numero_maquinas=numero_maquinas
-        )
+        if df:
+            return self._as_df(USINA)
+        else:
+            return self.__obtem_registros_com_filtros(
+                NUMMAQ, conjunto=conjunto, numero_maquinas=numero_maquinas
+            )
 
     def vazmin(
-        self, vazao: Optional[float] = None
-    ) -> Optional[Union[VAZMIN, List[VAZMIN]]]:
+        self,
+        vazao: Optional[float] = None,
+        df: bool = False,
+    ) -> Optional[Union[VAZMIN, List[VAZMIN], pd.DataFrame]]:
         """
         Obtém um registro que define uma vazão mínima.
 
         :param vazao: vazão mínima
         :type vazao: float | None
         :return: Um ou mais registros, se existirem.
-        :rtype: :class:`VAZMIN` | list[:class:`VAZMIN`] | None
+        :rtype: :class:`VAZMIN` | list[:class:`VAZMIN`] | :class:`pd.DataFrame` | None
         """
-        return self.__obtem_registros_com_filtros(VAZMIN, vazao=vazao)
+        if df:
+            return self._as_df(USINA)
+        else:
+            return self.__obtem_registros_com_filtros(VAZMIN, vazao=vazao)
 
     def cfuga(
         self,
         mes: Optional[int] = None,
         ano: Optional[int] = None,
         nivel: Optional[float] = None,
-    ) -> Optional[Union[CFUGA, List[CFUGA]]]:
+        df: bool = False,
+    ) -> Optional[Union[CFUGA, List[CFUGA], pd.DataFrame]]:
         """
         Obtém um registro que define o nível do canal de fuga.
 
@@ -263,18 +296,22 @@ class Modif(RegisterFile):
         :param nivel: o nível
         :type nivel: float | None
         :return: Um ou mais registros, se existirem.
-        :rtype: :class:`CFUGA` | list[:class:`CFUGA`] | None
+        :rtype: :class:`CFUGA` | list[:class:`CFUGA`] | :class:`pd.DataFrame` | None
         """
-        return self.__obtem_registros_com_filtros(
-            CFUGA, mes=mes, ano=ano, nivel=nivel
-        )
+        if df:
+            return self._as_df(USINA)
+        else:
+            return self.__obtem_registros_com_filtros(
+                CFUGA, mes=mes, ano=ano, nivel=nivel
+            )
 
     def cmont(
         self,
         mes: Optional[int] = None,
         ano: Optional[int] = None,
         nivel: Optional[float] = None,
-    ) -> Optional[Union[CMONT, List[CMONT]]]:
+        df: bool = False,
+    ) -> Optional[Union[CMONT, List[CMONT], pd.DataFrame]]:
         """
         Obtém um registro que define o nível do canal de montante.
 
@@ -285,11 +322,14 @@ class Modif(RegisterFile):
         :param nivel: o nível
         :type nivel: float | None
         :return: Um ou mais registros, se existirem.
-        :rtype: :class:`CMONT` | list[:class:`CMONT`] | None
+        :rtype: :class:`CMONT` | list[:class:`CMONT`] | :class:`pd.DataFrame` | None
         """
-        return self.__obtem_registros_com_filtros(
-            CMONT, mes=mes, ano=ano, nivel=nivel
-        )
+        if df:
+            return self._as_df(USINA)
+        else:
+            return self.__obtem_registros_com_filtros(
+                CMONT, mes=mes, ano=ano, nivel=nivel
+            )
 
     def vmaxt(
         self,
@@ -297,7 +337,8 @@ class Modif(RegisterFile):
         ano: Optional[int] = None,
         volume: Optional[float] = None,
         unidade: Optional[str] = None,
-    ) -> Optional[Union[VMAXT, List[VMAXT]]]:
+        df: bool = False,
+    ) -> Optional[Union[VMAXT, List[VMAXT], pd.DataFrame]]:
         """
         Obtém um registro que define o volume máximo por período.
 
@@ -310,11 +351,14 @@ class Modif(RegisterFile):
         :param unidade: a unidade do volume
         :type unidade: str | None
         :return: Um ou mais registros, se existirem.
-        :rtype: :class:`VMAXT` | list[:class:`VMAXT`] | None
+        :rtype: :class:`VMAXT` | list[:class:`VMAXT`] | :class:`pd.DataFrame` | None
         """
-        return self.__obtem_registros_com_filtros(
-            VMAXT, mes=mes, ano=ano, volume=volume, unidade=unidade
-        )
+        if df:
+            return self._as_df(USINA)
+        else:
+            return self.__obtem_registros_com_filtros(
+                VMAXT, mes=mes, ano=ano, volume=volume, unidade=unidade
+            )
 
     def vmint(
         self,
@@ -322,7 +366,8 @@ class Modif(RegisterFile):
         ano: Optional[int] = None,
         volume: Optional[float] = None,
         unidade: Optional[str] = None,
-    ) -> Optional[Union[VMINT, List[VMINT]]]:
+        df: bool = False,
+    ) -> Optional[Union[VMINT, List[VMINT], pd.DataFrame]]:
         """
         Obtém um registro que define o volume mínimo por período.
 
@@ -335,11 +380,14 @@ class Modif(RegisterFile):
         :param unidade: a unidade do volume
         :type unidade: str | None
         :return: Um ou mais registros, se existirem.
-        :rtype: :class:`VMINT` | list[:class:`VMINT`] | None
+        :rtype: :class:`VMINT` | list[:class:`VMINT`] | :class:`pd.DataFrame` | None
         """
-        return self.__obtem_registros_com_filtros(
-            VMINT, mes=mes, ano=ano, volume=volume, unidade=unidade
-        )
+        if df:
+            return self._as_df(USINA)
+        else:
+            return self.__obtem_registros_com_filtros(
+                VMINT, mes=mes, ano=ano, volume=volume, unidade=unidade
+            )
 
     def vminp(
         self,
@@ -347,7 +395,8 @@ class Modif(RegisterFile):
         ano: Optional[int] = None,
         volume: Optional[float] = None,
         unidade: Optional[str] = None,
-    ) -> Optional[Union[VMINP, List[VMINP]]]:
+        df: bool = False,
+    ) -> Optional[Union[VMINP, List[VMINP], pd.DataFrame]]:
         """
         Obtém um registro que define o volume mínimo para penalidade.
 
@@ -360,18 +409,22 @@ class Modif(RegisterFile):
         :param unidade: a unidade do volume
         :type unidade: str | None
         :return: Um ou mais registros, se existirem.
-        :rtype: :class:`VMINP` | list[:class:`VMINP`] | None
+        :rtype: :class:`VMINP` | list[:class:`VMINP`] | :class:`pd.DataFrame` | None
         """
-        return self.__obtem_registros_com_filtros(
-            VMINP, mes=mes, ano=ano, volume=volume, unidade=unidade
-        )
+        if df:
+            return self._as_df(USINA)
+        else:
+            return self.__obtem_registros_com_filtros(
+                VMINP, mes=mes, ano=ano, volume=volume, unidade=unidade
+            )
 
     def vazmint(
         self,
         mes: Optional[int] = None,
         ano: Optional[int] = None,
         vazao: Optional[float] = None,
-    ) -> Optional[Union[VAZMINT, List[VAZMINT]]]:
+        df: bool = False,
+    ) -> Optional[Union[VAZMINT, List[VAZMINT], pd.DataFrame]]:
         """
         Obtém um registro que define a vazão mínima por período.
 
@@ -382,18 +435,22 @@ class Modif(RegisterFile):
         :param vazao: a vazão mínima
         :type vazao: float | None
         :return: Um ou mais registros, se existirem.
-        :rtype: :class:`VAZMINT` | list[:class:`VAZMINT`] | None
+        :rtype: :class:`VAZMINT` | list[:class:`VAZMINT`] | :class:`pd.DataFrame` | None
         """
-        return self.__obtem_registros_com_filtros(
-            VAZMINT, mes=mes, ano=ano, vazao=vazao
-        )
+        if df:
+            return self._as_df(USINA)
+        else:
+            return self.__obtem_registros_com_filtros(
+                VAZMINT, mes=mes, ano=ano, vazao=vazao
+            )
 
     def vazmaxt(
         self,
         mes: Optional[int] = None,
         ano: Optional[int] = None,
         vazao: Optional[float] = None,
-    ) -> Optional[Union[VAZMAXT, List[VAZMAXT]]]:
+        df: bool = False,
+    ) -> Optional[Union[VAZMAXT, List[VAZMAXT], pd.DataFrame]]:
         """
         Obtém um registro que define a vazão máxima por período.
 
@@ -404,18 +461,22 @@ class Modif(RegisterFile):
         :param vazao: a vazão máxima
         :type vazao: float | None
         :return: Um ou mais registros, se existirem.
-        :rtype: :class:`VAZMAXT` | list[:class:`VAZMAXT`] | None
+        :rtype: :class:`VAZMAXT` | list[:class:`VAZMAXT`] | :class:`pd.DataFrame` | None
         """
-        return self.__obtem_registros_com_filtros(
-            VAZMAXT, mes=mes, ano=ano, vazao=vazao
-        )
+        if df:
+            return self._as_df(USINA)
+        else:
+            return self.__obtem_registros_com_filtros(
+                VAZMAXT, mes=mes, ano=ano, vazao=vazao
+            )
 
     def turbmaxt(
         self,
         mes: Optional[int] = None,
         ano: Optional[int] = None,
         turbinamento: Optional[float] = None,
-    ) -> Optional[Union[TURBMAXT, List[TURBMAXT]]]:
+        df: bool = False,
+    ) -> Optional[Union[TURBMAXT, List[TURBMAXT], pd.DataFrame]]:
         """
         Obtém um registro que define o turbinamento máximo por período.
 
@@ -426,18 +487,22 @@ class Modif(RegisterFile):
         :param turbinamento: o turbinamento máximo
         :type turbinamento: float | None
         :return: Um ou mais registros, se existirem.
-        :rtype: :class:`TURBMAXT` | list[:class:`TURBMAXT`] | None
+        :rtype: :class:`TURBMAXT` | list[:class:`TURBMAXT`] | :class:`pd.DataFrame` | None
         """
-        return self.__obtem_registros_com_filtros(
-            TURBMAXT, mes=mes, ano=ano, turbinamento=turbinamento
-        )
+        if df:
+            return self._as_df(USINA)
+        else:
+            return self.__obtem_registros_com_filtros(
+                TURBMAXT, mes=mes, ano=ano, turbinamento=turbinamento
+            )
 
     def turbmint(
         self,
         mes: Optional[int] = None,
         ano: Optional[int] = None,
         turbinamento: Optional[float] = None,
-    ) -> Optional[Union[TURBMINT, List[TURBMINT]]]:
+        df: bool = False,
+    ) -> Optional[Union[TURBMINT, List[TURBMINT], pd.DataFrame]]:
         """
         Obtém um registro que define o turbinamento mínimo por período.
         :param mes: mês de validade do turbinamento
@@ -447,11 +512,14 @@ class Modif(RegisterFile):
         :param turbinamento: o turbinamento mínimo
         :type turbinamento: float | None
         :return: Um ou mais registros, se existirem.
-        :rtype: :class:`TURBMINT` | list[:class:`TURBMINT`] | None
+        :rtype: :class:`TURBMINT` | list[:class:`TURBMINT`] | :class:`pd.DataFrame` | None
         """
-        return self.__obtem_registros_com_filtros(
-            TURBMINT, mes=mes, ano=ano, turbinamento=turbinamento
-        )
+        if df:
+            return self._as_df(USINA)
+        else:
+            return self.__obtem_registros_com_filtros(
+                TURBMINT, mes=mes, ano=ano, turbinamento=turbinamento
+            )
 
     def modificacoes_usina(self, codigo: int) -> Optional[List[Register]]:
         """

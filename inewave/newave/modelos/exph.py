@@ -51,15 +51,15 @@ class BlocoUHEExph(Section):
     def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df():
             df = pd.DataFrame()
-            df["Código UHE"] = codigo_uhes
-            df["Nome UHE"] = nome_uhes
-            df["Início Enchimento"] = inicio_enchimento
-            df["Duração"] = duracao
-            df["Volume Morto"] = volume_morto
-            df["Data de Entrada"] = data_entrada
-            df["Potência"] = potencia
-            df["Máquina"] = maquina
-            df["Conjunto"] = conjunto
+            df["codigo_usina"] = codigo_uhes
+            df["nome_usina"] = nome_uhes
+            df["data_inicio_enchimento"] = inicio_enchimento
+            df["duracao_enchimento"] = duracao
+            df["volume_morto"] = volume_morto
+            df["data_entrada_operacao"] = data_entrada
+            df["potencia_instalada"] = potencia
+            df["maquina_entrada"] = maquina
+            df["conjunto_maquina_entrada"] = conjunto
             return df
 
         # Salta as linhas adicionais
@@ -133,9 +133,9 @@ class BlocoUHEExph(Section):
         ultima_uhe = 0
         for _, linha in self.data.iterrows():
             linha_lida: pd.Series = linha
-            if linha_lida["Código UHE"] != ultima_uhe and ultima_uhe != 0:
+            if linha_lida["codigo_usina"] != ultima_uhe and ultima_uhe != 0:
                 file.write(f"{BlocoUHEExph.FIM_BLOCO}\n")
-            ultima_uhe = int(linha_lida["Código UHE"])
+            ultima_uhe = int(linha_lida["codigo_usina"])
             dados_linha = linha_lida.tolist()
             # Corrige posições opcionais
             for i in [3, -1, -2]:

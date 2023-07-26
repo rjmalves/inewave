@@ -1,7 +1,7 @@
 from inewave.newave.modelos.curva import (
     BlocoConfiguracoesPenalizacaoCurva,
     BlocoPenalidadesViolacaoREECurva,
-    BlocoCurvaSegurancaSubsistema,
+    BlocoCurvaSegurancaREE,
     BlocoMaximoIteracoesProcessoIterativoEtapa2,
     BlocoIteracaoAPartirProcessoIterativoEtapa2,
     BlocoToleranciaProcessoIterativoEtapa2,
@@ -28,7 +28,7 @@ class Curva(SectionFile):
     SECTIONS = [
         BlocoConfiguracoesPenalizacaoCurva,
         BlocoPenalidadesViolacaoREECurva,
-        BlocoCurvaSegurancaSubsistema,
+        BlocoCurvaSegurancaREE,
         BlocoMaximoIteracoesProcessoIterativoEtapa2,
         BlocoIteracaoAPartirProcessoIterativoEtapa2,
         BlocoToleranciaProcessoIterativoEtapa2,
@@ -103,8 +103,8 @@ class Curva(SectionFile):
         """
         Tabela com os custos para penalização em cada REE.
 
-        - Subsistema (`int`)
-        - Custo (`float`)
+        - ree (`int`)
+        - penalidade (`float`)
 
         :return: Os custos por REE em um DataFrame.
         :rtype: pd.DataFrame | None
@@ -127,24 +127,24 @@ class Curva(SectionFile):
         """
         Tabela da curva de segurança por REE.
 
-        - REE (`int`)
-        - Ano (`int`)
-        - Janeiro (`float`)
-        - Fevereiro (`float`)
+        - ree (`int`)
+        - ano (`int`)
+        - janeiro (`float`)
+        - fevereiro (`float`)
         - ...
-        - Dezembro (`float`)
+        - dezembro (`float`)
 
         :return: Os valores dos campos da linha como uma lista.
         :rtype: pd.DataFrame | None
         """
-        b = self.__bloco_por_tipo(BlocoCurvaSegurancaSubsistema, 0)
+        b = self.__bloco_por_tipo(BlocoCurvaSegurancaREE, 0)
         if b is not None:
             return b.data
         return None
 
     @curva_seguranca.setter
     def curva_seguranca(self, valor: pd.DataFrame):
-        b = self.__bloco_por_tipo(BlocoCurvaSegurancaSubsistema, 0)
+        b = self.__bloco_por_tipo(BlocoCurvaSegurancaREE, 0)
         if b is not None:
             b.data = valor
         else:

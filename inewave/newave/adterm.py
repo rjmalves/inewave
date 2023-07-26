@@ -66,10 +66,12 @@ class AdTerm(SectionFile):
         """
         A tabela de espachos antecipados das térmicas GNL.
 
-        - Código UTE (`int`)
-        - Nome UTE (`str`)
-        - Lag (`int`)
-        - Patamar [1-p] (`float`), onde p é o número de patamares.
+        - codigo_usina (`int`)
+        - nome_usina (`str`)
+        - lag (`int`)
+        - patamar_1 (`float`)
+        - ...
+        - patamar_N (`float`)
 
         :return: A tabela como um DataFrame
         :rtype: pd.DataFrame | None

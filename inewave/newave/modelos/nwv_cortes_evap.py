@@ -30,7 +30,7 @@ class TabelaCortesEvap(TabelaCSV):
     )
     COLUMN_NAMES = [
         "periodo",
-        "indice_usina",
+        "codigo_usina",
         "nome_usina",
         "derivada_cota_area",
         "derivada_volume_cota",

@@ -292,13 +292,13 @@ class BlocoIntercambioPatamarSubsistemas(Section):
         def converte_tabela_em_df():
             df = pd.DataFrame(
                 tabela,
-                columns=["Subsistema De", "Subsistema Para", "Ano"] + MESES_DF,
+                columns=["submercado_de", "submercado_para", "ano"] + MESES_DF,
             )
             df = df.astype(
                 {
-                    "Subsistema De": "int64",
-                    "Subsistema Para": "int64",
-                    "Ano": "int64",
+                    "submercado_de": "int64",
+                    "submercado_para": "int64",
+                    "ano": "int64",
                 }
             )
             return df
@@ -360,13 +360,13 @@ class BlocoIntercambioPatamarSubsistemas(Section):
             linha_lida: pd.Series = linha
             if any(
                 [
-                    linha_lida["Subsistema De"] != ultimo_subsistema_de,
-                    linha_lida["Subsistema Para"] != ultimo_subsistema_para,
+                    linha_lida["submercado_de"] != ultimo_subsistema_de,
+                    linha_lida["submercado_para"] != ultimo_subsistema_para,
                 ]
             ):
                 ultimo_ano = 0
-                ultimo_subsistema_de = linha_lida["Subsistema De"]
-                ultimo_subsistema_para = linha_lida["Subsistema Para"]
+                ultimo_subsistema_de = linha_lida["submercado_de"]
+                ultimo_subsistema_para = linha_lida["submercado_para"]
                 file.write(
                     self.__linha_subsis.write(
                         [
@@ -376,11 +376,11 @@ class BlocoIntercambioPatamarSubsistemas(Section):
                     )
                 )
             ano_linha = (
-                int(linha_lida["Ano"])
-                if linha_lida["Ano"] != ultimo_ano
+                int(linha_lida["ano"])
+                if linha_lida["ano"] != ultimo_ano
                 else None
             )
-            ultimo_ano = int(linha_lida["Ano"])
+            ultimo_ano = int(linha_lida["ano"])
             file.write(
                 self.__linha.write([ano_linha] + linha_lida[MESES_DF].tolist())
             )
@@ -422,14 +422,14 @@ class BlocoUsinasNaoSimuladas(Section):
         def converte_tabela_em_df():
             df = pd.DataFrame(
                 tabela,
-                columns=["Subsistema", "Patamar", "Bloco", "Ano"] + MESES_DF,
+                columns=["submercado", "patamar", "bloco", "ano"] + MESES_DF,
             )
             df = df.astype(
                 {
-                    "Subsistema": "int64",
-                    "Patamar": "int64",
-                    "Bloco": "int64",
-                    "Ano": "int64",
+                    "submercado": "int64",
+                    "patamar": "int64",
+                    "bloco": "int64",
+                    "ano": "int64",
                 }
             )
             return df
@@ -493,13 +493,13 @@ class BlocoUsinasNaoSimuladas(Section):
             linha_lida: pd.Series = linha
             if any(
                 [
-                    linha_lida["Subsistema"] != ultimo_subsistema,
-                    linha_lida["Bloco"] != ultimo_bloco,
+                    linha_lida["submercado"] != ultimo_subsistema,
+                    linha_lida["bloco"] != ultimo_bloco,
                 ]
             ):
                 ultimo_ano = 0
-                ultimo_subsistema = linha_lida["Subsistema"]
-                ultimo_bloco = linha_lida["Bloco"]
+                ultimo_subsistema = linha_lida["submercado"]
+                ultimo_bloco = linha_lida["bloco"]
                 file.write(
                     self.__linha_subsis.write(
                         [
@@ -509,11 +509,11 @@ class BlocoUsinasNaoSimuladas(Section):
                     )
                 )
             ano_linha = (
-                int(linha_lida["Ano"])
-                if linha_lida["Ano"] != ultimo_ano
+                int(linha_lida["ano"])
+                if linha_lida["ano"] != ultimo_ano
                 else None
             )
-            ultimo_ano = int(linha_lida["Ano"])
+            ultimo_ano = int(linha_lida["ano"])
             file.write(
                 self.__linha.write([ano_linha] + linha_lida[MESES_DF].tolist())
             )

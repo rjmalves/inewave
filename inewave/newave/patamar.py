@@ -100,11 +100,11 @@ class Patamar(SectionFile):
         Tabela com a duração mensal de cada patamar no horizonte
         de estudo.
 
-        - Ano (`int`)
-        - Janeiro (`float`)
-        - Fevereiro (`float`)
+        - ano (`int`)
+        - janeiro (`float`)
+        - fevereiro (`float`)
         - ...
-        - Dezembro (`float`)
+        - dezembro (`float`)
 
         :return: A duração por mês em um DataFrame.
         :rtype: pd.DataFrame | None
@@ -125,11 +125,11 @@ class Patamar(SectionFile):
         """
         Tabela com a carga em P.U. por patamar.
 
-        - Ano (`int`)
-        - Janeiro (`float`)
-        - Fevereiro (`float`)
+        - ano (`int`)
+        - janeiro (`float`)
+        - fevereiro (`float`)
         - ...
-        - Dezembro (`float`)
+        - dezembro (`float`)
 
         :return: A carga por mês em um DataFrame.
         :rtype: pd.DataFrame | None
@@ -150,13 +150,13 @@ class Patamar(SectionFile):
         """
         Tabela com a correção em P.U. do intercâmbio por patamar.
 
-        - Subsistema De (`str`)
-        - Subsistema Para (`str`)
-        - Ano (`int`)
-        - Janeiro (`float`)
-        - Fevereiro (`float`)
+        - submercado_de (`str`)
+        - submercado_para (`str`)
+        - ano (`int`)
+        - janeiro (`float`)
+        - fevereiro (`float`)
         - ...
-        - Dezembro (`float`)
+        - dezembro (`float`)
 
         :return: A carga por mês em um DataFrame.
         :rtype: pd.DataFrame | None
@@ -177,14 +177,14 @@ class Patamar(SectionFile):
         """
         Tabela com os fatores das usinas não simuladas em P.U.
 
-        - Subsistema (`int`)
-        - Patamar (`int`)
-        - Bloco (`int`)
-        - Ano (`int`)
-        - Janeiro (`float`)
-        - Fevereiro (`float`)
+        - submercado (`int`)
+        - patamar (`int`)
+        - bloco (`int`)
+        - ano (`int`)
+        - janeiro (`float`)
+        - fevereiro (`float`)
         - ...
-        - Dezembro (`float`)
+        - dezembro (`float`)
 
         :return: Os valores por mês em um DataFrame.
         :rtype: pd.DataFrame | None

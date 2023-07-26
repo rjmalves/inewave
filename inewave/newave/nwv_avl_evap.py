@@ -34,7 +34,7 @@ class NwvAvlEvap(ArquivoCSV):
         A tabela de dados que está contida no arquivo.
 
         - periodo (`int`)
-        - indice_usina (`int`)
+        - codigo_usina (`int`)
         - nome_usina (`str`)
         - volume_armazenado_hm3 (`float`)
         - evaporacao_calculada_hm3 (`float`)

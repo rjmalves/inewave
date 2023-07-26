@@ -68,12 +68,12 @@ class ArquivoParSubmercadoPatamar(BlockFile):
         Tabela com os valores por patamar, por série e
         por mês/ano de estudo.
 
-        - Ano (`int`)
-        - Série (`int`)
-        - Patamar (`str`)
-        - Janeiro (`float`)
+        - ano (`int`)
+        - serie (`int`)
+        - patamar (`str`)
+        - janeiro (`float`)
         - ...
-        - Dezembro (`float`)
+        - dezembro (`float`)
 
         :return: A tabela dos valores por patamar.
         :rtype: pd.DataFrame | None

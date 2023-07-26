@@ -69,16 +69,16 @@ class Confhd(SectionFile):
         """
         Tabela com as usinas.
 
-        - Número (`int`)
-        - Nome (`str`)
-        - Posto (`int`)
-        - Jusante (`int`)
-        - REE (`int`)
-        - Volume Inicial (`float`)
-        - Usina Existente (`str`)
-        - Modificada (`int`)
-        - Início do Histórico (`int`)
-        - Fim do Histórico (`int`)
+        - codigo_usina (`int`)
+        - nome_usina (`str`)
+        - posto (`int`)
+        - codigo_usina_jusante (`int`)
+        - ree (`int`)
+        - volume_inicial_percentual (`float`)
+        - usina_existente (`str`)
+        - usina_modificada (`int`)
+        - ano_inicio_historico (`int`)
+        - ano_fim_historico (`int`)
 
         :return: A tabela como um DataFrame
         :rtype: pd.DataFrame | None

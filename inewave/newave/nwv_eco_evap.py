@@ -34,7 +34,7 @@ class NwvEcoEvap(ArquivoCSV):
         A tabela de dados que está contida no arquivo.
 
         - periodo (`int`)
-        - indice_usina (`int`)
+        - codigo_usina (`int`)
         - nome_usina (`str`)
         - volume_referencia_hm3 (`float`)
         - evaporacao_referencia_hm3 (`float`)

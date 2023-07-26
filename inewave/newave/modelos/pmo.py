@@ -52,8 +52,8 @@ class BlocoEafPastTendenciaHidrolPMO(Block):
     def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df():
             df = pd.DataFrame(tabela, columns=MESES_DF)
-            df["REE"] = rees
-            df = df[["REE"] + MESES_DF]
+            df["ree"] = rees
+            df = df[["ree"] + MESES_DF]
             return df
 
         # Pula as linhas iniciais
@@ -115,8 +115,8 @@ class BlocoEafPastCfugaMedioPMO(Block):
     def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df():
             df = pd.DataFrame(tabela, columns=MESES_DF)
-            df["REE"] = rees
-            df = df[["REE"] + MESES_DF]
+            df["ree"] = rees
+            df = df[["ree"] + MESES_DF]
             return df
 
         # Pula as linhas iniciais
@@ -178,16 +178,16 @@ class BlocoConvergenciaPMO(Block):
         def converte_tabela_em_df() -> pd.DataFrame:
             df = pd.DataFrame(tabela)
             df.columns = [
-                "Iteração",
-                "Lim. Inf. ZINF",
-                "ZINF",
-                "Lim. Sup. ZINF",
-                "ZSUP",
-                "Delta ZINF",
-                "ZSUP Iteração",
+                "iteracao",
+                "limite_inferior_zinf",
+                "zinf",
+                "limite_superior_zinf",
+                "zsup",
+                "delta_zinf",
+                "zsup_iteracap",
             ]
-            df = df.astype({"Iteração": "int64"})
-            df["Tempo"] = tempos
+            df = df.astype({"iteracao": "int64"})
+            df["tempo"] = tempos
             return df
 
         # Salta as duas linhas iniciais
@@ -253,7 +253,7 @@ class BlocoConfiguracoesExpansaoPMO(Block):
     # Override
     def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df():
-            df = pd.DataFrame(tabela, columns=["Ano"] + MESES_DF)
+            df = pd.DataFrame(tabela, columns=["ano"] + MESES_DF)
             return df
 
         # Pula as linhas iniciais
@@ -315,11 +315,11 @@ class BlocoMARSPMO(Block):
     # Override
     def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df():
-            colunas = ["Reta", "Coeficiente Angular", "Constante"]
+            colunas = ["reta", "coeficiente_angular", "coeficiente_linear"]
             df = pd.DataFrame(tabela, columns=colunas)
-            df["REE"] = rees
-            df = df[["REE"] + colunas]
-            df = df.astype({"Reta": "int64"})
+            df["ree"] = rees
+            df = df[["ree"] + colunas]
+            df = df.astype({"reta": "int64"})
             return df
 
         # Variáveis auxiliares
@@ -352,7 +352,7 @@ class BlocoRiscoDeficitENSPMO(Block):
     ENS (energia não suprida) existentes no arquivo `pmo.dat`.
     """
 
-    BEGIN_PATTERN = "RISCO ANUAL DE DEFICIT E E\(ENS\) \(%\)"  # noqa
+    BEGIN_PATTERN = r"RISCO ANUAL DE DEFICIT E E\(ENS\) \(%\)"  # noqa
     END_PATTERN = ""
 
     def __eq__(self, o: object) -> bool:
@@ -373,11 +373,11 @@ class BlocoRiscoDeficitENSPMO(Block):
     def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df() -> pd.DataFrame:
             df = pd.DataFrame(tabela)
-            cols = ["Ano"]
+            cols = ["ano"]
             for sub in subsistemas:
-                cols += [f"Risco - {sub}", f"EENS - {sub}"]
+                cols += [f"risco_{sub}", f"eens_{sub}"]
             df.columns = cols
-            df = df.astype({"Ano": "int64"})
+            df = df.astype({"ano": "int64"})
             return df
 
         # Pula as três linhas iniciais
@@ -451,10 +451,10 @@ class BlocoCustoOperacaoPMO(Block):
     # Override
     def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df() -> pd.DataFrame:
-            cols = ["Valor Esperado", "Desvio Padrão do VE", "(%)"]
+            cols = ["valor_esperado", "desvio_padrao", "percentual"]
             df = pd.DataFrame(tabela, columns=cols)
-            df["Parcela"] = parcelas
-            df = df[["Parcela"] + cols]
+            df["parcela"] = parcelas
+            df = df[["parcela"] + cols]
             return df
 
         # Salta duas linhas

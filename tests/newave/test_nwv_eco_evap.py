@@ -14,7 +14,7 @@ def test_atributos_encontrados_nwv_eco_evap():
         rel = NwvEcoEvap.read(ARQ_TESTE)
         assert rel.versao == "FPHA_NEWAVE"
         assert rel.tabela.at[0, "periodo"] == 1
-        assert rel.tabela.at[0, "indice_usina"] == 4
+        assert rel.tabela.at[0, "codigo_usina"] == 4
         assert rel.tabela.at[0, "nome_usina"] == "FUNIL-GRANDE"
         assert rel.tabela.at[0, "volume_referencia_hm3"] == 265.86
         assert rel.tabela.at[0, "evaporacao_referencia_hm3"] == 0.23

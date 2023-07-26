@@ -45,9 +45,9 @@ class BlocoUsinasConjuntoRE(Section):
     # Override
     def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df():
-            cols = ["Conjunto"] + [f"Usina {i}" for i in range(1, 11)]
+            cols = ["conjunto"] + [f"codigo_usina_{i}" for i in range(1, 11)]
             df = pd.DataFrame(tabela, columns=cols)
-            df = df.astype({"Conjunto": "int64"})
+            df = df.astype({"conjunto": "int64"})
             return df
 
         # Salta as linhas adicionais
@@ -128,24 +128,24 @@ class BlocoConfiguracaoRestricoesRE(Section):
     def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df():
             cols = [
-                "Conjunto",
-                "Mês Início",
-                "Ano Início",
-                "Mês Fim",
-                "Ano Fim",
-                "Flag P",
-                "Restrição",
+                "conjunto",
+                "mes_inicio",
+                "ano_inicio",
+                "mes_fim",
+                "ano_fim",
+                "patamar",
+                "restricao",
             ]
             df = pd.DataFrame(tabela, columns=cols)
             df["Motivo"] = motivos
             df = df.astype(
                 {
-                    "Conjunto": "int64",
-                    "Mês Início": "int64",
-                    "Ano Início": "int64",
-                    "Mês Fim": "int64",
-                    "Ano Fim": "int64",
-                    "Flag P": "int64",
+                    "conjunto": "int64",
+                    "mes_inicio": "int64",
+                    "ano_inicio": "int64",
+                    "mes_fim": "int64",
+                    "ano_fim": "int64",
+                    "patamar": "int64",
                 }
             )
             return df

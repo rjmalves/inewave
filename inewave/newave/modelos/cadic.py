@@ -53,12 +53,12 @@ class BlocoCargasAdicionais(Section):
     def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df():
             df = pd.DataFrame(tabela, columns=MESES_DF)
-            df["Código Subsistema"] = codigo_subsis
-            df["Nome Subsistema"] = nome_subsis
-            df["Razão"] = razao
-            df["Ano"] = anos
+            df["codigo_subsistema"] = codigo_subsis
+            df["nome_subsistema"] = nome_subsis
+            df["comentario"] = razao
+            df["ano"] = anos
             df = df[
-                ["Código Subsistema", "Nome Subsistema", "Razão", "Ano"]
+                ["codigo_subsistema", "nome_subsistema", "comentario", "ano"]
                 + MESES_DF
             ]
             return df
@@ -115,26 +115,26 @@ class BlocoCargasAdicionais(Section):
             linha_lida: pd.Series = linha
             if any(
                 [
-                    linha_lida["Código Subsistema"] != ultimo_codigo,
-                    linha_lida["Nome Subsistema"] != ultimo_subsis,
-                    linha_lida["Razão"] != ultima_razao,
+                    linha_lida["codigo_subsistema"] != ultimo_codigo,
+                    linha_lida["nome_subsistema"] != ultimo_subsis,
+                    linha_lida["comentario"] != ultima_razao,
                 ]
             ):
-                ultimo_codigo = linha_lida["Código Subsistema"]
-                ultimo_subsis = linha_lida["Nome Subsistema"]
-                ultima_razao = linha_lida["Razão"]
+                ultimo_codigo = linha_lida["codigo_subsistema"]
+                ultimo_subsis = linha_lida["nome_subsistema"]
+                ultima_razao = linha_lida["comentario"]
                 file.write(
                     self.__linha_subsis.write(
                         linha_lida[
                             [
-                                "Código Subsistema",
-                                "Nome Subsistema",
-                                "Razão",
+                                "codigo_subsistema",
+                                "nome_subsistema",
+                                "comentario",
                             ]
                         ].tolist()
                     )
                 )
-            linha_saida = linha_lida[["Ano"] + MESES_DF]
+            linha_saida = linha_lida[["ano"] + MESES_DF]
             valores_saida = []
             for valor, vazio in zip(linha_saida, linha_saida.isna()):
                 valores_saida.append(None if vazio else valor)

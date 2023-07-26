@@ -58,11 +58,11 @@ class BlocoSerieVentosUEE(Block):
     # Override
     def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df():
-            df = pd.DataFrame(tabela, columns=["Ano"] + MESES_DF)
-            df["UEE"] = uee
-            df["Configuração"] = cfg
-            df = df[["UEE", "Configuração", "Ano"] + MESES_DF]
-            df = df.astype({"Ano": "int64"})
+            df = pd.DataFrame(tabela, columns=["ano"] + MESES_DF)
+            df["uee"] = uee
+            df["configuracao"] = cfg
+            df = df[["uee", "configuracao", "ano"] + MESES_DF]
+            df = df.astype({"ano": "int64"})
             return df
 
         # Identifica a usina e a configuração
@@ -151,15 +151,15 @@ class BlocoCorrelVentosUEE(Block):
             return [MESES_ABREV.index(m) + 1 for m in meses]
 
         def converte_tabela_em_df():
-            cols = [f"Lag {i}" for i in range(1, 12)]
+            cols = [f"lag_{i}" for i in range(1, 12)]
             df = pd.DataFrame(tabela, columns=cols)
             anos_conv = converte_vetor_anos(anos)
             meses_conv = converte_vetor_meses(meses)
-            df["Data"] = [
+            df["data"] = [
                 date(year=a, month=m, day=1)
                 for a, m in zip(anos_conv, meses_conv)
             ]
-            df = df[["Data"] + cols]
+            df = df[["data"] + cols]
             return df
 
         # Salta as linhas adicionais
@@ -222,9 +222,9 @@ class BlocoSerieRuidosUEE(Block):
     def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df():
             df = pd.DataFrame(tabela, columns=MESES_DF)
-            df["Ano"] = ano
-            df["Série"] = list(range(i))
-            df = df[["Ano", "Série"] + MESES_DF]
+            df["ano"] = ano
+            df["serie"] = list(range(i))
+            df = df[["ano", "serie"] + MESES_DF]
             return df
 
         # Identifica o ano em questão
@@ -312,15 +312,15 @@ class BlocoCorrelRuidosUEE(Block):
             return [MESES_ABREV.index(m) + 1 for m in meses]
 
         def converte_tabela_em_df():
-            cols = [f"Lag {i}" for i in range(1, 12)]
+            cols = [f"lag_{i}" for i in range(1, 12)]
             df = pd.DataFrame(tabela, columns=cols)
             anos_conv = converte_vetor_anos(anos)
             meses_conv = converte_vetor_meses(meses)
-            df["Data"] = [
+            df["data"] = [
                 date(year=a, month=m, day=1)
                 for a, m in zip(anos_conv, meses_conv)
             ]
-            df = df[["Data"] + cols]
+            df = df[["data"] + cols]
             return df
 
         # Salta as linhas adicionais
@@ -379,9 +379,9 @@ class BlocoCorrelEspacialAnualConfig(Block):
     def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df():
             df = pd.DataFrame(tabela, columns=rees_uees)
-            df["UEE"] = uees
-            df["Configuração"] = cfg
-            df = df[["Configuração", "UEE"] + rees_uees]
+            df["uee"] = uees
+            df["configuracao"] = cfg
+            df = df[["configuracao", "uee"] + rees_uees]
             return df
 
         # Identifica a configuração
@@ -447,10 +447,11 @@ class BlocoCorrelEspacialMensalConfig(Block):
     def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df():
             df = pd.DataFrame(tabela, columns=uees_rees)
-            df["UEE"] = uees
-            df["Configuração"] = cfg
-            df = df[["Configuração", "UEE"] + uees_rees]
-            df = df.astype({"MES": "int64"})
+            df["uee"] = uees
+            df["configuracao"] = cfg
+            df = df[["configuracao", "uee"] + uees_rees]
+            df = df.rename(columns={"MES": "mes"})
+            df = df.astype({"mes": "int64"})
             return df
 
         # Identifica a configuração

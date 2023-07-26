@@ -101,10 +101,10 @@ def test_coeficientes_modelo_ree():
 
     assert b.data.shape[0] == 1
     assert b.data.shape[1] == 24
-    assert b.data.loc[0, "Psi 1"] == 0.207
-    assert b.data.loc[0, "Psi Norm 1"] == 0.263
-    assert b.data.loc[0, "Psi A"] == 0.177
-    assert b.data.loc[0, "Psi Norm A"] == 0.485
+    assert b.data.loc[0, "psi_1"] == 0.207
+    assert b.data.loc[0, "psi_norm_1"] == 0.263
+    assert b.data.loc[0, "psi_A"] == 0.177
+    assert b.data.loc[0, "psi_norm_A"] == 0.485
 
 
 def test_serie_ruidos_ree():
@@ -179,6 +179,7 @@ def test_correl_espacial_mensal():
         with open("", "") as fp:
             b.read(fp)
 
+    print(b.data)
     assert b.data.shape[0] == 12
     assert b.data.shape[1] == 15
     assert b.data.iloc[0, 3] == 1.0000

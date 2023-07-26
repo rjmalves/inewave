@@ -49,12 +49,12 @@ class BlocoUTEClasT(Section):
     # Override
     def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df():
-            cols = [f"Custo {i}" for i in range(1, 6)]
+            cols = [f"custo_{i}" for i in range(1, 6)]
             df = pd.DataFrame(tabela, columns=cols)
-            df["Número"] = numero_ute
-            df["Nome"] = nome_ute
-            df["Tipo Combustível"] = tipo_combustivel
-            df = df[["Número", "Nome", "Tipo Combustível"] + cols]
+            df["codigo"] = codigo_ute
+            df["nome"] = nome_ute
+            df["tipo_combustivel"] = tipo_combustivel
+            df = df[["codigo", "nome", "tipo_combustivel"] + cols]
             return df
 
         # Salta as linhas adicionais
@@ -62,7 +62,7 @@ class BlocoUTEClasT(Section):
             self.__cabecalhos.append(file.readline())
 
         # Variáveis auxiliares
-        numero_ute: List[int] = []
+        codigo_ute: List[int] = []
         nome_ute: List[str] = []
         tipo_combustivel: List[str] = []
         tabela = np.zeros((MAX_UTES, 5))
@@ -78,7 +78,7 @@ class BlocoUTEClasT(Section):
                 break
             dados = self.__linha.read(linha)
             tabela[i, :] = dados[3:]
-            numero_ute.append(dados[0])
+            codigo_ute.append(dados[0])
             nome_ute.append(dados[1])
             tipo_combustivel.append(dados[2])
             i += 1
@@ -135,13 +135,13 @@ class BlocoModificacaoUTEClasT(Section):
         def converte_tabela_em_df():
             df = pd.DataFrame(
                 data={
-                    "Número": numero_ute,
-                    "Custo": custo,
-                    "Mês Início": mes_ini,
-                    "Ano Início": ano_ini,
-                    "Mês Fim": mes_fim,
-                    "Ano Fim": ano_fim,
-                    "Nome": nomes,
+                    "codigo": codigo_ute,
+                    "custo": custo,
+                    "mes_inicio": mes_ini,
+                    "ano_inicio": ano_ini,
+                    "mes_fim": mes_fim,
+                    "ano_fim": ano_fim,
+                    "nome": nomes,
                 }
             )
             return df
@@ -151,7 +151,7 @@ class BlocoModificacaoUTEClasT(Section):
             self.__cabecalhos.append(file.readline())
 
         # Variáveis auxiliares
-        numero_ute: List[int] = []
+        codigo_ute: List[int] = []
         custo: List[float] = []
         mes_ini: List[int] = []
         ano_ini: List[int] = []
@@ -162,11 +162,11 @@ class BlocoModificacaoUTEClasT(Section):
             linha = file.readline()
             # Confere se acabou
             if len(linha) < 3:
-                if len(numero_ute) > 0:
+                if len(codigo_ute) > 0:
                     self.data = converte_tabela_em_df()
                 break
             dados = self.__linha.read(linha)
-            numero_ute.append(dados[0])
+            codigo_ute.append(dados[0])
             custo.append(dados[1])
             mes_ini.append(dados[2])
             ano_ini.append(dados[3])

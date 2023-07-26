@@ -50,22 +50,22 @@ class BlocoTermUTE(Section):
         def converte_tabela_em_df() -> pd.DataFrame:
             cols = (
                 [
-                    "Potência Instalada",
-                    "FC Máximo",
-                    "TEIF",
-                    "Indisponibilidade Programada",
+                    "potencia_instalada",
+                    "fator_capacidade_maximo",
+                    "teif",
+                    "indisponibilidade_programada",
                 ]
-                + [f"GT Min {m}" for m in MESES_DF]
-                + ["GT Min D+ Anos"]
+                + [f"geracao_minima_{m}" for m in MESES_DF]
+                + ["geracao_minima_demais_anos"]
             )
             df = pd.DataFrame(
                 tabela,
                 columns=cols,
             )
-            df["Número"] = numeros
-            df["Nome"] = nomes
-            df = df[["Número", "Nome"] + cols]
-            df = df.astype({"Número": "int64"})
+            df["codigo_usina"] = numeros
+            df["nome_usina"] = nomes
+            df = df[["codigo_usina", "nome_usina"] + cols]
+            df = df.astype({"codigo_usina": "int64"})
             return df
 
         # Salta as linhas adicionais

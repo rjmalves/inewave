@@ -74,11 +74,11 @@ class REE(SectionFile):
         """
         Tabela com os REES e os submercados
 
-        - Número (`int`)
-        - Nome (`str`)
-        - Submercado (`int`)
-        - Mês Fim Individualizado (`int`)
-        - Ano Fim Individualizado (`int`)
+        - codigo (`int`)
+        - nome (`str`)
+        - submercado (`int`)
+        - mes_fim_individualizado (`int`)
+        - ano_fim_individualizado (`int`)
 
         :return: A tabela como um DataFrame.
         :rtype: pd.DataFrame | None

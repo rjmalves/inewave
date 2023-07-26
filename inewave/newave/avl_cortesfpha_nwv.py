@@ -34,7 +34,7 @@ class AvlCortesFpha(ArquivoCSV):
         """
         A tabela de dados que está contida no arquivo.
 
-        - indice_usina (`int`)
+        - codigo_usina (`int`)
         - periodo (`int`)
         - nome_usina (`str`)
         - indice_corte (`int`)

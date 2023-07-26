@@ -2,7 +2,7 @@
 from inewave.newave.modelos.curva import (
     BlocoConfiguracoesPenalizacaoCurva,
     BlocoPenalidadesViolacaoREECurva,
-    BlocoCurvaSegurancaSubsistema,
+    BlocoCurvaSegurancaREE,
     BlocoMaximoIteracoesProcessoIterativoEtapa2,
     BlocoIteracaoAPartirProcessoIterativoEtapa2,
     BlocoToleranciaProcessoIterativoEtapa2,
@@ -52,7 +52,7 @@ def test_bloco_penalidades_ree():
 
 def test_bloco_curva_seguranca():
     m: MagicMock = mock_open(read_data="".join(MockBlocoCurvaSeguranca))
-    b = BlocoCurvaSegurancaSubsistema()
+    b = BlocoCurvaSegurancaREE()
     with patch("builtins.open", m):
         with open("", "") as fp:
             b.read(fp)

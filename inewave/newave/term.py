@@ -65,16 +65,16 @@ class Term(SectionFile):
         """
         Tabela com configurações e custos das usinas térmicas.
 
-        - Número (`int`)
-        - Nome (`str`)
-        - Potência Instalada (`float`)
-        - FC Máximo (`float`)
-        - TEIF (`float`)
-        - Indisponibilidade Programada (`float`)
-        - GT Min Janeiro (`float`)
+        - codigo_usina (`int`)
+        - nome_usina (`str`)
+        - potencia_instalada (`float`)
+        - fator_capacidade_maximo (`float`)
+        - teif (`float`)
+        - indisponibilidade_programada (`float`)
+        - geracao_minima_janeiro (`float`)
         - ...
-        - GT Min Dezembro (`float`)
-        - GT Min D+ Anos (`float`)
+        - geracao_minima_dezembro (`float`)
+        - geracao_minima_demais_anos (`float`)
 
         :return: A tabela como um DataFrame
         :rtype: pd.DataFrame | None

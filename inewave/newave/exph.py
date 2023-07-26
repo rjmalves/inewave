@@ -64,15 +64,15 @@ class Exph(SectionFile):
         """
         A tabela de expansões de máquinas das UHEs.
 
-        - Código UHE (`int`)
-        - Nome UHE (`str`)
-        - Início Enchimento (`datetime`)
-        - Duração (`int`)
-        - Volume Morto (`float`)
-        - Data de Entrada (`datetime`)
-        - Potência (`float`)
-        - Máquina (`int`)
-        - Conjunto (`int`)
+        - codigo_usina (`int`)
+        - nome_usina (`str`)
+        - data_inicio_enchimento (`datetime`)
+        - duracao_enchimento (`int`)
+        - volume_morto (`float`)
+        - data_entrada_operacao (`datetime`)
+        - potencia_instalada (`float`)
+        - maquina_entrada (`int`)
+        - conjunto_maquina_entrada (`int`)
 
         :return: A tabela como um DataFrame
         :rtype: pd.DataFrame | None

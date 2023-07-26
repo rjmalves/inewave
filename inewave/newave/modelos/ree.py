@@ -48,21 +48,21 @@ class BlocoReesSubmercados(Section):
     def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df():
             cols = [
-                "Número",
-                "Submercado",
-                "Mês Fim Individualizado",
-                "Ano Fim Individualizado",
+                "codigo",
+                "submercado",
+                "mes_fim_individualizado",
+                "ano_fim_individualizado",
             ]
             df = pd.DataFrame(tabela, columns=cols)
-            df["Nome"] = nomes
-            df = df.astype({"Submercado": np.int64, "Número": np.int64})
+            df["nome"] = nomes
+            df = df.astype({"submercado": np.int64, "codigo": np.int64})
             df = df[
                 [
-                    "Número",
-                    "Nome",
-                    "Submercado",
-                    "Mês Fim Individualizado",
-                    "Ano Fim Individualizado",
+                    "codigo",
+                    "nome",
+                    "submercado",
+                    "mes_fim_individualizado",
+                    "ano_fim_individualizado",
                 ]
             ]
             return df

@@ -82,7 +82,7 @@ class PARp(BlockFile):
         if self.series_energia_ree is None:
             return None
         else:
-            return self.series_energia_ree["REE"].unique().tolist()
+            return self.series_energia_ree["ree"].unique().tolist()
 
     def __bloco_por_tipo(self, bloco: Type[T], indice: int) -> Optional[T]:
         """
@@ -153,8 +153,8 @@ class PARp(BlockFile):
         col_ree: List[str] = []
         for ree in rees:
             col_ree += [ree] * int(linhas_por_ree)
-        df["REE"] = col_ree
-        return df[["REE"] + cols]
+        df["ree"] = col_ree
+        return df[["ree"] + cols]
 
     def __adiciona_coluna_ree_com_estagios(
         self, df: pd.DataFrame
@@ -184,9 +184,9 @@ class PARp(BlockFile):
         for ree in rees:
             col_ree += [ree] * int(linhas_por_ree)
             col_estagio += list(range(1, int(linhas_por_ree) + 1))
-        df["REE"] = col_ree
-        df["Estágio"] = col_estagio
-        return df[["REE", "Estágio"] + cols]
+        df["ree"] = col_ree
+        df["estagio"] = col_estagio
+        return df[["ree", "estagio"] + cols]
 
     def __adiciona_coluna_ree_corrigindo_pre_pos(
         self, df: Optional[pd.DataFrame]
@@ -241,18 +241,18 @@ class PARp(BlockFile):
         col_ree: List[str] = []
         for ree in rees:
             col_ree += [ree] * int(linhas_por_ree)
-        df["REE"] = col_ree
+        df["ree"] = col_ree
         ree0 = rees[0]
-        ano0 = df["Ano"].unique().tolist()[0]
-        filtro = (df["Ano"] == ano0) & (df["REE"] == ree0)
+        ano0 = df["ano"].unique().tolist()[0]
+        filtro = (df["ano"] == ano0) & (df["ree"] == ree0)
         n_series = df.loc[filtro].shape[0]
         for i, ree in enumerate(rees):
             i_i = i * int(linhas_por_ree)
             i_f = i_i + int(linhas_por_ree) - 1
-            df.loc[i_i:i_f, "Ano"] = converte_vetor_anos(
-                df.loc[i_i:i_f, "Ano"].tolist(), n_series
+            df.loc[i_i:i_f, "ano"] = converte_vetor_anos(
+                df.loc[i_i:i_f, "ano"].tolist(), n_series
             )
-        return df[["REE"] + cols]
+        return df[["ree"] + cols]
 
     @property
     def series_energia_ree(self) -> Optional[pd.DataFrame]:
@@ -260,13 +260,13 @@ class PARp(BlockFile):
         A tabela de séries de energia para todas as configurações
         e REEs, no mesmo formato do arquivo `parp.dat`.
 
-        - REE (`str`)
-        - Configuração (`int`)
-        - Ano (`int`)
-        - Janeiro (`float`)
-        - Fevereiro (`float`)
+        - ree (`str`)
+        - configuracao (`int`)
+        - ano (`int`)
+        - janeiro (`float`)
+        - fevereiro (`float`)
         - ...
-        - Dezembro (`float`)
+        - dezembro (`float`)
 
         :return: A tabela como um DataFrame.
         :rtype: pd.DataFrame | None
@@ -283,13 +283,13 @@ class PARp(BlockFile):
         A tabela de séries de ruído para todos os REEs,
         no mesmo formato do arquivo `parp.dat`.
 
-        - REE (`str`)
-        - Ano (`int`)
-        - Série (`int`)
-        - Janeiro (`float`)
-        - Fevereiro (`float`)
+        - ree (`str`)
+        - ano (`int`)
+        - serie (`int`)
+        - janeiro (`float`)
+        - fevereiro (`float`)
         - ...
-        - Dezembro (`float`)
+        - dezembro (`float`)
 
         :return: A tabela como um DataFrame.
         :rtype: pd.DataFrame | None
@@ -309,13 +309,13 @@ class PARp(BlockFile):
         A tabela de séries de médias para todos os REEs,
         no mesmo formato do arquivo `parp.dat`.
 
-        - REE (`str`)
-        - Ano (`int`)
-        - Série (`int`)
-        - Janeiro (`float`)
-        - Fevereiro (`float`)
+        - ree (`str`)
+        - ano (`int`)
+        - serie (`int`)
+        - janeiro (`float`)
+        - fevereiro (`float`)
         - ...
-        - Dezembro (`float`)
+        - dezembro (`float`)
 
         :return: A tabela como um DataFrame.
         :rtype: pd.DataFrame | None
@@ -336,12 +336,12 @@ class PARp(BlockFile):
         todas as configurações vigentes e REEs,
         no mesmo formato do arquivo `parp.dat`.
 
-        - REE (`str`)
-        - Data (`date`)
-        - Lag 1 (`float`)
-        - Lag 2 (`float`)
+        - ree (`str`)
+        - data (`date`)
+        - lag_1 (`float`)
+        - lag_2 (`float`)
         - ...
-        - Lag 11 (`float`)
+        - lag_11 (`float`)
 
         :return: A tabela como um DataFrame
         :rtype: pd.DataFrame | None
@@ -362,12 +362,12 @@ class PARp(BlockFile):
         todas as configurações vigentes e REEs,
         no mesmo formato do arquivo `parp.dat`.
 
-        - REE (`str`)
-        - Data (`date`)
-        - Lag 1 (`float`)
-        - Lag 2 (`float`)
+        - ree (`str`)
+        - data (`date`)
+        - lag_1 (`float`)
+        - lag_2 (`float`)
         - ...
-        - Lag 11 (`float`)
+        - lag_11 (`float`)
 
         :return: A tabela como um DataFrame
         :rtype: pd.DataFrame | None
@@ -388,12 +388,12 @@ class PARp(BlockFile):
         todas as configurações vigentes e REEs,
         no mesmo formato do arquivo `parp.dat`.
 
-        - REE (`str`)
-        - Data (`date`)
-        - Lag 1 (`float`)
-        - Lag 2 (`float`)
+        - ree (`str`)
+        - data (`date`)
+        - lag_1 (`float`)
+        - lag_2 (`float`)
         - ...
-        - Lag 11 (`float`)
+        - lag_11 (`float`)
 
         :return: A tabela como um DataFrame
         :rtype: pd.DataFrame | None
@@ -414,12 +414,12 @@ class PARp(BlockFile):
         as séries de energia para todas as configurações vigentes e REEs,
         no mesmo formato do arquivo `parp.dat`.
 
-        - REE (`str`)
-        - Data (`date`)
-        - Janeiro (`float`)
-        - Fevereiro (`float`)
+        - ree (`str`)
+        - data (`date`)
+        - janeiro (`float`)
+        - fevereiro (`float`)
         - ...
-        - Dezembro (`float`)
+        - dezembro (`float`)
 
         :return: A tabela como um DataFrame
         :rtype: pd.DataFrame | None
@@ -440,12 +440,12 @@ class PARp(BlockFile):
         de cada REE, no mesmo formato do arquivo `parp.dat`,
         organizada por ano de estudo.
 
-        - REE (`str`)
-        - Ano (`int`)
-        - Janeiro (`int`)
-        - Fevereiro (`int`)
+        - ree (`str`)
+        - ano (`int`)
+        - janeiro (`int`)
+        - fevereiro (`int`)
         - ...
-        - Dezembro (`int`)
+        - dezembro (`int`)
 
         :return: A tabela como um DataFrame
         :rtype: pd.DataFrame | None
@@ -455,8 +455,8 @@ class PARp(BlockFile):
             dados = self.__concatena_dados(BlocoOrdemModeloREE)
             if dados is not None:
                 dados = (
-                    dados.loc[dados["Tipo"] == "ORIGINAL", :]
-                    .drop(columns=["Tipo"])
+                    dados.loc[dados["tipo"] == "ORIGINAL", :]
+                    .drop(columns=["tipo"])
                     .copy()
                 )
                 dados = self.__adiciona_coluna_ree(dados)
@@ -471,12 +471,12 @@ class PARp(BlockFile):
         de cada REE, no mesmo formato do arquivo `parp.dat`,
         organizada por ano de estudo.
 
-        - REE (`str`)
-        - Ano (`int`)
-        - Janeiro (`int`)
-        - Fevereiro (`int`)
+        - ree (`str`)
+        - ano (`int`)
+        - janeiro (`int`)
+        - fevereiro (`int`)
         - ...
-        - Dezembro (`int`)
+        - dezembro (`int`)
 
         :return: A tabela como um DataFrame.
         :rtype: pd.DataFrame | None
@@ -485,8 +485,8 @@ class PARp(BlockFile):
             dados = self.__concatena_dados(BlocoOrdemModeloREE)
             if dados is not None:
                 dados = (
-                    dados.loc[dados["Tipo"] == "FINAL", :]
-                    .drop(columns=["Tipo"])
+                    dados.loc[dados["tipo"] == "FINAL", :]
+                    .drop(columns=["tipo"])
                     .copy()
                 )
                 dados = self.__adiciona_coluna_ree(dados)
@@ -501,18 +501,18 @@ class PARp(BlockFile):
         de cada REE, no mesmo formato do arquivo `parp.dat`,
         organizada por período de estudo.
 
-        - REE (`str`)
-        - Estágio (`int`)
-        - Psi 1 (`int`)
-        - Psi 2 (`int`)
+        - ree (`str`)
+        - estagio (`int`)
+        - psi_1 (`int`)
+        - psi_2 (`int`)
         - ...
-        - Psi 11 (`int`)
-        - Psi A (`int`)
-        - Psi Norm 1 (`int`)
-        - Psi Norm 2 (`int`)
+        - psi_11 (`int`)
+        - psi_A (`int`)
+        - psi_norm_1 (`int`)
+        - psi_norm_2 (`int`)
         - ...
-        - Psi Norm 11 (`int`)
-        - Psi Norm A (`int`)
+        - psi_norm_11 (`int`)
+        - psi_norm_A (`int`)
 
         :return: A tabela como um DataFrame.
         :rtype: pd.DataFrame | None
@@ -531,8 +531,8 @@ class PARp(BlockFile):
         A tabela de correlação para todas as configurações
         e REEs, no mesmo formato do arquivo `parp.dat`.
 
-        - Configuração (`int`)
-        - REE (`str`)
+        - configuracao (`int`)
+        - ree (`str`)
         - <Nome do REE 1> (`str`)
         - <Nome do REE 2> (`str`)
         - ...
@@ -553,9 +553,9 @@ class PARp(BlockFile):
         A tabela de correlação para todas as configurações
         e REEs, no mesmo formato do arquivo `parp.dat`.
 
-        - Configuração (`int`)
-        - REE (`str`)
-        - MES (`int`)
+        - configuracao (`int`)
+        - ree (`str`)
+        - mes (`int`)
         - <Nome do REE 1> (`str`)
         - <Nome do REE 2> (`str`)
         - ...
