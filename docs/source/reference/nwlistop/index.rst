@@ -76,6 +76,9 @@ Arquivos
    arquivos/exces
    arquivos/excessin
    arquivos/coper
+   arquivos/corteolm
+   arquivos/depminuh
+   arquivos/dfphauh
    arquivos/eaf
    arquivos/eafm
    arquivos/eafb

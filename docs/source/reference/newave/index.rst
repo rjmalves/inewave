@@ -57,6 +57,7 @@ Arquivos
    arquivos/caso
    arquivos/arquivos
    arquivos/dger
+   arquivos/cvar
    arquivos/adterm
    arquivos/agrint
    arquivos/cadic
