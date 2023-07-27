@@ -1,5 +1,6 @@
 from inewave.nwlistop.deficit import Def
 
+from datetime import datetime
 from tests.mocks.mock_open import mock_open
 from unittest.mock import MagicMock, patch
 
@@ -13,7 +14,7 @@ def test_atributos_encontrados_def():
     with patch("builtins.open", m):
         n = Def.read(ARQ_TESTE)
         assert n.valores is not None
-        assert n.valores.iloc[0, 0] == 2022
+        assert n.valores.iloc[0, 0] == datetime(2022, 1, 1)
         assert n.valores.iloc[-1, -1] == 0.0
         assert n.submercado is not None
         assert n.submercado == "SUDESTE"

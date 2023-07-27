@@ -18,5 +18,5 @@ class EafsAnos(ValoresSerie):
         [  # type: ignore
             IntegerField(4, 2),
         ]
-        + [FloatField(8, 7 + 9 * i, 1) for i in range(len(MESES_DF) + 1)]  # type: ignore
+        + [FloatField(8, 7 + 9 * i, 1) for i in range(len(MESES_DF))]  # type: ignore
     )

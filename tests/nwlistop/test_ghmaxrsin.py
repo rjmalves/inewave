@@ -1,5 +1,6 @@
 from inewave.nwlistop.ghmaxrsin import Ghmaxrsin
 
+from datetime import datetime
 from tests.mocks.mock_open import mock_open
 from unittest.mock import MagicMock, patch
 
@@ -13,8 +14,8 @@ def test_atributos_encontrados_ghmaxrsin():
     with patch("builtins.open", m):
         n = Ghmaxrsin.read(ARQ_TESTE)
         assert n.valores is not None
-        assert n.valores.iloc[0, 0] == 2021
-        assert n.valores.iloc[-1, -1] == 94172.9
+        assert n.valores.iloc[0, 0] == datetime(2021, 1, 1)
+        assert n.valores.iloc[-1, -1] == 93660
 
 
 def test_atributos_nao_encontrados_ghmaxrsin():

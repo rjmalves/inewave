@@ -92,7 +92,6 @@ def test_coeficientes_modelo_uhe():
     with patch("builtins.open", m):
         with open("", "") as fp:
             b.read(fp)
-    print(b.data)
     assert b.data.shape[0] == 1
     assert b.data.shape[1] == 24
     assert b.data.loc[0, "psi_1"] == 0.450

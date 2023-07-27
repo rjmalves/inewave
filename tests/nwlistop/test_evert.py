@@ -1,5 +1,6 @@
 from inewave.nwlistop.evert import Evert
 
+from datetime import datetime
 from tests.mocks.mock_open import mock_open
 from unittest.mock import MagicMock, patch
 
@@ -14,8 +15,8 @@ def test_atributos_encontrados_evert():
         n = Evert.read(ARQ_TESTE)
         assert n.ree == "SUDESTE"
         assert n.valores is not None
-        assert n.valores.iloc[0, 0] == 2020
-        assert n.valores.iloc[-1, -1] == 24.0
+        assert n.valores.iloc[0, 0] == datetime(2020, 1, 1)
+        assert n.valores.iloc[-1, -1] == 37.0
 
 
 def test_atributos_nao_encontrados_evert():

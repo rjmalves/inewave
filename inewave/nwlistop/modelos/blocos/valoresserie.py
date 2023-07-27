@@ -2,6 +2,7 @@ from cfinterface.components.block import Block
 from cfinterface.components.line import Line
 
 from inewave.config import MESES_DF, MAX_SERIES_SINTETICAS
+from inewave._utils.formatacao import formata_df_meses_para_datas_nwlistop
 
 from typing import IO
 import pandas as pd  # type: ignore
@@ -41,19 +42,19 @@ class ValoresSerie(Block):
     # Override
     def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df():
-            cols = ["serie"] + MESES_DF + ["media"]
+            cols = ["serie"] + MESES_DF
             df = pd.DataFrame(tabela, columns=cols)
             df["ano"] = self.__ano
             df.loc[df["serie"].isna(), "serie"] = 1
             df = df[["ano"] + cols]
             df = df.astype({"serie": "int64", "ano": "int64"})
-            return df
+            return formata_df_meses_para_datas_nwlistop(df)
 
         self.__ano = self.__linha_ano.read(file.readline())[0]
         file.readline()
 
         # Variáveis auxiliares
-        tabela = np.zeros((MAX_SERIES_SINTETICAS, len(MESES_DF) + 2))
+        tabela = np.zeros((MAX_SERIES_SINTETICAS, len(MESES_DF) + 1))
         i = 0
         while True:
             linha = file.readline()

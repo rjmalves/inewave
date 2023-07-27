@@ -20,5 +20,5 @@ class IntercambioAnos(ValoresSeriePatamar):
             IntegerField(4, 2),
             LiteralField(5, 6),
         ]
-        + [FloatField(8, 12 + 9 * i, 1) for i in range(len(MESES_DF) + 1)]  # type: ignore
+        + [FloatField(8, 12 + 9 * i, 1) for i in range(len(MESES_DF))]  # type: ignore
     )

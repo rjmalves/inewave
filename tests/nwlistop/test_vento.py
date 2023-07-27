@@ -1,5 +1,6 @@
 from inewave.nwlistop.vento import Vento
 
+from datetime import datetime
 from tests.mocks.mock_open import mock_open
 from unittest.mock import MagicMock, patch
 
@@ -15,8 +16,8 @@ def test_atributos_encontrados_vento():
         assert n.usina is not None
         # assert n.usina == "cluster_NE_1"
         assert n.valores is not None
-        assert n.valores.iloc[0, 0] == 2021
-        assert n.valores.iloc[-1, -1] == 7.8825
+        assert n.valores.iloc[0, 0] == datetime(2021, 1, 1)
+        assert n.valores.iloc[-1, -1] == 7.63
 
 
 def test_atributos_nao_encontrados_vento():

@@ -1,5 +1,6 @@
 from inewave.nwlistop.rhslpptb import Rhslpptb
 
+from datetime import datetime
 from tests.mocks.mock_open import mock_open
 from unittest.mock import MagicMock, patch
 
@@ -15,7 +16,7 @@ def test_atributos_encontrados_rhslpptb():
         assert n.ree is not None
         assert n.ree == "SUDESTE"
         assert n.valores is not None
-        assert n.valores.iloc[0, 0] == 2020
+        assert n.valores.iloc[0, 0] == datetime(2020, 1, 1)
         assert n.valores.iloc[-1, -1] == 0.0
 
 

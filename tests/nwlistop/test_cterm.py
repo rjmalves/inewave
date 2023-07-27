@@ -1,5 +1,6 @@
 from inewave.nwlistop.cterm import Cterm
 
+from datetime import datetime
 from tests.mocks.mock_open import mock_open
 from unittest.mock import MagicMock, patch
 
@@ -15,8 +16,8 @@ def test_atributos_encontrados_cterm():
         assert n.submercado is not None
         assert n.submercado == "SUDESTE"
         assert n.valores is not None
-        assert n.valores.iloc[0, 0] == 2021
-        assert n.valores.iloc[-1, -1] == 585.36
+        assert n.valores.iloc[0, 0] == datetime(2021, 1, 1)
+        assert n.valores.iloc[-1, -1] == 872.41
 
 
 def test_atributos_nao_encontrados_cterm():

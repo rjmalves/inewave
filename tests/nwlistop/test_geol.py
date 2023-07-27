@@ -1,5 +1,6 @@
 from inewave.nwlistop.geol import Geol
 
+from datetime import datetime
 from tests.mocks.mock_open import mock_open
 from unittest.mock import MagicMock, patch
 
@@ -15,8 +16,8 @@ def test_atributos_encontrados_geol():
         assert n.usina is not None
         # assert n.pee == "cluster_NE_1"
         assert n.valores is not None
-        assert n.valores.iloc[0, 0] == 2021
-        assert n.valores.iloc[-1, -1] == 2652.7
+        assert n.valores.iloc[0, 0] == datetime(2021, 1, 1)
+        assert n.valores.iloc[-1, -1] == 2875.5
 
 
 def test_atributos_nao_encontrados_geol():
