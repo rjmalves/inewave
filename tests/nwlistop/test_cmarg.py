@@ -1,5 +1,6 @@
 from inewave.nwlistop.cmarg import Cmarg
 
+from datetime import datetime
 from tests.mocks.mock_open import mock_open
 from unittest.mock import MagicMock, patch
 
@@ -13,8 +14,8 @@ def test_atributos_encontrados_cmarg():
     with patch("builtins.open", m):
         n = Cmarg.read(ARQ_TESTE)
         assert n.valores is not None
-        assert n.valores.iloc[0, 0] == 1995
-        assert n.valores.iloc[-1, -1] == 35.42
+        assert n.valores.iloc[0, 0] == datetime(1995, 1, 1)
+        assert n.valores.iloc[-1, -1] == 16.61
         assert n.submercado is not None
         assert n.submercado == "SUDESTE"
 

@@ -2,6 +2,7 @@ from cfinterface.components.block import Block
 from cfinterface.components.line import Line
 
 from inewave.config import MESES_DF, MAX_PATAMARES, MAX_SERIES_SINTETICAS
+from inewave._utils.formatacao import formata_df_meses_para_datas_nwlistop
 
 from typing import IO, List
 import pandas as pd  # type: ignore
@@ -41,14 +42,14 @@ class ValoresSeriePatamar(Block):
     # Override
     def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df():
-            cols = MESES_DF + ["media"]
+            cols = MESES_DF
             df = pd.DataFrame(tabela, columns=["serie"] + cols)
             df["ano"] = self.__ano
             df.loc[df["serie"].isna(), "serie"] = 1
             df["patamar"] = patamares
             df = df[["ano", "serie", "patamar"] + cols]
             df = df.astype({"serie": "int64", "ano": "int64"})
-            return df
+            return formata_df_meses_para_datas_nwlistop(df)
 
         self.__ano = self.__linha_ano.read(file.readline())[0]
         file.readline()
@@ -56,7 +57,7 @@ class ValoresSeriePatamar(Block):
         # Variáveis auxiliares
         self.__serie_atual = 0
         tabela = np.zeros(
-            (MAX_PATAMARES * MAX_SERIES_SINTETICAS, len(MESES_DF) + 2)
+            (MAX_PATAMARES * MAX_SERIES_SINTETICAS, len(MESES_DF) + 1)
         )
         patamares: List[str] = []
         i = 0

@@ -18,5 +18,5 @@ class CtermsAnos(ValoresSerie):
         [  # type: ignore
             IntegerField(4, 2),
         ]
-        + [FloatField(9, 8 + 10 * i, 2) for i in range(len(MESES_DF) + 1)]  # type: ignore
+        + [FloatField(9, 8 + 10 * i, 2) for i in range(len(MESES_DF))]  # type: ignore
     )

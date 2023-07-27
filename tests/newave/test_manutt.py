@@ -35,7 +35,6 @@ def test_atributos_nao_encontrados_manutt():
     m: MagicMock = mock_open(read_data="")
     with patch("builtins.open", m):
         ad = Manutt.read(ARQ_TESTE)
-        print(ad.manutencoes)
         assert ad.manutencoes is None
 
 

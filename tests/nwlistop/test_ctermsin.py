@@ -1,5 +1,6 @@
 from inewave.nwlistop.ctermsin import CtermSIN
 
+from datetime import datetime
 from tests.mocks.mock_open import mock_open
 from unittest.mock import MagicMock, patch
 
@@ -13,8 +14,8 @@ def test_atributos_encontrados_ctermsin():
     with patch("builtins.open", m):
         n = CtermSIN.read(ARQ_TESTE)
         assert n.valores is not None
-        assert n.valores.iloc[0, 0] == 2021
-        assert n.valores.iloc[-1, -1] == 1230.35
+        assert n.valores.iloc[0, 0] == datetime(2021, 1, 1)
+        assert n.valores.iloc[-1, -1] == 1581.41
 
 
 def test_atributos_nao_encontrados_ctermsin():

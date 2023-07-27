@@ -1,5 +1,6 @@
 from inewave.nwlistop.earmfpm import Earmfpm
 
+from datetime import datetime
 from tests.mocks.mock_open import mock_open
 from unittest.mock import MagicMock, patch
 
@@ -13,8 +14,8 @@ def test_atributos_encontrados_earmfpm():
     with patch("builtins.open", m):
         n = Earmfpm.read(ARQ_TESTE)
         assert n.valores is not None
-        assert n.valores.iloc[0, 0] == 1995
-        assert n.valores.iloc[-1, -1] == 63.0
+        assert n.valores.iloc[0, 0] == datetime(1995, 1, 1)
+        assert n.valores.iloc[-1, -1] == 68.1
         assert n.submercado is not None
         assert n.submercado == "SUDESTE"
 

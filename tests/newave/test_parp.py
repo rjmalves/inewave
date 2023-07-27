@@ -179,7 +179,6 @@ def test_correl_espacial_mensal():
         with open("", "") as fp:
             b.read(fp)
 
-    print(b.data)
     assert b.data.shape[0] == 12
     assert b.data.shape[1] == 15
     assert b.data.iloc[0, 3] == 1.0000

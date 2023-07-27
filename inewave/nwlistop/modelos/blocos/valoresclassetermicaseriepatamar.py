@@ -7,6 +7,7 @@ from inewave.config import (
     MAX_SERIES_SINTETICAS,
     MAX_UTES,
 )
+from inewave._utils.formatacao import formata_df_meses_para_datas_nwlistop
 
 from typing import IO, List
 import pandas as pd  # type: ignore
@@ -46,7 +47,7 @@ class ValoresClasseTermicaSeriePatamar(Block):
     # Override
     def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df():
-            cols = MESES_DF + ["media"]
+            cols = MESES_DF
             df = pd.DataFrame(tabela, columns=["classe", "serie"] + cols)
             df["ano"] = self.__ano
             df["patamar"] = patamares
@@ -54,7 +55,7 @@ class ValoresClasseTermicaSeriePatamar(Block):
             df = df.astype(
                 {"classe": "int64", "serie": "int64", "ano": "int64"}
             )
-            return df
+            return formata_df_meses_para_datas_nwlistop(df)
 
         self.__ano = self.__linha_ano.read(file.readline())[0]
         file.readline()
@@ -65,7 +66,7 @@ class ValoresClasseTermicaSeriePatamar(Block):
         tabela = np.zeros(
             (
                 MAX_PATAMARES * MAX_SERIES_SINTETICAS * MAX_UTES,
-                len(MESES_DF) + 3,
+                len(MESES_DF) + 2,
             )
         )
         patamares: List[str] = []
