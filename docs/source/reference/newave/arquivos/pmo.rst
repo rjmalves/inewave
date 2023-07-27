@@ -9,5 +9,5 @@ Acompanhamento do Programa (pmo.dat)
 O relatório de acompanhamento do NEWAVE, localizado no arquivo geralmente denominado
 pmo.dat, é armazenado na classe:
 
-.. autoclass:: PMO
+.. autoclass:: Pmo
    :members:

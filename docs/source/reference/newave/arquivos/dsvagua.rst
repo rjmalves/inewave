@@ -9,5 +9,5 @@ Outros Usos da Água (dsvagua.dat)
 Os desvios para usos consuntivos da água no modelo NEWAVE, localizados no arquivo geralmente denominado
 dsvagua.dat, são armazenados na classe:
 
-.. autoclass:: DSVAgua
+.. autoclass:: Dsvagua
    :members:

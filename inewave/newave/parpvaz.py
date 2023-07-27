@@ -17,7 +17,7 @@ from os.path import join
 import warnings
 
 
-class PARpvaz(BlockFile):
+class Parpvaz(BlockFile):
     """
     Armazena os dados de saída do NEWAVE referentes aos modelos e às
     séries sintéticas de vazões geradas pelo PAR(p).
@@ -57,7 +57,7 @@ class PARpvaz(BlockFile):
     @classmethod
     def le_arquivo(
         cls, diretorio: str, nome_arquivo="parpvaz.dat"
-    ) -> "PARpvaz":
+    ) -> "Parpvaz":
         msg = (
             "O método le_arquivo(diretorio, nome_arquivo) será descontinuado"
             + " na versão 1.0.0 - use o método read(caminho_arquivo)"

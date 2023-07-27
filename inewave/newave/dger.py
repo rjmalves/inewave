@@ -110,7 +110,7 @@ from os.path import join
 import warnings
 
 
-class DGer(SectionFile):
+class Dger(SectionFile):
     """
     Classe para armazenar dados gerais de uma execução do NEWAVE.
 
@@ -226,7 +226,7 @@ class DGer(SectionFile):
         super().__init__(data)
 
     @classmethod
-    def le_arquivo(cls, diretorio: str, nome_arquivo="dger.dat") -> "DGer":
+    def le_arquivo(cls, diretorio: str, nome_arquivo="dger.dat") -> "Dger":
         msg = (
             "O método le_arquivo(diretorio, nome_arquivo) será descontinuado"
             + " na versão 1.0.0 - use o método read(caminho_arquivo)"

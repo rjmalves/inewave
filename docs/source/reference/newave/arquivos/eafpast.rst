@@ -9,5 +9,5 @@ Tendência Hidrológica por REE (eafpast.dat)
 As energias afluentes por REE no ano anterior ao estudo fornecidos ao NEWAVE,
 localizadas no arquivo geralmente denominado eafpast.dat, são armazenadas na classe:
 
-.. autoclass:: EafPast
+.. autoclass:: Eafpast
    :members:

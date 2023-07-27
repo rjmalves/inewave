@@ -12,7 +12,7 @@ from os.path import join
 import warnings
 
 
-class ClasT(SectionFile):
+class Clast(SectionFile):
     """
     Armazena os dados de entrada do NEWAVE referentes às classes de
     usinas térmicas.
@@ -27,7 +27,7 @@ class ClasT(SectionFile):
         super().__init__(data)
 
     @classmethod
-    def le_arquivo(cls, diretorio: str, nome_arquivo="clast.dat") -> "ClasT":
+    def le_arquivo(cls, diretorio: str, nome_arquivo="clast.dat") -> "Clast":
         msg = (
             "O método le_arquivo(diretorio, nome_arquivo) será descontinuado"
             + " na versão 1.0.0 - use o método read(caminho_arquivo)"

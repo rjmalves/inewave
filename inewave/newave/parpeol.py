@@ -15,7 +15,7 @@ from os.path import join
 import warnings
 
 
-class PARpeol(BlockFile):
+class Parpeol(BlockFile):
     """
     Armazena os dados de saída do NEWAVE referentes às
     séries sintéticas de ventos geradas pelo PAR(p).
@@ -49,7 +49,7 @@ class PARpeol(BlockFile):
     @classmethod
     def le_arquivo(
         cls, diretorio: str, nome_arquivo="parpeol.dat"
-    ) -> "PARpeol":
+    ) -> "Parpeol":
         msg = (
             "O método le_arquivo(diretorio, nome_arquivo) será descontinuado"
             + " na versão 1.0.0 - use o método read(caminho_arquivo)"

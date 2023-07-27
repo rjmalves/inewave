@@ -20,7 +20,7 @@ from os.path import join
 import warnings
 
 
-class PARp(BlockFile):
+class Parp(BlockFile):
     """
     Armazena os dados de saída do NEWAVE referentes aos modelos e às
     séries sintéticas de energia geradas pelo PAR(p).
@@ -64,7 +64,7 @@ class PARp(BlockFile):
         self.__correl_espacial_mensal = None
 
     @classmethod
-    def le_arquivo(cls, diretorio: str, nome_arquivo="parp.dat") -> "PARp":
+    def le_arquivo(cls, diretorio: str, nome_arquivo="parp.dat") -> "Parp":
         msg = (
             "O método le_arquivo(diretorio, nome_arquivo) será descontinuado"
             + " na versão 1.0.0 - use o método read(caminho_arquivo)"

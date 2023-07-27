@@ -9,5 +9,5 @@ Reservatórios Equivalentes de Energia (ree.dat)
 As configurações dos reservatórios equivalentes de energia (REE) por submercado do NEWAVE
 , localizados no arquivo geralmente denominado ree.dat, são armazenados na classe:
 
-.. autoclass:: REE
+.. autoclass:: Ree
    :members:
