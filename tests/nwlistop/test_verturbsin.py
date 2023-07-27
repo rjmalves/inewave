@@ -1,4 +1,4 @@
-from inewave.nwlistop.verturbsin import VerturbSIN
+from inewave.nwlistop.verturbsin import Verturbsin
 
 from tests.mocks.mock_open import mock_open
 from unittest.mock import MagicMock, patch
@@ -11,7 +11,7 @@ ARQ_TESTE = "./tests/mocks/arquivos/__init__.py"
 def test_atributos_encontrados_verturbsin():
     m: MagicMock = mock_open(read_data="".join(MockVerturbSIN))
     with patch("builtins.open", m):
-        n = VerturbSIN.read(ARQ_TESTE)
+        n = Verturbsin.read(ARQ_TESTE)
         assert n.valores is not None
         assert n.valores.iloc[0, 0] == 2020
         assert n.valores.iloc[-1, -1] == -29007.0
@@ -20,15 +20,15 @@ def test_atributos_encontrados_verturbsin():
 def test_atributos_nao_encontrados_verturbsin():
     m: MagicMock = mock_open(read_data="")
     with patch("builtins.open", m):
-        n = VerturbSIN.read(ARQ_TESTE)
+        n = Verturbsin.read(ARQ_TESTE)
         assert n.valores is None
 
 
 def test_eq_verturbsin():
     m: MagicMock = mock_open(read_data="".join(MockVerturbSIN))
     with patch("builtins.open", m):
-        n1 = VerturbSIN.read(ARQ_TESTE)
-        n2 = VerturbSIN.read(ARQ_TESTE)
+        n1 = Verturbsin.read(ARQ_TESTE)
+        n2 = Verturbsin.read(ARQ_TESTE)
         assert n1 == n2
 
 

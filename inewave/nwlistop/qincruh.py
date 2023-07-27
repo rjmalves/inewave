@@ -9,7 +9,7 @@ from os.path import join
 import warnings
 
 
-class QincrUH(ArquivoUsina):
+class Qincruh(ArquivoUsina):
     """
     Armazena os dados das saídas referentes às vazões incrementais por usina.
 
@@ -27,7 +27,7 @@ class QincrUH(ArquivoUsina):
     @classmethod
     def le_arquivo(
         cls, diretorio: str, nome_arquivo="qincruh001.out"
-    ) -> "QincrUH":
+    ) -> "Qincruh":
         msg = (
             "O método le_arquivo(diretorio, nome_arquivo) será descontinuado"
             + " na versão 1.0.0 - use o método read(caminho_arquivo)"

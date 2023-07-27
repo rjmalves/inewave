@@ -9,5 +9,5 @@ Vertimento de Reservatórios para o SIN (evertsin.out)
 Os valores de vertimento de reservatórios para o SIN, localizados no arquivo geralmente denominado
 evertsin.out, são armazenados na classe:
 
-.. autoclass:: EvertSIN
+.. autoclass:: Evertsin
    :members:

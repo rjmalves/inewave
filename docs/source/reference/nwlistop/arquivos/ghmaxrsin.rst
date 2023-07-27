@@ -9,5 +9,5 @@ Geração Hidráulica Máxima com Restrições Elétricas para o SIN (ghmaxrsin.
 Os valores de geração hidráulica máxima com restrições elétricas para o SIN, localizados no arquivo geralmente denominado
 ghmaxrsin.out são armazenados na classe:
 
-.. autoclass:: GhmaxrSIN
+.. autoclass:: Ghmaxrsin
    :members:

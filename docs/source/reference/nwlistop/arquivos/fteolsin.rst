@@ -10,5 +10,5 @@ Folga da Restrição de Geração Eólica para o SIN (fteolsin.out)
 Os valores de folga da geração eólica total para o SIN, localizados no arquivo geralmente denominado
 fteolsin.out, são armazenados na classe:
 
-.. autoclass:: FteolSIN
+.. autoclass:: Fteolsin
    :members:

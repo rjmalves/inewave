@@ -1,4 +1,4 @@
-from inewave.nwlistop.dlppdfmaxs import DLPPdfmaxs
+from inewave.nwlistop.dlppdfmaxs import Dlppdfmaxs
 
 from tests.mocks.mock_open import mock_open
 from unittest.mock import MagicMock, patch
@@ -11,7 +11,7 @@ ARQ_TESTE = "./tests/mocks/arquivos/__init__.py"
 def test_atributos_encontrados_dlppdfmaxs():
     m: MagicMock = mock_open(read_data="".join(MockDLPPdfmaxs))
     with patch("builtins.open", m):
-        n = DLPPdfmaxs.read(ARQ_TESTE)
+        n = Dlppdfmaxs.read(ARQ_TESTE)
         assert n.valores is not None
         assert n.valores.iloc[0, 0] == 2020
         assert n.valores.iloc[-1, -1] == 0.0
@@ -20,15 +20,15 @@ def test_atributos_encontrados_dlppdfmaxs():
 def test_atributos_nao_encontrados_dlppdfmaxs():
     m: MagicMock = mock_open(read_data="")
     with patch("builtins.open", m):
-        n = DLPPdfmaxs.read(ARQ_TESTE)
+        n = Dlppdfmaxs.read(ARQ_TESTE)
         assert n.valores is None
 
 
 def test_eq_dlppdfmaxs():
     m: MagicMock = mock_open(read_data="".join(MockDLPPdfmaxs))
     with patch("builtins.open", m):
-        n1 = DLPPdfmaxs.read(ARQ_TESTE)
-        n2 = DLPPdfmaxs.read(ARQ_TESTE)
+        n1 = Dlppdfmaxs.read(ARQ_TESTE)
+        n2 = Dlppdfmaxs.read(ARQ_TESTE)
         assert n1 == n2
 
 

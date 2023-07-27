@@ -8,7 +8,7 @@ from os.path import join
 import warnings
 
 
-class FteolSIN(ArquivoSINPatamar):
+class Fteolsin(ArquivoSINPatamar):
     """
     Armazena os dados das saídas referentes à folga da variável de
     geração eólica para o SIN.
@@ -25,7 +25,7 @@ class FteolSIN(ArquivoSINPatamar):
     @classmethod
     def le_arquivo(
         cls, diretorio: str, nome_arquivo="fteolsin.out"
-    ) -> "FteolSIN":
+    ) -> "Fteolsin":
         msg = (
             "O método le_arquivo(diretorio, nome_arquivo) será descontinuado"
             + " na versão 1.0.0 - use o método read(caminho_arquivo)"

@@ -10,5 +10,5 @@ Os valores de violação das restrições LPP de turbinamento máximo por Submer
 localizados nos arquivos geralmente denominados
 dlpptbmaxm00x.out, onde x varia conforme o Submercado, são armazenados na classe:
 
-.. autoclass:: DLPPtbmaxm
+.. autoclass:: Dlpptbmaxm
    :members:

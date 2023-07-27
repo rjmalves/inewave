@@ -9,7 +9,7 @@ from os.path import join
 import warnings
 
 
-class VarmUH(ArquivoUsina):
+class Varmuh(ArquivoUsina):
     """
     Armazena os dados das saídas referentes aos armazenamentos por usina.
 
@@ -27,7 +27,7 @@ class VarmUH(ArquivoUsina):
     @classmethod
     def le_arquivo(
         cls, diretorio: str, nome_arquivo="varmuh001.out"
-    ) -> "VarmUH":
+    ) -> "Varmuh":
         msg = (
             "O método le_arquivo(diretorio, nome_arquivo) será descontinuado"
             + " na versão 1.0.0 - use o método read(caminho_arquivo)"

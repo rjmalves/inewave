@@ -8,7 +8,7 @@ from os.path import join
 import warnings
 
 
-class DLPPdfmaxs(ArquivoSINPatamar):
+class Dlppdfmaxs(ArquivoSINPatamar):
     """
     Armazena os dados das saídas referentes à violação das restrições
     LPP de defluência máxima por patamar para o SIN.
@@ -24,7 +24,7 @@ class DLPPdfmaxs(ArquivoSINPatamar):
     @classmethod
     def le_arquivo(
         cls, diretorio: str, nome_arquivo="dlppdfmaxs.out"
-    ) -> "DLPPdfmaxs":
+    ) -> "Dlppdfmaxs":
         msg = (
             "O método le_arquivo(diretorio, nome_arquivo) será descontinuado"
             + " na versão 1.0.0 - use o método read(caminho_arquivo)"

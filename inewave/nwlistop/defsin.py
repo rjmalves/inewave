@@ -8,7 +8,7 @@ from os.path import join
 import warnings
 
 
-class DefSIN(ArquivoSINPatamar):
+class Defsin(ArquivoSINPatamar):
     """
     Armazena os dados das saídas referentes ao déficit
     por patamar para o SIN.
@@ -24,7 +24,7 @@ class DefSIN(ArquivoSINPatamar):
     @classmethod
     def le_arquivo(
         cls, diretorio: str, nome_arquivo="defsinp001.out"
-    ) -> "DefSIN":
+    ) -> "Defsin":
         msg = (
             "O método le_arquivo(diretorio, nome_arquivo) será descontinuado"
             + " na versão 1.0.0 - use o método read(caminho_arquivo)"

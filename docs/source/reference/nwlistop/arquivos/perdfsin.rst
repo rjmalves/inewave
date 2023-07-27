@@ -9,5 +9,5 @@ Vertimento Fio d'Água para o SIN (perdfsin.out)
 Os valores de vertimento fio d'água para o SIN, localizados no arquivo geralmente denominado
 perdfsin.out, são armazenados na classe:
 
-.. autoclass:: PerdfSIN
+.. autoclass:: Perdfsin
    :members:

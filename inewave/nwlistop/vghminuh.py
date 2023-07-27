@@ -9,7 +9,7 @@ from os.path import join
 import warnings
 
 
-class VghminUH(ArquivoUsinaPatamar):
+class Vghminuh(ArquivoUsinaPatamar):
     """
     Armazena os dados das saídas referentes à violação da meta de
     geração hidráulica mínima por usina.
@@ -28,7 +28,7 @@ class VghminUH(ArquivoUsinaPatamar):
     @classmethod
     def le_arquivo(
         cls, diretorio: str, nome_arquivo="vghminuh001.out"
-    ) -> "VghminUH":
+    ) -> "Vghminuh":
         msg = (
             "O método le_arquivo(diretorio, nome_arquivo) será descontinuado"
             + " na versão 1.0.0 - use o método read(caminho_arquivo)"

@@ -1,4 +1,4 @@
-from inewave.nwlistop.vghminsin import VghminSIN
+from inewave.nwlistop.vghminsin import Vghminsin
 
 from tests.mocks.mock_open import mock_open
 from unittest.mock import MagicMock, patch
@@ -11,7 +11,7 @@ ARQ_TESTE = "./tests/mocks/arquivos/__init__.py"
 def test_atributos_encontrados_vghminsin():
     m: MagicMock = mock_open(read_data="".join(MockVghminSIN))
     with patch("builtins.open", m):
-        n = VghminSIN.read(ARQ_TESTE)
+        n = Vghminsin.read(ARQ_TESTE)
         assert n.valores is not None
         assert n.valores.iloc[0, 0] == 2020
         assert n.valores.iloc[-1, -1] == 0.0
@@ -20,15 +20,15 @@ def test_atributos_encontrados_vghminsin():
 def test_atributos_nao_encontrados_vghminsin():
     m: MagicMock = mock_open(read_data="")
     with patch("builtins.open", m):
-        n = VghminSIN.read(ARQ_TESTE)
+        n = Vghminsin.read(ARQ_TESTE)
         assert n.valores is None
 
 
 def test_eq_vghminsin():
     m: MagicMock = mock_open(read_data="".join(MockVghminSIN))
     with patch("builtins.open", m):
-        n1 = VghminSIN.read(ARQ_TESTE)
-        n2 = VghminSIN.read(ARQ_TESTE)
+        n1 = Vghminsin.read(ARQ_TESTE)
+        n2 = Vghminsin.read(ARQ_TESTE)
         assert n1 == n2
 
 

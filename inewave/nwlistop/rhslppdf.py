@@ -9,7 +9,7 @@ from os.path import join
 import warnings
 
 
-class RHSLPPdf(ArquivoREEPatamar):
+class Rhslppdf(ArquivoREEPatamar):
     """
     Armazena os dados das saídas referentes ao RHS das restrições LPP
     de defluência máxima por patamar, por REE.
@@ -28,7 +28,7 @@ class RHSLPPdf(ArquivoREEPatamar):
     @classmethod
     def le_arquivo(
         cls, diretorio: str, nome_arquivo="rhslppdf001.out"
-    ) -> "RHSLPPdf":
+    ) -> "Rhslppdf":
         msg = (
             "O método le_arquivo(diretorio, nome_arquivo) será descontinuado"
             + " na versão 1.0.0 - use o método read(caminho_arquivo)"

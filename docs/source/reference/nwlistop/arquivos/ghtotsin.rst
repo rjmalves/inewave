@@ -9,5 +9,5 @@ Geração Hidráulica Total para o SIN (ghtotsin.out)
 Os valores de geração hidráulica total para o SIN, localizados no arquivo geralmente denominado
 ghtotsin.out são armazenados na classe:
 
-.. autoclass:: GhtotSIN
+.. autoclass:: Ghtotsin
    :members:

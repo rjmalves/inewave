@@ -9,5 +9,5 @@ Custos de Déficit para o SIN (cdefsin.out)
 Os valores de custos de déficit para o SIN, localizados no arquivo geralmente denominado
 cdefsin.out, são armazenados na classe:
 
-.. autoclass:: CdefSIN
+.. autoclass:: Cdefsin
    :members:

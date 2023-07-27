@@ -9,5 +9,5 @@ Déficit para o SIN (defsin.out)
 Os valores de déficit de energia para o SIN, localizados no arquivo denominado
 defsin.out, são armazenados na classe:
 
-.. autoclass:: DefSIN
+.. autoclass:: Defsin
    :members:

@@ -1,37 +1,37 @@
-from inewave.nwlistop.varmuh import VarmUH
+from inewave.nwlistop.varmpuh import Varmpuh
 
 from tests.mocks.mock_open import mock_open
 from unittest.mock import MagicMock, patch
 
-from tests.mocks.arquivos.varmuh import MockVarmUH
+from tests.mocks.arquivos.varmpuh import MockVarmpUH
 
 ARQ_TESTE = "./tests/mocks/arquivos/__init__.py"
 
 
-def test_atributos_encontrados_varmuh():
-    m: MagicMock = mock_open(read_data="".join(MockVarmUH))
+def test_atributos_encontrados_varmpuh():
+    m: MagicMock = mock_open(read_data="".join(MockVarmpUH))
     with patch("builtins.open", m):
-        n = VarmUH.read(ARQ_TESTE)
+        n = Varmpuh.read(ARQ_TESTE)
         assert n.usina is not None
         assert n.usina == "CAMARGOS"
         assert n.valores is not None
-        assert n.valores.iloc[0, 0] == 2022
-        assert n.valores.iloc[-1, -1] == 662.80
+        assert n.valores.iloc[0, 0] == 2020
+        assert n.valores.iloc[-1, -1] == 95.35
 
 
-def test_atributos_nao_encontrados_varmuh():
+def test_atributos_nao_encontrados_varmpuh():
     m: MagicMock = mock_open(read_data="")
     with patch("builtins.open", m):
-        n = VarmUH.read(ARQ_TESTE)
+        n = Varmpuh.read(ARQ_TESTE)
         assert n.usina is None
         assert n.valores is None
 
 
-def test_eq_varmuh():
-    m: MagicMock = mock_open(read_data="".join(MockVarmUH))
+def test_eq_varmpuh():
+    m: MagicMock = mock_open(read_data="".join(MockVarmpUH))
     with patch("builtins.open", m):
-        n1 = VarmUH.read(ARQ_TESTE)
-        n2 = VarmUH.read(ARQ_TESTE)
+        n1 = Varmpuh.read(ARQ_TESTE)
+        n2 = Varmpuh.read(ARQ_TESTE)
         assert n1 == n2
 
 

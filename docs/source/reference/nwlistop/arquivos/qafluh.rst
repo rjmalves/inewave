@@ -9,5 +9,5 @@ Vazão Afluente por Usina (qafluhx.out)
 Os valores de vazão afluente por usina, localizados nos arquivos geralmente denominados
 qafluhx.out, onde x varia conforme a usina, são armazenados na classe:
 
-.. autoclass:: QaflUH
+.. autoclass:: Qafluh
    :members:

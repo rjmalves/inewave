@@ -8,7 +8,7 @@ from os.path import join
 import warnings
 
 
-class GttotSIN(ArquivoSINPatamar):
+class Gttotsin(ArquivoSINPatamar):
     """
     Armazena os dados das saídas referentes à geração térmica total
     por patamar, para o SIN.
@@ -24,7 +24,7 @@ class GttotSIN(ArquivoSINPatamar):
     @classmethod
     def le_arquivo(
         cls, diretorio: str, nome_arquivo="gttotsin.out"
-    ) -> "GttotSIN":
+    ) -> "Gttotsin":
         msg = (
             "O método le_arquivo(diretorio, nome_arquivo) será descontinuado"
             + " na versão 1.0.0 - use o método read(caminho_arquivo)"

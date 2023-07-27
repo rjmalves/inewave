@@ -9,5 +9,5 @@ Vazão Incremental por Usina (qincruh.out)
 Os valores de vazão incremental por usina, localizados nos arquivos geralmente denominados
 qincruh.out, onde x varia conforme a usina, são armazenados na classe:
 
-.. autoclass:: QincrUH
+.. autoclass:: Qincruh
    :members:
