@@ -16,7 +16,7 @@ def test_atributos_encontrados_ghmax():
         assert n.ree == "SUDESTE"
         assert n.valores is not None
         assert n.valores.iloc[0, 0] == 2021
-        assert n.valores.iloc[-1, -1] == 7841.2
+        assert n.valores.iloc[-1, -1] == 7562.6
 
 
 def test_atributos_nao_encontrados_ghmax():

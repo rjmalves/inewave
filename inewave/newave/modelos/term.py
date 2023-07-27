@@ -27,7 +27,7 @@ class BlocoTermUTE(Section):
                 FloatField(6, 31, 2),
                 FloatField(6, 38, 2),
             ]
-            + [FloatField(6, 45 + 7 * i, 2) for i in range(len(MESES_DF) + 1)]
+            + [FloatField(6, 45 + 7 * i, 2) for i in range(len(MESES_DF))]
         )
         self.__cabecalhos: List[str] = []
 

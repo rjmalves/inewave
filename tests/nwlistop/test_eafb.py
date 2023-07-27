@@ -14,7 +14,7 @@ def test_atributos_encontrados_eafb():
         n = Eafb.read(ARQ_TESTE)
         assert n.valores is not None
         assert n.valores.iloc[0, 0] == 2020
-        assert n.valores.iloc[-1, -1] == 4523.0
+        assert n.valores.iloc[-1, -1] == 5067.0
         assert n.ree is not None
         assert n.ree == "SUDESTE"
 

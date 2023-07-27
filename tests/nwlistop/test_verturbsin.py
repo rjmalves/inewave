@@ -14,7 +14,7 @@ def test_atributos_encontrados_verturbsin():
         n = VerturbSIN.read(ARQ_TESTE)
         assert n.valores is not None
         assert n.valores.iloc[0, 0] == 2020
-        assert n.valores.iloc[-1, -1] == -29007.0
+        assert n.valores.iloc[-1, -1] == 0.0
 
 
 def test_atributos_nao_encontrados_verturbsin():

@@ -16,7 +16,7 @@ def test_atributos_encontrados_varmpuh():
         assert n.usina == "CAMARGOS"
         assert n.valores is not None
         assert n.valores.iloc[0, 0] == 2020
-        assert n.valores.iloc[-1, -1] == 95.35
+        assert n.valores.iloc[-1, -1] == 0.0
 
 
 def test_atributos_nao_encontrados_varmpuh():

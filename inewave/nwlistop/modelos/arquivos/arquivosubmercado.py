@@ -68,12 +68,9 @@ class ArquivoSubmercado(BlockFile):
         Tabela com os valores, por série e
         por mês/ano de estudo.
 
-        - ano (`int`)
-        - serie (`int`)
-        - patamar (`str`)
-        - janeiro (`float`)
-        - ...
-        - dezembro (`float`)
+        - data (`datetime`)
+        - serie (`str`)
+        - valor (`float`)
 
         :return: A tabela dos valores.
         :rtype: pd.DataFrame | None

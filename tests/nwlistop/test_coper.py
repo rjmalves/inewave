@@ -14,7 +14,7 @@ def test_atributos_encontrados_coper():
         n = Coper.read(ARQ_TESTE)
         assert n.valores is not None
         assert n.valores.iloc[0, 0] == 2022
-        assert n.valores.iloc[-1, -1] == 1155.67
+        assert n.valores.iloc[-1, -1] == 691.64
 
 
 def test_atributos_nao_encontrados_coper():

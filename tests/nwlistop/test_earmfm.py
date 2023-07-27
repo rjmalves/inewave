@@ -14,7 +14,7 @@ def test_atributos_encontrados_earmfm():
         n = Earmfm.read(ARQ_TESTE)
         assert n.valores is not None
         assert n.valores.iloc[0, 0] == 2022
-        assert n.valores.iloc[-1, -1] == 122223.0
+        assert n.valores.iloc[-1, -1] == 94664.0
         assert n.submercado is not None
         assert n.submercado == "SUDESTE"
 

@@ -16,7 +16,7 @@ def test_atributos_encontrados_qafluh():
         assert n.usina == "CAMARGOS"
         assert n.valores is not None
         assert n.valores.iloc[0, 0] == 2020
-        assert n.valores.iloc[-1, -1] == 105.02
+        assert n.valores.iloc[-1, -1] == 0.0
 
 
 def test_atributos_nao_encontrados_qafluh():

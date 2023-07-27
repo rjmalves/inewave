@@ -16,7 +16,7 @@ def test_atributos_encontrados_ghmaxmr():
         assert n.submercado == "SUDESTE"
         assert n.valores is not None
         assert n.valores.iloc[0, 0] == 2021
-        assert n.valores.iloc[-1, -1] == 54233.6
+        assert n.valores.iloc[-1, -1] == 54649.3
 
 
 def test_atributos_nao_encontrados_ghmaxmr():

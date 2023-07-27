@@ -16,7 +16,7 @@ def test_atributos_encontrados_vagua():
         assert n.ree == "SUDESTE"
         assert n.valores is not None
         assert n.valores.iloc[0, 0] == 2022
-        assert n.valores.iloc[-1, -1] == -1.90
+        assert n.valores.iloc[-1, -1] == -0.09
 
 
 def test_atributos_nao_encontrados_vagua():

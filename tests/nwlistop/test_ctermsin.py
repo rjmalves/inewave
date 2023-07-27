@@ -14,7 +14,7 @@ def test_atributos_encontrados_ctermsin():
         n = CtermSIN.read(ARQ_TESTE)
         assert n.valores is not None
         assert n.valores.iloc[0, 0] == 2021
-        assert n.valores.iloc[-1, -1] == 1230.35
+        assert n.valores.iloc[-1, -1] == 1581.41
 
 
 def test_atributos_nao_encontrados_ctermsin():

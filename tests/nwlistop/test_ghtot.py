@@ -16,7 +16,7 @@ def test_atributos_encontrados_ghtot():
         assert n.ree == "SUDESTE"
         assert n.valores is not None
         assert n.valores.iloc[0, 0] == 2022
-        assert n.valores.iloc[-1, -1] == 2578.7
+        assert n.valores.iloc[-1, -1] == 2420.5
 
 
 def test_atributos_nao_encontrados_ghtot():

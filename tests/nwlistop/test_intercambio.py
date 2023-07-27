@@ -17,7 +17,7 @@ def test_atributos_encontrados_intercambio():
         assert n.submercado_para == "SUL"
         assert n.valores is not None
         assert n.valores.iloc[0, 0] == 2020
-        assert n.valores.iloc[-1, -2] == 2835.2
+        assert n.valores.iloc[-1, -2] == -3883.7
 
 
 def test_atributos_nao_encontrados_intercambio():

@@ -16,7 +16,7 @@ def test_atributos_encontrados_geolm():
         assert n.submercado == "NORDESTE"
         assert n.valores is not None
         assert n.valores.iloc[0, 0] == 2021
-        assert n.valores.iloc[-1, -1] == 5850.4
+        assert n.valores.iloc[-1, -1] == 5964.8
 
 
 def test_atributos_nao_encontrados_geolm():

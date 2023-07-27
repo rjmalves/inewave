@@ -14,7 +14,7 @@ def test_atributos_encontrados_eafbm():
         n = Eafbm.read(ARQ_TESTE)
         assert n.valores is not None
         assert n.valores.iloc[0, 0] == 1995
-        assert n.valores.iloc[-1, -1] == 38424.0
+        assert n.valores.iloc[-1, -1] == 28024.0
         assert n.submercado is not None
         assert n.submercado == "SUDESTE"
 

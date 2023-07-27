@@ -15,7 +15,7 @@ def test_atributos_encontrados_evert():
         assert n.ree == "SUDESTE"
         assert n.valores is not None
         assert n.valores.iloc[0, 0] == 2020
-        assert n.valores.iloc[-1, -1] == 24.0
+        assert n.valores.iloc[-1, -1] == 37.0
 
 
 def test_atributos_nao_encontrados_evert():

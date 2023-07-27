@@ -47,12 +47,9 @@ class ArquivoSIN(BlockFile):
         Tabela com os valores por patamar, por série e
         por mês/ano de estudo.
 
-        - ano (`int`)
-        - serie (`int`)
-        - patamar (`str`)
-        - janeiro (`float`)
-        - ...
-        - dezembro (`float`)
+        - data (`datetime`)
+        - serie (`str`)
+        - valor (`float`)
 
         :return: A tabela dos valores por patamar.
         :rtype: pd.DataFrame | None

@@ -14,7 +14,7 @@ def test_atributos_encontrados_earmfp():
         n = Earmfp.read(ARQ_TESTE)
         assert n.valores is not None
         assert n.valores.iloc[0, 0] == 2022
-        assert n.valores.iloc[-1, -1] == 71.2
+        assert n.valores.iloc[-1, -1] == 83.6
         assert n.ree is not None
         assert n.ree == "SUDESTE"
 

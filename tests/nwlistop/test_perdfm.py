@@ -15,7 +15,7 @@ def test_atributos_encontrados_perdfm():
         assert n.submercado == "SUDESTE"
         assert n.valores is not None
         assert n.valores.iloc[0, 0] == 2020
-        assert n.valores.iloc[-1, -1] == 231.0
+        assert n.valores.iloc[-1, -1] == 316.0
 
 
 def test_atributos_nao_encontrados_perdfm():

@@ -20,5 +20,5 @@ class CmargsAnos(ValoresSeriePatamar):
             IntegerField(4, 1),
             IntegerField(2, 9),
         ]
-        + [FloatField(8, 15 + 9 * i, 2) for i in range(len(MESES_DF) + 1)]  # type: ignore
+        + [FloatField(8, 15 + 9 * i, 2) for i in range(len(MESES_DF))]  # type: ignore
     )

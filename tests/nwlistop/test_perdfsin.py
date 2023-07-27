@@ -14,7 +14,7 @@ def test_atributos_encontrados_perdfsin():
         n = PerdfSIN.read(ARQ_TESTE)
         assert n.valores is not None
         assert n.valores.iloc[0, 0] == 2020
-        assert n.valores.iloc[-1, -1] == 438.0
+        assert n.valores.iloc[-1, -1] == 674.0
 
 
 def test_atributos_nao_encontrados_perdfsin():

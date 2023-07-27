@@ -14,7 +14,7 @@ def test_atributos_encontrados_merclsin():
         n = MerclSIN.read(ARQ_TESTE)
         assert n.valores is not None
         assert n.valores.iloc[0, 0] == 2022
-        assert n.valores.iloc[-1, -2] == 56819.0
+        assert n.valores.iloc[-1, -2] == 54495.0
 
 
 def test_atributos_nao_encontrados_merclsin():

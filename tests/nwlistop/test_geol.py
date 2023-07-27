@@ -16,7 +16,7 @@ def test_atributos_encontrados_geol():
         # assert n.pee == "cluster_NE_1"
         assert n.valores is not None
         assert n.valores.iloc[0, 0] == 2021
-        assert n.valores.iloc[-1, -1] == 2652.7
+        assert n.valores.iloc[-1, -1] == 2875.5
 
 
 def test_atributos_nao_encontrados_geol():

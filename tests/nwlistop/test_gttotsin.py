@@ -14,7 +14,7 @@ def test_atributos_encontrados_gttotsin():
         n = GttotSIN.read(ARQ_TESTE)
         assert n.valores is not None
         assert n.valores.iloc[0, 0] == 2022
-        assert n.valores.iloc[-1, -1] == 5106.0
+        assert n.valores.iloc[-1, -1] == 4811.2
 
 
 def test_atributos_nao_encontrados_gttotsin():

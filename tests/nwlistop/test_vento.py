@@ -16,7 +16,7 @@ def test_atributos_encontrados_vento():
         # assert n.usina == "cluster_NE_1"
         assert n.valores is not None
         assert n.valores.iloc[0, 0] == 2021
-        assert n.valores.iloc[-1, -1] == 7.8825
+        assert n.valores.iloc[-1, -1] == 7.63
 
 
 def test_atributos_nao_encontrados_vento():

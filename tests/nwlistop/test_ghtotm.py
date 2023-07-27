@@ -16,7 +16,7 @@ def test_atributos_encontrados_ghtotm():
         assert n.submercado == "SUDESTE"
         assert n.valores is not None
         assert n.valores.iloc[0, 0] == 2022
-        assert n.valores.iloc[-1, -1] == 24494.9
+        assert n.valores.iloc[-1, -1] == 36951.5
 
 
 def test_atributos_nao_encontrados_ghtotm():

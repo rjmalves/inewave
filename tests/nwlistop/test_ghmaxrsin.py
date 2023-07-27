@@ -14,7 +14,7 @@ def test_atributos_encontrados_ghmaxrsin():
         n = GhmaxrSIN.read(ARQ_TESTE)
         assert n.valores is not None
         assert n.valores.iloc[0, 0] == 2021
-        assert n.valores.iloc[-1, -1] == 94172.9
+        assert n.valores.iloc[-1, -1] == 93660
 
 
 def test_atributos_nao_encontrados_ghmaxrsin():

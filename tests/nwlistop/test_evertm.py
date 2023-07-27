@@ -15,7 +15,7 @@ def test_atributos_encontrados_evertm():
         assert n.submercado == "SUDESTE"
         assert n.valores is not None
         assert n.valores.iloc[0, 0] == 2020
-        assert n.valores.iloc[-1, -1] == 146.0
+        assert n.valores.iloc[-1, -1] == 233.0
 
 
 def test_atributos_nao_encontrados_evertm():

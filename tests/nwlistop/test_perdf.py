@@ -15,7 +15,7 @@ def test_atributos_encontrados_perdf():
         assert n.ree == "SUDESTE"
         assert n.valores is not None
         assert n.valores.iloc[0, 0] == 2020
-        assert n.valores.iloc[-1, -1] == 230.0
+        assert n.valores.iloc[-1, -1] == 315.0
 
 
 def test_atributos_nao_encontrados_perdf():

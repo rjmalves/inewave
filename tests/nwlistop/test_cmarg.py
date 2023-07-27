@@ -14,7 +14,7 @@ def test_atributos_encontrados_cmarg():
         n = Cmarg.read(ARQ_TESTE)
         assert n.valores is not None
         assert n.valores.iloc[0, 0] == 1995
-        assert n.valores.iloc[-1, -1] == 35.42
+        assert n.valores.iloc[-1, -1] == 16.61
         assert n.submercado is not None
         assert n.submercado == "SUDESTE"
 

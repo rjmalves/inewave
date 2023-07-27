@@ -5,6 +5,7 @@ from unittest.mock import MagicMock, patch
 
 from tests.mocks.arquivos.gtert import MockGtert
 
+
 ARQ_TESTE = "./tests/mocks/arquivos/__init__.py"
 
 
@@ -16,7 +17,7 @@ def test_atributos_encontrados_gtert():
         assert n.submercado == "SUDESTE"
         assert n.valores is not None
         assert n.valores.iloc[0, 0] == 2023
-        assert n.valores.iloc[-1, -1] == 549.2
+        assert n.valores.iloc[-1, -1] == 535.7
 
 
 def test_atributos_nao_encontrados_gtert():

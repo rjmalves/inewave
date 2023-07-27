@@ -16,7 +16,7 @@ def test_atributos_encontrados_depminuh():
         assert n.usina == "CAMARGOS"
         assert n.valores is not None
         assert n.valores.iloc[0, 0] == 2022
-        assert n.valores.iloc[-1, -1] == 3.57
+        assert n.valores.iloc[-1, -1] == 42.79
 
 
 def test_atributos_nao_encontrados_depminuh():

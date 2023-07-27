@@ -16,7 +16,7 @@ def test_atributos_encontrados_gttot():
         assert n.submercado == "SUDESTE"
         assert n.valores is not None
         assert n.valores.iloc[0, 0] == 2022
-        assert n.valores.iloc[-1, -1] == 2710.5
+        assert n.valores.iloc[-1, -1] == 2853.5
 
 
 def test_atributos_nao_encontrados_gttot():

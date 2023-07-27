@@ -15,7 +15,7 @@ def test_atributos_encontrados_mercl():
         assert n.valores is not None
         print(n.valores)
         assert n.valores.iloc[0, 0] == 2022
-        assert n.valores.iloc[-1, -2] == 37783.0
+        assert n.valores.iloc[-1, -2] == 36819.0
         assert n.submercado is not None
         assert n.submercado == "SUDESTE"
 

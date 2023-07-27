@@ -14,7 +14,7 @@ def test_atributos_encontrados_earmfsin():
         n = EarmfSIN.read(ARQ_TESTE)
         assert n.valores is not None
         assert n.valores.iloc[0, 0] == 2022
-        assert n.valores.iloc[-1, -1] == 177927.0
+        assert n.valores.iloc[-1, -1] == 152505.0
 
 
 def test_atributos_nao_encontrados_earmfsin():

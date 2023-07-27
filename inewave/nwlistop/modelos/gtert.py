@@ -22,5 +22,5 @@ class GTAnos(ValoresClasseTermicaSeriePatamar):
             IntegerField(4, 7),
             LiteralField(1, 15),
         ]
-        + [FloatField(9, 16 + 9 * i, 1) for i in range(len(MESES_DF) + 1)]  # type: ignore
+        + [FloatField(9, 16 + 9 * i, 1) for i in range(len(MESES_DF))]  # type: ignore
     )

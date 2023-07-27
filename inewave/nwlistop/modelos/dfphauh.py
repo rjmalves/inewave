@@ -22,5 +22,5 @@ class DfphauhAnos(ValoresSeriePatamar):
             IntegerField(4, 1),
             LiteralField(5, 6),
         ]
-        + [FloatField(9, 14 + 9 * i, 2) for i in range(len(MESES_DF) + 1)]  # type: ignore
+        + [FloatField(9, 14 + 9 * i, 2) for i in range(len(MESES_DF))]  # type: ignore
     )

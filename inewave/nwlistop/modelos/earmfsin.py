@@ -17,6 +17,6 @@ class EarmAnos(ValoresSerie):
     DATA_LINE = Line(
         [IntegerField(4, 2)]  # type: ignore
         + [
-            FloatField(9, 6 + 9 * i, 0) for i in range(len(MESES_DF) + 1)  # type: ignore
+            FloatField(9, 6 + 9 * i, 0) for i in range(len(MESES_DF))  # type: ignore
         ]
     )
