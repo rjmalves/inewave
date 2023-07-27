@@ -1,5 +1,6 @@
 from inewave.nwlistop.merclsin import MerclSIN
 
+from datetime import datetime
 from tests.mocks.mock_open import mock_open
 from unittest.mock import MagicMock, patch
 
@@ -13,8 +14,8 @@ def test_atributos_encontrados_merclsin():
     with patch("builtins.open", m):
         n = MerclSIN.read(ARQ_TESTE)
         assert n.valores is not None
-        assert n.valores.iloc[0, 0] == 2022
-        assert n.valores.iloc[-1, -2] == 54495.0
+        assert n.valores.iloc[0, 0] == datetime(2022, 1, 1)
+        assert n.valores.iloc[-1, -1] == 56819.0
 
 
 def test_atributos_nao_encontrados_merclsin():

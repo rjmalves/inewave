@@ -1,5 +1,6 @@
 from inewave.nwlistop.vevminm import Vevminm
 
+from datetime import datetime
 from tests.mocks.mock_open import mock_open
 from unittest.mock import MagicMock, patch
 
@@ -13,7 +14,7 @@ def test_atributos_encontrados_vevminm():
     with patch("builtins.open", m):
         n = Vevminm.read(ARQ_TESTE)
         assert n.valores is not None
-        assert n.valores.iloc[0, 0] == 2020
+        assert n.valores.iloc[0, 0] == datetime(2020, 1, 1)
         assert n.valores.iloc[-1, -1] == 0.0
         assert n.submercado is not None
         assert n.submercado == "SUDESTE"

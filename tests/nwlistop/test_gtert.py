@@ -1,5 +1,6 @@
 from inewave.nwlistop.gtert import Gtert
 
+from datetime import datetime
 from tests.mocks.mock_open import mock_open
 from unittest.mock import MagicMock, patch
 
@@ -16,8 +17,8 @@ def test_atributos_encontrados_gtert():
         assert n.submercado is not None
         assert n.submercado == "SUDESTE"
         assert n.valores is not None
-        assert n.valores.iloc[0, 0] == 2023
-        assert n.valores.iloc[-1, -1] == 535.7
+        assert n.valores.iloc[0, 0] == "1"
+        assert n.valores.iloc[1, -1] == 162.9
 
 
 def test_atributos_nao_encontrados_gtert():

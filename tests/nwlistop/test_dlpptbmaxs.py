@@ -1,5 +1,6 @@
 from inewave.nwlistop.dlpptbmaxs import DLPPtbmaxs
 
+from datetime import datetime
 from tests.mocks.mock_open import mock_open
 from unittest.mock import MagicMock, patch
 
@@ -13,7 +14,7 @@ def test_atributos_encontrados_dlpptbmaxs():
     with patch("builtins.open", m):
         n = DLPPtbmaxs.read(ARQ_TESTE)
         assert n.valores is not None
-        assert n.valores.iloc[0, 0] == 2020
+        assert n.valores.iloc[0, 0] == datetime(2020, 1, 1)
         assert n.valores.iloc[-1, -1] == 0.0
 
 

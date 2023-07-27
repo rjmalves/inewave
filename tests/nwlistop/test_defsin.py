@@ -1,5 +1,6 @@
 from inewave.nwlistop.defsin import DefSIN
 
+from datetime import datetime
 from tests.mocks.mock_open import mock_open
 from unittest.mock import MagicMock, patch
 
@@ -13,7 +14,7 @@ def test_atributos_encontrados_defsin():
     with patch("builtins.open", m):
         n = DefSIN.read(ARQ_TESTE)
         assert n.valores is not None
-        assert n.valores.iloc[0, 0] == 2022
+        assert n.valores.iloc[0, 0] == datetime(2022, 1, 1)
         assert n.valores.iloc[-1, -1] == 0.0
 
 
