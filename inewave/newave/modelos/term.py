@@ -27,7 +27,7 @@ class BlocoTermUTE(Section):
                 FloatField(6, 31, 2),
                 FloatField(6, 38, 2),
             ]
-            + [FloatField(6, 45 + 7 * i, 2) for i in range(len(MESES_DF))]
+            + [FloatField(6, 45 + 7 * i, 2) for i in range(len(MESES_DF) + 1)]
         )
         self.__cabecalhos: List[str] = []
 
@@ -86,6 +86,7 @@ class BlocoTermUTE(Section):
                     self.data = converte_tabela_em_df()
                 break
             dados = self.__linha.read(linha)
+            print(dados)
             tabela[i, :] = dados[2:]
             numeros.append(dados[0])
             nomes.append(dados[1])
