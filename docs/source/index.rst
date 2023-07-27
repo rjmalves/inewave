@@ -15,45 +15,32 @@ desenvolvido pelo `CEPEL <http://www.cepel.br/>`_ e utilizado para os estudos de
 O inewave oferece:
 
 - Meios para leitura dos arquivos de entrada e saída do NEWAVE e programas associados: NWLISTCF e NWLISTOP
-- Armazenamento e processamento de dados otimizados com o uso de `NumPy <https://numpy.org/>`_
-- Facilidades para estudo e análise dos dados utilizando DataFrames de `Pandas <https://pandas.pydata.org/pandas-docs/stable/index.html>`_
+- Facilidades para estudo e análise dos dados utilizando DataFrames de `pandas <https://pandas.pydata.org/pandas-docs/stable/index.html>`_
 - Dados estruturados em modelos com o uso do paradigma de orientação a objetos (OOP)
-- Utilidades de escritas dos arquivos de entrada do NEWAVE para elaboração automatizada de estudos
 
-
-* :ref:`genindex`
 
 .. toctree::
    :caption: Apresentação 
    :maxdepth: 3
-   :hidden:
 
-   ./install.rst
+   apresentacao/apresentacao.rst
 
 .. toctree::
-   :caption: NEWAVE
+   :caption: Geral 
    :maxdepth: 3
-   :hidden:
+
+   geral/instalacao
+   geral/tutorial
+   geral/contribuicao
+   examples/index.rst
+
+.. toctree::
+   :caption: Referência
+   :maxdepth: 3
 
    reference/newave/index.rst
-
-.. toctree::
-   :caption: NWLISTCF
-   :maxdepth: 3
-   :hidden:
-
    reference/nwlistcf/index.rst
-
-.. toctree::
-   :caption: NWLISTOP
-   :maxdepth: 3
-   :hidden:
-
    reference/nwlistop/index.rst
 
-.. toctree::
-   :caption: Exemplos 
-   :maxdepth: 3
-   :hidden:
 
-   examples/index.rst
+:ref:`genindex`

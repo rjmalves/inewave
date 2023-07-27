@@ -1,7 +1,7 @@
 .. _nwlistopdat:
 
 ============================================
-Dados Gerais do NWLISTOP (nwlistopdat.out)
+Dados Gerais do NWLISTOP (nwlistop.dat)
 ============================================
 
 .. currentmodule:: inewave.nwlistop.nwlistopdat
