@@ -10,7 +10,7 @@ from inewave.newave.modelos.pmo import (
     BlocoProdutibilidadesConfiguracaoPMO,
 )
 
-from inewave.newave import PMO
+from inewave.newave import Pmo
 
 
 from tests.mocks.mock_open import mock_open
@@ -169,7 +169,7 @@ def test_leitura_produtibilidades():
 def test_atributos_encontrados_pmo():
     m: MagicMock = mock_open(read_data="".join(MockPMO))
     with patch("builtins.open", m):
-        pmo = PMO.read(ARQ_TESTE)
+        pmo = Pmo.read(ARQ_TESTE)
         assert pmo.eafpast_tendencia_hidrologica is not None
         assert pmo.eafpast_cfuga_medio is not None
         assert pmo.convergencia is not None
@@ -190,7 +190,7 @@ def test_atributos_encontrados_pmo():
 def test_atributos_nao_encontrados_pmo():
     m: MagicMock = mock_open(read_data="".join(MockBlocoConvergenciaPMO))
     with patch("builtins.open", m):
-        pmo = PMO.read(ARQ_TESTE)
+        pmo = Pmo.read(ARQ_TESTE)
         assert pmo.convergencia is not None
         assert pmo.custo_operacao_series_simuladas is None
         assert pmo.custo_operacao_total is None
@@ -201,15 +201,15 @@ def test_atributos_nao_encontrados_pmo():
 def test_eq_pmo():
     m: MagicMock = mock_open(read_data="".join(MockPMO))
     with patch("builtins.open", m):
-        pmo1 = PMO.read(ARQ_TESTE)
-        pmo2 = PMO.read(ARQ_TESTE)
+        pmo1 = Pmo.read(ARQ_TESTE)
+        pmo2 = Pmo.read(ARQ_TESTE)
         assert pmo1 == pmo2
 
 
 def test_neq_pmo():
     m: MagicMock = mock_open(read_data="".join(MockPMO))
     with patch("builtins.open", m):
-        pmo1 = PMO.read(ARQ_TESTE)
-        pmo2 = PMO.read(ARQ_TESTE)
+        pmo1 = Pmo.read(ARQ_TESTE)
+        pmo2 = Pmo.read(ARQ_TESTE)
         pmo2.configuracoes_alteracao_potencia
         assert pmo1 == pmo2

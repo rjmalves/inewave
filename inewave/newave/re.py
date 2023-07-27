@@ -12,7 +12,7 @@ from os.path import join
 import warnings
 
 
-class RE(SectionFile):
+class Re(SectionFile):
     """
     Armazena os dados de entrada do NEWAVE referentes às restrições
     elétricas existentes.
@@ -30,7 +30,7 @@ class RE(SectionFile):
         super().__init__(data)
 
     @classmethod
-    def le_arquivo(cls, diretorio: str, nome_arquivo="re.dat") -> "RE":
+    def le_arquivo(cls, diretorio: str, nome_arquivo="re.dat") -> "Re":
         msg = (
             "O método le_arquivo(diretorio, nome_arquivo) será descontinuado"
             + " na versão 1.0.0 - use o método read(caminho_arquivo)"

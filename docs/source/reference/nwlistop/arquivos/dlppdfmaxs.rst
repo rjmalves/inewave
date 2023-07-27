@@ -9,5 +9,5 @@ Violação das LPP de Defluência Máxima para o SIN (dlppdfmaxs.out)
 Os valores de violação das restrições LPP de defluência máxima para o SIN,
 localizados no arquivo geralmente denominado dlppdfmaxs.out são armazenados na classe:
 
-.. autoclass:: DLPPdfmaxs
+.. autoclass:: Dlppdfmaxs
    :members:

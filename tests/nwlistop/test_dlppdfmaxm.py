@@ -1,4 +1,4 @@
-from inewave.nwlistop.dlppdfmaxm import DLPPdfmaxm
+from inewave.nwlistop.dlppdfmaxm import Dlppdfmaxm
 
 from datetime import datetime
 from tests.mocks.mock_open import mock_open
@@ -12,7 +12,7 @@ ARQ_TESTE = "./tests/mocks/arquivos/__init__.py"
 def test_atributos_encontrados_dlppdfmaxm():
     m: MagicMock = mock_open(read_data="".join(MockDLPPdfmaxm))
     with patch("builtins.open", m):
-        n = DLPPdfmaxm.read(ARQ_TESTE)
+        n = Dlppdfmaxm.read(ARQ_TESTE)
         assert n.submercado is not None
         assert n.submercado == "SUDESTE"
         assert n.valores is not None
@@ -23,7 +23,7 @@ def test_atributos_encontrados_dlppdfmaxm():
 def test_atributos_nao_encontrados_dlppdfmaxm():
     m: MagicMock = mock_open(read_data="")
     with patch("builtins.open", m):
-        n = DLPPdfmaxm.read(ARQ_TESTE)
+        n = Dlppdfmaxm.read(ARQ_TESTE)
         assert n.submercado is None
         assert n.valores is None
 
@@ -31,8 +31,8 @@ def test_atributos_nao_encontrados_dlppdfmaxm():
 def test_eq_dlppdfmaxm():
     m: MagicMock = mock_open(read_data="".join(MockDLPPdfmaxm))
     with patch("builtins.open", m):
-        n1 = DLPPdfmaxm.read(ARQ_TESTE)
-        n2 = DLPPdfmaxm.read(ARQ_TESTE)
+        n1 = Dlppdfmaxm.read(ARQ_TESTE)
+        n2 = Dlppdfmaxm.read(ARQ_TESTE)
         assert n1 == n2
 
 

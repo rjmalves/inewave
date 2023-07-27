@@ -9,5 +9,5 @@ Tempos de Execução (newave.tim)
 O relatório de acompanhamento dos tempos de execução do NEWAVE,
 localizado no arquivo newave.tim, é armazenado na classe:
 
-.. autoclass:: NewaveTim
+.. autoclass:: Newavetim
    :members:

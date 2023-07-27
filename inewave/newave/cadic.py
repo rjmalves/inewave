@@ -9,7 +9,7 @@ from os.path import join
 import warnings
 
 
-class CAdic(SectionFile):
+class Cadic(SectionFile):
     """
     Armazena os dados de entrada do NEWAVE referentes às cargas
     adicionais.
@@ -24,7 +24,7 @@ class CAdic(SectionFile):
         super().__init__(data)
 
     @classmethod
-    def le_arquivo(cls, diretorio: str, nome_arquivo="c_adic.dat") -> "CAdic":
+    def le_arquivo(cls, diretorio: str, nome_arquivo="c_adic.dat") -> "Cadic":
         msg = (
             "O método le_arquivo(diretorio, nome_arquivo) será descontinuado"
             + " na versão 1.0.0 - use o método read(caminho_arquivo)"

@@ -4,7 +4,7 @@ from inewave.newave.modelos.re import (
     BlocoConfiguracaoRestricoesRE,
 )
 
-from inewave.newave import RE
+from inewave.newave import Re
 
 
 from tests.mocks.mock_open import mock_open
@@ -46,7 +46,7 @@ def test_bloco_restricoes_re():
 def test_atributos_encontrados_re():
     m: MagicMock = mock_open(read_data="".join(MockRE))
     with patch("builtins.open", m):
-        ad = RE.read(ARQ_TESTE)
+        ad = Re.read(ARQ_TESTE)
         assert ad.usinas_conjuntos is not None
         assert ad.restricoes is not None
 
@@ -54,7 +54,7 @@ def test_atributos_encontrados_re():
 def test_atributos_nao_encontrados_re():
     m: MagicMock = mock_open(read_data="")
     with patch("builtins.open", m):
-        ad = RE.read(ARQ_TESTE)
+        ad = Re.read(ARQ_TESTE)
         assert ad.usinas_conjuntos is None
         assert ad.restricoes is None
 
@@ -62,16 +62,16 @@ def test_atributos_nao_encontrados_re():
 def test_eq_re():
     m: MagicMock = mock_open(read_data="".join(MockRE))
     with patch("builtins.open", m):
-        cf1 = RE.read(ARQ_TESTE)
-        cf2 = RE.read(ARQ_TESTE)
+        cf1 = Re.read(ARQ_TESTE)
+        cf2 = Re.read(ARQ_TESTE)
         assert cf1 == cf2
 
 
 def test_neq_re():
     m: MagicMock = mock_open(read_data="".join(MockRE))
     with patch("builtins.open", m):
-        cf1 = RE.read(ARQ_TESTE)
-        cf2 = RE.read(ARQ_TESTE)
+        cf1 = Re.read(ARQ_TESTE)
+        cf2 = Re.read(ARQ_TESTE)
         cf2.usinas_conjuntos.loc[0, 0] = 0
         assert cf1 != cf2
 
@@ -79,7 +79,7 @@ def test_neq_re():
 def test_leitura_escrita_re():
     m_leitura: MagicMock = mock_open(read_data="".join(MockRE))
     with patch("builtins.open", m_leitura):
-        cf1 = RE.read(ARQ_TESTE)
+        cf1 = Re.read(ARQ_TESTE)
     m_escrita: MagicMock = mock_open(read_data="")
     with patch("builtins.open", m_escrita):
         cf1.write(ARQ_TESTE)
@@ -90,5 +90,5 @@ def test_leitura_escrita_re():
         ]
     m_releitura: MagicMock = mock_open(read_data="".join(linhas_escritas))
     with patch("builtins.open", m_releitura):
-        cf2 = RE.read(ARQ_TESTE)
+        cf2 = Re.read(ARQ_TESTE)
         assert cf1 == cf2

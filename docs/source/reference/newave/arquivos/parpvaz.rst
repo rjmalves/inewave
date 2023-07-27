@@ -10,5 +10,5 @@ O relatório de acompanhamento do modelo PAR(p) do NEWAVE para períodos
 individualizados, localizado no arquivo geralmente denominado
 parpvaz.dat, é armazenado na classe:
 
-.. autoclass:: PARpvaz
+.. autoclass:: Parpvaz
    :members:

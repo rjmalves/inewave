@@ -9,7 +9,7 @@ from os.path import join
 import warnings
 
 
-class VazPast(SectionFile):
+class Vazpast(SectionFile):
     """
     Armazena os dados de entrada do NEWAVE referentes às
     vazões anteriores ao período de planejamento.
@@ -29,7 +29,7 @@ class VazPast(SectionFile):
     @classmethod
     def le_arquivo(
         cls, diretorio: str, nome_arquivo="vazpast.dat"
-    ) -> "VazPast":
+    ) -> "Vazpast":
         msg = (
             "O método le_arquivo(diretorio, nome_arquivo) será descontinuado"
             + " na versão 1.0.0 - use o método read(caminho_arquivo)"

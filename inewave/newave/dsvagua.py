@@ -9,7 +9,7 @@ from os.path import join
 import warnings
 
 
-class DSVAgua(SectionFile):
+class Dsvagua(SectionFile):
     """
     Armazena os dados de entrada do NEWAVE referentes aos
     desvios de água por usina.
@@ -29,7 +29,7 @@ class DSVAgua(SectionFile):
     @classmethod
     def le_arquivo(
         cls, diretorio: str, nome_arquivo="dsvagua.dat"
-    ) -> "DSVAgua":
+    ) -> "Dsvagua":
         msg = (
             "O método le_arquivo(diretorio, nome_arquivo) será descontinuado"
             + " na versão 1.0.0 - use o método read(caminho_arquivo)"

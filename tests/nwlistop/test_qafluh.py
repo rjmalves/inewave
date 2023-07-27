@@ -1,4 +1,4 @@
-from inewave.nwlistop.qafluh import QaflUH
+from inewave.nwlistop.qafluh import Qafluh
 
 from datetime import datetime
 from tests.mocks.mock_open import mock_open
@@ -12,7 +12,7 @@ ARQ_TESTE = "./tests/mocks/arquivos/__init__.py"
 def test_atributos_encontrados_qafluh():
     m: MagicMock = mock_open(read_data="".join(MockQaflUH))
     with patch("builtins.open", m):
-        n = QaflUH.read(ARQ_TESTE)
+        n = Qafluh.read(ARQ_TESTE)
         assert n.usina is not None
         assert n.usina == "CAMARGOS"
         assert n.valores is not None
@@ -23,7 +23,7 @@ def test_atributos_encontrados_qafluh():
 def test_atributos_nao_encontrados_qafluh():
     m: MagicMock = mock_open(read_data="")
     with patch("builtins.open", m):
-        n = QaflUH.read(ARQ_TESTE)
+        n = Qafluh.read(ARQ_TESTE)
         assert n.usina is None
         assert n.valores is None
 
@@ -31,8 +31,8 @@ def test_atributos_nao_encontrados_qafluh():
 def test_eq_qafluh():
     m: MagicMock = mock_open(read_data="".join(MockQaflUH))
     with patch("builtins.open", m):
-        n1 = QaflUH.read(ARQ_TESTE)
-        n2 = QaflUH.read(ARQ_TESTE)
+        n1 = Qafluh.read(ARQ_TESTE)
+        n2 = Qafluh.read(ARQ_TESTE)
         assert n1 == n2
 
 

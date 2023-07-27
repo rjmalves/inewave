@@ -1,4 +1,4 @@
-from inewave.nwlistop.rhslpptb import RHSLPPtb
+from inewave.nwlistop.rhslpptb import Rhslpptb
 
 from datetime import datetime
 from tests.mocks.mock_open import mock_open
@@ -12,7 +12,7 @@ ARQ_TESTE = "./tests/mocks/arquivos/__init__.py"
 def test_atributos_encontrados_rhslpptb():
     m: MagicMock = mock_open(read_data="".join(MockRHSLPPtb))
     with patch("builtins.open", m):
-        n = RHSLPPtb.read(ARQ_TESTE)
+        n = Rhslpptb.read(ARQ_TESTE)
         assert n.ree is not None
         assert n.ree == "SUDESTE"
         assert n.valores is not None
@@ -23,7 +23,7 @@ def test_atributos_encontrados_rhslpptb():
 def test_atributos_nao_encontrados_rhslpptb():
     m: MagicMock = mock_open(read_data="")
     with patch("builtins.open", m):
-        n = RHSLPPtb.read(ARQ_TESTE)
+        n = Rhslpptb.read(ARQ_TESTE)
         assert n.ree is None
         assert n.valores is None
 
@@ -31,8 +31,8 @@ def test_atributos_nao_encontrados_rhslpptb():
 def test_eq_rhslpptb():
     m: MagicMock = mock_open(read_data="".join(MockRHSLPPtb))
     with patch("builtins.open", m):
-        n1 = RHSLPPtb.read(ARQ_TESTE)
-        n2 = RHSLPPtb.read(ARQ_TESTE)
+        n1 = Rhslpptb.read(ARQ_TESTE)
+        n2 = Rhslpptb.read(ARQ_TESTE)
         assert n1 == n2
 
 

@@ -1,5 +1,5 @@
 # Rotinas de testes associadas ao arquivo dger.dat do NEWAVE
-from inewave.newave.dger import DGer
+from inewave.newave.dger import Dger
 
 from tests.mocks.mock_open import mock_open
 from unittest.mock import MagicMock, patch
@@ -12,7 +12,7 @@ ARQ_TESTE = "./tests/mocks/arquivos/__init__.py"
 def test_atributos_nao_encontrados_dger():
     m: MagicMock = mock_open(read_data="")
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.nome_caso == ""
         assert d.tipo_execucao is None
         assert d.duracao_periodo is None
@@ -138,7 +138,7 @@ def test_atributos_nao_encontrados_dger():
 def test_atributos_encontrados_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.nome_caso is not None
         assert d.tipo_execucao is not None
         assert d.duracao_periodo is not None
@@ -264,7 +264,7 @@ def test_atributos_encontrados_dger():
 def test_nome_caso_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.nome_caso == (
             "PMO JANEIRO - 2021  22/12/2020 12:43:55  Niveis"
             + " para 26/12 NW Versao 27.5_CPAMP"
@@ -277,7 +277,7 @@ def test_nome_caso_dger():
 def test_tipo_execucao_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.tipo_execucao == 1
         novo_valor = 0
         d.tipo_execucao = novo_valor
@@ -287,7 +287,7 @@ def test_tipo_execucao_dger():
 def test_duracao_periodo_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.duracao_periodo == 1
         novo_valor = 0
         d.duracao_periodo = novo_valor
@@ -297,7 +297,7 @@ def test_duracao_periodo_dger():
 def test_num_anos_estudo_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.num_anos_estudo == 5
         novo_valor = 0
         d.num_anos_estudo = novo_valor
@@ -307,7 +307,7 @@ def test_num_anos_estudo_dger():
 def test_mes_inicio_pre_estudo_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.mes_inicio_pre_estudo == 1
         novo_valor = 0
         d.mes_inicio_pre_estudo = novo_valor
@@ -317,7 +317,7 @@ def test_mes_inicio_pre_estudo_dger():
 def test_mes_inicio_estudo_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.mes_inicio_estudo == 1
         novo_valor = 0
         d.mes_inicio_estudo = novo_valor
@@ -327,7 +327,7 @@ def test_mes_inicio_estudo_dger():
 def test_ano_inicio_estudo_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.ano_inicio_estudo == 2021
         novo_valor = 0
         d.ano_inicio_estudo = novo_valor
@@ -337,7 +337,7 @@ def test_ano_inicio_estudo_dger():
 def test_num_anos_pre_estudo_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.num_anos_pre_estudo == 0
         novo_valor = 5
         d.num_anos_pre_estudo = novo_valor
@@ -347,7 +347,7 @@ def test_num_anos_pre_estudo_dger():
 def test_num_anos_pos_estudo_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.num_anos_pos_estudo == 5
         novo_valor = 0
         d.num_anos_pos_estudo = novo_valor
@@ -357,7 +357,7 @@ def test_num_anos_pos_estudo_dger():
 def test_num_anos_pos_sim_final_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.num_anos_pos_sim_final == 0
         novo_valor = 1
         d.num_anos_pos_sim_final = novo_valor
@@ -367,7 +367,7 @@ def test_num_anos_pos_sim_final_dger():
 def test_imprime_dados_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.imprime_dados == 1
         novo_valor = 0
         d.imprime_dados = novo_valor
@@ -377,7 +377,7 @@ def test_imprime_dados_dger():
 def test_imprime_mercados_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.imprime_mercados == 1
         novo_valor = 0
         d.imprime_mercados = novo_valor
@@ -387,7 +387,7 @@ def test_imprime_mercados_dger():
 def test_imprime_energias_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.imprime_energias == 1
         novo_valor = 0
         d.imprime_energias = novo_valor
@@ -397,7 +397,7 @@ def test_imprime_energias_dger():
 def test_imprime_modelo_estocastico_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.imprime_modelo_estocastico == 1
         novo_valor = 0
         d.imprime_modelo_estocastico = novo_valor
@@ -407,7 +407,7 @@ def test_imprime_modelo_estocastico_dger():
 def test_imprime_subsistema_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.imprime_subsistema == 1
         novo_valor = 0
         d.imprime_subsistema = novo_valor
@@ -417,7 +417,7 @@ def test_imprime_subsistema_dger():
 def test_num_max_iteracoes_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.num_max_iteracoes == 45
         novo_valor = 0
         d.num_max_iteracoes = novo_valor
@@ -427,7 +427,7 @@ def test_num_max_iteracoes_dger():
 def test_num_forwards_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.num_forwards == 200
         novo_valor = 0
         d.num_forwards = novo_valor
@@ -437,7 +437,7 @@ def test_num_forwards_dger():
 def test_num_aberturas_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.num_aberturas == 20
         novo_valor = 0
         d.num_aberturas = novo_valor
@@ -447,7 +447,7 @@ def test_num_aberturas_dger():
 def test_num_series_sinteticas_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.num_series_sinteticas == 2000
         novo_valor = 0
         d.num_series_sinteticas = novo_valor
@@ -457,7 +457,7 @@ def test_num_series_sinteticas_dger():
 def test_ordem_maxima_parp_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.ordem_maxima_parp == 6
         novo_valor = 0
         d.ordem_maxima_parp = novo_valor
@@ -467,7 +467,7 @@ def test_ordem_maxima_parp_dger():
 def test_ano_inicial_historico_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.ano_inicial_historico == 1931
         novo_valor = 0
         d.ano_inicial_historico = novo_valor
@@ -477,7 +477,7 @@ def test_ano_inicial_historico_dger():
 def test_tamanho_registro_arquivo_historico_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.tamanho_registro_arquivo_historico == 0
         novo_valor = 1
         d.tamanho_registro_arquivo_historico = novo_valor
@@ -487,7 +487,7 @@ def test_tamanho_registro_arquivo_historico_dger():
 def test_calcula_volume_inicial_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.calcula_volume_inicial == 1
         novo_valor = 0
         d.calcula_volume_inicial = novo_valor
@@ -497,7 +497,7 @@ def test_calcula_volume_inicial_dger():
 def test_volume_inicial_subsistema_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.volume_inicial_subsistema == [0.0, 0.0, 0.0, 0.0, 0.0]
         novo_valor = [1.0, 1.0, 1.0, 1.0, 1.0]
         d.volume_inicial_subsistema = novo_valor
@@ -507,7 +507,7 @@ def test_volume_inicial_subsistema_dger():
 def test_tolerancia_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.tolerancia == 95.0
         novo_valor = 0.0
         d.tolerancia = novo_valor
@@ -517,7 +517,7 @@ def test_tolerancia_dger():
 def test_taxa_de_desconto_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.taxa_de_desconto == 12.0
         novo_valor = 0.0
         d.taxa_de_desconto = novo_valor
@@ -527,7 +527,7 @@ def test_taxa_de_desconto_dger():
 def test_tipo_simulacao_final_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.tipo_simulacao_final == 1
         novo_valor = 0
         d.tipo_simulacao_final = novo_valor
@@ -537,7 +537,7 @@ def test_tipo_simulacao_final_dger():
 def test_agregacao_simulacao_final_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.agregacao_simulacao_final == 1
         novo_valor = 0
         d.agregacao_simulacao_final = novo_valor
@@ -547,7 +547,7 @@ def test_agregacao_simulacao_final_dger():
 def test_impressao_operacao_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.impressao_operacao == 1
         novo_valor = 0
         d.impressao_operacao = novo_valor
@@ -557,7 +557,7 @@ def test_impressao_operacao_dger():
 def test_impressao_convergencia_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.impressao_convergencia == 1
         novo_valor = 0
         d.impressao_convergencia = novo_valor
@@ -567,7 +567,7 @@ def test_impressao_convergencia_dger():
 def test_intervalo_para_gravar_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.intervalo_para_gravar == 1
         novo_valor = 0
         d.intervalo_para_gravar = novo_valor
@@ -577,7 +577,7 @@ def test_intervalo_para_gravar_dger():
 def test_num_minimo_iteracoes_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.num_minimo_iteracoes == 30
         novo_valor = 0
         d.num_minimo_iteracoes = novo_valor
@@ -587,7 +587,7 @@ def test_num_minimo_iteracoes_dger():
 def test_racionamento_preventivo_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.racionamento_preventivo == 0
         novo_valor = 1
         d.racionamento_preventivo = novo_valor
@@ -597,7 +597,7 @@ def test_racionamento_preventivo_dger():
 def test_num_anos_manutencao_utes_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.num_anos_manutencao_utes == 1
         novo_valor = 0
         d.num_anos_manutencao_utes = novo_valor
@@ -607,7 +607,7 @@ def test_num_anos_manutencao_utes_dger():
 def test_tendencia_hidrologica_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.considera_tendencia_hidrologica_calculo_politica == 2
         assert d.considera_tendencia_hidrologica_sim_final == 2
         novo_valor = 0
@@ -620,7 +620,7 @@ def test_tendencia_hidrologica_dger():
 def test_restricao_itaipu_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.restricao_itaipu == 0
         novo_valor = 1
         d.restricao_itaipu = novo_valor
@@ -630,7 +630,7 @@ def test_restricao_itaipu_dger():
 def test_bid_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.bid == 0
         novo_valor = 1
         d.bid = novo_valor
@@ -640,7 +640,7 @@ def test_bid_dger():
 def test_perdas_rede_transmissao_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.perdas_rede_transmissao == 0
         novo_valor = 1
         d.perdas_rede_transmissao = novo_valor
@@ -650,7 +650,7 @@ def test_perdas_rede_transmissao_dger():
 def test_el_nino_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.el_nino == 0
         novo_valor = 1
         d.el_nino = novo_valor
@@ -660,7 +660,7 @@ def test_el_nino_dger():
 def test_enso_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.enso == 0
         novo_valor = 1
         d.enso = novo_valor
@@ -670,7 +670,7 @@ def test_enso_dger():
 def test_duracao_por_patamar_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.duracao_por_patamar == 1
         novo_valor = 0
         d.duracao_por_patamar = novo_valor
@@ -680,7 +680,7 @@ def test_duracao_por_patamar_dger():
 def test_outros_usos_da_agua_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.outros_usos_da_agua == 1
         novo_valor = 0
         d.outros_usos_da_agua = novo_valor
@@ -690,7 +690,7 @@ def test_outros_usos_da_agua_dger():
 def test_correcao_desvio_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.correcao_desvio == 1
         novo_valor = 0
         d.correcao_desvio = novo_valor
@@ -700,7 +700,7 @@ def test_correcao_desvio_dger():
 def test_curva_aversao_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.curva_aversao == 1
         novo_valor = 0
         d.curva_aversao = novo_valor
@@ -710,7 +710,7 @@ def test_curva_aversao_dger():
 def test_tipo_geracao_enas_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.tipo_geracao_enas == 0
         novo_valor = 1
         d.tipo_geracao_enas = novo_valor
@@ -720,7 +720,7 @@ def test_tipo_geracao_enas_dger():
 def test_risco_deficit_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.primeira_profundidade_risco_deficit == 1.0
         assert d.segunda_profundidade_risco_deficit == 2.5
         novo_valor = 0.0
@@ -733,7 +733,7 @@ def test_risco_deficit_dger():
 def test_iteracao_para_simulacao_final_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.iteracao_para_simulacao_final == 0
         novo_valor = 1
         d.iteracao_para_simulacao_final = novo_valor
@@ -743,7 +743,7 @@ def test_iteracao_para_simulacao_final_dger():
 def test_agrupamento_livre_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.agrupamento_livre == 1
         novo_valor = 0
         d.agrupamento_livre = novo_valor
@@ -753,7 +753,7 @@ def test_agrupamento_livre_dger():
 def test_equalizacao_penal_intercambio_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.equalizacao_penal_intercambio == 1
         novo_valor = 0
         d.equalizacao_penal_intercambio = novo_valor
@@ -763,7 +763,7 @@ def test_equalizacao_penal_intercambio_dger():
 def test_representacao_submotorizacao_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.representacao_submotorizacao == 2
         novo_valor = 0
         d.representacao_submotorizacao = novo_valor
@@ -773,7 +773,7 @@ def test_representacao_submotorizacao_dger():
 def test_ordenacao_automatica_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.ordenacao_automatica == 0
         novo_valor = 1
         d.ordenacao_automatica = novo_valor
@@ -783,7 +783,7 @@ def test_ordenacao_automatica_dger():
 def test_considera_carga_adicional_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.considera_carga_adicional == 1
         novo_valor = 0
         d.considera_carga_adicional = novo_valor
@@ -793,7 +793,7 @@ def test_considera_carga_adicional_dger():
 def test_delta_zsup_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.delta_zsup == 10
         novo_valor = 0.0
         d.delta_zsup = novo_valor
@@ -803,7 +803,7 @@ def test_delta_zsup_dger():
 def test_delta_zinf_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.delta_zinf == 0.2
         novo_valor = 0.0
         d.delta_zinf = novo_valor
@@ -813,7 +813,7 @@ def test_delta_zinf_dger():
 def test_deltas_consecutivos_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.deltas_consecutivos == 3
         novo_valor = 0
         d.deltas_consecutivos = novo_valor
@@ -823,7 +823,7 @@ def test_deltas_consecutivos_dger():
 def test_despacho_antecipado_gnl_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.despacho_antecipado_gnl == 1
         novo_valor = 0
         d.despacho_antecipado_gnl = novo_valor
@@ -833,7 +833,7 @@ def test_despacho_antecipado_gnl_dger():
 def test_modif_automatica_adterm_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.modif_automatica_adterm == 1
         novo_valor = 0
         d.modif_automatica_adterm = novo_valor
@@ -843,7 +843,7 @@ def test_modif_automatica_adterm_dger():
 def test_considera_ghmin_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.considera_ghmin == 1
         novo_valor = 0
         d.considera_ghmin = novo_valor
@@ -853,7 +853,7 @@ def test_considera_ghmin_dger():
 def test_simulacao_final_com_data_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.simulacao_final_com_data == 0
         novo_valor = 1
         d.simulacao_final_com_data = novo_valor
@@ -863,7 +863,7 @@ def test_simulacao_final_com_data_dger():
 def test_gerenciamento_pls_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.utiliza_gerenciamento_pls == 0
         assert d.comunicacao_dois_niveis == 0
         assert d.armazenamento_local_arquivos_temporarios == 0
@@ -885,7 +885,7 @@ def test_gerenciamento_pls_dger():
 def test_sar_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.sar == 0
         novo_valor = 1
         d.sar = novo_valor
@@ -895,7 +895,7 @@ def test_sar_dger():
 def test_cvar_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.cvar == 1
         novo_valor = 0
         d.cvar = novo_valor
@@ -905,7 +905,7 @@ def test_cvar_dger():
 def test_considera_zsup_min_convergencia_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.considera_zsup_min_convergencia == 0
         novo_valor = 0
         d.considera_zsup_min_convergencia = novo_valor
@@ -915,7 +915,7 @@ def test_considera_zsup_min_convergencia_dger():
 def test_desconsidera_vazao_minima_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.desconsidera_vazao_minima == 0
         novo_valor = 1
         d.desconsidera_vazao_minima = novo_valor
@@ -925,7 +925,7 @@ def test_desconsidera_vazao_minima_dger():
 def test_restricoes_eletricas_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.restricoes_eletricas == 1
         novo_valor = 0
         d.restricoes_eletricas = novo_valor
@@ -935,7 +935,7 @@ def test_restricoes_eletricas_dger():
 def test_selecao_de_cortes_backward_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.selecao_de_cortes_backward == 1
         novo_valor = 0
         d.selecao_de_cortes_backward = novo_valor
@@ -945,7 +945,7 @@ def test_selecao_de_cortes_backward_dger():
 def test_selecao_de_cortes_forward_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.selecao_de_cortes_forward == 1
         novo_valor = 0
         d.selecao_de_cortes_forward = novo_valor
@@ -955,7 +955,7 @@ def test_selecao_de_cortes_forward_dger():
 def test_janela_de_cortes_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.janela_de_cortes == 0
         novo_valor = 1
         d.janela_de_cortes = novo_valor
@@ -965,7 +965,7 @@ def test_janela_de_cortes_dger():
 def test_reamostragem_cenarios_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.considera_reamostragem_cenarios == 1
         assert d.tipo_reamostragem_cenarios == 1
         assert d.passo_reamostragem_cenarios == 1
@@ -981,7 +981,7 @@ def test_reamostragem_cenarios_dger():
 def test_converge_no_zero_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.converge_no_zero == 0
         novo_valor = 1
         d.converge_no_zero = novo_valor
@@ -991,7 +991,7 @@ def test_converge_no_zero_dger():
 def test_consulta_fcf_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.consulta_fcf == 0
         novo_valor = 1
         d.consulta_fcf = novo_valor
@@ -1001,7 +1001,7 @@ def test_consulta_fcf_dger():
 def test_impressao_ena_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.impressao_ena == 1
         novo_valor = 0
         d.impressao_ena = novo_valor
@@ -1011,7 +1011,7 @@ def test_impressao_ena_dger():
 def test_impressao_cortes_ativos_sim_final_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.impressao_cortes_ativos_sim_final == 0
         novo_valor = 1
         d.impressao_cortes_ativos_sim_final = novo_valor
@@ -1021,7 +1021,7 @@ def test_impressao_cortes_ativos_sim_final_dger():
 def test_representacao_agregacao_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.representacao_agregacao == 1
         novo_valor = 0
         d.representacao_agregacao = novo_valor
@@ -1031,7 +1031,7 @@ def test_representacao_agregacao_dger():
 def test_matriz_correlacao_espacial_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.matriz_correlacao_espacial == 1
         novo_valor = 0
         d.matriz_correlacao_espacial = novo_valor
@@ -1041,7 +1041,7 @@ def test_matriz_correlacao_espacial_dger():
 def test_desconsidera_convergencia_estatistica_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.desconsidera_convergencia_estatistica == 1
         novo_valor = 0
         d.desconsidera_convergencia_estatistica = novo_valor
@@ -1051,7 +1051,7 @@ def test_desconsidera_convergencia_estatistica_dger():
 def test_momento_reamostragem_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.momento_reamostragem == 1
         novo_valor = 0
         d.momento_reamostragem = novo_valor
@@ -1061,7 +1061,7 @@ def test_momento_reamostragem_dger():
 def test_mantem_arquivos_energias_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.mantem_arquivos_energias == 0
         novo_valor = 1
         d.mantem_arquivos_energias = novo_valor
@@ -1071,7 +1071,7 @@ def test_mantem_arquivos_energias_dger():
 def test_inicio_teste_convergencia_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.inicio_teste_convergencia == 1
         novo_valor = 0
         d.inicio_teste_convergencia = novo_valor
@@ -1081,7 +1081,7 @@ def test_inicio_teste_convergencia_dger():
 def test_sazonaliza_vmint_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.sazonaliza_vmint == 0
         novo_valor = 1
         d.sazonaliza_vmint = novo_valor
@@ -1091,7 +1091,7 @@ def test_sazonaliza_vmint_dger():
 def test_sazonaliza_vmaxt_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.sazonaliza_vmaxt == 0
         novo_valor = 1
         d.sazonaliza_vmaxt = novo_valor
@@ -1101,7 +1101,7 @@ def test_sazonaliza_vmaxt_dger():
 def test_sazonaliza_vminp_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.sazonaliza_vminp == 0
         novo_valor = 1
         d.sazonaliza_vminp = novo_valor
@@ -1111,7 +1111,7 @@ def test_sazonaliza_vminp_dger():
 def test_sazonaliza_cfuga_cmont_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.sazonaliza_cfuga_cmont == 0
         novo_valor = 1
         d.sazonaliza_cfuga_cmont = novo_valor
@@ -1121,7 +1121,7 @@ def test_sazonaliza_cfuga_cmont_dger():
 def test_restricoes_emissao_gee_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.restricoes_emissao_gee == 0
         novo_valor = 1
         d.restricoes_emissao_gee = novo_valor
@@ -1131,7 +1131,7 @@ def test_restricoes_emissao_gee_dger():
 def test_afluencia_anual_parp_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.consideracao_media_anual_afluencias == 3
         assert d.reducao_automatica_ordem == 0
         novo_valor = 1
@@ -1144,7 +1144,7 @@ def test_afluencia_anual_parp_dger():
 def test_restricoes_fornecimento_gas_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.restricoes_fornecimento_gas == 0
         novo_valor = 1
         d.restricoes_fornecimento_gas = novo_valor
@@ -1154,7 +1154,7 @@ def test_restricoes_fornecimento_gas_dger():
 def test_memoria_calculo_cortes_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.memoria_calculo_cortes == 0
         novo_valor = 1
         d.memoria_calculo_cortes = novo_valor
@@ -1164,7 +1164,7 @@ def test_memoria_calculo_cortes_dger():
 def test_considera_geracao_eolica_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.considera_geracao_eolica == 1
         novo_valor = 0
         d.considera_geracao_eolica = novo_valor
@@ -1174,7 +1174,7 @@ def test_considera_geracao_eolica_dger():
 def test_penalidade_corte_geracao_eolica_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.penalidade_corte_geracao_eolica == 0.0063
         novo_valor = 1.0
         d.penalidade_corte_geracao_eolica = novo_valor
@@ -1184,7 +1184,7 @@ def test_penalidade_corte_geracao_eolica_dger():
 def test_compensacao_correlacao_cruzada_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.compensacao_correlacao_cruzada == 1
         novo_valor = 0
         d.compensacao_correlacao_cruzada = novo_valor
@@ -1194,7 +1194,7 @@ def test_compensacao_correlacao_cruzada_dger():
 def test_restricao_turbinamento_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.restricao_turbinamento == 1
         novo_valor = 0
         d.restricao_turbinamento = novo_valor
@@ -1204,7 +1204,7 @@ def test_restricao_turbinamento_dger():
 def test_restricao_defluencia_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.restricao_defluencia == 1
         novo_valor = 0
         d.restricao_defluencia = novo_valor
@@ -1214,7 +1214,7 @@ def test_restricao_defluencia_dger():
 def test_aproveitamento_base_pls_backward_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.aproveitamento_bases_backward == 1
         novo_valor = 0
         d.aproveitamento_bases_backward = novo_valor
@@ -1224,7 +1224,7 @@ def test_aproveitamento_base_pls_backward_dger():
 def test_impressao_estados_geracao_cortes_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.impressao_estados_geracao_cortes == 1
         novo_valor = 0
         d.impressao_estados_geracao_cortes = novo_valor
@@ -1234,7 +1234,7 @@ def test_impressao_estados_geracao_cortes_dger():
 def test_semente_forward_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.semente_forward == 0
         novo_valor = 1000
         d.semente_forward = novo_valor
@@ -1244,7 +1244,7 @@ def test_semente_forward_dger():
 def test_semente_backward_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.semente_backward == 0
         novo_valor = 1000
         d.semente_backward = novo_valor
@@ -1254,7 +1254,7 @@ def test_semente_backward_dger():
 def test_restricao_lpp_turbinamento_maximo_ree_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.restricao_lpp_turbinamento_maximo_ree == 1
         novo_valor = 0
         d.restricao_lpp_turbinamento_maximo_ree = novo_valor
@@ -1264,7 +1264,7 @@ def test_restricao_lpp_turbinamento_maximo_ree_dger():
 def test_restricao_lpp_defluencia_maxima_ree_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.restricao_lpp_defluencia_maxima_ree == 1
         novo_valor = 0
         d.restricao_lpp_defluencia_maxima_ree = novo_valor
@@ -1274,7 +1274,7 @@ def test_restricao_lpp_defluencia_maxima_ree_dger():
 def test_restricao_lpp_turbinamento_maximo_uhe_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.restricao_lpp_turbinamento_maximo_uhe == 1
         novo_valor = 0
         d.restricao_lpp_turbinamento_maximo_uhe = novo_valor
@@ -1284,7 +1284,7 @@ def test_restricao_lpp_turbinamento_maximo_uhe_dger():
 def test_restricao_lpp_defluencia_maxima_uhe_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.restricao_lpp_defluencia_maxima_uhe == 1
         novo_valor = 0
         d.restricao_lpp_defluencia_maxima_uhe = novo_valor
@@ -1294,7 +1294,7 @@ def test_restricao_lpp_defluencia_maxima_uhe_dger():
 def test_restricoes_eletricas_especiais():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.restricoes_eletricas_especiais == 0
         novo_valor = 1
         d.restricoes_eletricas_especiais = novo_valor
@@ -1304,7 +1304,7 @@ def test_restricoes_eletricas_especiais():
 def test_funcao_producao_uhe():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.funcao_producao_uhe == 0
         novo_valor = 1
         d.funcao_producao_uhe = novo_valor
@@ -1314,7 +1314,7 @@ def test_funcao_producao_uhe():
 def test_fcf_pos_estudo():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.fcf_pos_estudo == 0
         novo_valor = 1
         d.fcf_pos_estudo = novo_valor
@@ -1324,7 +1324,7 @@ def test_fcf_pos_estudo():
 def test_estacoes_bombeamento():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.estacoes_bombeamento == 1
         novo_valor = 0
         d.estacoes_bombeamento = novo_valor
@@ -1334,7 +1334,7 @@ def test_estacoes_bombeamento():
 def test_canal_desvio():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d = DGer.read(ARQ_TESTE)
+        d = Dger.read(ARQ_TESTE)
         assert d.canal_desvio == 1
         novo_valor = 0
         d.canal_desvio = novo_valor
@@ -1344,16 +1344,16 @@ def test_canal_desvio():
 def test_eq_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d1 = DGer.read(ARQ_TESTE)
-        d2 = DGer.read(ARQ_TESTE)
+        d1 = Dger.read(ARQ_TESTE)
+        d2 = Dger.read(ARQ_TESTE)
         assert d1 == d2
 
 
 def test_neq_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
-        d1 = DGer.read(ARQ_TESTE)
-        d2 = DGer.read(ARQ_TESTE)
+        d1 = Dger.read(ARQ_TESTE)
+        d2 = Dger.read(ARQ_TESTE)
         d2.nome_caso = "Teste"
         assert d1 != d2
 
@@ -1361,7 +1361,7 @@ def test_neq_dger():
 def test_leitura_escrita_dger():
     m_leitura: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m_leitura):
-        d1 = DGer.read(ARQ_TESTE)
+        d1 = Dger.read(ARQ_TESTE)
     m_escrita: MagicMock = mock_open(read_data="")
     with patch("builtins.open", m_escrita):
         d1.write(ARQ_TESTE)
@@ -1372,5 +1372,5 @@ def test_leitura_escrita_dger():
         ]
     m_releitura: MagicMock = mock_open(read_data="".join(linhas_escritas))
     with patch("builtins.open", m_releitura):
-        d2 = DGer.read(ARQ_TESTE)
+        d2 = Dger.read(ARQ_TESTE)
         assert d1 == d2

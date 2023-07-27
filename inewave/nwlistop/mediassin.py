@@ -3,7 +3,7 @@ import pandas as pd  # type: ignore
 from inewave.nwlistop.modelos.mediassin import LeituraMediasSIN
 
 
-class MediasSIN:
+class Mediassin:
     """
     Armazena os dados das saídas referentes às médias de diversas variáveis
     para o SIN.
@@ -18,11 +18,11 @@ class MediasSIN:
 
     def __eq__(self, o: object) -> bool:
         """
-        A igualdade entre MediasSIN avalia todos os valores da tabela.
+        A igualdade entre Mediassin avalia todos os valores da tabela.
         """
-        if not isinstance(o, MediasSIN):
+        if not isinstance(o, Mediassin):
             return False
-        m: MediasSIN = o
+        m: Mediassin = o
         return self.medias.equals(m.medias)
 
     @property

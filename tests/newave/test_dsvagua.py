@@ -1,7 +1,7 @@
 # Rotinas de testes associadas ao arquivo dsvagua.dat do NEWAVE
 from inewave.newave.modelos.dsvagua import BlocoDsvUHE
 
-from inewave.newave import DSVAgua
+from inewave.newave import Dsvagua
 
 
 from tests.mocks.mock_open import mock_open
@@ -27,30 +27,30 @@ def test_bloco_desvios_dsvagua():
 def test_atributos_encontrados_dsvagua():
     m: MagicMock = mock_open(read_data="".join(MockBlocoDesviosAgua))
     with patch("builtins.open", m):
-        ad = DSVAgua.read(ARQ_TESTE)
+        ad = Dsvagua.read(ARQ_TESTE)
         assert ad.desvios is not None
 
 
 def test_atributos_nao_encontrados_dsvagua():
     m: MagicMock = mock_open(read_data="")
     with patch("builtins.open", m):
-        ad = DSVAgua.read(ARQ_TESTE)
+        ad = Dsvagua.read(ARQ_TESTE)
         assert ad.desvios is None
 
 
 def test_eq_dsvagua():
     m: MagicMock = mock_open(read_data="".join(MockBlocoDesviosAgua))
     with patch("builtins.open", m):
-        cf1 = DSVAgua.read(ARQ_TESTE)
-        cf2 = DSVAgua.read(ARQ_TESTE)
+        cf1 = Dsvagua.read(ARQ_TESTE)
+        cf2 = Dsvagua.read(ARQ_TESTE)
         assert cf1 == cf2
 
 
 def test_neq_dsvagua():
     m: MagicMock = mock_open(read_data="".join(MockBlocoDesviosAgua))
     with patch("builtins.open", m):
-        cf1 = DSVAgua.read(ARQ_TESTE)
-        cf2 = DSVAgua.read(ARQ_TESTE)
+        cf1 = Dsvagua.read(ARQ_TESTE)
+        cf2 = Dsvagua.read(ARQ_TESTE)
         cf2.desvios.iloc[0, 0] = -1
         assert cf1 != cf2
 
@@ -58,7 +58,7 @@ def test_neq_dsvagua():
 def test_leitura_escrita_dsvagua():
     m_leitura: MagicMock = mock_open(read_data="".join(MockBlocoDesviosAgua))
     with patch("builtins.open", m_leitura):
-        cf1 = DSVAgua.read(ARQ_TESTE)
+        cf1 = Dsvagua.read(ARQ_TESTE)
     m_escrita: MagicMock = mock_open(read_data="")
     with patch("builtins.open", m_escrita):
         cf1.write(ARQ_TESTE)
@@ -69,5 +69,5 @@ def test_leitura_escrita_dsvagua():
         ]
     m_releitura: MagicMock = mock_open(read_data="".join(linhas_escritas))
     with patch("builtins.open", m_releitura):
-        cf2 = DSVAgua.read(ARQ_TESTE)
+        cf2 = Dsvagua.read(ARQ_TESTE)
         assert cf1 == cf2

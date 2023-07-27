@@ -10,5 +10,5 @@ Os valores de violação das restrições LPP de turbinamento máximo por REE,
 localizados nos arquivos geralmente denominados
 dlpptbmax00x.out, onde x varia conforme o REE, são armazenados na classe:
 
-.. autoclass:: DLPPtbmax
+.. autoclass:: Dlpptbmax
    :members:

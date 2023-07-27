@@ -9,7 +9,7 @@ from os.path import join
 import warnings
 
 
-class VturUH(ArquivoUsinaPatamar):
+class Vturuh(ArquivoUsinaPatamar):
     """
     Armazena os dados das saídas referentes às vazões turbinadas por usina.
 
@@ -27,7 +27,7 @@ class VturUH(ArquivoUsinaPatamar):
     @classmethod
     def le_arquivo(
         cls, diretorio: str, nome_arquivo="vturuh001.out"
-    ) -> "VturUH":
+    ) -> "Vturuh":
         msg = (
             "O método le_arquivo(diretorio, nome_arquivo) será descontinuado"
             + " na versão 1.0.0 - use o método read(caminho_arquivo)"

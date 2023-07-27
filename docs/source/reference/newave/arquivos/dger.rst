@@ -9,5 +9,5 @@ Dados Gerais (dger.dat)
 Os dados gerais de execução do NEWAVE, localizados no arquivo geralmente denominado
 dger.dat, são armazenados na classe:
 
-.. autoclass:: DGer
+.. autoclass:: Dger
    :members:

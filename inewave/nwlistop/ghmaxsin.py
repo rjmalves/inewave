@@ -8,7 +8,7 @@ from os.path import join
 import warnings
 
 
-class GhmaxSIN(ArquivoSINPatamar):
+class Ghmaxsin(ArquivoSINPatamar):
     """
     Armazena os dados das saídas referentes à geração hidraulica máxima
     por patamar para o SIN.
@@ -24,7 +24,7 @@ class GhmaxSIN(ArquivoSINPatamar):
     @classmethod
     def le_arquivo(
         cls, diretorio: str, nome_arquivo="ghmaxsin.out"
-    ) -> "GhmaxSIN":
+    ) -> "Ghmaxsin":
         msg = (
             "O método le_arquivo(diretorio, nome_arquivo) será descontinuado"
             + " na versão 1.0.0 - use o método read(caminho_arquivo)"

@@ -8,5 +8,5 @@ Avaliação dos Cortes da FPHA (avl_cortesfpha_nwv.dat)
 
 Os cortes construídos para a FPHA são armazenados na classe:
 
-.. autoclass:: AvlCortesFphaNwv
+.. autoclass:: AvlCortesFpha
    :members:

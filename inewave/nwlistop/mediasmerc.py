@@ -3,7 +3,7 @@ import pandas as pd  # type: ignore
 from inewave.nwlistop.modelos.mediasmerc import LeituraMediasMerc
 
 
-class MediasMerc:
+class Mediasmerc:
     """
     Armazena os dados das saídas referentes às médias de diversas variáveis
     agrupadas por submercado.
@@ -18,11 +18,11 @@ class MediasMerc:
 
     def __eq__(self, o: object) -> bool:
         """
-        A igualdade entre MediasMerc avalia todos os valores da tabela.
+        A igualdade entre Mediasmerc avalia todos os valores da tabela.
         """
-        if not isinstance(o, MediasMerc):
+        if not isinstance(o, Mediasmerc):
             return False
-        m: MediasMerc = o
+        m: Mediasmerc = o
         return self.medias.equals(m.medias)
 
     @property

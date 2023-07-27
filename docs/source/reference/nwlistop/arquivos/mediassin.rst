@@ -9,5 +9,5 @@ Médias SIN (MEDIAS-SIN.CSV)
 Os valores de médias para o SIN, localizados no arquivo geralmente denominado
 MEDIAS-SIN.CSV, são armazenados na classe:
 
-.. autoclass:: MediasSIN
+.. autoclass:: Mediassin
    :members:

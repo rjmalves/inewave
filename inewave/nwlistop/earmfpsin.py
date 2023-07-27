@@ -9,7 +9,7 @@ from os.path import join
 import warnings
 
 
-class EarmfpSIN(ArquivoSIN):
+class Earmfpsin(ArquivoSIN):
     """
     Armazena os dados das saídas referentes às energias
     armazenadas finais para o SIN e em % da energia armazenável máxima.
@@ -26,7 +26,7 @@ class EarmfpSIN(ArquivoSIN):
     @classmethod
     def le_arquivo(
         cls, diretorio: str, nome_arquivo="earmfpsin.out"
-    ) -> "EarmfpSIN":
+    ) -> "Earmfpsin":
         msg = (
             "O método le_arquivo(diretorio, nome_arquivo) será descontinuado"
             + " na versão 1.0.0 - use o método read(caminho_arquivo)"

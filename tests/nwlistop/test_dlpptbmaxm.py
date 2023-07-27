@@ -1,4 +1,4 @@
-from inewave.nwlistop.dlpptbmaxm import DLPPtbmaxm
+from inewave.nwlistop.dlpptbmaxm import Dlpptbmaxm
 
 from datetime import datetime
 from tests.mocks.mock_open import mock_open
@@ -12,7 +12,7 @@ ARQ_TESTE = "./tests/mocks/arquivos/__init__.py"
 def test_atributos_encontrados_dlpptbmaxm():
     m: MagicMock = mock_open(read_data="".join(MockDLPPtbmaxm))
     with patch("builtins.open", m):
-        n = DLPPtbmaxm.read(ARQ_TESTE)
+        n = Dlpptbmaxm.read(ARQ_TESTE)
         assert n.submercado is not None
         assert n.submercado == "SUDESTE"
         assert n.valores is not None
@@ -23,7 +23,7 @@ def test_atributos_encontrados_dlpptbmaxm():
 def test_atributos_nao_encontrados_dlpptbmaxm():
     m: MagicMock = mock_open(read_data="")
     with patch("builtins.open", m):
-        n = DLPPtbmaxm.read(ARQ_TESTE)
+        n = Dlpptbmaxm.read(ARQ_TESTE)
         assert n.submercado is None
         assert n.valores is None
 
@@ -31,8 +31,8 @@ def test_atributos_nao_encontrados_dlpptbmaxm():
 def test_eq_dlpptbmaxm():
     m: MagicMock = mock_open(read_data="".join(MockDLPPtbmaxm))
     with patch("builtins.open", m):
-        n1 = DLPPtbmaxm.read(ARQ_TESTE)
-        n2 = DLPPtbmaxm.read(ARQ_TESTE)
+        n1 = Dlpptbmaxm.read(ARQ_TESTE)
+        n2 = Dlpptbmaxm.read(ARQ_TESTE)
         assert n1 == n2
 
 

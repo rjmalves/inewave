@@ -11,5 +11,5 @@ cenários de vento,
 localizado no arquivo geralmente denominado
 parpeol.dat, é armazenado na classe:
 
-.. autoclass:: PARpeol
+.. autoclass:: Parpeol
    :members:

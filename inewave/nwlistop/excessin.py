@@ -8,7 +8,7 @@ from os.path import join
 import warnings
 
 
-class ExcesSIN(ArquivoSINPatamar):
+class Excessin(ArquivoSINPatamar):
     """
     Armazena os dados das saídas referentes ao excesso de energia
     por patamar, para o SIN.
@@ -25,7 +25,7 @@ class ExcesSIN(ArquivoSINPatamar):
     @classmethod
     def le_arquivo(
         cls, diretorio: str, nome_arquivo="excessin.out"
-    ) -> "ExcesSIN":
+    ) -> "Excessin":
         msg = (
             "O método le_arquivo(diretorio, nome_arquivo) será descontinuado"
             + " na versão 1.0.0 - use o método read(caminho_arquivo)"

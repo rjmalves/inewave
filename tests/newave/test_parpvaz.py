@@ -9,7 +9,7 @@ from inewave.newave.modelos.parpvaz import (
     BlocoCorrelEspacialAnualMensalUHE,
 )
 
-from inewave.newave import PARpvaz
+from inewave.newave import Parpvaz
 
 
 from tests.mocks.mock_open import mock_open
@@ -144,7 +144,7 @@ def test_correl_espacial_anual_mensal():
 def test_atributos_encontrados_parpvaz():
     m: MagicMock = mock_open(read_data="".join(MockPARpvaz))
     with patch("builtins.open", m):
-        parp = PARpvaz.read(ARQ_TESTE)
+        parp = Parpvaz.read(ARQ_TESTE)
         assert parp.series_vazoes_uhe is not None
         assert parp.correlacao_series_vazoes_uhe is not None
         assert parp.correlacao_parcial_series_vazoes_uhe is not None
@@ -159,7 +159,7 @@ def test_atributos_encontrados_parpvaz():
 def test_atributos_nao_encontrados_parpvaz():
     m: MagicMock = mock_open(read_data="".join(MockSerieRuidosPARpvaz))
     with patch("builtins.open", m):
-        parp = PARpvaz.read(ARQ_TESTE)
+        parp = Parpvaz.read(ARQ_TESTE)
         assert parp.series_vazoes_uhe is None
         assert parp.correlacao_series_vazoes_uhe is None
         assert parp.correlacao_parcial_series_vazoes_uhe is None
@@ -174,15 +174,15 @@ def test_atributos_nao_encontrados_parpvaz():
 def test_eq_parpvaz():
     m: MagicMock = mock_open(read_data="".join(MockPARpvaz))
     with patch("builtins.open", m):
-        parp1 = PARpvaz.read(ARQ_TESTE)
-        parp2 = PARpvaz.read(ARQ_TESTE)
+        parp1 = Parpvaz.read(ARQ_TESTE)
+        parp2 = Parpvaz.read(ARQ_TESTE)
         assert parp1 == parp2
 
 
 def test_neq_parpvaz():
     m: MagicMock = mock_open(read_data="".join(MockPARpvaz))
     with patch("builtins.open", m):
-        parp1 = PARpvaz.read(ARQ_TESTE)
-        parp2 = PARpvaz.read(ARQ_TESTE)
+        parp1 = Parpvaz.read(ARQ_TESTE)
+        parp2 = Parpvaz.read(ARQ_TESTE)
         parp2.series_vazoes_uhe.iloc[0, 0] = -1
         assert parp1 != parp2

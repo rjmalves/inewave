@@ -9,5 +9,5 @@ Energia Armazenada Final Percentual para o SIN (earmfpsin.out)
 Os valores de energias armazenadas finais percentuais para o SIN, localizados no arquivo
 earmfpsin.out, são armazenados na classe:
 
-.. autoclass:: EarmfpSIN
+.. autoclass:: Earmfpsin
    :members:

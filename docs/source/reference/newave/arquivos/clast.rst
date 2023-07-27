@@ -9,5 +9,5 @@ Configurações das Classes Térmicas (clast.dat)
 As configurações das classes térmicas do NEWAVE, localizadas no arquivo geralmente denominado
 clast.dat, são armazenadas na classe:
 
-.. autoclass:: ClasT
+.. autoclass:: Clast
    :members:

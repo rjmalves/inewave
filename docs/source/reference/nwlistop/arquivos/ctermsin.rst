@@ -9,5 +9,5 @@ Custos de Geração Térmica para o SIN (ctermsin.out)
 Os valores de custos de geração térmica por patamar para o SIN, localizados nos arquivo geralmente denominado
 ctermsin.out, são armazenados na classe:
 
-.. autoclass:: CtermSIN
+.. autoclass:: Ctermsin
    :members:

@@ -9,5 +9,5 @@ Violação das LPP de Turbinamento Máximo para o SIN (dlpptbmaxs.out)
 Os valores de violação das restrições LPP de turbinamento máximo para o SIN,
 localizados no arquivo geralmente denominado dlpptbmaxs.out são armazenados na classe:
 
-.. autoclass:: DLPPtbmaxs
+.. autoclass:: Dlpptbmaxs
    :members:

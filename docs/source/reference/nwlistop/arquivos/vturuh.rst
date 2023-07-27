@@ -9,5 +9,5 @@ Volume Turbinado por Usina (vturuhx.out)
 Os valores de volume turbinado por usina, localizados nos arquivos geralmente denominados
 vturuhx.out, onde x varia conforme a usina, são armazenados na classe:
 
-.. autoclass:: VturUH
+.. autoclass:: Vturuh
    :members:

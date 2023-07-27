@@ -9,7 +9,7 @@ from os.path import join
 import warnings
 
 
-class EafbSIN(ArquivoSIN):
+class Eafbsin(ArquivoSIN):
     """
     Armazena os dados das saídas referentes à energia natural
     afluente para o SIN.
@@ -25,7 +25,7 @@ class EafbSIN(ArquivoSIN):
     @classmethod
     def le_arquivo(
         cls, diretorio: str, nome_arquivo="eafbsin.out"
-    ) -> "EafbSIN":
+    ) -> "Eafbsin":
         msg = (
             "O método le_arquivo(diretorio, nome_arquivo) será descontinuado"
             + " na versão 1.0.0 - use o método read(caminho_arquivo)"

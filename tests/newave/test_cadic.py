@@ -1,6 +1,6 @@
 from inewave.newave.modelos.cadic import BlocoCargasAdicionais
 
-from inewave.newave import CAdic
+from inewave.newave import Cadic
 
 
 from tests.mocks.mock_open import mock_open
@@ -27,30 +27,30 @@ def test_bloco_ute_cadic():
 def test_atributos_encontrados_cadic():
     m: MagicMock = mock_open(read_data="".join(MockBlocoCargasAdicionais))
     with patch("builtins.open", m):
-        ad = CAdic.read(ARQ_TESTE)
+        ad = Cadic.read(ARQ_TESTE)
         assert ad.cargas is not None
 
 
 def test_atributos_nao_encontrados_cadic():
     m: MagicMock = mock_open(read_data="")
     with patch("builtins.open", m):
-        ad = CAdic.read(ARQ_TESTE)
+        ad = Cadic.read(ARQ_TESTE)
         assert ad.cargas is None
 
 
 def test_eq_cadic():
     m: MagicMock = mock_open(read_data="".join(MockBlocoCargasAdicionais))
     with patch("builtins.open", m):
-        ad1 = CAdic.read(ARQ_TESTE)
-        ad2 = CAdic.read(ARQ_TESTE)
+        ad1 = Cadic.read(ARQ_TESTE)
+        ad2 = Cadic.read(ARQ_TESTE)
         assert ad1 == ad2
 
 
 def test_neq_cadic():
     m: MagicMock = mock_open(read_data="".join(MockBlocoCargasAdicionais))
     with patch("builtins.open", m):
-        ad1 = CAdic.read(ARQ_TESTE)
-        ad2 = CAdic.read(ARQ_TESTE)
+        ad1 = Cadic.read(ARQ_TESTE)
+        ad2 = Cadic.read(ARQ_TESTE)
         ad2.cargas.iloc[0, 0] = -1
         assert ad1 != ad2
 
@@ -60,7 +60,7 @@ def test_leitura_escrita_cadic():
         read_data="".join(MockBlocoCargasAdicionais)
     )
     with patch("builtins.open", m_leitura):
-        ad1 = CAdic.read(ARQ_TESTE)
+        ad1 = Cadic.read(ARQ_TESTE)
     m_escrita: MagicMock = mock_open(read_data="")
     with patch("builtins.open", m_escrita):
         ad1.write(ARQ_TESTE)
@@ -71,5 +71,5 @@ def test_leitura_escrita_cadic():
         ]
     m_releitura: MagicMock = mock_open(read_data="".join(linhas_escritas))
     with patch("builtins.open", m_releitura):
-        ad2 = CAdic.read(ARQ_TESTE)
+        ad2 = Cadic.read(ARQ_TESTE)
         assert ad1 == ad2

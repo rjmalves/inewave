@@ -10,5 +10,5 @@ O relatório de acompanhamento do modelo PAR(p) do NEWAVE,
 localizado no arquivo geralmente denominado
 parp.dat, é armazenado na classe:
 
-.. autoclass:: PARp
+.. autoclass:: Parp
    :members:

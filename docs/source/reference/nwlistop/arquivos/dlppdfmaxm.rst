@@ -10,5 +10,5 @@ Os valores de violação das restrições LPP de defluência máxima por Submerc
 localizados nos arquivos geralmente denominados
 dlppdfmaxm00x.out, onde x varia conforme o Submercado, são armazenados na classe:
 
-.. autoclass:: DLPPdfmaxm
+.. autoclass:: Dlppdfmaxm
    :members:

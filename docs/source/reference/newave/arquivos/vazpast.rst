@@ -9,5 +9,5 @@ Tendência Hidrológica (vazpast.dat)
 As vazões no ano anterior ao estudo fornecidos ao NEWAVE, localizadas no arquivo geralmente denominado
 vazpast.dat, são armazenadas na classe:
 
-.. autoclass:: VazPast
+.. autoclass:: Vazpast
    :members:

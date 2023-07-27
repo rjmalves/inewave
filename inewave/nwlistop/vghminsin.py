@@ -8,7 +8,7 @@ from os.path import join
 import warnings
 
 
-class VghminSIN(ArquivoSINPatamar):
+class Vghminsin(ArquivoSINPatamar):
     """
     Armazena os dados das saídas referentes à violação da meta de geração
     hidraulica mínima por patamar, para o SIN.
@@ -25,7 +25,7 @@ class VghminSIN(ArquivoSINPatamar):
     @classmethod
     def le_arquivo(
         cls, diretorio: str, nome_arquivo="vghminsin.out"
-    ) -> "VghminSIN":
+    ) -> "Vghminsin":
         msg = (
             "O método le_arquivo(diretorio, nome_arquivo) será descontinuado"
             + " na versão 1.0.0 - use o método read(caminho_arquivo)"

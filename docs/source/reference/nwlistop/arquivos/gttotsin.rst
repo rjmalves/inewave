@@ -9,5 +9,5 @@ Geração Térmica Total para o SIN (gttotsin.out)
 Os valores de geração térmica total para o SIN, localizados no arquivo geralmente denominado
 gttotsin.out são armazenados na classe:
 
-.. autoclass:: GttotSIN
+.. autoclass:: Gttotsin
    :members:

@@ -2,7 +2,7 @@
 from inewave.newave.modelos.clast import BlocoUTEClasT
 from inewave.newave.modelos.clast import BlocoModificacaoUTEClasT
 
-from inewave.newave import ClasT
+from inewave.newave import Clast
 
 
 from tests.mocks.mock_open import mock_open
@@ -29,14 +29,14 @@ def test_bloco_ute_clast():
 def test_atributos_encontrados_ute_clast():
     m: MagicMock = mock_open(read_data="".join(MockBlocoUTEClasT))
     with patch("builtins.open", m):
-        ct = ClasT.read(ARQ_TESTE)
+        ct = Clast.read(ARQ_TESTE)
         assert ct.usinas is not None
 
 
 def test_atributos_nao_encontrados_ute_clast():
     m: MagicMock = mock_open(read_data="")
     with patch("builtins.open", m):
-        ct = ClasT.read(ARQ_TESTE)
+        ct = Clast.read(ARQ_TESTE)
         assert ct.usinas is None
 
 
@@ -54,30 +54,30 @@ def test_bloco_modificacao_clast():
 def test_atributos_encontrados_modificacao_clast():
     m: MagicMock = mock_open(read_data="".join(MockClasT))
     with patch("builtins.open", m):
-        ct = ClasT.read(ARQ_TESTE)
+        ct = Clast.read(ARQ_TESTE)
         assert ct.modificacoes is not None
 
 
 def test_atributos_nao_encontrados_modificacao_clast():
     m: MagicMock = mock_open(read_data="")
     with patch("builtins.open", m):
-        ct = ClasT.read(ARQ_TESTE)
+        ct = Clast.read(ARQ_TESTE)
         assert ct.modificacoes is None
 
 
 def test_eq_clast():
     m: MagicMock = mock_open(read_data="".join(MockClasT))
     with patch("builtins.open", m):
-        ct1 = ClasT.read(ARQ_TESTE)
-        ct2 = ClasT.read(ARQ_TESTE)
+        ct1 = Clast.read(ARQ_TESTE)
+        ct2 = Clast.read(ARQ_TESTE)
         assert ct1 == ct2
 
 
 def test_neq_cadic():
     m: MagicMock = mock_open(read_data="".join(MockClasT))
     with patch("builtins.open", m):
-        ct1 = ClasT.read(ARQ_TESTE)
-        ct2 = ClasT.read(ARQ_TESTE)
+        ct1 = Clast.read(ARQ_TESTE)
+        ct2 = Clast.read(ARQ_TESTE)
         ct2.usinas.iloc[0, 0] = -1
         assert ct1 != ct2
 
@@ -85,7 +85,7 @@ def test_neq_cadic():
 def test_leitura_escrita_clast():
     m_leitura: MagicMock = mock_open(read_data="".join(MockClasT))
     with patch("builtins.open", m_leitura):
-        ct1 = ClasT.read(ARQ_TESTE)
+        ct1 = Clast.read(ARQ_TESTE)
     m_escrita: MagicMock = mock_open(read_data="")
     with patch("builtins.open", m_escrita):
         ct1.write(ARQ_TESTE)
@@ -96,5 +96,5 @@ def test_leitura_escrita_clast():
         ]
     m_releitura: MagicMock = mock_open(read_data="".join(linhas_escritas))
     with patch("builtins.open", m_releitura):
-        ct2 = ClasT.read(ARQ_TESTE)
+        ct2 = Clast.read(ARQ_TESTE)
         assert ct1 == ct2

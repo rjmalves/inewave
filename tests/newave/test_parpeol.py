@@ -7,7 +7,7 @@ from inewave.newave.modelos.parpeol import (
     BlocoCorrelEspacialMensalConfig,
 )
 
-from inewave.newave.parpeol import PARpeol
+from inewave.newave.parpeol import Parpeol
 
 
 from tests.mocks.mock_open import mock_open
@@ -107,7 +107,7 @@ def test_correl_espacial_mensal():
 def test_atributos_encontrados_parpeol():
     m: MagicMock = mock_open(read_data="".join(MockPARpeol))
     with patch("builtins.open", m):
-        parp = PARpeol.read(ARQ_TESTE)
+        parp = Parpeol.read(ARQ_TESTE)
         assert parp.series_ventos_uee is not None
         assert parp.correlacao_series_ventos_uee is not None
         assert parp.series_ruido_uee is not None
@@ -119,7 +119,7 @@ def test_atributos_encontrados_parpeol():
 def test_atributos_nao_encontrados_parp():
     m: MagicMock = mock_open(read_data="".join(""))
     with patch("builtins.open", m):
-        parp = PARpeol.read(ARQ_TESTE)
+        parp = Parpeol.read(ARQ_TESTE)
         assert parp.series_ventos_uee is None
         assert parp.correlacao_series_ventos_uee is None
         assert parp.series_ruido_uee is None
@@ -131,15 +131,15 @@ def test_atributos_nao_encontrados_parp():
 def test_eq_parpeol():
     m: MagicMock = mock_open(read_data="".join(MockPARpeol))
     with patch("builtins.open", m):
-        parp1 = PARpeol.read(ARQ_TESTE)
-        parp2 = PARpeol.read(ARQ_TESTE)
+        parp1 = Parpeol.read(ARQ_TESTE)
+        parp2 = Parpeol.read(ARQ_TESTE)
         assert parp1 == parp2
 
 
 def test_neq_parpeol():
     m: MagicMock = mock_open(read_data="".join(MockPARpeol))
     with patch("builtins.open", m):
-        parp1 = PARpeol.read(ARQ_TESTE)
-        parp2 = PARpeol.read(ARQ_TESTE)
+        parp1 = Parpeol.read(ARQ_TESTE)
+        parp2 = Parpeol.read(ARQ_TESTE)
         parp2.series_ventos_uee.iloc[0, 0] = -1
         assert parp1 != parp2

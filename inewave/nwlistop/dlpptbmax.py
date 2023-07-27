@@ -9,7 +9,7 @@ from os.path import join
 import warnings
 
 
-class DLPPtbmax(ArquivoREEPatamar):
+class Dlpptbmax(ArquivoREEPatamar):
     """
     Armazena os dados das saídas referentes à violação das restrições LPP
     de turbinamento máximo por patamar, por REE.
@@ -28,7 +28,7 @@ class DLPPtbmax(ArquivoREEPatamar):
     @classmethod
     def le_arquivo(
         cls, diretorio: str, nome_arquivo="dlpptbmax001.out"
-    ) -> "DLPPtbmax":
+    ) -> "Dlpptbmax":
         msg = (
             "O método le_arquivo(diretorio, nome_arquivo) será descontinuado"
             + " na versão 1.0.0 - use o método read(caminho_arquivo)"

@@ -9,5 +9,5 @@ Despacho Antecipado de Térmicas (adterm.dat)
 As configurações do despacho de térmicas antecipadas do NEWAVE
 , localizados no arquivo geralmente denominado adterm.dat, são armazenados na classe:
 
-.. autoclass:: AdTerm
+.. autoclass:: Adterm
    :members:
