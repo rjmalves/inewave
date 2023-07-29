@@ -9,22 +9,25 @@ O inewave oferece:
 
 - Meios para leitura dos arquivos de entrada e saída do NEWAVE e programas associados: NWLISTCF e NWLISTOP
 
-- Armazenamento e processamento de dados otimizados com o uso de NumPy e Pandas
+- Facilidades para estudo e análise dos dados utilizando DataFrames do pandas
 
 - Dados estruturados em modelos com o uso do paradigma de orientação a objetos (OOP)
 
-- Utilidades de escritas dos arquivos de entrada do NEWAVE para elaboração automatizada de estudos
-
-Com inewave é possível ler os arquivos de texto, característicos do NEWAVE, para poupar processamento futuro e reduzir o tempo de execução.
 
 ## Instalação
 
-O inewave é compatível com versões de Python >= 3.8 e é construído com base no framework [cfinterface](https://github.com/rjmalves/cfi), que deve sempre ser mantido na versão mais atualizada para a distribuição de Python instalada.
+O inewave é compatível com versões de Python >= 3.8.
 
-Em posse de uma instalação local de Python, é recomendado que se use um ambiente virtual para instalação de módulos de terceiros, sendo que o inewave não é uma exceção. Para mais detalhes sobre o uso de ambientes virtuais, recomenda-se a leitura do recurso oficial de Python para ambientes virtuais: [venv](https://docs.python.org/3/library/venv.html).
+É possível instalar a versão distribuída oficialmente com pip:
 
 ```
 python -m pip install inewave
+```
+
+É possível realizar a instalação da versão de desenvolvimento fazendo o uso do Git.
+
+```
+pip install git+https://github.com/rjmalves/inewave
 ```
 
 ## Documentação
