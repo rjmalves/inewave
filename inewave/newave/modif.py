@@ -187,7 +187,7 @@ class Modif(RegisterFile):
         :param unidade: unidade do volume
         :type unidade: str | None
         :return: Um ou mais registros, se existirem.
-        :rtype: :class:`VOLMIN` | list[:class:`VOLMIN`] | :class:`pd.DataFrame`| None
+        :rtype: :class:`VOLMIN` | list[:class:`VOLMIN`] | :class:`pd.DataFrame` | None
         """
         if df:
             return self._as_df(USINA)
