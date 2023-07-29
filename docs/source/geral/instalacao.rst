@@ -1,7 +1,7 @@
 Instalação
 ============
 
-O *inewave* é compatível com versões de Python >= 3.5. A única dependência formal é o módulo NumPy, que deve sempre ser mantido na versão mais atualizada para a distribuição de Python instalada.
+O *inewave* é compatível com versões de Python >= 3.8. 
 
 Em posse de uma instalação local de Python, é recomendado que se use um ambiente virtual para instalação de módulos de terceiros, sendo que o *inewave* não é uma exceção.
 Para mais detalhes sobre o uso de ambientes virtuais, recomenda-se a leitura do recurso oficial de Python para ambientes virtuais: `venv <https://docs.python.org/3/library/venv.html>`_.
@@ -9,8 +9,6 @@ Para mais detalhes sobre o uso de ambientes virtuais, recomenda-se a leitura do 
 Antes de prosseguir, é necessário verificar se está instalada a última versão do ``pip``, o gerenciador de pacotes de Python. Isso pode ser feito com, por exemplo::
 
     $ python -m pip install ---upgrade pip
-
-Para maiores informações, é recomendado visitar a documentação oficial do `pip <https://pip.pypa.io/en/stable/installing/>`_.
 
 
 Instalando a versão distribuída oficialmente
@@ -28,12 +26,6 @@ Para instalar uma versão específica::
 
     $ pip install --upgrade inewave==x.y.z
 
-É possível instalar também a partir do código fonte. Basta acessar a página de `releases <https://github.com/rjmalves/inewave/tags>`_, baixar o
-arquivo comprimido com o código do módulo e executar no diretório::
-
-    $ pip install .
-
-
 Instalando a versão de desenvolvimento
 ---------------------------------------
 
@@ -44,14 +36,8 @@ primeiramente desinstalar a versão instalada (se houve), com::
 
 Em seguida, basta fazer::
 
-    $ git clone https://github.com/rjmalves/inewave
-    $ cd inewave
-    $ pip install -e
+    $ pip install git+https://github.com/rjmalves/inewave
 
+Também é possível selecionar um branch ou release específicos::
 
-Procedimentos de teste
------------------------
-
-O *inewave* realiza testes utilizando o pacote de testes de Python ``pytest``. Para maiores informações, é recomendado acessar a `página <https://pytest.org>`_.
-
-Além dos testes, o código também tem sua qualidade aferida com o uso de `Pylama <https://pylama.readthedocs.io/en/latest//>`_ e `mypy <http://mypy-lang.org/>`_.
+    $ pip install git+https://github.com/rjmalves/inewave@v1.0.0

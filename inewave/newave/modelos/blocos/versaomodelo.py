@@ -18,7 +18,7 @@ class VersaoModelo(Block):
         if not isinstance(o, VersaoModelo):
             return False
         else:
-            if not all([type(self.data) == str, type(o.data) == str]):
+            if not all([type(self.data) is str, type(o.data) is str]):
                 return False
             return self.data == o.data
 
