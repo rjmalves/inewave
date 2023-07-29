@@ -33,7 +33,7 @@ class TabelaAvlDesvFphaVQ(Block):
             return False
         else:
             if not all(
-                [type(self.data) == pd.DataFrame, type(o.data) == pd.DataFrame]
+                [type(self.data) is pd.DataFrame, type(o.data) is pd.DataFrame]
             ):
                 return False
             else:
