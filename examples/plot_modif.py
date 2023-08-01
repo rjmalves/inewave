@@ -49,9 +49,9 @@ novo_registro = TURBMAXT()
 novo_registro.ano = 2021
 novo_registro.mes = 2
 novo_registro.turbinamento = 1000.0
-arq_modif.cria_registro(
-    anterior=arq_modif.usina(codigo=codigo_usina_modificada),
-    registro=novo_registro,
+arq_modif.data.add_after(
+    arq_modif.usina(codigo=codigo_usina_modificada),
+    novo_registro,
 )
 
 # %%

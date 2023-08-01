@@ -2,7 +2,7 @@ from inewave.newave.modelos.arquivos import BlocoNomesArquivos
 
 from cfinterface.files.sectionfile import SectionFile
 
-from typing import List, TypeVar, Type, Optional
+from typing import List, TypeVar, Optional
 import pandas as pd  # type: ignore
 
 # Para compatibilidade - até versão 1.0.0
@@ -45,29 +45,9 @@ class Arquivos(SectionFile):
         warnings.warn(msg, category=FutureWarning)
         self.write(join(diretorio, nome_arquivo))
 
-    def __bloco_por_tipo(self, bloco: Type[T], indice: int) -> Optional[T]:
-        """
-        Obtém um gerador de blocos de um tipo, se houver algum no arquivo.
-
-        :param bloco: Um tipo de bloco para ser lido
-        :type bloco: T
-        :param indice: O índice do bloco a ser acessado, dentre os do tipo
-        :type indice: int
-        :return: O gerador de blocos, se houver
-        :rtype: Optional[Generator[T], None, None]
-        """
-        try:
-            return next(
-                b
-                for i, b in enumerate(self.data.of_type(bloco))
-                if i == indice
-            )
-        except StopIteration:
-            return None
-
     def __le_nome_por_indice(self, indice: int) -> Optional[str]:
-        b = self.__bloco_por_tipo(BlocoNomesArquivos, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoNomesArquivos)
+        if isinstance(b, BlocoNomesArquivos):
             if indice in b.data.index:
                 dado = b.data.iloc[indice, 1]
                 if isinstance(dado, str):
@@ -75,8 +55,8 @@ class Arquivos(SectionFile):
         return None
 
     def __atualiza_nome_por_indice(self, indice: int, nome: str):
-        b = self.__bloco_por_tipo(BlocoNomesArquivos, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoNomesArquivos)
+        if isinstance(b, BlocoNomesArquivos):
             dif = indice - b.data.shape[0] + 1
             if dif > 0:
                 col_vazia = [None] * dif
@@ -102,8 +82,10 @@ class Arquivos(SectionFile):
         :return: Os arquivos na mesma ordem em que são declarados
         :rtype: List[str]
         """
-        b = self.__bloco_por_tipo(BlocoNomesArquivos, 0)
-        return [] if b is None else b.data.iloc[:, 1]
+        b = self.data.get_sections_of_type(BlocoNomesArquivos)
+        return (
+            [] if not isinstance(b, BlocoNomesArquivos) else b.data.iloc[:, 1]
+        )
 
     @property
     def dger(self) -> Optional[str]:

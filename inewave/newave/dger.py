@@ -1,5 +1,5 @@
 from cfinterface.files.sectionfile import SectionFile
-from typing import Type, TypeVar, Optional, List
+from typing import TypeVar, Optional, List
 
 
 from inewave.newave.modelos.dger import BlocoMesInicioEstudo, BlocoNomeCaso
@@ -243,26 +243,6 @@ class Dger(SectionFile):
         warnings.warn(msg, category=FutureWarning)
         self.write(join(diretorio, nome_arquivo))
 
-    def __bloco_por_tipo(self, bloco: Type[T], indice: int) -> Optional[T]:
-        """
-        Obtém um gerador de blocos de um tipo, se houver algum no arquivo.
-
-        :param bloco: Um tipo de bloco para ser lido
-        :type bloco: T
-        :param indice: O índice do bloco a ser acessado, dentre os do tipo
-        :type indice: int
-        :return: O gerador de blocos, se houver
-        :rtype: Optional[Generator[T], None, None]
-        """
-        try:
-            return next(
-                b
-                for i, b in enumerate(self.data.of_type(bloco))
-                if i == indice
-            )
-        except StopIteration:
-            return None
-
     @property
     def nome_caso(self) -> Optional[str]:
         """
@@ -271,15 +251,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: str
         """
-        b = self.__bloco_por_tipo(BlocoNomeCaso, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoNomeCaso)
+        if isinstance(b, BlocoNomeCaso):
             return b.valor
         return None
 
     @nome_caso.setter
     def nome_caso(self, dado: str):
-        b = self.__bloco_por_tipo(BlocoNomeCaso, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoNomeCaso)
+        if isinstance(b, BlocoNomeCaso):
             b.valor = dado
 
     @property
@@ -290,15 +270,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoTipoExecucao, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoTipoExecucao)
+        if isinstance(b, BlocoTipoExecucao):
             return b.valor
         return None
 
     @tipo_execucao.setter
     def tipo_execucao(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoTipoExecucao, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoTipoExecucao)
+        if isinstance(b, BlocoTipoExecucao):
             b.valor = dado
 
     @property
@@ -309,15 +289,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoDuracaoPeriodo, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoDuracaoPeriodo)
+        if isinstance(b, BlocoDuracaoPeriodo):
             return b.valor
         return None
 
     @duracao_periodo.setter
     def duracao_periodo(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoDuracaoPeriodo, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoDuracaoPeriodo)
+        if isinstance(b, BlocoDuracaoPeriodo):
             b.valor = dado
 
     @property
@@ -328,15 +308,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoNumAnosEstudo, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoNumAnosEstudo)
+        if isinstance(b, BlocoNumAnosEstudo):
             return b.valor
         return None
 
     @num_anos_estudo.setter
     def num_anos_estudo(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoNumAnosEstudo, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoNumAnosEstudo)
+        if isinstance(b, BlocoNumAnosEstudo):
             b.valor = dado
 
     @property
@@ -347,15 +327,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoMesInicioPreEstudo, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoMesInicioPreEstudo)
+        if isinstance(b, BlocoMesInicioPreEstudo):
             return b.valor
         return None
 
     @mes_inicio_pre_estudo.setter
     def mes_inicio_pre_estudo(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoMesInicioPreEstudo, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoMesInicioPreEstudo)
+        if isinstance(b, BlocoMesInicioPreEstudo):
             b.valor = dado
 
     @property
@@ -366,15 +346,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoMesInicioEstudo, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoMesInicioEstudo)
+        if isinstance(b, BlocoMesInicioEstudo):
             return b.valor
         return None
 
     @mes_inicio_estudo.setter
     def mes_inicio_estudo(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoMesInicioEstudo, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoMesInicioEstudo)
+        if isinstance(b, BlocoMesInicioEstudo):
             b.valor = dado
 
     @property
@@ -385,15 +365,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoAnoInicioEstudo, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoAnoInicioEstudo)
+        if isinstance(b, BlocoAnoInicioEstudo):
             return b.valor
         return None
 
     @ano_inicio_estudo.setter
     def ano_inicio_estudo(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoAnoInicioEstudo, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoAnoInicioEstudo)
+        if isinstance(b, BlocoAnoInicioEstudo):
             b.valor = dado
 
     @property
@@ -404,15 +384,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoNumAnosPreEstudo, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoNumAnosPreEstudo)
+        if isinstance(b, BlocoNumAnosPreEstudo):
             return b.valor
         return None
 
     @num_anos_pre_estudo.setter
     def num_anos_pre_estudo(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoNumAnosPreEstudo, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoNumAnosPreEstudo)
+        if isinstance(b, BlocoNumAnosPreEstudo):
             b.valor = dado
 
     @property
@@ -423,15 +403,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoNumAnosPosEstudo, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoNumAnosPosEstudo)
+        if isinstance(b, BlocoNumAnosPosEstudo):
             return b.valor
         return None
 
     @num_anos_pos_estudo.setter
     def num_anos_pos_estudo(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoNumAnosPosEstudo, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoNumAnosPosEstudo)
+        if isinstance(b, BlocoNumAnosPosEstudo):
             b.valor = dado
 
     @property
@@ -442,15 +422,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoNumAnosPosEstudoSimFinal, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoNumAnosPosEstudoSimFinal)
+        if isinstance(b, BlocoNumAnosPosEstudoSimFinal):
             return b.valor
         return None
 
     @num_anos_pos_sim_final.setter
     def num_anos_pos_sim_final(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoNumAnosPosEstudoSimFinal, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoNumAnosPosEstudoSimFinal)
+        if isinstance(b, BlocoNumAnosPosEstudoSimFinal):
             b.valor = dado
 
     @property
@@ -461,15 +441,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoImprimeDados, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoImprimeDados)
+        if isinstance(b, BlocoImprimeDados):
             return b.valor
         return None
 
     @imprime_dados.setter
     def imprime_dados(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoImprimeDados, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoImprimeDados)
+        if isinstance(b, BlocoImprimeDados):
             b.valor = dado
 
     @property
@@ -480,15 +460,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoImprimeMercados, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoImprimeMercados)
+        if isinstance(b, BlocoImprimeMercados):
             return b.valor
         return None
 
     @imprime_mercados.setter
     def imprime_mercados(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoImprimeMercados, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoImprimeMercados)
+        if isinstance(b, BlocoImprimeMercados):
             b.valor = dado
 
     @property
@@ -499,15 +479,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoImprimeEnergias, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoImprimeEnergias)
+        if isinstance(b, BlocoImprimeEnergias):
             return b.valor
         return None
 
     @imprime_energias.setter
     def imprime_energias(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoImprimeEnergias, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoImprimeEnergias)
+        if isinstance(b, BlocoImprimeEnergias):
             b.valor = dado
 
     @property
@@ -518,15 +498,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoImprimeModeloEstocastico, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoImprimeModeloEstocastico)
+        if isinstance(b, BlocoImprimeModeloEstocastico):
             return b.valor
         return None
 
     @imprime_modelo_estocastico.setter
     def imprime_modelo_estocastico(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoImprimeModeloEstocastico, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoImprimeModeloEstocastico)
+        if isinstance(b, BlocoImprimeModeloEstocastico):
             b.valor = dado
 
     @property
@@ -537,15 +517,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoImprimeSubsistema, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoImprimeSubsistema)
+        if isinstance(b, BlocoImprimeSubsistema):
             return b.valor
         return None
 
     @imprime_subsistema.setter
     def imprime_subsistema(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoImprimeSubsistema, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoImprimeSubsistema)
+        if isinstance(b, BlocoImprimeSubsistema):
             b.valor = dado
 
     @property
@@ -556,15 +536,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoNumMaxIteracoes, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoNumMaxIteracoes)
+        if isinstance(b, BlocoNumMaxIteracoes):
             return b.valor
         return None
 
     @num_max_iteracoes.setter
     def num_max_iteracoes(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoNumMaxIteracoes, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoNumMaxIteracoes)
+        if isinstance(b, BlocoNumMaxIteracoes):
             b.valor = dado
 
     @property
@@ -575,15 +555,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoNumForwards, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoNumForwards)
+        if isinstance(b, BlocoNumForwards):
             return b.valor
         return None
 
     @num_forwards.setter
     def num_forwards(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoNumForwards, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoNumForwards)
+        if isinstance(b, BlocoNumForwards):
             b.valor = dado
 
     @property
@@ -594,15 +574,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoNumAberturas, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoNumAberturas)
+        if isinstance(b, BlocoNumAberturas):
             return b.valor
         return None
 
     @num_aberturas.setter
     def num_aberturas(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoNumAberturas, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoNumAberturas)
+        if isinstance(b, BlocoNumAberturas):
             b.valor = dado
 
     @property
@@ -613,15 +593,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoNumSeriesSinteticas, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoNumSeriesSinteticas)
+        if isinstance(b, BlocoNumSeriesSinteticas):
             return b.valor
         return None
 
     @num_series_sinteticas.setter
     def num_series_sinteticas(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoNumSeriesSinteticas, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoNumSeriesSinteticas)
+        if isinstance(b, BlocoNumSeriesSinteticas):
             b.valor = dado
 
     @property
@@ -632,15 +612,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoOrdemMaximaPARp, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoOrdemMaximaPARp)
+        if isinstance(b, BlocoOrdemMaximaPARp):
             return b.valor
         return None
 
     @ordem_maxima_parp.setter
     def ordem_maxima_parp(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoOrdemMaximaPARp, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoOrdemMaximaPARp)
+        if isinstance(b, BlocoOrdemMaximaPARp):
             b.valor = dado
 
     @property
@@ -651,15 +631,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoAnoInicialHistorico, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoAnoInicialHistorico)
+        if isinstance(b, BlocoAnoInicialHistorico):
             return b.ano_inicial
         return None
 
     @ano_inicial_historico.setter
     def ano_inicial_historico(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoAnoInicialHistorico, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoAnoInicialHistorico)
+        if isinstance(b, BlocoAnoInicialHistorico):
             b.ano_inicial = dado
 
     @property
@@ -670,15 +650,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoAnoInicialHistorico, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoAnoInicialHistorico)
+        if isinstance(b, BlocoAnoInicialHistorico):
             return b.tamanho_registro_arquivo
         return None
 
     @tamanho_registro_arquivo_historico.setter
     def tamanho_registro_arquivo_historico(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoAnoInicialHistorico, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoAnoInicialHistorico)
+        if isinstance(b, BlocoAnoInicialHistorico):
             b.tamanho_registro_arquivo = dado
 
     @property
@@ -689,15 +669,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoCalculaVolInicial, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoCalculaVolInicial)
+        if isinstance(b, BlocoCalculaVolInicial):
             return b.valor
         return None
 
     @calcula_volume_inicial.setter
     def calcula_volume_inicial(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoCalculaVolInicial, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoCalculaVolInicial)
+        if isinstance(b, BlocoCalculaVolInicial):
             b.valor = dado
 
     @property
@@ -708,15 +688,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoVolInicialSubsistema, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoVolInicialSubsistema)
+        if isinstance(b, BlocoVolInicialSubsistema):
             return b.valores
         return []
 
     @volume_inicial_subsistema.setter
     def volume_inicial_subsistema(self, dado: List[Optional[float]]):
-        b = self.__bloco_por_tipo(BlocoVolInicialSubsistema, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoVolInicialSubsistema)
+        if isinstance(b, BlocoVolInicialSubsistema):
             b.valores = dado
 
     @property
@@ -727,15 +707,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoTolerancia, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoTolerancia)
+        if isinstance(b, BlocoTolerancia):
             return b.valor
         return None
 
     @tolerancia.setter
     def tolerancia(self, dado: float):
-        b = self.__bloco_por_tipo(BlocoTolerancia, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoTolerancia)
+        if isinstance(b, BlocoTolerancia):
             b.valor = dado
 
     @property
@@ -746,15 +726,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoTaxaDesconto, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoTaxaDesconto)
+        if isinstance(b, BlocoTaxaDesconto):
             return b.valor
         return None
 
     @taxa_de_desconto.setter
     def taxa_de_desconto(self, dado: float):
-        b = self.__bloco_por_tipo(BlocoTaxaDesconto, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoTaxaDesconto)
+        if isinstance(b, BlocoTaxaDesconto):
             b.valor = dado
 
     @property
@@ -766,15 +746,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int | None
         """
-        b = self.__bloco_por_tipo(BlocoTipoSimFinal, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoTipoSimFinal)
+        if isinstance(b, BlocoTipoSimFinal):
             return b.valor[0]
         return None
 
     @tipo_simulacao_final.setter
     def tipo_simulacao_final(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoTipoSimFinal, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoTipoSimFinal)
+        if isinstance(b, BlocoTipoSimFinal):
             b.valor = [dado] + [b.valor[1]]
 
     @property
@@ -786,15 +766,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int | None
         """
-        b = self.__bloco_por_tipo(BlocoTipoSimFinal, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoTipoSimFinal)
+        if isinstance(b, BlocoTipoSimFinal):
             return b.valor[1]
         return None
 
     @agregacao_simulacao_final.setter
     def agregacao_simulacao_final(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoTipoSimFinal, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoTipoSimFinal)
+        if isinstance(b, BlocoTipoSimFinal):
             b.valor = [b.valor[0]] + [dado]
 
     @property
@@ -805,15 +785,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoImpressaoOperacao, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoImpressaoOperacao)
+        if isinstance(b, BlocoImpressaoOperacao):
             return b.valor
         return None
 
     @impressao_operacao.setter
     def impressao_operacao(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoImpressaoOperacao, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoImpressaoOperacao)
+        if isinstance(b, BlocoImpressaoOperacao):
             b.valor = dado
 
     @property
@@ -824,15 +804,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoImpressaoConvergencia, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoImpressaoConvergencia)
+        if isinstance(b, BlocoImpressaoConvergencia):
             return b.valor
         return None
 
     @impressao_convergencia.setter
     def impressao_convergencia(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoImpressaoConvergencia, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoImpressaoConvergencia)
+        if isinstance(b, BlocoImpressaoConvergencia):
             b.valor = dado
 
     @property
@@ -843,15 +823,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoIntervaloGravar, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoIntervaloGravar)
+        if isinstance(b, BlocoIntervaloGravar):
             return b.valor
         return None
 
     @intervalo_para_gravar.setter
     def intervalo_para_gravar(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoIntervaloGravar, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoIntervaloGravar)
+        if isinstance(b, BlocoIntervaloGravar):
             b.valor = dado
 
     @property
@@ -862,15 +842,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoMinIteracoes, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoMinIteracoes)
+        if isinstance(b, BlocoMinIteracoes):
             return b.valor
         return None
 
     @num_minimo_iteracoes.setter
     def num_minimo_iteracoes(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoMinIteracoes, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoMinIteracoes)
+        if isinstance(b, BlocoMinIteracoes):
             b.valor = dado
 
     @property
@@ -881,15 +861,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoRacionamentoPreventivo, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoRacionamentoPreventivo)
+        if isinstance(b, BlocoRacionamentoPreventivo):
             return b.valor
         return None
 
     @racionamento_preventivo.setter
     def racionamento_preventivo(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoRacionamentoPreventivo, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoRacionamentoPreventivo)
+        if isinstance(b, BlocoRacionamentoPreventivo):
             b.valor = dado
 
     @property
@@ -900,15 +880,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoNumAnosManutUTE, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoNumAnosManutUTE)
+        if isinstance(b, BlocoNumAnosManutUTE):
             return b.valor
         return None
 
     @num_anos_manutencao_utes.setter
     def num_anos_manutencao_utes(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoNumAnosManutUTE, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoNumAnosManutUTE)
+        if isinstance(b, BlocoNumAnosManutUTE):
             b.valor = dado
 
     @property
@@ -921,15 +901,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoTendenciaHidrologica, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoTendenciaHidrologica)
+        if isinstance(b, BlocoTendenciaHidrologica):
             return b.considera_tendencia_hidrologica_calculo_politica
         return None
 
     @considera_tendencia_hidrologica_calculo_politica.setter
     def considera_tendencia_hidrologica_calculo_politica(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoTendenciaHidrologica, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoTendenciaHidrologica)
+        if isinstance(b, BlocoTendenciaHidrologica):
             b.considera_tendencia_hidrologica_calculo_politica = dado
 
     @property
@@ -940,15 +920,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoTendenciaHidrologica, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoTendenciaHidrologica)
+        if isinstance(b, BlocoTendenciaHidrologica):
             return b.considera_tendencia_hidrologica_sim_final
         return None
 
     @considera_tendencia_hidrologica_sim_final.setter
     def considera_tendencia_hidrologica_sim_final(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoTendenciaHidrologica, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoTendenciaHidrologica)
+        if isinstance(b, BlocoTendenciaHidrologica):
             b.considera_tendencia_hidrologica_sim_final = dado
 
     @property
@@ -959,15 +939,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoRestricaoItaipu, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoRestricaoItaipu)
+        if isinstance(b, BlocoRestricaoItaipu):
             return b.valor
         return None
 
     @restricao_itaipu.setter
     def restricao_itaipu(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoRestricaoItaipu, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoRestricaoItaipu)
+        if isinstance(b, BlocoRestricaoItaipu):
             b.valor = dado
 
     @property
@@ -978,15 +958,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoBid, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoBid)
+        if isinstance(b, BlocoBid):
             return b.valor
         return None
 
     @bid.setter
     def bid(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoBid, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoBid)
+        if isinstance(b, BlocoBid):
             b.valor = dado
 
     @property
@@ -997,15 +977,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoPerdasTransmissao, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoPerdasTransmissao)
+        if isinstance(b, BlocoPerdasTransmissao):
             return b.valor
         return None
 
     @perdas_rede_transmissao.setter
     def perdas_rede_transmissao(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoPerdasTransmissao, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoPerdasTransmissao)
+        if isinstance(b, BlocoPerdasTransmissao):
             b.valor = dado
 
     @property
@@ -1016,15 +996,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoElNino, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoElNino)
+        if isinstance(b, BlocoElNino):
             return b.valor
         return None
 
     @el_nino.setter
     def el_nino(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoElNino, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoElNino)
+        if isinstance(b, BlocoElNino):
             b.valor = dado
 
     @property
@@ -1035,15 +1015,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoEnso, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoEnso)
+        if isinstance(b, BlocoEnso):
             return b.valor
         return None
 
     @enso.setter
     def enso(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoEnso, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoEnso)
+        if isinstance(b, BlocoEnso):
             b.valor = dado
 
     @property
@@ -1054,15 +1034,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoDuracaoPorPatamar, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoDuracaoPorPatamar)
+        if isinstance(b, BlocoDuracaoPorPatamar):
             return b.valor
         return None
 
     @duracao_por_patamar.setter
     def duracao_por_patamar(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoDuracaoPorPatamar, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoDuracaoPorPatamar)
+        if isinstance(b, BlocoDuracaoPorPatamar):
             b.valor = dado
 
     @property
@@ -1073,15 +1053,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoOutrosUsosAgua, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoOutrosUsosAgua)
+        if isinstance(b, BlocoOutrosUsosAgua):
             return b.valor
         return None
 
     @outros_usos_da_agua.setter
     def outros_usos_da_agua(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoOutrosUsosAgua, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoOutrosUsosAgua)
+        if isinstance(b, BlocoOutrosUsosAgua):
             b.valor = dado
 
     @property
@@ -1092,15 +1072,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoCorrecaoDesvio, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoCorrecaoDesvio)
+        if isinstance(b, BlocoCorrecaoDesvio):
             return b.valor
         return None
 
     @correcao_desvio.setter
     def correcao_desvio(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoCorrecaoDesvio, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoCorrecaoDesvio)
+        if isinstance(b, BlocoCorrecaoDesvio):
             b.valor = dado
 
     @property
@@ -1111,15 +1091,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoCurvaAversao, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoCurvaAversao)
+        if isinstance(b, BlocoCurvaAversao):
             return b.valor
         return None
 
     @curva_aversao.setter
     def curva_aversao(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoCurvaAversao, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoCurvaAversao)
+        if isinstance(b, BlocoCurvaAversao):
             b.valor = dado
 
     @property
@@ -1130,15 +1110,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoTipoGeracaoENA, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoTipoGeracaoENA)
+        if isinstance(b, BlocoTipoGeracaoENA):
             return b.valor
         return None
 
     @tipo_geracao_enas.setter
     def tipo_geracao_enas(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoTipoGeracaoENA, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoTipoGeracaoENA)
+        if isinstance(b, BlocoTipoGeracaoENA):
             b.valor = dado
 
     @property
@@ -1149,15 +1129,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: float
         """
-        b = self.__bloco_por_tipo(BlocoRiscoDeficit, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoRiscoDeficit)
+        if isinstance(b, BlocoRiscoDeficit):
             return b.primeira_profundidade_risco_deficit
         return None
 
     @primeira_profundidade_risco_deficit.setter
     def primeira_profundidade_risco_deficit(self, dado: float):
-        b = self.__bloco_por_tipo(BlocoRiscoDeficit, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoRiscoDeficit)
+        if isinstance(b, BlocoRiscoDeficit):
             b.primeira_profundidade_risco_deficit = dado
 
     @property
@@ -1168,15 +1148,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: float
         """
-        b = self.__bloco_por_tipo(BlocoRiscoDeficit, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoRiscoDeficit)
+        if isinstance(b, BlocoRiscoDeficit):
             return b.segunda_profundidade_risco_deficit
         return None
 
     @segunda_profundidade_risco_deficit.setter
     def segunda_profundidade_risco_deficit(self, dado: float):
-        b = self.__bloco_por_tipo(BlocoRiscoDeficit, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoRiscoDeficit)
+        if isinstance(b, BlocoRiscoDeficit):
             b.segunda_profundidade_risco_deficit = dado
 
     @property
@@ -1187,15 +1167,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoIteracaoParaSimFinal, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoIteracaoParaSimFinal)
+        if isinstance(b, BlocoIteracaoParaSimFinal):
             return b.valor
         return None
 
     @iteracao_para_simulacao_final.setter
     def iteracao_para_simulacao_final(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoIteracaoParaSimFinal, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoIteracaoParaSimFinal)
+        if isinstance(b, BlocoIteracaoParaSimFinal):
             b.valor = dado
 
     @property
@@ -1206,15 +1186,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoAgrupamentoLivre, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoAgrupamentoLivre)
+        if isinstance(b, BlocoAgrupamentoLivre):
             return b.valor
         return None
 
     @agrupamento_livre.setter
     def agrupamento_livre(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoAgrupamentoLivre, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoAgrupamentoLivre)
+        if isinstance(b, BlocoAgrupamentoLivre):
             b.valor = dado
 
     @property
@@ -1225,15 +1205,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoEqualizacaoPenalInt, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoEqualizacaoPenalInt)
+        if isinstance(b, BlocoEqualizacaoPenalInt):
             return b.valor
         return None
 
     @equalizacao_penal_intercambio.setter
     def equalizacao_penal_intercambio(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoEqualizacaoPenalInt, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoEqualizacaoPenalInt)
+        if isinstance(b, BlocoEqualizacaoPenalInt):
             b.valor = dado
 
     @property
@@ -1244,15 +1224,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoRepresentacaoSubmot, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoRepresentacaoSubmot)
+        if isinstance(b, BlocoRepresentacaoSubmot):
             return b.valor
         return None
 
     @representacao_submotorizacao.setter
     def representacao_submotorizacao(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoRepresentacaoSubmot, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoRepresentacaoSubmot)
+        if isinstance(b, BlocoRepresentacaoSubmot):
             b.valor = dado
 
     @property
@@ -1263,15 +1243,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoOrdenacaoAutomatica, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoOrdenacaoAutomatica)
+        if isinstance(b, BlocoOrdenacaoAutomatica):
             return b.valor
         return None
 
     @ordenacao_automatica.setter
     def ordenacao_automatica(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoOrdenacaoAutomatica, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoOrdenacaoAutomatica)
+        if isinstance(b, BlocoOrdenacaoAutomatica):
             b.valor = dado
 
     @property
@@ -1282,15 +1262,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoConsideraCargaAdicional, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoConsideraCargaAdicional)
+        if isinstance(b, BlocoConsideraCargaAdicional):
             return b.valor
         return None
 
     @considera_carga_adicional.setter
     def considera_carga_adicional(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoConsideraCargaAdicional, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoConsideraCargaAdicional)
+        if isinstance(b, BlocoConsideraCargaAdicional):
             b.valor = dado
 
     @property
@@ -1301,15 +1281,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: float
         """
-        b = self.__bloco_por_tipo(BlocoDeltaZSUP, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoDeltaZSUP)
+        if isinstance(b, BlocoDeltaZSUP):
             return b.valor
         return None
 
     @delta_zsup.setter
     def delta_zsup(self, dado: float):
-        b = self.__bloco_por_tipo(BlocoDeltaZSUP, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoDeltaZSUP)
+        if isinstance(b, BlocoDeltaZSUP):
             b.valor = dado
 
     @property
@@ -1320,15 +1300,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: float
         """
-        b = self.__bloco_por_tipo(BlocoDeltaZINF, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoDeltaZINF)
+        if isinstance(b, BlocoDeltaZINF):
             return b.valor
         return None
 
     @delta_zinf.setter
     def delta_zinf(self, dado: float):
-        b = self.__bloco_por_tipo(BlocoDeltaZINF, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoDeltaZINF)
+        if isinstance(b, BlocoDeltaZINF):
             b.valor = dado
 
     @property
@@ -1339,15 +1319,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoDeltasConsecutivos, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoDeltasConsecutivos)
+        if isinstance(b, BlocoDeltasConsecutivos):
             return b.valor
         return None
 
     @deltas_consecutivos.setter
     def deltas_consecutivos(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoDeltasConsecutivos, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoDeltasConsecutivos)
+        if isinstance(b, BlocoDeltasConsecutivos):
             b.valor = dado
 
     @property
@@ -1358,15 +1338,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoDespachoAntecipadoGNL, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoDespachoAntecipadoGNL)
+        if isinstance(b, BlocoDespachoAntecipadoGNL):
             return b.valor
         return None
 
     @despacho_antecipado_gnl.setter
     def despacho_antecipado_gnl(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoDespachoAntecipadoGNL, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoDespachoAntecipadoGNL)
+        if isinstance(b, BlocoDespachoAntecipadoGNL):
             b.valor = dado
 
     @property
@@ -1377,15 +1357,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoModifAutomaticaAdTerm, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoModifAutomaticaAdTerm)
+        if isinstance(b, BlocoModifAutomaticaAdTerm):
             return b.valor
         return None
 
     @modif_automatica_adterm.setter
     def modif_automatica_adterm(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoModifAutomaticaAdTerm, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoModifAutomaticaAdTerm)
+        if isinstance(b, BlocoModifAutomaticaAdTerm):
             b.valor = dado
 
     @property
@@ -1396,15 +1376,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoGeracaoHidraulicaMin, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoGeracaoHidraulicaMin)
+        if isinstance(b, BlocoGeracaoHidraulicaMin):
             return b.valor
         return None
 
     @considera_ghmin.setter
     def considera_ghmin(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoGeracaoHidraulicaMin, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoGeracaoHidraulicaMin)
+        if isinstance(b, BlocoGeracaoHidraulicaMin):
             b.valor = dado
 
     @property
@@ -1415,15 +1395,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoSimFinalComData, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoSimFinalComData)
+        if isinstance(b, BlocoSimFinalComData):
             return b.valor
         return None
 
     @simulacao_final_com_data.setter
     def simulacao_final_com_data(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoSimFinalComData, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoSimFinalComData)
+        if isinstance(b, BlocoSimFinalComData):
             b.valor = dado
 
     @property
@@ -1434,15 +1414,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoGerenciamentoPLs, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoGerenciamentoPLs)
+        if isinstance(b, BlocoGerenciamentoPLs):
             return b.utiliza_gerenciamento_pls
         return None
 
     @utiliza_gerenciamento_pls.setter
     def utiliza_gerenciamento_pls(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoGerenciamentoPLs, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoGerenciamentoPLs)
+        if isinstance(b, BlocoGerenciamentoPLs):
             b.utiliza_gerenciamento_pls = dado
 
     @property
@@ -1453,15 +1433,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoGerenciamentoPLs, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoGerenciamentoPLs)
+        if isinstance(b, BlocoGerenciamentoPLs):
             return b.comunicacao_dois_niveis
         return None
 
     @comunicacao_dois_niveis.setter
     def comunicacao_dois_niveis(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoGerenciamentoPLs, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoGerenciamentoPLs)
+        if isinstance(b, BlocoGerenciamentoPLs):
             b.comunicacao_dois_niveis = dado
 
     @property
@@ -1472,15 +1452,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoGerenciamentoPLs, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoGerenciamentoPLs)
+        if isinstance(b, BlocoGerenciamentoPLs):
             return b.armazenamento_local_arquivos_temporarios
         return None
 
     @armazenamento_local_arquivos_temporarios.setter
     def armazenamento_local_arquivos_temporarios(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoGerenciamentoPLs, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoGerenciamentoPLs)
+        if isinstance(b, BlocoGerenciamentoPLs):
             b.armazenamento_local_arquivos_temporarios = dado
 
     @property
@@ -1491,15 +1471,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoGerenciamentoPLs, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoGerenciamentoPLs)
+        if isinstance(b, BlocoGerenciamentoPLs):
             return b.alocacao_memoria_ena
         return None
 
     @alocacao_memoria_ena.setter
     def alocacao_memoria_ena(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoGerenciamentoPLs, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoGerenciamentoPLs)
+        if isinstance(b, BlocoGerenciamentoPLs):
             b.alocacao_memoria_ena = dado
 
     @property
@@ -1510,15 +1490,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoGerenciamentoPLs, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoGerenciamentoPLs)
+        if isinstance(b, BlocoGerenciamentoPLs):
             return b.alocacao_memoria_cortes
         return None
 
     @alocacao_memoria_cortes.setter
     def alocacao_memoria_cortes(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoGerenciamentoPLs, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoGerenciamentoPLs)
+        if isinstance(b, BlocoGerenciamentoPLs):
             b.alocacao_memoria_cortes = dado
 
     @property
@@ -1529,15 +1509,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoSAR, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoSAR)
+        if isinstance(b, BlocoSAR):
             return b.valor
         return None
 
     @sar.setter
     def sar(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoSAR, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoSAR)
+        if isinstance(b, BlocoSAR):
             b.valor = dado
 
     @property
@@ -1548,15 +1528,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoCVAR, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoCVAR)
+        if isinstance(b, BlocoCVAR):
             return b.valor
         return None
 
     @cvar.setter
     def cvar(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoCVAR, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoCVAR)
+        if isinstance(b, BlocoCVAR):
             b.valor = dado
 
     @property
@@ -1567,15 +1547,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoZSUPMinConvergencia, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoZSUPMinConvergencia)
+        if isinstance(b, BlocoZSUPMinConvergencia):
             return b.valor
         return None
 
     @considera_zsup_min_convergencia.setter
     def considera_zsup_min_convergencia(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoZSUPMinConvergencia, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoZSUPMinConvergencia)
+        if isinstance(b, BlocoZSUPMinConvergencia):
             b.valor = dado
 
     @property
@@ -1586,15 +1566,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoDesconsideraVazaoMinima, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoDesconsideraVazaoMinima)
+        if isinstance(b, BlocoDesconsideraVazaoMinima):
             return b.valor
         return None
 
     @desconsidera_vazao_minima.setter
     def desconsidera_vazao_minima(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoDesconsideraVazaoMinima, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoDesconsideraVazaoMinima)
+        if isinstance(b, BlocoDesconsideraVazaoMinima):
             b.valor = dado
 
     @property
@@ -1605,15 +1585,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoRestricoesEletricas, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoRestricoesEletricas)
+        if isinstance(b, BlocoRestricoesEletricas):
             return b.valor
         return None
 
     @restricoes_eletricas.setter
     def restricoes_eletricas(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoRestricoesEletricas, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoRestricoesEletricas)
+        if isinstance(b, BlocoRestricoesEletricas):
             b.valor = dado
 
     @property
@@ -1624,15 +1604,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoSelecaoCortes, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoSelecaoCortes)
+        if isinstance(b, BlocoSelecaoCortes):
             return b.considera_na_backward
         return None
 
     @selecao_de_cortes_backward.setter
     def selecao_de_cortes_backward(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoSelecaoCortes, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoSelecaoCortes)
+        if isinstance(b, BlocoSelecaoCortes):
             b.considera_na_backward = dado
 
     @property
@@ -1643,15 +1623,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoSelecaoCortes, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoSelecaoCortes)
+        if isinstance(b, BlocoSelecaoCortes):
             return b.considera_na_forward
         return None
 
     @selecao_de_cortes_forward.setter
     def selecao_de_cortes_forward(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoSelecaoCortes, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoSelecaoCortes)
+        if isinstance(b, BlocoSelecaoCortes):
             b.considera_na_forward = dado
 
     @property
@@ -1662,15 +1642,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoJanelaCortes, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoJanelaCortes)
+        if isinstance(b, BlocoJanelaCortes):
             return b.valor
         return None
 
     @janela_de_cortes.setter
     def janela_de_cortes(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoJanelaCortes, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoJanelaCortes)
+        if isinstance(b, BlocoJanelaCortes):
             b.valor = dado
 
     @property
@@ -1681,15 +1661,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoReamostragemCenarios, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoReamostragemCenarios)
+        if isinstance(b, BlocoReamostragemCenarios):
             return b.considera_reamostragem_cenarios
         return None
 
     @considera_reamostragem_cenarios.setter
     def considera_reamostragem_cenarios(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoReamostragemCenarios, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoReamostragemCenarios)
+        if isinstance(b, BlocoReamostragemCenarios):
             b.considera_reamostragem_cenarios = dado
 
     @property
@@ -1700,15 +1680,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoReamostragemCenarios, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoReamostragemCenarios)
+        if isinstance(b, BlocoReamostragemCenarios):
             return b.tipo_reamostragem_cenarios
         return None
 
     @tipo_reamostragem_cenarios.setter
     def tipo_reamostragem_cenarios(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoReamostragemCenarios, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoReamostragemCenarios)
+        if isinstance(b, BlocoReamostragemCenarios):
             b.tipo_reamostragem_cenarios = dado
 
     @property
@@ -1719,15 +1699,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoReamostragemCenarios, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoReamostragemCenarios)
+        if isinstance(b, BlocoReamostragemCenarios):
             return b.passo_reamostragem_cenarios
         return None
 
     @passo_reamostragem_cenarios.setter
     def passo_reamostragem_cenarios(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoReamostragemCenarios, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoReamostragemCenarios)
+        if isinstance(b, BlocoReamostragemCenarios):
             b.passo_reamostragem_cenarios = dado
 
     @property
@@ -1738,15 +1718,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoConvergeNoZero, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoConvergeNoZero)
+        if isinstance(b, BlocoConvergeNoZero):
             return b.valor
         return None
 
     @converge_no_zero.setter
     def converge_no_zero(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoConvergeNoZero, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoConvergeNoZero)
+        if isinstance(b, BlocoConvergeNoZero):
             b.valor = dado
 
     @property
@@ -1757,15 +1737,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoConsultaFCF, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoConsultaFCF)
+        if isinstance(b, BlocoConsultaFCF):
             return b.valor
         return None
 
     @consulta_fcf.setter
     def consulta_fcf(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoConsultaFCF, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoConsultaFCF)
+        if isinstance(b, BlocoConsultaFCF):
             b.valor = dado
 
     @property
@@ -1776,15 +1756,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoImpressaoENA, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoImpressaoENA)
+        if isinstance(b, BlocoImpressaoENA):
             return b.valor
         return None
 
     @impressao_ena.setter
     def impressao_ena(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoImpressaoENA, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoImpressaoENA)
+        if isinstance(b, BlocoImpressaoENA):
             b.valor = dado
 
     @property
@@ -1795,15 +1775,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoImpressaoCortesAtivosSimFinal, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoImpressaoCortesAtivosSimFinal)
+        if isinstance(b, BlocoImpressaoCortesAtivosSimFinal):
             return b.valor
         return None
 
     @impressao_cortes_ativos_sim_final.setter
     def impressao_cortes_ativos_sim_final(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoImpressaoCortesAtivosSimFinal, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoImpressaoCortesAtivosSimFinal)
+        if isinstance(b, BlocoImpressaoCortesAtivosSimFinal):
             b.valor = dado
 
     @property
@@ -1814,15 +1794,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoRepresentacaoAgregacao, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoRepresentacaoAgregacao)
+        if isinstance(b, BlocoRepresentacaoAgregacao):
             return b.valor
         return None
 
     @representacao_agregacao.setter
     def representacao_agregacao(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoRepresentacaoAgregacao, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoRepresentacaoAgregacao)
+        if isinstance(b, BlocoRepresentacaoAgregacao):
             b.valor = dado
 
     @property
@@ -1833,15 +1813,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoMatrizCorrelacaoEspacial, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoMatrizCorrelacaoEspacial)
+        if isinstance(b, BlocoMatrizCorrelacaoEspacial):
             return b.valor
         return None
 
     @matriz_correlacao_espacial.setter
     def matriz_correlacao_espacial(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoMatrizCorrelacaoEspacial, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoMatrizCorrelacaoEspacial)
+        if isinstance(b, BlocoMatrizCorrelacaoEspacial):
             b.valor = dado
 
     @property
@@ -1852,15 +1832,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoDesconsideraConvEstatistica, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoDesconsideraConvEstatistica)
+        if isinstance(b, BlocoDesconsideraConvEstatistica):
             return b.valor
         return None
 
     @desconsidera_convergencia_estatistica.setter
     def desconsidera_convergencia_estatistica(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoDesconsideraConvEstatistica, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoDesconsideraConvEstatistica)
+        if isinstance(b, BlocoDesconsideraConvEstatistica):
             b.valor = dado
 
     @property
@@ -1871,15 +1851,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoMomentoReamostragem, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoMomentoReamostragem)
+        if isinstance(b, BlocoMomentoReamostragem):
             return b.valor
         return None
 
     @momento_reamostragem.setter
     def momento_reamostragem(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoMomentoReamostragem, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoMomentoReamostragem)
+        if isinstance(b, BlocoMomentoReamostragem):
             b.valor = dado
 
     @property
@@ -1890,15 +1870,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoMantemArquivosEnergias, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoMantemArquivosEnergias)
+        if isinstance(b, BlocoMantemArquivosEnergias):
             return b.valor
         return None
 
     @mantem_arquivos_energias.setter
     def mantem_arquivos_energias(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoMantemArquivosEnergias, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoMantemArquivosEnergias)
+        if isinstance(b, BlocoMantemArquivosEnergias):
             b.valor = dado
 
     @property
@@ -1909,15 +1889,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoInicioTesteConvergencia, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoInicioTesteConvergencia)
+        if isinstance(b, BlocoInicioTesteConvergencia):
             return b.valor
         return None
 
     @inicio_teste_convergencia.setter
     def inicio_teste_convergencia(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoInicioTesteConvergencia, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoInicioTesteConvergencia)
+        if isinstance(b, BlocoInicioTesteConvergencia):
             b.valor = dado
 
     @property
@@ -1928,15 +1908,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoSazonalizarVminT, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoSazonalizarVminT)
+        if isinstance(b, BlocoSazonalizarVminT):
             return b.valor
         return None
 
     @sazonaliza_vmint.setter
     def sazonaliza_vmint(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoSazonalizarVminT, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoSazonalizarVminT)
+        if isinstance(b, BlocoSazonalizarVminT):
             b.valor = dado
 
     @property
@@ -1947,15 +1927,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoSazonalizarVmaxT, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoSazonalizarVmaxT)
+        if isinstance(b, BlocoSazonalizarVmaxT):
             return b.valor
         return None
 
     @sazonaliza_vmaxt.setter
     def sazonaliza_vmaxt(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoSazonalizarVmaxT, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoSazonalizarVmaxT)
+        if isinstance(b, BlocoSazonalizarVmaxT):
             b.valor = dado
 
     @property
@@ -1966,15 +1946,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoSazonalizarVminP, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoSazonalizarVminP)
+        if isinstance(b, BlocoSazonalizarVminP):
             return b.valor
         return None
 
     @sazonaliza_vminp.setter
     def sazonaliza_vminp(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoSazonalizarVminP, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoSazonalizarVminP)
+        if isinstance(b, BlocoSazonalizarVminP):
             b.valor = dado
 
     @property
@@ -1985,15 +1965,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoSazonalizarCfugaCmont, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoSazonalizarCfugaCmont)
+        if isinstance(b, BlocoSazonalizarCfugaCmont):
             return b.valor
         return None
 
     @sazonaliza_cfuga_cmont.setter
     def sazonaliza_cfuga_cmont(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoSazonalizarCfugaCmont, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoSazonalizarCfugaCmont)
+        if isinstance(b, BlocoSazonalizarCfugaCmont):
             b.valor = dado
 
     @property
@@ -2004,15 +1984,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoRestricoesEmissaoGEE, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoRestricoesEmissaoGEE)
+        if isinstance(b, BlocoRestricoesEmissaoGEE):
             return b.valor
         return None
 
     @restricoes_emissao_gee.setter
     def restricoes_emissao_gee(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoRestricoesEmissaoGEE, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoRestricoesEmissaoGEE)
+        if isinstance(b, BlocoRestricoesEmissaoGEE):
             b.valor = dado
 
     @property
@@ -2023,15 +2003,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoAfluenciaAnualPARp, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoAfluenciaAnualPARp)
+        if isinstance(b, BlocoAfluenciaAnualPARp):
             return b.consideracao_media_anual_afluencias
         return None
 
     @consideracao_media_anual_afluencias.setter
     def consideracao_media_anual_afluencias(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoAfluenciaAnualPARp, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoAfluenciaAnualPARp)
+        if isinstance(b, BlocoAfluenciaAnualPARp):
             b.consideracao_media_anual_afluencias = dado
 
     @property
@@ -2042,15 +2022,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoAfluenciaAnualPARp, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoAfluenciaAnualPARp)
+        if isinstance(b, BlocoAfluenciaAnualPARp):
             return b.reducao_automatica_ordem
         return None
 
     @reducao_automatica_ordem.setter
     def reducao_automatica_ordem(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoAfluenciaAnualPARp, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoAfluenciaAnualPARp)
+        if isinstance(b, BlocoAfluenciaAnualPARp):
             b.reducao_automatica_ordem = dado
 
     @property
@@ -2061,15 +2041,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoRestricoesFornecGas, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoRestricoesFornecGas)
+        if isinstance(b, BlocoRestricoesFornecGas):
             return b.valor
         return None
 
     @restricoes_fornecimento_gas.setter
     def restricoes_fornecimento_gas(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoRestricoesFornecGas, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoRestricoesFornecGas)
+        if isinstance(b, BlocoRestricoesFornecGas):
             b.valor = dado
 
     @property
@@ -2080,15 +2060,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoMemCalculoCortes, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoMemCalculoCortes)
+        if isinstance(b, BlocoMemCalculoCortes):
             return b.valor
         return None
 
     @memoria_calculo_cortes.setter
     def memoria_calculo_cortes(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoMemCalculoCortes, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoMemCalculoCortes)
+        if isinstance(b, BlocoMemCalculoCortes):
             b.valor = dado
 
     @property
@@ -2099,15 +2079,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoGeracaoEolica, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoGeracaoEolica)
+        if isinstance(b, BlocoGeracaoEolica):
             return b.considera
         return None
 
     @considera_geracao_eolica.setter
     def considera_geracao_eolica(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoGeracaoEolica, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoGeracaoEolica)
+        if isinstance(b, BlocoGeracaoEolica):
             b.considera = dado
 
     @property
@@ -2118,15 +2098,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoGeracaoEolica, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoGeracaoEolica)
+        if isinstance(b, BlocoGeracaoEolica):
             return b.penalidade
         return None
 
     @penalidade_corte_geracao_eolica.setter
     def penalidade_corte_geracao_eolica(self, dado: float):
-        b = self.__bloco_por_tipo(BlocoGeracaoEolica, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoGeracaoEolica)
+        if isinstance(b, BlocoGeracaoEolica):
             b.penalidade = dado
 
     @property
@@ -2137,15 +2117,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int
         """
-        b = self.__bloco_por_tipo(BlocoCompensacaoCorrelacaoCruzada, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoCompensacaoCorrelacaoCruzada)
+        if isinstance(b, BlocoCompensacaoCorrelacaoCruzada):
             return b.valor
         return None
 
     @compensacao_correlacao_cruzada.setter
     def compensacao_correlacao_cruzada(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoCompensacaoCorrelacaoCruzada, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoCompensacaoCorrelacaoCruzada)
+        if isinstance(b, BlocoCompensacaoCorrelacaoCruzada):
             b.valor = dado
 
     @property
@@ -2156,15 +2136,19 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int | None
         """
-        b = self.__bloco_por_tipo(BlocoConsideracaoTurbinamentoMinimoMaximo, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(
+            BlocoConsideracaoTurbinamentoMinimoMaximo
+        )
+        if isinstance(b, BlocoConsideracaoTurbinamentoMinimoMaximo):
             return b.valor
         return None
 
     @restricao_turbinamento.setter
     def restricao_turbinamento(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoConsideracaoTurbinamentoMinimoMaximo, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(
+            BlocoConsideracaoTurbinamentoMinimoMaximo
+        )
+        if isinstance(b, BlocoConsideracaoTurbinamentoMinimoMaximo):
             b.valor = dado
 
     @property
@@ -2175,15 +2159,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int | None
         """
-        b = self.__bloco_por_tipo(BlocoConsideracaoDefluenciaMaxima, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoConsideracaoDefluenciaMaxima)
+        if isinstance(b, BlocoConsideracaoDefluenciaMaxima):
             return b.valor
         return None
 
     @restricao_defluencia.setter
     def restricao_defluencia(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoConsideracaoDefluenciaMaxima, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoConsideracaoDefluenciaMaxima)
+        if isinstance(b, BlocoConsideracaoDefluenciaMaxima):
             b.valor = dado
 
     @property
@@ -2194,15 +2178,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int | None
         """
-        b = self.__bloco_por_tipo(BlocoAproveitamentoBasePLsBackward, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoAproveitamentoBasePLsBackward)
+        if isinstance(b, BlocoAproveitamentoBasePLsBackward):
             return b.valor
         return None
 
     @aproveitamento_bases_backward.setter
     def aproveitamento_bases_backward(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoAproveitamentoBasePLsBackward, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoAproveitamentoBasePLsBackward)
+        if isinstance(b, BlocoAproveitamentoBasePLsBackward):
             b.valor = dado
 
     @property
@@ -2213,15 +2197,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int | None
         """
-        b = self.__bloco_por_tipo(BlocoImpressaoEstadosGeracaoCortes, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoImpressaoEstadosGeracaoCortes)
+        if isinstance(b, BlocoImpressaoEstadosGeracaoCortes):
             return b.valor
         return None
 
     @impressao_estados_geracao_cortes.setter
     def impressao_estados_geracao_cortes(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoImpressaoEstadosGeracaoCortes, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoImpressaoEstadosGeracaoCortes)
+        if isinstance(b, BlocoImpressaoEstadosGeracaoCortes):
             b.valor = dado
 
     @property
@@ -2232,15 +2216,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int | None
         """
-        b = self.__bloco_por_tipo(BlocoSementeForward, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoSementeForward)
+        if isinstance(b, BlocoSementeForward):
             return b.valor
         return None
 
     @semente_forward.setter
     def semente_forward(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoSementeForward, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoSementeForward)
+        if isinstance(b, BlocoSementeForward):
             b.valor = dado
 
     @property
@@ -2251,15 +2235,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int | None
         """
-        b = self.__bloco_por_tipo(BlocoSementeBackward, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoSementeBackward)
+        if isinstance(b, BlocoSementeBackward):
             return b.valor
         return None
 
     @semente_backward.setter
     def semente_backward(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoSementeBackward, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoSementeBackward)
+        if isinstance(b, BlocoSementeBackward):
             b.valor = dado
 
     @property
@@ -2270,15 +2254,19 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int | None
         """
-        b = self.__bloco_por_tipo(BlocoRestricaoLPPTurbinamentoMaximoREE, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(
+            BlocoRestricaoLPPTurbinamentoMaximoREE
+        )
+        if isinstance(b, BlocoRestricaoLPPTurbinamentoMaximoREE):
             return b.valor
         return None
 
     @restricao_lpp_turbinamento_maximo_ree.setter
     def restricao_lpp_turbinamento_maximo_ree(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoRestricaoLPPTurbinamentoMaximoREE, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(
+            BlocoRestricaoLPPTurbinamentoMaximoREE
+        )
+        if isinstance(b, BlocoRestricaoLPPTurbinamentoMaximoREE):
             b.valor = dado
 
     @property
@@ -2289,15 +2277,19 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int | None
         """
-        b = self.__bloco_por_tipo(BlocoRestricaoLPPDefluenciaMaximaREE, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(
+            BlocoRestricaoLPPDefluenciaMaximaREE
+        )
+        if isinstance(b, BlocoRestricaoLPPDefluenciaMaximaREE):
             return b.valor
         return None
 
     @restricao_lpp_defluencia_maxima_ree.setter
     def restricao_lpp_defluencia_maxima_ree(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoRestricaoLPPDefluenciaMaximaREE, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(
+            BlocoRestricaoLPPDefluenciaMaximaREE
+        )
+        if isinstance(b, BlocoRestricaoLPPDefluenciaMaximaREE):
             b.valor = dado
 
     @property
@@ -2308,15 +2300,19 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int | None
         """
-        b = self.__bloco_por_tipo(BlocoRestricaoLPPTurbinamentoMaximoUHE, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(
+            BlocoRestricaoLPPTurbinamentoMaximoUHE
+        )
+        if isinstance(b, BlocoRestricaoLPPTurbinamentoMaximoUHE):
             return b.valor
         return None
 
     @restricao_lpp_turbinamento_maximo_uhe.setter
     def restricao_lpp_turbinamento_maximo_uhe(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoRestricaoLPPTurbinamentoMaximoUHE, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(
+            BlocoRestricaoLPPTurbinamentoMaximoUHE
+        )
+        if isinstance(b, BlocoRestricaoLPPTurbinamentoMaximoUHE):
             b.valor = dado
 
     @property
@@ -2327,15 +2323,19 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int | None
         """
-        b = self.__bloco_por_tipo(BlocoRestricaoLPPDefluenciaMaximaUHE, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(
+            BlocoRestricaoLPPDefluenciaMaximaUHE
+        )
+        if isinstance(b, BlocoRestricaoLPPDefluenciaMaximaUHE):
             return b.valor
         return None
 
     @restricao_lpp_defluencia_maxima_uhe.setter
     def restricao_lpp_defluencia_maxima_uhe(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoRestricaoLPPDefluenciaMaximaUHE, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(
+            BlocoRestricaoLPPDefluenciaMaximaUHE
+        )
+        if isinstance(b, BlocoRestricaoLPPDefluenciaMaximaUHE):
             b.valor = dado
 
     @property
@@ -2346,15 +2346,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int | None
         """
-        b = self.__bloco_por_tipo(BlocoRestricoesEletricasEspeciais, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoRestricoesEletricasEspeciais)
+        if isinstance(b, BlocoRestricoesEletricasEspeciais):
             return b.valor
         return None
 
     @restricoes_eletricas_especiais.setter
     def restricoes_eletricas_especiais(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoRestricoesEletricasEspeciais, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoRestricoesEletricasEspeciais)
+        if isinstance(b, BlocoRestricoesEletricasEspeciais):
             b.valor = dado
 
     @property
@@ -2365,15 +2365,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int | None
         """
-        b = self.__bloco_por_tipo(BlocoFuncaoProducaoUHE, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoFuncaoProducaoUHE)
+        if isinstance(b, BlocoFuncaoProducaoUHE):
             return b.valor
         return None
 
     @funcao_producao_uhe.setter
     def funcao_producao_uhe(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoFuncaoProducaoUHE, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoFuncaoProducaoUHE)
+        if isinstance(b, BlocoFuncaoProducaoUHE):
             b.valor = dado
 
     @property
@@ -2384,15 +2384,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int | None
         """
-        b = self.__bloco_por_tipo(BlocoFCFPosEstudo, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoFCFPosEstudo)
+        if isinstance(b, BlocoFCFPosEstudo):
             return b.valor
         return None
 
     @fcf_pos_estudo.setter
     def fcf_pos_estudo(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoFCFPosEstudo, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoFCFPosEstudo)
+        if isinstance(b, BlocoFCFPosEstudo):
             b.valor = dado
 
     @property
@@ -2403,15 +2403,15 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int | None
         """
-        b = self.__bloco_por_tipo(BlocoEstacoesBombeamento, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoEstacoesBombeamento)
+        if isinstance(b, BlocoEstacoesBombeamento):
             return b.valor
         return None
 
     @estacoes_bombeamento.setter
     def estacoes_bombeamento(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoEstacoesBombeamento, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoEstacoesBombeamento)
+        if isinstance(b, BlocoEstacoesBombeamento):
             b.valor = dado
 
     @property
@@ -2422,13 +2422,13 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int | None
         """
-        b = self.__bloco_por_tipo(BlocoCanalDesvio, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoCanalDesvio)
+        if isinstance(b, BlocoCanalDesvio):
             return b.valor
         return None
 
     @canal_desvio.setter
     def canal_desvio(self, dado: int):
-        b = self.__bloco_por_tipo(BlocoCanalDesvio, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoCanalDesvio)
+        if isinstance(b, BlocoCanalDesvio):
             b.valor = dado

@@ -91,7 +91,7 @@ def test_neq_restricaoenergia():
     with patch("builtins.open", m):
         cf1 = RestricaoEnergia.read(ARQ_TESTE)
         cf2 = RestricaoEnergia.read(ARQ_TESTE)
-        cf2.deleta_registro(cf1.rhe()[0])
+        cf2.data.remove(cf1.rhe()[0])
         assert cf1 != cf2
 
 

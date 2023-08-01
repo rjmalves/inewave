@@ -25,26 +25,6 @@ class ArquivoCSV(BlockFile):
 
     T = TypeVar("T")
 
-    def _bloco_por_tipo(self, bloco: Type[T], indice: int) -> Optional[T]:
-        """
-        Obtém um gerador de blocos de um tipo, se houver algum no arquivo.
-
-        :param bloco: Um tipo de bloco para ser lido
-        :type bloco: T
-        :param indice: O índice do bloco a ser acessado, dentre os do tipo
-        :type indice: int
-        :return: O gerador de blocos, se houver
-        :rtype: Optional[Generator[T], None, None]
-        """
-        try:
-            return next(
-                b
-                for i, b in enumerate(self.data.of_type(bloco))
-                if i == indice
-            )
-        except StopIteration:
-            return None
-
     @property
     def versao(self) -> Optional[str]:
         """
@@ -53,8 +33,8 @@ class ArquivoCSV(BlockFile):
         :return: A versão do modelo
         :rtype: str | None
         """
-        b = self._bloco_por_tipo(VersaoModelo, 0)
-        if b is not None:
+        b = self.data.get_blocks_of_type(VersaoModelo)
+        if isinstance(b, VersaoModelo):
             return b.data
         return None
 
@@ -65,7 +45,7 @@ class ArquivoCSV(BlockFile):
         :return: A tabela como um dataframe
         :rtype: pd.DataFrame | None
         """
-        b = self._bloco_por_tipo(TabelaCSV, 0)
-        if b is not None:
+        b = self.data.get_blocks_of_type(TabelaCSV)
+        if isinstance(b, TabelaCSV):
             return b.data
         return None

@@ -8,9 +8,8 @@ from inewave.newave.modelos.pmo import BlocoCustoOperacaoPMO
 from inewave.newave.modelos.pmo import BlocoCustoOperacaoTotalPMO
 from inewave.newave.modelos.pmo import BlocoProdutibilidadesConfiguracaoPMO
 
-from cfinterface.components.block import Block
 from cfinterface.files.blockfile import BlockFile
-from typing import Type, TypeVar, Optional, Any
+from typing import TypeVar, Optional
 import pandas as pd  # type: ignore
 
 # Para compatibilidade - até versão 1.0.0
@@ -55,44 +54,6 @@ class Pmo(BlockFile):
         warnings.warn(msg, category=FutureWarning)
         return cls.read(join(diretorio, nome_arquivo))
 
-    def __bloco_por_tipo(self, bloco: Type[T], indice: int) -> Optional[T]:
-        """
-        Obtém um gerador de blocos de um tipo, se houver algum no arquivo.
-
-        :param bloco: Um tipo de bloco para ser lido
-        :type bloco: T
-        :param indice: O índice do bloco a ser acessado, dentre os do tipo
-        :type indice: int
-        :return: O gerador de blocos, se houver
-        :rtype: Optional[Generator[T], None, None]
-        """
-        try:
-            return next(
-                b
-                for i, b in enumerate(self.data.of_type(bloco))
-                if i == indice
-            )
-        except StopIteration:
-            return None
-
-    def __extrai_dados_se_existe(
-        self, bloco: Type[Block], indice: int = 0
-    ) -> Optional[Any]:
-        """
-        Obtém os dados de um bloco se este existir dentre os blocos do arquivo.
-
-        :param bloco: O tipo do bloco cujos dados serão extraídos
-        :type bloco: Type[T]
-        :param indice: Qual dos blocos do tipo será acessado
-        :type indice: int, optional
-        :return: Os dados do bloco, se existirem
-        :rtype: Any
-        """
-        b = self.__bloco_por_tipo(bloco, indice)
-        if b is not None:
-            return b.data
-        return None
-
     @property
     def eafpast_tendencia_hidrologica(self) -> Optional[pd.DataFrame]:
         """
@@ -109,7 +70,10 @@ class Pmo(BlockFile):
         :return: A tendência hidrológica em um DataFrame.
         :rtype: pd.DataFrame | None
         """
-        return self.__extrai_dados_se_existe(BlocoEafPastTendenciaHidrolPMO)
+        b = self.data.get_blocks_of_type(BlocoEafPastTendenciaHidrolPMO)
+        if isinstance(b, BlocoEafPastTendenciaHidrolPMO):
+            return b.data
+        return None
 
     @property
     def eafpast_cfuga_medio(self) -> Optional[pd.DataFrame]:
@@ -127,7 +91,10 @@ class Pmo(BlockFile):
         :return: As energias afluentes passadas.
         :rtype: pd.DataFrame | None
         """
-        return self.__extrai_dados_se_existe(BlocoEafPastCfugaMedioPMO)
+        b = self.data.get_blocks_of_type(BlocoEafPastCfugaMedioPMO)
+        if isinstance(b, BlocoEafPastCfugaMedioPMO):
+            return b.data
+        return None
 
     @property
     def configuracoes_entrada_reservatorio(self) -> Optional[pd.DataFrame]:
@@ -144,7 +111,10 @@ class Pmo(BlockFile):
         :return: As configurações em um DataFrame.
         :rtype: pd.DataFrame | None
         """
-        return self.__extrai_dados_se_existe(BlocoConfiguracoesExpansaoPMO, 0)
+        b = self.data.get_blocks_of_type(BlocoConfiguracoesExpansaoPMO)
+        if isinstance(b, list):
+            return b[0].data
+        return None
 
     @property
     def configuracoes_alteracao_potencia(self) -> Optional[pd.DataFrame]:
@@ -161,7 +131,10 @@ class Pmo(BlockFile):
         :return: As configurações em um DataFrame.
         :rtype: pd.DataFrame | None
         """
-        return self.__extrai_dados_se_existe(BlocoConfiguracoesExpansaoPMO, 1)
+        b = self.data.get_blocks_of_type(BlocoConfiguracoesExpansaoPMO)
+        if isinstance(b, list):
+            return b[1].data
+        return None
 
     @property
     def configuracoes_qualquer_modificacao(self) -> Optional[pd.DataFrame]:
@@ -178,7 +151,10 @@ class Pmo(BlockFile):
         :return: As configurações em um DataFrame.
         :rtype: pd.DataFrame | None
         """
-        return self.__extrai_dados_se_existe(BlocoConfiguracoesExpansaoPMO, 2)
+        b = self.data.get_blocks_of_type(BlocoConfiguracoesExpansaoPMO)
+        if isinstance(b, list):
+            return b[2].data
+        return None
 
     def retas_perdas_engolimento(self, estagio: int) -> Optional[pd.DataFrame]:
         """
@@ -193,7 +169,10 @@ class Pmo(BlockFile):
         :return: As retas em um DataFrame.
         :rtype: pd.DataFrame | None
         """
-        return self.__extrai_dados_se_existe(BlocoMARSPMO, estagio - 1)
+        b = self.data.get_blocks_of_type(BlocoMARSPMO)
+        if isinstance(b, list):
+            return b[estagio - 1].data
+        return None
 
     @property
     def convergencia(self) -> Optional[pd.DataFrame]:
@@ -212,7 +191,10 @@ class Pmo(BlockFile):
         :return: As convergência em um DataFrame.
         :rtype: pd.DataFrame | None
         """
-        return self.__extrai_dados_se_existe(BlocoConvergenciaPMO)
+        b = self.data.get_blocks_of_type(BlocoConvergenciaPMO)
+        if isinstance(b, BlocoConvergenciaPMO):
+            return b.data
+        return None
 
     @property
     def risco_deficit_ens(self) -> Optional[pd.DataFrame]:
@@ -229,7 +211,10 @@ class Pmo(BlockFile):
         :return: Os ricos em um DataFrame.
         :rtype: pd.DataFrame | None
         """
-        return self.__extrai_dados_se_existe(BlocoRiscoDeficitENSPMO)
+        b = self.data.get_blocks_of_type(BlocoRiscoDeficitENSPMO)
+        if isinstance(b, BlocoRiscoDeficitENSPMO):
+            return b.data
+        return None
 
     @property
     def custo_operacao_series_simuladas(self) -> Optional[pd.DataFrame]:
@@ -245,7 +230,10 @@ class Pmo(BlockFile):
         :return: Os custos em um DataFrame.
         :rtype: pd.DataFrame | None
         """
-        return self.__extrai_dados_se_existe(BlocoCustoOperacaoPMO, 0)
+        b = self.data.get_blocks_of_type(BlocoCustoOperacaoPMO)
+        if isinstance(b, list):
+            return b[0].data
+        return None
 
     @property
     def valor_esperado_periodo_estudo(self) -> Optional[pd.DataFrame]:
@@ -261,7 +249,10 @@ class Pmo(BlockFile):
         :return: Os custos em um DataFrame.
         :rtype: pd.DataFrame | None
         """
-        return self.__extrai_dados_se_existe(BlocoCustoOperacaoPMO, 1)
+        b = self.data.get_blocks_of_type(BlocoCustoOperacaoPMO)
+        if isinstance(b, list):
+            return b[1].data
+        return None
 
     @property
     def custo_operacao_referenciado_primeiro_mes(
@@ -279,7 +270,10 @@ class Pmo(BlockFile):
         :return: Os custos em um DataFrame.
         :rtype: pd.DataFrame | None
         """
-        return self.__extrai_dados_se_existe(BlocoCustoOperacaoPMO, 2)
+        b = self.data.get_blocks_of_type(BlocoCustoOperacaoPMO)
+        if isinstance(b, list):
+            return b[2].data
+        return None
 
     @property
     def custo_operacao_total(self) -> Optional[float]:
@@ -289,9 +283,9 @@ class Pmo(BlockFile):
         :return: O custo total.
         :rtype: float | None
         """
-        b = self.__extrai_dados_se_existe(BlocoCustoOperacaoTotalPMO)
-        if isinstance(b, list):
-            return b[0]
+        b = self.data.get_blocks_of_type(BlocoCustoOperacaoTotalPMO)
+        if isinstance(b, BlocoCustoOperacaoTotalPMO):
+            return b.data[0]
         return None
 
     @property
@@ -302,9 +296,9 @@ class Pmo(BlockFile):
         :return: O desvio do custo total.
         :rtype: float | None
         """
-        b = self.__extrai_dados_se_existe(BlocoCustoOperacaoTotalPMO)
-        if isinstance(b, list):
-            return b[1]
+        b = self.data.get_blocks_of_type(BlocoCustoOperacaoTotalPMO)
+        if isinstance(b, BlocoCustoOperacaoTotalPMO):
+            return b.data[1]
         return None
 
     @property
@@ -334,6 +328,7 @@ class Pmo(BlockFile):
         :return: As produtibilidades em um DataFrame.
         :rtype: pd.DataFrame | None
         """
-        return self.__extrai_dados_se_existe(
-            BlocoProdutibilidadesConfiguracaoPMO, 0
-        )
+        b = self.data.get_blocks_of_type(BlocoProdutibilidadesConfiguracaoPMO)
+        if isinstance(b, BlocoProdutibilidadesConfiguracaoPMO):
+            return b.data
+        return None

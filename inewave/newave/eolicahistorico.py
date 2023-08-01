@@ -1,7 +1,6 @@
-from typing import Type, TypeVar, List, Optional, Union
+from typing import TypeVar, List, Optional, Union
 from datetime import datetime
 
-from cfinterface.components.register import Register
 from cfinterface.files.registerfile import RegisterFile
 from inewave.newave.modelos.eolicahistorico import (
     RegistroEolicaHistoricoVentoHorizonte,
@@ -53,76 +52,6 @@ class EolicaHistorico(RegisterFile):
         warnings.warn(msg, category=FutureWarning)
         self.write(join(diretorio, nome_arquivo))
 
-    def __registros_por_tipo(self, registro: Type[T]) -> List[T]:
-        """
-        Obtém os registro de um tipo, se houver algum no arquivo.
-
-        :param registro: Um tipo de registro para ser lido
-        :type registro: T
-        :param indice: O índice do bloco a ser acessado, dentre os do tipo
-        :type indice: int
-
-        """
-        return [b for b in self.data.of_type(registro)]
-
-    def __obtem_registros(self, tipo: Type[T]) -> List[T]:
-        return self.__registros_por_tipo(tipo)
-
-    def __obtem_registros_com_filtros(
-        self, tipo_registro: Type[T], **kwargs
-    ) -> Optional[Union[T, List[T]]]:
-        def __atende(r) -> bool:
-            condicoes: List[bool] = []
-            for k, v in kwargs.items():
-                if v is not None:
-                    condicoes.append(getattr(r, k) == v)
-            return all(condicoes)
-
-        regs_filtro = [
-            r for r in self.__obtem_registros(tipo_registro) if __atende(r)
-        ]
-        if len(regs_filtro) == 0:
-            return None
-        elif len(regs_filtro) == 1:
-            return regs_filtro[0]
-        else:
-            return regs_filtro
-
-    def cria_registro(self, anterior: Register, registro: Register):
-        """
-        Adiciona um registro ao arquivo após um outro registro previamente
-        existente.
-
-        Este método existe para retrocompatibilidade e deve ser substituído
-        quando for suportado na classe :class:`RegisterFile`.
-        """
-        self.data.add_after(anterior, registro)
-
-    def deleta_registro(self, registro: Register):
-        """
-        Remove um registro existente no arquivo.
-
-        Este método existe para retrocompatibilidade e deve ser substituído
-        quando for suportado na classe :class:`RegisterFile`.
-        """
-        self.data.remove(registro)
-
-    def append_registro(self, registro: Register):
-        """
-        Adiciona um registro ao arquivo na última posição.
-        Este método existe para retrocompatibilidade e deve ser substituído
-        quando for suportado na classe :class:`RegisterFile`.
-        """
-        self.data.append(registro)
-
-    def preppend_registro(self, registro: Register):
-        """
-        Adiciona um registro ao arquivo na primeira posição.
-        Este método existe para retrocompatibilidade e deve ser substituído
-        quando for suportado na classe :class:`RegisterFile`.
-        """
-        self.data.preppend(registro)
-
     def eolica_historico_vento_horizonte(
         self,
         data_inicial: Optional[datetime] = None,
@@ -144,7 +73,7 @@ class EolicaHistorico(RegisterFile):
         :rtype: :class:`RegistroEolicaHistoricoVentoHorizonte` |
             list[:class:`RegistroEolicaHistoricoVentoHorizonte`] | None
         """
-        return self.__obtem_registros_com_filtros(
+        return self.data.get_registers_of_type(
             RegistroEolicaHistoricoVentoHorizonte,
             data_inicial=data_inicial,
             data_final=data_final,
@@ -181,7 +110,7 @@ class EolicaHistorico(RegisterFile):
         :rtype: :class:`RegistroEolicaHistoricoVento` |
             list[:class:`RegistroEolicaHistoricoVento`] | None
         """
-        return self.__obtem_registros_com_filtros(
+        return self.data.get_registers_of_type(
             RegistroEolicaHistoricoVento,
             codigo_eolica=codigo_eolica,
             data_inicial=data_inicial,
@@ -211,7 +140,7 @@ class EolicaHistorico(RegisterFile):
         :rtype: :class:`RegistroHistoricoVentoHorizonte` |
             list[:class:`RegistroHistoricoVentoHorizonte`] | None
         """
-        return self.__obtem_registros_com_filtros(
+        return self.data.get_registers_of_type(
             RegistroHistoricoVentoHorizonte,
             data_inicial=data_inicial,
             data_final=data_final,
@@ -248,7 +177,7 @@ class EolicaHistorico(RegisterFile):
         :rtype: :class:`RegistroHistoricoVento` |
             list[:class:`RegistroHistoricoVento`] | None
         """
-        return self.__obtem_registros_com_filtros(
+        return self.data.get_registers_of_type(
             RegistroHistoricoVento,
             codigo_eolica=codigo_eolica,
             data_inicial=data_inicial,

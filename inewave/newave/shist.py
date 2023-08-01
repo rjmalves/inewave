@@ -47,26 +47,6 @@ class Shist(SectionFile):
         warnings.warn(msg, category=FutureWarning)
         self.write(join(diretorio, nome_arquivo))
 
-    def __bloco_por_tipo(self, bloco: Type[T], indice: int) -> Optional[T]:
-        """
-        Obtém um gerador de blocos de um tipo, se houver algum no arquivo.
-
-        :param bloco: Um tipo de bloco para ser lido
-        :type bloco: T
-        :param indice: O índice do bloco a ser acessado, dentre os do tipo
-        :type indice: int
-        :return: O gerador de blocos, se houver
-        :rtype: Optional[Generator[T], None, None]
-        """
-        try:
-            return next(
-                b
-                for i, b in enumerate(self.data.of_type(bloco))
-                if i == indice
-            )
-        except StopIteration:
-            return None
-
     @property
     def varredura(self) -> Optional[int]:
         """
@@ -75,15 +55,15 @@ class Shist(SectionFile):
         :return: O valor do flag
         :rtype: int | None
         """
-        b = self.__bloco_por_tipo(BlocoVarreduraShist, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoVarreduraShist)
+        if isinstance(b, BlocoVarreduraShist):
             return b.data[0]
         return None
 
     @varredura.setter
     def varredura(self, valor: int):
-        b = self.__bloco_por_tipo(BlocoVarreduraShist, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoVarreduraShist)
+        if isinstance(b, BlocoVarreduraShist):
             b.data[0] = valor
         else:
             raise ValueError("Campo não lido")
@@ -96,15 +76,15 @@ class Shist(SectionFile):
         :return: O ano
         :rtype: int | None
         """
-        b = self.__bloco_por_tipo(BlocoVarreduraShist, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoVarreduraShist)
+        if isinstance(b, BlocoVarreduraShist):
             return b.data[1]
         return None
 
     @ano_inicio_varredura.setter
     def ano_inicio_varredura(self, valor: int):
-        b = self.__bloco_por_tipo(BlocoVarreduraShist, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoVarreduraShist)
+        if isinstance(b, BlocoVarreduraShist):
             b.data[1] = valor
         else:
             raise ValueError("Campo não lido")
@@ -117,15 +97,15 @@ class Shist(SectionFile):
         :return: Os anos
         :rtype: list[int] | None
         """
-        b = self.__bloco_por_tipo(BlocoSeriesSimulacaoShist, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoSeriesSimulacaoShist)
+        if isinstance(b, BlocoSeriesSimulacaoShist):
             return b.data
         return None
 
     @anos_inicio_simulacoes.setter
     def anos_inicio_simulacoes(self, valor: List[int]):
-        b = self.__bloco_por_tipo(BlocoSeriesSimulacaoShist, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoSeriesSimulacaoShist)
+        if isinstance(b, BlocoSeriesSimulacaoShist):
             b.data = valor
         else:
             raise ValueError("Campo não lido")

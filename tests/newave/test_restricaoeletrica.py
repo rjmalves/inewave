@@ -100,7 +100,7 @@ def test_neq_restricaoeletrica():
     with patch("builtins.open", m):
         cf1 = RestricaoEletrica.read(ARQ_TESTE)
         cf2 = RestricaoEletrica.read(ARQ_TESTE)
-        cf2.deleta_registro(cf1.re()[0])
+        cf2.data.remove(cf1.re()[0])
         assert cf1 != cf2
 
 

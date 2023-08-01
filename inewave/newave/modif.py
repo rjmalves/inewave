@@ -19,7 +19,7 @@ from inewave.newave.modelos.modif import (
 )
 
 
-from typing import Type, TypeVar, List, Optional, Union
+from typing import TypeVar, List, Optional, Union
 import pandas as pd  # type: ignore
 
 # Para compatibilidade - até versão 1.0.0
@@ -74,82 +74,6 @@ class Modif(RegisterFile):
         warnings.warn(msg, category=FutureWarning)
         self.write(join(diretorio, nome_arquivo))
 
-    def __registros_por_tipo(self, registro: Type[T]) -> List[T]:
-        """
-        Obtém um gerador de blocos de um tipo, se houver algum no arquivo.
-
-        :param bloco: Um tipo de bloco para ser lido
-        :type bloco: T
-        :param indice: O índice do bloco a ser acessado, dentre os do tipo
-        :type indice: int
-
-        """
-        return [b for b in self.data.of_type(registro)]
-
-    def __obtem_registros(self, tipo: Type[T]) -> List[T]:
-        return self.__registros_por_tipo(tipo)
-
-    def __obtem_registros_com_filtros(
-        self, tipo_registro: Type[T], **kwargs
-    ) -> Optional[Union[T, List[T]]]:
-        def __atende(r) -> bool:
-            condicoes: List[bool] = []
-            for k, v in kwargs.items():
-                if v is not None:
-                    condicoes.append(getattr(r, k) == v)
-            return all(condicoes)
-
-        regs_filtro = [
-            r for r in self.__obtem_registros(tipo_registro) if __atende(r)
-        ]
-        if len(regs_filtro) == 0:
-            return None
-        elif len(regs_filtro) == 1:
-            return regs_filtro[0]
-        else:
-            return regs_filtro
-
-    def cria_registro(self, anterior: Register, registro: Register):
-        """
-        Adiciona um registro ao arquivo após um outro registro previamente
-        existente.
-        Este método existe para retrocompatibilidade e deve ser substituído
-        quando for suportado na classe :class:`RegisterFile`.
-        """
-        self.data.add_after(anterior, registro)
-
-    def deleta_registro(self, registro: Register):
-        """
-        Remove um registro existente no arquivo.
-        Este método existe para retrocompatibilidade e deve ser substituído
-        quando for suportado na classe :class:`RegisterFile`.
-        """
-        self.data.remove(registro)
-
-    def lista_registros(self, tipo: Type[T]) -> List[T]:
-        """
-        Lista todos os registros presentes no arquivo que tenham o tipo `T`.
-        Este método existe para retrocompatibilidade e deve ser substituído
-        quando for suportado na classe :class:`RegisterFile`.
-        """
-        return [r for r in self.data.of_type(tipo)]
-
-    def append_registro(self, registro: Register):
-        """
-        Adiciona um registro ao arquivo na última posição.
-        Este método existe para retrocompatibilidade e deve ser substituído
-        quando for suportado na classe :class:`RegisterFile`.
-        """
-        self.data.append(registro)
-
-    def preppend_registro(self, registro: Register):
-        """
-        Adiciona um registro ao arquivo na primeira posição.
-        Este método existe para retrocompatibilidade e deve ser substituído
-        quando for suportado na classe :class:`RegisterFile`.
-        """
-        self.data.preppend(registro)
-
     def usina(
         self,
         codigo: Optional[int] = None,
@@ -169,7 +93,7 @@ class Modif(RegisterFile):
         if df:
             return self._as_df(USINA)
         else:
-            return self.__obtem_registros_com_filtros(
+            return self.data.get_registers_of_type(
                 USINA, codigo=codigo, nome=nome
             )
 
@@ -192,7 +116,7 @@ class Modif(RegisterFile):
         if df:
             return self._as_df(USINA)
         else:
-            return self.__obtem_registros_com_filtros(
+            return self.data.get_registers_of_type(
                 VOLMIN, volume=volume, unidade=unidade
             )
 
@@ -215,7 +139,7 @@ class Modif(RegisterFile):
         if df:
             return self._as_df(USINA)
         else:
-            return self.__obtem_registros_com_filtros(
+            return self.data.get_registers_of_type(
                 VOLMAX, volume=volume, unidade=unidade
             )
 
@@ -235,7 +159,7 @@ class Modif(RegisterFile):
         if df:
             return self._as_df(USINA)
         else:
-            return self.__obtem_registros_com_filtros(NUMCNJ, numero=numero)
+            return self.data.get_registers_of_type(NUMCNJ, numero=numero)
 
     def nummaq(
         self,
@@ -257,7 +181,7 @@ class Modif(RegisterFile):
         if df:
             return self._as_df(USINA)
         else:
-            return self.__obtem_registros_com_filtros(
+            return self.data.get_registers_of_type(
                 NUMMAQ, conjunto=conjunto, numero_maquinas=numero_maquinas
             )
 
@@ -277,7 +201,7 @@ class Modif(RegisterFile):
         if df:
             return self._as_df(USINA)
         else:
-            return self.__obtem_registros_com_filtros(VAZMIN, vazao=vazao)
+            return self.data.get_registers_of_type(VAZMIN, vazao=vazao)
 
     def cfuga(
         self,
@@ -301,7 +225,7 @@ class Modif(RegisterFile):
         if df:
             return self._as_df(USINA)
         else:
-            return self.__obtem_registros_com_filtros(
+            return self.data.get_registers_of_type(
                 CFUGA, mes=mes, ano=ano, nivel=nivel
             )
 
@@ -327,7 +251,7 @@ class Modif(RegisterFile):
         if df:
             return self._as_df(USINA)
         else:
-            return self.__obtem_registros_com_filtros(
+            return self.data.get_registers_of_type(
                 CMONT, mes=mes, ano=ano, nivel=nivel
             )
 
@@ -356,7 +280,7 @@ class Modif(RegisterFile):
         if df:
             return self._as_df(USINA)
         else:
-            return self.__obtem_registros_com_filtros(
+            return self.data.get_registers_of_type(
                 VMAXT, mes=mes, ano=ano, volume=volume, unidade=unidade
             )
 
@@ -385,7 +309,7 @@ class Modif(RegisterFile):
         if df:
             return self._as_df(USINA)
         else:
-            return self.__obtem_registros_com_filtros(
+            return self.data.get_registers_of_type(
                 VMINT, mes=mes, ano=ano, volume=volume, unidade=unidade
             )
 
@@ -414,7 +338,7 @@ class Modif(RegisterFile):
         if df:
             return self._as_df(USINA)
         else:
-            return self.__obtem_registros_com_filtros(
+            return self.data.get_registers_of_type(
                 VMINP, mes=mes, ano=ano, volume=volume, unidade=unidade
             )
 
@@ -440,7 +364,7 @@ class Modif(RegisterFile):
         if df:
             return self._as_df(USINA)
         else:
-            return self.__obtem_registros_com_filtros(
+            return self.data.get_registers_of_type(
                 VAZMINT, mes=mes, ano=ano, vazao=vazao
             )
 
@@ -466,7 +390,7 @@ class Modif(RegisterFile):
         if df:
             return self._as_df(USINA)
         else:
-            return self.__obtem_registros_com_filtros(
+            return self.data.get_registers_of_type(
                 VAZMAXT, mes=mes, ano=ano, vazao=vazao
             )
 
@@ -492,7 +416,7 @@ class Modif(RegisterFile):
         if df:
             return self._as_df(USINA)
         else:
-            return self.__obtem_registros_com_filtros(
+            return self.data.get_registers_of_type(
                 TURBMAXT, mes=mes, ano=ano, turbinamento=turbinamento
             )
 
@@ -517,7 +441,7 @@ class Modif(RegisterFile):
         if df:
             return self._as_df(USINA)
         else:
-            return self.__obtem_registros_com_filtros(
+            return self.data.get_registers_of_type(
                 TURBMINT, mes=mes, ano=ano, turbinamento=turbinamento
             )
 

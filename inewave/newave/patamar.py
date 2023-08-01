@@ -7,7 +7,7 @@ from inewave.newave.modelos.patamar import (
 )
 
 from cfinterface.files.sectionfile import SectionFile
-from typing import Type, TypeVar, Optional
+from typing import TypeVar, Optional
 import pandas as pd  # type: ignore
 
 # Para compatibilidade - até versão 1.0.0
@@ -55,26 +55,6 @@ class Patamar(SectionFile):
         warnings.warn(msg, category=FutureWarning)
         self.write(join(diretorio, nome_arquivo))
 
-    def __bloco_por_tipo(self, bloco: Type[T], indice: int) -> Optional[T]:
-        """
-        Obtém um gerador de blocos de um tipo, se houver algum no arquivo.
-
-        :param bloco: Um tipo de bloco para ser lido
-        :type bloco: T
-        :param indice: O índice do bloco a ser acessado, dentre os do tipo
-        :type indice: int
-        :return: O gerador de blocos, se houver
-        :rtype: Optional[Generator[T], None, None]
-        """
-        try:
-            return next(
-                b
-                for i, b in enumerate(self.data.of_type(bloco))
-                if i == indice
-            )
-        except StopIteration:
-            return None
-
     @property
     def numero_patamares(self) -> Optional[int]:
         """
@@ -83,15 +63,15 @@ class Patamar(SectionFile):
         :return: O número de patamares como um inteiro
         :rtype: int | None
         """
-        b = self.__bloco_por_tipo(BlocoNumeroPatamares, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoNumeroPatamares)
+        if isinstance(b, BlocoNumeroPatamares):
             return b.data
         return None
 
     @numero_patamares.setter
     def numero_patamares(self, n: int):
-        b = self.__bloco_por_tipo(BlocoNumeroPatamares, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoNumeroPatamares)
+        if isinstance(b, BlocoNumeroPatamares):
             b.data = n
 
     @property
@@ -109,15 +89,15 @@ class Patamar(SectionFile):
         :return: A duração por mês em um DataFrame.
         :rtype: pd.DataFrame | None
         """
-        b = self.__bloco_por_tipo(BlocoDuracaoPatamar, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoDuracaoPatamar)
+        if isinstance(b, BlocoDuracaoPatamar):
             return b.data
         return None
 
     @duracao_mensal_patamares.setter
     def duracao_mensal_patamares(self, df: pd.DataFrame):
-        b = self.__bloco_por_tipo(BlocoDuracaoPatamar, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoDuracaoPatamar)
+        if isinstance(b, BlocoDuracaoPatamar):
             b.data = df
 
     @property
@@ -134,15 +114,15 @@ class Patamar(SectionFile):
         :return: A carga por mês em um DataFrame.
         :rtype: pd.DataFrame | None
         """
-        b = self.__bloco_por_tipo(BlocoCargaPatamar, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoCargaPatamar)
+        if isinstance(b, BlocoCargaPatamar):
             return b.data
         return None
 
     @carga_patamares.setter
     def carga_patamares(self, df: pd.DataFrame):
-        b = self.__bloco_por_tipo(BlocoCargaPatamar, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoCargaPatamar)
+        if isinstance(b, BlocoCargaPatamar):
             b.data = df
 
     @property
@@ -161,15 +141,15 @@ class Patamar(SectionFile):
         :return: A carga por mês em um DataFrame.
         :rtype: pd.DataFrame | None
         """
-        b = self.__bloco_por_tipo(BlocoIntercambioPatamarSubsistemas, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoIntercambioPatamarSubsistemas)
+        if isinstance(b, BlocoIntercambioPatamarSubsistemas):
             return b.data
         return None
 
     @intercambio_patamares.setter
     def intercambio_patamares(self, df: pd.DataFrame):
-        b = self.__bloco_por_tipo(BlocoIntercambioPatamarSubsistemas, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoIntercambioPatamarSubsistemas)
+        if isinstance(b, BlocoIntercambioPatamarSubsistemas):
             b.data = df
 
     @property
@@ -189,13 +169,13 @@ class Patamar(SectionFile):
         :return: Os valores por mês em um DataFrame.
         :rtype: pd.DataFrame | None
         """
-        b = self.__bloco_por_tipo(BlocoUsinasNaoSimuladas, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoUsinasNaoSimuladas)
+        if isinstance(b, BlocoUsinasNaoSimuladas):
             return b.data
         return None
 
     @usinas_nao_simuladas.setter
     def usinas_nao_simuladas(self, df: pd.DataFrame):
-        b = self.__bloco_por_tipo(BlocoUsinasNaoSimuladas, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoUsinasNaoSimuladas)
+        if isinstance(b, BlocoUsinasNaoSimuladas):
             b.data = df
