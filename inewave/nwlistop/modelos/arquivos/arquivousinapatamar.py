@@ -30,26 +30,6 @@ class ArquivoUsinaPatamar(BlockFile):
     def escreve_arquivo(self, diretorio: str, nome_arquivo="arq.out"):
         self.write(diretorio, nome_arquivo)
 
-    def __bloco_por_tipo(self, bloco: Type[T], indice: int) -> Optional[T]:
-        """
-        Obtém um gerador de blocos de um tipo, se houver algum no arquivo.
-
-        :param bloco: Um tipo de bloco para ser lido
-        :type bloco: T
-        :param indice: O índice do bloco a ser acessado, dentre os do tipo
-        :type indice: int
-        :return: O gerador de blocos, se houver
-        :rtype: Optional[Generator[T], None, None]
-        """
-        try:
-            return next(
-                b
-                for i, b in enumerate(self.data.of_type(bloco))
-                if i == indice
-            )
-        except StopIteration:
-            return None
-
     def __monta_tabela(self) -> pd.DataFrame:
         df = None
         for b in self.data.of_type(ValoresSeriePatamar):
@@ -88,7 +68,7 @@ class ArquivoUsinaPatamar(BlockFile):
         :return: O nome da usina
         :rtype: str
         """
-        b = self.__bloco_por_tipo(Usina, 0)
-        if b is not None:
+        b = self.data.get_blocks_of_type(Usina)
+        if isinstance(b, Usina):
             return b.data
         return None
