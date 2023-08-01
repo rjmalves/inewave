@@ -91,7 +91,7 @@ def test_neq_restricaovazao():
     with patch("builtins.open", m):
         cf1 = RestricaoVazao.read(ARQ_TESTE)
         cf2 = RestricaoVazao.read(ARQ_TESTE)
-        cf2.deleta_registro(cf1.rhq()[0])
+        cf2.data.remove(cf1.rhq()[0])
         assert cf1 != cf2
 
 

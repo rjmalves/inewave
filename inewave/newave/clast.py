@@ -4,7 +4,7 @@ from inewave.newave.modelos.clast import (
 )
 
 from cfinterface.files.sectionfile import SectionFile
-from typing import Type, TypeVar, Optional
+from typing import TypeVar, Optional
 import pandas as pd  # type: ignore
 
 # Para compatibilidade - até versão 1.0.0
@@ -44,26 +44,6 @@ class Clast(SectionFile):
         warnings.warn(msg, category=FutureWarning)
         self.write(join(diretorio, nome_arquivo))
 
-    def __bloco_por_tipo(self, bloco: Type[T], indice: int) -> Optional[T]:
-        """
-        Obtém um gerador de blocos de um tipo, se houver algum no arquivo.
-
-        :param bloco: Um tipo de bloco para ser lido
-        :type bloco: T
-        :param indice: O índice do bloco a ser acessado, dentre os do tipo
-        :type indice: int
-        :return: O gerador de blocos, se houver
-        :rtype: Optional[Generator[T], None, None]
-        """
-        try:
-            return next(
-                b
-                for i, b in enumerate(self.data.of_type(bloco))
-                if i == indice
-            )
-        except StopIteration:
-            return None
-
     @property
     def usinas(self) -> Optional[pd.DataFrame]:
         """
@@ -79,15 +59,15 @@ class Clast(SectionFile):
         :return: A tabela como um DataFrame
         :rtype: pd.DataFrame | None
         """
-        b = self.__bloco_por_tipo(BlocoUTEClasT, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoUTEClasT)
+        if isinstance(b, BlocoUTEClasT):
             return b.data
         return None
 
     @usinas.setter
     def usinas(self, valor: pd.DataFrame):
-        b = self.__bloco_por_tipo(BlocoUTEClasT, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoUTEClasT)
+        if isinstance(b, BlocoUTEClasT):
             b.data = valor
         else:
             raise ValueError("Campo não lido")
@@ -109,15 +89,15 @@ class Clast(SectionFile):
         :return: A tabela como um DataFrame
         :rtype: pd.DataFrame | None
         """
-        b = self.__bloco_por_tipo(BlocoModificacaoUTEClasT, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoModificacaoUTEClasT)
+        if isinstance(b, BlocoModificacaoUTEClasT):
             return b.data
         return None
 
     @modificacoes.setter
     def modificacoes(self, valor: pd.DataFrame):
-        b = self.__bloco_por_tipo(BlocoModificacaoUTEClasT, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoModificacaoUTEClasT)
+        if isinstance(b, BlocoModificacaoUTEClasT):
             b.data = valor
         else:
             raise ValueError("Campo não lido")

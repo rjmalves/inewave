@@ -45,26 +45,6 @@ class Selcor(SectionFile):
         warnings.warn(msg, category=FutureWarning)
         self.write(join(diretorio, nome_arquivo))
 
-    def __bloco_por_tipo(self, bloco: Type[T], indice: int) -> Optional[T]:
-        """
-        Obtém um gerador de blocos de um tipo, se houver algum no arquivo.
-
-        :param bloco: Um tipo de bloco para ser lido
-        :type bloco: T
-        :param indice: O índice do bloco a ser acessado, dentre os do tipo
-        :type indice: int
-        :return: O gerador de blocos, se houver
-        :rtype: Optional[Generator[T], None, None]
-        """
-        try:
-            return next(
-                b
-                for i, b in enumerate(self.data.of_type(bloco))
-                if i == indice
-            )
-        except StopIteration:
-            return None
-
     @property
     def iteracao_inicial(self) -> Optional[int]:
         """
@@ -74,15 +54,15 @@ class Selcor(SectionFile):
         :return: O número da iteração
         :rtype: int | None
         """
-        b = self.__bloco_por_tipo(BlocoDadosSelcor, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoDadosSelcor)
+        if isinstance(b, BlocoDadosSelcor):
             return b.data[0][0]
         return None
 
     @iteracao_inicial.setter
     def iteracao_inicial(self, valor: int):
-        b = self.__bloco_por_tipo(BlocoDadosSelcor, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoDadosSelcor)
+        if isinstance(b, BlocoDadosSelcor):
             b.data[0][0] = valor
         else:
             raise ValueError("Campo não lido")
@@ -95,15 +75,15 @@ class Selcor(SectionFile):
         :return: A janela
         :rtype: int | None
         """
-        b = self.__bloco_por_tipo(BlocoDadosSelcor, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoDadosSelcor)
+        if isinstance(b, BlocoDadosSelcor):
             return b.data[1][0]
         return None
 
     @tamanho_janela.setter
     def tamanho_janela(self, valor: int):
-        b = self.__bloco_por_tipo(BlocoDadosSelcor, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoDadosSelcor)
+        if isinstance(b, BlocoDadosSelcor):
             b.data[1][0] = valor
         else:
             raise ValueError("Campo não lido")
@@ -117,15 +97,15 @@ class Selcor(SectionFile):
         :return: O número de cortes adicionados.
         :rtype: int | None
         """
-        b = self.__bloco_por_tipo(BlocoDadosSelcor, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoDadosSelcor)
+        if isinstance(b, BlocoDadosSelcor):
             return b.data[2][0]
         return None
 
     @numero_cortes_adicionados_por_iteracao.setter
     def numero_cortes_adicionados_por_iteracao(self, valor: int):
-        b = self.__bloco_por_tipo(BlocoDadosSelcor, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoDadosSelcor)
+        if isinstance(b, BlocoDadosSelcor):
             b.data[2][0] = valor
         else:
             raise ValueError("Campo não lido")
@@ -139,15 +119,15 @@ class Selcor(SectionFile):
         :return: O valor do flag
         :rtype: int | None
         """
-        b = self.__bloco_por_tipo(BlocoDadosSelcor, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoDadosSelcor)
+        if isinstance(b, BlocoDadosSelcor):
             return b.data[3][0]
         return None
 
     @considera_cortes_da_propria_iteracao.setter
     def considera_cortes_da_propria_iteracao(self, valor: int):
-        b = self.__bloco_por_tipo(BlocoDadosSelcor, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoDadosSelcor)
+        if isinstance(b, BlocoDadosSelcor):
             b.data[3][0] = valor
         else:
             raise ValueError("Campo não lido")
@@ -161,15 +141,15 @@ class Selcor(SectionFile):
         :return: O valor do flag
         :rtype: int | None
         """
-        b = self.__bloco_por_tipo(BlocoDadosSelcor, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoDadosSelcor)
+        if isinstance(b, BlocoDadosSelcor):
             return b.data[4][0]
         return None
 
     @imprime_relatorio.setter
     def imprime_relatorio(self, valor: int):
-        b = self.__bloco_por_tipo(BlocoDadosSelcor, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoDadosSelcor)
+        if isinstance(b, BlocoDadosSelcor):
             b.data[4][0] = valor
         else:
             raise ValueError("Campo não lido")
@@ -183,15 +163,15 @@ class Selcor(SectionFile):
         :return: As iterações inicial e final
         :rtype: list[int] | None
         """
-        b = self.__bloco_por_tipo(BlocoDadosSelcor, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoDadosSelcor)
+        if isinstance(b, BlocoDadosSelcor):
             return b.data[5]
         return None
 
     @iteracoes_impressao.setter
     def iteracoes_impressao(self, valor: List[int]):
-        b = self.__bloco_por_tipo(BlocoDadosSelcor, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoDadosSelcor)
+        if isinstance(b, BlocoDadosSelcor):
             b.data[5] = valor
         else:
             raise ValueError("Campo não lido")
@@ -205,15 +185,15 @@ class Selcor(SectionFile):
         :return: As séries inicial e final
         :rtype: list[int] | None
         """
-        b = self.__bloco_por_tipo(BlocoDadosSelcor, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoDadosSelcor)
+        if isinstance(b, BlocoDadosSelcor):
             return b.data[6]
         return None
 
     @series_impressao.setter
     def series_impressao(self, valor: List[int]):
-        b = self.__bloco_por_tipo(BlocoDadosSelcor, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoDadosSelcor)
+        if isinstance(b, BlocoDadosSelcor):
             b.data[6] = valor
         else:
             raise ValueError("Campo não lido")

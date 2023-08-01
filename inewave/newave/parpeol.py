@@ -69,26 +69,6 @@ class Parpeol(BlockFile):
         else:
             return self.series_ventos_uee["uee"].unique().tolist()
 
-    def __bloco_por_tipo(self, bloco: Type[T], indice: int) -> Optional[T]:
-        """
-        Obtém um gerador de blocos de um tipo, se houver algum no arquivo.
-
-        :param bloco: Um tipo de bloco para ser lido
-        :type bloco: T
-        :param indice: O índice do bloco a ser acessado, dentre os do tipo
-        :type indice: int
-        :return: O gerador de blocos, se houver
-        :rtype: Optional[Generator[T], None, None]
-        """
-        try:
-            return next(
-                b
-                for i, b in enumerate(self.data.of_type(bloco))
-                if i == indice
-            )
-        except StopIteration:
-            return None
-
     def __concatena_dados(self, bloco: Type[Block]) -> Optional[Any]:
         """
         Obtém os dados de um bloco se este existir dentre os blocos do arquivo.

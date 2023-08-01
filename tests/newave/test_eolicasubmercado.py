@@ -66,7 +66,7 @@ def test_neq_eolicasubmercado():
     with patch("builtins.open", m):
         cf1 = EolicaSubmercado.read(ARQ_TESTE)
         cf2 = EolicaSubmercado.read(ARQ_TESTE)
-        cf2.deleta_registro(cf1.eolica_submercado()[0])
+        cf2.data.remove(cf1.eolica_submercado()[0])
         assert cf1 != cf2
 
 

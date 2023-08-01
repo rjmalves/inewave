@@ -1,7 +1,7 @@
 from inewave.newave.modelos.eafpast import BlocoEafPast
 
 from cfinterface.files.sectionfile import SectionFile
-from typing import Type, TypeVar, Optional
+from typing import TypeVar, Optional
 import pandas as pd  # type: ignore
 
 # Para compatibilidade - até versão 1.0.0
@@ -46,26 +46,6 @@ class Eafpast(SectionFile):
         warnings.warn(msg, category=FutureWarning)
         self.write(join(diretorio, nome_arquivo))
 
-    def __bloco_por_tipo(self, bloco: Type[T], indice: int) -> Optional[T]:
-        """
-        Obtém um gerador de blocos de um tipo, se houver algum no arquivo.
-
-        :param bloco: Um tipo de bloco para ser lido
-        :type bloco: T
-        :param indice: O índice do bloco a ser acessado, dentre os do tipo
-        :type indice: int
-        :return: O gerador de blocos, se houver
-        :rtype: Optional[Generator[T], None, None]
-        """
-        try:
-            return next(
-                b
-                for i, b in enumerate(self.data.of_type(bloco))
-                if i == indice
-            )
-        except StopIteration:
-            return None
-
     @property
     def tendencia(self) -> Optional[pd.DataFrame]:
         """
@@ -81,13 +61,13 @@ class Eafpast(SectionFile):
         :return: A tabela como um DataFrame
         :rtype: Optional[pd.DataFrame]
         """
-        b = self.__bloco_por_tipo(BlocoEafPast, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoEafPast)
+        if isinstance(b, BlocoEafPast):
             return b.data
         return None
 
     @tendencia.setter
     def tendencia(self, df: pd.DataFrame):
-        b = self.__bloco_por_tipo(BlocoEafPast, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoEafPast)
+        if isinstance(b, BlocoEafPast):
             b.data = df

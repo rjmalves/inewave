@@ -219,7 +219,7 @@ def test_neq_eolicacadastro():
     with patch("builtins.open", m):
         cf1 = EolicaCadastro.read(ARQ_TESTE)
         cf2 = EolicaCadastro.read(ARQ_TESTE)
-        cf2.deleta_registro(cf1.eolica_cadastro()[0])
+        cf2.data.remove(cf1.eolica_cadastro()[0])
         assert cf1 != cf2
 
 
