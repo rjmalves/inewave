@@ -88,7 +88,7 @@ def test_neq_eolicafte():
     with patch("builtins.open", m):
         cf1 = EolicaFTE.read(ARQ_TESTE)
         cf2 = EolicaFTE.read(ARQ_TESTE)
-        cf2.deleta_registro(cf1.eolica_funcao_producao()[0])
+        cf2.data.remove(cf1.eolica_funcao_producao()[0])
         assert cf1 != cf2
 
 

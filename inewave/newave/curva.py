@@ -9,7 +9,7 @@ from inewave.newave.modelos.curva import (
 )
 
 from cfinterface.files.sectionfile import SectionFile
-from typing import Type, TypeVar, Optional
+from typing import TypeVar, Optional
 import pandas as pd  # type: ignore
 
 # Para compatibilidade - até versão 1.0.0
@@ -56,26 +56,6 @@ class Curva(SectionFile):
         warnings.warn(msg, category=FutureWarning)
         self.write(join(diretorio, nome_arquivo))
 
-    def __bloco_por_tipo(self, bloco: Type[T], indice: int) -> Optional[T]:
-        """
-        Obtém um gerador de blocos de um tipo, se houver algum no arquivo.
-
-        :param bloco: Um tipo de bloco para ser lido
-        :type bloco: T
-        :param indice: O índice do bloco a ser acessado, dentre os do tipo
-        :type indice: int
-        :return: O gerador de blocos, se houver
-        :rtype: Optional[Generator[T], None, None]
-        """
-        try:
-            return next(
-                b
-                for i, b in enumerate(self.data.of_type(bloco))
-                if i == indice
-            )
-        except StopIteration:
-            return None
-
     @property
     def configuracoes_penalizacao(self) -> Optional[list]:
         """
@@ -85,15 +65,15 @@ class Curva(SectionFile):
         :return: Os valores dos campos da linha como uma lista.
         :rtype: Optional[list]
         """
-        b = self.__bloco_por_tipo(BlocoConfiguracoesPenalizacaoCurva, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoConfiguracoesPenalizacaoCurva)
+        if isinstance(b, BlocoConfiguracoesPenalizacaoCurva):
             return b.data
         return None
 
     @configuracoes_penalizacao.setter
     def configuracoes_penalizacao(self, valor: list):
-        b = self.__bloco_por_tipo(BlocoConfiguracoesPenalizacaoCurva, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoConfiguracoesPenalizacaoCurva)
+        if isinstance(b, BlocoConfiguracoesPenalizacaoCurva):
             b.data = valor
         else:
             raise ValueError("Campo não lido")
@@ -109,15 +89,15 @@ class Curva(SectionFile):
         :return: Os custos por REE em um DataFrame.
         :rtype: pd.DataFrame | None
         """
-        b = self.__bloco_por_tipo(BlocoPenalidadesViolacaoREECurva, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoPenalidadesViolacaoREECurva)
+        if isinstance(b, BlocoPenalidadesViolacaoREECurva):
             return b.data
         return None
 
     @custos_penalidades.setter
     def custos_penalidades(self, valor: pd.DataFrame):
-        b = self.__bloco_por_tipo(BlocoPenalidadesViolacaoREECurva, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoPenalidadesViolacaoREECurva)
+        if isinstance(b, BlocoPenalidadesViolacaoREECurva):
             b.data = valor
         else:
             raise ValueError("Campo não lido")
@@ -137,15 +117,15 @@ class Curva(SectionFile):
         :return: Os valores dos campos da linha como uma lista.
         :rtype: pd.DataFrame | None
         """
-        b = self.__bloco_por_tipo(BlocoCurvaSegurancaREE, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoCurvaSegurancaREE)
+        if isinstance(b, BlocoCurvaSegurancaREE):
             return b.data
         return None
 
     @curva_seguranca.setter
     def curva_seguranca(self, valor: pd.DataFrame):
-        b = self.__bloco_por_tipo(BlocoCurvaSegurancaREE, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoCurvaSegurancaREE)
+        if isinstance(b, BlocoCurvaSegurancaREE):
             b.data = valor
         else:
             raise ValueError("Campo não lido")
@@ -159,19 +139,19 @@ class Curva(SectionFile):
         :return: O valor como um int
         :rtype: Optional[int]
         """
-        b = self.__bloco_por_tipo(
-            BlocoMaximoIteracoesProcessoIterativoEtapa2, 0
+        b = self.data.get_sections_of_type(
+            BlocoMaximoIteracoesProcessoIterativoEtapa2
         )
-        if b is not None:
+        if isinstance(b, BlocoMaximoIteracoesProcessoIterativoEtapa2):
             return b.data
         return None
 
     @maximo_iteracoes_etapa2.setter
     def maximo_iteracoes_etapa2(self, valor: int):
-        b = self.__bloco_por_tipo(
-            BlocoMaximoIteracoesProcessoIterativoEtapa2, 0
+        b = self.data.get_sections_of_type(
+            BlocoMaximoIteracoesProcessoIterativoEtapa2
         )
-        if b is not None:
+        if isinstance(b, BlocoMaximoIteracoesProcessoIterativoEtapa2):
             b.data = valor
         else:
             raise ValueError("Campo não lido")
@@ -185,19 +165,19 @@ class Curva(SectionFile):
         :return: O valor como um int
         :rtype: Optional[int]
         """
-        b = self.__bloco_por_tipo(
-            BlocoIteracaoAPartirProcessoIterativoEtapa2, 0
+        b = self.data.get_sections_of_type(
+            BlocoIteracaoAPartirProcessoIterativoEtapa2
         )
-        if b is not None:
+        if isinstance(b, BlocoIteracaoAPartirProcessoIterativoEtapa2):
             return b.data
         return None
 
     @iteracao_a_partir_etapa2.setter
     def iteracao_a_partir_etapa2(self, valor: int):
-        b = self.__bloco_por_tipo(
-            BlocoIteracaoAPartirProcessoIterativoEtapa2, 0
+        b = self.data.get_sections_of_type(
+            BlocoIteracaoAPartirProcessoIterativoEtapa2
         )
-        if b is not None:
+        if isinstance(b, BlocoIteracaoAPartirProcessoIterativoEtapa2):
             b.data = valor
         else:
             raise ValueError("Campo não lido")
@@ -210,15 +190,19 @@ class Curva(SectionFile):
         :return: O valor como um float
         :rtype: Optional[float]
         """
-        b = self.__bloco_por_tipo(BlocoToleranciaProcessoIterativoEtapa2, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(
+            BlocoToleranciaProcessoIterativoEtapa2
+        )
+        if isinstance(b, BlocoToleranciaProcessoIterativoEtapa2):
             return b.data
         return None
 
     @tolerancia_processo_etapa2.setter
     def tolerancia_processo_etapa2(self, valor: int):
-        b = self.__bloco_por_tipo(BlocoToleranciaProcessoIterativoEtapa2, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(
+            BlocoToleranciaProcessoIterativoEtapa2
+        )
+        if isinstance(b, BlocoToleranciaProcessoIterativoEtapa2):
             b.data = valor
         else:
             raise ValueError("Campo não lido")
@@ -232,19 +216,19 @@ class Curva(SectionFile):
         :return: O valor como um int
         :rtype: Optional[int]
         """
-        b = self.__bloco_por_tipo(
-            BlocoImpressaoRelatorioProcessoIterativoEtapa2, 0
+        b = self.data.get_sections_of_type(
+            BlocoImpressaoRelatorioProcessoIterativoEtapa2
         )
-        if b is not None:
+        if isinstance(b, BlocoImpressaoRelatorioProcessoIterativoEtapa2):
             return b.data
         return None
 
     @impressao_relatorio_etapa2.setter
     def impressao_relatorio_etapa2(self, valor: int):
-        b = self.__bloco_por_tipo(
-            BlocoImpressaoRelatorioProcessoIterativoEtapa2, 0
+        b = self.data.get_sections_of_type(
+            BlocoImpressaoRelatorioProcessoIterativoEtapa2
         )
-        if b is not None:
+        if isinstance(b, BlocoImpressaoRelatorioProcessoIterativoEtapa2):
             b.data = valor
         else:
             raise ValueError("Campo não lido")

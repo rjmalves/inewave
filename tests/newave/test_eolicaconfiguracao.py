@@ -89,7 +89,7 @@ def test_neq_eolicaconfig():
     with patch("builtins.open", m):
         cf1 = EolicaConfiguracao.read(ARQ_TESTE)
         cf2 = EolicaConfiguracao.read(ARQ_TESTE)
-        cf2.deleta_registro(cf1.eolica_configuracao()[0])
+        cf2.data.remove(cf1.eolica_configuracao()[0])
         assert cf1 != cf2
 
 

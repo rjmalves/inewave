@@ -68,7 +68,7 @@ def test_neq_eolicaposto():
     with patch("builtins.open", m):
         cf1 = EolicaPosto.read(ARQ_TESTE)
         cf2 = EolicaPosto.read(ARQ_TESTE)
-        cf2.deleta_registro(cf1.posto_vento_cad()[0])
+        cf2.data.remove(cf1.posto_vento_cad()[0])
         assert cf1 != cf2
 
 

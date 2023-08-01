@@ -81,9 +81,7 @@ def test_neq_eolicageracao():
     with patch("builtins.open", m):
         cf1 = EolicaGeracao.read(ARQ_TESTE)
         cf2 = EolicaGeracao.read(ARQ_TESTE)
-        cf2.deleta_registro(
-            cf1.eolica_geracao_profundidade_periodo_patamar()[0]
-        )
+        cf2.data.remove(cf1.eolica_geracao_profundidade_periodo_patamar()[0])
         assert cf1 != cf2
 
 

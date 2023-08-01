@@ -4,7 +4,7 @@ from inewave.nwlistcf.modelos.nwlistcfdat import (
 )
 
 from cfinterface.files.sectionfile import SectionFile
-from typing import TypeVar, Optional, Type, List
+from typing import TypeVar, Optional, List
 
 # Para compatibilidade - até versão 1.0.0
 from os.path import join
@@ -36,26 +36,6 @@ class Nwlistcfdat(SectionFile):
         warnings.warn(msg, category=FutureWarning)
         return cls.read(join(diretorio, nome_arquivo))
 
-    def __bloco_por_tipo(self, bloco: Type[T], indice: int) -> Optional[T]:
-        """
-        Obtém um gerador de blocos de um tipo, se houver algum no arquivo.
-
-        :param bloco: Um tipo de bloco para ser lido
-        :type bloco: T
-        :param indice: O índice do bloco a ser acessado, dentre os do tipo
-        :type indice: int
-        :return: O gerador de blocos, se houver
-        :rtype: Optional[Generator[T], None, None]
-        """
-        try:
-            return next(
-                b
-                for i, b in enumerate(self.data.of_type(bloco))
-                if i == indice
-            )
-        except StopIteration:
-            return None
-
     @property
     def mes_inicio(self) -> Optional[int]:
         """
@@ -64,15 +44,15 @@ class Nwlistcfdat(SectionFile):
         :return: O mês calendário de início
         :rtype: Optional[int] | None
         """
-        b = self.__bloco_por_tipo(PeriodoImpressaoCortesEstados, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(PeriodoImpressaoCortesEstados)
+        if isinstance(b, PeriodoImpressaoCortesEstados):
             return b.data[0]
         return None
 
     @mes_inicio.setter
     def mes_inicio(self, v: int):
-        b = self.__bloco_por_tipo(PeriodoImpressaoCortesEstados, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(PeriodoImpressaoCortesEstados)
+        if isinstance(b, PeriodoImpressaoCortesEstados):
             b.data[0] = v
 
     @property
@@ -83,15 +63,15 @@ class Nwlistcfdat(SectionFile):
         :return: O mês calendário de fim
         :rtype: Optional[int] | None
         """
-        b = self.__bloco_por_tipo(PeriodoImpressaoCortesEstados, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(PeriodoImpressaoCortesEstados)
+        if isinstance(b, PeriodoImpressaoCortesEstados):
             return b.data[1]
         return None
 
     @mes_fim.setter
     def mes_fim(self, v: int):
-        b = self.__bloco_por_tipo(PeriodoImpressaoCortesEstados, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(PeriodoImpressaoCortesEstados)
+        if isinstance(b, PeriodoImpressaoCortesEstados):
             b.data[1] = v
 
     @property
@@ -102,15 +82,15 @@ class Nwlistcfdat(SectionFile):
         :return: O valor do flag
         :rtype: Optional[int] | None
         """
-        b = self.__bloco_por_tipo(PeriodoImpressaoCortesEstados, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(PeriodoImpressaoCortesEstados)
+        if isinstance(b, PeriodoImpressaoCortesEstados):
             return b.data[2]
         return None
 
     @imprime_cortes_ativos.setter
     def imprime_cortes_ativos(self, v: int):
-        b = self.__bloco_por_tipo(PeriodoImpressaoCortesEstados, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(PeriodoImpressaoCortesEstados)
+        if isinstance(b, PeriodoImpressaoCortesEstados):
             b.data[2] = v
 
     @property
@@ -121,13 +101,13 @@ class Nwlistcfdat(SectionFile):
         :return: As opções de impressão
         :rtype: Optional[List[int]] | None
         """
-        b = self.__bloco_por_tipo(OpcoesImpressao, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(OpcoesImpressao)
+        if isinstance(b, OpcoesImpressao):
             return b.data
         return None
 
     @opcoes_impressao.setter
     def opcoes_impressao(self, v: List[int]):
-        b = self.__bloco_por_tipo(OpcoesImpressao, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(OpcoesImpressao)
+        if isinstance(b, OpcoesImpressao):
             b.data = v

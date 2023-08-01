@@ -3,7 +3,7 @@ from inewave.nwlistop.modelos.nwlistopdat import (
 )
 
 from cfinterface.files.sectionfile import SectionFile
-from typing import TypeVar, Optional, Type, List
+from typing import TypeVar, Optional, List
 
 # Para compatibilidade - até versão 1.0.0
 from os.path import join
@@ -35,26 +35,6 @@ class Nwlistopdat(SectionFile):
         warnings.warn(msg, category=FutureWarning)
         return cls.read(join(diretorio, nome_arquivo))
 
-    def __bloco_por_tipo(self, bloco: Type[T], indice: int) -> Optional[T]:
-        """
-        Obtém um gerador de blocos de um tipo, se houver algum no arquivo.
-
-        :param bloco: Um tipo de bloco para ser lido
-        :type bloco: T
-        :param indice: O índice do bloco a ser acessado, dentre os do tipo
-        :type indice: int
-        :return: O gerador de blocos, se houver
-        :rtype: Optional[Generator[T], None, None]
-        """
-        try:
-            return next(
-                b
-                for i, b in enumerate(self.data.of_type(bloco))
-                if i == indice
-            )
-        except StopIteration:
-            return None
-
     @property
     def opcao(self) -> Optional[int]:
         """
@@ -63,15 +43,15 @@ class Nwlistopdat(SectionFile):
         :return: O flag de opção
         :rtype: Optional[int] | None
         """
-        b = self.__bloco_por_tipo(BlocoDadosNwlistop, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoDadosNwlistop)
+        if isinstance(b, BlocoDadosNwlistop):
             return b.data.get("opcao")
         return None
 
     @opcao.setter
     def opcao(self, v: int):
-        b = self.__bloco_por_tipo(BlocoDadosNwlistop, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoDadosNwlistop)
+        if isinstance(b, BlocoDadosNwlistop):
             b.data["opcao"] = v
 
     @property
@@ -83,8 +63,8 @@ class Nwlistopdat(SectionFile):
         :rtype: Optional[int] | None
         """
         if self.opcao in [1, 2, 4]:
-            b = self.__bloco_por_tipo(BlocoDadosNwlistop, 0)
-            if b is not None:
+            b = self.data.get_sections_of_type(BlocoDadosNwlistop)
+            if isinstance(b, BlocoDadosNwlistop):
                 return b.data["periodos"][0]
             return None
         else:
@@ -93,8 +73,8 @@ class Nwlistopdat(SectionFile):
     @periodo_inicial_impressao.setter
     def periodo_inicial_impressao(self, v: int):
         if self.opcao in [1, 2, 4]:
-            b = self.__bloco_por_tipo(BlocoDadosNwlistop, 0)
-            if b is not None:
+            b = self.data.get_sections_of_type(BlocoDadosNwlistop)
+            if isinstance(b, BlocoDadosNwlistop):
                 b.data["periodos"][0] = v
         else:
             raise ValueError("Períodos só são suportados nas opções [1, 2, 4]")
@@ -108,8 +88,8 @@ class Nwlistopdat(SectionFile):
         :rtype: Optional[int] | None
         """
         if self.opcao in [1, 2, 4]:
-            b = self.__bloco_por_tipo(BlocoDadosNwlistop, 0)
-            if b is not None:
+            b = self.data.get_sections_of_type(BlocoDadosNwlistop)
+            if isinstance(b, BlocoDadosNwlistop):
                 return b.data["periodos"][1]
             return None
         else:
@@ -118,8 +98,8 @@ class Nwlistopdat(SectionFile):
     @periodo_final_impressao.setter
     def periodo_final_impressao(self, v: int):
         if self.opcao in [1, 2, 4]:
-            b = self.__bloco_por_tipo(BlocoDadosNwlistop, 0)
-            if b is not None:
+            b = self.data.get_sections_of_type(BlocoDadosNwlistop)
+            if isinstance(b, BlocoDadosNwlistop):
                 b.data["periodos"][1] = v
         else:
             raise ValueError("Períodos só são suportados nas opções [1, 2, 4]")
@@ -133,8 +113,8 @@ class Nwlistopdat(SectionFile):
         :rtype: Optional[int] | None
         """
         if self.opcao in [1]:
-            b = self.__bloco_por_tipo(BlocoDadosNwlistop, 0)
-            if b is not None:
+            b = self.data.get_sections_of_type(BlocoDadosNwlistop)
+            if isinstance(b, BlocoDadosNwlistop):
                 return b.data["series"][0]
             return None
         else:
@@ -143,8 +123,8 @@ class Nwlistopdat(SectionFile):
     @serie_inicial_impressao.setter
     def serie_inicial_impressao(self, v: int):
         if self.opcao in [1]:
-            b = self.__bloco_por_tipo(BlocoDadosNwlistop, 0)
-            if b is not None:
+            b = self.data.get_sections_of_type(BlocoDadosNwlistop)
+            if isinstance(b, BlocoDadosNwlistop):
                 b.data["series"][0] = v
         else:
             raise ValueError("Séries só são suportadas na opção [1]")
@@ -158,8 +138,8 @@ class Nwlistopdat(SectionFile):
         :rtype: Optional[int] | None
         """
         if self.opcao in [1]:
-            b = self.__bloco_por_tipo(BlocoDadosNwlistop, 0)
-            if b is not None:
+            b = self.data.get_sections_of_type(BlocoDadosNwlistop)
+            if isinstance(b, BlocoDadosNwlistop):
                 return b.data["series"][1]
             return None
         else:
@@ -168,8 +148,8 @@ class Nwlistopdat(SectionFile):
     @serie_final_impressao.setter
     def serie_final_impressao(self, v: int):
         if self.opcao in [1]:
-            b = self.__bloco_por_tipo(BlocoDadosNwlistop, 0)
-            if b is not None:
+            b = self.data.get_sections_of_type(BlocoDadosNwlistop)
+            if isinstance(b, BlocoDadosNwlistop):
                 b.data["series"][1] = v
         else:
             raise ValueError("Séries só são suportadas na opção [1]")
@@ -184,8 +164,8 @@ class Nwlistopdat(SectionFile):
         :rtype: Optional[List[int]] | None
         """
         if self.opcao in [2]:
-            b = self.__bloco_por_tipo(BlocoDadosNwlistop, 0)
-            if b is not None:
+            b = self.data.get_sections_of_type(BlocoDadosNwlistop)
+            if isinstance(b, BlocoDadosNwlistop):
                 return b.data["variaveis_ree"]
             return None
         else:
@@ -194,8 +174,8 @@ class Nwlistopdat(SectionFile):
     @variaveis_impressao_estagios_agregados.setter
     def variaveis_impressao_estagios_agregados(self, v: List[int]):
         if self.opcao in [2]:
-            b = self.__bloco_por_tipo(BlocoDadosNwlistop, 0)
-            if b is not None:
+            b = self.data.get_sections_of_type(BlocoDadosNwlistop)
+            if isinstance(b, BlocoDadosNwlistop):
                 b.data["variaveis_ree"] = v
         else:
             raise ValueError("Variáveis só são suportadas na opção [2]")
@@ -212,8 +192,8 @@ class Nwlistopdat(SectionFile):
         :rtype: Optional[List[int]] | None
         """
         if self.opcao in [2]:
-            b = self.__bloco_por_tipo(BlocoDadosNwlistop, 0)
-            if b is not None:
+            b = self.data.get_sections_of_type(BlocoDadosNwlistop)
+            if isinstance(b, BlocoDadosNwlistop):
                 return b.data["variaveis_uhe"]
             return None
         else:
@@ -222,8 +202,8 @@ class Nwlistopdat(SectionFile):
     @variaveis_impressao_estagios_individualizados.setter
     def variaveis_impressao_estagios_individualizados(self, v: List[int]):
         if self.opcao in [2]:
-            b = self.__bloco_por_tipo(BlocoDadosNwlistop, 0)
-            if b is not None:
+            b = self.data.get_sections_of_type(BlocoDadosNwlistop)
+            if isinstance(b, BlocoDadosNwlistop):
                 b.data["variaveis_uhe"] = v
         else:
             raise ValueError("Variáveis só são suportadas na opção [2]")
@@ -239,8 +219,8 @@ class Nwlistopdat(SectionFile):
         :rtype: Optional[List[int]] | None
         """
         if self.opcao in [2]:
-            b = self.__bloco_por_tipo(BlocoDadosNwlistop, 0)
-            if b is not None:
+            b = self.data.get_sections_of_type(BlocoDadosNwlistop)
+            if isinstance(b, BlocoDadosNwlistop):
                 return b.data["uhes"]
             return None
         else:
@@ -249,8 +229,8 @@ class Nwlistopdat(SectionFile):
     @uhes_impressao_estagios_individualizados.setter
     def uhes_impressao_estagios_individualizados(self, v: List[int]):
         if self.opcao in [2]:
-            b = self.__bloco_por_tipo(BlocoDadosNwlistop, 0)
-            if b is not None:
+            b = self.data.get_sections_of_type(BlocoDadosNwlistop)
+            if isinstance(b, BlocoDadosNwlistop):
                 b.data["uhes"] = v
         else:
             raise ValueError("UHEs só são suportadas na opção [2]")

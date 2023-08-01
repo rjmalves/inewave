@@ -8,7 +8,7 @@ from inewave.newave.modelos.sistema import (
 
 
 from cfinterface.files.sectionfile import SectionFile
-from typing import Type, TypeVar, Optional
+from typing import TypeVar, Optional
 import pandas as pd  # type: ignore
 
 # Para compatibilidade - até versão 1.0.0
@@ -56,26 +56,6 @@ class Sistema(SectionFile):
         warnings.warn(msg, category=FutureWarning)
         self.write(join(diretorio, nome_arquivo))
 
-    def __bloco_por_tipo(self, bloco: Type[T], indice: int) -> Optional[T]:
-        """
-        Obtém um gerador de blocos de um tipo, se houver algum no arquivo.
-
-        :param bloco: Um tipo de bloco para ser lido
-        :type bloco: T
-        :param indice: O índice do bloco a ser acessado, dentre os do tipo
-        :type indice: int
-        :return: O gerador de blocos, se houver
-        :rtype: Optional[Generator[T], None, None]
-        """
-        try:
-            return next(
-                b
-                for i, b in enumerate(self.data.of_type(bloco))
-                if i == indice
-            )
-        except StopIteration:
-            return None
-
     @property
     def numero_patamares_deficit(self) -> Optional[int]:
         """
@@ -84,15 +64,15 @@ class Sistema(SectionFile):
         :return: O número de patamares como um inteiro
         :rtype: int | None
         """
-        b = self.__bloco_por_tipo(BlocoNumeroPatamaresDeficit, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoNumeroPatamaresDeficit)
+        if isinstance(b, BlocoNumeroPatamaresDeficit):
             return b.data
         return None
 
     @numero_patamares_deficit.setter
     def numero_patamares_deficit(self, n: int):
-        b = self.__bloco_por_tipo(BlocoNumeroPatamaresDeficit, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoNumeroPatamaresDeficit)
+        if isinstance(b, BlocoNumeroPatamaresDeficit):
             b.data = n
 
     @property
@@ -114,15 +94,15 @@ class Sistema(SectionFile):
         :return: A duração por mês em um DataFrame.
         :rtype: pd.DataFrame | None
         """
-        b = self.__bloco_por_tipo(BlocoCustosDeficit, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoCustosDeficit)
+        if isinstance(b, BlocoCustosDeficit):
             return b.data
         return None
 
     @custo_deficit.setter
     def custo_deficit(self, df: pd.DataFrame):
-        b = self.__bloco_por_tipo(BlocoCustosDeficit, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoCustosDeficit)
+        if isinstance(b, BlocoCustosDeficit):
             b.data = df
 
     @property
@@ -142,15 +122,15 @@ class Sistema(SectionFile):
         :return: A duração por mês em um DataFrame.
         :rtype: pd.DataFrame | None
         """
-        b = self.__bloco_por_tipo(BlocoIntercambioSubsistema, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoIntercambioSubsistema)
+        if isinstance(b, BlocoIntercambioSubsistema):
             return b.data
         return None
 
     @limites_intercambio.setter
     def limites_intercambio(self, df: pd.DataFrame):
-        b = self.__bloco_por_tipo(BlocoIntercambioSubsistema, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoIntercambioSubsistema)
+        if isinstance(b, BlocoIntercambioSubsistema):
             b.data = df
 
     @property
@@ -167,15 +147,15 @@ class Sistema(SectionFile):
         :return: A carga por mês em um DataFrame.
         :rtype: pd.DataFrame | None
         """
-        b = self.__bloco_por_tipo(BlocoMercadoEnergiaSistema, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoMercadoEnergiaSistema)
+        if isinstance(b, BlocoMercadoEnergiaSistema):
             return b.data
         return None
 
     @mercado_energia.setter
     def mercado_energia(self, df: pd.DataFrame):
-        b = self.__bloco_por_tipo(BlocoMercadoEnergiaSistema, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoMercadoEnergiaSistema)
+        if isinstance(b, BlocoMercadoEnergiaSistema):
             b.data = df
 
     @property
@@ -195,13 +175,13 @@ class Sistema(SectionFile):
         :return: A carga por mês em um DataFrame.
         :rtype: pd.DataFrame | None
         """
-        b = self.__bloco_por_tipo(BlocoGeracaoUsinasNaoSimuladas, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoGeracaoUsinasNaoSimuladas)
+        if isinstance(b, BlocoGeracaoUsinasNaoSimuladas):
             return b.data
         return None
 
     @geracao_usinas_nao_simuladas.setter
     def geracao_usinas_nao_simuladas(self, df: pd.DataFrame):
-        b = self.__bloco_por_tipo(BlocoGeracaoUsinasNaoSimuladas, 0)
-        if b is not None:
+        b = self.data.get_sections_of_type(BlocoGeracaoUsinasNaoSimuladas)
+        if isinstance(b, BlocoGeracaoUsinasNaoSimuladas):
             b.data = df

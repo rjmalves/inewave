@@ -1,8 +1,7 @@
 from inewave.newave.modelos.newavetim import BlocoTemposEtapasTim
 
-from cfinterface.components.block import Block
 from cfinterface.files.blockfile import BlockFile
-from typing import Type, TypeVar, Optional, Any
+from typing import TypeVar, Optional
 import pandas as pd  # type: ignore
 
 # Para compatibilidade - até versão 1.0.0
@@ -32,44 +31,6 @@ class Newavetim(BlockFile):
         warnings.warn(msg, category=FutureWarning)
         return cls.read(join(diretorio, nome_arquivo))
 
-    def __bloco_por_tipo(self, bloco: Type[T], indice: int) -> Optional[T]:
-        """
-        Obtém um gerador de blocos de um tipo, se houver algum no arquivo.
-
-        :param bloco: Um tipo de bloco para ser lido
-        :type bloco: T
-        :param indice: O índice do bloco a ser acessado, dentre os do tipo
-        :type indice: int
-        :return: O gerador de blocos, se houver
-        :rtype: Optional[Generator[T], None, None]
-        """
-        try:
-            return next(
-                b
-                for i, b in enumerate(self.data.of_type(bloco))
-                if i == indice
-            )
-        except StopIteration:
-            return None
-
-    def __extrai_dados_se_existe(
-        self, bloco: Type[Block], indice: int = 0
-    ) -> Optional[Any]:
-        """
-        Obtém os dados de um bloco se este existir dentre os blocos do arquivo.
-
-        :param bloco: O tipo do bloco cujos dados serão extraídos
-        :type bloco: Type[T]
-        :param indice: Qual dos blocos do tipo será acessado
-        :type indice: int, optional
-        :return: Os dados do bloco, se existirem
-        :rtype: Any
-        """
-        b = self.__bloco_por_tipo(bloco, indice)
-        if b is not None:
-            return b.data
-        return None
-
     @property
     def tempos_etapas(self) -> Optional[pd.DataFrame]:
         """
@@ -81,4 +42,7 @@ class Newavetim(BlockFile):
         :return: Os tempos em um DataFrame.
         :rtype: pd.DataFrame | None
         """
-        return self.__extrai_dados_se_existe(BlocoTemposEtapasTim)
+        b = self.data.get_blocks_of_type(BlocoTemposEtapasTim)
+        if isinstance(b, BlocoTemposEtapasTim):
+            return b.data
+        return None
