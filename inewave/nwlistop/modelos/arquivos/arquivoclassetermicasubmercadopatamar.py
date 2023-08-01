@@ -5,7 +5,7 @@ from inewave.nwlistop.modelos.blocos.valoresclassetermicaseriepatamar import (
 
 from cfinterface.files.blockfile import BlockFile
 import pandas as pd  # type: ignore
-from typing import Type, TypeVar, Optional
+from typing import TypeVar, Optional
 
 
 class ArquivoClasseTermicaSubmercadoPatamar(BlockFile):

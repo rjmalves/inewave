@@ -2,7 +2,7 @@ from inewave.newave.modelos.blocos.versaomodelo import VersaoModelo
 from inewave.newave.modelos.avl_desvfpha_s import TabelaAvlDesvFphaS
 
 from cfinterface.files.blockfile import BlockFile
-from typing import Optional, TypeVar, Type
+from typing import Optional, TypeVar
 import pandas as pd  # type: ignore
 
 # Para compatibilidade - até versão 1.0.0
