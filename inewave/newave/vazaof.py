@@ -20,32 +20,6 @@ class Vazaof(SectionFile):
     SECTIONS = [SecaoDadosVazaof]
     STORAGE = "BINARY"
 
-    def __init__(self, data=...) -> None:
-        super().__init__(data)
-
-    @classmethod
-    def le_arquivo(
-        cls,
-        diretorio: str,
-        nome_arquivo="vazaof.dat",
-        numero_forwards: int = 200,
-        numero_uhes: int = 164,
-        numero_estagios: int = 60,
-        numero_estagios_th: int = 12,
-    ) -> "Vazaof":
-        msg = (
-            "O método le_arquivo(diretorio, nome_arquivo) será descontinuado"
-            + " na versão 1.0.0 - use o método read(caminho_arquivo)"
-        )
-        warnings.warn(msg, category=FutureWarning)
-        return cls.read(
-            join(diretorio, nome_arquivo),
-            numero_forwards=numero_forwards,
-            numero_uhes=numero_uhes,
-            numero_estagios=numero_estagios,
-            numero_estagios_th=numero_estagios_th,
-        )
-
     @property
     def series(self) -> Optional[pd.DataFrame]:
         """

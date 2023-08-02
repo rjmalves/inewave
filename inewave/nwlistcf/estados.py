@@ -28,17 +28,6 @@ class Estados(BlockFile):
         super().__init__(data)
         self.__estados_periodos = None
 
-    @classmethod
-    def le_arquivo(
-        cls, diretorio: str, nome_arquivo="estados.rel"
-    ) -> "Estados":
-        msg = (
-            "O método le_arquivo(diretorio, nome_arquivo) será descontinuado"
-            + " na versão 1.0.0 - use o método read(caminho_arquivo)"
-        )
-        warnings.warn(msg, category=FutureWarning)
-        return cls.read(join(diretorio, nome_arquivo))
-
     def __monta_tabela_estados(self) -> pd.DataFrame:
         df = None
         for b in self.data.of_type(EstadosPeriodoNwlistcf):

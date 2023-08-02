@@ -54,17 +54,6 @@ class Parpvaz(BlockFile):
         self.__coeficientes = None
         self.__correl_espacial_anual_mensal = None
 
-    @classmethod
-    def le_arquivo(
-        cls, diretorio: str, nome_arquivo="parpvaz.dat"
-    ) -> "Parpvaz":
-        msg = (
-            "O método le_arquivo(diretorio, nome_arquivo) será descontinuado"
-            + " na versão 1.0.0 - use o método read(caminho_arquivo)"
-        )
-        warnings.warn(msg, category=FutureWarning)
-        return cls.read(join(diretorio, nome_arquivo))
-
     def __uhes(self) -> Optional[List[str]]:
         """
         Retorna a lista das UHEs lidos do arquivo.

@@ -21,32 +21,6 @@ class Enavazb(SectionFile):
     SECTIONS = [SecaoDadosEnavazb]
     STORAGE = "BINARY"
 
-    def __init__(self, data=...) -> None:
-        super().__init__(data)
-
-    @classmethod
-    def le_arquivo(
-        cls,
-        diretorio: str,
-        nome_arquivo="enavazb.dat",
-        numero_forwards: int = 200,
-        numero_aberturas: int = 20,
-        numero_rees: int = 12,
-        numero_estagios: int = 60,
-    ) -> "Enavazb":
-        msg = (
-            "O método le_arquivo(diretorio, nome_arquivo) será descontinuado"
-            + " na versão 1.0.0 - use o método read(caminho_arquivo)"
-        )
-        warnings.warn(msg, category=FutureWarning)
-        return cls.read(
-            join(diretorio, nome_arquivo),
-            numero_rees=numero_rees,
-            numero_forwards=numero_forwards,
-            numero_aberturas=numero_aberturas,
-            numero_estagios=numero_estagios,
-        )
-
     @property
     def series(self) -> Optional[pd.DataFrame]:
         """

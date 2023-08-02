@@ -18,17 +18,6 @@ class AvlCortesFpha(ArquivoCSV):
 
     BLOCKS = [VersaoModelo, TabelaAvlCortesFpha]
 
-    @classmethod
-    def le_arquivo(
-        cls, diretorio: str, arquivo: str = "avl_cortesfpha_nwv.csv"
-    ) -> "AvlCortesFpha":
-        msg = (
-            "O método le_arquivo(diretorio, nome_arquivo) será descontinuado"
-            + " na versão 1.0.0 - use o método read(caminho_arquivo)"
-        )
-        warnings.warn(msg, category=FutureWarning)
-        return cls.read(join(diretorio, arquivo))
-
     @property
     def tabela(self) -> Optional[pd.DataFrame]:
         """

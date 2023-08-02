@@ -24,14 +24,3 @@ class Vevminm(ArquivoSubmercado):
         Submercado,
         VevminAnos,
     ]
-
-    @classmethod
-    def le_arquivo(
-        cls, diretorio: str, nome_arquivo="vevminm001.out"
-    ) -> "Vevminm":
-        msg = (
-            "O método le_arquivo(diretorio, nome_arquivo) será descontinuado"
-            + " na versão 1.0.0 - use o método read(caminho_arquivo)"
-        )
-        warnings.warn(msg, category=FutureWarning)
-        return cls.read(join(diretorio, nome_arquivo))
