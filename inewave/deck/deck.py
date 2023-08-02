@@ -46,9 +46,9 @@ from inewave.newave import Vazaos
 from inewave.newave import Hidr
 from inewave.newave import Vazoes
 
-from typing import Dict, Any, Union, Type, TypeVar
+from typing import Dict, Any, Union, Type, TypeVar, Optional
 from datetime import datetime, timedelta
-from os.path import join
+from os.path import join, isfile
 import pathlib
 import pandas as pd  # type: ignore
 
@@ -70,10 +70,11 @@ class Deck:
 
     @classmethod
     def read(cls, caminho_caso: str, *args, **kwargs) -> "Deck":
-        diretorio = pathlib.Path(caminho_caso).parent.resolve()
-        return cls(diretorio)
+        diretorio = str(pathlib.Path(caminho_caso).parent.resolve())
+        arquivo = pathlib.Path(caminho_caso).parts[-1]
+        return cls(diretorio, arquivo)
 
-    def write(self):
+    def write(self, *args, **kwargs):
         pass
 
     def __valida(self, data, type: Type[T]) -> T:
@@ -82,17 +83,23 @@ class Deck:
         return data
 
     def __numero_estagios_individualizados(self) -> int:
+        dger = self.dger
+        if not dger:
+            return 0
+        ree = self.ree
+        if not ree:
+            return 0
         agregacao = (
-            self.__valida(self.dger.agregacao_simulacao_final, int)
-            if self.dger.agregacao_simulacao_final is not None
+            self.__valida(dger.agregacao_simulacao_final, int)
+            if dger.agregacao_simulacao_final is not None
             else None
         )
-        anos_estudo = self.__valida(self.dger.num_anos_estudo, int)
-        ano_inicio = self.__valida(self.dger.ano_inicio_estudo, int)
-        mes_inicio = self.__valida(self.dger.mes_inicio_estudo, int)
+        anos_estudo = self.__valida(dger.num_anos_estudo, int)
+        ano_inicio = self.__valida(dger.ano_inicio_estudo, int)
+        mes_inicio = self.__valida(dger.mes_inicio_estudo, int)
         if agregacao == 1:
             return anos_estudo * 12
-        rees = self.__valida(self.ree.rees, pd.DataFrame)
+        rees = self.__valida(ree.rees, pd.DataFrame)
         mes_fim_hib = rees["Mês Fim Individualizado"].iloc[0]
         ano_fim_hib = rees["Ano Fim Individualizado"].iloc[0]
 
@@ -115,265 +122,351 @@ class Deck:
             return 0
 
     @property
-    def caso(self) -> Caso:
+    def caso(self) -> Optional[Caso]:
         """
         A instância da classe com o conteúdo do arquivo `caso.dat`.
 
         :return: O objeto
         :rtype: :class:`Caso`
         """
-        if self.__arquivo_caso not in self.__arquivos_processados:
-            self.__arquivos_processados[self.__arquivo_caso] = Caso.read(
-                join(self.__diretorio_base, self.__arquivo_caso)
-            )
-        return self.__arquivos_processados[self.__arquivo_caso]
+        if self.__arquivo_caso:
+            if self.__arquivo_caso not in self.__arquivos_processados:
+                caminho = join(self.__diretorio_base, self.__arquivo_caso)
+                if isfile(caminho):
+                    self.__arquivos_processados[
+                        self.__arquivo_caso
+                    ] = Caso.read(caminho)
+            return self.__arquivos_processados.get(self.__arquivo_caso)
+        return None
 
     @property
-    def arquivos(self) -> Arquivos:
+    def arquivos(self) -> Optional[Arquivos]:
         """
         A instância da classe com o conteúdo do arquivo `arquivos.dat`.
 
         :return: O objeto
         :rtype: :class:`Arquivo`
         """
-        if self.caso.arquivos not in self.__arquivos_processados:
-            self.__arquivos_processados[self.caso.arquivos] = Arquivos.read(
-                join(self.__diretorio_base, self.caso.arquivos)
-            )
-        return self.__arquivos_processados[self.caso.arquivos]
+        if self.caso:
+            if self.caso.arquivos:
+                if self.caso.arquivos not in self.__arquivos_processados:
+                    caminho = join(self.__diretorio_base, self.caso.arquivos)
+                    if isfile(caminho):
+                        self.__arquivos_processados[
+                            self.caso.arquivos
+                        ] = Arquivos.read(caminho)
+                return self.__arquivos_processados.get(self.caso.arquivos)
+        return None
 
     @property
-    def indices(self) -> pd.DataFrame:
+    def indices(self) -> Optional[pd.DataFrame]:
         """
         O :class:`pd.DataFrame` com o conteúdo do arquivo `indices.csv`.
 
         :return: O objeto
-        :rtype: :class:`Arquivo`
+        :rtype: :class:`pd.DataFrame`
         """
         if "indices.csv" not in self.__arquivos_processados:
             caminho = pathlib.Path(self.__diretorio_base).joinpath(
                 "indices.csv"
             )
-            self.__arquivos_processados[self.caso.arquivos] = pd.read_csv(
-                caminho, sep=";", header=None, index_col=0
-            )
-            self.__arquivos_processados[self.caso.arquivos].columns = [
-                "vazio",
-                "arquivo",
-            ]
-            self.__arquivos_processados[self.caso.arquivos].index = [
-                i.strip()
-                for i in list(
-                    self.__arquivos_processados[self.caso.arquivos].index
+            if isfile(caminho):
+                self.__arquivos_processados["indices.csv"] = pd.read_csv(
+                    caminho, sep=";", header=None, index_col=0
                 )
-            ]
-        self.__arquivos_processados[self.caso.arquivos][
-            "arquivo"
-        ] = self.__arquivos_processados[self.caso.arquivos].apply(
-            lambda linha: linha["arquivo"].strip(), axis=1
-        )
-        return self.__arquivos_processados[self.caso.arquivos]
+                self.__arquivos_processados["indices.csv"].columns = [
+                    "vazio",
+                    "arquivo",
+                ]
+                self.__arquivos_processados["indices.csv"].index = [
+                    i.strip()
+                    for i in list(
+                        self.__arquivos_processados["indices.csv"].index
+                    )
+                ]
+                self.__arquivos_processados["indices.csv"][
+                    "arquivo"
+                ] = self.__arquivos_processados["indices.csv"].apply(
+                    lambda linha: linha["arquivo"].strip(), axis=1
+                )
+        return self.__arquivos_processados.get("indices.csv")
 
     @property
-    def dger(self) -> Dger:
+    def dger(self) -> Optional[Dger]:
         """
         A instância da classe com o conteúdo do arquivo `dger.dat`.
 
         :return: O objeto
         :rtype: :class:`Dger`
         """
-        if self.arquivos.dger not in self.__arquivos_processados:
-            self.__arquivos_processados[self.arquivos.dger] = Dger.read(
-                join(self.__diretorio_base, self.arquivos.dger)
-            )
-        return self.__arquivos_processados[self.arquivos.dger]
+        if self.arquivos:
+            if self.arquivos.dger:
+                if self.arquivos.dger not in self.__arquivos_processados:
+                    caminho = join(self.__diretorio_base, self.arquivos.dger)
+                    if isfile(caminho):
+                        self.__arquivos_processados[
+                            self.arquivos.dger
+                        ] = Dger.read(caminho)
+                return self.__arquivos_processados.get(self.arquivos.dger)
+        return None
 
     @property
-    def sistema(self) -> Sistema:
+    def sistema(self) -> Optional[Sistema]:
         """
         A instância da classe com o conteúdo do arquivo `sistema.dat`.
 
         :return: O objeto
         :rtype: :class:`Sistema`
         """
-        if self.arquivos.sistema not in self.__arquivos_processados:
-            self.__arquivos_processados[self.arquivos.sistema] = Sistema.read(
-                join(self.__diretorio_base, self.arquivos.sistema)
-            )
-        return self.__arquivos_processados[self.arquivos.sistema]
+        if self.arquivos:
+            if self.arquivos.sistema:
+                if self.arquivos.sistema not in self.__arquivos_processados:
+                    caminho = join(
+                        self.__diretorio_base, self.arquivos.sistema
+                    )
+                    if isfile(caminho):
+                        self.__arquivos_processados[
+                            self.arquivos.sistema
+                        ] = Sistema.read(caminho)
+                return self.__arquivos_processados.get(self.arquivos.sistema)
+        return None
 
     @property
-    def confhd(self) -> Confhd:
+    def confhd(self) -> Optional[Confhd]:
         """
         A instância da classe com o conteúdo do arquivo `confhd.dat`.
 
         :return: O objeto
         :rtype: :class:`Confhd`
         """
-        if self.arquivos.confhd not in self.__arquivos_processados:
-            self.__arquivos_processados[self.arquivos.confhd] = Confhd.read(
-                join(self.__diretorio_base, self.arquivos.confhd)
-            )
-        return self.__arquivos_processados[self.arquivos.confhd]
+        if self.arquivos:
+            if self.arquivos.confhd:
+                if self.arquivos.confhd not in self.__arquivos_processados:
+                    caminho = join(self.__diretorio_base, self.arquivos.confhd)
+                    if isfile(caminho):
+                        self.__arquivos_processados[
+                            self.arquivos.confhd
+                        ] = Confhd.read(caminho)
+                return self.__arquivos_processados.get(self.arquivos.confhd)
+        return None
 
     @property
-    def modif(self) -> Modif:
+    def modif(self) -> Optional[Modif]:
         """
         A instância da classe com o conteúdo do arquivo `modif.dat`.
 
         :return: O objeto
         :rtype: :class:`Modif`
         """
-        if self.arquivos.modif not in self.__arquivos_processados:
-            self.__arquivos_processados[self.arquivos.modif] = Modif.read(
-                join(self.__diretorio_base, self.arquivos.modif)
-            )
-        return self.__arquivos_processados[self.arquivos.modif]
+        if self.arquivos:
+            if self.arquivos.modif:
+                if self.arquivos.modif not in self.__arquivos_processados:
+                    caminho = join(self.__diretorio_base, self.arquivos.modif)
+                    if isfile(caminho):
+                        self.__arquivos_processados[
+                            self.arquivos.modif
+                        ] = Modif.read(caminho)
+                return self.__arquivos_processados.get(self.arquivos.modif)
+        return None
 
     @property
-    def conft(self) -> Conft:
+    def conft(self) -> Optional[Conft]:
         """
         A instância da classe com o conteúdo do arquivo `conft.dat`.
 
         :return: O objeto
         :rtype: :class:`Conft`
         """
-        if self.arquivos.conft not in self.__arquivos_processados:
-            self.__arquivos_processados[self.arquivos.conft] = Conft.read(
-                join(self.__diretorio_base, self.arquivos.conft)
-            )
-        return self.__arquivos_processados[self.arquivos.conft]
+        if self.arquivos:
+            if self.arquivos.conft:
+                if self.arquivos.conft not in self.__arquivos_processados:
+                    caminho = join(self.__diretorio_base, self.arquivos.conft)
+                    if isfile(caminho):
+                        self.__arquivos_processados[
+                            self.arquivos.conft
+                        ] = Conft.read(caminho)
+                return self.__arquivos_processados.get(self.arquivos.conft)
+        return None
 
     @property
-    def term(self) -> Term:
+    def term(self) -> Optional[Term]:
         """
         A instância da classe com o conteúdo do arquivo `term.dat`.
 
         :return: O objeto
         :rtype: :class:`Term`
         """
-        if self.arquivos.term not in self.__arquivos_processados:
-            self.__arquivos_processados[self.arquivos.term] = Term.read(
-                join(self.__diretorio_base, self.arquivos.term)
-            )
-        return self.__arquivos_processados[self.arquivos.term]
+        if self.arquivos:
+            if self.arquivos.term:
+                if self.arquivos.term not in self.__arquivos_processados:
+                    caminho = join(self.__diretorio_base, self.arquivos.term)
+                    if isfile(caminho):
+                        self.__arquivos_processados[
+                            self.arquivos.term
+                        ] = Term.read(caminho)
+                return self.__arquivos_processados.get(self.arquivos.term)
+        return None
 
     @property
-    def clast(self) -> Clast:
+    def clast(self) -> Optional[Clast]:
         """
         A instância da classe com o conteúdo do arquivo `clast.dat`.
 
         :return: O objeto
         :rtype: :class:`Clast`
         """
-        if self.arquivos.clast not in self.__arquivos_processados:
-            self.__arquivos_processados[self.arquivos.clast] = Clast.read(
-                join(self.__diretorio_base, self.arquivos.clast)
-            )
-        return self.__arquivos_processados[self.arquivos.clast]
+        if self.arquivos:
+            if self.arquivos.clast:
+                if self.arquivos.clast not in self.__arquivos_processados:
+                    caminho = join(self.__diretorio_base, self.arquivos.clast)
+                    if isfile(caminho):
+                        self.__arquivos_processados[
+                            self.arquivos.clast
+                        ] = Clast.read(caminho)
+                return self.__arquivos_processados.get(self.arquivos.clast)
+        return None
 
     @property
-    def exph(self) -> Exph:
+    def exph(self) -> Optional[Exph]:
         """
         A instância da classe com o conteúdo do arquivo `exph.dat`.
 
         :return: O objeto
         :rtype: :class:`Exph`
         """
-        if self.arquivos.exph not in self.__arquivos_processados:
-            self.__arquivos_processados[self.arquivos.exph] = Exph.read(
-                join(self.__diretorio_base, self.arquivos.exph)
-            )
-        return self.__arquivos_processados[self.arquivos.exph]
+        if self.arquivos:
+            if self.arquivos.exph:
+                if self.arquivos.exph not in self.__arquivos_processados:
+                    caminho = join(self.__diretorio_base, self.arquivos.exph)
+                    if isfile(caminho):
+                        self.__arquivos_processados[
+                            self.arquivos.exph
+                        ] = Exph.read(caminho)
+                return self.__arquivos_processados.get(self.arquivos.exph)
+        return None
 
     @property
-    def expt(self) -> Expt:
+    def expt(self) -> Optional[Expt]:
         """
         A instância da classe com o conteúdo do arquivo `expt.dat`.
 
         :return: O objeto
         :rtype: :class:`Expt`
         """
-        if self.arquivos.expt not in self.__arquivos_processados:
-            self.__arquivos_processados[self.arquivos.expt] = Expt.read(
-                join(self.__diretorio_base, self.arquivos.expt)
-            )
-        return self.__arquivos_processados[self.arquivos.expt]
+        if self.arquivos:
+            if self.arquivos.expt:
+                if self.arquivos.expt not in self.__arquivos_processados:
+                    caminho = join(self.__diretorio_base, self.arquivos.expt)
+                    if isfile(caminho):
+                        self.__arquivos_processados[
+                            self.arquivos.expt
+                        ] = Expt.read(caminho)
+                return self.__arquivos_processados.get(self.arquivos.expt)
+        return None
 
     @property
-    def patamar(self) -> Patamar:
+    def patamar(self) -> Optional[Patamar]:
         """
         A instância da classe com o conteúdo do arquivo `patamar.dat`.
 
         :return: O objeto
         :rtype: :class:`Patamar`
         """
-        if self.arquivos.patamar not in self.__arquivos_processados:
-            self.__arquivos_processados[self.arquivos.patamar] = Patamar.read(
-                join(self.__diretorio_base, self.arquivos.patamar)
-            )
-        return self.__arquivos_processados[self.arquivos.patamar]
+        if self.arquivos:
+            if self.arquivos.patamar:
+                if self.arquivos.patamar not in self.__arquivos_processados:
+                    caminho = join(
+                        self.__diretorio_base, self.arquivos.patamar
+                    )
+                    if isfile(caminho):
+                        self.__arquivos_processados[
+                            self.arquivos.patamar
+                        ] = Patamar.read(caminho)
+                return self.__arquivos_processados.get(self.arquivos.patamar)
+        return None
 
     # TODO - fazer o processamento adequado no forward e cortes
 
     @property
-    def cortes(self) -> Cortes:
+    def cortes(self) -> Optional[Cortes]:
         """
         A instância da classe com o conteúdo do arquivo `cortes.dat`.
 
         :return: O objeto
         :rtype: :class:`Cortes`
         """
-        if self.arquivos.cortes not in self.__arquivos_processados:
-            self.__arquivos_processados[self.arquivos.cortes] = Cortes.read(
-                join(self.__diretorio_base, self.arquivos.cortes)
-            )
-        return self.__arquivos_processados[self.arquivos.cortes]
+        if self.arquivos:
+            if self.arquivos.cortes:
+                if self.arquivos.cortes not in self.__arquivos_processados:
+                    caminho = join(self.__diretorio_base, self.arquivos.cortes)
+                    if isfile(caminho):
+                        self.__arquivos_processados[
+                            self.arquivos.cortes
+                        ] = Cortes.read(caminho)
+                return self.__arquivos_processados.get(self.arquivos.cortes)
+        return None
 
     @property
-    def cortesh(self) -> Cortesh:
+    def cortesh(self) -> Optional[Cortesh]:
         """
         A instância da classe com o conteúdo do arquivo `cortesh.dat`.
 
         :return: O objeto
         :rtype: :class:`Cortesh`
         """
-        if self.arquivos.cortesh not in self.__arquivos_processados:
-            self.__arquivos_processados[self.arquivos.cortesh] = Cortesh.read(
-                join(self.__diretorio_base, self.arquivos.cortesh)
-            )
-        return self.__arquivos_processados[self.arquivos.cortesh]
+        if self.arquivos:
+            if self.arquivos.cortesh:
+                if self.arquivos.cortesh not in self.__arquivos_processados:
+                    caminho = join(
+                        self.__diretorio_base, self.arquivos.cortesh
+                    )
+                    if isfile(caminho):
+                        self.__arquivos_processados[
+                            self.arquivos.cortesh
+                        ] = Cortesh.read(caminho)
+                return self.__arquivos_processados.get(self.arquivos.cortesh)
+        return None
 
     @property
-    def pmo(self) -> Pmo:
+    def pmo(self) -> Optional[Pmo]:
         """
         A instância da classe com o conteúdo do arquivo `pmo.dat`.
 
         :return: O objeto
         :rtype: :class:`Pmo`
         """
-        if self.arquivos.pmo not in self.__arquivos_processados:
-            self.__arquivos_processados[self.arquivos.pmo] = Pmo.read(
-                join(self.__diretorio_base, self.arquivos.pmo)
-            )
-        return self.__arquivos_processados[self.arquivos.pmo]
+        if self.arquivos:
+            if self.arquivos.pmo:
+                if self.arquivos.pmo not in self.__arquivos_processados:
+                    caminho = join(self.__diretorio_base, self.arquivos.pmo)
+                    if isfile(caminho):
+                        self.__arquivos_processados[
+                            self.arquivos.pmo
+                        ] = Pmo.read(caminho)
+                return self.__arquivos_processados.get(self.arquivos.pmo)
+        return None
 
     @property
-    def parp(self) -> Parp:
+    def parp(self) -> Optional[Parp]:
         """
         A instância da classe com o conteúdo do arquivo `parp.dat`.
 
         :return: O objeto
         :rtype: :class:`Parp`
         """
-        if self.arquivos.parp not in self.__arquivos_processados:
-            self.__arquivos_processados[self.arquivos.parp] = Parp.read(
-                join(self.__diretorio_base, self.arquivos.parp)
-            )
-        return self.__arquivos_processados[self.arquivos.parp]
+        if self.arquivos:
+            if self.arquivos.parp:
+                if self.arquivos.parp not in self.__arquivos_processados:
+                    caminho = join(self.__diretorio_base, self.arquivos.parp)
+                    if isfile(caminho):
+                        self.__arquivos_processados[
+                            self.arquivos.parp
+                        ] = Parp.read(caminho)
+                return self.__arquivos_processados.get(self.arquivos.parp)
+        return None
 
     @property
-    def parpeol(self) -> Parpeol:
+    def parpeol(self) -> Optional[Parpeol]:
         """
         A instância da classe com o conteúdo do arquivo `parpeol.dat`.
 
@@ -381,13 +474,15 @@ class Deck:
         :rtype: :class:`Parpeol`
         """
         if "parpeol.dat" not in self.__arquivos_processados:
-            self.__arquivos_processados["parpeol.dat"] = Parpeol.read(
-                join(self.__diretorio_base, "parpeol.dat")
-            )
-        return self.__arquivos_processados["parpeol.dat"]
+            caminho = join(self.__diretorio_base, "parpeol.dat")
+            if isfile(caminho):
+                self.__arquivos_processados["parpeol.dat"] = Parpeol.read(
+                    caminho
+                )
+        return self.__arquivos_processados.get("parpeol.dat")
 
     @property
-    def parpvaz(self) -> Parpvaz:
+    def parpvaz(self) -> Optional[Parpvaz]:
         """
         A instância da classe com o conteúdo do arquivo `parpvaz.dat`.
 
@@ -395,69 +490,95 @@ class Deck:
         :rtype: :class:`Parpvaz`
         """
         if "parpvaz.dat" not in self.__arquivos_processados:
-            self.__arquivos_processados["parpvaz.dat"] = Parpvaz.read(
-                join(self.__diretorio_base, "parpvaz.dat")
-            )
-        return self.__arquivos_processados["parpvaz.dat"]
+            caminho = join(self.__diretorio_base, "parpvaz.dat")
+            if isfile(caminho):
+                self.__arquivos_processados["parpvaz.dat"] = Parpvaz.read(
+                    caminho
+                )
+        return self.__arquivos_processados.get("parpvaz.dat")
 
     @property
-    def forward(self) -> Forward:
+    def forward(self) -> Optional[Forward]:
         """
         A instância da classe com o conteúdo do arquivo `forward.dat`.
 
         :return: O objeto
         :rtype: :class:`Forward`
         """
-        if self.arquivos.forward not in self.__arquivos_processados:
-            self.__arquivos_processados[self.arquivos.forward] = Forward.read(
-                join(self.__diretorio_base, self.arquivos.forward)
-            )
-        return self.__arquivos_processados[self.arquivos.forward]
+        if self.arquivos:
+            if self.arquivos.forward:
+                if self.arquivos.forward not in self.__arquivos_processados:
+                    caminho = join(
+                        self.__diretorio_base, self.arquivos.forward
+                    )
+                    if isfile(caminho):
+                        self.__arquivos_processados[
+                            self.arquivos.forward
+                        ] = Forward.read(caminho)
+                return self.__arquivos_processados.get(self.arquivos.forward)
+        return None
 
     @property
-    def shist(self) -> Forwarh:
+    def forwarh(self) -> Optional[Forwarh]:
         """
         A instância da classe com o conteúdo do arquivo `forwarh.dat`.
 
         :return: O objeto
         :rtype: :class:`Forwarh`
         """
-        if self.arquivos.forwardh not in self.__arquivos_processados:
-            self.__arquivos_processados[self.arquivos.forwardh] = Forwarh.read(
-                join(self.__diretorio_base, self.arquivos.forwardh)
-            )
-        return self.__arquivos_processados[self.arquivos.forwardh]
+        if self.arquivos:
+            if self.arquivos.forwardh:
+                if self.arquivos.forwardh not in self.__arquivos_processados:
+                    caminho = join(
+                        self.__diretorio_base, self.arquivos.forwardh
+                    )
+                    if isfile(caminho):
+                        self.__arquivos_processados[
+                            self.arquivos.forwardh
+                        ] = Forwarh.read(caminho)
+                return self.__arquivos_processados.get(self.arquivos.forwardh)
+        return None
 
     @property
-    def shist(self) -> Shist:
+    def shist(self) -> Optional[Shist]:
         """
         A instância da classe com o conteúdo do arquivo `shist.dat`.
 
         :return: O objeto
         :rtype: :class:`Shist`
         """
-        if self.arquivos.shist not in self.__arquivos_processados:
-            self.__arquivos_processados[self.arquivos.shist] = Shist.read(
-                join(self.__diretorio_base, self.arquivos.shist)
-            )
-        return self.__arquivos_processados[self.arquivos.shist]
+        if self.arquivos:
+            if self.arquivos.shist:
+                if self.arquivos.shist not in self.__arquivos_processados:
+                    caminho = join(self.__diretorio_base, self.arquivos.shist)
+                    if isfile(caminho):
+                        self.__arquivos_processados[
+                            self.arquivos.shist
+                        ] = Shist.read(caminho)
+                return self.__arquivos_processados.get(self.arquivos.shist)
+        return None
 
     @property
-    def manutt(self) -> Manutt:
+    def manutt(self) -> Optional[Manutt]:
         """
         A instância da classe com o conteúdo do arquivo `manutt.dat`.
 
         :return: O objeto
         :rtype: :class:`Manutt`
         """
-        if self.arquivos.manutt not in self.__arquivos_processados:
-            self.__arquivos_processados[self.arquivos.manutt] = Manutt.read(
-                join(self.__diretorio_base, self.arquivos.manutt)
-            )
-        return self.__arquivos_processados[self.arquivos.manutt]
+        if self.arquivos:
+            if self.arquivos.manutt:
+                if self.arquivos.manutt not in self.__arquivos_processados:
+                    caminho = join(self.__diretorio_base, self.arquivos.manutt)
+                    if isfile(caminho):
+                        self.__arquivos_processados[
+                            self.arquivos.manutt
+                        ] = Manutt.read(caminho)
+                return self.__arquivos_processados.get(self.arquivos.manutt)
+        return None
 
     @property
-    def vazpast(self) -> Union[Vazpast, Eafpast]:
+    def vazpast(self) -> Optional[Union[Vazpast, Eafpast]]:
         """
         A instância da classe com o conteúdo do arquivo `vazpast.dat`
         ou `eafpast.dat`.
@@ -465,174 +586,235 @@ class Deck:
         :return: O objeto
         :rtype: :class:`Vazpast` | :class:`Eafpast`
         """
-        if self.arquivos.vazpast not in self.__arquivos_processados:
-            somente_sim_final = self.dger.tipo_execucao == 1
-            eafpast_sim_final = (
-                self.dger.considera_tendencia_hidrologica_sim_final == 2
-            )
-            executa_politica = self.dger.tipo_execucao == 0
-            eafpast_politica = (
-                self.dger.considera_tendencia_hidrologica_calculo_politica == 2
-            )
-            usa_eafpast = (somente_sim_final and eafpast_sim_final) or (
-                executa_politica and eafpast_politica
-            )
-            if usa_eafpast:
-                self.__arquivos_processados[
-                    self.arquivos.vazpast
-                ] = Eafpast.read(
-                    join(self.__diretorio_base, self.arquivos.vazpast)
-                )
-            else:
-                self.__arquivos_processados[
-                    self.arquivos.vazpast
-                ] = Vazpast.read(
-                    join(self.__diretorio_base, self.arquivos.vazpast)
-                )
-        return self.__arquivos_processados[self.arquivos.vazpast]
+        dger = self.dger
+        if not dger:
+            return None
+        if self.arquivos:
+            if self.arquivos.vazpast:
+                if self.arquivos.vazpast not in self.__arquivos_processados:
+                    somente_sim_final = dger.tipo_execucao == 1
+                    eafpast_sim_final = (
+                        dger.considera_tendencia_hidrologica_sim_final == 2
+                    )
+                    executa_politica = dger.tipo_execucao == 0
+                    eafpast_politica = (
+                        dger.considera_tendencia_hidrologica_calculo_politica
+                        == 2
+                    )
+                    usa_eafpast = (
+                        somente_sim_final and eafpast_sim_final
+                    ) or (executa_politica and eafpast_politica)
+                    if usa_eafpast:
+                        self.__arquivos_processados[
+                            self.arquivos.vazpast
+                        ] = Eafpast.read(
+                            join(self.__diretorio_base, self.arquivos.vazpast)
+                        )
+                    else:
+                        self.__arquivos_processados[
+                            self.arquivos.vazpast
+                        ] = Vazpast.read(
+                            join(self.__diretorio_base, self.arquivos.vazpast)
+                        )
+                return self.__arquivos_processados.get(self.arquivos.vazpast)
+        return None
 
     @property
-    def c_adic(self) -> Cadic:
+    def c_adic(self) -> Optional[Cadic]:
         """
         A instância da classe com o conteúdo do arquivo `c_adic.dat`.
 
         :return: O objeto
         :rtype: :class:`Cadic`
         """
-        if self.arquivos.c_adic not in self.__arquivos_processados:
-            self.__arquivos_processados[self.arquivos.c_adic] = Cadic.read(
-                join(self.__diretorio_base, self.arquivos.c_adic)
-            )
-        return self.__arquivos_processados[self.arquivos.c_adic]
+        if self.arquivos:
+            if self.arquivos.c_adic:
+                if self.arquivos.c_adic not in self.__arquivos_processados:
+                    caminho = join(self.__diretorio_base, self.arquivos.c_adic)
+                    if isfile(caminho):
+                        self.__arquivos_processados[
+                            self.arquivos.c_adic
+                        ] = Cadic.read(caminho)
+                return self.__arquivos_processados.get(self.arquivos.c_adic)
+        return None
 
     @property
-    def dsvagua(self) -> Dsvagua:
+    def dsvagua(self) -> Optional[Dsvagua]:
         """
         A instância da classe com o conteúdo do arquivo `dsvagua.dat`.
 
         :return: O objeto
         :rtype: :class:`Dsvagua`
         """
-        if self.arquivos.dsvagua not in self.__arquivos_processados:
-            self.__arquivos_processados[self.arquivos.dsvagua] = Dsvagua.read(
-                join(self.__diretorio_base, self.arquivos.dsvagua)
-            )
-        return self.__arquivos_processados[self.arquivos.dsvagua]
+        if self.arquivos:
+            if self.arquivos.dsvagua:
+                if self.arquivos.dsvagua not in self.__arquivos_processados:
+                    caminho = join(
+                        self.__diretorio_base, self.arquivos.dsvagua
+                    )
+                    if isfile(caminho):
+                        self.__arquivos_processados[
+                            self.arquivos.dsvagua
+                        ] = Dsvagua.read(caminho)
+                return self.__arquivos_processados.get(self.arquivos.dsvagua)
+        return None
 
     @property
-    def penalid(self) -> Penalid:
+    def penalid(self) -> Optional[Penalid]:
         """
         A instância da classe com o conteúdo do arquivo `penalid.dat`.
 
         :return: O objeto
         :rtype: :class:`Penalid`
         """
-        if self.arquivos.penalid not in self.__arquivos_processados:
-            self.__arquivos_processados[self.arquivos.penalid] = Penalid.read(
-                join(self.__diretorio_base, self.arquivos.penalid)
-            )
-        return self.__arquivos_processados[self.arquivos.penalid]
+        if self.arquivos:
+            if self.arquivos.penalid:
+                if self.arquivos.penalid not in self.__arquivos_processados:
+                    caminho = join(
+                        self.__diretorio_base, self.arquivos.penalid
+                    )
+                    if isfile(caminho):
+                        self.__arquivos_processados[
+                            self.arquivos.penalid
+                        ] = Penalid.read(caminho)
+                return self.__arquivos_processados.get(self.arquivos.penalid)
+        return None
 
     @property
-    def curva(self) -> Curva:
+    def curva(self) -> Optional[Curva]:
         """
         A instância da classe com o conteúdo do arquivo `curva.dat`.
 
         :return: O objeto
         :rtype: :class:`Curva`
         """
-        if self.arquivos.curva not in self.__arquivos_processados:
-            self.__arquivos_processados[self.arquivos.curva] = Curva.read(
-                join(self.__diretorio_base, self.arquivos.curva)
-            )
-        return self.__arquivos_processados[self.arquivos.curva]
+        if self.arquivos:
+            if self.arquivos.curva:
+                if self.arquivos.curva not in self.__arquivos_processados:
+                    caminho = join(self.__diretorio_base, self.arquivos.curva)
+                    if isfile(caminho):
+                        self.__arquivos_processados[
+                            self.arquivos.curva
+                        ] = Curva.read(caminho)
+                return self.__arquivos_processados.get(self.arquivos.curva)
+        return None
 
     @property
-    def agrint(self) -> Agrint:
+    def agrint(self) -> Optional[Agrint]:
         """
         A instância da classe com o conteúdo do arquivo `agrint.dat`.
 
         :return: O objeto
         :rtype: :class:`Agrint`
         """
-        if self.arquivos.agrint not in self.__arquivos_processados:
-            self.__arquivos_processados[self.arquivos.agrint] = Agrint.read(
-                join(self.__diretorio_base, self.arquivos.agrint)
-            )
-        return self.__arquivos_processados[self.arquivos.agrint]
+        if self.arquivos:
+            if self.arquivos.agrint:
+                if self.arquivos.agrint not in self.__arquivos_processados:
+                    caminho = join(self.__diretorio_base, self.arquivos.agrint)
+                    if isfile(caminho):
+                        self.__arquivos_processados[
+                            self.arquivos.agrint
+                        ] = Agrint.read(caminho)
+                return self.__arquivos_processados.get(self.arquivos.agrint)
+        return None
 
     @property
-    def adterm(self) -> Adterm:
+    def adterm(self) -> Optional[Adterm]:
         """
         A instância da classe com o conteúdo do arquivo `adterm.dat`.
 
         :return: O objeto
         :rtype: :class:`Adterm`
         """
-        if self.arquivos.adterm not in self.__arquivos_processados:
-            self.__arquivos_processados[self.arquivos.adterm] = Adterm.read(
-                join(self.__diretorio_base, self.arquivos.adterm)
-            )
-        return self.__arquivos_processados[self.arquivos.adterm]
+        if self.arquivos:
+            if self.arquivos.adterm:
+                if self.arquivos.adterm not in self.__arquivos_processados:
+                    caminho = join(self.__diretorio_base, self.arquivos.adterm)
+                    if isfile(caminho):
+                        self.__arquivos_processados[
+                            self.arquivos.adterm
+                        ] = Adterm.read(caminho)
+                return self.__arquivos_processados.get(self.arquivos.adterm)
+        return None
 
     @property
-    def ghmin(self) -> Ghmin:
+    def ghmin(self) -> Optional[Ghmin]:
         """
         A instância da classe com o conteúdo do arquivo `ghmin.dat`.
 
         :return: O objeto
         :rtype: :class:`Ghmin`
         """
-        if self.arquivos.ghmin not in self.__arquivos_processados:
-            self.__arquivos_processados[self.arquivos.ghmin] = Ghmin.read(
-                join(self.__diretorio_base, self.arquivos.ghmin)
-            )
-        return self.__arquivos_processados[self.arquivos.ghmin]
+        if self.arquivos:
+            if self.arquivos.ghmin:
+                if self.arquivos.ghmin not in self.__arquivos_processados:
+                    caminho = join(self.__diretorio_base, self.arquivos.ghmin)
+                    if isfile(caminho):
+                        self.__arquivos_processados[
+                            self.arquivos.ghmin
+                        ] = Ghmin.read(caminho)
+                return self.__arquivos_processados.get(self.arquivos.ghmin)
+        return None
 
     @property
-    def cvar(self) -> Cvar:
+    def cvar(self) -> Optional[Cvar]:
         """
         A instância da classe com o conteúdo do arquivo `cvar.dat`.
 
         :return: O objeto
         :rtype: :class:`Cvar`
         """
-        if self.arquivos.cvar not in self.__arquivos_processados:
-            self.__arquivos_processados[self.arquivos.cvar] = Cvar.read(
-                join(self.__diretorio_base, self.arquivos.cvar)
-            )
-        return self.__arquivos_processados[self.arquivos.cvar]
+        if self.arquivos:
+            if self.arquivos.cvar:
+                if self.arquivos.cvar not in self.__arquivos_processados:
+                    caminho = join(self.__diretorio_base, self.arquivos.cvar)
+                    if isfile(caminho):
+                        self.__arquivos_processados[
+                            self.arquivos.cvar
+                        ] = Cvar.read(caminho)
+                return self.__arquivos_processados.get(self.arquivos.cvar)
+        return None
 
     @property
-    def ree(self) -> Ree:
+    def ree(self) -> Optional[Ree]:
         """
         A instância da classe com o conteúdo do arquivo `ree.dat`.
 
         :return: O objeto
         :rtype: :class:`Ree`
         """
-        if self.arquivos.ree not in self.__arquivos_processados:
-            self.__arquivos_processados[self.arquivos.ree] = Ree.read(
-                join(self.__diretorio_base, self.arquivos.ree)
-            )
-        return self.__arquivos_processados[self.arquivos.ree]
+        if self.arquivos:
+            if self.arquivos.ree:
+                if self.arquivos.ree not in self.__arquivos_processados:
+                    caminho = join(self.__diretorio_base, self.arquivos.ree)
+                    if isfile(caminho):
+                        self.__arquivos_processados[
+                            self.arquivos.ree
+                        ] = Ree.read(caminho)
+                return self.__arquivos_processados.get(self.arquivos.ree)
+        return None
 
     @property
-    def re(self) -> Re:
+    def re(self) -> Optional[Re]:
         """
         A instância da classe com o conteúdo do arquivo `re.dat`.
 
         :return: O objeto
         :rtype: :class:`Re`
         """
-        if self.arquivos.re not in self.__arquivos_processados:
-            self.__arquivos_processados[self.arquivos.re] = Re.read(
-                join(self.__diretorio_base, self.arquivos.re)
-            )
-        return self.__arquivos_processados[self.arquivos.re]
+        if self.arquivos:
+            if self.arquivos.re:
+                if self.arquivos.re not in self.__arquivos_processados:
+                    caminho = join(self.__diretorio_base, self.arquivos.re)
+                    if isfile(caminho):
+                        self.__arquivos_processados[
+                            self.arquivos.re
+                        ] = Re.read(caminho)
+                return self.__arquivos_processados.get(self.arquivos.re)
+        return None
 
     @property
-    def hidr(self) -> Hidr:
+    def hidr(self) -> Optional[Hidr]:
         """
         A instância da classe com o conteúdo do arquivo `hidr.dat`.
 
@@ -640,13 +822,13 @@ class Deck:
         :rtype: :class:`Hidr`
         """
         if "hidr.dat" not in self.__arquivos_processados:
-            self.__arquivos_processados["hidr.dat"] = Hidr.read(
-                join(self.__diretorio_base, "hidr.dat")
-            )
-        return self.__arquivos_processados["hidr.dat"]
+            caminho = join(self.__diretorio_base, "hidr.dat")
+            if isfile(caminho):
+                self.__arquivos_processados["hidr.dat"] = Hidr.read(caminho)
+        return self.__arquivos_processados.get("hidr.dat")
 
     @property
-    def vazoes(self) -> Vazoes:
+    def vazoes(self) -> Optional[Vazoes]:
         """
         A instância da classe com o conteúdo do arquivo `vazoes.dat`.
 
@@ -654,13 +836,15 @@ class Deck:
         :rtype: :class:`Vazoes`
         """
         if "vazoes.dat" not in self.__arquivos_processados:
-            self.__arquivos_processados["vazoes.dat"] = Vazoes.read(
-                join(self.__diretorio_base, "vazoes.dat")
-            )
-        return self.__arquivos_processados["vazoes.dat"]
+            caminho = join(self.__diretorio_base, "vazoes.dat")
+            if isfile(caminho):
+                self.__arquivos_processados["vazoes.dat"] = Vazoes.read(
+                    caminho
+                )
+        return self.__arquivos_processados.get("vazoes.dat")
 
     @property
-    def engnat(self) -> Engnat:
+    def engnat(self) -> Optional[Engnat]:
         """
         A instância da classe com o conteúdo do arquivo `engnat.dat`.
 
@@ -668,19 +852,26 @@ class Deck:
         :rtype: :class:`Engnat`
         """
         if "engnat.dat" not in self.__arquivos_processados:
-            self.__arquivos_processados["engnat.dat"] = Engnat.read(
-                join(self.__diretorio_base, "engnat.dat")
-            )
-        return self.__arquivos_processados["engnat.dat"]
+            caminho = join(self.__diretorio_base, "engnat.dat")
+            if isfile(caminho):
+                self.__arquivos_processados["engnat.dat"] = Engnat.read(
+                    caminho
+                )
+        return self.__arquivos_processados.get("engnat.dat")
 
-    def energiaf(self, iteracao: int) -> Energiaf:
+    def energiaf(self, iteracao: int) -> Optional[Energiaf]:
         """
         A instância da classe com o conteúdo do arquivo `energiaf.dat`.
 
         :return: O objeto
         :rtype: :class:`Energiaf`
         """
-
+        dger = self.dger
+        if not dger:
+            return None
+        ree = self.ree
+        if not ree:
+            return None
         nome_arq = (
             f"energiaf{str(iteracao).zfill(3)}.dat"
             if iteracao != 1
@@ -690,14 +881,14 @@ class Deck:
             self.__arquivos_processados["energiaf.dat"] = {}
         if self.__arquivos_processados["energiaf.dat"].get(iteracao) is None:
             try:
-                anos_estudo = self.__valida(self.dger.num_anos_estudo, int)
-                num_forwards = self.__valida(self.dger.num_forwards, int)
+                anos_estudo = self.__valida(dger.num_anos_estudo, int)
+                num_forwards = self.__valida(dger.num_forwards, int)
                 parpa = self.__valida(
-                    self.dger.consideracao_media_anual_afluencias, int
+                    dger.consideracao_media_anual_afluencias, int
                 )
-                ordem_maxima = self.__valida(self.dger.ordem_maxima_parp, int)
+                ordem_maxima = self.__valida(dger.ordem_maxima_parp, int)
 
-                rees = self.__valida(self.ree.rees, pd.DataFrame)
+                rees = self.__valida(ree.rees, pd.DataFrame)
 
                 n_rees = rees.shape[0]
                 n_estagios = anos_estudo * 12
@@ -716,7 +907,13 @@ class Deck:
                 pass
         return self.__arquivos_processados["energiaf.dat"].get(iteracao)
 
-    def get_enavazf(self, iteracao: int) -> Enavazf:
+    def get_enavazf(self, iteracao: int) -> Optional[Enavazf]:
+        dger = self.dger
+        if not dger:
+            return None
+        ree = self.ree
+        if not ree:
+            return None
         nome_arq = (
             f"enavazf{str(iteracao).zfill(3)}.dat"
             if iteracao != 1
@@ -726,14 +923,14 @@ class Deck:
             self.__arquivos_processados["enavazf.dat"] = {}
         if self.__arquivos_processados["enavazf.dat"].get(iteracao) is None:
             try:
-                mes_inicio = self.__valida(self.dger.mes_inicio_estudo, int)
-                num_forwards = self.__valida(self.dger.num_forwards, int)
+                mes_inicio = self.__valida(dger.mes_inicio_estudo, int)
+                num_forwards = self.__valida(dger.num_forwards, int)
                 parpa = self.__valida(
-                    self.dger.consideracao_media_anual_afluencias, int
+                    dger.consideracao_media_anual_afluencias, int
                 )
-                ordem_maxima = self.__valida(self.dger.ordem_maxima_parp, int)
+                ordem_maxima = self.__valida(dger.ordem_maxima_parp, int)
 
-                n_rees = self.__valida(self.ree.rees, pd.DataFrame).shape[0]
+                n_rees = self.__valida(ree.rees, pd.DataFrame).shape[0]
                 n_estagios = (
                     self.__numero_estagios_individualizados() + mes_inicio - 1
                 )
@@ -752,7 +949,13 @@ class Deck:
                 pass
         return self.__arquivos_processados["enavazf.dat"].get(iteracao)
 
-    def vazaof(self, iteracao: int) -> Vazaof:
+    def vazaof(self, iteracao: int) -> Optional[Vazaof]:
+        dger = self.dger
+        if not dger:
+            return None
+        confhd = self.confhd
+        if not confhd:
+            return None
         nome_arq = (
             f"vazaof{str(iteracao).zfill(3)}.dat"
             if iteracao != 1
@@ -762,17 +965,15 @@ class Deck:
             self.__arquivos_processados["vazaof.dat"] = {}
         if self.__arquivos_processados["vazaof.dat"].get(iteracao) is None:
             try:
-                mes_inicio = self.__valida(self.dger.mes_inicio_estudo, int)
-                num_forwards = self.__valida(self.dger.num_forwards, int)
+                mes_inicio = self.__valida(dger.mes_inicio_estudo, int)
+                num_forwards = self.__valida(dger.num_forwards, int)
 
                 parpa = self.__valida(
-                    self.dger.consideracao_media_anual_afluencias, int
+                    dger.consideracao_media_anual_afluencias, int
                 )
-                ordem_maxima = self.__valida(self.dger.ordem_maxima_parp, int)
+                ordem_maxima = self.__valida(dger.ordem_maxima_parp, int)
 
-                n_uhes = self.__valida(self.confhd.usinas, pd.DataFrame).shape[
-                    0
-                ]
+                n_uhes = self.__valida(confhd.usinas, pd.DataFrame).shape[0]
                 n_estagios = (
                     self.__numero_estagios_individualizados() + mes_inicio - 1
                 )
@@ -791,7 +992,13 @@ class Deck:
                 pass
         return self.__arquivos_processados["vazaof.dat"].get(iteracao)
 
-    def get_energiab(self, iteracao: int) -> Energiab:
+    def get_energiab(self, iteracao: int) -> Optional[Energiab]:
+        dger = self.dger
+        if not dger:
+            return None
+        ree = self.ree
+        if not ree:
+            return None
         nome_arq = (
             f"energiab{str(iteracao).zfill(3)}.dat"
             if iteracao != 1
@@ -801,11 +1008,11 @@ class Deck:
             self.__arquivos_processados["energiab.dat"] = {}
         if self.__arquivos_processados["energiab.dat"].get(iteracao) is None:
             try:
-                anos_estudo = self.__valida(self.dger.num_anos_estudo, int)
-                num_forwards = self.__valida(self.dger.num_forwards, int)
-                num_aberturas = self.__valida(self.dger.num_aberturas, int)
+                anos_estudo = self.__valida(dger.num_anos_estudo, int)
+                num_forwards = self.__valida(dger.num_forwards, int)
+                num_aberturas = self.__valida(dger.num_aberturas, int)
 
-                n_rees = self.__valida(self.ree.rees, pd.DataFrame).shape[0]
+                n_rees = self.__valida(ree.rees, pd.DataFrame).shape[0]
                 n_estagios = anos_estudo * 12
                 self.__arquivos_processados["energiab.dat"][
                     iteracao
@@ -821,7 +1028,13 @@ class Deck:
                 pass
         return self.__arquivos_processados["energiab.dat"].get(iteracao)
 
-    def get_enavazb(self, iteracao: int) -> Enavazb:
+    def get_enavazb(self, iteracao: int) -> Optional[Enavazb]:
+        dger = self.dger
+        if not dger:
+            return None
+        ree = self.ree
+        if not ree:
+            return None
         nome_arq = (
             f"enavazb{str(iteracao).zfill(3)}.dat"
             if iteracao != 1
@@ -831,11 +1044,11 @@ class Deck:
             self.__arquivos_processados["enavazb.dat"] = {}
         if self.__arquivos_processados["enavazb.dat"].get(iteracao) is None:
             try:
-                mes_inicio = self.__valida(self.dger.mes_inicio_estudo, int)
-                num_forwards = self.__valida(self.dger.num_forwards, int)
-                num_aberturas = self.__valida(self.dger.num_aberturas, int)
+                mes_inicio = self.__valida(dger.mes_inicio_estudo, int)
+                num_forwards = self.__valida(dger.num_forwards, int)
+                num_aberturas = self.__valida(dger.num_aberturas, int)
 
-                n_rees = self.__valida(self.ree.rees, pd.DataFrame).shape[0]
+                n_rees = self.__valida(ree.rees, pd.DataFrame).shape[0]
                 n_estagios = (
                     self.__numero_estagios_individualizados() + mes_inicio - 1
                 )
@@ -853,7 +1066,13 @@ class Deck:
                 pass
         return self.__arquivos_processados["vazaob.dat"].get(iteracao)
 
-    def get_vazaob(self, iteracao: int) -> Vazaob:
+    def get_vazaob(self, iteracao: int) -> Optional[Vazaob]:
+        dger = self.dger
+        if not dger:
+            return None
+        confhd = self.confhd
+        if not confhd:
+            return None
         nome_arq = (
             f"vazaob{str(iteracao).zfill(3)}.dat"
             if iteracao != 1
@@ -863,13 +1082,11 @@ class Deck:
             self.__arquivos_processados["vazaob.dat"] = {}
         if self.__arquivos_processados["vazaob.dat"].get(iteracao) is None:
             try:
-                mes_inicio = self.__valida(self.dger.mes_inicio_estudo, int)
-                num_forwards = self.__valida(self.dger.num_forwards, int)
-                num_aberturas = self.__valida(self.dger.num_aberturas, int)
+                mes_inicio = self.__valida(dger.mes_inicio_estudo, int)
+                num_forwards = self.__valida(dger.num_forwards, int)
+                num_aberturas = self.__valida(dger.num_aberturas, int)
 
-                n_uhes = self.__valida(self.confhd.usinas, pd.DataFrame).shape[
-                    0
-                ]
+                n_uhes = self.__valida(confhd.usinas, pd.DataFrame).shape[0]
                 n_estagios_hib = (
                     self.__numero_estagios_individualizados() + mes_inicio - 1
                 )
@@ -887,26 +1104,32 @@ class Deck:
                 pass
         return self.__arquivos_processados["vazaob.dat"].get(iteracao)
 
-    def get_energias(self) -> Energias:
+    def get_energias(self) -> Optional[Energias]:
+        dger = self.dger
+        if not dger:
+            return None
+        ree = self.ree
+        if not ree:
+            return None
         if "energias.dat" not in self.__arquivos_processados:
             try:
-                anos_estudo = self.__valida(self.dger.num_anos_estudo, int)
-                ano_inicio = self.__valida(self.dger.ano_inicio_estudo, int)
+                anos_estudo = self.__valida(dger.num_anos_estudo, int)
+                ano_inicio = self.__valida(dger.ano_inicio_estudo, int)
                 ano_inicio_historico = self.__valida(
-                    self.dger.ano_inicial_historico, int
+                    dger.ano_inicial_historico, int
                 )
                 num_series_sinteticas = self.__valida(
-                    self.dger.num_series_sinteticas, int
+                    dger.num_series_sinteticas, int
                 )
                 tipo_simulacao_final = self.__valida(
-                    self.dger.tipo_simulacao_final, int
+                    dger.tipo_simulacao_final, int
                 )
                 parpa = self.__valida(
-                    self.dger.consideracao_media_anual_afluencias, int
+                    dger.consideracao_media_anual_afluencias, int
                 )
-                ordem_maxima = self.__valida(self.dger.ordem_maxima_parp, int)
+                ordem_maxima = self.__valida(dger.ordem_maxima_parp, int)
 
-                n_rees = self.__valida(self.ree.rees, pd.DataFrame).shape[0]
+                n_rees = self.__valida(ree.rees, pd.DataFrame).shape[0]
                 n_estagios = anos_estudo * 12
                 n_estagios_th = 12 if parpa == 3 else ordem_maxima
                 if tipo_simulacao_final == 1:
@@ -927,26 +1150,32 @@ class Deck:
                 pass
         return self.__arquivos_processados["energias.dat"]
 
-    def get_enavazs(self) -> Enavazs:
+    def get_enavazs(self) -> Optional[Enavazs]:
+        dger = self.dger
+        if not dger:
+            return None
+        ree = self.ree
+        if not ree:
+            return None
         if "enavazs.dat" not in self.__arquivos_processados:
             try:
-                mes_inicio = self.__valida(self.dger.mes_inicio_estudo, int)
-                ano_inicio = self.__valida(self.dger.ano_inicio_estudo, int)
+                mes_inicio = self.__valida(dger.mes_inicio_estudo, int)
+                ano_inicio = self.__valida(dger.ano_inicio_estudo, int)
                 ano_inicio_historico = self.__valida(
-                    self.dger.ano_inicial_historico, int
+                    dger.ano_inicial_historico, int
                 )
                 num_series_sinteticas = self.__valida(
-                    self.dger.num_series_sinteticas, int
+                    dger.num_series_sinteticas, int
                 )
                 tipo_simulacao_final = self.__valida(
-                    self.dger.tipo_simulacao_final, int
+                    dger.tipo_simulacao_final, int
                 )
                 parpa = self.__valida(
-                    self.dger.consideracao_media_anual_afluencias, int
+                    dger.consideracao_media_anual_afluencias, int
                 )
-                ordem_maxima = self.__valida(self.dger.ordem_maxima_parp, int)
+                ordem_maxima = self.__valida(dger.ordem_maxima_parp, int)
 
-                n_rees = self.__valida(self.ree.rees, pd.DataFrame).shape[0]
+                n_rees = self.__valida(ree.rees, pd.DataFrame).shape[0]
                 n_estagios = (
                     self.__numero_estagios_individualizados() + mes_inicio - 1
                 )
@@ -969,29 +1198,33 @@ class Deck:
                 pass
         return self.__arquivos_processados["enavazs.dat"]
 
-    def get_vazaos(self) -> Vazaos:
+    def get_vazaos(self) -> Optional[Vazaos]:
+        dger = self.dger
+        if not dger:
+            return None
+        confhd = self.confhd
+        if not confhd:
+            return None
         if "vazaos.dat" not in self.__arquivos_processados:
             try:
-                mes_inicio = self.__valida(self.dger.mes_inicio_estudo, int)
+                mes_inicio = self.__valida(dger.mes_inicio_estudo, int)
                 parpa = self.__valida(
-                    self.dger.consideracao_media_anual_afluencias, int
+                    dger.consideracao_media_anual_afluencias, int
                 )
-                ordem_maxima = self.__valida(self.dger.ordem_maxima_parp, int)
+                ordem_maxima = self.__valida(dger.ordem_maxima_parp, int)
                 num_series_sinteticas = self.__valida(
-                    self.dger.num_series_sinteticas, int
+                    dger.num_series_sinteticas, int
                 )
-                ano_inicio = self.__valida(self.dger.ano_inicio_estudo, int)
+                ano_inicio = self.__valida(dger.ano_inicio_estudo, int)
                 ano_inicial_historico = self.__valida(
-                    self.dger.ano_inicial_historico, int
+                    dger.ano_inicial_historico, int
                 )
-                n_uhes = self.__valida(self.confhd.usinas, pd.DataFrame).shape[
-                    0
-                ]
+                n_uhes = self.__valida(confhd.usinas, pd.DataFrame).shape[0]
                 n_estagios = (
                     self.__numero_estagios_individualizados() + mes_inicio - 1
                 )
                 n_estagios_th = 12 if parpa == 3 else ordem_maxima
-                if self.dger.tipo_simulacao_final == 1:
+                if dger.tipo_simulacao_final == 1:
                     num_series = num_series_sinteticas
                 else:
                     num_series = ano_inicio - ano_inicial_historico - 1
