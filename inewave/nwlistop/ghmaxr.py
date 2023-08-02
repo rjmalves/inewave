@@ -4,10 +4,6 @@ from inewave.nwlistop.modelos.arquivos.arquivoreepatamar import (
 )
 from inewave.nwlistop.modelos.ghmaxr import GHAnos
 
-# Para compatibilidade - até versão 1.0.0
-from os.path import join
-import warnings
-
 
 class Ghmaxr(ArquivoREEPatamar):
     """
@@ -24,14 +20,3 @@ class Ghmaxr(ArquivoREEPatamar):
         REE,
         GHAnos,
     ]
-
-    @classmethod
-    def le_arquivo(
-        cls, diretorio: str, nome_arquivo="ghmaxr001.out"
-    ) -> "Ghmaxr":
-        msg = (
-            "O método le_arquivo(diretorio, nome_arquivo) será descontinuado"
-            + " na versão 1.0.0 - use o método read(caminho_arquivo)"
-        )
-        warnings.warn(msg, category=FutureWarning)
-        return cls.read(join(diretorio, nome_arquivo))

@@ -5,10 +5,6 @@ from cfinterface.files.blockfile import BlockFile
 from typing import Optional, TypeVar
 import pandas as pd  # type: ignore
 
-# Para compatibilidade - até versão 1.0.0
-from os.path import join
-import warnings
-
 
 class AvlDesvFphaVQ(BlockFile):
     """
@@ -24,17 +20,6 @@ class AvlDesvFphaVQ(BlockFile):
     def __init__(self, data=...) -> None:
         super().__init__(data)
         self.__df_completo: Optional[pd.DataFrame] = None
-
-    @classmethod
-    def le_arquivo(
-        cls, diretorio: str, arquivo: str = "avl_desvfpha_v_q_001.dat"
-    ) -> "AvlDesvFphaVQ":
-        msg = (
-            "O método le_arquivo(diretorio, nome_arquivo) será descontinuado"
-            + " na versão 1.0.0 - use o método read(caminho_arquivo)"
-        )
-        warnings.warn(msg, category=FutureWarning)
-        return cls.read(join(diretorio, arquivo))
 
     @property
     def tabela(self) -> Optional[pd.DataFrame]:

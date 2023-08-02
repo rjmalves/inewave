@@ -4,10 +4,6 @@ from inewave.nwlistop.modelos.arquivos.arquivousinapatamar import (
 )
 from inewave.nwlistop.modelos.vertuh import VertAnos
 
-# Para compatibilidade - até versão 1.0.0
-from os.path import join
-import warnings
-
 
 class Vertuh(ArquivoUsinaPatamar):
     """
@@ -23,14 +19,3 @@ class Vertuh(ArquivoUsinaPatamar):
         Usina,
         VertAnos,
     ]
-
-    @classmethod
-    def le_arquivo(
-        cls, diretorio: str, nome_arquivo="vertuh001.out"
-    ) -> "Vertuh":
-        msg = (
-            "O método le_arquivo(diretorio, nome_arquivo) será descontinuado"
-            + " na versão 1.0.0 - use o método read(caminho_arquivo)"
-        )
-        warnings.warn(msg, category=FutureWarning)
-        return cls.read(join(diretorio, nome_arquivo))

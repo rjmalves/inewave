@@ -3,10 +3,6 @@ from inewave.nwlistop.modelos.arquivos.arquivosinpatamar import (
 )
 from inewave.nwlistop.modelos.ghmaxrsin import GHAnos
 
-# Para compatibilidade - até versão 1.0.0
-from os.path import join
-import warnings
-
 
 class Ghmaxrsin(ArquivoSINPatamar):
     """
@@ -20,14 +16,3 @@ class Ghmaxrsin(ArquivoSINPatamar):
     BLOCKS = [
         GHAnos,
     ]
-
-    @classmethod
-    def le_arquivo(
-        cls, diretorio: str, nome_arquivo="ghmaxrsin.out"
-    ) -> "Ghmaxrsin":
-        msg = (
-            "O método le_arquivo(diretorio, nome_arquivo) será descontinuado"
-            + " na versão 1.0.0 - use o método read(caminho_arquivo)"
-        )
-        warnings.warn(msg, category=FutureWarning)
-        return cls.read(join(diretorio, nome_arquivo))

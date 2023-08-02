@@ -4,10 +4,6 @@ from inewave.nwlistop.modelos.arquivos.arquivoreepatamar import (
 )
 from inewave.nwlistop.modelos.dlppdfmax import DLPPdfmaxAnos
 
-# Para compatibilidade - até versão 1.0.0
-from os.path import join
-import warnings
-
 
 class Dlppdfmax(ArquivoREEPatamar):
     """
@@ -24,14 +20,3 @@ class Dlppdfmax(ArquivoREEPatamar):
         REE,
         DLPPdfmaxAnos,
     ]
-
-    @classmethod
-    def le_arquivo(
-        cls, diretorio: str, nome_arquivo="dlppdfmax001.out"
-    ) -> "Dlppdfmax":
-        msg = (
-            "O método le_arquivo(diretorio, nome_arquivo) será descontinuado"
-            + " na versão 1.0.0 - use o método read(caminho_arquivo)"
-        )
-        warnings.warn(msg, category=FutureWarning)
-        return cls.read(join(diretorio, nome_arquivo))

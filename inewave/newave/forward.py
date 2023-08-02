@@ -2,12 +2,8 @@ from cfinterface.files.sectionfile import SectionFile
 from inewave.newave.modelos.forward import VariavelOperacao, SecaoDadosForward
 
 
-from typing import TypeVar, Optional, Union, List
+from typing import TypeVar, Optional
 import pandas as pd  # type: ignore
-
-# Para compatibilidade - até versão 1.0.0
-from os.path import join
-import warnings
 
 
 class Forward(SectionFile):
@@ -20,91 +16,6 @@ class Forward(SectionFile):
 
     SECTIONS = [SecaoDadosForward]
     STORAGE = "BINARY"
-
-    def __init__(self, data=...) -> None:
-        super().__init__(data)
-
-    @classmethod
-    def read(
-        cls,
-        content: Union[str, bytes],
-        tamanho_registro: int = 41264,
-        numero_estagios: int = 60,
-        numero_forwards: int = 200,
-        numero_patamares_carga: int = 3,
-        numero_patamares_deficit: int = 1,
-        numero_agrupamentos_intercambio: int = 1,
-        numero_classes_termicas_submercados: List[int] = [],
-        lag_maximo_usinas_gnl: int = 2,
-        nomes_submercados: List[str] = ["SUDESTE", "SUL", "NORDESTE", "NORTE"],
-        nomes_submercados_totais: List[str] = [
-            "SUDESTE",
-            "SUL",
-            "NORDESTE",
-            "NORTE",
-            "NOFICT1",
-        ],
-        nomes_rees: List[str] = [
-            "SUDESTE",
-            "MADEIRA",
-            "TPIRES",
-            "ITAIPU",
-            "PARANA",
-            "PRNPANEMA",
-            "SUL",
-            "IGUACU",
-            "NORDESTE",
-            "NORTE",
-            "BMONTE",
-            "MAN-AP",
-        ],
-        nomes_classes_termicas: List[str] = [],
-        nomes_usinas_hidreletricas: List[str] = [],
-        nomes_parques_eolicos_equivalentes: List[str] = [],
-        nomes_estacoes_bombeamento: List[str] = [],
-        *args,
-        **kwargs
-    ) -> "Forward":
-        return super().read(
-            content,
-            tamanho_registro=tamanho_registro,
-            numero_estagios=numero_estagios,
-            numero_forwards=numero_forwards,
-            numero_patamares_carga=numero_patamares_carga,
-            numero_patamares_deficit=numero_patamares_deficit,
-            numero_agrupamentos_intercambio=numero_agrupamentos_intercambio,
-            numero_classes_termicas_submercados=numero_classes_termicas_submercados,
-            lag_maximo_usinas_gnl=lag_maximo_usinas_gnl,
-            nomes_submercados=nomes_submercados,
-            nomes_submercados_totais=nomes_submercados_totais,
-            nomes_rees=nomes_rees,
-            nomes_classes_termicas=nomes_classes_termicas,
-            nomes_usinas_hidreletricas=nomes_usinas_hidreletricas,
-            nomes_parques_eolicos_equivalentes=nomes_parques_eolicos_equivalentes,
-            nomes_estacoes_bombeamento=nomes_estacoes_bombeamento,
-            *args,
-            **kwargs
-        )
-
-    @classmethod
-    def le_arquivo(
-        cls, diretorio: str, nome_arquivo="forward.dat"
-    ) -> "Forward":
-        msg = (
-            "O método le_arquivo(diretorio, nome_arquivo) será descontinuado"
-            + " na versão 1.0.0 - use o método read(caminho_arquivo)"
-        )
-        warnings.warn(msg, category=FutureWarning)
-        return cls.read(join(diretorio, nome_arquivo))
-
-    def escreve_arquivo(self, diretorio: str, nome_arquivo="forward.dat"):
-        msg = (
-            "O método escreve_arquivo(diretorio, nome_arquivo) será"
-            + " descontinuado na versão 1.0.0 -"
-            + " use o método write(caminho_arquivo)"
-        )
-        warnings.warn(msg, category=FutureWarning)
-        self.write(join(diretorio, nome_arquivo))
 
     def __bloco_dados(self) -> Optional[SecaoDadosForward]:
         dados = [r for r in self.data.of_type(SecaoDadosForward)]

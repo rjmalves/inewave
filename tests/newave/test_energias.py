@@ -1,7 +1,7 @@
 from inewave.newave.modelos.energias import SecaoDadosEnergias
 from inewave.newave.energias import Energias
 
-from os.path import join
+
 from tests.mocks.mock_open import mock_open
 from unittest.mock import MagicMock, patch
 

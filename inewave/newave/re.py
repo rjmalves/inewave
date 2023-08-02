@@ -7,10 +7,6 @@ from cfinterface.files.sectionfile import SectionFile
 from typing import TypeVar, Optional
 import pandas as pd  # type: ignore
 
-# Para compatibilidade - até versão 1.0.0
-from os.path import join
-import warnings
-
 
 class Re(SectionFile):
     """
@@ -25,27 +21,6 @@ class Re(SectionFile):
         BlocoUsinasConjuntoRE,
         BlocoConfiguracaoRestricoesRE,
     ]
-
-    def __init__(self, data=...) -> None:
-        super().__init__(data)
-
-    @classmethod
-    def le_arquivo(cls, diretorio: str, nome_arquivo="re.dat") -> "Re":
-        msg = (
-            "O método le_arquivo(diretorio, nome_arquivo) será descontinuado"
-            + " na versão 1.0.0 - use o método read(caminho_arquivo)"
-        )
-        warnings.warn(msg, category=FutureWarning)
-        return cls.read(join(diretorio, nome_arquivo))
-
-    def escreve_arquivo(self, diretorio: str, nome_arquivo="re.dat"):
-        msg = (
-            "O método escreve_arquivo(diretorio, nome_arquivo) será"
-            + " descontinuado na versão 1.0.0 -"
-            + " use o método write(caminho_arquivo)"
-        )
-        warnings.warn(msg, category=FutureWarning)
-        self.write(join(diretorio, nome_arquivo))
 
     @property
     def usinas_conjuntos(self) -> Optional[pd.DataFrame]:

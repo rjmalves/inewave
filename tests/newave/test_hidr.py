@@ -1,7 +1,7 @@
 from inewave.newave.modelos.hidr import RegistroUHEHidr
 from inewave.newave.hidr import Hidr
 
-from os.path import join
+
 from tests.mocks.mock_open import mock_open
 from unittest.mock import MagicMock, patch
 

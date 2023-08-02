@@ -22,15 +22,6 @@ class ArquivoClasseTermicaSubmercadoPatamar(BlockFile):
         super().__init__(data)
         self.__valores = None
 
-    @classmethod
-    def le_arquivo(
-        cls, diretorio: str, nome_arquivo="arq.out"
-    ) -> "ArquivoClasseTermicaSubmercadoPatamar":
-        return cls.read(diretorio, nome_arquivo)
-
-    def escreve_arquivo(self, diretorio: str, nome_arquivo="arq.out"):
-        self.write(diretorio, nome_arquivo)
-
     def __monta_tabela(self) -> pd.DataFrame:
         df = None
         for b in self.data.of_type(ValoresClasseTermicaSeriePatamar):
