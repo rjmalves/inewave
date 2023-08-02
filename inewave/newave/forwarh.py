@@ -5,9 +5,6 @@ from inewave.newave.modelos.forwarh import SecaoDadosForwarh
 from typing import TypeVar, Optional, List
 
 
-from os.path import join
-
-
 class Forwarh(SectionFile):
     """
     Armazena os dados de saída do NEWAVE referentes ao

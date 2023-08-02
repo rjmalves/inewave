@@ -5,9 +5,6 @@ from inewave.nwlistop.modelos.arquivos.arquivosubmercado import (
 from inewave.nwlistop.modelos.perdfm import PerdfAnos
 
 
-from os.path import join
-
-
 class Perdfm(ArquivoSubmercado):
     """
     Armazena os dados das saídas referentes ao vertimento fio d'água

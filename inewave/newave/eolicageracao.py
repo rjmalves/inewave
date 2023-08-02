@@ -9,9 +9,6 @@ from inewave.newave.modelos.eolicageracao import (
 )
 
 
-from os.path import join
-
-
 class EolicaGeracao(RegisterFile):
     """
     Armazena os dados de entrada do NEWAVE referentes ao histórico

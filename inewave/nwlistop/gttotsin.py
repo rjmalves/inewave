@@ -4,9 +4,6 @@ from inewave.nwlistop.modelos.arquivos.arquivosinpatamar import (
 )
 
 
-from os.path import join
-
-
 class Gttotsin(ArquivoSINPatamar):
     """
     Armazena os dados das saídas referentes à geração térmica total

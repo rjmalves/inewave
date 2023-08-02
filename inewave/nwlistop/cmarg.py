@@ -5,9 +5,6 @@ from inewave.nwlistop.modelos.arquivos.arquivosubmercadopatamar import (
 )
 
 
-from os.path import join
-
-
 class Cmarg(ArquivoSubmercadoPatamar):
     """
     Armazena os dados das saídas referentes aos custos marginais de operação

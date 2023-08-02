@@ -5,9 +5,6 @@ from inewave.nwlistop.modelos.arquivos.arquivosinpatamar import (
 )
 
 
-from os.path import join
-
-
 class Geolsin(ArquivoSINPatamar):
     """
     Armazena os dados das saídas referentes à geração eólica total

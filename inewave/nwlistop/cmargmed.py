@@ -5,9 +5,6 @@ from inewave.nwlistop.modelos.arquivos.arquivosubmercado import (
 from inewave.nwlistop.modelos.cmargmed import CmargsAnos
 
 
-from os.path import join
-
-
 class Cmargmed(ArquivoSubmercado):
     """
     Armazena os dados das saídas referentes aos custos marginais de operação

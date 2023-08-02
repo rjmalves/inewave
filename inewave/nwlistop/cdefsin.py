@@ -5,9 +5,6 @@ from inewave.nwlistop.modelos.arquivos.arquivosin import (
 )
 
 
-from os.path import join
-
-
 class Cdefsin(ArquivoSIN):
     """
     Armazena os dados das saídas referentes ao custo de déficit

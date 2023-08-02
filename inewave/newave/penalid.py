@@ -6,9 +6,6 @@ import pandas as pd  # type: ignore
 from inewave.newave.modelos.penalid import BlocoPenalidades
 
 
-from os.path import join
-
-
 class Penalid(SectionFile):
     """
     Armazena os dados de entrada do NEWAVE referentes às penalidades

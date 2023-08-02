@@ -5,9 +5,6 @@ from inewave.nwlistop.modelos.arquivos.arquivosubmercado import (
 from inewave.nwlistop.modelos.vevminm import VevminAnos
 
 
-from os.path import join
-
-
 class Vevminm(ArquivoSubmercado):
     """
     Armazena os dados das saídas referentes às violações da meta

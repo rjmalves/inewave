@@ -5,9 +5,6 @@ from inewave.nwlistop.modelos.arquivos.arquivoclassetermicasubmercadopatamar imp
 from inewave.nwlistop.modelos.gtert import GTAnos
 
 
-from os.path import join
-
-
 class Gtert(ArquivoClasseTermicaSubmercadoPatamar):
     """
     Armazena os dados das saídas referentes à geração térmica por classe

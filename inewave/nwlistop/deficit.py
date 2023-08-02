@@ -5,9 +5,6 @@ from inewave.nwlistop.modelos.arquivos.arquivosubmercadopatamar import (
 from inewave.nwlistop.modelos.defsin import DefAnos
 
 
-from os.path import join
-
-
 class Def(ArquivoSubmercadoPatamar):
     """
     Armazena os dados das saídas referentes à geração hidraulica total

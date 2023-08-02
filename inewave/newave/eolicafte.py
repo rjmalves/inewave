@@ -5,9 +5,6 @@ from cfinterface.files.registerfile import RegisterFile
 from inewave.newave.modelos.eolicafte import RegistroEolicaFTE, RegistroPEEFTE
 
 
-from os.path import join
-
-
 class EolicaFTE(RegisterFile):
     """
     Armazena os dados de entrada do NEWAVE referentes às funções de

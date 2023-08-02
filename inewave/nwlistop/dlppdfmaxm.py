@@ -5,9 +5,6 @@ from inewave.nwlistop.modelos.arquivos.arquivosubmercadopatamar import (
 from inewave.nwlistop.modelos.dlppdfmax import DLPPdfmaxAnos
 
 
-from os.path import join
-
-
 class Dlppdfmaxm(ArquivoSubmercadoPatamar):
     """
     Armazena os dados das saídas referentes à violação das restrições LPP

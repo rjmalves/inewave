@@ -5,9 +5,6 @@ from inewave.nwlistop.modelos.arquivos.arquivousinapatamar import (
 from inewave.nwlistop.modelos.dvazmax import DvazmaxAnos
 
 
-from os.path import join
-
-
 class Dvazmax(ArquivoUsinaPatamar):
     """
     Armazena os dados das saídas referentes à violação de restrição de

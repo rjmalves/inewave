@@ -5,9 +5,6 @@ from inewave.nwlistop.modelos.arquivos.arquivoreepatamar import (
 from inewave.nwlistop.modelos.ghtot import GHAnos
 
 
-from os.path import join
-
-
 class Ghtot(ArquivoREEPatamar):
     """
     Armazena os dados das saídas referentes à geração hidraulica total

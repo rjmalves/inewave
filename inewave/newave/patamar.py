@@ -11,9 +11,6 @@ from typing import TypeVar, Optional
 import pandas as pd  # type: ignore
 
 
-from os.path import join
-
-
 class Patamar(SectionFile):
     """
     Armazena os dados de entrada do NEWAVE referentes aos

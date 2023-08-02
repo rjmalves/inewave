@@ -5,9 +5,6 @@ from inewave.nwlistop.modelos.arquivos.arquivousinapatamar import (
 from inewave.nwlistop.modelos.vturuh import VturAnos
 
 
-from os.path import join
-
-
 class Vturuh(ArquivoUsinaPatamar):
     """
     Armazena os dados das saídas referentes às vazões turbinadas por usina.

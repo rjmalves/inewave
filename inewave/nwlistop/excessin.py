@@ -4,9 +4,6 @@ from inewave.nwlistop.modelos.arquivos.arquivosinpatamar import (
 from inewave.nwlistop.modelos.exces import ExcesAnos
 
 
-from os.path import join
-
-
 class Excessin(ArquivoSINPatamar):
     """
     Armazena os dados das saídas referentes ao excesso de energia

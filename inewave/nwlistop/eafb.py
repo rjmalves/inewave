@@ -3,9 +3,6 @@ from inewave.nwlistop.modelos.arquivos.arquivoree import ArquivoREE
 from inewave.nwlistop.modelos.eafb import EafsAnos
 
 
-from os.path import join
-
-
 class Eafb(ArquivoREE):
     """
     Armazena os dados das saídas referentes às energias

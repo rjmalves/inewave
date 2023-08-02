@@ -5,9 +5,6 @@ from typing import TypeVar, Optional
 import pandas as pd  # type: ignore
 
 
-from os.path import join
-
-
 class Newavetim(BlockFile):
     """
     Armazena os dados de saída do NEWAVE referentes aos

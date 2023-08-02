@@ -23,9 +23,6 @@ from typing import TypeVar, List, Optional, Union
 import pandas as pd  # type: ignore
 
 
-from os.path import join
-
-
 class Modif(RegisterFile):
     """
     Armazena os dados de entrada do NEWAVE referentes às alterações nas

@@ -5,9 +5,6 @@ from inewave.nwlistop.modelos.arquivos.arquivosubmercado import (
 from inewave.nwlistop.modelos.evertm import EvertAnos
 
 
-from os.path import join
-
-
 class Evertm(ArquivoSubmercado):
     """
     Armazena os dados das saídas referentes ao vertimento de reservatórios

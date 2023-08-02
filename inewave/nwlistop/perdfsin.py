@@ -4,9 +4,6 @@ from inewave.nwlistop.modelos.arquivos.arquivosin import (
 from inewave.nwlistop.modelos.perdfsin import PerdfAnos
 
 
-from os.path import join
-
-
 class Perdfsin(ArquivoSIN):
     """
     Armazena os dados das saídas referentes ao vertimento fio d'água

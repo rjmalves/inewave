@@ -4,9 +4,6 @@ from inewave.nwlistop.modelos.arquivos.arquivoree import ArquivoREE
 from inewave.nwlistop.modelos.vagua import VAAnos
 
 
-from os.path import join
-
-
 class Vagua(ArquivoREE):
     """
     Armazena os dados das saídas referentes aos valores da água

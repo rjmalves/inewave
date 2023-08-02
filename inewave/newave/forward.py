@@ -2,11 +2,8 @@ from cfinterface.files.sectionfile import SectionFile
 from inewave.newave.modelos.forward import VariavelOperacao, SecaoDadosForward
 
 
-from typing import TypeVar, Optional, Union, List
+from typing import TypeVar, Optional
 import pandas as pd  # type: ignore
-
-
-from os.path import join
 
 
 class Forward(SectionFile):

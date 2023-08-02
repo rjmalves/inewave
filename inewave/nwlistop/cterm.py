@@ -5,9 +5,6 @@ from inewave.nwlistop.modelos.arquivos.arquivosubmercado import (
 )
 
 
-from os.path import join
-
-
 class Cterm(ArquivoSubmercado):
     """
     Armazena os dados das saídas referentes aos custos de geração térmica

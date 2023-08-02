@@ -6,9 +6,6 @@ from typing import Optional
 import pandas as pd  # type: ignore
 
 
-from os.path import join
-
-
 class NwvCortesEvap(ArquivoCSV):
     """
     Arquivo com os cortes da evaporação linear do NEWAVE.

@@ -4,9 +4,6 @@ from inewave.nwlistop.modelos.arquivos.arquivoree import ArquivoREE
 from inewave.nwlistop.modelos.earmf import EarmsAnos
 
 
-from os.path import join
-
-
 class Earmf(ArquivoREE):
     """
     Armazena os dados das saídas referentes às energias

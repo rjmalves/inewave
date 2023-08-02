@@ -4,9 +4,6 @@ from cfinterface.files.sectionfile import SectionFile
 from typing import TypeVar, Optional
 
 
-from os.path import join
-
-
 class Caso(SectionFile):
     """
     Armazena os dados de entrada do NEWAVE referentes ao caso de estudo.

@@ -5,9 +5,6 @@ from inewave.nwlistop.modelos.arquivos.arquivousinapatamar import (
 from inewave.nwlistop.modelos.dfphauh import DfphauhAnos
 
 
-from os.path import join
-
-
 class Dfphauh(ArquivoUsinaPatamar):
     """
     Armazena os dados das saídas referentes à variável de folga da

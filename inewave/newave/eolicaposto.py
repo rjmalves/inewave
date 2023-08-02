@@ -8,9 +8,6 @@ from inewave.newave.modelos.eolicaposto import (
 )
 
 
-from os.path import join
-
-
 class EolicaPosto(RegisterFile):
     """
     Armazena os dados de entrada do NEWAVE referentes aos postos

@@ -4,9 +4,6 @@ from inewave.nwlistop.modelos.arquivos.arquivosin import (
 from inewave.nwlistop.modelos.evertsin import EvertAnos
 
 
-from os.path import join
-
-
 class Evertsin(ArquivoSIN):
     """
     Armazena os dados das saídas referentes ao vertimento de reservatórios

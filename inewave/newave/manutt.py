@@ -6,9 +6,6 @@ import pandas as pd  # type: ignore
 from inewave.newave.modelos.manutt import BlocoManutencaoUTE
 
 
-from os.path import join
-
-
 class Manutt(SectionFile):
     """
     Armazena os dados de entrada do NEWAVE referentes à programação

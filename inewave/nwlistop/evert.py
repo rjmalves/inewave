@@ -3,9 +3,6 @@ from inewave.nwlistop.modelos.arquivos.arquivoree import ArquivoREE
 from inewave.nwlistop.modelos.evert import EvertAnos
 
 
-from os.path import join
-
-
 class Evert(ArquivoREE):
     """
     Armazena os dados das saídas referentes ao vertimento de reservatórios

@@ -5,9 +5,6 @@ from inewave.nwlistop.modelos.arquivos.arquivosubmercado import (
 from inewave.nwlistop.modelos.verturbm import VertAnos
 
 
-from os.path import join
-
-
 class Verturbm(ArquivoSubmercado):
     """
     Armazena os dados das saídas referentes às energias

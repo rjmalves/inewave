@@ -7,9 +7,6 @@ from inewave.newave.modelos.eolicasubmercado import (
 )
 
 
-from os.path import join
-
-
 class EolicaSubmercado(RegisterFile):
     """
     Armazena os dados de entrada do NEWAVE referentes ao mapeamento

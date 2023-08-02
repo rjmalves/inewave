@@ -5,9 +5,6 @@ from inewave.nwlistop.modelos.arquivos.arquivousina import (
 from inewave.nwlistop.modelos.varmuh import VarmAnos
 
 
-from os.path import join
-
-
 class Varmuh(ArquivoUsina):
     """
     Armazena os dados das saídas referentes aos armazenamentos por usina.

@@ -5,9 +5,6 @@ from inewave.nwlistop.modelos.arquivos.arquivosubmercadopatamar import (
 from inewave.nwlistop.modelos.geolm import GEAnos
 
 
-from os.path import join
-
-
 class Geolm(ArquivoSubmercadoPatamar):
     """
     Armazena os dados das saídas referentes à geração eólica total

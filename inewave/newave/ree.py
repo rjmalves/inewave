@@ -10,9 +10,6 @@ from inewave.newave.modelos.ree import (
 )
 
 
-from os.path import join
-
-
 class Ree(SectionFile):
     """
     Armazena os dados de entrada do NEWAVE referentes às configurações

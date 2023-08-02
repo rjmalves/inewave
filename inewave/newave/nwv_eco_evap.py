@@ -6,9 +6,6 @@ from typing import Optional
 import pandas as pd  # type: ignore
 
 
-from os.path import join
-
-
 class NwvEcoEvap(ArquivoCSV):
     """
     Arquivo com o eco dos dados da evaporação linear do NEWAVE.

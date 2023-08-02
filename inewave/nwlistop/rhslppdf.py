@@ -5,9 +5,6 @@ from inewave.nwlistop.modelos.arquivos.arquivoreepatamar import (
 from inewave.nwlistop.modelos.rhslppdf import RHSLPPdfAnos
 
 
-from os.path import join
-
-
 class Rhslppdf(ArquivoREEPatamar):
     """
     Armazena os dados das saídas referentes ao RHS das restrições LPP

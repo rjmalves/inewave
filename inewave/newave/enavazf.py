@@ -5,9 +5,6 @@ import pandas as pd  # type: ignore
 from typing import TypeVar, Optional
 
 
-from os.path import join
-
-
 class Enavazf(SectionFile):
     """
     Armazena os dados de saída do NEWAVE referentes às séries sintéticas

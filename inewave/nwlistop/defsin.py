@@ -4,9 +4,6 @@ from inewave.nwlistop.modelos.arquivos.arquivosinpatamar import (
 from inewave.nwlistop.modelos.defsin import DefAnos
 
 
-from os.path import join
-
-
 class Defsin(ArquivoSINPatamar):
     """
     Armazena os dados das saídas referentes ao déficit

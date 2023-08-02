@@ -106,9 +106,6 @@ from inewave.newave.modelos.dger import BlocoEstacoesBombeamento
 from inewave.newave.modelos.dger import BlocoCanalDesvio
 
 
-from os.path import join
-
-
 class Dger(SectionFile):
     """
     Classe para armazenar dados gerais de uma execução do NEWAVE.

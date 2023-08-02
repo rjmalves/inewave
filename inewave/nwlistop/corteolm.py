@@ -5,9 +5,6 @@ from inewave.nwlistop.modelos.arquivos.arquivosubmercadopatamar import (
 from inewave.nwlistop.modelos.corteolm import CorteolmAnos
 
 
-from os.path import join
-
-
 class Corteolm(ArquivoSubmercadoPatamar):
     """
     Armazena os dados das saídas referentes ao corte de geração eólica.

@@ -13,9 +13,6 @@ from typing import Type, TypeVar, Optional, Any, List
 import pandas as pd  # type: ignore
 
 
-from os.path import join
-
-
 class Parpvaz(BlockFile):
     """
     Armazena os dados de saída do NEWAVE referentes aos modelos e às

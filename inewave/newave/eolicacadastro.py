@@ -13,9 +13,6 @@ from inewave.newave.modelos.eolicacadastro import (
 )
 
 
-from os.path import join
-
-
 class EolicaCadastro(RegisterFile):
     """
     Armazena os dados de entrada do NEWAVE referentes ao cadastro

@@ -3,9 +3,6 @@ from cfinterface.components.section import Section
 from typing import TypeVar, List, Type
 
 
-from os.path import join
-
-
 class Sar(SectionFile):
     """
     Armazena os dados de entrada do NEWAVE referentes à superfície de

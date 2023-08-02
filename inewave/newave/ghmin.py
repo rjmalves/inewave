@@ -7,9 +7,6 @@ from inewave.newave.modelos.ghmin import BlocoUHEGhmin
 import pandas as pd  # type: ignore
 
 
-from os.path import join
-
-
 class Ghmin(SectionFile):
     """
     Armazena os dados de entrada do NEWAVE referentes à geração hidráulica

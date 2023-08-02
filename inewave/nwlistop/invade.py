@@ -3,9 +3,6 @@ from inewave.nwlistop.modelos.arquivos.arquivoree import ArquivoREE
 from inewave.nwlistop.modelos.invade import InvadeAnos
 
 
-from os.path import join
-
-
 class Invade(ArquivoREE):
     """
     Armazena os dados das saídas referentes às violações da CAR

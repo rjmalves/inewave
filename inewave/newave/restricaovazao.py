@@ -9,9 +9,6 @@ from inewave.newave.modelos.restricaovazao import (
 )
 
 
-from os.path import join
-
-
 class RestricaoVazao(RegisterFile):
     """
     Armazena os dados de entrada do NEWAVE referentes ao cadastro

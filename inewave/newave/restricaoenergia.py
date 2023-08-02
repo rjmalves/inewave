@@ -9,9 +9,6 @@ from inewave.newave.modelos.restricaoenergia import (
 )
 
 
-from os.path import join
-
-
 class RestricaoEnergia(RegisterFile):
     """
     Armazena os dados de entrada do NEWAVE referentes ao cadastro

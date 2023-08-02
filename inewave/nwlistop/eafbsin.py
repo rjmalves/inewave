@@ -5,9 +5,6 @@ from inewave.nwlistop.modelos.arquivos.arquivosin import (
 )
 
 
-from os.path import join
-
-
 class Eafbsin(ArquivoSIN):
     """
     Armazena os dados das saídas referentes à energia natural

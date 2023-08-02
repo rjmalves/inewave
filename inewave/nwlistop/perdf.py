@@ -3,9 +3,6 @@ from inewave.nwlistop.modelos.arquivos.arquivoree import ArquivoREE
 from inewave.nwlistop.modelos.perdf import PerdfAnos
 
 
-from os.path import join
-
-
 class Perdf(ArquivoREE):
     """
     Armazena os dados das saídas referentes ao vertimento fio d'água

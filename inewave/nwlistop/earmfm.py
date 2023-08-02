@@ -5,9 +5,6 @@ from inewave.nwlistop.modelos.arquivos.arquivosubmercado import (
 from inewave.nwlistop.modelos.earmfm import EarmsAnos
 
 
-from os.path import join
-
-
 class Earmfm(ArquivoSubmercado):
     """
     Armazena os dados das saídas referentes às energias

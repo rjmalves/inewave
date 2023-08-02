@@ -4,9 +4,6 @@ from inewave.nwlistop.modelos.arquivos.arquivosin import (
 from inewave.nwlistop.modelos.vevminsin import VevminAnos
 
 
-from os.path import join
-
-
 class Vevminsin(ArquivoSIN):
     """
     Armazena os dados das saídas referentes às violações da meta

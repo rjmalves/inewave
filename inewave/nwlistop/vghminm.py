@@ -5,9 +5,6 @@ from inewave.nwlistop.modelos.arquivos.arquivosubmercadopatamar import (
 from inewave.nwlistop.modelos.vghminm import VghminAnos
 
 
-from os.path import join
-
-
 class Vghminm(ArquivoSubmercadoPatamar):
     """
     Armazena os dados das saídas referentes à violação da meta de geração

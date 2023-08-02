@@ -5,9 +5,6 @@ from inewave.nwlistop.modelos.arquivos.arquivousina import (
 from inewave.nwlistop.modelos.vento import VentoAnos
 
 
-from os.path import join
-
-
 class Vento(ArquivoUsina):
     """
     Armazena os dados das saídas referentes às velocidades do

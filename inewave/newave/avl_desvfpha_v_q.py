@@ -6,9 +6,6 @@ from typing import Optional, TypeVar
 import pandas as pd  # type: ignore
 
 
-from os.path import join
-
-
 class AvlDesvFphaVQ(BlockFile):
     """
     Arquivo com os desvios da função de produção nos planos de

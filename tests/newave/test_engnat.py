@@ -1,7 +1,7 @@
 from inewave.newave.modelos.engnat import SecaoDadosEngnat
 from inewave.newave.engnat import Engnat
 from inewave.config import MAX_ANOS_HISTORICO
-from os.path import join
+
 from tests.mocks.mock_open import mock_open
 from unittest.mock import MagicMock, patch
 

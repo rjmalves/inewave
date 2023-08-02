@@ -4,9 +4,6 @@ from inewave.nwlistop.modelos.arquivos.arquivosinpatamar import (
 from inewave.nwlistop.modelos.exces import ExcesAnos
 
 
-from os.path import join
-
-
 class Fteolsin(ArquivoSINPatamar):
     """
     Armazena os dados das saídas referentes à folga da variável de

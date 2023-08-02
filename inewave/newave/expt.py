@@ -6,9 +6,6 @@ from typing import TypeVar, List, Type, Optional
 import pandas as pd  # type: ignore
 
 
-from os.path import join
-
-
 class Expt(SectionFile):
     """
     Armazena os dados de entrada do NEWAVE referentes à expansão

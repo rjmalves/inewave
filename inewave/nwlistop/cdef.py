@@ -6,9 +6,6 @@ from inewave.nwlistop.modelos.arquivos.arquivosubmercado import (
 )
 
 
-from os.path import join
-
-
 class Cdef(ArquivoSubmercado):
     """
     Armazena os dados das saídas referentes ao custo de déficit

@@ -5,9 +5,6 @@ from inewave.nwlistop.modelos.arquivos.arquivosubmercadopatamar import (
 from inewave.nwlistop.modelos.ghmaxm import GHAnos
 
 
-from os.path import join
-
-
 class Ghmaxm(ArquivoSubmercadoPatamar):
     """
     Armazena os dados das saídas referentes à geração hidraulica máxima

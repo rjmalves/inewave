@@ -5,9 +5,6 @@ from inewave.nwlistop.modelos.arquivos.arquivousinapatamar import (
 from inewave.nwlistop.modelos.vertuh import VertAnos
 
 
-from os.path import join
-
-
 class Vertuh(ArquivoUsinaPatamar):
     """
     Armazena os dados das saídas referentes aos vertimentos por usina.

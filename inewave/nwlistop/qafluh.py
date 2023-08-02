@@ -5,9 +5,6 @@ from inewave.nwlistop.modelos.arquivos.arquivousina import (
 from inewave.nwlistop.modelos.qafluh import QaflAnos
 
 
-from os.path import join
-
-
 class Qafluh(ArquivoUsina):
     """
     Armazena os dados das saídas referentes às vazões afluentes por usina.

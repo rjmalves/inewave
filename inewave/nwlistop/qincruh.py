@@ -5,9 +5,6 @@ from inewave.nwlistop.modelos.arquivos.arquivousina import (
 from inewave.nwlistop.modelos.qincruh import QincrAnos
 
 
-from os.path import join
-
-
 class Qincruh(ArquivoUsina):
     """
     Armazena os dados das saídas referentes às vazões incrementais por usina.

@@ -5,9 +5,6 @@ from inewave.nwlistop.modelos.arquivos.arquivousinapatamar import (
 from inewave.nwlistop.modelos.vghminuh import VGhminuhAnos
 
 
-from os.path import join
-
-
 class Vghminuh(ArquivoUsinaPatamar):
     """
     Armazena os dados das saídas referentes à violação da meta de

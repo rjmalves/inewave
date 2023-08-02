@@ -5,9 +5,6 @@ from inewave.nwlistop.modelos.arquivos.arquivousinapatamar import (
 from inewave.nwlistop.modelos.ghiduh import GhidAnos
 
 
-from os.path import join
-
-
 class Ghiduh(ArquivoUsinaPatamar):
     """
     Armazena os dados das saídas referentes à geração hidráulica por usina.

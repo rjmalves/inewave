@@ -4,9 +4,6 @@ from inewave.nwlistop.modelos.arquivos.arquivosinpatamar import (
 from inewave.nwlistop.modelos.ghtotsin import GHAnos
 
 
-from os.path import join
-
-
 class Ghtotsin(ArquivoSINPatamar):
     """
     Armazena os dados das saídas referentes à geração hidraulica total

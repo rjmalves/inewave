@@ -5,9 +5,6 @@ from inewave.nwlistop.modelos.arquivos.arquivousinapatamar import (
 from inewave.nwlistop.modelos.depminuh import DepminAnos
 
 
-from os.path import join
-
-
 class Depminuh(ArquivoUsinaPatamar):
     """
     Armazena os dados das saídas referentes À violação de defluência

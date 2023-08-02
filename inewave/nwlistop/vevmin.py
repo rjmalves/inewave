@@ -3,9 +3,6 @@ from inewave.nwlistop.modelos.arquivos.arquivoree import ArquivoREE
 from inewave.nwlistop.modelos.vevmin import VevminAnos
 
 
-from os.path import join
-
-
 class Vevmin(ArquivoREE):
     """
     Armazena os dados das saídas referentes às violações da meta

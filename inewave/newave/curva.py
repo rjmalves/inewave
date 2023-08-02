@@ -13,9 +13,6 @@ from typing import TypeVar, Optional
 import pandas as pd  # type: ignore
 
 
-from os.path import join
-
-
 class Curva(SectionFile):
     """
     Armazena os dados de entrada do NEWAVE referentes à curva para

@@ -1,7 +1,7 @@
 from inewave.newave.modelos.enavazb import SecaoDadosEnavazb
 from inewave.newave.enavazb import Enavazb
 
-from os.path import join
+
 from tests.mocks.mock_open import mock_open
 from unittest.mock import MagicMock, patch
 

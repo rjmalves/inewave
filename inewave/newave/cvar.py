@@ -9,9 +9,6 @@ from typing import TypeVar, Optional
 import pandas as pd  # type: ignore
 
 
-from os.path import join
-
-
 class Cvar(BlockFile):
     """
     Armazena os dados de entrada do NEWAVE referentes à curva para

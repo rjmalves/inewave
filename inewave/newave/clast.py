@@ -8,9 +8,6 @@ from typing import TypeVar, Optional
 import pandas as pd  # type: ignore
 
 
-from os.path import join
-
-
 class Clast(SectionFile):
     """
     Armazena os dados de entrada do NEWAVE referentes às classes de

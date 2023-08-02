@@ -5,9 +5,6 @@ from typing import TypeVar, Optional
 import pandas as pd  # type: ignore
 
 
-from os.path import join
-
-
 class Estados(BlockFile):
     """
     Armazena os dados dos estados visitados pelo NEWAVE existentes

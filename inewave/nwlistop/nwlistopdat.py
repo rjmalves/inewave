@@ -6,9 +6,6 @@ from cfinterface.files.sectionfile import SectionFile
 from typing import TypeVar, Optional, List
 
 
-from os.path import join
-
-
 class Nwlistopdat(SectionFile):
     """
     Armazena os dados de entrada para a execução do programa auxiliar

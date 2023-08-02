@@ -5,9 +5,6 @@ from inewave.nwlistop.modelos.arquivos.arquivousinapatamar import (
 from inewave.nwlistop.modelos.dtbmax import DtbmaxAnos
 
 
-from os.path import join
-
-
 class Dtbmax(ArquivoUsinaPatamar):
     """
     Armazena os dados das saídas referentes à violação de restrição de

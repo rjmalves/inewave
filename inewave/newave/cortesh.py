@@ -5,9 +5,6 @@ import pandas as pd  # type: ignore
 from typing import TypeVar
 
 
-from os.path import join
-
-
 class Cortesh(SectionFile):
     """
     Armazena os dados de saída do NEWAVE referentes ao

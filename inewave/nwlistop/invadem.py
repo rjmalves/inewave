@@ -5,9 +5,6 @@ from inewave.nwlistop.modelos.arquivos.arquivosubmercado import (
 from inewave.nwlistop.modelos.invade import InvadeAnos
 
 
-from os.path import join
-
-
 class Invadem(ArquivoSubmercado):
     """
     Armazena os dados das saídas referentes às violações da CAR

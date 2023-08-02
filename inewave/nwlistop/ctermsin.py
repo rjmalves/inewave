@@ -4,9 +4,6 @@ from inewave.nwlistop.modelos.arquivos.arquivosin import (
 )
 
 
-from os.path import join
-
-
 class Ctermsin(ArquivoSIN):
     """
     Armazena os dados das saídas referentes aos custos de geração térmica

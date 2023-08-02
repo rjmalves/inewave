@@ -6,9 +6,6 @@ from typing import List, TypeVar, Optional
 import pandas as pd  # type: ignore
 
 
-from os.path import join
-
-
 class Arquivos(SectionFile):
     """
     Armazena os dados de entrada do NEWAVE referentes ao arquivo

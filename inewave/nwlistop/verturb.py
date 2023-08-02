@@ -4,9 +4,6 @@ from inewave.nwlistop.modelos.arquivos.arquivoree import ArquivoREE
 from inewave.nwlistop.modelos.verturb import VertAnos
 
 
-from os.path import join
-
-
 class Verturb(ArquivoREE):
     """
     Armazena os dados das saídas referentes às energias

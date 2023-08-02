@@ -5,9 +5,6 @@ from inewave.nwlistop.modelos.arquivos.arquivosubmercadopatamar import (
 from inewave.nwlistop.modelos.gttot import GTAnos
 
 
-from os.path import join
-
-
 class Gttot(ArquivoSubmercadoPatamar):
     """
     Armazena os dados das saídas referentes à geração térmica total

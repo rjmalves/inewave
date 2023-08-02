@@ -8,9 +8,6 @@ from inewave.newave.modelos.eolicaconfiguracao import (
 )
 
 
-from os.path import join
-
-
 class EolicaConfiguracao(RegisterFile):
     """
     Armazena os dados de entrada do NEWAVE referentes às configurações

@@ -5,9 +5,6 @@ from inewave.nwlistop.modelos.arquivos.arquivoparsubmercadopatamar import (
 from inewave.nwlistop.modelos.intercambio import IntercambioAnos
 
 
-from os.path import join
-
-
 class Intercambio(ArquivoParSubmercadoPatamar):
     """
     Armazena os dados das saídas referentes ao intercâmbio
