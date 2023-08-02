@@ -8,9 +8,8 @@ from inewave.newave.modelos.eolicageracao import (
     RegistroPEEGeracaoPatamar,
 )
 
-# Para compatibilidade - até versão 1.0.0
+
 from os.path import join
-import warnings
 
 
 class EolicaGeracao(RegisterFile):

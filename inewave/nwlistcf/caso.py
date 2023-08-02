@@ -3,9 +3,8 @@ from inewave.nwlistcf.modelos.caso import NomeCaso
 from cfinterface.files.sectionfile import SectionFile
 from typing import TypeVar, Optional
 
-# Para compatibilidade - até versão 1.0.0
+
 from os.path import join
-import warnings
 
 
 class Caso(SectionFile):

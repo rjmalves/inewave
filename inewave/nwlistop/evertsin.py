@@ -3,9 +3,8 @@ from inewave.nwlistop.modelos.arquivos.arquivosin import (
 )
 from inewave.nwlistop.modelos.evertsin import EvertAnos
 
-# Para compatibilidade - até versão 1.0.0
+
 from os.path import join
-import warnings
 
 
 class Evertsin(ArquivoSIN):

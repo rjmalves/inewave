@@ -22,9 +22,8 @@ from inewave.newave.modelos.modif import (
 from typing import TypeVar, List, Optional, Union
 import pandas as pd  # type: ignore
 
-# Para compatibilidade - até versão 1.0.0
+
 from os.path import join
-import warnings
 
 
 class Modif(RegisterFile):

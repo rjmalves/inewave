@@ -2,9 +2,8 @@ from inewave.nwlistop.modelos.blocos.ree import REE
 from inewave.nwlistop.modelos.arquivos.arquivoree import ArquivoREE
 from inewave.nwlistop.modelos.perdf import PerdfAnos
 
-# Para compatibilidade - até versão 1.0.0
+
 from os.path import join
-import warnings
 
 
 class Perdf(ArquivoREE):

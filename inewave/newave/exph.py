@@ -5,9 +5,8 @@ from cfinterface.components.section import Section
 from typing import TypeVar, List, Type, Optional
 import pandas as pd  # type: ignore
 
-# Para compatibilidade - até versão 1.0.0
+
 from os.path import join
-import warnings
 
 
 class Exph(SectionFile):

@@ -4,9 +4,8 @@ from inewave.newave.modelos.cortesh import SecaoDadosCortesh
 import pandas as pd  # type: ignore
 from typing import TypeVar
 
-# Para compatibilidade - até versão 1.0.0
+
 from os.path import join
-import warnings
 
 
 class Cortesh(SectionFile):

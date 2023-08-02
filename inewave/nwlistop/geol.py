@@ -4,9 +4,8 @@ from inewave.nwlistop.modelos.arquivos.arquivousinapatamar import (
 )
 from inewave.nwlistop.modelos.geol import GEAnos
 
-# Para compatibilidade - até versão 1.0.0
+
 from os.path import join
-import warnings
 
 
 class Geol(ArquivoUsinaPatamar):

@@ -6,9 +6,8 @@ import pandas as pd  # type: ignore
 
 from typing import TypeVar, List, Optional, Union, IO
 
-# Para compatibilidade - até versão 1.0.0
+
 from os.path import join
-import warnings
 
 
 class Hidr(RegisterFile):

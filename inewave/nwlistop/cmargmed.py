@@ -4,9 +4,8 @@ from inewave.nwlistop.modelos.arquivos.arquivosubmercado import (
 )
 from inewave.nwlistop.modelos.cmargmed import CmargsAnos
 
-# Para compatibilidade - até versão 1.0.0
+
 from os.path import join
-import warnings
 
 
 class Cmargmed(ArquivoSubmercado):

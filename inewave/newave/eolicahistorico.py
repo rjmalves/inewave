@@ -9,9 +9,8 @@ from inewave.newave.modelos.eolicahistorico import (
     RegistroHistoricoVento,
 )
 
-# Para compatibilidade - até versão 1.0.0
+
 from os.path import join
-import warnings
 
 
 class EolicaHistorico(RegisterFile):

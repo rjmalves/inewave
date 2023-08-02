@@ -5,9 +5,8 @@ from inewave.newave.modelos.forward import VariavelOperacao, SecaoDadosForward
 from typing import TypeVar, Optional, Union, List
 import pandas as pd  # type: ignore
 
-# Para compatibilidade - até versão 1.0.0
+
 from os.path import join
-import warnings
 
 
 class Forward(SectionFile):

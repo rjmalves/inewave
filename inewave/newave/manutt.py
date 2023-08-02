@@ -5,9 +5,8 @@ import pandas as pd  # type: ignore
 
 from inewave.newave.modelos.manutt import BlocoManutencaoUTE
 
-# Para compatibilidade - até versão 1.0.0
+
 from os.path import join
-import warnings
 
 
 class Manutt(SectionFile):

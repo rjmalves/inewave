@@ -3,9 +3,8 @@ from inewave.nwlistop.modelos.arquivos.arquivosinpatamar import (
 )
 from inewave.nwlistop.modelos.vghmin import VghminAnos
 
-# Para compatibilidade - até versão 1.0.0
+
 from os.path import join
-import warnings
 
 
 class Vghminsin(ArquivoSINPatamar):

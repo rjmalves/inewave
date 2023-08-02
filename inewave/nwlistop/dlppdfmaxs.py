@@ -3,9 +3,8 @@ from inewave.nwlistop.modelos.arquivos.arquivosinpatamar import (
 )
 from inewave.nwlistop.modelos.dlppdfmaxs import DLPPdfmaxAnos
 
-# Para compatibilidade - até versão 1.0.0
+
 from os.path import join
-import warnings
 
 
 class Dlppdfmaxs(ArquivoSINPatamar):

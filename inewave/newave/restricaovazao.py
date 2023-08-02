@@ -8,9 +8,8 @@ from inewave.newave.modelos.restricaovazao import (
     RegistroRHQLsLPPVoli,
 )
 
-# Para compatibilidade - até versão 1.0.0
+
 from os.path import join
-import warnings
 
 
 class RestricaoVazao(RegisterFile):

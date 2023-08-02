@@ -7,9 +7,8 @@ from inewave.newave.modelos.eolicaconfiguracao import (
     RegistroPEEConfiguracaoPeriodo,
 )
 
-# Para compatibilidade - até versão 1.0.0
+
 from os.path import join
-import warnings
 
 
 class EolicaConfiguracao(RegisterFile):

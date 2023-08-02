@@ -5,9 +5,8 @@ from inewave.nwlistop.modelos.nwlistopdat import (
 from cfinterface.files.sectionfile import SectionFile
 from typing import TypeVar, Optional, List
 
-# Para compatibilidade - até versão 1.0.0
+
 from os.path import join
-import warnings
 
 
 class Nwlistopdat(SectionFile):

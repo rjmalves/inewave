@@ -5,9 +5,8 @@ import pandas as pd  # type: ignore
 
 from inewave.newave.modelos.penalid import BlocoPenalidades
 
-# Para compatibilidade - até versão 1.0.0
+
 from os.path import join
-import warnings
 
 
 class Penalid(SectionFile):

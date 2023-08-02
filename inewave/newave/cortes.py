@@ -4,9 +4,8 @@ from inewave.newave.modelos.cortes import SecaoDadosCortes
 import pandas as pd  # type: ignore
 from typing import TypeVar, Optional, Union, List
 
-# Para compatibilidade - até versão 1.0.0
+
 from os.path import join
-import warnings
 
 
 class Cortes(SectionFile):

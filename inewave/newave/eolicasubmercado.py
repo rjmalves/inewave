@@ -6,9 +6,8 @@ from inewave.newave.modelos.eolicasubmercado import (
     RegistroPEESubmercado,
 )
 
-# Para compatibilidade - até versão 1.0.0
+
 from os.path import join
-import warnings
 
 
 class EolicaSubmercado(RegisterFile):

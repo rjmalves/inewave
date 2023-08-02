@@ -4,9 +4,8 @@ from datetime import datetime
 from cfinterface.files.registerfile import RegisterFile
 from inewave.newave.modelos.eolicafte import RegistroEolicaFTE, RegistroPEEFTE
 
-# Para compatibilidade - até versão 1.0.0
+
 from os.path import join
-import warnings
 
 
 class EolicaFTE(RegisterFile):

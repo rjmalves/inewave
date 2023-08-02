@@ -4,9 +4,8 @@ from inewave.nwlistop.modelos.arquivos.arquivoclassetermicasubmercadopatamar imp
 )
 from inewave.nwlistop.modelos.gtert import GTAnos
 
-# Para compatibilidade - até versão 1.0.0
+
 from os.path import join
-import warnings
 
 
 class Gtert(ArquivoClasseTermicaSubmercadoPatamar):

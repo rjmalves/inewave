@@ -15,9 +15,8 @@ from cfinterface.files.blockfile import BlockFile
 from typing import Type, TypeVar, Optional, Any, List
 import pandas as pd  # type: ignore
 
-# Para compatibilidade - até versão 1.0.0
+
 from os.path import join
-import warnings
 
 
 class Parp(BlockFile):

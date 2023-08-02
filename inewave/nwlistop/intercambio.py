@@ -4,9 +4,8 @@ from inewave.nwlistop.modelos.arquivos.arquivoparsubmercadopatamar import (
 )
 from inewave.nwlistop.modelos.intercambio import IntercambioAnos
 
-# Para compatibilidade - até versão 1.0.0
+
 from os.path import join
-import warnings
 
 
 class Intercambio(ArquivoParSubmercadoPatamar):

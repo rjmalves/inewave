@@ -4,9 +4,8 @@ from inewave.nwlistop.modelos.arquivos.arquivousina import (
 )
 from inewave.nwlistop.modelos.qafluh import QaflAnos
 
-# Para compatibilidade - até versão 1.0.0
+
 from os.path import join
-import warnings
 
 
 class Qafluh(ArquivoUsina):

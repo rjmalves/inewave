@@ -3,9 +3,8 @@ from inewave.nwlistop.modelos.arquivos.arquivoree import ArquivoREE
 
 from inewave.nwlistop.modelos.verturb import VertAnos
 
-# Para compatibilidade - até versão 1.0.0
+
 from os.path import join
-import warnings
 
 
 class Verturb(ArquivoREE):

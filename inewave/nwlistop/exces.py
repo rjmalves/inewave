@@ -4,9 +4,8 @@ from inewave.nwlistop.modelos.arquivos.arquivosubmercadopatamar import (
 )
 from inewave.nwlistop.modelos.exces import ExcesAnos
 
-# Para compatibilidade - até versão 1.0.0
+
 from os.path import join
-import warnings
 
 
 class Exces(ArquivoSubmercadoPatamar):

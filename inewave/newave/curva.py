@@ -12,9 +12,8 @@ from cfinterface.files.sectionfile import SectionFile
 from typing import TypeVar, Optional
 import pandas as pd  # type: ignore
 
-# Para compatibilidade - até versão 1.0.0
+
 from os.path import join
-import warnings
 
 
 class Curva(SectionFile):

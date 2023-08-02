@@ -9,9 +9,8 @@ from inewave.newave.modelos.ree import (
     BlocoFicticiasIndividualizado,
 )
 
-# Para compatibilidade - até versão 1.0.0
+
 from os.path import join
-import warnings
 
 
 class Ree(SectionFile):
