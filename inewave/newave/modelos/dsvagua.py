@@ -74,7 +74,7 @@ class BlocoDsvUHE(Section):
         i = 0
         tabela = np.zeros((MAX_UHES * MAX_ANOS_ESTUDO, len(MESES_DF)))
         codigos_usinas: List[int] = []
-        anos: List[int] = []
+        anos: List[str] = []
         considera_desvios: List[int] = []
         comentarios: List[str] = []
         ultimo_comentario = ""

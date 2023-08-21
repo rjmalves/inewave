@@ -26,10 +26,8 @@ class Eafpast(SectionFile):
 
         - codigo_ree (`int`)
         - nome_ree (`str`)
-        - janeiro (`float`)
-        - fevereiro (`float`)
-        - ...
-        - dezembro (`float`)
+        - mes (`int`)
+        - valor (`float`)
 
         :return: A tabela como um DataFrame
         :rtype: Optional[pd.DataFrame]
