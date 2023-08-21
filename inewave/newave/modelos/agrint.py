@@ -8,8 +8,10 @@ from cfinterface.components.section import Section
 from cfinterface.components.line import Line
 from cfinterface.components.literalfield import LiteralField
 from cfinterface.components.integerfield import IntegerField
+from cfinterface.components.datetimefield import DatetimeField
 from cfinterface.components.floatfield import FloatField
 from typing import List, IO
+from datetime import datetime
 import pandas as pd  # type: ignore
 import numpy as np  # type: ignore
 
@@ -116,10 +118,8 @@ class BlocoLimitesPorGrupoAgrint(Section):
         self.__linha = Line(
             [
                 IntegerField(3, 1),
-                IntegerField(2, 6),
-                IntegerField(4, 9),
-                IntegerField(2, 14),
-                IntegerField(4, 17),
+                DatetimeField(7, 6, format="%m %Y"),
+                DatetimeField(7, 14, format="%m %Y"),
                 FloatField(7, 22, 0),
                 FloatField(7, 30, 0),
                 FloatField(7, 38, 0),
@@ -147,33 +147,41 @@ class BlocoLimitesPorGrupoAgrint(Section):
         def converte_tabela_em_df():
             cols = [
                 "agrupamento",
-                "mes_inicio",
-                "ano_inicio",
-                "mes_fim",
-                "ano_fim",
                 "limite_p1",
                 "limite_p2",
                 "limite_p3",
             ]
             df = pd.DataFrame(tabela, columns=cols)
             df["comentario"] = comentarios
+            df["data_inicio"] = datas_inicio
+            df["data_fim"] = datas_fim
             df = df.astype(
                 {
                     "agrupamento": "int64",
-                    "mes_inicio": "int64",
-                    "ano_inicio": "int64",
                 }
             )
-            return df
+            return df[
+                [
+                    "agrupamento",
+                    "data_inicio",
+                    "data_fim",
+                    "limite_p1",
+                    "limite_p2",
+                    "limite_p3",
+                    "comentario",
+                ]
+            ]
 
         # Salta as linhas adicionais
         for _ in range(3):
             self.__cabecalhos.append(file.readline())
 
         i = 0
+        datas_inicio: List[datetime] = []
+        datas_fim: List[datetime] = []
         comentarios: List[str] = []
         tabela = np.zeros(
-            (MAX_AGRUPAMENTOS_INTERCAMBIOS * MAX_MESES_ESTUDO, 8)
+            (MAX_AGRUPAMENTOS_INTERCAMBIOS * MAX_MESES_ESTUDO, 4)
         )
         while True:
             linha = file.readline()
@@ -187,7 +195,10 @@ class BlocoLimitesPorGrupoAgrint(Section):
             # Confere se é uma linha de subsistema ou tabela
             else:
                 dados = self.__linha.read(linha)
-                tabela[i, :] = dados[:-1]
+                tabela[i, 0] = dados[0]
+                tabela[i, 1:] = dados[3:6]
+                datas_inicio.append(dados[1])
+                datas_fim.append(dados[2])
                 comentarios.append(dados[-1])
                 i += 1
 

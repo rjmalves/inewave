@@ -53,13 +53,12 @@ class Agrint(SectionFile):
         durante o período de estudo.
 
         - agrupamento (`int`)
-        - mes_inicio (`int`)
-        - ano_inicio (`int`)
-        - mes_fim (`int`)
-        - ano_fim (`int`)
+        - data_inicio (`datetime`)
+        - data_fim (`datetime`)
         - limite_p1 (`float`)
         - limite_p2 (`float`)
         - limite_p3 (`float`)
+        - comentario (`str`)
 
         :return: A tabela como um DataFrame.
         :rtype: pd.DataFrame | None
