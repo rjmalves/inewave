@@ -14,7 +14,6 @@ def test_atributos_encontrados_mercl():
     with patch("builtins.open", m):
         n = Mercl.read(ARQ_TESTE)
         assert n.valores is not None
-        print(n.valores)
         assert n.valores.iloc[0, 0] == datetime(2022, 1, 1)
         assert n.valores.iloc[-1, -1] == 37783.0
         assert n.submercado is not None

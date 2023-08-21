@@ -86,7 +86,6 @@ class BlocoTermUTE(Section):
                     self.data = converte_tabela_em_df()
                 break
             dados = self.__linha.read(linha)
-            print(dados)
             tabela[i, :] = dados[2:]
             numeros.append(dados[0])
             nomes.append(dados[1])
