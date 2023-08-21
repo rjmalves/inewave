@@ -7,7 +7,10 @@ from cfinterface.components.floatfield import FloatField
 from typing import List, IO
 import pandas as pd  # type: ignore
 import numpy as np  # type: ignore
-
+from inewave._utils.formatacao import (
+    prepara_vetor_anos_tabela,
+    repete_vetor,
+)
 from inewave.config import MAX_ANOS_ESTUDO, MAX_UHES, MESES_DF
 
 
@@ -51,21 +54,15 @@ class BlocoDsvUHE(Section):
     # Override
     def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df() -> pd.DataFrame:
-            cols = (
-                ["ano", "codigo_usina"]
-                + MESES_DF
-                + ["considera_desvio_usina_NC"]
-            )
             df = pd.DataFrame(
-                tabela,
-                columns=cols,
-            )
-            df["Comentário"] = comentarios
-            df = df.astype(
-                {
-                    "ano": "int64",
-                    "codigo_usina": "int64",
-                    "considera_desvio_usina_NC": "int64",
+                data={
+                    "codigo_usina": repete_vetor(codigos_usinas),
+                    "data": prepara_vetor_anos_tabela(anos),
+                    "valor": tabela.flatten(),
+                    "considera_desvio_usina_NC": repete_vetor(
+                        considera_desvios
+                    ),
+                    "comentario": repete_vetor(comentarios),
                 }
             )
             return df
@@ -75,8 +72,12 @@ class BlocoDsvUHE(Section):
             self.__cabecalhos.append(file.readline())
 
         i = 0
-        tabela = np.zeros((MAX_UHES * MAX_ANOS_ESTUDO, len(MESES_DF) + 3))
+        tabela = np.zeros((MAX_UHES * MAX_ANOS_ESTUDO, len(MESES_DF)))
+        codigos_usinas: List[int] = []
+        anos: List[int] = []
+        considera_desvios: List[int] = []
         comentarios: List[str] = []
+        ultimo_comentario = ""
         while True:
             linha = file.readline()
             # Confere se terminaram as usinas
@@ -87,8 +88,13 @@ class BlocoDsvUHE(Section):
                     self.data = converte_tabela_em_df()
                 break
             dados = self.__linha_uhe.read(linha)
-            tabela[i, :] = dados[: len(MESES_DF) + 3]
-            comentarios.append(dados[-1])
+            tabela[i, :] = dados[2:-2]
+            anos.append(dados[0])
+            codigos_usinas.append(dados[1])
+            considera_desvios.append(dados[-2])
+            if len(dados[-1]) > 0:
+                ultimo_comentario = dados[-1]
+            comentarios.append(ultimo_comentario)
             i += 1
 
     # Override
@@ -98,6 +104,53 @@ class BlocoDsvUHE(Section):
         if not isinstance(self.data, pd.DataFrame):
             raise ValueError("Dados do confhd.dat não foram lidos com sucesso")
 
-        for _, lin in self.data.iterrows():
-            file.write(self.__linha_uhe.write(lin.tolist()))
+        # Separa os valores de cada usina
+        df = self.data.copy()
+        df["ano"] = df.apply(lambda linha: linha["data"].year, axis=1)
+        ultimo_comentario = ""
+        for _, linha_usina in (
+            df[
+                [
+                    "codigo_usina",
+                    "ano",
+                    "considera_desvio_usina_NC",
+                    "comentario",
+                ]
+            ]
+            .drop_duplicates()
+            .iterrows()
+        ):
+            df_usina = df.loc[
+                (df["codigo_usina"] == linha_usina["codigo_usina"])
+                & (df["ano"] == linha_usina["ano"])
+                & (
+                    df["considera_desvio_usina_NC"]
+                    == linha_usina["considera_desvio_usina_NC"]
+                )
+                & (df["comentario"] == linha_usina["comentario"])
+            ]
+            num_blocos_ano = df_usina.shape[0] // len(MESES_DF)
+            for i in range(num_blocos_ano):
+                comentario = (
+                    linha_usina["comentario"]
+                    if ultimo_comentario != linha_usina["comentario"]
+                    else ""
+                )
+                ultimo_comentario = linha_usina["comentario"]
+                file.write(
+                    self.__linha_uhe.write(
+                        [
+                            int(linha_usina["ano"]),
+                            int(linha_usina["codigo_usina"]),
+                        ]
+                        + df_usina["valor"].tolist()[
+                            len(MESES_DF) * i : len(MESES_DF) * (i + 1)
+                        ]
+                        + [
+                            linha_usina["considera_desvio_usina_NC"],
+                            comentario,
+                        ]
+                    )
+                )
+
         file.write(BlocoDsvUHE.FIM_BLOCO + "\n")

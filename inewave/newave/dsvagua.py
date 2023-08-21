@@ -24,13 +24,11 @@ class Dsvagua(SectionFile):
         """
         Tabela com os desvios de água por usina e por estágio.
 
-        - ano (`int`)
         - codigo_usina (`int`)
-        - janeiro (`float`)
-        - fevereiro (`float`)
-        - ...
-        - dezembro (`float`)
+        - data (`datetime`)
+        - valor (`float`)
         - considera_desvio_usina_NC (`int`)
+        - comentario (`str`)
 
         :return: A tabela como um DataFrame
         :rtype: pd.DataFrame | None

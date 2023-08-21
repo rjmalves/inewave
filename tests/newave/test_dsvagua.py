@@ -19,9 +19,9 @@ def test_bloco_desvios_dsvagua():
         with open("", "") as fp:
             b.read(fp)
 
-    assert b.data.shape[0] == 1045
-    assert b.data.iloc[0, 0] == 2020
-    assert b.data.iloc[-1, 0] == 2024
+    assert b.data.shape[0] == 12540
+    assert b.data.iloc[0, 0] == 1
+    assert b.data.iloc[-1, 0] == 306
 
 
 def test_atributos_encontrados_dsvagua():
@@ -70,4 +70,12 @@ def test_leitura_escrita_dsvagua():
     m_releitura: MagicMock = mock_open(read_data="".join(linhas_escritas))
     with patch("builtins.open", m_releitura):
         cf2 = Dsvagua.read(ARQ_TESTE)
+        cf1.desvios.sort_values(
+            ["codigo_usina", "comentario", "data"], inplace=True
+        )
+        cf2.desvios.sort_values(
+            ["codigo_usina", "comentario", "data"], inplace=True
+        )
+        cf1.desvios.reset_index(drop=True, inplace=True)
+        cf2.desvios.reset_index(drop=True, inplace=True)
         assert cf1 == cf2
