@@ -13,6 +13,7 @@ from cfinterface.components.floatfield import FloatField
 from typing import List, IO
 import numpy as np  # type: ignore
 import pandas as pd  # type: ignore
+from datetime import datetime
 
 
 class BlocoCargasAdicionais(Section):
@@ -51,16 +52,40 @@ class BlocoCargasAdicionais(Section):
 
     # Override
     def read(self, file: IO, *args, **kwargs):
-        def converte_tabela_em_df():
-            df = pd.DataFrame(tabela, columns=MESES_DF)
-            df["codigo_subsistema"] = codigo_subsis
-            df["nome_subsistema"] = nome_subsis
-            df["comentario"] = razao
-            df["ano"] = anos
-            df = df[
-                ["codigo_subsistema", "nome_subsistema", "comentario", "ano"]
-                + MESES_DF
+        def prepara_vetor_anos(anos: List[str]) -> List[datetime]:
+            # Se tem pré, substitui por 0001
+            # Se tem pós, substitui por 9999
+            # Repete os valores existentes 12 vezes
+            anos_convertidos: List[int] = []
+            for a in anos:
+                if a == "PRE":
+                    a_convertido = 1
+                elif a == "POS":
+                    a_convertido = 9999
+                else:
+                    a_convertido = int(a)
+                anos_convertidos.append(a_convertido)
+
+            anos_array = np.array(anos_convertidos).repeat(len(MESES_DF))
+            meses = np.tile(np.arange(1, 13), len(anos))
+            return [
+                datetime(year=a, month=m, day=1)
+                for a, m in zip(anos_array, meses)
             ]
+
+        def repete_vetor(valores: list) -> np.ndarray:
+            return np.array(valores).repeat(len(MESES_DF))
+
+        def converte_tabela_em_df():
+            df = pd.DataFrame(
+                data={
+                    "codigo_submercado": repete_vetor(codigo_subsis),
+                    "nome_submercado": repete_vetor(nome_subsis),
+                    "razao": repete_vetor(razao),
+                    "data": prepara_vetor_anos(anos),
+                    "valor": tabela.flatten(),
+                }
+            )
             return df
 
         # Salta as linhas adicionais
@@ -111,32 +136,51 @@ class BlocoCargasAdicionais(Section):
         if not isinstance(self.data, pd.DataFrame):
             raise ValueError("Dados do c_adic.dat não foram lidos com sucesso")
 
-        for _, linha in self.data.iterrows():
-            linha_lida: pd.Series = linha
+        def prepara_valor_ano(ano: int) -> str:
+            if ano == 1:
+                return "PRE"
+            elif ano == 9999:
+                return "POS"
+            else:
+                return str(ano)
+
+        # Separa os valores de cada submercado, razao, ano
+        df = self.data.copy()
+        df["ano"] = df.apply(lambda linha: linha["data"].year, axis=1)
+        for _, linha_razao in (
+            df[["codigo_submercado", "nome_submercado", "razao", "ano"]]
+            .drop_duplicates()
+            .iterrows()
+        ):
+            df_razao = df.loc[
+                (df["codigo_submercado"] == linha_razao["codigo_submercado"])
+                & (df["razao"] == linha_razao["razao"])
+                & (df["ano"] == linha_razao["ano"])
+            ]
+            df_razao = df_razao.sort_values(["data"])
             if any(
                 [
-                    linha_lida["codigo_subsistema"] != ultimo_codigo,
-                    linha_lida["nome_subsistema"] != ultimo_subsis,
-                    linha_lida["comentario"] != ultima_razao,
+                    linha_razao["codigo_submercado"] != ultimo_codigo,
+                    linha_razao["nome_submercado"] != ultimo_subsis,
+                    linha_razao["razao"] != ultima_razao,
                 ]
             ):
-                ultimo_codigo = linha_lida["codigo_subsistema"]
-                ultimo_subsis = linha_lida["nome_subsistema"]
-                ultima_razao = linha_lida["comentario"]
+                ultimo_codigo = linha_razao["codigo_submercado"]
+                ultimo_subsis = linha_razao["nome_submercado"]
+                ultima_razao = linha_razao["razao"]
                 file.write(
                     self.__linha_subsis.write(
-                        linha_lida[
+                        linha_razao[
                             [
-                                "codigo_subsistema",
-                                "nome_subsistema",
-                                "comentario",
+                                "codigo_submercado",
+                                "nome_submercado",
+                                "razao",
                             ]
                         ].tolist()
                     )
                 )
-            linha_saida = linha_lida[["ano"] + MESES_DF]
-            valores_saida = []
-            for valor, vazio in zip(linha_saida, linha_saida.isna()):
-                valores_saida.append(None if vazio else valor)
-            file.write(self.__linha_cargas.write(valores_saida))
+            ano = prepara_valor_ano(linha_razao["ano"])
+            valores = df_razao["valor"].tolist()
+            file.write(self.__linha_cargas.write([ano] + valores))
+
         file.write(BlocoCargasAdicionais.FIM_BLOCO)
