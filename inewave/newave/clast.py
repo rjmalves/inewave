@@ -55,10 +55,8 @@ class Clast(SectionFile):
 
         - codigo (`int`)
         - custo (`float`)
-        - mes_inicio (`int`)
-        - ano_inicio (`int`)
-        - mes_fim (`int`)
-        - ano_fim (`int`)
+        - data_inicio (`datetime`)
+        - data_fim (`datetime`)
         - nome (`str`)
 
         :return: A tabela como um DataFrame

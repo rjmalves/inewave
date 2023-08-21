@@ -5,10 +5,12 @@ from cfinterface.components.line import Line
 from cfinterface.components.field import Field
 from cfinterface.components.integerfield import IntegerField
 from cfinterface.components.literalfield import LiteralField
+from cfinterface.components.datetimefield import DatetimeField
 from cfinterface.components.floatfield import FloatField
 from typing import List, IO
 import numpy as np  # type: ignore
 import pandas as pd  # type: ignore
+from datetime import datetime
 
 
 class BlocoUTEClasT(Section):
@@ -107,10 +109,8 @@ class BlocoModificacaoUTEClasT(Section):
         campos_modificacao: List[Field] = [
             IntegerField(4, 1),
             FloatField(7, 8, 2),
-            IntegerField(2, 17),
-            IntegerField(4, 20),
-            IntegerField(2, 26),
-            IntegerField(4, 29),
+            DatetimeField(7, 17, format="%m %Y"),
+            DatetimeField(7, 26, format="%m %Y"),
             LiteralField(12, 35),
         ]
         self.__linha = Line(campos_modificacao)
@@ -137,10 +137,8 @@ class BlocoModificacaoUTEClasT(Section):
                 data={
                     "codigo": codigo_ute,
                     "custo": custo,
-                    "mes_inicio": mes_ini,
-                    "ano_inicio": ano_ini,
-                    "mes_fim": mes_fim,
-                    "ano_fim": ano_fim,
+                    "data_inicio": datas_inicio,
+                    "data_fim": datas_fim,
                     "nome": nomes,
                 }
             )
@@ -153,10 +151,8 @@ class BlocoModificacaoUTEClasT(Section):
         # Variáveis auxiliares
         codigo_ute: List[int] = []
         custo: List[float] = []
-        mes_ini: List[int] = []
-        ano_ini: List[int] = []
-        mes_fim: List[int] = []
-        ano_fim: List[int] = []
+        datas_inicio: List[datetime] = []
+        datas_fim: List[datetime] = []
         nomes: List[str] = []
         while True:
             linha = file.readline()
@@ -168,11 +164,9 @@ class BlocoModificacaoUTEClasT(Section):
             dados = self.__linha.read(linha)
             codigo_ute.append(dados[0])
             custo.append(dados[1])
-            mes_ini.append(dados[2])
-            ano_ini.append(dados[3])
-            mes_fim.append(dados[4])
-            ano_fim.append(dados[5])
-            nomes.append(dados[6])
+            datas_inicio.append(dados[2])
+            datas_fim.append(dados[3])
+            nomes.append(dados[4])
 
     # Override
     def write(self, file: IO, *args, **kwargs):
@@ -183,8 +177,4 @@ class BlocoModificacaoUTEClasT(Section):
 
         for _, linha in self.data.iterrows():
             linha_lida: pd.Series = linha
-            for i in [2, 3, 4, 5]:
-                linha_lida[i] = (
-                    None if np.isnan(linha_lida[i]) else int(linha_lida[i])
-                )
             file.write(self.__linha.write(linha_lida.tolist()))

@@ -13,7 +13,11 @@ from cfinterface.components.floatfield import FloatField
 from typing import List, IO
 import numpy as np  # type: ignore
 import pandas as pd  # type: ignore
-from datetime import datetime
+from inewave._utils.formatacao import (
+    prepara_vetor_anos_tabela,
+    prepara_valor_ano,
+    repete_vetor,
+)
 
 
 class BlocoCargasAdicionais(Section):
@@ -52,37 +56,13 @@ class BlocoCargasAdicionais(Section):
 
     # Override
     def read(self, file: IO, *args, **kwargs):
-        def prepara_vetor_anos(anos: List[str]) -> List[datetime]:
-            # Se tem pré, substitui por 0001
-            # Se tem pós, substitui por 9999
-            # Repete os valores existentes 12 vezes
-            anos_convertidos: List[int] = []
-            for a in anos:
-                if a == "PRE":
-                    a_convertido = 1
-                elif a == "POS":
-                    a_convertido = 9999
-                else:
-                    a_convertido = int(a)
-                anos_convertidos.append(a_convertido)
-
-            anos_array = np.array(anos_convertidos).repeat(len(MESES_DF))
-            meses = np.tile(np.arange(1, 13), len(anos))
-            return [
-                datetime(year=a, month=m, day=1)
-                for a, m in zip(anos_array, meses)
-            ]
-
-        def repete_vetor(valores: list) -> np.ndarray:
-            return np.array(valores).repeat(len(MESES_DF))
-
         def converte_tabela_em_df():
             df = pd.DataFrame(
                 data={
                     "codigo_submercado": repete_vetor(codigo_subsis),
                     "nome_submercado": repete_vetor(nome_subsis),
                     "razao": repete_vetor(razao),
-                    "data": prepara_vetor_anos(anos),
+                    "data": prepara_vetor_anos_tabela(anos),
                     "valor": tabela.flatten(),
                 }
             )
@@ -135,14 +115,6 @@ class BlocoCargasAdicionais(Section):
         ultima_razao = ""
         if not isinstance(self.data, pd.DataFrame):
             raise ValueError("Dados do c_adic.dat não foram lidos com sucesso")
-
-        def prepara_valor_ano(ano: int) -> str:
-            if ano == 1:
-                return "PRE"
-            elif ano == 9999:
-                return "POS"
-            else:
-                return str(ano)
 
         # Separa os valores de cada submercado, razao, ano
         df = self.data.copy()
