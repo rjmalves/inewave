@@ -29,6 +29,6 @@ MockBlocoValoresLambdaVariaveis = [
 
 MockCVAR = (
     MockBlocoValoresConstantes
-    + MockBlocoValoresAlfaVariaveis
+    + MockBlocoValoresAlfaVariaveis[:-1]
     + MockBlocoValoresLambdaVariaveis
 )

@@ -8,6 +8,10 @@ from cfinterface.components.literalfield import LiteralField
 from typing import List, IO
 import pandas as pd  # type: ignore
 import numpy as np  # type: ignore
+from inewave._utils.formatacao import (
+    prepara_vetor_anos_tabela,
+    prepara_valor_ano,
+)
 
 
 class BlocoValoresConstantesCVAR(Block):
@@ -92,10 +96,12 @@ class BlocoAlfaVariavelNoTempo(Block):
     # Override
     def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df():
-            df = pd.DataFrame(tabela, columns=MESES_DF)
-            df["ano"] = anos
-            df = df
-            df = df[["ano"] + MESES_DF]
+            df = pd.DataFrame(
+                data={
+                    "data": prepara_vetor_anos_tabela(anos),
+                    "valor": tabela.flatten(),
+                }
+            )
             return df
 
         # Salta as linhas adicionais
@@ -115,7 +121,7 @@ class BlocoAlfaVariavelNoTempo(Block):
                 file.seek(ultima_linha)
                 tabela = tabela[:i, :]
                 self.data = converte_tabela_em_df()
-                break
+                return linha
             dados = self.__linha.read(linha)
             anos.append(dados[0])
             tabela[i, :] = dados[1:]
@@ -128,8 +134,17 @@ class BlocoAlfaVariavelNoTempo(Block):
         if not isinstance(self.data, pd.DataFrame):
             raise ValueError("Dados do cvar.dat não foram lidos com sucesso")
 
-        for _, lin in self.data.iterrows():
-            file.write(self.__linha.write(lin.tolist()))
+        # Separa os valores de cada ano
+        df = self.data.copy()
+        df["ano"] = df.apply(lambda linha: linha["data"].year, axis=1)
+        for _, linha_ano in df[["ano"]].drop_duplicates().iterrows():
+            df_ano = df.loc[(df["ano"] == linha_ano["ano"])]
+            df_ano = df_ano.sort_values(["data"])
+            file.write(
+                self.__linha.write(
+                    [int(linha_ano["ano"])] + df_ano["valor"].tolist()
+                )
+            )
 
 
 class BlocoLambdaVariavelNoTempo(Block):
@@ -167,10 +182,12 @@ class BlocoLambdaVariavelNoTempo(Block):
     # Override
     def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df():
-            df = pd.DataFrame(tabela, columns=MESES_DF)
-            df["ano"] = anos
-            df = df
-            df = df[["ano"] + MESES_DF]
+            df = pd.DataFrame(
+                data={
+                    "data": prepara_vetor_anos_tabela(anos),
+                    "valor": tabela.flatten(),
+                }
+            )
             return df
 
         # Salta as linhas adicionais
@@ -200,5 +217,15 @@ class BlocoLambdaVariavelNoTempo(Block):
         if not isinstance(self.data, pd.DataFrame):
             raise ValueError("Dados do cvar.dat não foram lidos com sucesso")
 
-        for _, lin in self.data.iterrows():
-            file.write(self.__linha.write(lin.tolist()))
+        # Separa os valores de cada ano
+        df = self.data.copy()
+        df["ano"] = df.apply(lambda linha: linha["data"].year, axis=1)
+        for _, linha_ano in df[["ano"]].drop_duplicates().iterrows():
+            df_ano = df.loc[(df["ano"] == linha_ano["ano"])]
+            df_ano = df_ano.sort_values(["data"])
+            file.write(
+                self.__linha.write(
+                    [prepara_valor_ano(linha_ano["ano"])]
+                    + df_ano["valor"].tolist()
+                )
+            )
