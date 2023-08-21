@@ -19,7 +19,7 @@ from inewave.newave.modelos.modif import (
 
 from inewave.newave import Modif
 
-
+from datetime import datetime
 from tests.mocks.mock_open import mock_open
 from unittest.mock import MagicMock, patch
 
@@ -75,9 +75,8 @@ def test_registro_vmaxt_modif():
         with open("", "") as fp:
             r.read(fp)
 
-    assert r.data == [12, 2021, 61.310, "'%'"]
-    assert r.mes == 12
-    assert r.ano == 2021
+    assert r.data == [datetime(2021, 12, 1), 61.310, "'%'"]
+    assert r.data_inicio == datetime(2021, 12, 1)
     assert r.volume == 61.310
     assert r.unidade == "'%'"
 
@@ -89,9 +88,8 @@ def test_registro_vazmint_modif():
         with open("", "") as fp:
             r.read(fp)
 
-    assert r.data == [10, 2021, 10.00]
-    assert r.mes == 10
-    assert r.ano == 2021
+    assert r.data == [datetime(2021, 10, 1), 10.00]
+    assert r.data_inicio == datetime(2021, 10, 1)
     assert r.vazao == 10.00
 
 
@@ -148,9 +146,8 @@ def test_registro_vmint_modif():
         with open("", "") as fp:
             r.read(fp)
 
-    assert r.data == [10, 2021, 20.0, "'%'"]
-    assert r.mes == 10
-    assert r.ano == 2021
+    assert r.data == [datetime(2021, 10, 1), 20.0, "'%'"]
+    assert r.data_inicio == datetime(2021, 10, 1)
     assert r.volume == 20.0
     assert r.unidade == "'%'"
 
@@ -162,9 +159,8 @@ def test_registro_vminp_modif():
         with open("", "") as fp:
             r.read(fp)
 
-    assert r.data == [10, 2021, 20.0, "'%'"]
-    assert r.mes == 10
-    assert r.ano == 2021
+    assert r.data == [datetime(2021, 10, 1), 20.0, "'%'"]
+    assert r.data_inicio == datetime(2021, 10, 1)
     assert r.volume == 20.0
     assert r.unidade == "'%'"
 
@@ -176,9 +172,8 @@ def test_registro_cfuga_modif():
         with open("", "") as fp:
             r.read(fp)
 
-    assert r.data == [10, 2021, 5.60]
-    assert r.mes == 10
-    assert r.ano == 2021
+    assert r.data == [datetime(2021, 10, 1), 5.60]
+    assert r.data_inicio == datetime(2021, 10, 1)
     assert r.nivel == 5.60
 
 
@@ -189,9 +184,8 @@ def test_registro_cmont_modif():
         with open("", "") as fp:
             r.read(fp)
 
-    assert r.data == [10, 2021, 71.30]
-    assert r.mes == 10
-    assert r.ano == 2021
+    assert r.data == [datetime(2021, 10, 1), 71.30]
+    assert r.data_inicio == datetime(2021, 10, 1)
     assert r.nivel == 71.30
 
 
@@ -202,9 +196,8 @@ def test_registro_vazmaxt_modif():
         with open("", "") as fp:
             r.read(fp)
 
-    assert r.data == [1, 2020, 0.00]
-    assert r.mes == 1
-    assert r.ano == 2020
+    assert r.data == [datetime(2020, 1, 1), 0.00]
+    assert r.data_inicio == datetime(2020, 1, 1)
     assert r.vazao == 0.0
 
 
@@ -215,9 +208,8 @@ def test_registro_turbmaxt_modif():
         with open("", "") as fp:
             r.read(fp)
 
-    assert r.data == [1, 2020, 0.00]
-    assert r.mes == 1
-    assert r.ano == 2020
+    assert r.data == [datetime(2020, 1, 1), 0.00]
+    assert r.data_inicio == datetime(2020, 1, 1)
     assert r.turbinamento == 0.0
 
 
@@ -228,9 +220,8 @@ def test_registro_turbmint_modif():
         with open("", "") as fp:
             r.read(fp)
 
-    assert r.data == [1, 2020, 0.00]
-    assert r.mes == 1
-    assert r.ano == 2020
+    assert r.data == [datetime(2020, 1, 1), 0.00]
+    assert r.data_inicio == datetime(2020, 1, 1)
     assert r.turbinamento == 0.0
 
 
