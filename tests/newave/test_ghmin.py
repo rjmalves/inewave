@@ -4,7 +4,7 @@ from inewave.newave import Ghmin
 
 from tests.mocks.mock_open import mock_open
 from unittest.mock import MagicMock, patch
-
+from datetime import datetime
 from tests.mocks.arquivos.ghmin import MockGhmin
 
 ARQ_TESTE = "./tests/mocks/arquivos/__init__.py"
@@ -18,12 +18,11 @@ def test_bloco_uhe_ghmin():
             b.read(fp)
 
     assert b.data.shape[0] == 110
-    assert b.data.shape[1] == 5
+    assert b.data.shape[1] == 4
     assert b.data.iloc[0, 0] == 275
-    assert b.data.iloc[0, 1] == 1
-    assert b.data.iloc[0, 2] == "2020"
-    assert b.data.iloc[0, 3] == 0
-    assert b.data.iloc[0, 4] == 1215.0
+    assert b.data.iloc[0, 1] == datetime(2020, 1, 1)
+    assert b.data.iloc[0, 2] == 0
+    assert b.data.iloc[0, 3] == 1215.0
     assert b.data.iloc[-1, -1] == 5943.0
 
 

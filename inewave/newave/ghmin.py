@@ -25,8 +25,7 @@ class Ghmin(SectionFile):
         hidráulicas.
 
         - codigo_usina (`int`)
-        - mes (`int`)
-        - ano (`str`)
+        - data (`datetime`)
         - patamar (`int`)
         - geracao (`float`)
 

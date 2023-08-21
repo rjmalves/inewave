@@ -2,9 +2,10 @@ from cfinterface.components.section import Section
 from cfinterface.components.line import Line
 from cfinterface.components.integerfield import IntegerField
 from cfinterface.components.floatfield import FloatField
-from cfinterface.components.literalfield import LiteralField
+from cfinterface.components.datetimefield import DatetimeField
 from typing import List, IO, Optional
 import pandas as pd  # type: ignore
+from datetime import datetime
 
 
 class BlocoUHEGhmin(Section):
@@ -19,8 +20,7 @@ class BlocoUHEGhmin(Section):
         self.__linha_uhe = Line(
             [
                 IntegerField(3, 0),
-                IntegerField(2, 5),
-                LiteralField(4, 8),
+                DatetimeField(7, 5, format="%m %Y"),
                 IntegerField(1, 14),
                 FloatField(6, 17, 0),
             ]
@@ -46,8 +46,7 @@ class BlocoUHEGhmin(Section):
         def converte_tabela_em_df():
             df = pd.DataFrame()
             df["codigo_usina"] = codigos
-            df["mes"] = meses
-            df["ano"] = anos
+            df["data"] = datas
             df["patamar"] = patamares
             df["geracao"] = geracoes
             return df
@@ -58,8 +57,7 @@ class BlocoUHEGhmin(Section):
 
         # Variáveis auxiliares
         codigos: List[Optional[int]] = []
-        meses: List[Optional[int]] = []
-        anos: List[Optional[int]] = []
+        datas: List[Optional[datetime]] = []
         patamares: List[Optional[int]] = []
         geracoes: List[Optional[float]] = []
 
@@ -72,10 +70,9 @@ class BlocoUHEGhmin(Section):
                 break
             dados = self.__linha_uhe.read(linha)
             codigos.append(dados[0])
-            meses.append(dados[1])
-            anos.append(dados[2])
-            patamares.append(dados[3])
-            geracoes.append(dados[4])
+            datas.append(dados[1])
+            patamares.append(dados[2])
+            geracoes.append(dados[3])
 
     # Override
     def write(self, file: IO, *args, **kwargs):
