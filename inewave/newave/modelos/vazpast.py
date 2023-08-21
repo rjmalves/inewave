@@ -6,7 +6,9 @@ from cfinterface.components.floatfield import FloatField
 from typing import List, IO
 import pandas as pd  # type: ignore
 import numpy as np  # type: ignore
-
+from inewave._utils.formatacao import (
+    repete_vetor,
+)
 from inewave.config import MAX_UHES, MESES_DF
 
 
@@ -42,14 +44,14 @@ class BlocoVazPast(Section):
     # Override
     def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df() -> pd.DataFrame:
-            cols = ["codigo_usina"] + MESES_DF
             df = pd.DataFrame(
-                tabela,
-                columns=cols,
+                data={
+                    "codigo_usina": repete_vetor(codigos_usinas),
+                    "nome_usina": repete_vetor(nomes_usinas),
+                    "mes": np.tile(np.arange(1, 13), len(nomes_usinas)),
+                    "valor": tabela.flatten(),
+                }
             )
-            df["nome_usina"] = usinas
-            df = df.astype({"codigo_usina": "int64"})
-            df = df[["codigo_usina", "nome_usina"] + MESES_DF]
             return df
 
         # Salta as linhas adicionais
@@ -57,8 +59,9 @@ class BlocoVazPast(Section):
             self.__cabecalhos.append(file.readline())
 
         i = 0
-        tabela = np.zeros((MAX_UHES, len(MESES_DF) + 1))
-        usinas: List[str] = []
+        tabela = np.zeros((MAX_UHES, len(MESES_DF)))
+        codigos_usinas: List[int] = []
+        nomes_usinas: List[str] = []
         while True:
             linha = file.readline()
             # Confere se terminaram as usinas
@@ -69,9 +72,9 @@ class BlocoVazPast(Section):
                     self.data = converte_tabela_em_df()
                 break
             dados = self.__linha.read(linha)
-            tabela[i, 0] = dados[0]
-            usinas.append(dados[1])
-            tabela[i, 1:] = dados[2:]
+            codigos_usinas.append(dados[0])
+            nomes_usinas.append(dados[1])
+            tabela[i, :] = dados[2:]
             i += 1
 
     # Override
@@ -83,5 +86,17 @@ class BlocoVazPast(Section):
                 "Dados do vazpast.dat não foram lidos com sucesso"
             )
 
-        for _, lin in self.data.iterrows():
-            file.write(self.__linha.write(lin.tolist()))
+        df = self.data.copy()
+        usinas = self.data["codigo_usina"].unique()
+        for usina in usinas:
+            df_usina = df.loc[(df["codigo_usina"] == usina)]
+            df_usina = df_usina.sort_values(["mes"])
+            file.write(
+                self.__linha.write(
+                    [
+                        df_usina["codigo_usina"].iloc[0],
+                        df_usina["nome_usina"].iloc[0],
+                    ]
+                    + df_usina["valor"].tolist()
+                )
+            )
