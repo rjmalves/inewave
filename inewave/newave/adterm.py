@@ -24,9 +24,8 @@ class Adterm(SectionFile):
         - codigo_usina (`int`)
         - nome_usina (`str`)
         - lag (`int`)
-        - patamar_1 (`float`)
-        - ...
-        - patamar_N (`float`)
+        - patamar (`int`)
+        - valor (`float`)
 
         :return: A tabela como um DataFrame
         :rtype: pd.DataFrame | None

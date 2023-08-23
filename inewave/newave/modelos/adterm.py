@@ -8,6 +8,11 @@ from cfinterface.components.floatfield import FloatField
 from typing import List, IO
 import numpy as np  # type: ignore
 import pandas as pd  # type: ignore
+from inewave._utils.formatacao import (
+    prepara_vetor_anos_tabela,
+    prepara_valor_ano,
+    repete_vetor,
+)
 
 
 class BlocoUTEAdTerm(Section):
@@ -40,30 +45,36 @@ class BlocoUTEAdTerm(Section):
             return self.data.equals(bloco.data)
 
     # Override
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO, numero_patamares: int = 3, *args, **kwargs):
         def converte_tabela_em_df():
-            cols = [f"patamar_{i}" for i in range(1, n_pat + 1)]
-            df = pd.DataFrame(tabela, columns=cols)
-            df["codigo_usina"] = codigo_utes
-            df["nome_usina"] = nome_utes
-            df["lag"] = lag_utes
-            df = df[["codigo_usina", "nome_usina", "lag"] + cols]
+            df = pd.DataFrame(
+                data={
+                    "codigo_usina": repete_vetor(
+                        codigo_utes, self.__numero_patamares
+                    ),
+                    "nome_usina": repete_vetor(
+                        nome_utes, self.__numero_patamares
+                    ),
+                    "lag": repete_vetor(lag_utes, self.__numero_patamares),
+                    "patamar": np.tile(
+                        np.arange(1, self.__numero_patamares + 1),
+                        len(codigo_utes),
+                    ),
+                    "valor": tabela.flatten(),
+                }
+            )
             return df
 
         # Salta as linhas adicionais
         for _ in range(2):
             self.__cabecalhos.append(file.readline())
 
-        # Obtem o número de patamares e constroi a linha de despachos
-        n_pat = len(
-            [
-                s.strip()
-                for s in self.__cabecalhos[1].split(" ")
-                if "XXXXXXX.XX" in s
-            ]
-        )
+        self.__numero_patamares = numero_patamares
         self.__linha_despachos = Line(
-            [FloatField(12, 22 + 12 * i, 2) for i in range(n_pat)]
+            [
+                FloatField(12, 22 + 12 * i, 2)
+                for i in range(self.__numero_patamares)
+            ]
         )
 
         # Variáveis auxiliares
@@ -73,7 +84,7 @@ class BlocoUTEAdTerm(Section):
         codigo_atual = 0
         nome_atual = ""
         lag_atual = 0
-        tabela = np.zeros((MAX_UTES * MAX_LAG_ADTERM, n_pat))
+        tabela = np.zeros((MAX_UTES * MAX_LAG_ADTERM, self.__numero_patamares))
         i = 0
         while True:
             linha = file.readline()
@@ -89,7 +100,9 @@ class BlocoUTEAdTerm(Section):
                 codigo_atual, nome_atual, lag_atual = self.__linha_ute.read(
                     linha
                 )
+                lag_atual = 0
             else:
+                lag_atual += 1
                 tabela[i, :] = self.__linha_despachos.read(linha)
                 codigo_utes.append(codigo_atual)
                 nome_utes.append(nome_atual)
@@ -102,23 +115,31 @@ class BlocoUTEAdTerm(Section):
             file.write(linha)
         if not isinstance(self.data, pd.DataFrame):
             raise ValueError("Dados do adterm.dat não foram lidos com sucesso")
-
+        df = self.data.copy()
         ultima_ute = 0
-        cols_despachos = [c for c in list(self.data.columns) if "patamar" in c]
-        for _, linha in self.data.iterrows():
-            linha_lida: pd.Series = linha
-            if linha_lida["codigo_usina"] != ultima_ute:
-                ultima_ute = linha_lida["codigo_usina"]
+        for _, linha_usina in (
+            self.data[["codigo_usina", "lag"]].drop_duplicates().iterrows()
+        ):
+            df_lag = df.loc[
+                (df["codigo_usina"] == linha_usina["codigo_usina"])
+                & (df["lag"] == linha_usina["lag"])
+            ]
+            if df_lag["codigo_usina"].iloc[0] != ultima_ute:
+                ultima_ute = df_lag["codigo_usina"].iloc[0]
+                max_lag_usina = df.loc[
+                    df["codigo_usina"] == ultima_ute, "lag"
+                ].max()
                 file.write(
                     self.__linha_ute.write(
-                        linha_lida[
-                            ["codigo_usina", "nome_usina", "lag"]
-                        ].tolist()
+                        df_lag[["codigo_usina", "nome_usina"]]
+                        .iloc[0, :]
+                        .tolist()
+                        + [max_lag_usina]
                     )
                 )
             file.write(
                 self.__linha_despachos.write(
-                    linha_lida[cols_despachos].tolist()
+                    df_lag.sort_values("patamar")["valor"].tolist()
                 )
             )
         file.write(BlocoUTEAdTerm.FIM_BLOCO + "\n")

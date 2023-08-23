@@ -180,8 +180,10 @@ def prepara_vetor_anos_tabela(anos: List[str]) -> List[datetime]:
     ]
 
 
-def repete_vetor(valores: list) -> np.ndarray:
-    return np.array(valores).repeat(len(MESES_DF))
+def repete_vetor(
+    valores: list, n_repeticoes: int = len(MESES_DF)
+) -> np.ndarray:
+    return np.array(valores).repeat(n_repeticoes)
 
 
 def prepara_valor_ano(ano: int) -> str:
