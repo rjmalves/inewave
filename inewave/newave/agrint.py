@@ -55,10 +55,9 @@ class Agrint(SectionFile):
         - agrupamento (`int`)
         - data_inicio (`datetime`)
         - data_fim (`datetime`)
-        - limite_p1 (`float`)
-        - limite_p2 (`float`)
-        - limite_p3 (`float`)
         - comentario (`str`)
+        - patamar (`str`)
+        - valor (`float`)
 
         :return: A tabela como um DataFrame.
         :rtype: pd.DataFrame | None

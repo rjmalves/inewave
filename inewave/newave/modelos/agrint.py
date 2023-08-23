@@ -14,6 +14,9 @@ from typing import List, IO
 from datetime import datetime
 import pandas as pd  # type: ignore
 import numpy as np  # type: ignore
+from inewave._utils.formatacao import (
+    repete_vetor,
+)
 
 
 class BlocoGruposAgrint(Section):
@@ -145,43 +148,32 @@ class BlocoLimitesPorGrupoAgrint(Section):
     # Override
     def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df():
-            cols = [
-                "agrupamento",
-                "limite_p1",
-                "limite_p2",
-                "limite_p3",
-            ]
-            df = pd.DataFrame(tabela, columns=cols)
-            df["comentario"] = comentarios
-            df["data_inicio"] = datas_inicio
-            df["data_fim"] = datas_fim
-            df = df.astype(
-                {
-                    "agrupamento": "int64",
+            df = pd.DataFrame(
+                data={
+                    "agrupamento": repete_vetor(agrupamentos, 3),
+                    "data_inicio": repete_vetor(datas_inicio, 3),
+                    "data_fim": repete_vetor(datas_fim, 3),
+                    "comentario": repete_vetor(comentarios, 3),
+                    "patamar": np.tile(
+                        np.arange(1, 3 + 1),
+                        len(agrupamentos),
+                    ),
+                    "valor": tabela.flatten(),
                 }
             )
-            return df[
-                [
-                    "agrupamento",
-                    "data_inicio",
-                    "data_fim",
-                    "limite_p1",
-                    "limite_p2",
-                    "limite_p3",
-                    "comentario",
-                ]
-            ]
+            return df
 
         # Salta as linhas adicionais
         for _ in range(3):
             self.__cabecalhos.append(file.readline())
 
         i = 0
+        agrupamentos: List[int] = []
         datas_inicio: List[datetime] = []
         datas_fim: List[datetime] = []
         comentarios: List[str] = []
         tabela = np.zeros(
-            (MAX_AGRUPAMENTOS_INTERCAMBIOS * MAX_MESES_ESTUDO, 4)
+            (MAX_AGRUPAMENTOS_INTERCAMBIOS * MAX_MESES_ESTUDO, 3)
         )
         while True:
             linha = file.readline()
@@ -195,8 +187,8 @@ class BlocoLimitesPorGrupoAgrint(Section):
             # Confere se é uma linha de subsistema ou tabela
             else:
                 dados = self.__linha.read(linha)
-                tabela[i, 0] = dados[0]
-                tabela[i, 1:] = dados[3:6]
+                agrupamentos.append(dados[0])
+                tabela[i, :] = dados[3:6]
                 datas_inicio.append(dados[1])
                 datas_fim.append(dados[2])
                 comentarios.append(dados[-1])
@@ -209,6 +201,32 @@ class BlocoLimitesPorGrupoAgrint(Section):
         if not isinstance(self.data, pd.DataFrame):
             raise ValueError("Dados do agrint.dat não foram lidos com sucesso")
 
-        for _, dados_linhas in self.data.iterrows():
-            file.write(self.__linha.write(dados_linhas))
+        df = self.data.copy()
+        for _, linha_agrupamento in (
+            self.data[["agrupamento", "data_inicio", "data_fim", "comentario"]]
+            .drop_duplicates()
+            .iterrows()
+        ):
+            df_agrupamento = df.loc[
+                (df["agrupamento"] == linha_agrupamento["agrupamento"])
+                & (df["data_inicio"] == linha_agrupamento["data_inicio"])
+            ]
+            if not pd.isna(linha_agrupamento["data_fim"]):
+                df_agrupamento = df_agrupamento.loc[
+                    (
+                        df_agrupamento["data_fim"]
+                        == linha_agrupamento["data_fim"]
+                    )
+                ]
+            file.write(
+                self.__linha.write(
+                    [
+                        linha_agrupamento["agrupamento"],
+                        linha_agrupamento["data_inicio"],
+                        linha_agrupamento["data_fim"],
+                    ]
+                    + df_agrupamento.sort_values("patamar")["valor"].tolist()
+                    + [linha_agrupamento["comentario"]]
+                )
+            )
         file.write(BlocoGruposAgrint.FIM_BLOCO + "\n")
