@@ -56,7 +56,7 @@ class Agrint(SectionFile):
         - data_inicio (`datetime`)
         - data_fim (`datetime`)
         - comentario (`str`)
-        - patamar (`str`)
+        - patamar (`int`)
         - valor (`float`)
 
         :return: A tabela como um DataFrame.
