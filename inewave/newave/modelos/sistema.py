@@ -9,6 +9,11 @@ from cfinterface.components.floatfield import FloatField
 from typing import List, IO, Optional
 import pandas as pd  # type: ignore
 import numpy as np  # type: ignore
+from inewave._utils.formatacao import (
+    prepara_vetor_anos_tabela,
+    prepara_valor_ano,
+    repete_vetor,
+)
 
 
 class BlocoNumeroPatamaresDeficit(Section):
@@ -193,22 +198,12 @@ class BlocoIntercambioSubsistema(Section):
     def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df():
             df = pd.DataFrame(
-                tabela,
-                columns=["ano"] + MESES_DF,
-            )
-            df["submercado_de"] = subsistemas_de
-            df["submercado_para"] = subsistemas_para
-            df["sentido"] = sentidos
-            df = df[
-                ["submercado_de", "submercado_para", "sentido", "ano"]
-                + MESES_DF
-            ]
-            df = df.astype(
-                {
-                    "submercado_de": "int64",
-                    "submercado_para": "int64",
-                    "sentido": "int64",
-                    "ano": "int64",
+                data={
+                    "submercado_de": repete_vetor(subsistemas_de),
+                    "submercado_para": repete_vetor(subsistemas_para),
+                    "sentido": repete_vetor(sentidos),
+                    "data": prepara_vetor_anos_tabela(anos),
+                    "valor": tabela.flatten(),
                 }
             )
             return df
@@ -225,10 +220,11 @@ class BlocoIntercambioSubsistema(Section):
         subsistemas_de: List[int] = []
         subsistemas_para: List[int] = []
         sentidos: List[int] = []
+        anos: List[int] = []
         tabela = np.zeros(
             (
                 MAX_SUBMERCADOS * MAX_SUBMERCADOS * MAX_ANOS_ESTUDO,
-                len(MESES_DF) + 1,
+                len(MESES_DF),
             )
         )
         while True:
@@ -260,11 +256,11 @@ class BlocoIntercambioSubsistema(Section):
                 dados = self.__linha.read(linha)
                 if isinstance(dados[0], int) and dados[0] != ano_atual:
                     ano_atual = dados[0]
+                anos.append(ano_atual)
                 subsistemas_de.append(subsis_de_atual)
                 subsistemas_para.append(subsis_para_atual)
                 sentidos.append(sentido_atual)
-                tabela[i, 0] = ano_atual
-                tabela[i, 1:] = dados[1:]
+                tabela[i, :] = dados[1:]
                 i += 1
 
     # Override
@@ -280,39 +276,58 @@ class BlocoIntercambioSubsistema(Section):
         ultimo_subsistema_para = 0
         ultimo_sentido = -1
 
-        for _, linha in self.data.iterrows():
-            linha_lida: pd.Series = linha
+        # Separa os valores de cada submercado, razao, ano
+        df = self.data.copy()
+        df["ano"] = df.apply(lambda linha: linha["data"].year, axis=1)
+        for _, linha_submercados_sentido in (
+            df[["submercado_de", "submercado_para", "sentido", "ano"]]
+            .drop_duplicates()
+            .iterrows()
+        ):
+            df_interc = df.loc[
+                (
+                    df["submercado_de"]
+                    == linha_submercados_sentido["submercado_de"]
+                )
+                & (
+                    df["submercado_para"]
+                    == linha_submercados_sentido["submercado_para"]
+                )
+                & (df["sentido"] == linha_submercados_sentido["sentido"])
+                & (df["ano"] == linha_submercados_sentido["ano"])
+            ]
+            df_interc = df_interc.sort_values(["data"])
             if any(
                 [
-                    linha_lida["submercado_de"] != ultimo_subsistema_de,
-                    linha_lida["submercado_para"] != ultimo_subsistema_para,
-                    linha_lida["sentido"] != ultimo_sentido,
+                    linha_submercados_sentido["submercado_de"]
+                    != ultimo_subsistema_de,
+                    linha_submercados_sentido["submercado_para"]
+                    != ultimo_subsistema_para,
+                    linha_submercados_sentido["sentido"] != ultimo_sentido,
                 ]
             ):
-                ultimo_ano = 0
-                ultimo_subsistema_de = linha_lida["submercado_de"]
-                ultimo_subsistema_para = linha_lida["submercado_para"]
-                ultimo_sentido = linha_lida["sentido"]
+                ultimo_subsistema_de = linha_submercados_sentido[
+                    "submercado_de"
+                ]
+                ultimo_subsistema_para = linha_submercados_sentido[
+                    "submercado_para"
+                ]
+                ultimo_sentido = linha_submercados_sentido["sentido"]
                 file.write(
                     self.__linha_subsis.write(
-                        [
-                            int(ultimo_subsistema_de),
-                            int(ultimo_subsistema_para),
-                            int(ultimo_sentido),
-                        ]
+                        linha_submercados_sentido[
+                            [
+                                "submercado_de",
+                                "submercado_para",
+                                "sentido",
+                            ]
+                        ].tolist()
                     )
                 )
-            ano_linha = (
-                int(linha_lida["ano"])
-                if linha_lida["ano"] != ultimo_ano
-                else None
-            )
-            ultimo_ano = int(linha_lida["ano"])
-            dados_linha = linha_lida[MESES_DF].tolist()
-            dados_linha_escrita = []
-            for d in dados_linha:
-                dados_linha_escrita.append(d if not np.isnan(d) else None)
-            file.write(self.__linha.write([ano_linha] + dados_linha_escrita))
+            ano = prepara_valor_ano(linha_submercados_sentido["ano"])
+            valores = df_interc["valor"].tolist()
+            file.write(self.__linha.write([ano] + valores))
+
         file.write(BlocoIntercambioSubsistema.FIM_BLOCO + "\n")
 
 
@@ -352,16 +367,12 @@ class BlocoMercadoEnergiaSistema(Section):
     def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df():
             df = pd.DataFrame(
-                tabela,
-                columns=["submercado"] + MESES_DF,
-            )
-            df = df.astype(
-                {
-                    "submercado": "int64",
+                data={
+                    "codigo_submercado": repete_vetor(submercados),
+                    "data": prepara_vetor_anos_tabela(anos),
+                    "valor": tabela.flatten(),
                 }
             )
-            df["ano"] = anos
-            df = df[["submercado", "ano"] + MESES_DF]
             return df
 
         # Salta as linhas adicionais
@@ -371,11 +382,12 @@ class BlocoMercadoEnergiaSistema(Section):
         i = 0
         subsis_atual = 0
         ano_atual = ""
+        submercados: List[int] = []
         anos: List[str] = []
         tabela = np.zeros(
             (
                 MAX_SUBMERCADOS * MAX_ANOS_ESTUDO,
-                len(MESES_DF) + 1,
+                len(MESES_DF),
             )
         )
         while True:
@@ -399,8 +411,8 @@ class BlocoMercadoEnergiaSistema(Section):
                 if isinstance(dados[0], str) and dados[0] != ano_atual:
                     ano_atual = dados[0]
                 anos.append(ano_atual)
-                tabela[i, 0] = subsis_atual
-                tabela[i, 1:] = dados[1:]
+                submercados.append(subsis_atual)
+                tabela[i, :] = dados[1:]
                 i += 1
 
     # Override
@@ -414,31 +426,38 @@ class BlocoMercadoEnergiaSistema(Section):
 
         ultimo_subsistema = 0
 
-        for _, linha in self.data.iterrows():
-            linha_lida: pd.Series = linha
+        # Separa os valores de cada submercado, razao, ano
+        df = self.data.copy()
+        df["ano"] = df.apply(lambda linha: linha["data"].year, axis=1)
+        for _, linha_submercado in (
+            df[["codigo_submercado", "ano"]].drop_duplicates().iterrows()
+        ):
+            df_merc = df.loc[
+                (
+                    df["codigo_submercado"]
+                    == linha_submercado["codigo_submercado"]
+                )
+                & (df["ano"] == linha_submercado["ano"])
+            ]
+            df_merc = df_merc.sort_values(["data"])
             if any(
                 [
-                    linha_lida["submercado"] != ultimo_subsistema,
+                    linha_submercado["codigo_submercado"] != ultimo_subsistema,
                 ]
             ):
-                ultimo_ano = ""
-                ultimo_subsistema = linha_lida["submercado"]
+                ultimo_subsistema = linha_submercado["codigo_submercado"]
                 file.write(
                     self.__linha_subsis.write(
-                        [
-                            int(ultimo_subsistema),
-                        ]
+                        linha_submercado[
+                            [
+                                "codigo_submercado",
+                            ]
+                        ].tolist()
                     )
                 )
-            ano_linha = (
-                linha_lida["ano"] if linha_lida["ano"] != ultimo_ano else None
-            )
-            ultimo_ano = linha_lida["ano"]
-            dados_linha = linha_lida[MESES_DF].tolist()
-            dados_linha_escrita = []
-            for d in dados_linha:
-                dados_linha_escrita.append(d if not np.isnan(d) else None)
-            file.write(self.__linha.write([ano_linha] + dados_linha_escrita))
+            ano = prepara_valor_ano(linha_submercado["ano"])
+            valores = df_merc["valor"].tolist()
+            file.write(self.__linha.write([ano] + valores))
         file.write(BlocoMercadoEnergiaSistema.FIM_BLOCO + "\n")
 
 
@@ -481,11 +500,14 @@ class BlocoGeracaoUsinasNaoSimuladas(Section):
     def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df():
             df = pd.DataFrame(
-                tabela, columns=["submercado", "bloco", "ano"] + MESES_DF
+                data={
+                    "codigo_submercado": repete_vetor(submercados),
+                    "indice_bloco": repete_vetor(blocos),
+                    "fonte": repete_vetor(razoes),
+                    "data": prepara_vetor_anos_tabela(anos),
+                    "valor": tabela.flatten(),
+                }
             )
-            df["fonte"] = razoes
-            df = df.astype({"submercado": "int64", "ano": "int64"})
-            df = df[["submercado", "bloco", "fonte", "ano"] + MESES_DF]
             return df
 
         # Salta as linhas adicionais
@@ -497,11 +519,14 @@ class BlocoGeracaoUsinasNaoSimuladas(Section):
         bloco_atual = 0
         razao_atual = ""
         ano_atual = 0
+        submercados: List[int] = []
+        blocos: List[int] = []
         razoes: List[str] = []
+        anos: List[int] = []
         tabela = np.zeros(
             (
                 MAX_SUBMERCADOS * MAX_SUBMERCADOS * MAX_ANOS_ESTUDO,
-                len(MESES_DF) + 3,
+                len(MESES_DF),
             )
         )
         while True:
@@ -527,10 +552,10 @@ class BlocoGeracaoUsinasNaoSimuladas(Section):
                 if isinstance(dados[0], int) and dados[0] != ano_atual:
                     ano_atual = dados[0]
                 razoes.append(razao_atual)
-                tabela[i, 0] = subsis_atual
-                tabela[i, 1] = bloco_atual
-                tabela[i, 2] = ano_atual
-                tabela[i, 3:] = dados[1:]
+                submercados.append(subsis_atual)
+                blocos.append(bloco_atual)
+                anos.append(ano_atual)
+                tabela[i, :] = dados[1:]
                 i += 1
 
     # Override
@@ -546,52 +571,49 @@ class BlocoGeracaoUsinasNaoSimuladas(Section):
         ultimo_bloco: Optional[int] = 0
         ultima_razao: Optional[str] = ""
 
-        for _, linha in self.data.iterrows():
-            linha_lida: pd.Series = linha
-            novo_subsis = (
-                int(linha_lida["submercado"])
-                if not np.isnan(linha_lida["submercado"])
-                else None
-            )
-            novo_bloco = (
-                int(linha_lida["bloco"])
-                if not np.isnan(linha_lida["bloco"])
-                else None
-            )
-            nova_razao = (
-                str(linha_lida["fonte"])
-                if not linha_lida["fonte"] is None
-                else None
-            )
+        df = self.data.copy()
+        df["ano"] = df.apply(lambda linha: linha["data"].year, axis=1)
+        for _, linha_submercado_fonte in (
+            df[["codigo_submercado", "indice_bloco", "fonte", "ano"]]
+            .drop_duplicates()
+            .iterrows()
+        ):
+            df_ger = df.loc[
+                (
+                    df["codigo_submercado"]
+                    == linha_submercado_fonte["codigo_submercado"]
+                )
+                & (
+                    df["indice_bloco"]
+                    == linha_submercado_fonte["indice_bloco"]
+                )
+                & (df["fonte"] == linha_submercado_fonte["fonte"])
+                & (df["ano"] == linha_submercado_fonte["ano"])
+            ]
+            df_ger = df_ger.sort_values(["data"])
             if any(
                 [
-                    novo_subsis != ultimo_subsistema,
-                    novo_bloco != ultimo_bloco,
-                    nova_razao != ultima_razao,
+                    linha_submercado_fonte["codigo_submercado"]
+                    != ultimo_subsistema,
+                    linha_submercado_fonte["indice_bloco"] != ultimo_bloco,
+                    linha_submercado_fonte["fonte"] != ultima_razao,
                 ]
             ):
-                ultimo_ano = 0
-                ultimo_subsistema = novo_subsis
-                ultimo_bloco = novo_bloco
-                ultima_razao = nova_razao
+                ultimo_subsistema = linha_submercado_fonte["codigo_submercado"]
+                ultimo_bloco = linha_submercado_fonte["indice_bloco"]
+                ultima_razao = linha_submercado_fonte["fonte"]
                 file.write(
                     self.__linha_subsis.write(
-                        [
-                            novo_subsis,
-                            novo_bloco,
-                            nova_razao,
-                        ]
+                        linha_submercado_fonte[
+                            [
+                                "codigo_submercado",
+                                "indice_bloco",
+                                "fonte",
+                            ]
+                        ].tolist()
                     )
                 )
-            ano_linha = (
-                int(linha_lida["ano"])
-                if linha_lida["ano"] != ultimo_ano
-                else None
-            )
-            ultimo_ano = int(linha_lida["ano"])
-            dados_linha = linha_lida[MESES_DF].tolist()
-            dados_linha_escrita = []
-            for d in dados_linha:
-                dados_linha_escrita.append(d if not np.isnan(d) else None)
-            file.write(self.__linha.write([ano_linha] + dados_linha_escrita))
+            ano = prepara_valor_ano(linha_submercado_fonte["ano"])
+            valores = df_ger["valor"].tolist()
+            file.write(self.__linha.write([ano] + valores))
         file.write(BlocoGeracaoUsinasNaoSimuladas.FIM_BLOCO + "\n")
