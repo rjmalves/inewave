@@ -119,7 +119,7 @@ class BlocoDuracaoPatamar(Section):
         ano_atual = 0
         patamar_atual = 0
         patamares: List[int] = []
-        anos: List[str] = []
+        anos: List[int] = []
         tabela = np.zeros((MAX_SUBMERCADOS * MAX_ANOS_ESTUDO, len(MESES_DF)))
         while True:
             ultima_linha = file.tell()
