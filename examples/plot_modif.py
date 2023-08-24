@@ -35,7 +35,7 @@ arq_modif.usina(df=True)
 # O outro formato para visualização dos registros é a extração dos objetos em si,
 # que é a maneira de se realizar também a edição de seus conteúdos. Desta forma, também
 # é possível aplicar filtros no registro desejado.
-arq_modif.vazmint(mes=2, ano=2021)
+arq_modif.vazmint(data_inicio=datetime(2021, 2, 1))
 
 # %%
 # Para editar o arquivo modif, necessitamos frequentemente de deletar registros existentes
@@ -46,8 +46,7 @@ from inewave.newave.modif import TURBMAXT
 codigo_usina_modificada = 7
 
 novo_registro = TURBMAXT()
-novo_registro.ano = 2021
-novo_registro.mes = 2
+novo_registro.data_inicio = datetime(2021, 2, 1)
 novo_registro.turbinamento = 1000.0
 arq_modif.data.add_after(
     arq_modif.usina(codigo=codigo_usina_modificada),
@@ -69,7 +68,7 @@ from inewave.newave.modif import CMONT
 registros_cmont = [
     r for r in arq_modif.modificacoes_usina(codigo=285) if isinstance(r, CMONT)
 ]
-datas = [datetime(year=r.ano, month=r.mes, day=1) for r in registros_cmont]
+datas = [r.data_inicio for r in registros_cmont]
 cotas = [r.nivel for r in registros_cmont]
 df_cmont = pd.DataFrame(data={"data": datas, "cota": cotas})
 fig = px.line(df_cmont, x="data", y="cota")
