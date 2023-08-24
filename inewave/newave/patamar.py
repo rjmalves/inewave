@@ -53,11 +53,9 @@ class Patamar(SectionFile):
         Tabela com a duração mensal de cada patamar no horizonte
         de estudo.
 
-        - ano (`int`)
-        - janeiro (`float`)
-        - fevereiro (`float`)
-        - ...
-        - dezembro (`float`)
+        - data (`datetime`)
+        - patamar (`int`)
+        - valor (`float`)
 
         :return: A duração por mês em um DataFrame.
         :rtype: pd.DataFrame | None
@@ -78,11 +76,10 @@ class Patamar(SectionFile):
         """
         Tabela com a carga em P.U. por patamar.
 
-        - ano (`int`)
-        - janeiro (`float`)
-        - fevereiro (`float`)
-        - ...
-        - dezembro (`float`)
+        - codigo_submercado (`int`)
+        - data (`datetime`)
+        - patamar (`int`)
+        - valor (`float`)
 
         :return: A carga por mês em um DataFrame.
         :rtype: pd.DataFrame | None
@@ -103,13 +100,11 @@ class Patamar(SectionFile):
         """
         Tabela com a correção em P.U. do intercâmbio por patamar.
 
-        - submercado_de (`str`)
-        - submercado_para (`str`)
-        - ano (`int`)
-        - janeiro (`float`)
-        - fevereiro (`float`)
-        - ...
-        - dezembro (`float`)
+        - submercado_de (`int`)
+        - submercado_para (`int`)
+        - data (`datetime`)
+        - patamar (`int`)
+        - valor (`float`)
 
         :return: A carga por mês em um DataFrame.
         :rtype: pd.DataFrame | None
@@ -130,14 +125,11 @@ class Patamar(SectionFile):
         """
         Tabela com os fatores das usinas não simuladas em P.U.
 
-        - submercado (`int`)
+        - codigo_submercado (`int`)
+        - indice_bloco (`int`)
+        - data (`datetime`)
         - patamar (`int`)
-        - bloco (`int`)
-        - ano (`int`)
-        - janeiro (`float`)
-        - fevereiro (`float`)
-        - ...
-        - dezembro (`float`)
+        - valor (`float`)
 
         :return: Os valores por mês em um DataFrame.
         :rtype: pd.DataFrame | None
