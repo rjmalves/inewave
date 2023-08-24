@@ -1,4 +1,9 @@
-from inewave.config import MAX_ANOS_ESTUDO, MAX_SUBMERCADOS, MESES_DF
+from inewave.config import (
+    MAX_ANOS_ESTUDO,
+    MAX_SUBMERCADOS,
+    MESES_DF,
+    MAX_PATAMARES_DEFICIT,
+)
 
 from cfinterface.components.section import Section
 from cfinterface.components.line import Line
@@ -103,17 +108,27 @@ class BlocoCustosDeficit(Section):
     # Override
     def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df():
-            cols = [f"custo_deficit_patamar_{p}" for p in range(1, 5)] + [
-                f"corte_patamar_{p}" for p in range(1, 5)
-            ]
             df = pd.DataFrame(
-                tabela, columns=["codigo_submercado", "ficticio"] + cols
+                data={
+                    "codigo_submercado": repete_vetor(
+                        codigos_submercados, MAX_PATAMARES_DEFICIT
+                    ),
+                    "nome_submercado": repete_vetor(
+                        nomes_submercados,
+                        MAX_PATAMARES_DEFICIT,
+                    ),
+                    "ficticio": repete_vetor(
+                        ficticios,
+                        MAX_PATAMARES_DEFICIT,
+                    ),
+                    "patamar_deficit": np.tile(
+                        np.arange(1, MAX_PATAMARES_DEFICIT + 1),
+                        len(codigos_submercados),
+                    ),
+                    "custo": tabela_custo.flatten(),
+                    "corte": tabela_corte.flatten(),
+                }
             )
-            df["nome_submercado"] = subsistemas
-            df = df[
-                ["codigo_submercado", "nome_submercado", "ficticio"] + cols
-            ]
-            df = df.astype({"codigo_submercado": "int64", "ficticio": "int64"})
             return df
 
         # Salta as linhas adicionais
@@ -121,23 +136,31 @@ class BlocoCustosDeficit(Section):
             self.__cabecalhos.append(file.readline())
 
         i = 0
-        subsistemas: List[str] = []
-        tabela = np.zeros((MAX_SUBMERCADOS, 10))
+        codigos_submercados: List[int] = []
+        nomes_submercados: List[str] = []
+        ficticios: List[int] = []
+        tabela_custo = np.zeros((MAX_SUBMERCADOS, MAX_PATAMARES_DEFICIT))
+        tabela_corte = np.zeros((MAX_SUBMERCADOS, MAX_PATAMARES_DEFICIT))
         while True:
             linha = file.readline()
             # Confere se terminaram
             if len(linha) < 3 or BlocoCustosDeficit.FIM_BLOCO in linha[:4]:
                 # Converte para df e salva na variável
                 if i > 0:
-                    tabela = tabela[:i, :]
+                    tabela_custo = tabela_custo[:i, :]
+                    tabela_corte = tabela_corte[:i, :]
                     self.data = converte_tabela_em_df()
                 break
             # Confere se é uma linha de subsistema ou tabela
             else:
                 dados = self.__linha.read(linha)
-                tabela[i, 0] = dados[0]
-                subsistemas.append(dados[1])
-                tabela[i, 1:] = dados[2:]
+                codigos_submercados.append(dados[0])
+                nomes_submercados.append(dados[1])
+                ficticios.append(dados[2])
+                tabela_custo[i, :] = dados[3 : 3 + MAX_PATAMARES_DEFICIT]
+                tabela_corte[i, :] = dados[
+                    3 + MAX_PATAMARES_DEFICIT : 3 + 2 * MAX_PATAMARES_DEFICIT
+                ]
                 i += 1
 
     # Override
@@ -148,15 +171,46 @@ class BlocoCustosDeficit(Section):
             raise ValueError(
                 "Dados do sistema.dat não foram lidos com sucesso"
             )
-        cols = [f"custo_deficit_patamar_{p}" for p in range(1, 5)] + [
-            f"corte_patamar_{p}" for p in range(1, 5)
-        ]
-        for _, linha_dados in self.data.iterrows():
-            dados_linha = linha_dados[cols].tolist()
-            dados_linha_escrita = linha_dados.tolist()[:3]
-            for d in dados_linha:
-                dados_linha_escrita.append(d if not np.isnan(d) else None)
-            file.write(self.__linha.write(dados_linha_escrita))
+        df = self.data.copy()
+        for _, linha_submercado in (
+            self.data[
+                [
+                    "codigo_submercado",
+                    "nome_submercado",
+                    "ficticio",
+                ]
+            ]
+            .drop_duplicates()
+            .iterrows()
+        ):
+            df_penalid = df.loc[
+                (
+                    df["codigo_submercado"]
+                    == linha_submercado["codigo_submercado"]
+                )
+                & (
+                    df["nome_submercado"]
+                    == linha_submercado["nome_submercado"]
+                )
+                & (df["ficticio"] == linha_submercado["ficticio"])
+            ]
+
+            file.write(
+                self.__linha.write(
+                    [
+                        linha_submercado["codigo_submercado"],
+                        linha_submercado["nome_submercado"],
+                        linha_submercado["ficticio"],
+                    ]
+                    + df_penalid.sort_values("patamar_deficit")[
+                        "custo"
+                    ].tolist()
+                    + df_penalid.sort_values("patamar_deficit")[
+                        "corte"
+                    ].tolist()
+                )
+            )
+
         file.write(BlocoCustosDeficit.FIM_BLOCO + "\n")
 
 
@@ -426,7 +480,6 @@ class BlocoMercadoEnergiaSistema(Section):
 
         ultimo_subsistema = 0
 
-        # Separa os valores de cada submercado, razao, ano
         df = self.data.copy()
         df["ano"] = df.apply(lambda linha: linha["data"].year, axis=1)
         for _, linha_submercado in (

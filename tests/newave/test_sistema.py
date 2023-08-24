@@ -46,7 +46,7 @@ def test_bloco_custos_deficit_sistema():
 
     assert b.data.iloc[0, 0] == 1
     assert b.data.iloc[-1, 0] == 11
-    assert b.data.iloc[0, 3] == 6524.05
+    assert b.data.iloc[0, 4] == 6524.05
 
 
 def test_bloco_limites_intercambio_sistema():

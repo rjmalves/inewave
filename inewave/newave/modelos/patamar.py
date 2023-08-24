@@ -13,6 +13,11 @@ from cfinterface.components.floatfield import FloatField
 from typing import List, IO
 import pandas as pd  # type: ignore
 import numpy as np  # type: ignore
+from inewave._utils.formatacao import (
+    prepara_vetor_anos_tabela,
+    prepara_valor_ano,
+    repete_vetor,
+)
 
 
 class BlocoNumeroPatamares(Section):
@@ -96,9 +101,14 @@ class BlocoDuracaoPatamar(Section):
     # Override
     def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df():
-            df = pd.DataFrame(tabela, columns=["Ano"] + MESES_DF)
+            df = pd.DataFrame(
+                data={
+                    "data": prepara_vetor_anos_tabela(anos),
+                    "patamar": repete_vetor(patamares),
+                    "valor": tabela.flatten(),
+                }
+            )
             df = df.fillna(1.0)
-            df = df.astype({"Ano": "int64"})
             return df
 
         # Salta as linhas adicionais
@@ -107,9 +117,10 @@ class BlocoDuracaoPatamar(Section):
 
         i = 0
         ano_atual = 0
-        tabela = np.zeros(
-            (MAX_SUBMERCADOS * MAX_ANOS_ESTUDO, len(MESES_DF) + 1)
-        )
+        patamar_atual = 0
+        patamares: List[int] = []
+        anos: List[str] = []
+        tabela = np.zeros((MAX_SUBMERCADOS * MAX_ANOS_ESTUDO, len(MESES_DF)))
         while True:
             ultima_linha = file.tell()
             linha = file.readline()
@@ -126,8 +137,11 @@ class BlocoDuracaoPatamar(Section):
                 dados = self.__linha.read(linha)
                 if isinstance(dados[0], int) and dados[0] != ano_atual:
                     ano_atual = dados[0]
-                tabela[i, 0] = ano_atual
-                tabela[i, 1:] = dados[1:]
+                    patamar_atual = 1
+                anos.append(ano_atual)
+                patamares.append(patamar_atual)
+                tabela[i, :] = dados[1:]
+                patamar_atual += 1
                 i += 1
 
     # Override
@@ -139,18 +153,17 @@ class BlocoDuracaoPatamar(Section):
                 "Dados do patamar.dat não foram lidos com sucesso"
             )
 
-        ultimo_ano = 0
-        for _, linha in self.data.iterrows():
-            linha_lida: pd.Series = linha
-            ano_linha = (
-                int(linha_lida["Ano"])
-                if linha_lida["Ano"] != ultimo_ano
-                else None
-            )
-            ultimo_ano = int(linha_lida["Ano"])
-            file.write(
-                self.__linha.write([ano_linha] + linha_lida[MESES_DF].tolist())
-            )
+        df = self.data.copy()
+        df["ano"] = df.apply(lambda linha: linha["data"].year, axis=1)
+        for ano in df["ano"].unique():
+            for patamar in sorted(df["patamar"].unique()):
+                df_ano_patamar = df.loc[
+                    (df["ano"] == ano) & (df["patamar"] == patamar)
+                ]
+                df_ano_patamar = df_ano_patamar.sort_values(["data"])
+                ano_linha = prepara_valor_ano(ano) if patamar == 1 else None
+                valores = df_ano_patamar["valor"].tolist()
+                file.write(self.__linha.write([ano_linha] + valores))
 
 
 class BlocoCargaPatamar(Section):
@@ -188,9 +201,15 @@ class BlocoCargaPatamar(Section):
     # Override
     def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df():
-            df = pd.DataFrame(tabela, columns=["Subsistema", "Ano"] + MESES_DF)
+            df = pd.DataFrame(
+                data={
+                    "codigo_submercado": repete_vetor(submercados),
+                    "data": prepara_vetor_anos_tabela(anos),
+                    "patamar": repete_vetor(patamares),
+                    "valor": tabela.flatten(),
+                }
+            )
             df = df.fillna(1.0)
-            df = df.astype({"Subsistema": "int64", "Ano": "int64"})
             return df
 
         # Salta as linhas adicionais
@@ -200,10 +219,14 @@ class BlocoCargaPatamar(Section):
         i = 0
         subsis_atual = 0
         ano_atual = 0
+        patamar_atual = 0
+        submercados: List[int] = []
+        anos: List[int] = []
+        patamares: List[int] = []
         tabela = np.zeros(
             (
                 MAX_SUBMERCADOS * MAX_ANOS_ESTUDO * MAX_PATAMARES,
-                len(MESES_DF) + 2,
+                len(MESES_DF),
             )
         )
         while True:
@@ -222,9 +245,12 @@ class BlocoCargaPatamar(Section):
                 dados = self.__linha.read(linha)
                 if isinstance(dados[0], int) and dados[0] != ano_atual:
                     ano_atual = dados[0]
-                tabela[i, 0] = subsis_atual
-                tabela[i, 1] = ano_atual
-                tabela[i, 2:] = dados[1:]
+                    patamar_atual = 1
+                submercados.append(subsis_atual)
+                anos.append(ano_atual)
+                patamares.append(patamar_atual)
+                tabela[i, :] = dados[1:]
+                patamar_atual += 1
                 i += 1
 
     # Override
@@ -237,21 +263,40 @@ class BlocoCargaPatamar(Section):
             )
 
         ultimo_subsistema = 0
-        for _, linha in self.data.iterrows():
-            linha_lida: pd.Series = linha
-            if linha_lida["Subsistema"] != ultimo_subsistema:
-                ultimo_subsistema = linha_lida["Subsistema"]
-                ultimo_ano = 0
-                file.write(self.__linha_subsis.write([int(ultimo_subsistema)]))
-            ano_linha = (
-                int(linha_lida["Ano"])
-                if linha_lida["Ano"] != ultimo_ano
-                else None
-            )
-            ultimo_ano = int(linha_lida["Ano"])
-            file.write(
-                self.__linha.write([ano_linha] + linha_lida[MESES_DF].tolist())
-            )
+
+        df = self.data.copy()
+        df["ano"] = df.apply(lambda linha: linha["data"].year, axis=1)
+        for _, linha_submercado in (
+            df[["codigo_submercado", "ano"]].drop_duplicates().iterrows()
+        ):
+            for patamar in sorted(df["patamar"].unique()):
+                df_merc = df.loc[
+                    (
+                        df["codigo_submercado"]
+                        == linha_submercado["codigo_submercado"]
+                    )
+                    & (df["ano"] == linha_submercado["ano"])
+                    & (df["patamar"] == patamar)
+                ]
+                df_merc = df_merc.sort_values(["data"])
+                if linha_submercado["codigo_submercado"] != ultimo_subsistema:
+                    ultimo_subsistema = linha_submercado["codigo_submercado"]
+                    file.write(
+                        self.__linha_subsis.write(
+                            linha_submercado[
+                                [
+                                    "codigo_submercado",
+                                ]
+                            ].tolist()
+                        )
+                    )
+                ano_linha = (
+                    prepara_valor_ano(linha_submercado["ano"])
+                    if patamar == 1
+                    else None
+                )
+                valores = df_merc["valor"].tolist()
+                file.write(self.__linha.write([ano_linha] + valores))
         file.write(BlocoCargaPatamar.FIM_BLOCO + "\n")
 
 
@@ -291,14 +336,12 @@ class BlocoIntercambioPatamarSubsistemas(Section):
     def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df():
             df = pd.DataFrame(
-                tabela,
-                columns=["submercado_de", "submercado_para", "ano"] + MESES_DF,
-            )
-            df = df.astype(
-                {
-                    "submercado_de": "int64",
-                    "submercado_para": "int64",
-                    "ano": "int64",
+                data={
+                    "submercado_de": repete_vetor(submercados_de),
+                    "submercado_para": repete_vetor(submercados_para),
+                    "data": prepara_vetor_anos_tabela(anos),
+                    "patamar": repete_vetor(patamares),
+                    "valor": tabela.flatten(),
                 }
             )
             return df
@@ -311,10 +354,15 @@ class BlocoIntercambioPatamarSubsistemas(Section):
         subsis_de_atual = 0
         subsis_para_atual = 0
         ano_atual = 0
+        patamar_atual = 0
+        submercados_de: List[int] = []
+        submercados_para: List[int] = []
+        patamares: List[int] = []
+        anos: List[int] = []
         tabela = np.zeros(
             (
                 MAX_SUBMERCADOS * MAX_SUBMERCADOS * MAX_ANOS_ESTUDO,
-                len(MESES_DF) + 3,
+                len(MESES_DF),
             )
         )
         while True:
@@ -338,10 +386,13 @@ class BlocoIntercambioPatamarSubsistemas(Section):
                 dados = self.__linha.read(linha)
                 if isinstance(dados[0], int) and dados[0] != ano_atual:
                     ano_atual = dados[0]
-                tabela[i, 0] = subsis_de_atual
-                tabela[i, 1] = subsis_para_atual
-                tabela[i, 2] = ano_atual
-                tabela[i, 3:] = dados[1:]
+                    patamar_atual = 1
+                submercados_de.append(subsis_de_atual)
+                submercados_para.append(subsis_para_atual)
+                anos.append(ano_atual)
+                patamares.append(patamar_atual)
+                tabela[i, :] = dados[1:]
+                patamar_atual += 1
                 i += 1
 
     # Override
@@ -356,34 +407,53 @@ class BlocoIntercambioPatamarSubsistemas(Section):
         ultimo_subsistema_de = 0
         ultimo_subsistema_para = 0
 
-        for _, linha in self.data.iterrows():
-            linha_lida: pd.Series = linha
-            if any(
-                [
-                    linha_lida["submercado_de"] != ultimo_subsistema_de,
-                    linha_lida["submercado_para"] != ultimo_subsistema_para,
-                ]
-            ):
-                ultimo_ano = 0
-                ultimo_subsistema_de = linha_lida["submercado_de"]
-                ultimo_subsistema_para = linha_lida["submercado_para"]
-                file.write(
-                    self.__linha_subsis.write(
-                        [
-                            int(ultimo_subsistema_de),
-                            int(ultimo_subsistema_para),
-                        ]
+        df = self.data.copy()
+        df["ano"] = df.apply(lambda linha: linha["data"].year, axis=1)
+        for _, linha_submercado in (
+            df[["submercado_de", "submercado_para", "ano"]]
+            .drop_duplicates()
+            .iterrows()
+        ):
+            for patamar in sorted(df["patamar"].unique()):
+                df_merc = df.loc[
+                    (df["submercado_de"] == linha_submercado["submercado_de"])
+                    & (
+                        df["submercado_para"]
+                        == linha_submercado["submercado_para"]
                     )
+                    & (df["ano"] == linha_submercado["ano"])
+                    & (df["patamar"] == patamar)
+                ]
+                df_merc = df_merc.sort_values(["data"])
+                if any(
+                    [
+                        linha_submercado["submercado_de"]
+                        != ultimo_subsistema_de,
+                        linha_submercado["submercado_para"]
+                        != ultimo_subsistema_para,
+                    ]
+                ):
+                    ultimo_subsistema_de = linha_submercado["submercado_de"]
+                    ultimo_subsistema_para = linha_submercado[
+                        "submercado_para"
+                    ]
+                    file.write(
+                        self.__linha_subsis.write(
+                            linha_submercado[
+                                [
+                                    "submercado_de",
+                                    "submercado_para",
+                                ]
+                            ].tolist()
+                        )
+                    )
+                ano_linha = (
+                    prepara_valor_ano(linha_submercado["ano"])
+                    if patamar == 1
+                    else None
                 )
-            ano_linha = (
-                int(linha_lida["ano"])
-                if linha_lida["ano"] != ultimo_ano
-                else None
-            )
-            ultimo_ano = int(linha_lida["ano"])
-            file.write(
-                self.__linha.write([ano_linha] + linha_lida[MESES_DF].tolist())
-            )
+                valores = df_merc["valor"].tolist()
+                file.write(self.__linha.write([ano_linha] + valores))
         file.write(BlocoIntercambioPatamarSubsistemas.FIM_BLOCO + "\n")
 
 
@@ -421,15 +491,12 @@ class BlocoUsinasNaoSimuladas(Section):
     def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df():
             df = pd.DataFrame(
-                tabela,
-                columns=["submercado", "patamar", "bloco", "ano"] + MESES_DF,
-            )
-            df = df.astype(
-                {
-                    "submercado": "int64",
-                    "patamar": "int64",
-                    "bloco": "int64",
-                    "ano": "int64",
+                data={
+                    "codigo_submercado": repete_vetor(submercados),
+                    "indice_bloco": repete_vetor(blocos),
+                    "data": prepara_vetor_anos_tabela(anos),
+                    "patamar": repete_vetor(patamares),
+                    "valor": tabela.flatten(),
                 }
             )
             return df
@@ -440,13 +507,17 @@ class BlocoUsinasNaoSimuladas(Section):
 
         i = 0
         subsis_atual = 0
-        patamar_atual = 1
+        patamar_atual = 0
         bloco_atual = 0
         ano_atual = 0
+        submercados: List[int] = []
+        blocos: List[int] = []
+        patamares: List[int] = []
+        anos: List[int] = []
         tabela = np.zeros(
             (
                 MAX_SUBMERCADOS * MAX_SUBMERCADOS * MAX_ANOS_ESTUDO,
-                len(MESES_DF) + 4,
+                len(MESES_DF),
             )
         )
         while True:
@@ -463,17 +534,16 @@ class BlocoUsinasNaoSimuladas(Section):
                 dados = self.__linha_subsis.read(linha)
                 subsis_atual = dados[0]
                 bloco_atual = dados[1]
-                patamar_atual = 1
             else:
                 dados = self.__linha.read(linha)
                 if isinstance(dados[0], int) and dados[0] != ano_atual:
                     ano_atual = dados[0]
                     patamar_atual = 1
-                tabela[i, 0] = subsis_atual
-                tabela[i, 1] = patamar_atual
-                tabela[i, 2] = bloco_atual
-                tabela[i, 3] = ano_atual
-                tabela[i, 4:] = dados[1:]
+                submercados.append(subsis_atual)
+                patamares.append(patamar_atual)
+                blocos.append(bloco_atual)
+                anos.append(ano_atual)
+                tabela[i, :] = dados[1:]
                 patamar_atual += 1
                 i += 1
 
@@ -489,32 +559,48 @@ class BlocoUsinasNaoSimuladas(Section):
         ultimo_subsistema = 0
         ultimo_bloco = 0
 
-        for _, linha in self.data.iterrows():
-            linha_lida: pd.Series = linha
-            if any(
-                [
-                    linha_lida["submercado"] != ultimo_subsistema,
-                    linha_lida["bloco"] != ultimo_bloco,
-                ]
-            ):
-                ultimo_ano = 0
-                ultimo_subsistema = linha_lida["submercado"]
-                ultimo_bloco = linha_lida["bloco"]
-                file.write(
-                    self.__linha_subsis.write(
-                        [
-                            int(ultimo_subsistema),
-                            int(ultimo_bloco),
-                        ]
+        df = self.data.copy()
+        df["ano"] = df.apply(lambda linha: linha["data"].year, axis=1)
+        for _, linha_submercado in (
+            df[["codigo_submercado", "indice_bloco", "ano"]]
+            .drop_duplicates()
+            .iterrows()
+        ):
+            for patamar in sorted(df["patamar"].unique()):
+                df_merc = df.loc[
+                    (
+                        df["codigo_submercado"]
+                        == linha_submercado["codigo_submercado"]
                     )
+                    & (df["indice_bloco"] == linha_submercado["indice_bloco"])
+                    & (df["ano"] == linha_submercado["ano"])
+                    & (df["patamar"] == patamar)
+                ]
+                df_merc = df_merc.sort_values(["data"])
+                if any(
+                    [
+                        linha_submercado["codigo_submercado"]
+                        != ultimo_subsistema,
+                        linha_submercado["indice_bloco"] != ultimo_bloco,
+                    ]
+                ):
+                    ultimo_subsistema = linha_submercado["codigo_submercado"]
+                    ultimo_bloco = linha_submercado["indice_bloco"]
+                    file.write(
+                        self.__linha_subsis.write(
+                            linha_submercado[
+                                [
+                                    "codigo_submercado",
+                                    "indice_bloco",
+                                ]
+                            ].tolist()
+                        )
+                    )
+                ano_linha = (
+                    prepara_valor_ano(linha_submercado["ano"])
+                    if patamar == 1
+                    else None
                 )
-            ano_linha = (
-                int(linha_lida["ano"])
-                if linha_lida["ano"] != ultimo_ano
-                else None
-            )
-            ultimo_ano = int(linha_lida["ano"])
-            file.write(
-                self.__linha.write([ano_linha] + linha_lida[MESES_DF].tolist())
-            )
+                valores = df_merc["valor"].tolist()
+                file.write(self.__linha.write([ano_linha] + valores))
         file.write(BlocoIntercambioPatamarSubsistemas.FIM_BLOCO + "\n")
