@@ -38,9 +38,6 @@ arq_sistema.mercado_energia
 # %%
 # Será feito um gráfico de área empilhado. Para isso, serão geradas algumas variáveis auxiliares.
 df = arq_sistema.mercado_energia
-anos = df["ano"].unique().tolist()
-ano_inicio = anos[0]
-ano_fim = anos[-1]
 x = pd.date_range(
     df["data"].min(),
     df["data"].max(),

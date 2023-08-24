@@ -1,3 +1,8 @@
+# v1.1.0
+- Conversão dos campos dos arquivos de entrada que representavam informações de datas como `int` para `datetime`
+- Padronização de todos os arquivos de entrada que possuíam informações como `DataFrame` para formato normal
+- Padronização de blocos do `pmo.dat`, `parp.dat`, `parpeol.dat` e `parpvaz.dat` para serem modelados como `DataFrame` em formatos normais.
+
 # v1.0.0
 
 - Primeira major release
