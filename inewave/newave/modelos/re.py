@@ -1,4 +1,4 @@
-from inewave.config import MAX_RES
+from inewave.config import MAX_RES, MAX_USINAS_RE
 
 from cfinterface.components.section import Section
 from cfinterface.components.line import Line
@@ -9,6 +9,9 @@ from cfinterface.components.floatfield import FloatField
 from typing import List, IO
 import pandas as pd  # type: ignore
 import numpy as np  # type: ignore
+from inewave._utils.formatacao import (
+    repete_vetor,
+)
 
 
 class BlocoUsinasConjuntoRE(Section):
@@ -23,7 +26,7 @@ class BlocoUsinasConjuntoRE(Section):
         super().__init__(previous, next, data)
         campo_conjunto: List[Field] = [IntegerField(3, 0)]
         campos_usinas: List[Field] = [
-            IntegerField(3, 6 + i * 4) for i in range(10)
+            IntegerField(3, 6 + i * 4) for i in range(MAX_USINAS_RE)
         ]
         self.__linha = Line(campo_conjunto + campos_usinas)
         self.__cabecalhos: List[str] = []
@@ -45,9 +48,13 @@ class BlocoUsinasConjuntoRE(Section):
     # Override
     def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df():
-            cols = ["conjunto"] + [f"codigo_usina_{i}" for i in range(1, 11)]
-            df = pd.DataFrame(tabela, columns=cols)
-            df = df.astype({"conjunto": "int64"})
+            df = pd.DataFrame(
+                data={
+                    "conjunto": repete_vetor(conjuntos, MAX_USINAS_RE),
+                    "codigo_usina": tabela.flatten(),
+                }
+            )
+            df = df.dropna().astype({"conjunto": int, "codigo_usina": int})
             return df
 
         # Salta as linhas adicionais
@@ -55,7 +62,8 @@ class BlocoUsinasConjuntoRE(Section):
             self.__cabecalhos.append(file.readline())
 
         i = 0
-        tabela = np.zeros((MAX_RES, 11))
+        conjuntos: List[int] = []
+        tabela = np.zeros((MAX_RES, MAX_USINAS_RE))
         while True:
             linha = file.readline()
             # Confere se terminaram
@@ -68,7 +76,8 @@ class BlocoUsinasConjuntoRE(Section):
             # Confere se é uma linha de subsistema ou tabela
             else:
                 dados = self.__linha.read(linha)
-                tabela[i, :] = dados
+                conjuntos.append(dados[0])
+                tabela[i, :] = dados[1:]
                 i += 1
 
     # Override
@@ -78,11 +87,14 @@ class BlocoUsinasConjuntoRE(Section):
         if not isinstance(self.data, pd.DataFrame):
             raise ValueError("Dados do re.dat não foram lidos com sucesso")
 
-        for _, linha in self.data.iterrows():
-            linha_escrita = []
-            for v in linha:
-                linha_escrita.append(None if np.isnan(v) else int(v))
-            file.write(self.__linha.write(linha_escrita))
+        df = self.data.copy()
+        for conjunto in df["conjunto"].unique():
+            usinas = df.loc[
+                df["conjunto"] == conjunto, "codigo_usina"
+            ].tolist()
+            usinas = usinas + [None] * (MAX_USINAS_RE - len(usinas))
+            file.write(self.__linha.write([conjunto] + usinas))
+
         file.write(BlocoUsinasConjuntoRE.FIM_BLOCO + "\n")
 
 

@@ -28,7 +28,7 @@ def test_bloco_usinas_conjuntos_re():
 
     assert b.data.iloc[0, 0] == 1
     assert b.data.iloc[-1, 0] == 10
-    assert b.data.iloc[-1, 2] == 284
+    assert b.data.iloc[-1, 1] == 284
 
 
 def test_bloco_restricoes_re():

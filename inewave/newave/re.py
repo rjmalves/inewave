@@ -28,10 +28,7 @@ class Re(SectionFile):
         Tabela com os conjuntos de usinas com restrições elétricas.
 
         - conjunto (`int`)
-        - codigo_usina_1 (`float`)
-        - codigo_usina_2 (`float`)
-        - ...
-        - codigo_usina_N (`float`)
+        - codigo_usina (`float`)
 
         :return: A tabela como um DataFrame.
         :rtype: pd.DataFrame | None

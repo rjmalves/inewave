@@ -9,8 +9,6 @@ from typing import List, IO
 import numpy as np  # type: ignore
 import pandas as pd  # type: ignore
 from inewave._utils.formatacao import (
-    prepara_vetor_anos_tabela,
-    prepara_valor_ano,
     repete_vetor,
 )
 
