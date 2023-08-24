@@ -48,11 +48,9 @@ class Pmo(BlockFile):
         hidrológica, em relação à primeira configuração do sistema,
         em MWmes.
 
-        - ree (`str`)
-        - janeiro (`float`)
-        - fevereiro (`float`)
-        - ...
-        - dezembro (`float`)
+        - nome_ree (`str`)
+        - mes (`int`)
+        - valor (`float`)
 
         :return: A tendência hidrológica em um DataFrame.
         :rtype: pd.DataFrame | None
@@ -69,11 +67,9 @@ class Pmo(BlockFile):
         fuga médio, em relação à primeira configuração do sistema,
         em MWmes.
 
-        - ree (`str`)
-        - janeiro (`float`)
-        - fevereiro (`float`)
-        - ...
-        - dezembro (`float`)
+        - nome_ree (`str`)
+        - mes (`int`)
+        - valor (`float`)
 
         :return: As energias afluentes passadas.
         :rtype: pd.DataFrame | None
@@ -89,11 +85,8 @@ class Pmo(BlockFile):
         Configurações do sistema em cada período devido a entrada
         de reservatórios e/ou potência de base.
 
-        - ano (`int`)
-        - janeiro (`float`)
-        - fevereiro (`float`)
-        - ...
-        - dezembro (`float`)
+        - data (`datetime`)
+        - valor (`int`)
 
         :return: As configurações em um DataFrame.
         :rtype: pd.DataFrame | None
@@ -109,11 +102,8 @@ class Pmo(BlockFile):
         Configurações do sistema em cada período devido a alterações
         de potência.
 
-        - ano (`int`)
-        - janeiro (`float`)
-        - fevereiro (`float`)
-        - ...
-        - dezembro (`float`)
+        - data (`datetime`)
+        - valor (`int`)
 
         :return: As configurações em um DataFrame.
         :rtype: pd.DataFrame | None
@@ -129,11 +119,8 @@ class Pmo(BlockFile):
         Configurações do sistema em cada período devido a alterações
         de potência.
 
-        - ano (`int`)
-        - janeiro (`float`)
-        - fevereiro (`float`)
-        - ...
-        - dezembro (`float`)
+        - data (`datetime`)
+        - valor (`int`)
 
         :return: As configurações em um DataFrame.
         :rtype: pd.DataFrame | None
@@ -148,7 +135,7 @@ class Pmo(BlockFile):
         Retas ajustadas segundo o modelo MARS para corrigir a
         energia fio d'água com as perdas por engolimento máximo.
 
-        - ree (`str`)
+        - nome_ree (`str`)
         - reta (`int`)
         - coeficiente_angular (`float`)
         - coeficiente_linear (`float`)
@@ -189,11 +176,9 @@ class Pmo(BlockFile):
         Tabela de riscos de déficit e enegia não suprida (ENS).
 
         - ano (`int`)
-        - risco_<nome_submercado_1> (`float`)
-        - eens_<nome_submercado_1> (`float`)
-        - ...
-        - risco_<nome_submercado_N> (`float`)
-        - eens_<nome_submercado_N> (`float`)
+        - nome_submercado (`str`)
+        - risco (`float`)
+        - eens (`float`)
 
         :return: Os ricos em um DataFrame.
         :rtype: pd.DataFrame | None

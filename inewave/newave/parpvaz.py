@@ -11,6 +11,7 @@ from cfinterface.components.block import Block
 from cfinterface.files.blockfile import BlockFile
 from typing import Type, TypeVar, Optional, Any, List
 import pandas as pd  # type: ignore
+from datetime import datetime
 
 
 class Parpvaz(BlockFile):
@@ -217,6 +218,34 @@ class Parpvaz(BlockFile):
             )
         return df[["uhe"] + cols]
 
+    def __converte_ano_mes_data(
+        self, df: Optional[pd.DataFrame]
+    ) -> Optional[pd.DataFrame]:
+        """
+        Converte um dataframe com colunas `mes` e `ano` para um com
+        uma coluna `data`.
+
+        :param df: O DataFrame com colunas `mes` e `ano`
+        :type df: pd.DataFrame
+        :return: O DataFrame com coluna `data`
+        :rtype: pd.DataFrame
+        """
+        if df is None:
+            return None
+        cols_identificacao = [
+            c for c in df.columns if c not in ["valor", "ano", "mes"]
+        ]
+        df = df.copy()
+        df.loc[:, "data"] = df.apply(
+            lambda linha: datetime(
+                year=linha["ano"], month=linha["mes"], day=1
+            ),
+            axis=1,
+        )
+        return df.drop(columns=["ano", "mes"])[
+            cols_identificacao + ["data", "valor"]
+        ]
+
     @property
     def series_vazoes_uhe(self) -> Optional[pd.DataFrame]:
         """
@@ -225,11 +254,8 @@ class Parpvaz(BlockFile):
 
         - uhe (`str`)
         - configuracao (`int`)
-        - ano (`int`)
-        - janeiro (`float`)
-        - fevereiro (`float`)
-        - ...
-        - dezembro (`float`)
+        - data (`datetime`)
+        - valor (`float`)
 
         :return: A tabela como um DataFrame.
         :rtype: pd.DataFrame | None
@@ -245,12 +271,9 @@ class Parpvaz(BlockFile):
         no mesmo formato do arquivo `parpvaz.dat`.
 
         - uhe (`str`)
-        - ano (`int`)
-        - Série (`int`)
-        - janeiro (`float`)
-        - fevereiro (`float`)
-        - ...
-        - dezembro (`float`)
+        - serie (`int`)
+        - data (`datetime`)
+        - valor (`float`)
 
         :return: A tabela como um DataFrame.
         :rtype: pd.DataFrame | None
@@ -262,6 +285,9 @@ class Parpvaz(BlockFile):
                     self.__series_ruido
                 )
             )
+            self.__series_ruido = self.__converte_ano_mes_data(
+                self.__series_ruido
+            )
         return self.__series_ruido
 
     @property
@@ -272,11 +298,9 @@ class Parpvaz(BlockFile):
         no mesmo formato do arquivo `parpvaz.dat`.
 
         - uhe (`str`)
-        - data (`date`)
-        - lag_1 (`float`)
-        - lag_2 (`float`)
-        - ...
-        - lag_11 (`float`)
+        - data (`datetime`)
+        - lag (`int`)
+        - valor (`float`)
 
         :return: A tabela como um DataFrame
         :rtype: pd.DataFrame | None
@@ -298,11 +322,9 @@ class Parpvaz(BlockFile):
         no mesmo formato do arquivo `parpvaz.dat`.
 
         - uhe (`str`)
-        - data (`date`)
-        - lag_1 (`float`)
-        - lag_2 (`float`)
-        - ...
-        - lag_11 (`float`)
+        - data (`datetime`)
+        - lag (`int`)
+        - valor (`float`)
 
         :return: A tabela como um DataFrame
         :rtype: pd.DataFrame | None
@@ -324,11 +346,9 @@ class Parpvaz(BlockFile):
         no mesmo formato do arquivo `parpvaz.dat`.
 
         - uhe (`str`)
-        - data (`date`)
-        - lag_1 (`float`)
-        - lag_2 (`float`)
-        - ...
-        - lag_11 (`float`)
+        - data (`datetime`)
+        - lag (`int`)
+        - valor (`float`)
 
         :return: A tabela como um DataFrame
         :rtype: pd.DataFrame | None
@@ -350,11 +370,8 @@ class Parpvaz(BlockFile):
         organizada por ano de estudo.
 
         - uhe (`str`)
-        - ano (`int`)
-        - janeiro (`int`)
-        - fevereiro (`int`)
-        - ...
-        - dezembro (`int`)
+        - data (`datetime`)
+        - valor (`int`)
 
         :return: A tabela como um DataFrame
         :rtype: pd.DataFrame | None
@@ -381,11 +398,8 @@ class Parpvaz(BlockFile):
         organizada por ano de estudo.
 
         - uhe (`str`)
-        - ano (`int`)
-        - janeiro (`int`)
-        - fevereiro (`int`)
-        - ...
-        - dezembro (`int`)
+        - data (`datetime`)
+        - valor (`int`)
 
         :return: A tabela como um DataFrame.
         :rtype: pd.DataFrame | None
@@ -412,16 +426,9 @@ class Parpvaz(BlockFile):
 
         - uhe (`str`)
         - estagio (`int`)
-        - psi_1 (`int`)
-        - psi_2 (`int`)
-        - ...
-        - psi_11 (`int`)
-        - psi_A (`int`)
-        - psi_norm_1 (`int`)
-        - psi_norm_2 (`int`)
-        - ...
-        - psi_norm_11 (`int`)
-        - psi_norm_A (`int`)
+        - tipo (`str`)
+        - ordem (`int`)
+        - valor (`float`)
 
         :return: A tabela como um DataFrame.
         :rtype: pd.DataFrame | None
