@@ -48,7 +48,7 @@ def test_bloco_modificacao_clast():
             b.read(fp)
 
     assert b.data.iloc[0, 0] == 211
-    assert b.data.iloc[-1, -1] == "PORTO ITAQUI"
+    assert b.data.iloc[-1, -1] == 178.25
 
 
 def test_atributos_encontrados_modificacao_clast():

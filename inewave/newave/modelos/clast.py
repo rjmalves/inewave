@@ -11,6 +11,9 @@ from typing import List, IO
 import numpy as np  # type: ignore
 import pandas as pd  # type: ignore
 from datetime import datetime
+from inewave._utils.formatacao import (
+    repete_vetor,
+)
 
 
 class BlocoUTEClasT(Section):
@@ -49,25 +52,41 @@ class BlocoUTEClasT(Section):
             return self.data.equals(bloco.data)
 
     # Override
-    def read(self, file: IO, *args, **kwargs):
+    def read(
+        self, file: IO, numero_anos_planejamento: int = 5, *args, **kwargs
+    ):
         def converte_tabela_em_df():
-            cols = [f"custo_{i}" for i in range(1, 6)]
-            df = pd.DataFrame(tabela, columns=cols)
-            df["codigo"] = codigo_ute
-            df["nome"] = nome_ute
-            df["tipo_combustivel"] = tipo_combustivel
-            df = df[["codigo", "nome", "tipo_combustivel"] + cols]
+            df = pd.DataFrame(
+                data={
+                    "codigo_usina": repete_vetor(
+                        codigo_ute, self.__numero_anos_planejamento
+                    ),
+                    "nome_usina": repete_vetor(
+                        nome_ute, self.__numero_anos_planejamento
+                    ),
+                    "tipo_combustivel": repete_vetor(
+                        tipo_combustivel, self.__numero_anos_planejamento
+                    ),
+                    "indice_ano_estudo": np.tile(
+                        np.arange(1, self.__numero_anos_planejamento + 1),
+                        len(codigo_ute),
+                    ),
+                    "valor": tabela.flatten(),
+                }
+            )
             return df
 
         # Salta as linhas adicionais
         for _ in range(2):
             self.__cabecalhos.append(file.readline())
 
+        self.__numero_anos_planejamento = numero_anos_planejamento
+
         # Variáveis auxiliares
         codigo_ute: List[int] = []
         nome_ute: List[str] = []
         tipo_combustivel: List[str] = []
-        tabela = np.zeros((MAX_UTES, 5))
+        tabela = np.zeros((MAX_UTES, self.__numero_anos_planejamento))
         i = 0
         while True:
             linha = file.readline()
@@ -90,11 +109,27 @@ class BlocoUTEClasT(Section):
         for linha in self.__cabecalhos:
             file.write(linha)
         if not isinstance(self.data, pd.DataFrame):
-            raise ValueError("Dados do c_adic.dat não foram lidos com sucesso")
+            raise ValueError("Dados do clast.dat não foram lidos com sucesso")
 
-        for _, linha in self.data.iterrows():
-            linha_lida: pd.Series = linha
-            file.write(self.__linha.write(linha_lida.tolist()))
+        df = self.data.copy()
+        for _, linha_usina in (
+            self.data[["codigo_usina", "nome_usina", "tipo_combustivel"]]
+            .drop_duplicates()
+            .iterrows()
+        ):
+            df_ute = df.loc[
+                (df["codigo_usina"] == linha_usina["codigo_usina"])
+            ]
+            file.write(
+                self.__linha.write(
+                    [
+                        df_ute["codigo_usina"].iloc[0],
+                        df_ute["nome_usina"].iloc[0],
+                        df_ute["tipo_combustivel"].iloc[0],
+                    ]
+                    + df_ute.sort_values("indice_ano_estudo")["valor"].tolist()
+                )
+            )
         file.write(BlocoUTEClasT.FIM_BLOCO + "\n")
 
 
@@ -135,11 +170,11 @@ class BlocoModificacaoUTEClasT(Section):
         def converte_tabela_em_df():
             df = pd.DataFrame(
                 data={
-                    "codigo": codigo_ute,
-                    "custo": custo,
+                    "codigo_usina": codigo_ute,
+                    "nome_usina": nomes,
                     "data_inicio": datas_inicio,
                     "data_fim": datas_fim,
-                    "nome": nomes,
+                    "custo": custo,
                 }
             )
             return df
@@ -177,4 +212,16 @@ class BlocoModificacaoUTEClasT(Section):
 
         for _, linha in self.data.iterrows():
             linha_lida: pd.Series = linha
-            file.write(self.__linha.write(linha_lida.tolist()))
+            file.write(
+                self.__linha.write(
+                    linha_lida[
+                        [
+                            "codigo_usina",
+                            "custo",
+                            "data_inicio",
+                            "data_fim",
+                            "nome_usina",
+                        ]
+                    ].tolist()
+                )
+            )
