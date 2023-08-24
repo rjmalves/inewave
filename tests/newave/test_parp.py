@@ -43,8 +43,8 @@ def test_series_energia_ree():
         with open("", "") as fp:
             b.read(fp)
 
-    assert b.data.shape[0] == 87
-    assert b.data.shape[1] == 15
+    assert b.data.shape[0] == 1044
+    assert b.data.shape[1] == 4
     assert b.data.iloc[0, 3] == 8536.82
     assert b.data.iloc[-1, -1] == 5616.44
 
@@ -58,9 +58,9 @@ def test_correlacao_series_energia_ree():
         with open("", "") as fp:
             b.read(fp)
 
-    assert b.data.shape[0] == 120
-    assert b.data.shape[1] == 12
-    assert b.data.iloc[0, 1] == 0.28570
+    assert b.data.shape[0] == 1320
+    assert b.data.shape[1] == 3
+    assert b.data.iloc[0, 2] == 0.28570
     assert b.data.iloc[-1, -1] == 0.04142
 
 
@@ -73,9 +73,9 @@ def test_correlacao_parcial_series_energia_ree():
         with open("", "") as fp:
             b.read(fp)
 
-    assert b.data.shape[0] == 120
-    assert b.data.shape[1] == 12
-    assert b.data.iloc[0, 1] == 0.19220
+    assert b.data.shape[0] == 1320
+    assert b.data.shape[1] == 3
+    assert b.data.iloc[0, 2] == 0.19220
     assert b.data.iloc[-1, -1] == -0.15513
 
 
@@ -86,8 +86,8 @@ def test_ordem_modelo_ree():
         with open("", "") as fp:
             b.read(fp)
 
-    assert b.data.shape[0] == 10
-    assert b.data.shape[1] == 14
+    assert b.data.shape[0] == 120
+    assert b.data.shape[1] == 3
     assert b.data.iloc[0, 2] == 1
     assert b.data.iloc[-1, -1] == 4
 
@@ -99,12 +99,12 @@ def test_coeficientes_modelo_ree():
         with open("", "") as fp:
             b.read(fp)
 
-    assert b.data.shape[0] == 1
-    assert b.data.shape[1] == 24
-    assert b.data.loc[0, "psi_1"] == 0.207
-    assert b.data.loc[0, "psi_norm_1"] == 0.263
-    assert b.data.loc[0, "psi_A"] == 0.177
-    assert b.data.loc[0, "psi_norm_A"] == 0.485
+    assert b.data.shape[0] == 4
+    assert b.data.shape[1] == 3
+    assert b.data.iloc[0, 2] == 0.207
+    assert b.data.iloc[1, 2] == 0.177
+    assert b.data.iloc[2, 2] == 0.263
+    assert b.data.iloc[3, 2] == 0.485
 
 
 def test_serie_ruidos_ree():
@@ -114,9 +114,9 @@ def test_serie_ruidos_ree():
         with open("", "") as fp:
             b.read(fp)
 
-    assert b.data.shape[0] == 87
-    assert b.data.shape[1] == 14
-    assert b.data.iloc[0, 1] == 0.0
+    assert b.data.shape[0] == 1044
+    assert b.data.shape[1] == 4
+    assert b.data.iloc[0, 3] == 0.0
     assert b.data.iloc[-1, -1] == -0.152
 
 
@@ -127,9 +127,9 @@ def test_correl_serie_ruidos_ree():
         with open("", "") as fp:
             b.read(fp)
 
-    assert b.data.shape[0] == 120
-    assert b.data.shape[1] == 12
-    assert b.data.iloc[0, 1] == -0.05921
+    assert b.data.shape[0] == 1320
+    assert b.data.shape[1] == 3
+    assert b.data.iloc[0, 2] == -0.05921
     assert b.data.iloc[-1, -1] == -0.08159
 
 
@@ -140,9 +140,9 @@ def test_serie_media_12_meses_ree():
         with open("", "") as fp:
             b.read(fp)
 
-    assert b.data.shape[0] == 87
-    assert b.data.shape[1] == 14
-    assert b.data.iloc[0, 1] == 0.0000
+    assert b.data.shape[0] == 1044
+    assert b.data.shape[1] == 4
+    assert b.data.iloc[0, 3] == 0.0000
     assert b.data.iloc[-1, -1] == 3136.70
 
 
@@ -153,9 +153,9 @@ def test_correl_cruzada_media_12_meses_ree():
         with open("", "") as fp:
             b.read(fp)
 
-    assert b.data.shape[0] == 120
-    assert b.data.shape[1] == 13
-    assert b.data.iloc[0, 1] == 0.26913
+    assert b.data.shape[0] == 1440
+    assert b.data.shape[1] == 3
+    assert b.data.iloc[0, 2] == 0.26913
     assert b.data.iloc[-1, -1] == 0.76845
 
 

@@ -27,12 +27,12 @@ arq_sistema = Sistema.read("./newave/sistema.dat")
 
 # %%
 # A definição dos submercados é acessível através do bloco que define os custos de déficit
-arq_sistema.custo_deficit.iloc[:, :4]
+arq_sistema.custo_deficit
 
 # %%
 # As informações de mercado de energia são reunidas em uma única propriedade
 # e esta pode ser alterada livremente
-arq_sistema.mercado_energia.iloc[:, :4]
+arq_sistema.mercado_energia
 
 
 # %%
@@ -42,22 +42,20 @@ anos = df["ano"].unique().tolist()
 ano_inicio = anos[0]
 ano_fim = anos[-1]
 x = pd.date_range(
-    datetime(year=int(ano_inicio), month=1, day=1),
-    datetime(year=int(ano_fim), month=12, day=1),
+    df["data"].min(),
+    df["data"].max(),
     freq="MS",
 )
 
 # %%
 # Para a figura, são geradas as retas independentemente
 fig = go.Figure()
-for submercado in df["submercado"].unique():
-    df_sbm = df.loc[df["submercado"] == submercado].drop(
-        columns=["submercado", "ano"]
-    )
+for submercado in df["codigo_submercado"].unique():
+    y = df.loc[df["codigo_submercado"] == submercado, "valor"]
     fig.add_trace(
         go.Scatter(
             x=x,
-            y=df_sbm.to_numpy().flatten(),
+            y=y,
             mode="lines",
             stackgroup="one",
             name=str(submercado),
@@ -73,9 +71,8 @@ fig
 # É possível realizar edições livres na propriedade do arquivo, para geração de estudos
 # de sensibilidades. Por exemplo, é possível aumentar a carga do submercado NORDESTE
 # em 30% e conferir o efeito na operação com a execução do modelo.
-colunas_meses = arq_sistema.mercado_energia.columns.tolist()[2:]
 arq_sistema.mercado_energia.loc[
-    arq_sistema.mercado_energia["submercado"] == 3, colunas_meses
+    arq_sistema.mercado_energia["codigo_submercado"] == 3, "valor"
 ] *= 1.3
 
 from io import StringIO

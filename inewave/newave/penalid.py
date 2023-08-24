@@ -22,10 +22,12 @@ class Penalid(SectionFile):
         """
         Tabela com as penalidades.
 
-        - mnemonico (`str`)
-        - penalidade_1 (`float`)
-        - penalidade_2 (`float`)
-        - submercado (`int`)
+        - variavel (`str`)
+        - codigo_ree_submercado (`int`)
+        - patamar_penalidade (`int`)
+        - patamar_carga (`int`)
+        - valor_R$_MWh (`float`)
+        - valor_R$_hm3 (`float`)
 
         :return: A tabela como um DataFrame.
         :rtype: pd.DataFrame | None

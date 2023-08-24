@@ -9,6 +9,10 @@ from cfinterface.components.literalfield import LiteralField
 from typing import List, IO
 import pandas as pd  # type: ignore
 import numpy as np  # type: ignore
+from inewave._utils.formatacao import (
+    prepara_vetor_anos_tabela,
+    repete_vetor,
+)
 
 
 class BlocoConfiguracoesPenalizacaoCurva(Section):
@@ -92,8 +96,8 @@ class BlocoPenalidadesViolacaoREECurva(Section):
     # Override
     def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df():
-            df = pd.DataFrame(tabela, columns=["ree", "penalidade"])
-            df = df.astype({"ree": "int64"})
+            df = pd.DataFrame(tabela, columns=["codigo_ree", "penalidade"])
+            df = df.astype({"codigo_ree": "int64"})
             return df
 
         # Salta as linhas adicionais
@@ -126,7 +130,9 @@ class BlocoPenalidadesViolacaoREECurva(Section):
 
         for _, lin in self.data.iterrows():
             file.write(
-                self.__linha.write([int(lin["ree"])] + [lin["penalidade"]])
+                self.__linha.write(
+                    [int(lin["codigo_ree"])] + [lin["penalidade"]]
+                )
             )
         file.write(BlocoPenalidadesViolacaoREECurva.FIM_BLOCO + "\n")
 
@@ -141,7 +147,7 @@ class BlocoCurvaSegurancaREE(Section):
 
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
-        self.__linha_subsis = Line([IntegerField(3, 1)])
+        self.__linha_ree = Line([IntegerField(3, 1)])
         campo_ano: List[Field] = [IntegerField(4, 0)]
         campos_curva: List[Field] = [
             FloatField(5, i * 6 + 6, 1) for i in range(len(MESES_DF))
@@ -166,8 +172,13 @@ class BlocoCurvaSegurancaREE(Section):
     # Override
     def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df():
-            df = pd.DataFrame(tabela, columns=["ree", "ano"] + MESES_DF)
-            df = df.astype({"ree": "int64", "ano": "int64"})
+            df = pd.DataFrame(
+                data={
+                    "codigo_ree": repete_vetor(codigo_ree),
+                    "data": prepara_vetor_anos_tabela(anos),
+                    "valor": tabela.flatten(),
+                }
+            )
             return df
 
         # Salta as linhas adicionais
@@ -175,10 +186,10 @@ class BlocoCurvaSegurancaREE(Section):
             self.__cabecalhos.append(file.readline())
 
         i = 0
-        subsis_atual = 0
-        tabela = np.zeros(
-            (MAX_SUBMERCADOS * MAX_ANOS_ESTUDO, len(MESES_DF) + 2)
-        )
+        ree_atual = 0
+        codigo_ree: List[int] = []
+        anos: List[int] = []
+        tabela = np.zeros((MAX_SUBMERCADOS * MAX_ANOS_ESTUDO, len(MESES_DF)))
         while True:
             linha = file.readline()
             # Confere se terminaram
@@ -188,12 +199,14 @@ class BlocoCurvaSegurancaREE(Section):
                     tabela = tabela[:i, :]
                     self.data = converte_tabela_em_df()
                 break
-            # Confere se é uma linha de subsistema ou tabela
+            # Confere se é uma linha de ree ou tabela
             if len(linha) < 10:
-                subsis_atual = self.__linha_subsis.read(linha)[0]
+                ree_atual = self.__linha_ree.read(linha)[0]
             else:
-                tabela[i, 0] = subsis_atual
-                tabela[i, 1:] = self.__linha.read(linha)
+                codigo_ree.append(ree_atual)
+                dados_linha = self.__linha.read(linha)
+                anos.append(dados_linha[0])
+                tabela[i, :] = dados_linha[1:]
                 i += 1
 
     # Override
@@ -204,14 +217,23 @@ class BlocoCurvaSegurancaREE(Section):
             raise ValueError("Dados do curva.dat não foram lidos com sucesso")
 
         ultimo_ree = 0
-        for _, linha in self.data.iterrows():
-            linha_lida: pd.Series = linha
-            if linha_lida["ree"] != ultimo_ree:
-                ultimo_ree = linha_lida["ree"]
-                file.write(self.__linha_subsis.write([int(ultimo_ree)]))
+        # Separa os valores de cada ree
+        df = self.data.copy()
+        df["ano"] = df.apply(lambda linha: linha["data"].year, axis=1)
+        for _, linha_ree in (
+            df[["codigo_ree", "ano"]].drop_duplicates().iterrows()
+        ):
+            df_ree = df.loc[
+                (df["codigo_ree"] == linha_ree["codigo_ree"])
+                & (df["ano"] == linha_ree["ano"])
+            ]
+            df_ree = df_ree.sort_values(["data"])
+            if linha_ree["codigo_ree"] != ultimo_ree:
+                ultimo_ree = linha_ree["codigo_ree"]
+                file.write(self.__linha_ree.write([int(ultimo_ree)]))
             file.write(
                 self.__linha.write(
-                    [int(linha_lida["ano"])] + linha_lida[MESES_DF].tolist()
+                    [int(linha_ree["ano"])] + df_ree["valor"].tolist()
                 )
             )
 

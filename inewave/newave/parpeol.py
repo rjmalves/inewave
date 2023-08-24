@@ -9,6 +9,7 @@ from cfinterface.components.block import Block
 from cfinterface.files.blockfile import BlockFile
 from typing import Type, TypeVar, Optional, Any, List
 import pandas as pd  # type: ignore
+from datetime import datetime
 
 
 class Parpeol(BlockFile):
@@ -204,6 +205,34 @@ class Parpeol(BlockFile):
             )
         return df[["uee"] + cols]
 
+    def __converte_ano_mes_data(
+        self, df: Optional[pd.DataFrame]
+    ) -> Optional[pd.DataFrame]:
+        """
+        Converte um dataframe com colunas `mes` e `ano` para um com
+        uma coluna `data`.
+
+        :param df: O DataFrame com colunas `mes` e `ano`
+        :type df: pd.DataFrame
+        :return: O DataFrame com coluna `data`
+        :rtype: pd.DataFrame
+        """
+        if df is None:
+            return None
+        cols_identificacao = [
+            c for c in df.columns if c not in ["valor", "ano", "mes"]
+        ]
+        df = df.copy()
+        df.loc[:, "data"] = df.apply(
+            lambda linha: datetime(
+                year=linha["ano"], month=linha["mes"], day=1
+            ),
+            axis=1,
+        )
+        return df.drop(columns=["ano", "mes"])[
+            cols_identificacao + ["data", "valor"]
+        ]
+
     @property
     def series_ventos_uee(self) -> Optional[pd.DataFrame]:
         """
@@ -212,11 +241,8 @@ class Parpeol(BlockFile):
 
         - uee (`str`)
         - configuracao (`int`)
-        - ano (`int`)
-        - janeiro (`float`)
-        - fevereiro (`float`)
-        - ...
-        - dezembro (`float`)
+        - data (`datetime`)
+        - valor (`float`)
 
         :return: A tabela como um DataFrame.
         :rtype: pd.DataFrame | None
@@ -232,12 +258,9 @@ class Parpeol(BlockFile):
         no mesmo formato do arquivo `parpeol.dat`.
 
         - uee (`str`)
-        - ano (`int`)
-        - Série (`int`)
-        - janeiro (`float`)
-        - fevereiro (`float`)
-        - ...
-        - dezembro (`float`)
+        - serie (`int`)
+        - data (`datetime`)
+        - valor (`float`)
 
         :return: A tabela como um DataFrame.
         :rtype: pd.DataFrame | None
@@ -249,6 +272,9 @@ class Parpeol(BlockFile):
                     self.__series_ruido
                 )
             )
+            self.__series_ruido = self.__converte_ano_mes_data(
+                self.__series_ruido
+            )
         return self.__series_ruido
 
     @property
@@ -259,11 +285,9 @@ class Parpeol(BlockFile):
         no mesmo formato do arquivo `parpeol.dat`.
 
         - uee (`str`)
-        - Data (`date`)
-        - Lag 1 (`float`)
-        - Lag 2 (`float`)
-        - ...
-        - Lag 11 (`float`)
+        - data (`datetime`)
+        - lag (`int`)
+        - valor (`float`)
 
         :return: A tabela como um DataFrame
         :rtype: pd.DataFrame | None
@@ -285,11 +309,9 @@ class Parpeol(BlockFile):
         no mesmo formato do arquivo `parpeol.dat`.
 
         - uee (`str`)
-        - Data (`date`)
-        - Lag 1 (`float`)
-        - Lag 2 (`float`)
-        - ...
-        - Lag 11 (`float`)
+        - data (`datetime`)
+        - lag (`int`)
+        - valor (`float`)
 
         :return: A tabela como um DataFrame
         :rtype: pd.DataFrame | None

@@ -18,7 +18,7 @@ from inewave.newave.modelos.modif import (
     TURBMINT,
 )
 
-
+from datetime import datetime
 from typing import TypeVar, List, Optional, Union
 import pandas as pd  # type: ignore
 
@@ -180,18 +180,15 @@ class Modif(RegisterFile):
 
     def cfuga(
         self,
-        mes: Optional[int] = None,
-        ano: Optional[int] = None,
+        data_inicio: Optional[datetime] = None,
         nivel: Optional[float] = None,
         df: bool = False,
     ) -> Optional[Union[CFUGA, List[CFUGA], pd.DataFrame]]:
         """
         Obtém um registro que define o nível do canal de fuga.
 
-        :param mes: mês de validade do nível
-        :type mes: int | None
-        :param ano: ano de validade do nível
-        :type ano: int | None
+        :param data_inicio: data de início da validade do nível
+        :type data_inicio: datetime | None
         :param nivel: o nível
         :type nivel: float | None
         :return: Um ou mais registros, se existirem.
@@ -201,23 +198,20 @@ class Modif(RegisterFile):
             return self._as_df(USINA)
         else:
             return self.data.get_registers_of_type(
-                CFUGA, mes=mes, ano=ano, nivel=nivel
+                CFUGA, data_inicio=data_inicio, nivel=nivel
             )
 
     def cmont(
         self,
-        mes: Optional[int] = None,
-        ano: Optional[int] = None,
+        data_inicio: Optional[datetime] = None,
         nivel: Optional[float] = None,
         df: bool = False,
     ) -> Optional[Union[CMONT, List[CMONT], pd.DataFrame]]:
         """
         Obtém um registro que define o nível do canal de montante.
 
-        :param mes: mês de validade do nível
-        :type mes: int | None
-        :param ano: ano de validade do nível
-        :type ano: int | None
+        :param data_inicio: data de início da validade do nível
+        :type data_inicio: datetime | None
         :param nivel: o nível
         :type nivel: float | None
         :return: Um ou mais registros, se existirem.
@@ -227,13 +221,12 @@ class Modif(RegisterFile):
             return self._as_df(USINA)
         else:
             return self.data.get_registers_of_type(
-                CMONT, mes=mes, ano=ano, nivel=nivel
+                CMONT, data_inicio=data_inicio, nivel=nivel
             )
 
     def vmaxt(
         self,
-        mes: Optional[int] = None,
-        ano: Optional[int] = None,
+        data_inicio: Optional[datetime] = None,
         volume: Optional[float] = None,
         unidade: Optional[str] = None,
         df: bool = False,
@@ -241,10 +234,8 @@ class Modif(RegisterFile):
         """
         Obtém um registro que define o volume máximo por período.
 
-        :param mes: mês de validade do volume
-        :type mes: int | None
-        :param ano: ano de validade do volume
-        :type ano: int | None
+        :param data_inicio: data de início da validade do volume
+        :type data_inicio: datetime | None
         :param volume: o volume
         :type volume: float | None
         :param unidade: a unidade do volume
@@ -256,13 +247,12 @@ class Modif(RegisterFile):
             return self._as_df(USINA)
         else:
             return self.data.get_registers_of_type(
-                VMAXT, mes=mes, ano=ano, volume=volume, unidade=unidade
+                VMAXT, data_inicio=data_inicio, volume=volume, unidade=unidade
             )
 
     def vmint(
         self,
-        mes: Optional[int] = None,
-        ano: Optional[int] = None,
+        data_inicio: Optional[datetime] = None,
         volume: Optional[float] = None,
         unidade: Optional[str] = None,
         df: bool = False,
@@ -270,10 +260,8 @@ class Modif(RegisterFile):
         """
         Obtém um registro que define o volume mínimo por período.
 
-        :param mes: mês de validade do volume
-        :type mes: int | None
-        :param ano: ano de validade do volume
-        :type ano: int | None
+        :param data_inicio: data de início da validade do volume
+        :type data_inicio: datetime | None
         :param volume: o volume
         :type volume: float | None
         :param unidade: a unidade do volume
@@ -285,13 +273,12 @@ class Modif(RegisterFile):
             return self._as_df(USINA)
         else:
             return self.data.get_registers_of_type(
-                VMINT, mes=mes, ano=ano, volume=volume, unidade=unidade
+                VMINT, data_inicio=data_inicio, volume=volume, unidade=unidade
             )
 
     def vminp(
         self,
-        mes: Optional[int] = None,
-        ano: Optional[int] = None,
+        data_inicio: Optional[datetime] = None,
         volume: Optional[float] = None,
         unidade: Optional[str] = None,
         df: bool = False,
@@ -299,10 +286,8 @@ class Modif(RegisterFile):
         """
         Obtém um registro que define o volume mínimo para penalidade.
 
-        :param mes: mês de validade do volume
-        :type mes: int | None
-        :param ano: ano de validade do volume
-        :type ano: int | None
+        :param data_inicio: data de início da validade do volume
+        :type data_inicio: datetime | None
         :param volume: o volume
         :type volume: float | None
         :param unidade: a unidade do volume
@@ -314,23 +299,20 @@ class Modif(RegisterFile):
             return self._as_df(USINA)
         else:
             return self.data.get_registers_of_type(
-                VMINP, mes=mes, ano=ano, volume=volume, unidade=unidade
+                VMINP, data_inicio=data_inicio, volume=volume, unidade=unidade
             )
 
     def vazmint(
         self,
-        mes: Optional[int] = None,
-        ano: Optional[int] = None,
+        data_inicio: Optional[datetime] = None,
         vazao: Optional[float] = None,
         df: bool = False,
     ) -> Optional[Union[VAZMINT, List[VAZMINT], pd.DataFrame]]:
         """
         Obtém um registro que define a vazão mínima por período.
 
-        :param mes: mês de validade da vazão
-        :type mes: int | None
-        :param ano: ano de validade da vazão
-        :type ano: int | None
+        :param data_inicio: data de início da validade do volume
+        :type data_inicio: datetime | None
         :param vazao: a vazão mínima
         :type vazao: float | None
         :return: Um ou mais registros, se existirem.
@@ -340,23 +322,20 @@ class Modif(RegisterFile):
             return self._as_df(USINA)
         else:
             return self.data.get_registers_of_type(
-                VAZMINT, mes=mes, ano=ano, vazao=vazao
+                VAZMINT, data_inicio=data_inicio, vazao=vazao
             )
 
     def vazmaxt(
         self,
-        mes: Optional[int] = None,
-        ano: Optional[int] = None,
+        data_inicio: Optional[datetime] = None,
         vazao: Optional[float] = None,
         df: bool = False,
     ) -> Optional[Union[VAZMAXT, List[VAZMAXT], pd.DataFrame]]:
         """
         Obtém um registro que define a vazão máxima por período.
 
-        :param mes: mês de validade da vazão
-        :type mes: int | None
-        :param ano: ano de validade da vazão
-        :type ano: int | None
+        :param data_inicio: data de início da validade do volume
+        :type data_inicio: datetime | None
         :param vazao: a vazão máxima
         :type vazao: float | None
         :return: Um ou mais registros, se existirem.
@@ -366,23 +345,20 @@ class Modif(RegisterFile):
             return self._as_df(USINA)
         else:
             return self.data.get_registers_of_type(
-                VAZMAXT, mes=mes, ano=ano, vazao=vazao
+                VAZMAXT, data_inicio=data_inicio, vazao=vazao
             )
 
     def turbmaxt(
         self,
-        mes: Optional[int] = None,
-        ano: Optional[int] = None,
+        data_inicio: Optional[datetime] = None,
         turbinamento: Optional[float] = None,
         df: bool = False,
     ) -> Optional[Union[TURBMAXT, List[TURBMAXT], pd.DataFrame]]:
         """
         Obtém um registro que define o turbinamento máximo por período.
 
-        :param mes: mês de validade do turbinamento
-        :type mes: int | None
-        :param ano: ano de validade do turbinamento
-        :type ano: int | None
+        :param data_inicio: data de início da validade do turbinamento
+        :type data_inicio: datetime | None
         :param turbinamento: o turbinamento máximo
         :type turbinamento: float | None
         :return: Um ou mais registros, se existirem.
@@ -392,22 +368,20 @@ class Modif(RegisterFile):
             return self._as_df(USINA)
         else:
             return self.data.get_registers_of_type(
-                TURBMAXT, mes=mes, ano=ano, turbinamento=turbinamento
+                TURBMAXT, data_inicio=data_inicio, turbinamento=turbinamento
             )
 
     def turbmint(
         self,
-        mes: Optional[int] = None,
-        ano: Optional[int] = None,
+        data_inicio: Optional[datetime] = None,
         turbinamento: Optional[float] = None,
         df: bool = False,
     ) -> Optional[Union[TURBMINT, List[TURBMINT], pd.DataFrame]]:
         """
         Obtém um registro que define o turbinamento mínimo por período.
-        :param mes: mês de validade do turbinamento
-        :type mes: int | None
-        :param ano: ano de validade do turbinamento
-        :type ano: int | None
+
+        :param data_inicio: data de início da validade do turbinamento
+        :type data_inicio: datetime | None
         :param turbinamento: o turbinamento mínimo
         :type turbinamento: float | None
         :return: Um ou mais registros, se existirem.
@@ -417,7 +391,7 @@ class Modif(RegisterFile):
             return self._as_df(USINA)
         else:
             return self.data.get_registers_of_type(
-                TURBMINT, mes=mes, ano=ano, turbinamento=turbinamento
+                TURBMINT, data_inicio=data_inicio, turbinamento=turbinamento
             )
 
     def modificacoes_usina(self, codigo: int) -> Optional[List[Register]]:

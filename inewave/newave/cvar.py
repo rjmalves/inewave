@@ -55,11 +55,12 @@ class Cvar(BlockFile):
         """
         Tabela com os valores variáveis do CVAR para o parâmetro ALFA.
 
-        - ano (`str`)
-        - janeiro (`float`)
-        - fevereiro (`float`)
-        - ...
-        - dezembro (`float`)
+        - data (`datetime`)
+        - valor (`float`)
+
+        **OBS:** Na existência de períodos PRE ou POS, são adotados os anos
+        padrão "0001" para PRE e "9999" para POS.
+
 
         :return: O valor de ALFA por estágio em um DataFrame.
         :rtype: pd.DataFrame | None
@@ -74,11 +75,12 @@ class Cvar(BlockFile):
         """
         Tabela com os valores variáveis do CVAR para o parâmetro LAMBDA.
 
-        - ano (`str`)
-        - janeiro (`float`)
-        - fevereiro (`float`)
-        - ...
-        - dezembro (`float`)
+        - data (`datetime`)
+        - valor (`float`)
+
+        **OBS:** Na existência de períodos PRE ou POS, são adotados os anos
+        padrão "0001" para PRE e "9999" para POS.
+
 
         :return: O valor de LAMBDA por estágio em um DataFrame.
         :rtype: pd.DataFrame | None

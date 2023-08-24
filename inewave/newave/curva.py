@@ -58,7 +58,7 @@ class Curva(SectionFile):
         """
         Tabela com os custos para penalização em cada REE.
 
-        - ree (`int`)
+        - codigo_ree (`int`)
         - penalidade (`float`)
 
         :return: Os custos por REE em um DataFrame.
@@ -82,12 +82,9 @@ class Curva(SectionFile):
         """
         Tabela da curva de segurança por REE.
 
-        - ree (`int`)
-        - ano (`int`)
-        - janeiro (`float`)
-        - fevereiro (`float`)
-        - ...
-        - dezembro (`float`)
+        - codigo_ree (`int`)
+        - data (`datetime`)
+        - valor (`float`)
 
         :return: Os valores dos campos da linha como uma lista.
         :rtype: pd.DataFrame | None

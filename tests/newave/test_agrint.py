@@ -40,7 +40,7 @@ def test_bloco_limites_agrint():
 
     assert b.data.iloc[0, 0] == 1
     assert b.data.iloc[-1, 0] == 14
-    assert b.data.iloc[-1, -1] == "FNS + FNESE + XINGU->SE/CO"
+    assert b.data.iloc[-1, -1] == 17923
 
 
 def test_atributos_encontrados_agrint():

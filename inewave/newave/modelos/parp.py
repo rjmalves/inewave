@@ -20,6 +20,10 @@ from datetime import date
 import numpy as np  # type: ignore
 import pandas as pd  # type: ignore
 from typing import IO, List
+from inewave._utils.formatacao import (
+    prepara_vetor_anos_tabela,
+    repete_vetor,
+)
 
 
 class BlocoSerieEnergiaREE(Block):
@@ -58,12 +62,15 @@ class BlocoSerieEnergiaREE(Block):
     # Override
     def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df():
-            df = pd.DataFrame(tabela, columns=["ano"] + MESES_DF)
+            df = pd.DataFrame(
+                data={
+                    "data": prepara_vetor_anos_tabela(anos),
+                    "valor": tabela.flatten(),
+                }
+            )
             df["ree"] = ree
             df["configuracao"] = cfg
-            df = df[["ree", "configuracao", "ano"] + MESES_DF]
-            df = df.astype({"ano": "int64"})
-            return df
+            return df[["ree", "configuracao", "data", "valor"]]
 
         # Identifica o REE e a configuração
         linha = file.readline()
@@ -75,7 +82,8 @@ class BlocoSerieEnergiaREE(Block):
             file.readline()
 
         # Variáveis auxiliares
-        tabela = np.zeros((MAX_ANOS_HISTORICO, len(MESES_DF) + 1))
+        anos: List[int] = []
+        tabela = np.zeros((MAX_ANOS_HISTORICO, len(MESES_DF)))
         i = 0
         while True:
             linha = file.readline()
@@ -85,7 +93,9 @@ class BlocoSerieEnergiaREE(Block):
                 self.data = converte_tabela_em_df()
                 break
             # Senão, processa os dados
-            tabela[i, :] = self.__linha.read(linha)
+            dados = self.__linha.read(linha)
+            anos.append(dados[0])
+            tabela[i, :] = dados[1:]
             i += 1
 
 
@@ -151,15 +161,19 @@ class BlocoCorrelEnergiasREE(Block):
             return [MESES_ABREV.index(m) + 1 for m in meses]
 
         def converte_tabela_em_df():
-            cols = [f"lag_{i}" for i in range(1, 12)]
-            df = pd.DataFrame(tabela, columns=cols)
             anos_conv = converte_vetor_anos(anos)
             meses_conv = converte_vetor_meses(meses)
-            df["data"] = [
+            datas = [
                 date(year=a, month=m, day=1)
                 for a, m in zip(anos_conv, meses_conv)
             ]
-            df = df[["data"] + cols]
+            df = pd.DataFrame(
+                data={
+                    "data": repete_vetor(datas, len(MESES_DF) - 1),
+                    "lag": np.tile(np.arange(1, len(MESES_DF)), len(datas)),
+                    "valor": tabela.flatten(),
+                }
+            )
             return df
 
         # Salta as linhas adicionais
@@ -248,15 +262,19 @@ class BlocoCorrelParcialEnergiasREE(Block):
             return [MESES_ABREV.index(m) + 1 for m in meses]
 
         def converte_tabela_em_df():
-            cols = [f"lag_{i}" for i in range(1, 12)]
-            df = pd.DataFrame(tabela, columns=cols)
             anos_conv = converte_vetor_anos(anos)
             meses_conv = converte_vetor_meses(meses)
-            df["data"] = [
+            datas = [
                 date(year=a, month=m, day=1)
                 for a, m in zip(anos_conv, meses_conv)
             ]
-            df = df[["data"] + cols]
+            df = pd.DataFrame(
+                data={
+                    "data": repete_vetor(datas, len(MESES_DF) - 1),
+                    "lag": np.tile(np.arange(1, len(MESES_DF)), len(datas)),
+                    "valor": tabela.flatten(),
+                }
+            )
             return df
 
         # Salta as linhas adicionais
@@ -339,11 +357,16 @@ class BlocoOrdemModeloREE(Block):
             return [int(a) for a in anos]
 
         def converte_tabela_em_df():
-            df = pd.DataFrame(tabela, columns=MESES_DF)
+            df = pd.DataFrame(
+                data={
+                    "data": prepara_vetor_anos_tabela(
+                        converte_vetor_anos(anos)
+                    ),
+                    "valor": tabela.flatten(),
+                }
+            )
             df["tipo"] = self.__tipo
-            df["ano"] = converte_vetor_anos(anos)
-            df = df[["tipo", "ano"] + MESES_DF]
-            return df
+            return df[["tipo", "data", "valor"]]
 
         # Salta as linhas adicionais
         linha = file.readline()
@@ -401,13 +424,14 @@ class BlocoCoeficientesModeloREE(Block):
     # Override
     def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df():
-            cols = (
-                [f"psi_{i}" for i in range(1, len(MESES_DF))]
-                + ["psi_A"]
-                + [f"psi_norm_{i}" for i in range(1, len(MESES_DF))]
-                + ["psi_norm_A"]
+            df = pd.DataFrame(
+                data={
+                    "tipo": repete_vetor(["psi", "psi_norm"], len(MESES_DF)),
+                    "ordem": np.tile(list(range(1, len(MESES_DF))) + ["A"], 2),
+                    "valor": tabela.flatten(),
+                }
             )
-            return pd.DataFrame(tabela, columns=cols)
+            return df.dropna()
 
         linha = file.readline()
 
@@ -464,11 +488,17 @@ class BlocoSerieRuidosREE(Block):
     # Override
     def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df():
-            df = pd.DataFrame(tabela, columns=MESES_DF)
+            df = pd.DataFrame(
+                data={
+                    "valor": tabela.flatten(),
+                }
+            )
             df["ano"] = ano
-            df["serie"] = list(range(i))
-            df = df[["ano", "serie"] + MESES_DF]
-            return df
+            df["mes"] = np.tile(
+                np.arange(1, len(MESES_DF) + 1), tabela.shape[0]
+            )
+            df["serie"] = repete_vetor(list(range(1, i + 1)))
+            return df[["ano", "serie", "mes", "valor"]]
 
         # Identifica o ano em questão
         linha = file.readline()
@@ -555,15 +585,19 @@ class BlocoCorrelRuidosREE(Block):
             return [MESES_ABREV.index(m) + 1 for m in meses]
 
         def converte_tabela_em_df():
-            cols = [f"lag_{i}" for i in range(1, 12)]
-            df = pd.DataFrame(tabela, columns=cols)
             anos_conv = converte_vetor_anos(anos)
             meses_conv = converte_vetor_meses(meses)
-            df["data"] = [
+            datas = [
                 date(year=a, month=m, day=1)
                 for a, m in zip(anos_conv, meses_conv)
             ]
-            df = df[["data"] + cols]
+            df = pd.DataFrame(
+                data={
+                    "data": repete_vetor(datas, len(MESES_DF) - 1),
+                    "lag": np.tile(np.arange(1, len(MESES_DF)), len(datas)),
+                    "valor": tabela.flatten(),
+                }
+            )
             return df
 
         # Salta as linhas adicionais
@@ -625,11 +659,17 @@ class BlocoSerieMediasREE(Block):
     # Override
     def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df():
-            df = pd.DataFrame(tabela, columns=MESES_DF)
+            df = pd.DataFrame(
+                data={
+                    "valor": tabela.flatten(),
+                }
+            )
             df["ano"] = ano
-            df["serie"] = list(range(i))
-            df = df[["ano", "serie"] + MESES_DF]
-            return df
+            df["mes"] = np.tile(
+                np.arange(1, len(MESES_DF) + 1), tabela.shape[0]
+            )
+            df["serie"] = repete_vetor(list(range(1, i + 1)))
+            return df[["ano", "serie", "mes", "valor"]]
 
         # Identifica o ano em questão
         linha = file.readline()
@@ -716,14 +756,21 @@ class BlocoCorrelCruzadaMediaREE(Block):
             return [MESES_ABREV.index(m) + 1 for m in meses]
 
         def converte_tabela_em_df():
-            df = pd.DataFrame(tabela, columns=MESES_DF)
             anos_conv = converte_vetor_anos(anos)
             meses_conv = converte_vetor_meses(meses)
-            df["data"] = [
+            datas = [
                 date(year=a, month=m, day=1)
                 for a, m in zip(anos_conv, meses_conv)
             ]
-            df = df[["data"] + MESES_DF]
+            df = pd.DataFrame(
+                data={
+                    "data": repete_vetor(datas, len(MESES_DF)),
+                    "lag": np.tile(
+                        np.arange(1, len(MESES_DF) + 1), len(datas)
+                    ),
+                    "valor": tabela.flatten(),
+                }
+            )
             return df
 
         # Salta as linhas adicionais

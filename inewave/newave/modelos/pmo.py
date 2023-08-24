@@ -15,6 +15,10 @@ from datetime import timedelta
 import numpy as np  # type: ignore
 import pandas as pd  # type: ignore
 from typing import IO, List, Optional
+from inewave._utils.formatacao import (
+    prepara_vetor_anos_tabela,
+    repete_vetor,
+)
 
 
 class BlocoEafPastTendenciaHidrolPMO(Block):
@@ -51,9 +55,13 @@ class BlocoEafPastTendenciaHidrolPMO(Block):
     # Override
     def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df():
-            df = pd.DataFrame(tabela, columns=MESES_DF)
-            df["ree"] = rees
-            df = df[["ree"] + MESES_DF]
+            df = pd.DataFrame(
+                data={
+                    "nome_ree": repete_vetor(rees),
+                    "mes": np.tile(np.arange(1, len(MESES_DF) + 1), len(rees)),
+                    "valor": tabela.flatten(),
+                }
+            )
             return df
 
         # Pula as linhas iniciais
@@ -114,9 +122,13 @@ class BlocoEafPastCfugaMedioPMO(Block):
     # Override
     def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df():
-            df = pd.DataFrame(tabela, columns=MESES_DF)
-            df["ree"] = rees
-            df = df[["ree"] + MESES_DF]
+            df = pd.DataFrame(
+                data={
+                    "nome_ree": repete_vetor(rees),
+                    "mes": np.tile(np.arange(1, len(MESES_DF) + 1), len(rees)),
+                    "valor": tabela.flatten(),
+                }
+            )
             return df
 
         # Pula as linhas iniciais
@@ -184,7 +196,7 @@ class BlocoConvergenciaPMO(Block):
                 "limite_superior_zinf",
                 "zsup",
                 "delta_zinf",
-                "zsup_iteracap",
+                "zsup_iteracao",
             ]
             df = df.astype({"iteracao": "int64"})
             df["tempo"] = tempos
@@ -253,14 +265,20 @@ class BlocoConfiguracoesExpansaoPMO(Block):
     # Override
     def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df():
-            df = pd.DataFrame(tabela, columns=["ano"] + MESES_DF)
+            df = pd.DataFrame(
+                data={
+                    "data": prepara_vetor_anos_tabela(anos),
+                    "valor": tabela.flatten(),
+                }
+            )
             return df
 
         # Pula as linhas iniciais
         for _ in range(6):
             file.readline()
         # Variáveis auxiliares
-        tabela = np.zeros((MAX_ANOS_ESTUDO, len(MESES_DF) + 1), dtype=np.int64)
+        anos: List[int] = []
+        tabela = np.zeros((MAX_ANOS_ESTUDO, len(MESES_DF)), dtype=np.int64)
         i = 0
         while True:
             linha: str = file.readline()
@@ -270,7 +288,9 @@ class BlocoConfiguracoesExpansaoPMO(Block):
                 self.data = converte_tabela_em_df()
                 break
             # Lê mais uma linha
-            tabela[i, :] = self.__line.read(linha)
+            dados = self.__line.read(linha)
+            anos.append(dados[0])
+            tabela[i, :] = dados[1:]
             i += 1
 
 
@@ -317,8 +337,8 @@ class BlocoMARSPMO(Block):
         def converte_tabela_em_df():
             colunas = ["reta", "coeficiente_angular", "coeficiente_linear"]
             df = pd.DataFrame(tabela, columns=colunas)
-            df["ree"] = rees
-            df = df[["ree"] + colunas]
+            df["nome_ree"] = rees
+            df = df[["nome_ree"] + colunas]
             df = df.astype({"reta": "int64"})
             return df
 
@@ -372,13 +392,15 @@ class BlocoRiscoDeficitENSPMO(Block):
     # Override
     def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df() -> pd.DataFrame:
-            df = pd.DataFrame(tabela)
-            cols = ["ano"]
-            for sub in subsistemas:
-                cols += [f"risco_{sub}", f"eens_{sub}"]
-            df.columns = cols
-            df = df.astype({"ano": "int64"})
-            return df
+            df = pd.DataFrame(
+                data={
+                    "ano": repete_vetor(list(tabela[:, 0]), len(subsistemas)),
+                    "nome_submercado": np.tile(subsistemas, tabela.shape[0]),
+                    "risco": tabela[:, 1::2].flatten(),
+                    "eens": tabela[:, 2::2].flatten(),
+                }
+            )
+            return df.astype({"ano": int})
 
         # Pula as três linhas iniciais
         for _ in range(3):

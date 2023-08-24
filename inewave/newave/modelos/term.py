@@ -8,6 +8,9 @@ import pandas as pd  # type: ignore
 import numpy as np  # type: ignore
 
 from inewave.config import MESES_DF, MAX_UTES
+from inewave._utils.formatacao import (
+    repete_vetor,
+)
 
 
 class BlocoTermUTE(Section):
@@ -48,24 +51,26 @@ class BlocoTermUTE(Section):
     # Override
     def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df() -> pd.DataFrame:
-            cols = (
-                [
-                    "potencia_instalada",
-                    "fator_capacidade_maximo",
-                    "teif",
-                    "indisponibilidade_programada",
-                ]
-                + [f"geracao_minima_{m}" for m in MESES_DF]
-                + ["geracao_minima_demais_anos"]
-            )
             df = pd.DataFrame(
-                tabela,
-                columns=cols,
+                data={
+                    "codigo_usina": repete_vetor(numeros, len(MESES_DF) + 1),
+                    "nome_usina": repete_vetor(nomes, len(MESES_DF) + 1),
+                    "potencia_instalada": repete_vetor(
+                        potencias, len(MESES_DF) + 1
+                    ),
+                    "fator_capacidade_maximo": repete_vetor(
+                        fatores_capacidade, len(MESES_DF) + 1
+                    ),
+                    "teif": repete_vetor(teifs, len(MESES_DF) + 1),
+                    "indisponibilidade_programada": repete_vetor(
+                        indisponibilidades_programadas, len(MESES_DF) + 1
+                    ),
+                    "mes": np.tile(
+                        np.arange(1, len(MESES_DF) + 2), len(numeros)
+                    ),
+                    "geracao_minima": tabela.flatten(),
+                }
             )
-            df["codigo_usina"] = numeros
-            df["nome_usina"] = nomes
-            df = df[["codigo_usina", "nome_usina"] + cols]
-            df = df.astype({"codigo_usina": "int64"})
             return df
 
         # Salta as linhas adicionais
@@ -73,9 +78,13 @@ class BlocoTermUTE(Section):
             self.__cabecalhos.append(file.readline())
 
         i = 0
-        tabela = np.zeros((MAX_UTES, len(MESES_DF) + 5))
+        tabela = np.zeros((MAX_UTES, len(MESES_DF) + 1))
         numeros: List[int] = []
         nomes: List[str] = []
+        potencias: List[float] = []
+        fatores_capacidade: List[float] = []
+        teifs: List[float] = []
+        indisponibilidades_programadas: List[float] = []
         while True:
             linha = file.readline()
             # Confere se terminaram as usinas
@@ -86,10 +95,13 @@ class BlocoTermUTE(Section):
                     self.data = converte_tabela_em_df()
                 break
             dados = self.__linha.read(linha)
-            print(dados)
-            tabela[i, :] = dados[2:]
+            tabela[i, :] = dados[6:]
             numeros.append(dados[0])
             nomes.append(dados[1])
+            potencias.append(dados[2])
+            fatores_capacidade.append(dados[3])
+            teifs.append(dados[4])
+            indisponibilidades_programadas.append(dados[5])
             i += 1
 
     # Override
@@ -99,5 +111,28 @@ class BlocoTermUTE(Section):
         if not isinstance(self.data, pd.DataFrame):
             raise ValueError("Dados do term.dat não foram lidos com sucesso")
 
-        for _, lin in self.data.iterrows():
-            file.write(self.__linha.write(lin.tolist()))
+        df = self.data.copy()
+        for _, linha_usina in (
+            df[
+                [
+                    "codigo_usina",
+                    "nome_usina",
+                    "potencia_instalada",
+                    "fator_capacidade_maximo",
+                    "teif",
+                    "indisponibilidade_programada",
+                ]
+            ]
+            .drop_duplicates()
+            .iterrows()
+        ):
+            df_usina = df.loc[
+                df["codigo_usina"] == linha_usina["codigo_usina"]
+            ]
+
+            file.write(
+                self.__linha.write(
+                    linha_usina.tolist()
+                    + df_usina.sort_values("mes")["geracao_minima"].tolist()
+                )
+            )

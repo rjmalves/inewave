@@ -37,8 +37,8 @@ def test_series_vazoes_uhe():
         with open("", "") as fp:
             b.read(fp)
 
-    assert b.data.shape[0] == 90
-    assert b.data.shape[1] == 15
+    assert b.data.shape[0] == 1080
+    assert b.data.shape[1] == 4
     assert b.data.iloc[0, 3] == 302.0
     assert b.data.iloc[-1, -1] == 176.0
 
@@ -52,9 +52,9 @@ def test_correlacao_series_vazoes_uhe():
         with open("", "") as fp:
             b.read(fp)
 
-    assert b.data.shape[0] == 12
-    assert b.data.shape[1] == 12
-    assert b.data.iloc[0, 1] == 0.45003
+    assert b.data.shape[0] == 132
+    assert b.data.shape[1] == 3
+    assert b.data.iloc[0, 2] == 0.45003
     assert b.data.iloc[-1, -1] == 0.2489
 
 
@@ -67,9 +67,9 @@ def test_correlacao_parcial_series_vazoes_uhe():
         with open("", "") as fp:
             b.read(fp)
 
-    assert b.data.shape[0] == 12
-    assert b.data.shape[1] == 12
-    assert b.data.iloc[0, 1] == 0.45003
+    assert b.data.shape[0] == 132
+    assert b.data.shape[1] == 3
+    assert b.data.iloc[0, 2] == 0.45003
     assert b.data.iloc[-1, -1] == 0.00987
 
 
@@ -80,8 +80,8 @@ def test_ordem_modelo_uhe():
         with open("", "") as fp:
             b.read(fp)
 
-    assert b.data.shape[0] == 1
-    assert b.data.shape[1] == 14
+    assert b.data.shape[0] == 12
+    assert b.data.shape[1] == 3
     assert b.data.iloc[0, 2] == 6
     assert b.data.iloc[-1, -1] == 6
 
@@ -92,12 +92,12 @@ def test_coeficientes_modelo_uhe():
     with patch("builtins.open", m):
         with open("", "") as fp:
             b.read(fp)
-    assert b.data.shape[0] == 1
-    assert b.data.shape[1] == 24
-    assert b.data.loc[0, "psi_1"] == 0.450
-    assert b.data.loc[0, "psi_norm_1"] == 0.727
-    assert b.data.loc[0, "psi_A"] == 0.0
-    assert b.data.loc[0, "psi_norm_A"] == 0.0
+    assert b.data.shape[0] == 4
+    assert b.data.shape[1] == 3
+    assert b.data.iloc[0, 2] == 0.450
+    assert b.data.iloc[1, 2] == 0.0
+    assert b.data.iloc[2, 2] == 0.727
+    assert b.data.iloc[3, 2] == 0.0
 
 
 def test_serie_ruidos_uhe():
@@ -107,9 +107,9 @@ def test_serie_ruidos_uhe():
         with open("", "") as fp:
             b.read(fp)
 
-    assert b.data.shape[0] == 90
-    assert b.data.shape[1] == 14
-    assert b.data.iloc[0, 1] == 0.0
+    assert b.data.shape[0] == 1080
+    assert b.data.shape[1] == 4
+    assert b.data.iloc[0, 3] == 0.0
     assert b.data.iloc[-1, -1] == -0.0752
 
 
@@ -122,9 +122,9 @@ def test_correl_serie_ruidos_uhe():
         with open("", "") as fp:
             b.read(fp)
 
-    assert b.data.shape[0] == 12
-    assert b.data.shape[1] == 12
-    assert b.data.iloc[0, 1] == -0.06325
+    assert b.data.shape[0] == 132
+    assert b.data.shape[1] == 3
+    assert b.data.iloc[0, 2] == -0.06325
     assert b.data.iloc[-1, -1] == 0.00761
 
 

@@ -3,7 +3,8 @@ from cfinterface.components.line import Line
 from cfinterface.components.integerfield import IntegerField
 from cfinterface.components.literalfield import LiteralField
 from cfinterface.components.floatfield import FloatField
-
+from cfinterface.components.datetimefield import DatetimeField
+from datetime import datetime
 from typing import Optional
 
 
@@ -218,37 +219,21 @@ class CFUGA(Register):
 
     IDENTIFIER = " CFUGA"
     IDENTIFIER_DIGITS = 8
-    LINE = Line(
-        [IntegerField(2, 10), IntegerField(4, 13), FloatField(7, 18, 3)]
-    )
+    LINE = Line([DatetimeField(7, 10, format="%m %Y"), FloatField(7, 18, 3)])
 
     @property
-    def mes(self) -> int:
+    def data_inicio(self) -> datetime:
         """
-        O mês de início da modificação
+        A data de início da modificação
 
-        :return: O mês de início da modificação
-        :rtype: Optional[int]
+        :return: A data de início da modificação
+        :rtype: Optional[datetime]
         """
         return self.data[0]
 
-    @mes.setter
-    def mes(self, t: int):
+    @data_inicio.setter
+    def data_inicio(self, t: datetime):
         self.data[0] = t
-
-    @property
-    def ano(self) -> int:
-        """
-        O ano de início da modificação
-
-        :return: O ano de início da modificação
-        :rtype: Optional[int]
-        """
-        return self.data[1]
-
-    @ano.setter
-    def ano(self, t: int):
-        self.data[1] = t
 
     @property
     def nivel(self) -> float:
@@ -258,11 +243,11 @@ class CFUGA(Register):
         :return: O novo nível
         :rtype: Optional[int]
         """
-        return self.data[2]
+        return self.data[1]
 
     @nivel.setter
     def nivel(self, t: float):
-        self.data[2] = t
+        self.data[1] = t
 
 
 class CMONT(Register):
@@ -272,37 +257,21 @@ class CMONT(Register):
 
     IDENTIFIER = " CMONT"
     IDENTIFIER_DIGITS = 8
-    LINE = Line(
-        [IntegerField(2, 10), IntegerField(4, 13), FloatField(7, 18, 3)]
-    )
+    LINE = Line([DatetimeField(7, 10, format="%m %Y"), FloatField(7, 18, 3)])
 
     @property
-    def mes(self) -> Optional[int]:
+    def data_inicio(self) -> datetime:
         """
-        O mês de início da modificação
+        A data de início da modificação
 
-        :return: O mês
-        :rtype: Optional[int]
+        :return: A data de início da modificação
+        :rtype: Optional[datetime]
         """
         return self.data[0]
 
-    @mes.setter
-    def mes(self, t: int):
+    @data_inicio.setter
+    def data_inicio(self, t: datetime):
         self.data[0] = t
-
-    @property
-    def ano(self) -> Optional[int]:
-        """
-        O ano de início da modificação
-
-        :return: O ano
-        :rtype: Optional[int]
-        """
-        return self.data[1]
-
-    @ano.setter
-    def ano(self, t: int):
-        self.data[1] = t
 
     @property
     def nivel(self) -> Optional[float]:
@@ -312,11 +281,11 @@ class CMONT(Register):
         :return: O novo nível
         :rtype: Optional[float]
         """
-        return self.data[2]
+        return self.data[1]
 
     @nivel.setter
     def nivel(self, t: float):
-        self.data[2] = t
+        self.data[1] = t
 
 
 class VMAXT(Register):
@@ -329,40 +298,25 @@ class VMAXT(Register):
     IDENTIFIER_DIGITS = 8
     LINE = Line(
         [
-            IntegerField(2, 10),
-            IntegerField(4, 13),
+            DatetimeField(7, 10, format="%m %Y"),
             FloatField(7, 18, 3),
             LiteralField(3, 26),
         ]
     )
 
     @property
-    def mes(self) -> Optional[int]:
+    def data_inicio(self) -> datetime:
         """
-        O mês de início da modificação
+        A data de início da modificação
 
-        :return: O mês
-        :rtype: Optional[int]
+        :return: A data de início da modificação
+        :rtype: Optional[datetime]
         """
         return self.data[0]
 
-    @mes.setter
-    def mes(self, t: int):
+    @data_inicio.setter
+    def data_inicio(self, t: datetime):
         self.data[0] = t
-
-    @property
-    def ano(self) -> Optional[int]:
-        """
-        O ano de início da modificação
-
-        :return: O ano
-        :rtype: Optional[int]
-        """
-        return self.data[1]
-
-    @ano.setter
-    def ano(self, t: int):
-        self.data[1] = t
 
     @property
     def volume(self) -> Optional[float]:
@@ -372,11 +326,11 @@ class VMAXT(Register):
         :return: O novo volume
         :rtype: Optional[float]
         """
-        return self.data[2]
+        return self.data[1]
 
     @volume.setter
     def volume(self, t: float):
-        self.data[2] = t
+        self.data[1] = t
 
     @property
     def unidade(self) -> Optional[str]:
@@ -386,11 +340,11 @@ class VMAXT(Register):
         :return: A unidade
         :rtype: Optional[str]
         """
-        return self.data[3]
+        return self.data[2]
 
     @unidade.setter
     def unidade(self, t: str):
-        self.data[3] = t
+        self.data[2] = t
 
 
 class VMINT(Register):
@@ -403,40 +357,25 @@ class VMINT(Register):
     IDENTIFIER_DIGITS = 8
     LINE = Line(
         [
-            IntegerField(2, 10),
-            IntegerField(4, 13),
+            DatetimeField(7, 10, format="%m %Y"),
             FloatField(7, 18, 3),
             LiteralField(3, 26),
         ]
     )
 
     @property
-    def mes(self) -> Optional[int]:
+    def data_inicio(self) -> datetime:
         """
-        O mês de início da modificação
+        A data de início da modificação
 
-        :return: O mês
-        :rtype: Optional[int]
+        :return: A data de início da modificação
+        :rtype: Optional[datetime]
         """
         return self.data[0]
 
-    @mes.setter
-    def mes(self, t: int):
+    @data_inicio.setter
+    def data_inicio(self, t: datetime):
         self.data[0] = t
-
-    @property
-    def ano(self) -> Optional[int]:
-        """
-        O ano de início da modificação
-
-        :return: O ano
-        :rtype: Optional[int]
-        """
-        return self.data[1]
-
-    @ano.setter
-    def ano(self, t: int):
-        self.data[1] = t
 
     @property
     def volume(self) -> Optional[float]:
@@ -446,11 +385,11 @@ class VMINT(Register):
         :return: O novo volume
         :rtype: Optional[float]
         """
-        return self.data[2]
+        return self.data[1]
 
     @volume.setter
     def volume(self, t: float):
-        self.data[2] = t
+        self.data[1] = t
 
     @property
     def unidade(self) -> Optional[str]:
@@ -460,11 +399,11 @@ class VMINT(Register):
         :return: A unidade
         :rtype: Optional[str]
         """
-        return self.data[3]
+        return self.data[2]
 
     @unidade.setter
     def unidade(self, t: str):
-        self.data[3] = t
+        self.data[2] = t
 
 
 class VMINP(Register):
@@ -477,40 +416,25 @@ class VMINP(Register):
     IDENTIFIER_DIGITS = 8
     LINE = Line(
         [
-            IntegerField(2, 10),
-            IntegerField(4, 13),
+            DatetimeField(7, 10, format="%m %Y"),
             FloatField(7, 18, 3),
             LiteralField(3, 26),
         ]
     )
 
     @property
-    def mes(self) -> Optional[int]:
+    def data_inicio(self) -> datetime:
         """
-        O mês de início da modificação
+        A data de início da modificação
 
-        :return: O mês
-        :rtype: Optional[int]
+        :return: A data de início da modificação
+        :rtype: Optional[datetime]
         """
         return self.data[0]
 
-    @mes.setter
-    def mes(self, t: int):
+    @data_inicio.setter
+    def data_inicio(self, t: datetime):
         self.data[0] = t
-
-    @property
-    def ano(self) -> Optional[int]:
-        """
-        O ano de início da modificação
-
-        :return: O ano
-        :rtype: Optional[int]
-        """
-        return self.data[1]
-
-    @ano.setter
-    def ano(self, t: int):
-        self.data[1] = t
 
     @property
     def volume(self) -> Optional[float]:
@@ -520,11 +444,11 @@ class VMINP(Register):
         :return: O novo volume
         :rtype: Optional[float]
         """
-        return self.data[2]
+        return self.data[1]
 
     @volume.setter
     def volume(self, t: float):
-        self.data[2] = t
+        self.data[1] = t
 
     @property
     def unidade(self) -> Optional[str]:
@@ -534,11 +458,11 @@ class VMINP(Register):
         :return: A unidade
         :rtype: Optional[str]
         """
-        return self.data[3]
+        return self.data[2]
 
     @unidade.setter
     def unidade(self, t: str):
-        self.data[3] = t
+        self.data[2] = t
 
 
 class VAZMINT(Register):
@@ -551,39 +475,24 @@ class VAZMINT(Register):
     IDENTIFIER_DIGITS = 8
     LINE = Line(
         [
-            IntegerField(2, 10),
-            IntegerField(4, 13),
+            DatetimeField(7, 10, format="%m %Y"),
             FloatField(7, 18, 2),
         ]
     )
 
     @property
-    def mes(self) -> Optional[int]:
+    def data_inicio(self) -> datetime:
         """
-        O mês de início da modificação
+        A data de início da modificação
 
-        :return: O mês
-        :rtype: Optional[int]
+        :return: A data de início da modificação
+        :rtype: Optional[datetime]
         """
         return self.data[0]
 
-    @mes.setter
-    def mes(self, t: int):
+    @data_inicio.setter
+    def data_inicio(self, t: datetime):
         self.data[0] = t
-
-    @property
-    def ano(self) -> Optional[int]:
-        """
-        O ano de início da modificação
-
-        :return: O ano
-        :rtype: Optional[int]
-        """
-        return self.data[1]
-
-    @ano.setter
-    def ano(self, t: int):
-        self.data[1] = t
 
     @property
     def vazao(self) -> Optional[float]:
@@ -593,11 +502,11 @@ class VAZMINT(Register):
         :return: A nova vazão
         :rtype: Optional[float]
         """
-        return self.data[2]
+        return self.data[1]
 
     @vazao.setter
     def vazao(self, t: float):
-        self.data[2] = t
+        self.data[1] = t
 
 
 class VAZMAXT(Register):
@@ -610,39 +519,24 @@ class VAZMAXT(Register):
     IDENTIFIER_DIGITS = 8
     LINE = Line(
         [
-            IntegerField(2, 10),
-            IntegerField(4, 13),
+            DatetimeField(7, 10, format="%m %Y"),
             FloatField(7, 18, 2),
         ]
     )
 
     @property
-    def mes(self) -> Optional[int]:
+    def data_inicio(self) -> datetime:
         """
-        O mês de início da modificação
+        A data de início da modificação
 
-        :return: O mês
-        :rtype: Optional[int]
+        :return: A data de início da modificação
+        :rtype: Optional[datetime]
         """
         return self.data[0]
 
-    @mes.setter
-    def mes(self, t: int):
+    @data_inicio.setter
+    def data_inicio(self, t: datetime):
         self.data[0] = t
-
-    @property
-    def ano(self) -> Optional[int]:
-        """
-        O ano de início da modificação
-
-        :return: O ano
-        :rtype: Optional[int]
-        """
-        return self.data[1]
-
-    @ano.setter
-    def ano(self, t: int):
-        self.data[1] = t
 
     @property
     def vazao(self) -> Optional[float]:
@@ -652,11 +546,11 @@ class VAZMAXT(Register):
         :return: A nova vazão
         :rtype: Optional[float]
         """
-        return self.data[2]
+        return self.data[1]
 
     @vazao.setter
     def vazao(self, t: float):
-        self.data[2] = t
+        self.data[1] = t
 
 
 class TURBMAXT(Register):
@@ -669,39 +563,24 @@ class TURBMAXT(Register):
     IDENTIFIER_DIGITS = 9
     LINE = Line(
         [
-            IntegerField(2, 10),
-            IntegerField(4, 13),
+            DatetimeField(7, 10, format="%m %Y"),
             FloatField(7, 18, 2),
         ]
     )
 
     @property
-    def mes(self) -> Optional[int]:
+    def data_inicio(self) -> datetime:
         """
-        O mês de início da modificação
+        A data de início da modificação
 
-        :return: O mês
-        :rtype: Optional[int]
+        :return: A data de início da modificação
+        :rtype: Optional[datetime]
         """
         return self.data[0]
 
-    @mes.setter
-    def mes(self, t: int):
+    @data_inicio.setter
+    def data_inicio(self, t: datetime):
         self.data[0] = t
-
-    @property
-    def ano(self) -> Optional[int]:
-        """
-        O ano de início da modificação
-
-        :return: O ano
-        :rtype: Optional[int]
-        """
-        return self.data[1]
-
-    @ano.setter
-    def ano(self, t: int):
-        self.data[1] = t
 
     @property
     def turbinamento(self) -> Optional[float]:
@@ -711,11 +590,11 @@ class TURBMAXT(Register):
         :return: O novo turbinamento
         :rtype: Optional[float]
         """
-        return self.data[2]
+        return self.data[1]
 
     @turbinamento.setter
     def turbinamento(self, t: float):
-        self.data[2] = t
+        self.data[1] = t
 
 
 class TURBMINT(Register):
@@ -728,39 +607,24 @@ class TURBMINT(Register):
     IDENTIFIER_DIGITS = 9
     LINE = Line(
         [
-            IntegerField(2, 10),
-            IntegerField(4, 13),
+            DatetimeField(7, 10, format="%m %Y"),
             FloatField(7, 18, 2),
         ]
     )
 
     @property
-    def mes(self) -> Optional[int]:
+    def data_inicio(self) -> datetime:
         """
-        O mês de início da modificação
+        A data de início da modificação
 
-        :return: O mês
-        :rtype: Optional[int]
+        :return: A data de início da modificação
+        :rtype: Optional[datetime]
         """
         return self.data[0]
 
-    @mes.setter
-    def mes(self, t: int):
+    @data_inicio.setter
+    def data_inicio(self, t: datetime):
         self.data[0] = t
-
-    @property
-    def ano(self) -> Optional[int]:
-        """
-        O ano de início da modificação
-
-        :return: O ano
-        :rtype: Optional[int]
-        """
-        return self.data[1]
-
-    @ano.setter
-    def ano(self, t: int):
-        self.data[1] = t
 
     @property
     def turbinamento(self) -> Optional[float]:
@@ -770,8 +634,8 @@ class TURBMINT(Register):
         :return: O novo turbinamento
         :rtype: Optional[float]
         """
-        return self.data[2]
+        return self.data[1]
 
     @turbinamento.setter
     def turbinamento(self, t: float):
-        self.data[2] = t
+        self.data[1] = t

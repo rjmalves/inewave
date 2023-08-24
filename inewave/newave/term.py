@@ -18,7 +18,7 @@ class Term(SectionFile):
     @property
     def usinas(self) -> Optional[pd.DataFrame]:
         """
-        Tabela com configurações e custos das usinas térmicas.
+        Tabela com configurações e inflexibilidades das usinas térmicas.
 
         - codigo_usina (`int`)
         - nome_usina (`str`)
@@ -26,10 +26,12 @@ class Term(SectionFile):
         - fator_capacidade_maximo (`float`)
         - teif (`float`)
         - indisponibilidade_programada (`float`)
-        - geracao_minima_janeiro (`float`)
-        - ...
-        - geracao_minima_dezembro (`float`)
-        - geracao_minima_demais_anos (`float`)
+        - mes (`int`)
+        - geracao_minima (`float`)
+
+        **OBS:** O mês de validade para a geração mínima
+        pertence ao intervalo [1, 13], onde 13 vale para
+        o 13º mês em diante.
 
         :return: A tabela como um DataFrame
         :rtype: pd.DataFrame | None

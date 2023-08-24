@@ -26,9 +26,8 @@ class Vazpast(SectionFile):
 
         - codigo_usina (`int`)
         - nome_usina (`str`)
-        - janeiro (`float`)
-        - ...
-        - dezembro (`float`)
+        - mes (`int`)
+        - valor (`float`)
 
         :return: A tabela como um DataFrame
         :rtype: pd.DataFrame | None

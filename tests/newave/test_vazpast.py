@@ -19,7 +19,7 @@ def test_bloco_desvios_vazpast():
         with open("", "") as fp:
             b.read(fp)
 
-    assert b.data.shape[0] == 217
+    assert b.data.shape[0] == 2604
     assert b.data.iloc[0, 0] == 1
     assert b.data.iloc[-1, -1] == 20.0
 

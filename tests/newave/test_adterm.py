@@ -17,9 +17,9 @@ def test_bloco_ute_adterm():
         with open("", "") as fp:
             b.read(fp)
 
-    assert b.data.shape[0] == 6
-    assert b.data.shape[1] == 6
-    assert b.data.iloc[0, 3] == 230.70
+    assert b.data.shape[0] == 18
+    assert b.data.shape[1] == 5
+    assert b.data.iloc[0, 4] == 230.70
     assert b.data.iloc[-1, -1] == 0.00
 
 

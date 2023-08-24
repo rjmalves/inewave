@@ -2,6 +2,7 @@ import numpy as np  # type: ignore
 import pandas as pd  # type: ignore
 from datetime import datetime
 from inewave.config import MESES_DF
+from typing import List
 
 __COLS_IDENTIFICACAO = ["data", "ano", "serie", "patamar", "classe"]
 
@@ -156,3 +157,39 @@ def formata_df_meses_para_datas_nwlistop(df: pd.DataFrame) -> pd.DataFrame:
         ): __formata_df_meses_para_datas_classetermica_serie_patamar,
     }
     return mapa_formatacao[colunas_identificacao](df)
+
+
+def prepara_vetor_anos_tabela(anos: List[str]) -> List[datetime]:
+    # Se tem pré, substitui por 0001
+    # Se tem pós, substitui por 9999
+    # Repete os valores existentes 12 vezes
+    anos_convertidos: List[int] = []
+    for a in anos:
+        if a == "PRE":
+            a_convertido = 1
+        elif a == "POS":
+            a_convertido = 9999
+        else:
+            a_convertido = int(a)
+        anos_convertidos.append(a_convertido)
+
+    anos_array = np.array(anos_convertidos).repeat(len(MESES_DF))
+    meses = np.tile(np.arange(1, 13), len(anos))
+    return [
+        datetime(year=a, month=m, day=1) for a, m in zip(anos_array, meses)
+    ]
+
+
+def repete_vetor(
+    valores: list, n_repeticoes: int = len(MESES_DF)
+) -> np.ndarray:
+    return np.array(valores).repeat(n_repeticoes)
+
+
+def prepara_valor_ano(ano: int) -> str:
+    if ano == 1:
+        return "PRE"
+    elif ano == 9999:
+        return "POS"
+    else:
+        return str(ano)

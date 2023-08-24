@@ -10,7 +10,7 @@ from inewave.newave import Cvar
 
 from tests.mocks.mock_open import mock_open
 from unittest.mock import MagicMock, patch
-
+from datetime import datetime
 from tests.mocks.arquivos.cvar import (
     MockBlocoValoresConstantes,
     MockBlocoValoresAlfaVariaveis,
@@ -38,7 +38,7 @@ def test_bloco_alfa_variavel_cvar():
         with open("", "") as fp:
             b.read(fp)
 
-    assert b.data.iloc[0, 0] == "2017"
+    assert b.data.iloc[0, 0] == datetime(2017, 1, 1)
     assert b.data.iloc[-1, -1] == 5.0
 
 
@@ -51,7 +51,7 @@ def test_bloco_lambda_variavel_cvar():
         with open("", "") as fp:
             b.read(fp)
 
-    assert b.data.iloc[0, 0] == "2017"
+    assert b.data.iloc[0, 0] == datetime(2017, 1, 1)
     assert b.data.iloc[-1, -1] == 10.0
 
 

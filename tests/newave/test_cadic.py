@@ -18,8 +18,8 @@ def test_bloco_ute_cadic():
         with open("", "") as fp:
             b.read(fp)
 
-    assert b.data.shape[0] == 12
-    assert b.data.shape[1] == 16
+    assert b.data.shape[0] == 144
+    assert b.data.shape[1] == 5
     assert b.data.iloc[0, 2] == "CONS.ITAIPU"
     assert b.data.iloc[-1, -1] == 2246
 

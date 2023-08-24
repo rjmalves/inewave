@@ -11,7 +11,7 @@ from inewave.newave.modelos.pmo import (
 )
 
 from inewave.newave import Pmo
-
+from datetime import datetime
 
 from tests.mocks.mock_open import mock_open
 from unittest.mock import MagicMock, patch
@@ -42,9 +42,10 @@ def test_eafpast_tendencia_hidrologica():
         with open("", "") as fp:
             b.read(fp)
 
-    assert b.data.shape[0] == 12
-    assert b.data.shape[1] == 13
-    assert b.data.iloc[0, 1] == 7196.96
+    assert b.data.shape[0] == 144
+    assert b.data.shape[1] == 3
+    assert b.data.iloc[0, 1] == 1
+    assert b.data.iloc[0, 2] == 7196.96
     assert b.data.iloc[-1, -1] == 409.13
 
 
@@ -55,9 +56,10 @@ def test_eafpast_cfuga_medio():
         with open("", "") as fp:
             b.read(fp)
 
-    assert b.data.shape[0] == 12
-    assert b.data.shape[1] == 13
-    assert b.data.iloc[0, 1] == 7196.96
+    assert b.data.shape[0] == 144
+    assert b.data.shape[1] == 3
+    assert b.data.iloc[0, 1] == 1
+    assert b.data.iloc[0, 2] == 7196.96
     assert b.data.iloc[-1, -1] == 409.13
 
 
@@ -80,8 +82,8 @@ def test_leitura_configs():
         with open("", "") as fp:
             b.read(fp)
 
-    assert b.data.iloc[0, 0] == 2021
-    assert b.data.iloc[-1, 0] == 2030
+    assert b.data.iloc[0, 0] == datetime(2021, 1, 1)
+    assert b.data.iloc[-1, 0] == datetime(2030, 12, 1)
     assert b.data.iloc[0, 1] == 1
     assert b.data.iloc[-1, -1] == 60
 
@@ -113,11 +115,11 @@ def test_leitura_ens_deficit():
         with open("", "") as fp:
             b.read(fp)
 
-    assert len(list(b.data.index)) == 5
-    assert b.data.iloc[4, 1] == 0.0
-    assert b.data.iloc[4, 2] == 0.0
-    assert b.data.iloc[4, 3] == 0.0
-    assert b.data.iloc[4, 4] == 0.0
+    assert b.data.shape[0] == 20
+    assert b.data.iloc[0, 0] == 2021
+    assert b.data.iloc[0, 1] == "SUDESTE"
+    assert b.data.iloc[0, 2] == 0.0
+    assert b.data.iloc[0, 3] == 0.0
 
 
 def test_leitura_tabelas_custos():

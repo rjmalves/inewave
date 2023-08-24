@@ -33,8 +33,8 @@ def test_series_ventos_uee():
         with open("", "") as fp:
             b.read(fp)
 
-    assert b.data.shape[0] == 40
-    assert b.data.shape[1] == 15
+    assert b.data.shape[0] == 480
+    assert b.data.shape[1] == 4
     assert b.data.iloc[0, 3] == 6.31
     assert b.data.iloc[-1, -1] == 6.93
 
@@ -46,9 +46,9 @@ def test_correlacao_series_ventos_uee():
         with open("", "") as fp:
             b.read(fp)
 
-    assert b.data.shape[0] == 120
-    assert b.data.shape[1] == 12
-    assert b.data.iloc[0, 1] == -0.06591
+    assert b.data.shape[0] == 1320
+    assert b.data.shape[1] == 3
+    assert b.data.iloc[0, 2] == -0.06591
     assert b.data.iloc[-1, -1] == 0.29579
 
 
@@ -59,9 +59,9 @@ def test_serie_ruidos_uee():
         with open("", "") as fp:
             b.read(fp)
 
-    assert b.data.shape[0] == 40
-    assert b.data.shape[1] == 14
-    assert b.data.iloc[0, 1] == 0.0
+    assert b.data.shape[0] == 480
+    assert b.data.shape[1] == 4
+    assert b.data.iloc[0, 3] == 0.155
     assert b.data.iloc[-1, -1] == 0.497
 
 
@@ -72,9 +72,9 @@ def test_correl_serie_ruidos_uee():
         with open("", "") as fp:
             b.read(fp)
 
-    assert b.data.shape[0] == 120
-    assert b.data.shape[1] == 12
-    assert b.data.iloc[0, 1] == 0.29579
+    assert b.data.shape[0] == 1320
+    assert b.data.shape[1] == 3
+    assert b.data.iloc[0, 2] == 0.29579
     assert b.data.iloc[-1, -1] == 0.00582
 
 

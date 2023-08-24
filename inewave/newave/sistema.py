@@ -57,12 +57,9 @@ class Sistema(SectionFile):
         - codigo_submercado (`int`)
         - nome_submercado (`str`)
         - ficticio (`int`)
-        - custo_deficit_patamar_1 (`float`)
-        - ...
-        - custo_deficit_patamar_5 (`float`)
-        - corte_patamar_1 (`float`)
-        - ...
-        - corte_patamar_5 (`float`)
+        - patamar_deficit (`int`)
+        - custo (`float`)
+        - corte (`float`)
 
         :return: A duração por mês em um DataFrame.
         :rtype: pd.DataFrame | None
@@ -87,10 +84,8 @@ class Sistema(SectionFile):
         - submercado_de (`int`)
         - submercado_para (`int`)
         - sentido (`int`)
-        - ano (`int`)
-        - janeiro (`float`)
-        - ...
-        - dezembro (`float`)
+        - data (`datetime`)
+        - valor (`float`)
 
         :return: A duração por mês em um DataFrame.
         :rtype: pd.DataFrame | None
@@ -111,11 +106,9 @@ class Sistema(SectionFile):
         """
         Tabela com o mercado total de energia por período de estudo.
 
-        - submercado (`int`)
-        - ano (`int`)
-        - janeiro (`float`)
-        - ...
-        - dezembro (`float`)
+        - codigo_submercado (`int`)
+        - data (`datetime`)
+        - valor (`float`)
 
         :return: A carga por mês em um DataFrame.
         :rtype: pd.DataFrame | None
@@ -140,10 +133,8 @@ class Sistema(SectionFile):
         - submercado (`int`)
         - bloco (`int`)
         - fonte (`str`)
-        - ano (`int`)
-        - janeiro (`float`)
-        - ...
-        - dezembro (`float`)
+        - data (`int`)
+        - valor (`float`)
 
         :return: A carga por mês em um DataFrame.
         :rtype: pd.DataFrame | None

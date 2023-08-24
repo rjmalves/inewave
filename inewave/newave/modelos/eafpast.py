@@ -6,7 +6,9 @@ from cfinterface.components.floatfield import FloatField
 from typing import List, IO
 import pandas as pd  # type: ignore
 import numpy as np  # type: ignore
-
+from inewave._utils.formatacao import (
+    repete_vetor,
+)
 from inewave.config import MAX_REES, MESES_DF
 
 
@@ -42,14 +44,14 @@ class BlocoEafPast(Section):
     # Override
     def read(self, file: IO, *args, **kwargs):
         def converte_tabela_em_df() -> pd.DataFrame:
-            cols = ["codigo_ree"] + MESES_DF
             df = pd.DataFrame(
-                tabela,
-                columns=cols,
+                data={
+                    "codigo_ree": repete_vetor(codigos_rees),
+                    "nome_ree": repete_vetor(nomes_rees),
+                    "mes": np.tile(np.arange(1, 13), len(nomes_rees)),
+                    "valor": tabela.flatten(),
+                }
             )
-            df["nome_ree"] = rees
-            df = df.astype({"codigo_ree": "int64"})
-            df = df[["codigo_ree", "nome_ree"] + MESES_DF]
             return df
 
         # Salta as linhas adicionais
@@ -57,8 +59,9 @@ class BlocoEafPast(Section):
             self.__cabecalhos.append(file.readline())
 
         i = 0
-        tabela = np.zeros((MAX_REES, len(MESES_DF) + 1))
-        rees: List[str] = []
+        tabela = np.zeros((MAX_REES, len(MESES_DF)))
+        codigos_rees: List[int] = []
+        nomes_rees: List[str] = []
         while True:
             linha = file.readline()
             # Confere se terminaram as usinas
@@ -69,9 +72,9 @@ class BlocoEafPast(Section):
                     self.data = converte_tabela_em_df()
                 break
             dados = self.__linha.read(linha)
-            tabela[i, 0] = dados[0]
-            rees.append(dados[1])
-            tabela[i, 1:] = dados[2:]
+            codigos_rees.append(dados[0])
+            nomes_rees.append(dados[1])
+            tabela[i, :] = dados[2:]
             i += 1
 
     # Override
@@ -83,5 +86,14 @@ class BlocoEafPast(Section):
                 "Dados do eafpast.dat não foram lidos com sucesso"
             )
 
-        for _, lin in self.data.iterrows():
-            file.write(self.__linha.write(lin.tolist()))
+        df = self.data.copy()
+        rees = self.data["codigo_ree"].unique()
+        for ree in rees:
+            df_ree = df.loc[(df["codigo_ree"] == ree)]
+            df_ree = df_ree.sort_values(["mes"])
+            file.write(
+                self.__linha.write(
+                    [df_ree["codigo_ree"].iloc[0], df_ree["nome_ree"].iloc[0]]
+                    + df_ree["valor"].tolist()
+                )
+            )
