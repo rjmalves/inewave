@@ -483,7 +483,7 @@ class BlocoCustoOperacaoPMO(Block):
         for _ in range(2):
             file.readline()
         parcelas: List[str] = []
-        tabela = np.zeros((30, 3), dtype=np.float64)
+        tabela = np.zeros((100, 3), dtype=np.float64)
         i = 0
         while True:
             linha = file.readline()

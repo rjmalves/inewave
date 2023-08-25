@@ -1,3 +1,6 @@
+# v1.1.1
+- Hotfix na leitura do `pmo.dat`: o bloco de custos passou a ter mais de 30 linhas, que era o limite do array alocado. Passado para 100.
+
 # v1.1.0
 - Conversão dos campos dos arquivos de entrada que representavam informações de datas como `int` para `datetime`
 - Padronização de todos os arquivos de entrada que possuíam informações como `DataFrame` para formato normal
