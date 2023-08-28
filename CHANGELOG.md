@@ -1,3 +1,6 @@
+# v1.1.2
+- Hotfix na leitura do `pmo.dat`: o bloco de configurações para cada estágio não suportava casos com mais de 100 configurações devido a um erro no modelo da linha.
+
 # v1.1.1
 - Hotfix na leitura do `pmo.dat`: o bloco de custos passou a ter mais de 30 linhas, que era o limite do array alocado. Passado para 100.
 

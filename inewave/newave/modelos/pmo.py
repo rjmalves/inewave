@@ -246,7 +246,7 @@ class BlocoConfiguracoesExpansaoPMO(Block):
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
         # Cria a estrutura de uma linha da tabela
-        self.__line = Line([IntegerField(6, 6 * (i + 1)) for i in range(13)])
+        self.__line = Line([IntegerField(6, 5 + 6 * i) for i in range(13)])
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoConfiguracoesExpansaoPMO):
