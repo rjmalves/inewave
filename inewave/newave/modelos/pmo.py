@@ -153,6 +153,63 @@ class BlocoEafPastCfugaMedioPMO(Block):
             i += 1
 
 
+class BlocoEnergiaArmazenadaInicialPMO(Block):
+    """
+    Bloco de informações de da energia armazenada inicial dos REE
+    localizado no arquivo `pmo.dat`.
+    """
+
+    BEGIN_PATTERN = r"ENERGIA ARMAZENADA INICIAL \(MWmes"
+    END_PATTERN = ""
+
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
+
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoEnergiaArmazenadaInicialPMO):
+            return False
+        bloco: BlocoEnergiaArmazenadaInicialPMO = o
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
+            return False
+        else:
+            return self.data.equals(bloco.data)
+
+    # Override
+    def read(self, file: IO, *args, **kwargs):
+        def converte_tabela_em_df():
+            df = pd.DataFrame(
+                data={
+                    "nome_ree": nomes_rees,
+                    "valor_MWmes": valores_MWmes,
+                    "valor_percentual": valores_percentual,
+                }
+            )
+            return df
+
+        # Pula as linhas iniciais
+        for _ in range(2):
+            file.readline()
+
+        # Variáveis auxiliares
+        nomes_rees: List[str] = []
+
+        linha_nomes = file.readline()
+        nomes = [n for n in linha_nomes.split(" ") if len(n) > 2]
+        num_rees = len(nomes)
+        linha_valores = Line(
+            [FloatField(11, 13 * i, 1) for i in range(num_rees)]
+        )
+        valores_MWmes: List[float] = linha_valores.read(file.readline())
+        valores_percentual: List[float] = linha_valores.read(file.readline())
+        self.data = converte_tabela_em_df()
+        print(self.data)
+
+
 class BlocoConvergenciaPMO(Block):
     """
     Bloco com as informações de convergência do NEWAVE obtidas

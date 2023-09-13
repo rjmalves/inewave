@@ -51,3 +51,10 @@ from .eolicafte import EolicaFTE  # noqa
 from .eolicageracao import EolicaGeracao  # noqa
 from .eolicahistorico import EolicaHistorico  # noqa
 from .eolicasubmercado import EolicaSubmercado  # noqa
+from .avl_cortesfpha_nwv import AvlCortesFpha  # noqa
+from .avl_desvfpha_s import AvlDesvFphaS  # noqa
+from .avl_desvfpha_v_q import AvlDesvFphaVQ  # noqa
+from .eco_fpha import EcoFpha  # noqa
+from .nwv_avl_evap import NwvAvlEvap  # noqa
+from .nwv_cortes_evap import NwvCortesEvap  # noqa
+from .nwv_eco_evap import NwvEcoEvap  # noqa

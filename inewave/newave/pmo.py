@@ -7,6 +7,7 @@ from inewave.newave.modelos.pmo import BlocoRiscoDeficitENSPMO
 from inewave.newave.modelos.pmo import BlocoCustoOperacaoPMO
 from inewave.newave.modelos.pmo import BlocoCustoOperacaoTotalPMO
 from inewave.newave.modelos.pmo import BlocoProdutibilidadesConfiguracaoPMO
+from inewave.newave.modelos.pmo import BlocoEnergiaArmazenadaInicialPMO
 
 from cfinterface.files.blockfile import BlockFile
 from typing import TypeVar, Optional
@@ -39,6 +40,7 @@ class Pmo(BlockFile):
         BlocoCustoOperacaoPMO,
         BlocoCustoOperacaoTotalPMO,
         BlocoProdutibilidadesConfiguracaoPMO,
+        BlocoEnergiaArmazenadaInicialPMO,
     ]
 
     @property
