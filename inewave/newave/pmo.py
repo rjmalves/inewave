@@ -8,6 +8,7 @@ from inewave.newave.modelos.pmo import BlocoCustoOperacaoPMO
 from inewave.newave.modelos.pmo import BlocoCustoOperacaoTotalPMO
 from inewave.newave.modelos.pmo import BlocoProdutibilidadesConfiguracaoPMO
 from inewave.newave.modelos.pmo import BlocoEnergiaArmazenadaInicialPMO
+from inewave.newave.modelos.pmo import BlocoVolumeArmazenadoInicialPMO
 
 from cfinterface.files.blockfile import BlockFile
 from typing import TypeVar, Optional
@@ -41,6 +42,7 @@ class Pmo(BlockFile):
         BlocoCustoOperacaoTotalPMO,
         BlocoProdutibilidadesConfiguracaoPMO,
         BlocoEnergiaArmazenadaInicialPMO,
+        BlocoVolumeArmazenadoInicialPMO,
     ]
 
     @property
@@ -130,6 +132,41 @@ class Pmo(BlockFile):
         b = self.data.get_blocks_of_type(BlocoConfiguracoesExpansaoPMO)
         if isinstance(b, list):
             return b[2].data
+        return None
+
+    @property
+    def energia_armazenada_inicial(self) -> Optional[pd.DataFrame]:
+        """
+        Valores da energia armazenada inicial para cada REE do caso.
+
+        - nome_ree (`str`)
+        - valor_MWmes (`float`)
+        - valor_percentual (`float`)
+
+        :return: As configurações em um DataFrame.
+        :rtype: pd.DataFrame | None
+        """
+        b = self.data.get_blocks_of_type(BlocoEnergiaArmazenadaInicialPMO)
+        if isinstance(b, BlocoEnergiaArmazenadaInicialPMO):
+            return b.data
+        return None
+
+    @property
+    def volume_armazenado_inicial(self) -> Optional[pd.DataFrame]:
+        """
+        Valores do volume armazenado inicial para cada UHE do caso.
+
+        - codigo_usina (`int`)
+        - nome_usina (`str`)
+        - valor_hm3 (`float`)
+        - valor_percentual (`float`)
+
+        :return: As configurações em um DataFrame.
+        :rtype: pd.DataFrame | None
+        """
+        b = self.data.get_blocks_of_type(BlocoVolumeArmazenadoInicialPMO)
+        if isinstance(b, BlocoVolumeArmazenadoInicialPMO):
+            return b.data
         return None
 
     def retas_perdas_engolimento(self, estagio: int) -> Optional[pd.DataFrame]:

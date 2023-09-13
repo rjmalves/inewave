@@ -4878,6 +4878,7 @@ MockPMO = (
     MockBlocoEafPastTendenciaHidrolPMO
     + MockBlocoEafPastCfugaMedioPMO
     + MockBlocoEnergiaArmazenadaInicialPMO
+    + MockBlocoVolumeArmazenadoInicialPMO
     + MockBlocoConvergenciaPMO
     + MockBlocoConfiguracoesExpansaoEntradaReservatorioPMO
     + MockBlocoConfiguracoesExpansaoAlteracaoPotenciaPMO

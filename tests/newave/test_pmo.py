@@ -8,6 +8,8 @@ from inewave.newave.modelos.pmo import (
     BlocoCustoOperacaoPMO,
     BlocoCustoOperacaoTotalPMO,
     BlocoProdutibilidadesConfiguracaoPMO,
+    BlocoEnergiaArmazenadaInicialPMO,
+    BlocoVolumeArmazenadoInicialPMO,
 )
 
 from inewave.newave import Pmo
@@ -28,6 +30,8 @@ from tests.mocks.arquivos.pmo import MockBlocoMARSPMOFinal
 from tests.mocks.arquivos.pmo import MockBlocoRiscoDeficitENSPMO
 from tests.mocks.arquivos.pmo import MockBlocoCustoOperacaoPMO
 from tests.mocks.arquivos.pmo import MockBlocoCustoOperacaoTotalPMO
+from tests.mocks.arquivos.pmo import MockBlocoEnergiaArmazenadaInicialPMO
+from tests.mocks.arquivos.pmo import MockBlocoVolumeArmazenadoInicialPMO
 from tests.mocks.arquivos.pmo import MockPMO
 
 ARQ_TESTE = "./tests/mocks/arquivos/__init__.py"
@@ -61,6 +65,41 @@ def test_eafpast_cfuga_medio():
     assert b.data.iloc[0, 1] == 1
     assert b.data.iloc[0, 2] == 7196.96
     assert b.data.iloc[-1, -1] == 409.13
+
+
+def test_energia_armazenada_inicial():
+    m: MagicMock = mock_open(
+        read_data="".join(MockBlocoEnergiaArmazenadaInicialPMO)
+    )
+    b = BlocoEnergiaArmazenadaInicialPMO()
+    with patch("builtins.open", m):
+        with open("", "") as fp:
+            b.read(fp)
+
+    assert b.data.shape[0] == 12
+    assert b.data.shape[1] == 3
+    assert b.data.iloc[0, 0] == "SUDESTE"
+    assert b.data.iloc[0, 1] == 16191.0
+    assert b.data.iloc[0, 2] == 31.8
+    assert b.data.iloc[-1, -1] == 34.3
+
+
+def test_volume_armazenado_inicial():
+    m: MagicMock = mock_open(
+        read_data="".join(MockBlocoVolumeArmazenadoInicialPMO)
+    )
+    b = BlocoVolumeArmazenadoInicialPMO()
+    with patch("builtins.open", m):
+        with open("", "") as fp:
+            b.read(fp)
+
+    assert b.data.shape[0] == 164
+    assert b.data.shape[1] == 4
+    assert b.data.iloc[1, 0] == 20
+    assert b.data.iloc[1, 1] == "BATALHA"
+    assert b.data.iloc[1, 2] == 414.9
+    assert b.data.iloc[1, 3] == 30.7
+    assert b.data.iloc[-1, -1] == 0.0
 
 
 def test_convergencia():
@@ -187,6 +226,8 @@ def test_atributos_encontrados_pmo():
         assert pmo.custo_operacao_total is not None
         assert pmo.desvio_custo_operacao_total is not None
         assert pmo.produtibilidades_equivalentes is not None
+        assert pmo.energia_armazenada_inicial is not None
+        assert pmo.volume_armazenado_inicial is not None
 
 
 def test_atributos_nao_encontrados_pmo():
@@ -198,6 +239,8 @@ def test_atributos_nao_encontrados_pmo():
         assert pmo.custo_operacao_total is None
         assert pmo.desvio_custo_operacao_total is None
         assert pmo.produtibilidades_equivalentes is None
+        assert pmo.energia_armazenada_inicial is None
+        assert pmo.volume_armazenado_inicial is None
 
 
 def test_eq_pmo():
