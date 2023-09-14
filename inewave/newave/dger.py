@@ -2493,20 +2493,20 @@ class Dger(SectionFile):
             b.mantem_arquivos_por_periodo = dado
 
     @property
-    def periodos_manutencao_cortes(self) -> Optional[List[int]]:
+    def periodos_manutencao_cortes(self) -> List[Optional[int]]:
         """
         Configuração da linha número 104 do arquivo `dger.dat`.
 
         :return: O valor do campo
-        :rtype: list[int] | None
+        :rtype: list[int | None]
         """
         b = self.data.get_sections_of_type(BlocoTratamentoCortes)
         if isinstance(b, BlocoTratamentoCortes):
             return b.periodos_cortes
-        return None
+        return [None]
 
     @periodos_manutencao_cortes.setter
-    def periodos_manutencao_cortes(self, dado: List[int]):
+    def periodos_manutencao_cortes(self, dado: List[Optional[int]]):
         b = self.data.get_sections_of_type(BlocoTratamentoCortes)
         if isinstance(b, BlocoTratamentoCortes):
             b.periodos_cortes = dado

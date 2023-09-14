@@ -5098,7 +5098,7 @@ class BlocoTratamentoCortes(Section):
         self.data = self.data[0:2] + [v] + self.data[3:]
 
     @property
-    def periodos_cortes(self) -> Optional[List[int]]:
+    def periodos_cortes(self) -> List[Optional[int]]:
         """
         Os valores das opções configuradas
 
@@ -5108,7 +5108,7 @@ class BlocoTratamentoCortes(Section):
         return self.data[3:6]
 
     @periodos_cortes.setter
-    def periodos_cortes(self, v: List[int]):
+    def periodos_cortes(self, v: List[Optional[int]]):
         if len(v) > 3:
             v = v[:3]
         elif len(v) < 3:
