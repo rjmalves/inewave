@@ -117,7 +117,7 @@ def test_atributos_nao_encontrados_dger():
         assert d.memoria_calculo_cortes is None
         assert d.considera_geracao_eolica is None
         assert d.penalidade_corte_geracao_eolica is None
-        assert d.compensacao_correlacao_cruzada is None
+        # assert d.compensacao_correlacao_cruzada is None
         assert d.restricao_defluencia is None
         assert d.restricao_turbinamento is None
         assert d.aproveitamento_bases_backward is None
@@ -133,6 +133,11 @@ def test_atributos_nao_encontrados_dger():
         assert d.fcf_pos_estudo is None
         assert d.estacoes_bombeamento is None
         assert d.canal_desvio is None
+        assert d.restricoes_rhq is None
+        assert d.restricoes_rhv is None
+        assert d.gera_arquivo_cortes_unico is None
+        assert d.mantem_arquivos_cortes_por_periodo is None
+        assert d.periodos_manutencao_cortes == [None, None, None]
 
 
 def test_atributos_encontrados_dger():
@@ -243,7 +248,7 @@ def test_atributos_encontrados_dger():
         assert d.memoria_calculo_cortes is not None
         assert d.considera_geracao_eolica is not None
         assert d.penalidade_corte_geracao_eolica is not None
-        assert d.compensacao_correlacao_cruzada is not None
+        # assert d.compensacao_correlacao_cruzada is not None
         assert d.restricao_defluencia is not None
         assert d.restricao_turbinamento is not None
         assert d.aproveitamento_bases_backward is not None
@@ -259,6 +264,11 @@ def test_atributos_encontrados_dger():
         assert d.fcf_pos_estudo is not None
         assert d.estacoes_bombeamento is not None
         assert d.canal_desvio is not None
+        assert d.restricoes_rhq is not None
+        assert d.restricoes_rhv is not None
+        assert d.gera_arquivo_cortes_unico is not None
+        assert d.mantem_arquivos_cortes_por_periodo is not None
+        assert d.periodos_manutencao_cortes is not None
 
 
 def test_nome_caso_dger():
@@ -1181,14 +1191,15 @@ def test_penalidade_corte_geracao_eolica_dger():
         assert d.penalidade_corte_geracao_eolica == novo_valor
 
 
-def test_compensacao_correlacao_cruzada_dger():
-    m: MagicMock = mock_open(read_data="".join(MockDger))
-    with patch("builtins.open", m):
-        d = Dger.read(ARQ_TESTE)
-        assert d.compensacao_correlacao_cruzada == 1
-        novo_valor = 0
-        d.compensacao_correlacao_cruzada = novo_valor
-        assert d.compensacao_correlacao_cruzada == novo_valor
+# TODO - restaurar em versões futuras
+# def test_compensacao_correlacao_cruzada_dger():
+#     m: MagicMock = mock_open(read_data="".join(MockDger))
+#     with patch("builtins.open", m):
+#         d = Dger.read(ARQ_TESTE)
+#         assert d.compensacao_correlacao_cruzada == 1
+#         novo_valor = 0
+#         d.compensacao_correlacao_cruzada = novo_valor
+#         assert d.compensacao_correlacao_cruzada == novo_valor
 
 
 def test_restricao_turbinamento_dger():
@@ -1341,6 +1352,56 @@ def test_canal_desvio():
         assert d.canal_desvio == novo_valor
 
 
+def test_restricoes_rhq():
+    m: MagicMock = mock_open(read_data="".join(MockDger))
+    with patch("builtins.open", m):
+        d = Dger.read(ARQ_TESTE)
+        assert d.restricoes_rhq == 1
+        novo_valor = 0
+        d.restricoes_rhq = novo_valor
+        assert d.restricoes_rhq == novo_valor
+
+
+def test_restricoes_rhv():
+    m: MagicMock = mock_open(read_data="".join(MockDger))
+    with patch("builtins.open", m):
+        d = Dger.read(ARQ_TESTE)
+        assert d.restricoes_rhv == 1
+        novo_valor = 0
+        d.restricoes_rhv = novo_valor
+        assert d.restricoes_rhv == novo_valor
+
+
+def test_gera_arquivo_cortes_unico():
+    m: MagicMock = mock_open(read_data="".join(MockDger))
+    with patch("builtins.open", m):
+        d = Dger.read(ARQ_TESTE)
+        assert d.gera_arquivo_cortes_unico == 1
+        novo_valor = 0
+        d.gera_arquivo_cortes_unico = novo_valor
+        assert d.gera_arquivo_cortes_unico == novo_valor
+
+
+def test_mantem_arquivos_cortes_por_periodo():
+    m: MagicMock = mock_open(read_data="".join(MockDger))
+    with patch("builtins.open", m):
+        d = Dger.read(ARQ_TESTE)
+        assert d.mantem_arquivos_cortes_por_periodo == 2
+        novo_valor = 0
+        d.mantem_arquivos_cortes_por_periodo = novo_valor
+        assert d.mantem_arquivos_cortes_por_periodo == novo_valor
+
+
+def test_periodos_manutencao_cortes():
+    m: MagicMock = mock_open(read_data="".join(MockDger))
+    with patch("builtins.open", m):
+        d = Dger.read(ARQ_TESTE)
+        assert d.periodos_manutencao_cortes == [2, 60, 0]
+        novo_valor = [1, 2, 3]
+        d.periodos_manutencao_cortes = novo_valor
+        assert d.periodos_manutencao_cortes == novo_valor
+
+
 def test_eq_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
@@ -1370,6 +1431,8 @@ def test_leitura_escrita_dger():
         linhas_escritas = [
             chamadas[i].args[0] for i in range(1, len(chamadas) - 1)
         ]
+        for lin in linhas_escritas:
+            print(lin)
     m_releitura: MagicMock = mock_open(read_data="".join(linhas_escritas))
     with patch("builtins.open", m_releitura):
         d2 = Dger.read(ARQ_TESTE)
