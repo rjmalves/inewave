@@ -86,7 +86,8 @@ from inewave.newave.modelos.dger import BlocoAfluenciaAnualPARp
 from inewave.newave.modelos.dger import BlocoRestricoesFornecGas
 from inewave.newave.modelos.dger import BlocoMemCalculoCortes
 from inewave.newave.modelos.dger import BlocoGeracaoEolica
-from inewave.newave.modelos.dger import BlocoCompensacaoCorrelacaoCruzada
+
+# from inewave.newave.modelos.dger import BlocoCompensacaoCorrelacaoCruzada
 from inewave.newave.modelos.dger import (
     BlocoConsideracaoTurbinamentoMinimoMaximo,
 )
@@ -104,6 +105,9 @@ from inewave.newave.modelos.dger import BlocoFuncaoProducaoUHE
 from inewave.newave.modelos.dger import BlocoFCFPosEstudo
 from inewave.newave.modelos.dger import BlocoEstacoesBombeamento
 from inewave.newave.modelos.dger import BlocoCanalDesvio
+from inewave.newave.modelos.dger import BlocoRHQ
+from inewave.newave.modelos.dger import BlocoRHV
+from inewave.newave.modelos.dger import BlocoTratamentoCortes
 
 
 class Dger(SectionFile):
@@ -200,7 +204,7 @@ class Dger(SectionFile):
         BlocoRestricoesFornecGas,
         BlocoMemCalculoCortes,
         BlocoGeracaoEolica,
-        BlocoCompensacaoCorrelacaoCruzada,
+        # BlocoCompensacaoCorrelacaoCruzada,
         BlocoConsideracaoTurbinamentoMinimoMaximo,
         BlocoConsideracaoDefluenciaMaxima,
         BlocoAproveitamentoBasePLsBackward,
@@ -216,6 +220,9 @@ class Dger(SectionFile):
         BlocoFCFPosEstudo,
         BlocoEstacoesBombeamento,
         BlocoCanalDesvio,
+        BlocoRHQ,
+        BlocoRHV,
+        BlocoTratamentoCortes,
     ]
 
     @property
@@ -2084,29 +2091,30 @@ class Dger(SectionFile):
         if isinstance(b, BlocoGeracaoEolica):
             b.penalidade = dado
 
-    @property
-    def compensacao_correlacao_cruzada(self) -> Optional[int]:
-        """
-        Configuração da linha número 87 do arquivo `dger.dat`.
+    # TODO - restaurar em versões futuras
+    # @property
+    # def compensacao_correlacao_cruzada(self) -> Optional[int]:
+    #     """
+    #     Configuração da linha número 87 do arquivo `dger.dat`.
 
-        :return: O valor do campo
-        :rtype: int
-        """
-        b = self.data.get_sections_of_type(BlocoCompensacaoCorrelacaoCruzada)
-        if isinstance(b, BlocoCompensacaoCorrelacaoCruzada):
-            return b.valor
-        return None
+    #     :return: O valor do campo
+    #     :rtype: int
+    #     """
+    #     b = self.data.get_sections_of_type(BlocoCompensacaoCorrelacaoCruzada)
+    #     if isinstance(b, BlocoCompensacaoCorrelacaoCruzada):
+    #         return b.valor
+    #     return None
 
-    @compensacao_correlacao_cruzada.setter
-    def compensacao_correlacao_cruzada(self, dado: int):
-        b = self.data.get_sections_of_type(BlocoCompensacaoCorrelacaoCruzada)
-        if isinstance(b, BlocoCompensacaoCorrelacaoCruzada):
-            b.valor = dado
+    # @compensacao_correlacao_cruzada.setter
+    # def compensacao_correlacao_cruzada(self, dado: int):
+    #     b = self.data.get_sections_of_type(BlocoCompensacaoCorrelacaoCruzada)
+    #     if isinstance(b, BlocoCompensacaoCorrelacaoCruzada):
+    #         b.valor = dado
 
     @property
     def restricao_turbinamento(self) -> Optional[int]:
         """
-        Configuração da linha número 88 do arquivo `dger.dat`.
+        Configuração da linha número 87 do arquivo `dger.dat`.
 
         :return: O valor do campo
         :rtype: int | None
@@ -2129,7 +2137,7 @@ class Dger(SectionFile):
     @property
     def restricao_defluencia(self) -> Optional[int]:
         """
-        Configuração da linha número 89 do arquivo `dger.dat`.
+        Configuração da linha número 88 do arquivo `dger.dat`.
 
         :return: O valor do campo
         :rtype: int | None
@@ -2148,7 +2156,7 @@ class Dger(SectionFile):
     @property
     def aproveitamento_bases_backward(self) -> Optional[int]:
         """
-        Configuração da linha número 90 do arquivo `dger.dat`.
+        Configuração da linha número 89 do arquivo `dger.dat`.
 
         :return: O valor do campo
         :rtype: int | None
@@ -2167,7 +2175,7 @@ class Dger(SectionFile):
     @property
     def impressao_estados_geracao_cortes(self) -> Optional[int]:
         """
-        Configuração da linha número 91 do arquivo `dger.dat`.
+        Configuração da linha número 90 do arquivo `dger.dat`.
 
         :return: O valor do campo
         :rtype: int | None
@@ -2186,7 +2194,7 @@ class Dger(SectionFile):
     @property
     def semente_forward(self) -> Optional[int]:
         """
-        Configuração da linha número 92 do arquivo `dger.dat`.
+        Configuração da linha número 91 do arquivo `dger.dat`.
 
         :return: O valor do campo
         :rtype: int | None
@@ -2205,7 +2213,7 @@ class Dger(SectionFile):
     @property
     def semente_backward(self) -> Optional[int]:
         """
-        Configuração da linha número 93 do arquivo `dger.dat`.
+        Configuração da linha número 92 do arquivo `dger.dat`.
 
         :return: O valor do campo
         :rtype: int | None
@@ -2224,7 +2232,7 @@ class Dger(SectionFile):
     @property
     def restricao_lpp_turbinamento_maximo_ree(self) -> Optional[int]:
         """
-        Configuração da linha número 94 do arquivo `dger.dat`.
+        Configuração da linha número 93 do arquivo `dger.dat`.
 
         :return: O valor do campo
         :rtype: int | None
@@ -2247,7 +2255,7 @@ class Dger(SectionFile):
     @property
     def restricao_lpp_defluencia_maxima_ree(self) -> Optional[int]:
         """
-        Configuração da linha número 95 do arquivo `dger.dat`.
+        Configuração da linha número 94 do arquivo `dger.dat`.
 
         :return: O valor do campo
         :rtype: int | None
@@ -2270,7 +2278,7 @@ class Dger(SectionFile):
     @property
     def restricao_lpp_turbinamento_maximo_uhe(self) -> Optional[int]:
         """
-        Configuração da linha número 96 do arquivo `dger.dat`.
+        Configuração da linha número 95 do arquivo `dger.dat`.
 
         :return: O valor do campo
         :rtype: int | None
@@ -2293,7 +2301,7 @@ class Dger(SectionFile):
     @property
     def restricao_lpp_defluencia_maxima_uhe(self) -> Optional[int]:
         """
-        Configuração da linha número 97 do arquivo `dger.dat`.
+        Configuração da linha número 96 do arquivo `dger.dat`.
 
         :return: O valor do campo
         :rtype: int | None
@@ -2316,7 +2324,7 @@ class Dger(SectionFile):
     @property
     def restricoes_eletricas_especiais(self) -> Optional[int]:
         """
-        Configuração da linha número 98 do arquivo `dger.dat`.
+        Configuração da linha número 97 do arquivo `dger.dat`.
 
         :return: O valor do campo
         :rtype: int | None
@@ -2335,7 +2343,7 @@ class Dger(SectionFile):
     @property
     def funcao_producao_uhe(self) -> Optional[int]:
         """
-        Configuração da linha número 99 do arquivo `dger.dat`.
+        Configuração da linha número 98 do arquivo `dger.dat`.
 
         :return: O valor do campo
         :rtype: int | None
@@ -2354,7 +2362,7 @@ class Dger(SectionFile):
     @property
     def fcf_pos_estudo(self) -> Optional[int]:
         """
-        Configuração da linha número 100 do arquivo `dger.dat`.
+        Configuração da linha número 99 do arquivo `dger.dat`.
 
         :return: O valor do campo
         :rtype: int | None
@@ -2373,7 +2381,7 @@ class Dger(SectionFile):
     @property
     def estacoes_bombeamento(self) -> Optional[int]:
         """
-        Configuração da linha número 101 do arquivo `dger.dat`.
+        Configuração da linha número 100 do arquivo `dger.dat`.
 
         :return: O valor do campo
         :rtype: int | None
@@ -2392,7 +2400,7 @@ class Dger(SectionFile):
     @property
     def canal_desvio(self) -> Optional[int]:
         """
-        Configuração da linha número 102 do arquivo `dger.dat`.
+        Configuração da linha número 101 do arquivo `dger.dat`.
 
         :return: O valor do campo
         :rtype: int | None
@@ -2407,3 +2415,98 @@ class Dger(SectionFile):
         b = self.data.get_sections_of_type(BlocoCanalDesvio)
         if isinstance(b, BlocoCanalDesvio):
             b.valor = dado
+
+    @property
+    def restricoes_rhq(self) -> Optional[int]:
+        """
+        Configuração da linha número 102 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int | None
+        """
+        b = self.data.get_sections_of_type(BlocoRHQ)
+        if isinstance(b, BlocoRHQ):
+            return b.valor
+        return None
+
+    @restricoes_rhq.setter
+    def restricoes_rhq(self, dado: int):
+        b = self.data.get_sections_of_type(BlocoRHQ)
+        if isinstance(b, BlocoRHQ):
+            b.valor = dado
+
+    @property
+    def restricoes_rhv(self) -> Optional[int]:
+        """
+        Configuração da linha número 103 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int | None
+        """
+        b = self.data.get_sections_of_type(BlocoRHV)
+        if isinstance(b, BlocoRHV):
+            return b.valor
+        return None
+
+    @restricoes_rhv.setter
+    def restricoes_rhv(self, dado: int):
+        b = self.data.get_sections_of_type(BlocoRHV)
+        if isinstance(b, BlocoRHV):
+            b.valor = dado
+
+    @property
+    def gera_arquivo_cortes_unico(self) -> Optional[int]:
+        """
+        Configuração da linha número 104 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int | None
+        """
+        b = self.data.get_sections_of_type(BlocoTratamentoCortes)
+        if isinstance(b, BlocoTratamentoCortes):
+            return b.gera_arquivo_unico
+        return None
+
+    @gera_arquivo_cortes_unico.setter
+    def gera_arquivo_cortes_unico(self, dado: int):
+        b = self.data.get_sections_of_type(BlocoTratamentoCortes)
+        if isinstance(b, BlocoTratamentoCortes):
+            b.gera_arquivo_unico = dado
+
+    @property
+    def mantem_arquivos_cortes_por_periodo(self) -> Optional[int]:
+        """
+        Configuração da linha número 104 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int | None
+        """
+        b = self.data.get_sections_of_type(BlocoTratamentoCortes)
+        if isinstance(b, BlocoTratamentoCortes):
+            return b.mantem_arquivos_por_periodo
+        return None
+
+    @mantem_arquivos_cortes_por_periodo.setter
+    def mantem_arquivos_cortes_por_periodo(self, dado: int):
+        b = self.data.get_sections_of_type(BlocoTratamentoCortes)
+        if isinstance(b, BlocoTratamentoCortes):
+            b.mantem_arquivos_por_periodo = dado
+
+    @property
+    def periodos_manutencao_cortes(self) -> List[Optional[int]]:
+        """
+        Configuração da linha número 104 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: list[int | None]
+        """
+        b = self.data.get_sections_of_type(BlocoTratamentoCortes)
+        if isinstance(b, BlocoTratamentoCortes):
+            return b.periodos_cortes
+        return [None]
+
+    @periodos_manutencao_cortes.setter
+    def periodos_manutencao_cortes(self, dado: List[Optional[int]]):
+        b = self.data.get_sections_of_type(BlocoTratamentoCortes)
+        if isinstance(b, BlocoTratamentoCortes):
+            b.periodos_cortes = dado

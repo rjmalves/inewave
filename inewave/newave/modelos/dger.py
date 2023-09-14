@@ -4850,7 +4850,7 @@ class BlocoEstacoesBombeamento(Section):
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line(
-            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(14, 28)]
+            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(33, 28)]
         )
 
     def __eq__(self, o: object) -> bool:
@@ -4897,7 +4897,7 @@ class BlocoCanalDesvio(Section):
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line(
-            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(14, 28)]
+            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(33, 28)]
         )
 
     def __eq__(self, o: object) -> bool:
@@ -4933,3 +4933,184 @@ class BlocoCanalDesvio(Section):
     @valor.setter
     def valor(self, v: int):
         self.data[1] = v
+
+
+class BlocoRHQ(Section):
+    """
+    Bloco com a escolha da consideração, ou não, de restrições de vazão
+    (RHQ).
+    """
+
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(33, 28)]
+        )
+
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoRHQ):
+            return False
+        bloco: BlocoRHQ = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
+
+    def read(self, file: IO, *args, **kwargs):
+        self.data = self.__linha.read(file.readline())
+
+    def write(self, file: IO, *args, **kwargs):
+        file.write(self.__linha.write(self.data))
+
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: A consideração ou não de RHQ
+        :rtype: int | None
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
+
+
+class BlocoRHV(Section):
+    """
+    Bloco com a escolha da consideração, ou não, de restrições de volume
+    (RHV).
+    """
+
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
+        self.__linha = Line(
+            [LiteralField(24, 0), IntegerField(1, 24), LiteralField(33, 28)]
+        )
+
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoRHV):
+            return False
+        bloco: BlocoRHV = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
+
+    def read(self, file: IO, *args, **kwargs):
+        self.data = self.__linha.read(file.readline())
+
+    def write(self, file: IO, *args, **kwargs):
+        file.write(self.__linha.write(self.data))
+
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: A consideração ou não de RHV
+        :rtype: int | None
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
+
+
+class BlocoTratamentoCortes(Section):
+    """
+    Bloco com a escolha dos tratamentos aplicados ao arquivo
+    de cortes.
+    """
+
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
+        self.__linha = Line(
+            [
+                LiteralField(24, 0),
+                IntegerField(1, 24),
+                IntegerField(1, 29),
+                IntegerField(2, 33),
+                IntegerField(2, 38),
+                IntegerField(2, 43),
+                LiteralField(148, 48),
+            ]
+        )
+
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoTratamentoCortes):
+            return False
+        bloco: BlocoTratamentoCortes = o
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
+
+    def read(self, file: IO, *args, **kwargs):
+        self.data = self.__linha.read(file.readline())
+
+    def write(self, file: IO, *args, **kwargs):
+        file.write(self.__linha.write(self.data))
+
+    @property
+    def gera_arquivo_unico(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: O valor como um `int`
+        :rtype: int | None
+        """
+        return self.data[1]
+
+    @gera_arquivo_unico.setter
+    def gera_arquivo_unico(self, v: int):
+        self.data = [self.data[0]] + [v] + self.data[2:]
+
+    @property
+    def mantem_arquivos_por_periodo(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: O valor como um `int`
+        :rtype: int | None
+        """
+        return self.data[2]
+
+    @mantem_arquivos_por_periodo.setter
+    def mantem_arquivos_por_periodo(self, v: int):
+        self.data = self.data[0:2] + [v] + self.data[3:]
+
+    @property
+    def periodos_cortes(self) -> List[Optional[int]]:
+        """
+        Os valores das opções configuradas
+
+        :return: Os valores como uma lista
+        :rtype: list[int] | None
+        """
+        return self.data[3:6]
+
+    @periodos_cortes.setter
+    def periodos_cortes(self, v: List[Optional[int]]):
+        if len(v) > 3:
+            v = v[:3]
+        elif len(v) < 3:
+            v = v + [None] * (3 - len(v))
+        self.data = self.data[0:3] + v + [self.data[-1]]
