@@ -153,6 +153,130 @@ class BlocoEafPastCfugaMedioPMO(Block):
             i += 1
 
 
+class BlocoEnergiaArmazenadaInicialPMO(Block):
+    """
+    Bloco de informações da energia armazenada inicial dos REE
+    localizado no arquivo `pmo.dat`.
+    """
+
+    BEGIN_PATTERN = r"ENERGIA ARMAZENADA INICIAL \(MWmes"
+    END_PATTERN = ""
+
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
+
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoEnergiaArmazenadaInicialPMO):
+            return False
+        bloco: BlocoEnergiaArmazenadaInicialPMO = o
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
+            return False
+        else:
+            return self.data.equals(bloco.data)
+
+    # Override
+    def read(self, file: IO, *args, **kwargs):
+        def converte_tabela_em_df():
+            df = pd.DataFrame(
+                data={
+                    "nome_ree": nomes,
+                    "valor_MWmes": valores_MWmes,
+                    "valor_percentual": valores_percentual,
+                }
+            )
+            return df
+
+        # Pula as linhas iniciais
+        for _ in range(2):
+            file.readline()
+
+        linha_nomes = file.readline()
+        nomes = [n for n in linha_nomes.split(" ") if len(n) > 2]
+        num_rees = len(nomes)
+        linha_valores = Line(
+            [FloatField(11, 13 * i, 1) for i in range(num_rees)]
+        )
+        valores_MWmes: List[float] = linha_valores.read(file.readline())
+        valores_percentual: List[float] = linha_valores.read(file.readline())
+        self.data = converte_tabela_em_df()
+
+
+class BlocoVolumeArmazenadoInicialPMO(Block):
+    """
+    Bloco de informações do volume armazenado inicial das UHE
+    localizado no arquivo `pmo.dat`.
+    """
+
+    BEGIN_PATTERN = r" VOLUME ARMAZENADO INICIAL"
+    END_PATTERN = "X-----X------------X"
+
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
+        self.__linha = Line(
+            [
+                IntegerField(5, 2),
+                LiteralField(12, 8),
+                FloatField(14, 21, 1),
+                FloatField(12, 36, 1),
+            ]
+        )
+
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoVolumeArmazenadoInicialPMO):
+            return False
+        bloco: BlocoVolumeArmazenadoInicialPMO = o
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
+            return False
+        else:
+            return self.data.equals(bloco.data)
+
+    # Override
+    def read(self, file: IO, *args, **kwargs):
+        def converte_tabela_em_df():
+            df = pd.DataFrame(
+                data={
+                    "codigo_usina": codigos_uhes,
+                    "nome_usina": nomes_uhes,
+                    "valor_hm3": volume_hm3,
+                    "valor_percentual": volume_percentual,
+                }
+            )
+            return df
+
+        # Pula as linhas iniciais
+        for _ in range(5):
+            file.readline()
+
+        # Variáveis auxiliares
+        codigos_uhes: List[int] = []
+        nomes_uhes: List[str] = []
+        volume_hm3: List[float] = []
+        volume_percentual: List[float] = []
+
+        while True:
+            linha = file.readline()
+            if self.ends(linha):
+                self.data = converte_tabela_em_df()
+                break
+            dados = self.__linha.read(linha)
+            codigos_uhes.append(dados[0])
+            nomes_uhes.append(dados[1])
+            volume_hm3.append(dados[2])
+            volume_percentual.append(dados[3])
+
+        self.data = converte_tabela_em_df()
+
+
 class BlocoConvergenciaPMO(Block):
     """
     Bloco com as informações de convergência do NEWAVE obtidas

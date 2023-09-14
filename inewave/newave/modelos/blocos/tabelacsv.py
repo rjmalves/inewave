@@ -52,7 +52,7 @@ class TabelaCSV(Block):
         dados: Dict[str, List] = {c: [] for c in self.__class__.COLUMN_NAMES}
         while True:
             linha = file.readline()
-            if len(linha) < 3:
+            if (self.__class__.BEGIN_PATTERN in linha) or (len(linha) < 3):
                 self.data = self._monta_df(dados)
                 return
             dados_linha = self.__class__.LINE_MODEL.read(linha)
