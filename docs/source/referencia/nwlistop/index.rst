@@ -68,6 +68,7 @@ NWLISTOP
    arquivos/perdf
    arquivos/perdfm
    arquivos/perdfsin
+   arquivos/pivarm
    arquivos/verturb
    arquivos/verturbm
    arquivos/verturbsin
