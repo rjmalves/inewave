@@ -1,3 +1,7 @@
+# v1.3.0
+- Suporte a novos arquivos do NWLISTOP presentes da versão 28.15.3 do NEWAVE: cotas de montante e jusante por UHE e altura de queda líquida por UHE.
+- Suporte aos arquivos de retirada de água e desvio de água por UHE do NWLISTOP
+
 # v1.2.2
 - Fix no processamento de arquivos por patamar do NWLISTOP: alguns arquivos possuíam desalinhamento nos campos das séries.
 - Otimizada a formatação do dataframes do NWLISTOP.

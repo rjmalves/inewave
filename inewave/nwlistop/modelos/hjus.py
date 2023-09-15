@@ -10,10 +10,10 @@ from inewave.nwlistop.modelos.blocos.valoresseriepatamar import (
 )
 
 
-class DepminAnos(ValoresSeriePatamar):
+class HjusAnos(ValoresSeriePatamar):
     """
-    Bloco com as informações das tabelas de violação de deplecionamento
-    mínimo da usina por mês/ano de estudo.
+    Bloco com as informações das tabelas de cota de jusante
+    da usina por mês/ano de estudo.
     """
 
     HEADER_LINE = Line([IntegerField(4, 10)])

@@ -12,6 +12,7 @@ from .ctermsin import Ctermsin  # noqa
 from .deficit import Def  # noqa
 from .defsin import Defsin  # noqa
 from .depminuh import Depminuh  # noqa
+from .desvuh import Desvuh  # noqa
 from .dfphauh import Dfphauh  # noqa
 from .dlppdfmax import Dlppdfmax  # noqa
 from .dlppdfmaxs import Dlppdfmaxs  # noqa
@@ -55,6 +56,9 @@ from .ghtotsin import Ghtotsin  # noqa
 from .gtert import Gtert  # noqa
 from .gttot import Gttot  # noqa
 from .gttotsin import Gttotsin  # noqa
+from .hjus import Hjus  # noqa
+from .hliq import Hliq  # noqa
+from .hmont import Hmont  # noqa
 from .intercambio import Intercambio  # noqa
 from .invade import Invade  # noqa
 from .invadem import Invadem  # noqa
@@ -85,3 +89,4 @@ from .vghminm import Vghminm  # noqa
 from .vghminsin import Vghminsin  # noqa
 from .vghminuh import Vghminuh  # noqa
 from .vturuh import Vturuh  # noqa
+from .vdesviouh import Vdesviouh  # noqa
