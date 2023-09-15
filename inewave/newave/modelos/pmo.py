@@ -196,7 +196,7 @@ class BlocoEnergiaArmazenadaInicialPMO(Block):
             file.readline()
 
         linha_nomes = file.readline()
-        nomes = [n for n in linha_nomes.split(" ") if len(n) > 2]
+        nomes = [n.strip() for n in linha_nomes.split(" ") if len(n) > 2]
         num_rees = len(nomes)
         linha_valores = Line(
             [FloatField(11, 13 * i, 1) for i in range(num_rees)]

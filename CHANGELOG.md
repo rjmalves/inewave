@@ -1,10 +1,12 @@
+# v1.2.1
+- Fix na leitura do bloco de energia armazenada do `pmo.dat`: remoção de caracteres especiais do nome do último REE.
+
 # v1.2.0
 - Fix na leitura do `dger.dat`: o modelo esperava a linha de "COMP. CORR. CRUZ.", que não está presente em todas as versões do modelo. Foi compatibilizado para esperar o formato das versões oficiais.
 - Campos do `dger.dat` atualizados para versão 28.15.2 do NEWAVE.
 - Suporte à leitura do arquivo `eco_fpha.dat`
 - Suporte à leitura do arquivo `pivarmXXX.out` do NWLISTOP
 - Suporte à leitura dos campos de energia armazenada inicial e volume armazenado inicial do `pmo.dat`
-
 
 # v1.1.2
 - Hotfix na leitura do `pmo.dat`: o bloco de configurações para cada estágio não suportava casos com mais de 100 configurações devido a um erro no modelo da linha.
