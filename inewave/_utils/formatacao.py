@@ -9,30 +9,39 @@ __COLS_IDENTIFICACAO = ["data", "ano", "serie", "patamar", "classe"]
 
 def __formata_df_meses_para_datas_serie(df: pd.DataFrame) -> pd.DataFrame:
     anos = np.array(df["ano"].unique().tolist())
-    datas = pd.date_range(
-        datetime(year=anos[0], month=1, day=1),
-        datetime(year=anos[-1], month=12, day=1),
-        freq="MS",
-    )
+    series = np.array(df["serie"].unique().tolist())
+    n_series = len(series)
+    datas_df = []
+    series_df = []
     dfs_anos = []
     for a in anos:
-        df_ano = df.loc[df["ano"] == a, MESES_DF].T
-        df_ano.columns = [str(s) for s in list(range(1, df_ano.shape[1] + 1))]
-        dfs_anos.append(df_ano)
-    df_series = pd.concat(dfs_anos, ignore_index=True)
-    df_series["data"] = datas
-    cols_not_scenarios = [
-        c for c in df_series.columns if c in __COLS_IDENTIFICACAO
-    ]
-    cols_scenarios = [
-        c for c in df_series.columns if c not in __COLS_IDENTIFICACAO
-    ]
-    df_formatado = pd.melt(
-        df_series,
-        id_vars=cols_not_scenarios,
-        value_vars=cols_scenarios,
-        var_name="serie",
-        value_name="valor",
+        datas_df.append(
+            np.tile(
+                pd.date_range(
+                    datetime(year=a, month=1, day=1),
+                    datetime(year=a, month=12, day=1),
+                    freq="MS",
+                ).to_numpy(),
+                n_series,
+            ),
+        )
+        series_df.append(np.repeat(series, 12))
+    valores = []
+    for a in anos:
+        valores.append(
+            df.loc[
+                (df["ano"] == a),
+                MESES_DF,
+            ]
+            .to_numpy()
+            .flatten()
+        )
+    df_formatado = pd.DataFrame(
+        data={
+            "data": np.concatenate(datas_df),
+            "serie": np.concatenate(series_df),
+            "valor": np.concatenate(valores),
+        }
     )
     return df_formatado
 
