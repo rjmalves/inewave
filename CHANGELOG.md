@@ -1,3 +1,7 @@
+# v1.2.2
+- Fix no processamento de arquivos por patamar do NWLISTOP: alguns arquivos possuíam desalinhamento nos campos das séries.
+- Otimizada a formatação do dataframes do NWLISTOP.
+
 # v1.2.1
 - Fix na leitura do bloco de energia armazenada do `pmo.dat`: remoção de caracteres especiais do nome do último REE.
 

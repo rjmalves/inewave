@@ -19,7 +19,7 @@ class VertAnos(ValoresSeriePatamar):
     HEADER_LINE = Line([IntegerField(4, 10)])
     DATA_LINE = Line(
         [  # type: ignore
-            IntegerField(4, 1),
+            IntegerField(4, 2),
             LiteralField(5, 6),
         ]
         + [FloatField(9, 14 + 9 * i, 2) for i in range(len(MESES_DF))]  # type: ignore
