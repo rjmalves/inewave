@@ -21,6 +21,7 @@ NWLISTOP
    arquivos/coper
    arquivos/corteolm
    arquivos/depminuh
+   arquivos/desvuh
    arquivos/dfphauh
    arquivos/eaf
    arquivos/eafm
@@ -47,6 +48,9 @@ NWLISTOP
    arquivos/ghmaxmr
    arquivos/ghmaxsin
    arquivos/ghmaxrsin
+   arquivos/hjus
+   arquivos/hliq
+   arquivos/hmont
    arquivos/vevmin
    arquivos/vevminm
    arquivos/vevminsin
@@ -94,3 +98,4 @@ NWLISTOP
    arquivos/vghminm
    arquivos/vghminsin
    arquivos/vghminuh
+   arquivos/vdesviouh

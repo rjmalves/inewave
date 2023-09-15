@@ -62,6 +62,7 @@ NEWAVE
    arquivos/nwv_avl_evap
    arquivos/nwv_cortes_evap
    arquivos/nwv_eco_evap
+   arquivos/eco_fpha
    arquivos/avl_cortesfpha_nwv
    arquivos/avl_desvfpha_s
    arquivos/avl_desvfpha_v_q
