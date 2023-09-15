@@ -13,7 +13,6 @@ def __formata_df_meses_para_datas_serie(df: pd.DataFrame) -> pd.DataFrame:
     n_series = len(series)
     datas_df = []
     series_df = []
-    dfs_anos = []
     for a in anos:
         datas_df.append(
             np.tile(
