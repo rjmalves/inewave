@@ -22,6 +22,12 @@ from .dlpptbmaxs import Dlpptbmaxs  # noqa
 from .dtbmax import Dtbmax  # noqa
 from .dtbmin import Dtbmin  # noqa
 from .dvazmax import Dvazmax  # noqa
+from .edesvc import Edesvc  # noqa
+from .edesvcm import Edesvcm  # noqa
+from .edesvcsin import Edesvcsin  # noqa
+from .evapo import Evapo  # noqa
+from .evapom import Evapom  # noqa
+from .evaporsin import Evaporsin  # noqa
 from .evert import Evert  # noqa
 from .evertm import Evertm  # noqa
 from .evertsin import Evertsin  # noqa
@@ -50,6 +56,9 @@ from .ghmaxmr import Ghmaxmr  # noqa
 from .ghmaxr import Ghmaxr  # noqa
 from .ghmaxrsin import Ghmaxrsin  # noqa
 from .ghmaxsin import Ghmaxsin  # noqa
+from .ghidr import Ghidr  # noqa
+from .ghidrm import Ghidrm  # noqa
+from .ghidrsin import Ghidrsin  # noqa
 from .ghtot import Ghtot  # noqa
 from .ghtotm import Ghtotm  # noqa
 from .ghtotsin import Ghtotsin  # noqa
@@ -66,6 +75,9 @@ from .mediasmerc import Mediasmerc  # noqa
 from .mediassin import Mediassin  # noqa
 from .mercl import Mercl  # noqa
 from .merclsin import Merclsin  # noqa
+from .mevmin import Mevmin  # noqa
+from .mevminm import Mevminm  # noqa
+from .mevminsin import Mevminsin  # noqa
 from .perdf import Perdf  # noqa
 from .perdfm import Perdfm  # noqa
 from .perdfsin import Perdfsin  # noqa
@@ -90,3 +102,6 @@ from .vghminsin import Vghminsin  # noqa
 from .vghminuh import Vghminuh  # noqa
 from .vturuh import Vturuh  # noqa
 from .vdesviouh import Vdesviouh  # noqa
+from .vmort import Vmort  # noqa
+from .vmortm import Vmortm  # noqa
+from .vmortsin import Vmortsin  # noqa
