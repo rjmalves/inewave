@@ -1,3 +1,6 @@
+# v1.4.0
+- Suporte a arquivos do NWLISTOP necessários para fechamento de balanço hídrico de REE: `ghidrXXX.out`, `ghidrmXXX.out`, `ghidrsin.out`, `edesvcXXX.out`, `edesvcmXXX.out`, `edesvcsin.out`,   `evapoXXX.out`, `evapomXXX.out`, `evaporsin.out`, `vmortXXX.out`, `vmortmXXX.out`, `vmortsin.out`, `mevminXXX.out`, `mevminmXXX.out`, `mevminsin.out`.
+
 # v1.3.0
 - Suporte a novos arquivos do NWLISTOP presentes da versão 28.15.3 do NEWAVE: cotas de montante e jusante por UHE e altura de queda líquida por UHE.
 - Suporte aos arquivos de retirada de água e desvio de água por UHE do NWLISTOP
