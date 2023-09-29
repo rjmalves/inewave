@@ -82,6 +82,9 @@ NWLISTOP
    arquivos/mediassin
    arquivos/mercl
    arquivos/merclsin
+   arquivos/mevmin
+   arquivos/mevminm
+   arquivos/mevminsin
    arquivos/perdf
    arquivos/perdfm
    arquivos/perdfsin
