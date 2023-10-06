@@ -96,8 +96,8 @@ class RegistroRELimFormPer(Register):
             DatetimeField(size=7, format="%Y/%m"),
             DatetimeField(size=7, format="%Y/%m"),
             IntegerField(),
-            FloatField(size=16, decimal_digits=4, format="e"),
-            FloatField(size=16, decimal_digits=4, format="e"),
+            LiteralField(size=200),
+            LiteralField(size=200),
         ],
         delimiter=";",
     )
@@ -135,19 +135,19 @@ class RegistroRELimFormPer(Register):
         self.data[3] = v
 
     @property
-    def limite_inferior(self) -> Optional[float]:
+    def limite_inferior(self) -> Optional[str]:
         return self.data[4]
 
     @limite_inferior.setter
-    def limite_inferior(self, v: float):
+    def limite_inferior(self, v: str):
         self.data[4] = v
 
     @property
-    def limite_superior(self) -> Optional[float]:
+    def limite_superior(self) -> Optional[str]:
         return self.data[5]
 
     @limite_superior.setter
-    def limite_superior(self, v: float):
+    def limite_superior(self, v: str):
         self.data[5] = v
 
 
@@ -410,7 +410,7 @@ class RegistroRHQLimFormPerPat(Register):
     """
 
     IDENTIFIER = "RHQ-LIM-FORM-PER-PAT"
-    IDENTIFIER_DIGITS = 21
+    IDENTIFIER_DIGITS = 20
     LINE = Line(
         [
             IntegerField(),
@@ -482,8 +482,8 @@ class RegistroRHV(Register):
     IDENTIFIER_DIGITS = 3
     LINE = Line(
         [
-            IntegerField(),
-            LiteralField(),
+            IntegerField(size=8),
+            LiteralField(size=200),
         ],
         delimiter=";",
     )
@@ -547,14 +547,14 @@ class RegistroRHVHorizPer(Register):
         self.data[2] = n
 
 
-class RegistroRHVLimFormPerPat(Register):
+class RegistroRHVLimFormPer(Register):
     """
     Registro que contém os limites inferiores e superiores
     para restrições RHV.
     """
 
-    IDENTIFIER = "RHV-LIM-FORM-PER-PAT"
-    IDENTIFIER_DIGITS = 21
+    IDENTIFIER = "RHV-LIM-FORM-PER"
+    IDENTIFIER_DIGITS = 16
     LINE = Line(
         [
             IntegerField(),
@@ -592,16 +592,16 @@ class RegistroRHVLimFormPerPat(Register):
 
     @property
     def limite_inferior(self) -> Optional[float]:
-        return self.data[4]
+        return self.data[3]
 
     @limite_inferior.setter
     def limite_inferior(self, v: float):
-        self.data[4] = v
+        self.data[3] = v
 
     @property
     def limite_superior(self) -> Optional[float]:
-        return self.data[5]
+        return self.data[4]
 
     @limite_superior.setter
     def limite_superior(self, v: float):
-        self.data[5] = v
+        self.data[4] = v

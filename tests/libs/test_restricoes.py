@@ -9,6 +9,10 @@ from inewave.libs.modelos.restricoes import (
     RegistroRHQ,
     RegistroRHQHorizPer,
     RegistroRHQLsLPPVoli,
+    RegistroRHQLimFormPerPat,
+    RegistroRHV,
+    RegistroRHVHorizPer,
+    RegistroRHVLimFormPer,
 )
 
 from inewave.libs.restricoes import Restricoes
@@ -26,6 +30,10 @@ from tests.mocks.arquivos.restricoes import (
     MockRHQ,
     MockRHQHorizPer,
     MockRHQLsLPPVoli,
+    MockRHQLimFormPerPat,
+    MockRHV,
+    MockRHVHorizPer,
+    MockRHVLimFormPer,
     MockRestricoes,
 )
 
@@ -74,8 +82,8 @@ def test_registro_rhq_lim_form_per():
         datetime(2021, 1, 1),
         datetime(2021, 3, 1),
         1,
-        -1.1e30,
-        5000.0,
+        "-1.1e30",
+        "5000",
     ]
     assert r.codigo_restricao == 1
     r.codigo_restricao = 2
@@ -83,10 +91,12 @@ def test_registro_rhq_lim_form_per():
     r.data_inicial = datetime(2021, 2, 1)
     assert r.data_final == datetime(2021, 3, 1)
     r.data_final = datetime(2021, 4, 1)
-    assert r.limite_inferior == -1.1e30
-    r.limite_inferior = 0
-    assert r.limite_superior == 5000
-    r.limite_superior = 0
+    assert r.limite_inferior == "-1.1e30"
+    r.limite_inferior = "0"
+    assert r.limite_inferior == "0"
+    assert r.limite_superior == "5000"
+    r.limite_superior = "0"
+    assert r.limite_superior == "0"
 
 
 def test_registro_rhe():
@@ -185,6 +195,91 @@ def test_registro_rhq_ls_lpp_voli():
     r.coeficiente_linear = 3500.0
 
 
+def test_registro_rhq_lim_form_per_pat():
+    m: MagicMock = mock_open(read_data="".join(MockRHQLimFormPerPat))
+    r = RegistroRHQLimFormPerPat()
+    with patch("builtins.open", m):
+        with open("", "") as fp:
+            r.read(fp)
+
+    assert r.data == [
+        7,
+        datetime(2023, 3, 1),
+        datetime(2023, 6, 1),
+        1,
+        1000.0,
+        1500.0,
+    ]
+    assert r.codigo_restricao == 7
+    r.codigo_restricao = 2
+    assert r.data_inicial == datetime(2023, 3, 1)
+    r.data_inicial = datetime(2023, 4, 1)
+    assert r.data_final == datetime(2023, 6, 1)
+    r.data_final = datetime(2023, 5, 1)
+    assert r.patamar == 1
+    r.patamar = 2
+    assert r.limite_inferior == 1000.0
+    r.limite_inferior = 3500.0
+    assert r.limite_superior == 1500.0
+    r.limite_superior = 3000.0
+
+
+def test_registro_rhv():
+    m: MagicMock = mock_open(read_data="".join(MockRHV))
+    r = RegistroRHV()
+    with patch("builtins.open", m):
+        with open("", "") as fp:
+            r.read(fp)
+    print(r.data)
+    assert r.data == [1, "1*vtur(18) + 2*vver(17) + 2*varm(18)"]
+    assert r.codigo_restricao == 1
+    r.codigo_restricao = 5
+    assert r.formula == "1*vtur(18) + 2*vver(17) + 2*varm(18)"
+    r.formula = "Teste"
+
+
+def test_registro_rhv_horiz_per():
+    m: MagicMock = mock_open(read_data="".join(MockRHVHorizPer))
+    r = RegistroRHVHorizPer()
+    with patch("builtins.open", m):
+        with open("", "") as fp:
+            r.read(fp)
+
+    assert r.data == [1, datetime(2023, 3, 1), datetime(2023, 6, 1)]
+    assert r.codigo_restricao == 1
+    r.codigo_restricao = 2
+    assert r.data_inicial == datetime(2023, 3, 1)
+    r.data_inicial = datetime(2021, 2, 1)
+    assert r.data_final == datetime(2023, 6, 1)
+    r.data_final = datetime(2022, 11, 1)
+
+
+def test_registro_rhv_lim_form_per():
+    m: MagicMock = mock_open(read_data="".join(MockRHVLimFormPer))
+    r = RegistroRHVLimFormPer()
+    with patch("builtins.open", m):
+        with open("", "") as fp:
+            r.read(fp)
+
+    assert r.data == [
+        1,
+        datetime(2023, 3, 1),
+        datetime(2023, 6, 1),
+        100.0,
+        100.0,
+    ]
+    assert r.codigo_restricao == 1
+    r.codigo_restricao = 2
+    assert r.data_inicial == datetime(2023, 3, 1)
+    r.data_inicial = datetime(2023, 4, 1)
+    assert r.data_final == datetime(2023, 6, 1)
+    r.data_final = datetime(2023, 5, 1)
+    assert r.limite_inferior == 100.0
+    r.limite_inferior = 150.0
+    assert r.limite_superior == 100.0
+    r.limite_superior = 300.0
+
+
 def test_atributos_encontrados_restricoes():
     m: MagicMock = mock_open(read_data="".join(MockRestricoes))
     with patch("builtins.open", m):
@@ -198,6 +293,10 @@ def test_atributos_encontrados_restricoes():
         assert len(e.rhq()) > 0
         assert len(e.rhq_horiz_per()) > 0
         assert len(e.rhq_ls_lpp_voli()) > 0
+        assert len(e.rhq_lim_form_per_pat()) > 0
+        assert len(e.rhv()) > 0
+        assert len(e.rhv_horiz_per()) > 0
+        assert len(e.rhv_lim_form_per()) > 0
 
 
 def test_eq_restricoes():
@@ -229,6 +328,8 @@ def test_leitura_escrita_restricoes():
         linhas_escritas = [
             chamadas[i].args[0] for i in range(1, len(chamadas) - 1)
         ]
+        for li in linhas_escritas:
+            print(li)
     m_releitura: MagicMock = mock_open(read_data="".join(linhas_escritas))
     with patch("builtins.open", m_releitura):
         cf2 = Restricoes.read(ARQ_TESTE)

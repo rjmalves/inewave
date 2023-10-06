@@ -76,7 +76,12 @@ class Eolica(RegisterFile):
         codigo_eolica: Optional[int] = None,
         nome_eolica: Optional[str] = None,
         quantidade_conjuntos: Optional[str] = None,
-    ) -> Optional[Union[RegistroEolicaCadastro, List[RegistroEolicaCadastro]]]:
+        df: bool = False,
+    ) -> Optional[
+        Union[
+            RegistroEolicaCadastro, List[RegistroEolicaCadastro], pd.DataFrame
+        ]
+    ]:
         """
         Obtém um registro que cadastra uma usina eólica.
 
@@ -95,6 +100,7 @@ class Eolica(RegisterFile):
             codigo_eolica=codigo_eolica,
             nome_eolica=nome_eolica,
             quantidade_conjuntos=quantidade_conjuntos,
+            df=df,
         )
 
     def eolica_cadastro_conjunto_aerogeradores(
@@ -103,10 +109,12 @@ class Eolica(RegisterFile):
         indice_conjunto: Optional[int] = None,
         nome_conjunto: Optional[str] = None,
         quantidade_aerogeradores: Optional[int] = None,
+        df: bool = False,
     ) -> Optional[
         Union[
             RegistroEolicaCadastroConjuntoAerogeradores,
             List[RegistroEolicaCadastroConjuntoAerogeradores],
+            pd.DataFrame,
         ]
     ]:
         """
@@ -131,6 +139,7 @@ class Eolica(RegisterFile):
             indice_conjunto=indice_conjunto,
             nome_conjunto=nome_conjunto,
             quantidade_aerogeradores=quantidade_aerogeradores,
+            df=df,
         )
 
     def eolica_cadastro_aerogerador(
@@ -144,10 +153,12 @@ class Eolica(RegisterFile):
         potencia_velocidade_nominal: Optional[float] = None,
         potencia_velocidade_cutout: Optional[float] = None,
         altura_torre: Optional[float] = None,
+        df: bool = False,
     ) -> Optional[
         Union[
             RegistroEolicaCadastroAerogerador,
             List[RegistroEolicaCadastroAerogerador],
+            pd.DataFrame,
         ]
     ]:
         """
@@ -188,6 +199,7 @@ class Eolica(RegisterFile):
             potencia_velocidade_nominal=potencia_velocidade_nominal,
             potencia_velocidade_cutout=potencia_velocidade_cutout,
             altura_torre=altura_torre,
+            df=df,
         )
 
     def eolica_conjunto_aerogeradores_quantidade_operando_periodo(
@@ -197,10 +209,12 @@ class Eolica(RegisterFile):
         periodo_inicial: Optional[datetime] = None,
         periodo_final: Optional[datetime] = None,
         numero_aerogeradores: Optional[int] = None,
+        df: bool = False,
     ) -> Optional[
         Union[
             RegistroEolicaConjuntoAerogeradoresQuantidadeOperandoPeriodo,
             List[RegistroEolicaConjuntoAerogeradoresQuantidadeOperandoPeriodo],
+            pd.DataFrame,
         ]
     ]:
         """
@@ -228,6 +242,7 @@ class Eolica(RegisterFile):
             periodo_inicial=periodo_inicial,
             periodo_final=periodo_final,
             numero_aerogeradores=numero_aerogeradores,
+            df=df,
         )
 
     def eolica_conjunto_aerogeradores_potencia_efetiva_periodo(
@@ -237,10 +252,12 @@ class Eolica(RegisterFile):
         periodo_inicial: Optional[datetime] = None,
         periodo_final: Optional[datetime] = None,
         potencia_efetiva: Optional[float] = None,
+        df: bool = False,
     ) -> Optional[
         Union[
             RegistroEolicaConjuntoAerogeradoresPotenciaEfetiva,
             List[RegistroEolicaConjuntoAerogeradoresPotenciaEfetiva],
+            pd.DataFrame,
         ]
     ]:
         """
@@ -268,13 +285,17 @@ class Eolica(RegisterFile):
             periodo_inicial=periodo_inicial,
             periodo_final=periodo_final,
             potencia_efetiva=potencia_efetiva,
+            df=df,
         )
 
     def pee_cad(
         self,
         codigo_pee: Optional[int] = None,
         nome_pee: Optional[str] = None,
-    ) -> Optional[Union[RegistroPEECadastro, List[RegistroPEECadastro]]]:
+        df: bool = False,
+    ) -> Optional[
+        Union[RegistroPEECadastro, List[RegistroPEECadastro], pd.DataFrame]
+    ]:
         """
         Obtém um registro que cadastra um PEE.
 
@@ -290,6 +311,7 @@ class Eolica(RegisterFile):
             RegistroPEECadastro,
             codigo_pee=codigo_pee,
             nome_pee=nome_pee,
+            df=df,
         )
 
     def pee_pot_inst_per(
@@ -298,10 +320,12 @@ class Eolica(RegisterFile):
         periodo_inicial: Optional[datetime] = None,
         periodo_final: Optional[datetime] = None,
         potencia_instalada: Optional[float] = None,
+        df: bool = False,
     ) -> Optional[
         Union[
             RegistroPEEPotenciaInstaladaPeriodo,
             List[RegistroPEEPotenciaInstaladaPeriodo],
+            pd.DataFrame,
         ]
     ]:
         """
@@ -326,6 +350,7 @@ class Eolica(RegisterFile):
             periodo_inicial=periodo_inicial,
             periodo_final=periodo_final,
             potencia_instalada=potencia_instalada,
+            df=df,
         )
 
     def eolica_configuracao(
@@ -334,10 +359,12 @@ class Eolica(RegisterFile):
         data_inicial: Optional[datetime] = None,
         data_final: Optional[datetime] = None,
         estado_operacao: Optional[str] = None,
+        df: bool = False,
     ) -> Optional[
         Union[
             RegistroEolicaConfiguracao,
             List[RegistroEolicaConfiguracao],
+            pd.DataFrame,
         ]
     ]:
         """
@@ -362,6 +389,7 @@ class Eolica(RegisterFile):
             data_inicial=data_inicial,
             data_final=data_final,
             estado_operacao=estado_operacao,
+            df=df,
         )
 
     def pee_config_per(
@@ -370,10 +398,12 @@ class Eolica(RegisterFile):
         data_inicial: Optional[datetime] = None,
         data_final: Optional[datetime] = None,
         estado_operacao: Optional[str] = None,
+        df: bool = False,
     ) -> Optional[
         Union[
             RegistroPEEConfiguracaoPeriodo,
             List[RegistroPEEConfiguracaoPeriodo],
+            pd.DataFrame,
         ]
     ]:
         """
@@ -398,6 +428,7 @@ class Eolica(RegisterFile):
             data_inicial=data_inicial,
             data_final=data_final,
             estado_operacao=estado_operacao,
+            df=df,
         )
 
     def eolica_funcao_producao(
@@ -407,7 +438,10 @@ class Eolica(RegisterFile):
         data_final: Optional[datetime] = None,
         coeficiente_linear: Optional[float] = None,
         coeficiente_angular: Optional[float] = None,
-    ) -> Optional[Union[RegistroEolicaFTE, List[RegistroEolicaFTE]]]:
+        df: bool = False,
+    ) -> Optional[
+        Union[RegistroEolicaFTE, List[RegistroEolicaFTE], pd.DataFrame]
+    ]:
         """
         Obtém um registro que contém a função de produção vento-geração
         para um período de tempo.
@@ -433,6 +467,7 @@ class Eolica(RegisterFile):
             data_final=data_final,
             coeficiente_linear=coeficiente_linear,
             coeficiente_angular=coeficiente_angular,
+            df=df,
         )
 
     def pee_fpvp_lin_pu_per(
@@ -442,7 +477,8 @@ class Eolica(RegisterFile):
         data_final: Optional[datetime] = None,
         coeficiente_linear: Optional[float] = None,
         coeficiente_angular: Optional[float] = None,
-    ) -> Optional[Union[RegistroPEEFTE, List[RegistroPEEFTE]]]:
+        df: bool = False,
+    ) -> Optional[Union[RegistroPEEFTE, List[RegistroPEEFTE], pd.DataFrame]]:
         """
         Obtém um registro que contém a função de produção vento-geração
         para um período de tempo para um PEE, em p.u.
@@ -468,6 +504,7 @@ class Eolica(RegisterFile):
             data_final=data_final,
             coeficiente_linear=coeficiente_linear,
             coeficiente_angular=coeficiente_angular,
+            df=df,
         )
 
     def eolica_geracao_periodo(
@@ -476,10 +513,12 @@ class Eolica(RegisterFile):
         data_inicial: Optional[datetime] = None,
         data_final: Optional[datetime] = None,
         geracao: Optional[float] = None,
+        df: bool = False,
     ) -> Optional[
         Union[
             RegistroEolicaGeracaoPeriodo,
             List[RegistroEolicaGeracaoPeriodo],
+            pd.DataFrame,
         ]
     ]:
         """
@@ -504,6 +543,7 @@ class Eolica(RegisterFile):
             data_inicial=data_inicial,
             data_final=data_final,
             geracao=geracao,
+            df=df,
         )
 
     def eolica_geracao_profundidade_periodo_patamar(
@@ -513,10 +553,12 @@ class Eolica(RegisterFile):
         data_final: Optional[datetime] = None,
         indice_patamar: Optional[int] = None,
         profundidade: Optional[float] = None,
+        df: bool = False,
     ) -> Optional[
         Union[
             RegistroEolicaGeracaoPatamar,
             List[RegistroEolicaGeracaoPatamar],
+            pd.DataFrame,
         ]
     ]:
         """
@@ -544,6 +586,7 @@ class Eolica(RegisterFile):
             data_final=data_final,
             indice_patamar=indice_patamar,
             profundidade=profundidade,
+            df=df,
         )
 
     def pee_ger_prof_per_pat(
@@ -553,10 +596,12 @@ class Eolica(RegisterFile):
         data_final: Optional[datetime] = None,
         indice_patamar: Optional[int] = None,
         profundidade: Optional[float] = None,
+        df: bool = False,
     ) -> Optional[
         Union[
             RegistroPEEGeracaoPatamar,
             List[RegistroPEEGeracaoPatamar],
+            pd.DataFrame,
         ]
     ]:
         """
@@ -584,16 +629,19 @@ class Eolica(RegisterFile):
             data_final=data_final,
             indice_patamar=indice_patamar,
             profundidade=profundidade,
+            df=df,
         )
 
     def eolica_historico_vento_horizonte(
         self,
         data_inicial: Optional[datetime] = None,
         data_final: Optional[datetime] = None,
+        df: bool = False,
     ) -> Optional[
         Union[
             RegistroEolicaHistoricoVentoHorizonte,
             List[RegistroEolicaHistoricoVentoHorizonte],
+            pd.DataFrame,
         ]
     ]:
         """
@@ -611,6 +659,7 @@ class Eolica(RegisterFile):
             RegistroEolicaHistoricoVentoHorizonte,
             data_inicial=data_inicial,
             data_final=data_final,
+            df=df,
         )
 
     def eolica_historico_vento(
@@ -620,10 +669,12 @@ class Eolica(RegisterFile):
         data_final: Optional[datetime] = None,
         velocidade: Optional[float] = None,
         direcao: Optional[float] = None,
+        df: bool = False,
     ) -> Optional[
         Union[
             RegistroEolicaHistoricoVento,
             List[RegistroEolicaHistoricoVento],
+            pd.DataFrame,
         ]
     ]:
         """
@@ -651,16 +702,19 @@ class Eolica(RegisterFile):
             data_final=data_final,
             velocidade=velocidade,
             direcao=direcao,
+            df=df,
         )
 
     def vento_hist_horiz(
         self,
         data_inicial: Optional[datetime] = None,
         data_final: Optional[datetime] = None,
+        df: bool = False,
     ) -> Optional[
         Union[
             RegistroHistoricoVentoHorizonte,
             List[RegistroHistoricoVentoHorizonte],
+            pd.DataFrame,
         ]
     ]:
         """
@@ -678,6 +732,7 @@ class Eolica(RegisterFile):
             RegistroHistoricoVentoHorizonte,
             data_inicial=data_inicial,
             data_final=data_final,
+            df=df,
         )
 
     def vento_hist(
@@ -687,10 +742,10 @@ class Eolica(RegisterFile):
         data_final: Optional[datetime] = None,
         velocidade: Optional[float] = None,
         direcao: Optional[float] = None,
+        df: bool = False,
     ) -> Optional[
         Union[
-            RegistroHistoricoVento,
-            List[RegistroHistoricoVento],
+            RegistroHistoricoVento, List[RegistroHistoricoVento], pd.DataFrame
         ]
     ]:
         """
@@ -718,16 +773,19 @@ class Eolica(RegisterFile):
             data_final=data_final,
             velocidade=velocidade,
             direcao=direcao,
+            df=df,
         )
 
     def posto_vento_cad(
         self,
         codigo_posto: Optional[int] = None,
         nome_posto: Optional[str] = None,
+        df: bool = False,
     ) -> Optional[
         Union[
             RegistroPostoVentoCadastro,
             List[RegistroPostoVentoCadastro],
+            pd.DataFrame,
         ]
     ]:
         """
@@ -746,13 +804,17 @@ class Eolica(RegisterFile):
             RegistroPostoVentoCadastro,
             codigo_posto=codigo_posto,
             nome_posto=nome_posto,
+            df=df,
         )
 
     def pee_posto(
         self,
         codigo_pee: Optional[datetime] = None,
         codigo_posto: Optional[datetime] = None,
-    ) -> Optional[Union[RegistroPEEPostoVento, List[RegistroPEEPostoVento]]]:
+        df: bool = False,
+    ) -> Optional[
+        Union[RegistroPEEPostoVento, List[RegistroPEEPostoVento], pd.DataFrame]
+    ]:
         """
         Obtém um registro que contém o mapeamento entre um posto
             e um PEE.
@@ -769,16 +831,19 @@ class Eolica(RegisterFile):
             RegistroPEEPostoVento,
             codigo_pee=codigo_pee,
             codigo_posto=codigo_posto,
+            df=df,
         )
 
     def eolica_submercado(
         self,
         codigo_eolica: Optional[int] = None,
         codigo_submercado: Optional[int] = None,
+        df: bool = False,
     ) -> Optional[
         Union[
             RegistroEolicaSubmercado,
             List[RegistroEolicaSubmercado],
+            pd.DataFrame,
         ]
     ]:
         """
@@ -796,13 +861,17 @@ class Eolica(RegisterFile):
             RegistroEolicaSubmercado,
             codigo_eolica=codigo_eolica,
             codigo_submercado=codigo_submercado,
+            df=df,
         )
 
     def pee_subm(
         self,
         codigo_pee: Optional[int] = None,
         codigo_submercado: Optional[int] = None,
-    ) -> Optional[Union[RegistroPEESubmercado, List[RegistroPEESubmercado]]]:
+        df: bool = False,
+    ) -> Optional[
+        Union[RegistroPEESubmercado, List[RegistroPEESubmercado], pd.DataFrame]
+    ]:
         """
         Obtém um registro que contém o mapeamento PEE-submercado.
 
@@ -818,4 +887,5 @@ class Eolica(RegisterFile):
             RegistroPEESubmercado,
             codigo_pee=codigo_pee,
             codigo_submercado=codigo_submercado,
+            df=df,
         )

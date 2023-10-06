@@ -16,7 +16,7 @@ from inewave.libs.modelos.restricoes import (
     RegistroRHQLimFormPerPat,
     RegistroRHV,
     RegistroRHVHorizPer,
-    RegistroRHVLimFormPerPat,
+    RegistroRHVLimFormPer,
 )
 
 
@@ -39,7 +39,7 @@ class Restricoes(RegisterFile):
         RegistroRHQLsLPPVoli,
         RegistroRHQHorizPer,
         RegistroRHQ,
-        RegistroRHVLimFormPerPat,
+        RegistroRHVLimFormPer,
         RegistroRHVHorizPer,
         RegistroRHV,
     ]
@@ -425,7 +425,7 @@ class Restricoes(RegisterFile):
             df=df,
         )
 
-    def rhv_lim_form_per_pat(
+    def rhv_lim_form_per(
         self,
         codigo_restricao: Optional[int] = None,
         data_inicial: Optional[datetime] = None,
@@ -433,8 +433,8 @@ class Restricoes(RegisterFile):
         df: bool = False,
     ) -> Optional[
         Union[
-            RegistroRHVLimFormPerPat,
-            List[RegistroRHVLimFormPerPat],
+            RegistroRHVLimFormPer,
+            List[RegistroRHVLimFormPer],
             pd.DataFrame,
         ]
     ]:
@@ -448,11 +448,11 @@ class Restricoes(RegisterFile):
         :param data_final: data de fim da validade dos limites
         :type data_final: datetime | None
         :return: Um ou mais registros, se existirem.
-        :rtype: :class:`RegistroRHVLimFormPerPat` |
-            list[:class:`RegistroRHVLimFormPerPat`] | `pd.DataFrame` | None
+        :rtype: :class:`RegistroRHVLimFormPer` |
+            list[:class:`RegistroRHVLimFormPer`] | `pd.DataFrame` | None
         """
         return self.__registros_ou_df(
-            RegistroRHVLimFormPerPat,
+            RegistroRHVLimFormPer,
             codigo_restricao=codigo_restricao,
             data_inicial=data_inicial,
             data_final=data_final,
