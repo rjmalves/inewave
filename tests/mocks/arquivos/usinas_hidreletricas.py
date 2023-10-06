@@ -227,6 +227,24 @@ MockHidreletricaCurvaJusanteAfogamentoExplicitoPadrao = (
     "HIDRELETRICA-CURVAJUSANTE-AFOGAMENTO-EXPLICITO-PADRAO;nao"
 )
 
+MockHidreletricaProdutibilidadeEspecificaGrade = " HIDRELETRICA-PRODUTIBILIDADE-ESPECIFICA-GRADE;      7;            0.0;           10.0;       0.012345"
+
+MockHidreletricaPerdaHidraulicaGrade = " HIDRELETRICA-PERDA-HIDRAULICA-GRADE;      1;           10.0;            1.0"
+
+MockProdutibilidadePerdas = [
+    "&***********************************;*******;***************;***************\n",
+    "&                                   ;CodUsih;Turb           ;PerdHidrm      \n",
+    "&-                                  ;       ;m^3/s          ;m              \n",
+    "&SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS;IIIIIII;FFFFFFFFFFFFFFF;FFFFFFFFFFFFFFF\n",
+    " HIDRELETRICA-PERDA-HIDRAULICA-GRADE;      1;            0.0;            0.0\n",
+    " HIDRELETRICA-PERDA-HIDRAULICA-GRADE;      1;           10.0;            1.0\n",
+    "&*********************************************;*******;***************;***************;***************\n",
+    "&                                              ;CodUsih;HLiq          ;Turb           ;ProdEsp      \n",
+    "&-                                             ;       ;m             ;m^3/s          ;MW/m^3/s/m             \n",
+    "&SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS;IIIIIII;FFFFFFFFFFFFFFF;FFFFFFFFFFFFFFF;FFFFFFFFFFFFFFF\n",
+    " HIDRELETRICA-PRODUTIBILIDADE-ESPECIFICA-GRADE;      7;            0.0;           10.0;       0.012345\n",
+]
+
 
 MockEstacaoBombeamento = "ESTACAO-BOMBEAMENTO;      1; Sta Cecilia                  ;   125 ;   181 ;          0.20 ;    181"
 
@@ -265,4 +283,6 @@ MockEstacaoBombeamentoCompleto = [
     "ESTACAO-BOMBEAMENTO-SUBMERCADO;      4;       1\n",
 ]
 
-MockUsinasHidreletricas = MockPolinjus + MockEstacaoBombeamentoCompleto
+MockUsinasHidreletricas = (
+    MockPolinjus + MockProdutibilidadePerdas + MockEstacaoBombeamentoCompleto
+)

@@ -594,8 +594,8 @@ class EstacaoBombeamentoLimitesPeriodoPatamar(Register):
     estação por período e patamar.
     """
 
-    IDENTIFIER = "RE-LIM-FORM-PER"
-    IDENTIFIER_DIGITS = 15
+    IDENTIFIER = "ESTACAO-BOMBEAMENTO-LIMITES-PERIODO-PATAMAR"
+    IDENTIFIER_DIGITS = 44
     LINE = Line(
         [
             IntegerField(),
@@ -655,3 +655,45 @@ class EstacaoBombeamentoLimitesPeriodoPatamar(Register):
     @limite_superior.setter
     def limite_superior(self, v: float):
         self.data[5] = v
+
+
+class EstacaoBombeamentoSubmercado(Register):
+    """ """
+
+    IDENTIFIER = "ESTACAO-BOMBEAMENTO-SUBMERCADO"
+    IDENTIFIER_DIGITS = 31
+    LINE = Line(
+        [
+            IntegerField(),
+            IntegerField(),
+        ],
+        delimiter=";",
+    )
+
+    @property
+    def codigo_estacao(self) -> Optional[int]:
+        """
+        O código da estação
+
+        :return: O código da estação
+        :rtype: int | None
+        """
+        return self.data[0]
+
+    @codigo_estacao.setter
+    def codigo_estacao(self, c: int):
+        self.data[0] = c
+
+    @property
+    def codigo_submercado(self) -> Optional[int]:
+        """
+        O código do submercado da estação
+
+        :return: O código do submercado
+        :rtype: int | None
+        """
+        return self.data[1]
+
+    @codigo_submercado.setter
+    def codigo_submercado(self, c: int):
+        self.data[1] = c

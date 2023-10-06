@@ -1,6 +1,7 @@
 from typing import Type, TypeVar, Optional, List, Union
 from cfinterface.components.register import Register
 from cfinterface.files.registerfile import RegisterFile
+from datetime import datetime
 import pandas as pd  # type: ignore
 from inewave.libs.modelos.usinas_hidreletricas import (
     HidreletricaCurvaJusante,
@@ -8,6 +9,11 @@ from inewave.libs.modelos.usinas_hidreletricas import (
     HidreletricaCurvaJusantePolinomioPorPartesSegmento,
     HidreletricaCurvaJusanteAfogamentoExplicitoUsina,
     HidreletricaCurvaJusanteAfogamentoExplicitoPadrao,
+    EstacaoBombeamentoLimitesPeriodoPatamar,
+    EstacaoBombeamentoSubmercado,
+    EstacaoBombeamento,
+    HidreletricaProdutibilidadeEspecificaGrade,
+    HidreletricaPerdaHidraulicaGrade,
 )
 
 
@@ -25,6 +31,11 @@ class UsinasHidreletricas(RegisterFile):
         HidreletricaCurvaJusantePolinomioPorPartesSegmento,
         HidreletricaCurvaJusantePolinomioPorPartes,
         HidreletricaCurvaJusante,
+        HidreletricaProdutibilidadeEspecificaGrade,
+        HidreletricaPerdaHidraulicaGrade,
+        EstacaoBombeamentoLimitesPeriodoPatamar,
+        EstacaoBombeamentoSubmercado,
+        EstacaoBombeamento,
     ]
 
     def __registros_ou_df(
@@ -223,12 +234,12 @@ class UsinasHidreletricas(RegisterFile):
         )
 
     def hidreletrica_curvajusante_afogamentoexplicito_padrao(
-        self,
-        considera_afogamento: Optional[str] = None,
+        self, considera_afogamento: Optional[str] = None, df: bool = False
     ) -> Optional[
         Union[
             HidreletricaCurvaJusanteAfogamentoExplicitoPadrao,
             List[HidreletricaCurvaJusanteAfogamentoExplicitoPadrao],
+            pd.DataFrame,
         ]
     ]:
         """
@@ -241,4 +252,138 @@ class UsinasHidreletricas(RegisterFile):
         return self.__registros_ou_df(
             HidreletricaCurvaJusanteAfogamentoExplicitoPadrao,
             considera_afogamento=considera_afogamento,
+            df=df,
+        )
+
+    # -----------
+
+    def hidreletrica_produtibilidade_especifica_grade(
+        self, codigo_usina: Optional[int] = None, df: bool = False
+    ) -> Optional[
+        Union[
+            HidreletricaProdutibilidadeEspecificaGrade,
+            List[HidreletricaProdutibilidadeEspecificaGrade],
+            pd.DataFrame,
+        ]
+    ]:
+        """
+        Obtém registros que determinam os valores de produtibilidade
+        específica de uma UHE em grade.
+
+        :param codigo_usina: código da usina associada
+        :type codigo_usina: int | None
+        """
+        return self.__registros_ou_df(
+            HidreletricaProdutibilidadeEspecificaGrade,
+            codigo_usina=codigo_usina,
+            df=df,
+        )
+
+    def hidreletrica_perda_hidraulica_grade(
+        self, codigo_usina: Optional[int] = None, df: bool = False
+    ) -> Optional[
+        Union[
+            HidreletricaPerdaHidraulicaGrade,
+            List[HidreletricaPerdaHidraulicaGrade],
+            pd.DataFrame,
+        ]
+    ]:
+        """
+        Obtém registros que determinam os valores de perda
+        hidráulica de uma UHE em grade.
+
+        :param codigo_usina: código da usina associada
+        :type codigo_usina: int | None
+        """
+        return self.__registros_ou_df(
+            HidreletricaPerdaHidraulicaGrade,
+            codigo_usina=codigo_usina,
+            df=df,
+        )
+
+    def estacao_bombeamento_limites_periodo_patamar(
+        self,
+        codigo_estacao: Optional[int] = None,
+        data_inicial: Optional[datetime] = None,
+        data_final: Optional[datetime] = None,
+        patamar: Optional[int] = None,
+        df: bool = False,
+    ) -> Optional[
+        Union[
+            EstacaoBombeamentoLimitesPeriodoPatamar,
+            List[EstacaoBombeamentoLimitesPeriodoPatamar],
+            pd.DataFrame,
+        ]
+    ]:
+        """
+        Obtém registros que determinam os limites de bombeamento
+        de uma estação por período e patamar.
+
+        :param codigo_estacao: código da estação associada
+        :type codigo_estacao: int | None
+        """
+        return self.__registros_ou_df(
+            EstacaoBombeamentoLimitesPeriodoPatamar,
+            codigo_estacao=codigo_estacao,
+            data_inicial=data_inicial,
+            data_final=data_final,
+            patamar=patamar,
+            df=df,
+        )
+
+    def estacao_bombeamento_submercado(
+        self,
+        codigo_estacao: Optional[int] = None,
+        codigo_submercado: Optional[int] = None,
+        df: bool = False,
+    ) -> Optional[
+        Union[
+            EstacaoBombeamentoSubmercado,
+            List[EstacaoBombeamentoSubmercado],
+            pd.DataFrame,
+        ]
+    ]:
+        """
+        Obtém registros que relacionam estações de bombeamento
+        e submercados.
+
+        :param codigo_estacao: código da estação associada
+        :type codigo_estacao: int | None
+        :param codigo_submercado: código do submercado associado
+        :type codigo_submercado: int | None
+        """
+        return self.__registros_ou_df(
+            EstacaoBombeamentoSubmercado,
+            codigo_estacao=codigo_estacao,
+            codigo_submercado=codigo_submercado,
+            df=df,
+        )
+
+    def estacao_bombeamento(
+        self,
+        codigo_estacao: Optional[int] = None,
+        nome_estacao: Optional[str] = None,
+        codigo_usina_origem: Optional[int] = None,
+        codigo_usina_destino: Optional[int] = None,
+        df: bool = False,
+    ) -> Optional[
+        Union[
+            EstacaoBombeamento,
+            List[EstacaoBombeamento],
+            pd.DataFrame,
+        ]
+    ]:
+        """
+        Obtém registros que definem uma estação de bombeamento.
+
+        :param codigo_estacao: código da estação associada
+        :type codigo_estacao: int | None
+        """
+        return self.__registros_ou_df(
+            EstacaoBombeamento,
+            codigo_estacao=codigo_estacao,
+            nome_estacao=nome_estacao,
+            codigo_usina_origem=codigo_usina_origem,
+            codigo_usina_destino=codigo_usina_destino,
+            df=df,
         )

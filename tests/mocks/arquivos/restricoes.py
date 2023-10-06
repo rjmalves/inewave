@@ -45,6 +45,7 @@ MockRestricaoEnergia = [
 MockRHQ = "RHQ;       1 ; qtur(66)  \n"
 MockRHQHorizPer = "RHQ-HORIZ-PER;        1;      2021/01;      2022/12\n"
 MockRHQLsLPPVoli = "RHQ-LS-LPP-VOLI;        1;    1; 0.30; 3000.00\n"
+MockRHQLimFormPerPat = " RHQ-LIM-FORM-PER-PAT;      7; 2023/03; 2023/06;   1;   1000.00;   1500.00"
 
 MockRestricaoVazao = [
     "&RHQ; cod_rest;  formula\n",
@@ -60,6 +61,35 @@ MockRestricaoVazao = [
     "RHQ-LS-LPP-VOLI;        1;    2; 0.20; 4000.00\n",
     "RHQ-LS-LPP-VOLI;        2;    1; 0.30; 1000.00\n",
     "RHQ-LS-LPP-VOLI;        2;    2; 0.20; 2000.00\n",
+    "\n",
+    "&RHQ-LIM-FORM-PER-PAT; CodRvz; PerIni ; PerFin ; Pat;    LimInf;    LimSup\,",
+    " RHQ-LIM-FORM-PER-PAT;      7; 2023/03; 2023/06;   1;   1000.00;   1500.00\,",
+    " RHQ-LIM-FORM-PER-PAT;      7; 2023/03; 2023/06;   2;   1000.00;   1500.00\,",
+    " RHQ-LIM-FORM-PER-PAT;      7; 2023/03; 2023/06;   3;   1000.00;   1500.00\,",
+    " RHQ-LIM-FORM-PER-PAT;      5; 2023/05; 2023/08;   1;    350.00;    500.00\,",
+    " RHQ-LIM-FORM-PER-PAT;      5; 2023/05; 2023/08;   2;    350.00;    500.00\,",
+    " RHQ-LIM-FORM-PER-PAT;      5; 2023/05; 2023/08;   3;    350.00;    500.00\,",
+]
+
+
+MockRHV = " RHV;      1; 1*vtur(18) + 2*vver(17) + 2*varm(18)"
+MockRHVHorizPer = " RHV-HORIZ-PER;      1; 2023/03; 2023/06"
+MockRHVLimFormPer = (
+    " RHV-LIM-FORM-PER;      1; 2023/03; 2023/06;    100.00;    100.00"
+)
+
+MockRHV = [
+    "&RHV;CodRVol; Formula\n",
+    " RHV;      1; 1*vtur(18) + 2*vver(17) + 2*varm(18)\n",
+    " RHV;      2; 3*vtur(122) + 1*vver(121) + 4*varm(122)\n",
+    "\n",
+    "&RHV-HORIZ-PER;CodRVol; PerIni ; PerFin\n",
+    " RHV-HORIZ-PER;      1; 2023/03; 2023/06\n",
+    " RHV-HORIZ-PER;      2; 2023/03; 2023/06\n",
+    "\n",
+    "&RHV-LIM-FORM-PER;CodRVol; PerIni ; PerFin ;    LimInf;    LimSup\n",
+    " RHV-LIM-FORM-PER;      1; 2023/03; 2023/06;    100.00;    100.00\n",
+    " RHV-LIM-FORM-PER;      2; 2023/03; 2023/06;     80.00;    100.00\n",
 ]
 
 MockRestricoes = (

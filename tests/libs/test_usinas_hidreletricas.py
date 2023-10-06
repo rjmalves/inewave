@@ -5,16 +5,26 @@ from inewave.libs.usinas_hidreletricas import (
     HidreletricaCurvaJusantePolinomioPorPartesSegmento,
     HidreletricaCurvaJusanteAfogamentoExplicitoUsina,
     HidreletricaCurvaJusanteAfogamentoExplicitoPadrao,
+    HidreletricaProdutibilidadeEspecificaGrade,
+    HidreletricaPerdaHidraulicaGrade,
+    EstacaoBombeamento,
+    EstacaoBombeamentoLimitesPeriodoPatamar,
+    EstacaoBombeamentoSubmercado,
 )
 from tests.mocks.mock_open import mock_open
 from unittest.mock import MagicMock, patch
-
+from datetime import datetime
 from tests.mocks.arquivos.usinas_hidreletricas import (
     MockHidreletricaCurvaJusante,
     MockHidreletricaCurvaJusantePolinomio,
     MockHidreletricaCurvaJusantePolinomioSegmento,
     MockHidreletricaCurvaJusanteAfogamentoExplicitoUsina,
     MockHidreletricaCurvaJusanteAfogamentoExplicitoPadrao,
+    MockHidreletricaProdutibilidadeEspecificaGrade,
+    MockHidreletricaPerdaHidraulicaGrade,
+    MockEstacaoBombeamento,
+    MockEstacaoBombeamentoLimitesPeriodoPatamar,
+    MockEstacaoBombeamentoSubmercado,
     MockUsinasHidreletricas,
 )
 
@@ -251,23 +261,147 @@ def test_registro_polinjus_hidreletrica_curvajusante_afogamentoexplicito_padrao(
     assert r.considera_afogamento == "sim"
 
 
+def test_registro_hidreletrica_produtibilidade_especifica_grade():
+    m: MagicMock = mock_open(
+        read_data="".join(MockHidreletricaProdutibilidadeEspecificaGrade)
+    )
+    r = HidreletricaProdutibilidadeEspecificaGrade()
+    with patch("builtins.open", m):
+        with open("", "") as fp:
+            r.read(fp)
+
+    assert r.data == [7, 0, 10, 0.012345]
+    assert r.codigo_usina == 7
+    r.codigo_usina = 2
+    assert r.codigo_usina == 2
+    assert r.altura_queda_liquida == 0.0
+    r.altura_queda_liquida = 1.0
+    assert r.altura_queda_liquida == 1.0
+    assert r.turbinamento == 10.0
+    r.turbinamento = 1.0
+    assert r.turbinamento == 1.0
+    assert r.produtibilidade_especifica == 0.012345
+    r.produtibilidade_especifica = 1.5
+    assert r.produtibilidade_especifica == 1.5
+
+
+def test_registro_hidreletrica_perda_hidraulica_grade():
+    m: MagicMock = mock_open(
+        read_data="".join(MockHidreletricaPerdaHidraulicaGrade)
+    )
+    r = HidreletricaPerdaHidraulicaGrade()
+    with patch("builtins.open", m):
+        with open("", "") as fp:
+            r.read(fp)
+
+    assert r.data == [1, 10.0, 1.0]
+    assert r.codigo_usina == 1
+    r.codigo_usina = 2
+    assert r.codigo_usina == 2
+    assert r.turbinamento == 10.0
+    r.turbinamento = 1.0
+    assert r.turbinamento == 1.0
+    assert r.perda_hidraulica == 1.0
+    r.perda_hidraulica = 1.5
+    assert r.perda_hidraulica == 1.5
+
+
+def test_registro_estacao_bombeamento():
+    m: MagicMock = mock_open(read_data="".join(MockEstacaoBombeamento))
+    r = EstacaoBombeamento()
+    with patch("builtins.open", m):
+        with open("", "") as fp:
+            r.read(fp)
+
+    assert r.data == [1, "Sta Cecilia", 125, 181, 0.20, 181]
+    assert r.codigo_estacao == 1
+    r.codigo_estacao = 2
+    assert r.codigo_estacao == 2
+    assert r.nome_estacao == "Sta Cecilia"
+    r.nome_estacao = "Sto Cecilia"
+    assert r.nome_estacao == "Sto Cecilia"
+    assert r.codigo_usina_origem == 125
+    r.codigo_usina_origem = 124
+    assert r.codigo_usina_origem == 124
+    assert r.codigo_usina_destino == 181
+    r.codigo_usina_destino = 180
+    assert r.codigo_usina_destino == 180
+    assert r.consumo_estacao == 0.2
+    r.consumo_estacao = 0.5
+    assert r.consumo_estacao == 0.5
+    assert r.bombeamento_maximo == 181
+    r.bombeamento_maximo = 180
+    assert r.bombeamento_maximo == 180
+
+
+def test_registro_estacao_bombeamento_limites_periodo_patamar():
+    m: MagicMock = mock_open(
+        read_data="".join(MockEstacaoBombeamentoLimitesPeriodoPatamar)
+    )
+    r = EstacaoBombeamentoLimitesPeriodoPatamar()
+    with patch("builtins.open", m):
+        with open("", "") as fp:
+            r.read(fp)
+
+    assert r.data == [1, datetime(2023, 3, 1), None, 1, 0, 181]
+    assert r.codigo_estacao == 1
+    r.codigo_estacao = 2
+    assert r.codigo_estacao == 2
+    assert r.data_inicial == datetime(2023, 3, 1)
+    r.data_inicial = datetime(2023, 2, 1)
+    assert r.data_inicial == datetime(2023, 2, 1)
+    assert r.data_final is None
+    r.data_final = datetime(2023, 3, 2)
+    assert r.data_final == datetime(2023, 3, 2)
+    assert r.patamar == 1
+    r.patamar = 3
+    assert r.patamar == 3
+    assert r.limite_inferior == 0
+    r.limite_inferior = 3
+    assert r.limite_inferior == 3
+    assert r.limite_superior == 181
+    r.limite_superior = 151
+    assert r.limite_superior == 151
+
+
+def test_registro_estacao_bombeamento_submercado():
+    m: MagicMock = mock_open(
+        read_data="".join(MockEstacaoBombeamentoSubmercado)
+    )
+    r = EstacaoBombeamentoSubmercado()
+    with patch("builtins.open", m):
+        with open("", "") as fp:
+            r.read(fp)
+
+    assert r.data == [1, 1]
+    assert r.codigo_estacao == 1
+    r.codigo_estacao = 2
+    assert r.codigo_estacao == 2
+    assert r.codigo_submercado == 1
+    r.codigo_submercado = 2
+    assert r.codigo_submercado == 2
+
+
 def test_atributos_encontrados():
     m: MagicMock = mock_open(read_data="".join(MockUsinasHidreletricas))
     with patch("builtins.open", m):
-        polinjus = UsinasHidreletricas.read(ARQ_TESTE)
-        assert polinjus.hidreletrica_curvajusante() is not None
-        assert polinjus.hidreletrica_curvajusante_polinomio() is not None
+        uhes = UsinasHidreletricas.read(ARQ_TESTE)
+        assert uhes.hidreletrica_curvajusante() is not None
+        assert uhes.hidreletrica_curvajusante_polinomio() is not None
+        assert uhes.hidreletrica_curvajusante_polinomio_segmento() is not None
         assert (
-            polinjus.hidreletrica_curvajusante_polinomio_segmento() is not None
-        )
-        assert (
-            polinjus.hidreletrica_curvajusante_afogamentoexplicito_usina()
+            uhes.hidreletrica_curvajusante_afogamentoexplicito_usina()
             is not None
         )
         assert (
-            polinjus.hidreletrica_curvajusante_afogamentoexplicito_padrao()
+            uhes.hidreletrica_curvajusante_afogamentoexplicito_padrao()
             is not None
         )
+        assert uhes.hidreletrica_produtibilidade_especifica_grade() is not None
+        assert uhes.hidreletrica_perda_hidraulica_grade() is not None
+        assert uhes.estacao_bombeamento() is not None
+        assert uhes.estacao_bombeamento_limites_periodo_patamar() is not None
+        assert uhes.estacao_bombeamento_submercado() is not None
 
 
 def test_eq():
