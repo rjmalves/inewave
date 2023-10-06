@@ -45,12 +45,6 @@ from .tecno import Tecno  # noqa
 from .term import Term  # noqa
 from .vazoes import Vazoes  # noqa
 from .vazpast import Vazpast  # noqa
-from .eolicacadastro import EolicaCadastro  # noqa
-from .eolicaconfiguracao import EolicaConfiguracao  # noqa
-from .eolicafte import EolicaFTE  # noqa
-from .eolicageracao import EolicaGeracao  # noqa
-from .eolicahistorico import EolicaHistorico  # noqa
-from .eolicasubmercado import EolicaSubmercado  # noqa
 from .avl_cortesfpha_nwv import AvlCortesFpha  # noqa
 from .avl_desvfpha_s import AvlDesvFphaS  # noqa
 from .avl_desvfpha_v_q import AvlDesvFphaVQ  # noqa
