@@ -30,6 +30,7 @@ Interface de Programação para o NEWAVE
    referencia/newave/index.rst
    referencia/nwlistcf/index.rst
    referencia/nwlistop/index.rst
+   referencia/libs/index.rst
 
 
 :ref:`genindex`

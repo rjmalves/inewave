@@ -347,12 +347,12 @@ def test_registro_estacao_bombeamento_limites_periodo_patamar():
     assert r.codigo_estacao == 1
     r.codigo_estacao = 2
     assert r.codigo_estacao == 2
-    assert r.data_inicial == datetime(2023, 3, 1)
-    r.data_inicial = datetime(2023, 2, 1)
-    assert r.data_inicial == datetime(2023, 2, 1)
-    assert r.data_final is None
-    r.data_final = datetime(2023, 3, 2)
-    assert r.data_final == datetime(2023, 3, 2)
+    assert r.data_inicio == datetime(2023, 3, 1)
+    r.data_inicio = datetime(2023, 2, 1)
+    assert r.data_inicio == datetime(2023, 2, 1)
+    assert r.data_fim is None
+    r.data_fim = datetime(2023, 3, 2)
+    assert r.data_fim == datetime(2023, 3, 2)
     assert r.patamar == 1
     r.patamar = 3
     assert r.patamar == 3

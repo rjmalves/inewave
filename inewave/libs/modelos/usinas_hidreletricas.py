@@ -610,6 +610,12 @@ class EstacaoBombeamentoLimitesPeriodoPatamar(Register):
 
     @property
     def codigo_estacao(self) -> Optional[int]:
+        """
+        O código da estação.
+
+        :return: O código
+        :rtype:  int | None
+        """
         return self.data[0]
 
     @codigo_estacao.setter
@@ -617,23 +623,41 @@ class EstacaoBombeamentoLimitesPeriodoPatamar(Register):
         self.data[0] = c
 
     @property
-    def data_inicial(self) -> Optional[datetime]:
+    def data_inicio(self) -> Optional[datetime]:
+        """
+        A data de início da validade dos limites da estação.
+
+        :return: A data
+        :rtype: datetime | None
+        """
         return self.data[1]
 
-    @data_inicial.setter
-    def data_inicial(self, c: datetime):
+    @data_inicio.setter
+    def data_inicio(self, c: datetime):
         self.data[1] = c
 
     @property
-    def data_final(self) -> Optional[datetime]:
+    def data_fim(self) -> Optional[datetime]:
+        """
+        A data de fim da validade dos limites da estação.
+
+        :return: A data
+        :rtype: datetime | None
+        """
         return self.data[2]
 
-    @data_final.setter
-    def data_final(self, v: datetime):
+    @data_fim.setter
+    def data_fim(self, v: datetime):
         self.data[2] = v
 
     @property
     def patamar(self) -> Optional[int]:
+        """
+        O índice do patamar de validade dos limites.
+
+        :return: O patamar
+        :rtype: int | None
+        """
         return self.data[3]
 
     @patamar.setter
@@ -642,6 +666,12 @@ class EstacaoBombeamentoLimitesPeriodoPatamar(Register):
 
     @property
     def limite_inferior(self) -> Optional[float]:
+        """
+        O limite inferior para a estação.
+
+        :return: O limite inferior
+        :rtype: float | None
+        """
         return self.data[4]
 
     @limite_inferior.setter
@@ -650,6 +680,12 @@ class EstacaoBombeamentoLimitesPeriodoPatamar(Register):
 
     @property
     def limite_superior(self) -> Optional[float]:
+        """
+        O limite superior para a estação.
+
+        :return: O limite superior
+        :rtype: float | None
+        """
         return self.data[5]
 
     @limite_superior.setter

@@ -80,8 +80,8 @@ class Restricoes(RegisterFile):
     def re_horiz_per(
         self,
         codigo_restricao: Optional[int] = None,
-        data_inicial: Optional[datetime] = None,
-        data_final: Optional[datetime] = None,
+        data_inicio: Optional[datetime] = None,
+        data_fim: Optional[datetime] = None,
         df: bool = False,
     ) -> Optional[
         Union[RegistroREHorizPer, List[RegistroREHorizPer], pd.DataFrame]
@@ -92,10 +92,10 @@ class Restricoes(RegisterFile):
 
         :param codigo_restricao: código que especifica a restrição
         :type codigo_restricao: int | None
-        :param data_inicial: data inicial de validade da restrição
-        :type data_inicial: datetime | None
-        :param data_final: data final de validade da restrição
-        :type data_final: datetime | None
+        :param data_inicio: data inicial de validade da restrição
+        :type data_inicio: datetime | None
+        :param data_fim: data final de validade da restrição
+        :type data_fim: datetime | None
         :return: Um ou mais registros, se existirem.
         :rtype: :class:`RegistroREHorizPer` |
             list[:class:`RegistroREHorizPer`] | `pd.DataFrame` | None
@@ -103,16 +103,16 @@ class Restricoes(RegisterFile):
         return self.__registros_ou_df(
             RegistroREHorizPer,
             codigo_restricao=codigo_restricao,
-            data_inicial=data_inicial,
-            data_final=data_final,
+            data_inicio=data_inicio,
+            data_fim=data_fim,
             df=df,
         )
 
     def re_lim_form_per(
         self,
         codigo_restricao: Optional[int] = None,
-        data_inicial: Optional[datetime] = None,
-        data_final: Optional[datetime] = None,
+        data_inicio: Optional[datetime] = None,
+        data_fim: Optional[datetime] = None,
         patamar: Optional[int] = None,
         limite_inferior: Optional[float] = None,
         limite_superior: Optional[float] = None,
@@ -126,10 +126,10 @@ class Restricoes(RegisterFile):
 
         :param codigo_restricao: código que especifica a restrição
         :type codigo_restricao: int | None
-        :param data_inicial: data inicial de validade dos limites
-        :type data_inicial: datetime | None
-        :param data_final: data final de validade dos limites
-        :type data_final: datetime | None
+        :param data_inicio: data inicial de validade dos limites
+        :type data_inicio: datetime | None
+        :param data_fim: data final de validade dos limites
+        :type data_fim: datetime | None
         :param patamar: patamar de validade dos limites
         :type patamar: int | None
         :param limite_inferior: limite inferior da restrição
@@ -143,8 +143,8 @@ class Restricoes(RegisterFile):
         return self.__registros_ou_df(
             RegistroRELimFormPer,
             codigo_restricao=codigo_restricao,
-            data_inicial=data_inicial,
-            data_final=data_final,
+            data_inicio=data_inicio,
+            data_fim=data_fim,
             patamar=patamar,
             limite_inferior=limite_inferior,
             limite_superior=limite_superior,
@@ -179,8 +179,8 @@ class Restricoes(RegisterFile):
     def rhe_horiz_per(
         self,
         codigo_restricao: Optional[int] = None,
-        data_inicial: Optional[datetime] = None,
-        data_final: Optional[datetime] = None,
+        data_inicio: Optional[datetime] = None,
+        data_fim: Optional[datetime] = None,
         df: bool = False,
     ) -> Optional[
         Union[RegistroRHEHorizPer, List[RegistroRHEHorizPer], pd.DataFrame]
@@ -191,10 +191,10 @@ class Restricoes(RegisterFile):
 
         :param codigo_restricao: código que especifica a restrição
         :type codigo_restricao: int | None
-        :param data_inicial: data inicial de validade da restrição
-        :type data_inicial: datetime | None
-        :param data_final: data final de validade da restrição
-        :type data_final: datetime | None
+        :param data_inicio: data inicial de validade da restrição
+        :type data_inicio: datetime | None
+        :param data_fim: data final de validade da restrição
+        :type data_fim: datetime | None
         :return: Um ou mais registros, se existirem.
         :rtype: :class:`RegistroRHEHorizPer` |
             list[:class:`RegistroRHEHorizPer`] | `pd.DataFrame` | None
@@ -202,8 +202,8 @@ class Restricoes(RegisterFile):
         return self.__registros_ou_df(
             RegistroRHEHorizPer,
             codigo_restricao=codigo_restricao,
-            data_inicial=data_inicial,
-            data_final=data_final,
+            data_inicio=data_inicio,
+            data_fim=data_fim,
             df=df,
         )
 
@@ -269,8 +269,8 @@ class Restricoes(RegisterFile):
     def rhq_horiz_per(
         self,
         codigo_restricao: Optional[int] = None,
-        data_inicial: Optional[datetime] = None,
-        data_final: Optional[datetime] = None,
+        data_inicio: Optional[datetime] = None,
+        data_fim: Optional[datetime] = None,
         df: bool = False,
     ) -> Optional[
         Union[RegistroRHQHorizPer, List[RegistroRHQHorizPer], pd.DataFrame]
@@ -281,10 +281,10 @@ class Restricoes(RegisterFile):
 
         :param codigo_restricao: código que especifica a restrição
         :type codigo_restricao: int | None
-        :param data_inicial: data inicial de validade da restrição
-        :type data_inicial: datetime | None
-        :param data_final: data final de validade da restrição
-        :type data_final: datetime | None
+        :param data_inicio: data inicial de validade da restrição
+        :type data_inicio: datetime | None
+        :param data_fim: data final de validade da restrição
+        :type data_fim: datetime | None
         :return: Um ou mais registros, se existirem.
         :rtype: :class:`RegistroRHQHorizPer` |
             list[:class:`RegistroRHQHorizPer`] | `pd.DataFrame` | None
@@ -292,8 +292,8 @@ class Restricoes(RegisterFile):
         return self.__registros_ou_df(
             RegistroRHQHorizPer,
             codigo_restricao=codigo_restricao,
-            data_inicial=data_inicial,
-            data_final=data_final,
+            data_inicio=data_inicio,
+            data_fim=data_fim,
             df=df,
         )
 
@@ -335,8 +335,8 @@ class Restricoes(RegisterFile):
     def rhq_lim_form_per_pat(
         self,
         codigo_restricao: Optional[int] = None,
-        data_inicial: Optional[datetime] = None,
-        data_final: Optional[datetime] = None,
+        data_inicio: Optional[datetime] = None,
+        data_fim: Optional[datetime] = None,
         patamar: Optional[int] = None,
         df: bool = False,
     ) -> Optional[
@@ -351,10 +351,10 @@ class Restricoes(RegisterFile):
 
         :param codigo_restricao: código que especifica a restrição
         :type codigo_restricao: int | None
-        :param data_inicial: data de início da validade dos limites
-        :type data_inicial: datetime | None
-        :param data_final: data de fim da validade dos limites
-        :type data_final: datetime | None
+        :param data_inicio: data de início da validade dos limites
+        :type data_inicio: datetime | None
+        :param data_fim: data de fim da validade dos limites
+        :type data_fim: datetime | None
         :param patamar: patamar de validade dos limites
         :type patamar: int | None
         :return: Um ou mais registros, se existirem.
@@ -364,8 +364,8 @@ class Restricoes(RegisterFile):
         return self.__registros_ou_df(
             RegistroRHQLimFormPerPat,
             codigo_restricao=codigo_restricao,
-            data_inicial=data_inicial,
-            data_final=data_final,
+            data_inicio=data_inicio,
+            data_fim=data_fim,
             patamar=patamar,
             df=df,
         )
@@ -397,8 +397,8 @@ class Restricoes(RegisterFile):
     def rhv_horiz_per(
         self,
         codigo_restricao: Optional[int] = None,
-        data_inicial: Optional[datetime] = None,
-        data_final: Optional[datetime] = None,
+        data_inicio: Optional[datetime] = None,
+        data_fim: Optional[datetime] = None,
         df: bool = False,
     ) -> Optional[
         Union[RegistroRHVHorizPer, List[RegistroRHVHorizPer], pd.DataFrame]
@@ -409,10 +409,10 @@ class Restricoes(RegisterFile):
 
         :param codigo_restricao: código que especifica a restrição
         :type codigo_restricao: int | None
-        :param data_inicial: data inicial de validade da restrição
-        :type data_inicial: datetime | None
-        :param data_final: data final de validade da restrição
-        :type data_final: datetime | None
+        :param data_inicio: data inicial de validade da restrição
+        :type data_inicio: datetime | None
+        :param data_fim: data final de validade da restrição
+        :type data_fim: datetime | None
         :return: Um ou mais registros, se existirem.
         :rtype: :class:`RegistroRHVHorizPer` |
             list[:class:`RegistroRHVHorizPer`] | `pd.DataFrame` | None
@@ -420,16 +420,16 @@ class Restricoes(RegisterFile):
         return self.__registros_ou_df(
             RegistroRHVHorizPer,
             codigo_restricao=codigo_restricao,
-            data_inicial=data_inicial,
-            data_final=data_final,
+            data_inicio=data_inicio,
+            data_fim=data_fim,
             df=df,
         )
 
     def rhv_lim_form_per(
         self,
         codigo_restricao: Optional[int] = None,
-        data_inicial: Optional[datetime] = None,
-        data_final: Optional[datetime] = None,
+        data_inicio: Optional[datetime] = None,
+        data_fim: Optional[datetime] = None,
         df: bool = False,
     ) -> Optional[
         Union[
@@ -443,10 +443,10 @@ class Restricoes(RegisterFile):
 
         :param codigo_restricao: código que especifica a restrição
         :type codigo_restricao: int | None
-        :param data_inicial: data de início da validade dos limites
-        :type data_inicial: datetime | None
-        :param data_final: data de fim da validade dos limites
-        :type data_final: datetime | None
+        :param data_inicio: data de início da validade dos limites
+        :type data_inicio: datetime | None
+        :param data_fim: data de fim da validade dos limites
+        :type data_fim: datetime | None
         :return: Um ou mais registros, se existirem.
         :rtype: :class:`RegistroRHVLimFormPer` |
             list[:class:`RegistroRHVLimFormPer`] | `pd.DataFrame` | None
@@ -454,7 +454,7 @@ class Restricoes(RegisterFile):
         return self.__registros_ou_df(
             RegistroRHVLimFormPer,
             codigo_restricao=codigo_restricao,
-            data_inicial=data_inicial,
-            data_final=data_final,
+            data_inicio=data_inicio,
+            data_fim=data_fim,
             df=df,
         )

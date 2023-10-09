@@ -64,10 +64,10 @@ def test_registro_re_horiz_per():
     assert r.data == [1, datetime(2021, 1, 1), datetime(2021, 1, 1)]
     assert r.codigo_restricao == 1
     r.codigo_restricao = 2
-    assert r.data_inicial == datetime(2021, 1, 1)
-    r.data_inicial = datetime(2021, 2, 1)
-    assert r.data_final == datetime(2021, 1, 1)
-    r.data_final = datetime(2022, 11, 1)
+    assert r.data_inicio == datetime(2021, 1, 1)
+    r.data_inicio = datetime(2021, 2, 1)
+    assert r.data_fim == datetime(2021, 1, 1)
+    r.data_fim = datetime(2022, 11, 1)
 
 
 def test_registro_rhq_lim_form_per():
@@ -87,10 +87,10 @@ def test_registro_rhq_lim_form_per():
     ]
     assert r.codigo_restricao == 1
     r.codigo_restricao = 2
-    assert r.data_inicial == datetime(2021, 1, 1)
-    r.data_inicial = datetime(2021, 2, 1)
-    assert r.data_final == datetime(2021, 3, 1)
-    r.data_final = datetime(2021, 4, 1)
+    assert r.data_inicio == datetime(2021, 1, 1)
+    r.data_inicio = datetime(2021, 2, 1)
+    assert r.data_fim == datetime(2021, 3, 1)
+    r.data_fim = datetime(2021, 4, 1)
     assert r.limite_inferior == "-1.1e30"
     r.limite_inferior = "0"
     assert r.limite_inferior == "0"
@@ -123,10 +123,10 @@ def test_registro_rhe_horiz_per():
     assert r.data == [2, datetime(2021, 1, 1), datetime(2025, 12, 1)]
     assert r.codigo_restricao == 2
     r.codigo_restricao = 1
-    assert r.data_inicial == datetime(2021, 1, 1)
-    r.data_inicial = datetime(2021, 2, 1)
-    assert r.data_final == datetime(2025, 12, 1)
-    r.data_final = datetime(2025, 11, 1)
+    assert r.data_inicio == datetime(2021, 1, 1)
+    r.data_inicio = datetime(2021, 2, 1)
+    assert r.data_fim == datetime(2025, 12, 1)
+    r.data_fim = datetime(2025, 11, 1)
 
 
 def test_registro_rhe_ls_lpp_earmi():
@@ -171,10 +171,10 @@ def test_registro_rhq_horiz_per():
     assert r.data == [1, datetime(2021, 1, 1), datetime(2022, 12, 1)]
     assert r.codigo_restricao == 1
     r.codigo_restricao = 2
-    assert r.data_inicial == datetime(2021, 1, 1)
-    r.data_inicial = datetime(2021, 2, 1)
-    assert r.data_final == datetime(2022, 12, 1)
-    r.data_final = datetime(2022, 11, 1)
+    assert r.data_inicio == datetime(2021, 1, 1)
+    r.data_inicio = datetime(2021, 2, 1)
+    assert r.data_fim == datetime(2022, 12, 1)
+    r.data_fim = datetime(2022, 11, 1)
 
 
 def test_registro_rhq_ls_lpp_voli():
@@ -212,10 +212,10 @@ def test_registro_rhq_lim_form_per_pat():
     ]
     assert r.codigo_restricao == 7
     r.codigo_restricao = 2
-    assert r.data_inicial == datetime(2023, 3, 1)
-    r.data_inicial = datetime(2023, 4, 1)
-    assert r.data_final == datetime(2023, 6, 1)
-    r.data_final = datetime(2023, 5, 1)
+    assert r.data_inicio == datetime(2023, 3, 1)
+    r.data_inicio = datetime(2023, 4, 1)
+    assert r.data_fim == datetime(2023, 6, 1)
+    r.data_fim = datetime(2023, 5, 1)
     assert r.patamar == 1
     r.patamar = 2
     assert r.limite_inferior == 1000.0
@@ -248,10 +248,10 @@ def test_registro_rhv_horiz_per():
     assert r.data == [1, datetime(2023, 3, 1), datetime(2023, 6, 1)]
     assert r.codigo_restricao == 1
     r.codigo_restricao = 2
-    assert r.data_inicial == datetime(2023, 3, 1)
-    r.data_inicial = datetime(2021, 2, 1)
-    assert r.data_final == datetime(2023, 6, 1)
-    r.data_final = datetime(2022, 11, 1)
+    assert r.data_inicio == datetime(2023, 3, 1)
+    r.data_inicio = datetime(2021, 2, 1)
+    assert r.data_fim == datetime(2023, 6, 1)
+    r.data_fim = datetime(2022, 11, 1)
 
 
 def test_registro_rhv_lim_form_per():
@@ -270,10 +270,10 @@ def test_registro_rhv_lim_form_per():
     ]
     assert r.codigo_restricao == 1
     r.codigo_restricao = 2
-    assert r.data_inicial == datetime(2023, 3, 1)
-    r.data_inicial = datetime(2023, 4, 1)
-    assert r.data_final == datetime(2023, 6, 1)
-    r.data_final = datetime(2023, 5, 1)
+    assert r.data_inicio == datetime(2023, 3, 1)
+    r.data_inicio = datetime(2023, 4, 1)
+    assert r.data_fim == datetime(2023, 6, 1)
+    r.data_fim = datetime(2023, 5, 1)
     assert r.limite_inferior == 100.0
     r.limite_inferior = 150.0
     assert r.limite_superior == 100.0

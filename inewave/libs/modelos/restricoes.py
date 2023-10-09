@@ -18,13 +18,19 @@ class RegistroRE(Register):
     LINE = Line(
         [
             IntegerField(),
-            LiteralField(),
+            LiteralField(size=200),
         ],
         delimiter=";",
     )
 
     @property
     def codigo_restricao(self) -> Optional[int]:
+        """
+        O código da restrição.
+
+        :return: O código
+        :rtype: Optional[int]
+        """
         return self.data[0]
 
     @codigo_restricao.setter
@@ -33,6 +39,12 @@ class RegistroRE(Register):
 
     @property
     def formula(self) -> Optional[str]:
+        """
+        A fórmula da restrição.
+
+        :return: A fórmula
+        :rtype: Optional[str]
+        """
         return self.data[1]
 
     @formula.setter
@@ -59,6 +71,12 @@ class RegistroREHorizPer(Register):
 
     @property
     def codigo_restricao(self) -> Optional[int]:
+        """
+        O código da restrição.
+
+        :return: O código
+        :rtype: Optional[int]
+        """
         return self.data[0]
 
     @codigo_restricao.setter
@@ -66,19 +84,31 @@ class RegistroREHorizPer(Register):
         self.data[0] = c
 
     @property
-    def data_inicial(self) -> Optional[datetime]:
+    def data_inicio(self) -> Optional[datetime]:
+        """
+        A data de início da validade da restrição.
+
+        :return: A data
+        :rtype: Optional[datetime]
+        """
         return self.data[1]
 
-    @data_inicial.setter
-    def data_inicial(self, c: datetime):
+    @data_inicio.setter
+    def data_inicio(self, c: datetime):
         self.data[1] = c
 
     @property
-    def data_final(self) -> Optional[datetime]:
+    def data_fim(self) -> Optional[datetime]:
+        """
+        A data de fim da validade da restrição.
+
+        :return: A data
+        :rtype: Optional[datetime]
+        """
         return self.data[2]
 
-    @data_final.setter
-    def data_final(self, n: datetime):
+    @data_fim.setter
+    def data_fim(self, n: datetime):
         self.data[2] = n
 
 
@@ -104,6 +134,12 @@ class RegistroRELimFormPer(Register):
 
     @property
     def codigo_restricao(self) -> Optional[int]:
+        """
+        O código da restrição.
+
+        :return: O código
+        :rtype: Optional[int]
+        """
         return self.data[0]
 
     @codigo_restricao.setter
@@ -111,23 +147,41 @@ class RegistroRELimFormPer(Register):
         self.data[0] = c
 
     @property
-    def data_inicial(self) -> Optional[datetime]:
+    def data_inicio(self) -> Optional[datetime]:
+        """
+        A data de início da validade dos limites da restrição.
+
+        :return: A data
+        :rtype: Optional[datetime]
+        """
         return self.data[1]
 
-    @data_inicial.setter
-    def data_inicial(self, c: datetime):
+    @data_inicio.setter
+    def data_inicio(self, c: datetime):
         self.data[1] = c
 
     @property
-    def data_final(self) -> Optional[datetime]:
+    def data_fim(self) -> Optional[datetime]:
+        """
+        A data de fim da validade dos limites da restrição.
+
+        :return: A data
+        :rtype: Optional[datetime]
+        """
         return self.data[2]
 
-    @data_final.setter
-    def data_final(self, v: datetime):
+    @data_fim.setter
+    def data_fim(self, v: datetime):
         self.data[2] = v
 
     @property
     def patamar(self) -> Optional[int]:
+        """
+        O índice do patamar para os limites.
+
+        :return: O patamar
+        :rtype: Optional[int]
+        """
         return self.data[3]
 
     @patamar.setter
@@ -136,6 +190,12 @@ class RegistroRELimFormPer(Register):
 
     @property
     def limite_inferior(self) -> Optional[str]:
+        """
+        A equação que da o limite inferior da restrição.
+
+        :return: A equação
+        :rtype: Optional[str]
+        """
         return self.data[4]
 
     @limite_inferior.setter
@@ -144,6 +204,12 @@ class RegistroRELimFormPer(Register):
 
     @property
     def limite_superior(self) -> Optional[str]:
+        """
+        A equação que da o limite superior da restrição.
+
+        :return: A equação
+        :rtype: Optional[str]
+        """
         return self.data[5]
 
     @limite_superior.setter
@@ -169,6 +235,12 @@ class RegistroRHE(Register):
 
     @property
     def codigo_restricao(self) -> Optional[int]:
+        """
+        O código da restrição.
+
+        :return: O código
+        :rtype: Optional[int]
+        """
         return self.data[0]
 
     @codigo_restricao.setter
@@ -177,6 +249,12 @@ class RegistroRHE(Register):
 
     @property
     def formula(self) -> Optional[str]:
+        """
+        A fórmula da restrição.
+
+        :return: A fórmula
+        :rtype: Optional[str]
+        """
         return self.data[1]
 
     @formula.setter
@@ -203,6 +281,12 @@ class RegistroRHEHorizPer(Register):
 
     @property
     def codigo_restricao(self) -> Optional[int]:
+        """
+        O código da restrição.
+
+        :return: O código
+        :rtype: Optional[int]
+        """
         return self.data[0]
 
     @codigo_restricao.setter
@@ -210,19 +294,31 @@ class RegistroRHEHorizPer(Register):
         self.data[0] = c
 
     @property
-    def data_inicial(self) -> Optional[datetime]:
+    def data_inicio(self) -> Optional[datetime]:
+        """
+        A data de início da validade da restrição.
+
+        :return: A data
+        :rtype: Optional[datetime]
+        """
         return self.data[1]
 
-    @data_inicial.setter
-    def data_inicial(self, c: datetime):
+    @data_inicio.setter
+    def data_inicio(self, c: datetime):
         self.data[1] = c
 
     @property
-    def data_final(self) -> Optional[datetime]:
+    def data_fim(self) -> Optional[datetime]:
+        """
+        A data de fim da validade da restrição.
+
+        :return: A data
+        :rtype: Optional[datetime]
+        """
         return self.data[2]
 
-    @data_final.setter
-    def data_final(self, n: datetime):
+    @data_fim.setter
+    def data_fim(self, n: datetime):
         self.data[2] = n
 
 
@@ -246,6 +342,12 @@ class RegistroRHELsLPPEarmi(Register):
 
     @property
     def codigo_restricao(self) -> Optional[int]:
+        """
+        O código da restrição.
+
+        :return: O código
+        :rtype: Optional[int]
+        """
         return self.data[0]
 
     @codigo_restricao.setter
@@ -254,6 +356,12 @@ class RegistroRHELsLPPEarmi(Register):
 
     @property
     def indice_reta(self) -> Optional[int]:
+        """
+        O índice da reta que compõe a restrição.
+
+        :return: O índice da reta
+        :rtype: Optional[int]
+        """
         return self.data[1]
 
     @indice_reta.setter
@@ -262,6 +370,12 @@ class RegistroRHELsLPPEarmi(Register):
 
     @property
     def coeficiente_angular(self) -> Optional[float]:
+        """
+        O coeficiente angular da reta.
+
+        :return: O coeficiente
+        :rtype: Optional[float]
+        """
         return self.data[2]
 
     @coeficiente_angular.setter
@@ -270,6 +384,12 @@ class RegistroRHELsLPPEarmi(Register):
 
     @property
     def coeficiente_linear(self) -> Optional[float]:
+        """
+        O coeficiente linear da reta.
+
+        :return: O coeficiente
+        :rtype: Optional[float]
+        """
         return self.data[3]
 
     @coeficiente_linear.setter
@@ -295,6 +415,12 @@ class RegistroRHQ(Register):
 
     @property
     def codigo_restricao(self) -> Optional[int]:
+        """
+        O código da restrição.
+
+        :return: O código
+        :rtype: Optional[int]
+        """
         return self.data[0]
 
     @codigo_restricao.setter
@@ -303,6 +429,12 @@ class RegistroRHQ(Register):
 
     @property
     def formula(self) -> Optional[str]:
+        """
+        A fórmula da restrição.
+
+        :return: A fórmula
+        :rtype: Optional[str]
+        """
         return self.data[1]
 
     @formula.setter
@@ -329,6 +461,12 @@ class RegistroRHQHorizPer(Register):
 
     @property
     def codigo_restricao(self) -> Optional[int]:
+        """
+        O código da restrição.
+
+        :return: O código
+        :rtype: Optional[int]
+        """
         return self.data[0]
 
     @codigo_restricao.setter
@@ -336,19 +474,31 @@ class RegistroRHQHorizPer(Register):
         self.data[0] = c
 
     @property
-    def data_inicial(self) -> Optional[datetime]:
+    def data_inicio(self) -> Optional[datetime]:
+        """
+        A data de início da validade da restrição.
+
+        :return: A data
+        :rtype: Optional[datetime]
+        """
         return self.data[1]
 
-    @data_inicial.setter
-    def data_inicial(self, c: datetime):
+    @data_inicio.setter
+    def data_inicio(self, c: datetime):
         self.data[1] = c
 
     @property
-    def data_final(self) -> Optional[datetime]:
+    def data_fim(self) -> Optional[datetime]:
+        """
+        A data de fim da validade da restrição.
+
+        :return: A data
+        :rtype: Optional[datetime]
+        """
         return self.data[2]
 
-    @data_final.setter
-    def data_final(self, n: datetime):
+    @data_fim.setter
+    def data_fim(self, n: datetime):
         self.data[2] = n
 
 
@@ -372,6 +522,12 @@ class RegistroRHQLsLPPVoli(Register):
 
     @property
     def codigo_restricao(self) -> Optional[int]:
+        """
+        O código da restrição.
+
+        :return: O código
+        :rtype: Optional[int]
+        """
         return self.data[0]
 
     @codigo_restricao.setter
@@ -380,6 +536,12 @@ class RegistroRHQLsLPPVoli(Register):
 
     @property
     def indice_reta(self) -> Optional[int]:
+        """
+        O índice da reta que compõe a restrição.
+
+        :return: O índice da reta
+        :rtype: Optional[int]
+        """
         return self.data[1]
 
     @indice_reta.setter
@@ -388,6 +550,12 @@ class RegistroRHQLsLPPVoli(Register):
 
     @property
     def coeficiente_angular(self) -> Optional[float]:
+        """
+        O coeficiente angular da reta.
+
+        :return: O coeficiente
+        :rtype: Optional[float]
+        """
         return self.data[2]
 
     @coeficiente_angular.setter
@@ -396,6 +564,12 @@ class RegistroRHQLsLPPVoli(Register):
 
     @property
     def coeficiente_linear(self) -> Optional[float]:
+        """
+        O coeficiente linear da reta.
+
+        :return: O coeficiente
+        :rtype: Optional[float]
+        """
         return self.data[3]
 
     @coeficiente_linear.setter
@@ -425,6 +599,12 @@ class RegistroRHQLimFormPerPat(Register):
 
     @property
     def codigo_restricao(self) -> Optional[int]:
+        """
+        O código da restrição.
+
+        :return: O código
+        :rtype: Optional[int]
+        """
         return self.data[0]
 
     @codigo_restricao.setter
@@ -432,23 +612,41 @@ class RegistroRHQLimFormPerPat(Register):
         self.data[0] = c
 
     @property
-    def data_inicial(self) -> Optional[datetime]:
+    def data_inicio(self) -> Optional[datetime]:
+        """
+        A data de início da validade dos limites da restrição.
+
+        :return: A data
+        :rtype: Optional[datetime]
+        """
         return self.data[1]
 
-    @data_inicial.setter
-    def data_inicial(self, c: datetime):
+    @data_inicio.setter
+    def data_inicio(self, c: datetime):
         self.data[1] = c
 
     @property
-    def data_final(self) -> Optional[datetime]:
+    def data_fim(self) -> Optional[datetime]:
+        """
+        A data de fim da validade dos limites da restrição.
+
+        :return: A data
+        :rtype: Optional[datetime]
+        """
         return self.data[2]
 
-    @data_final.setter
-    def data_final(self, n: datetime):
+    @data_fim.setter
+    def data_fim(self, n: datetime):
         self.data[2] = n
 
     @property
     def patamar(self) -> Optional[int]:
+        """
+        O índice do patamar para os limites.
+
+        :return: O patamar.
+        :rtype: Optional[int]
+        """
         return self.data[3]
 
     @patamar.setter
@@ -457,6 +655,12 @@ class RegistroRHQLimFormPerPat(Register):
 
     @property
     def limite_inferior(self) -> Optional[float]:
+        """
+        O limite inferior para a restrição.
+
+        :return: O limite inferior
+        :rtype: Optional[float]
+        """
         return self.data[4]
 
     @limite_inferior.setter
@@ -465,6 +669,12 @@ class RegistroRHQLimFormPerPat(Register):
 
     @property
     def limite_superior(self) -> Optional[float]:
+        """
+        O limite superior para a restrição.
+
+        :return: O limite superior
+        :rtype: Optional[float]
+        """
         return self.data[5]
 
     @limite_superior.setter
@@ -490,6 +700,12 @@ class RegistroRHV(Register):
 
     @property
     def codigo_restricao(self) -> Optional[int]:
+        """
+        O código da restrição.
+
+        :return: O código
+        :rtype: Optional[int]
+        """
         return self.data[0]
 
     @codigo_restricao.setter
@@ -498,6 +714,12 @@ class RegistroRHV(Register):
 
     @property
     def formula(self) -> Optional[str]:
+        """
+        A fórmula da restrição.
+
+        :return: A fórmula
+        :rtype: Optional[str]
+        """
         return self.data[1]
 
     @formula.setter
@@ -524,6 +746,12 @@ class RegistroRHVHorizPer(Register):
 
     @property
     def codigo_restricao(self) -> Optional[int]:
+        """
+        O código da restrição.
+
+        :return: O código
+        :rtype: Optional[int]
+        """
         return self.data[0]
 
     @codigo_restricao.setter
@@ -531,19 +759,31 @@ class RegistroRHVHorizPer(Register):
         self.data[0] = c
 
     @property
-    def data_inicial(self) -> Optional[datetime]:
+    def data_inicio(self) -> Optional[datetime]:
+        """
+        A data de início da validade da restrição.
+
+        :return: A data
+        :rtype: Optional[datetime]
+        """
         return self.data[1]
 
-    @data_inicial.setter
-    def data_inicial(self, c: datetime):
+    @data_inicio.setter
+    def data_inicio(self, c: datetime):
         self.data[1] = c
 
     @property
-    def data_final(self) -> Optional[datetime]:
+    def data_fim(self) -> Optional[datetime]:
+        """
+        A data de fim da validade da restrição.
+
+        :return: A data
+        :rtype: Optional[datetime]
+        """
         return self.data[2]
 
-    @data_final.setter
-    def data_final(self, n: datetime):
+    @data_fim.setter
+    def data_fim(self, n: datetime):
         self.data[2] = n
 
 
@@ -568,6 +808,12 @@ class RegistroRHVLimFormPer(Register):
 
     @property
     def codigo_restricao(self) -> Optional[int]:
+        """
+        O código da restrição.
+
+        :return: O código
+        :rtype: Optional[int]
+        """
         return self.data[0]
 
     @codigo_restricao.setter
@@ -575,23 +821,41 @@ class RegistroRHVLimFormPer(Register):
         self.data[0] = c
 
     @property
-    def data_inicial(self) -> Optional[datetime]:
+    def data_inicio(self) -> Optional[datetime]:
+        """
+        A data de início da validade dos limites da restrição.
+
+        :return: A data
+        :rtype: Optional[datetime]
+        """
         return self.data[1]
 
-    @data_inicial.setter
-    def data_inicial(self, c: datetime):
+    @data_inicio.setter
+    def data_inicio(self, c: datetime):
         self.data[1] = c
 
     @property
-    def data_final(self) -> Optional[datetime]:
+    def data_fim(self) -> Optional[datetime]:
+        """
+        A data de fim da validade dos limites da restrição.
+
+        :return: A data
+        :rtype: Optional[datetime]
+        """
         return self.data[2]
 
-    @data_final.setter
-    def data_final(self, n: datetime):
+    @data_fim.setter
+    def data_fim(self, n: datetime):
         self.data[2] = n
 
     @property
     def limite_inferior(self) -> Optional[float]:
+        """
+        O limite inferior para a restrição.
+
+        :return: O limite inferior
+        :rtype: Optional[float]
+        """
         return self.data[3]
 
     @limite_inferior.setter
@@ -600,6 +864,12 @@ class RegistroRHVLimFormPer(Register):
 
     @property
     def limite_superior(self) -> Optional[float]:
+        """
+        O limite superior para a restrição.
+
+        :return: O limite superior
+        :rtype: Optional[float]
+        """
         return self.data[4]
 
     @limite_superior.setter

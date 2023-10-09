@@ -43,13 +43,6 @@ NEWAVE
    arquivos/parp
    arquivos/parpeol
    arquivos/parpvaz
-   arquivos/eolicacadastro
-   arquivos/eolicaconfiguracao
-   arquivos/eolicasubmercado
-   arquivos/eolicafte
-   arquivos/eolicaposto
-   arquivos/eolicahistorico
-   arquivos/eolicageracao
    arquivos/energiaf
    arquivos/energiab
    arquivos/energias
@@ -66,7 +59,3 @@ NEWAVE
    arquivos/avl_cortesfpha_nwv
    arquivos/avl_desvfpha_s
    arquivos/avl_desvfpha_v_q
-   arquivos/restricaoenergia
-   arquivos/restricaovazao
-   arquivos/restricaoeletrica
-

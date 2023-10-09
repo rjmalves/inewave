@@ -304,8 +304,8 @@ class UsinasHidreletricas(RegisterFile):
     def estacao_bombeamento_limites_periodo_patamar(
         self,
         codigo_estacao: Optional[int] = None,
-        data_inicial: Optional[datetime] = None,
-        data_final: Optional[datetime] = None,
+        data_inicio: Optional[datetime] = None,
+        data_fim: Optional[datetime] = None,
         patamar: Optional[int] = None,
         df: bool = False,
     ) -> Optional[
@@ -325,8 +325,8 @@ class UsinasHidreletricas(RegisterFile):
         return self.__registros_ou_df(
             EstacaoBombeamentoLimitesPeriodoPatamar,
             codigo_estacao=codigo_estacao,
-            data_inicial=data_inicial,
-            data_final=data_final,
+            data_inicio=data_inicio,
+            data_fim=data_fim,
             patamar=patamar,
             df=df,
         )
