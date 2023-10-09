@@ -37,11 +37,11 @@ class AvlDesvFphaVQ(BlockFile):
         """
         if self.__df_completo is None:
             tabelas = self.data.of_type(TabelaAvlDesvFphaVQ)
-            self.__df_completo = pd.DataFrame()
-            for t in tabelas:
-                self.__df_completo = pd.concat(
-                    [self.__df_completo, t.data], ignore_index=True
-                )
+            tabelas_validas = [t.data for t in tabelas if t is not None]
+            self.__df_completo = pd.concat(
+                [t for t in tabelas_validas if isinstance(t, pd.DataFrame)],
+                ignore_index=True,
+            )
         return self.__df_completo
 
     @property
