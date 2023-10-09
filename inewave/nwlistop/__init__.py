@@ -1,8 +1,15 @@
 # Inclui os membros
 
 from .nwlistopdat import Nwlistopdat  # noqa
+from .c_v_rhq_s import CVRHQs  # noqa
+from .c_v_rhq import CVRHQ  # noqa
+from .c_v_rhv_s import CVRHVs  # noqa
+from .c_v_rhv import CVRHV  # noqa
+from .cbomb import Cbomb  # noqa
+from .cbombsin import Cbombsin  # noqa
 from .cdef import Cdef  # noqa
 from .cdefsin import Cdefsin  # noqa
+from .celetricas import Celetricas  # noqa
 from .cmarg import Cmarg  # noqa
 from .cmargmed import Cmargmed  # noqa
 from .coper import Coper  # noqa
@@ -11,6 +18,7 @@ from .cterm import Cterm  # noqa
 from .ctermsin import Ctermsin  # noqa
 from .deficit import Def  # noqa
 from .defsin import Defsin  # noqa
+from .deletricas import Deletricas  # noqa
 from .depminuh import Depminuh  # noqa
 from .desvuh import Desvuh  # noqa
 from .dfphauh import Dfphauh  # noqa
@@ -33,6 +41,8 @@ from .evertm import Evertm  # noqa
 from .evertsin import Evertsin  # noqa
 from .exces import Exces  # noqa
 from .excessin import Excessin  # noqa
+from .form_rhq import FormRHQ  # noqa
+from .form_rhv import FormRHV  # noqa
 from .fteolm import Fteolm  # noqa
 from .fteolsin import Fteolsin  # noqa
 from .eaf import Eaf  # noqa
@@ -50,6 +60,8 @@ from .geol import Geol  # noqa
 from .geolm import Geolm  # noqa
 from .geolsin import Geolsin  # noqa
 from .ghiduh import Ghiduh  # noqa
+from .ghmax_fpha import GhmaxFpha  # noqa
+from .ghmax_fphc import GhmaxFphc  # noqa
 from .ghmax import Ghmax  # noqa
 from .ghmaxm import Ghmaxm  # noqa
 from .ghmaxmr import Ghmaxmr  # noqa
@@ -81,6 +93,8 @@ from .mevminsin import Mevminsin  # noqa
 from .perdf import Perdf  # noqa
 from .perdfm import Perdfm  # noqa
 from .perdfsin import Perdfsin  # noqa
+from .pivarm import Pivarm  # noqa
+from .pivarmincr import Pivarmincr  # noqa
 from .qafluh import Qafluh  # noqa
 from .qincruh import Qincruh  # noqa
 from .rhslppdf import Rhslppdf  # noqa
@@ -88,6 +102,7 @@ from .rhslpptb import Rhslpptb  # noqa
 from .vagua import Vagua  # noqa
 from .varmpuh import Varmpuh  # noqa
 from .varmuh import Varmuh  # noqa
+from .vbomb import Vbomb  # noqa
 from .vento import Vento  # noqa
 from .vertuh import Vertuh  # noqa
 from .verturb import Verturb  # noqa
@@ -100,6 +115,8 @@ from .vghmin import Vghmin  # noqa
 from .vghminm import Vghminm  # noqa
 from .vghminsin import Vghminsin  # noqa
 from .vghminuh import Vghminuh  # noqa
+from .viol_rhq import ViolRHQ  # noqa
+from .viol_rhv import ViolRHV  # noqa
 from .vturuh import Vturuh  # noqa
 from .vdesviouh import Vdesviouh  # noqa
 from .vmort import Vmort  # noqa

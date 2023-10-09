@@ -8,8 +8,15 @@ NWLISTOP
    :maxdepth: 2
 
    arquivos/nwlistopdat
+   arquivos/c_v_rhq_s
+   arquivos/c_v_rhq
+   arquivos/c_v_rhv_s
+   arquivos/c_v_rhv
+   arquivos/cbomb
+   arquivos/cbombsin
    arquivos/cdef
    arquivos/cdefsin
+   arquivos/celetricas
    arquivos/cmarg
    arquivos/cmargmed
    arquivos/coper
@@ -18,6 +25,7 @@ NWLISTOP
    arquivos/ctermsin
    arquivos/deficit
    arquivos/defsin
+   arquivos/deletricas
    arquivos/depminuh
    arquivos/desvuh
    arquivos/dfphauh
@@ -52,6 +60,8 @@ NWLISTOP
    arquivos/evertsin
    arquivos/exces
    arquivos/excessin
+   arquivos/form_rhq
+   arquivos/form_rhv
    arquivos/fteolm
    arquivos/fteolsin
    arquivos/geol
@@ -60,6 +70,9 @@ NWLISTOP
    arquivos/ghidr
    arquivos/ghidrm
    arquivos/ghidrsin
+   arquivos/ghiduh
+   arquivos/ghmax_fpha
+   arquivos/ghmax_fphc
    arquivos/ghmax
    arquivos/ghmaxr
    arquivos/ghmaxm
@@ -89,6 +102,7 @@ NWLISTOP
    arquivos/perdfm
    arquivos/perdfsin
    arquivos/pivarm
+   arquivos/pivarmincr
    arquivos/qafluh
    arquivos/qincruh
    arquivos/rhslppdf
@@ -96,6 +110,7 @@ NWLISTOP
    arquivos/vagua
    arquivos/varmuh
    arquivos/varmpuh
+   arquivos/vbomb
    arquivos/vdesviouh
    arquivos/vento
    arquivos/vertuh
@@ -109,8 +124,9 @@ NWLISTOP
    arquivos/vghminm
    arquivos/vghminsin
    arquivos/vghminuh
+   arquivos/viol_rhq
+   arquivos/viol_rhv
    arquivos/vmort
    arquivos/vmortm
    arquivos/vmortsin
-   arquivos/ghiduh
    arquivos/vturuh
