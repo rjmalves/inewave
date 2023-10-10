@@ -733,3 +733,102 @@ class EstacaoBombeamentoSubmercado(Register):
     @codigo_submercado.setter
     def codigo_submercado(self, c: int):
         self.data[1] = c
+
+
+class VolumeReferencialTipoPadrao(Register):
+    """ """
+
+    IDENTIFIER = "VOLUME-REFERENCIAL-TIPO-PADRAO"
+    IDENTIFIER_DIGITS = 30
+    LINE = Line(
+        [
+            IntegerField(),
+        ],
+        delimiter=";",
+    )
+
+    @property
+    def tipo_referencia(self) -> Optional[int]:
+        """
+        O tipo de volume de referência adotado.
+
+        :return: O tipo de volume
+        :rtype: int | None
+        """
+        return self.data[0]
+
+    @tipo_referencia.setter
+    def tipo_referencia(self, c: int):
+        self.data[0] = c
+
+
+class VolumeReferencialPeriodo(Register):
+    """ """
+
+    IDENTIFIER = "CADH-VOL-REF-PER"
+    IDENTIFIER_DIGITS = 16
+    LINE = Line(
+        [
+            IntegerField(),
+            DatetimeField(size=7, format="%Y/%m"),
+            DatetimeField(size=7, format="%Y/%m"),
+            FloatField(size=15, decimal_digits=2),
+        ],
+        delimiter=";",
+    )
+
+    @property
+    def codigo_usina(self) -> Optional[int]:
+        """
+        O código da usina
+
+        :return: O código
+        :rtype: int | None
+        """
+        return self.data[0]
+
+    @codigo_usina.setter
+    def codigo_usina(self, c: int):
+        self.data[0] = c
+
+    @property
+    def data_inicio(self) -> Optional[datetime]:
+        """
+        A data de início da validade do volume de referência.
+
+        :return: A data
+        :rtype: datetime | None
+        """
+        return self.data[1]
+
+    @data_inicio.setter
+    def data_inicio(self, c: datetime):
+        self.data[1] = c
+
+    @property
+    def data_fim(self) -> Optional[datetime]:
+        """
+        A data de fim da validade do volume de referência.
+
+        :return: A data
+        :rtype: datetime | None
+        """
+        return self.data[2]
+
+    @data_fim.setter
+    def data_fim(self, v: datetime):
+        self.data[2] = v
+
+    @property
+    def volume_referencia(self) -> Optional[float]:
+        """
+        O volume de referência da usina.
+
+        :return: O volume
+        :rtype: float | None
+        """
+        return self.data[3]
+
+    @volume_referencia.setter
+    def volume_referencia(self, c: float):
+        self.data[3] = c

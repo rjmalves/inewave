@@ -10,6 +10,8 @@ from inewave.libs.usinas_hidreletricas import (
     EstacaoBombeamento,
     EstacaoBombeamentoLimitesPeriodoPatamar,
     EstacaoBombeamentoSubmercado,
+    VolumeReferencialTipoPadrao,
+    VolumeReferencialPeriodo,
 )
 from tests.mocks.mock_open import mock_open
 from unittest.mock import MagicMock, patch
@@ -25,6 +27,8 @@ from tests.mocks.arquivos.usinas_hidreletricas import (
     MockEstacaoBombeamento,
     MockEstacaoBombeamentoLimitesPeriodoPatamar,
     MockEstacaoBombeamentoSubmercado,
+    MockVolumeReferencialPadrao,
+    MockVolumeReferencialPeriodo,
     MockUsinasHidreletricas,
 )
 
@@ -382,6 +386,41 @@ def test_registro_estacao_bombeamento_submercado():
     assert r.codigo_submercado == 2
 
 
+def test_registro_volume_referencial_tipo_padrao():
+    m: MagicMock = mock_open(read_data="".join(MockVolumeReferencialPadrao))
+    r = VolumeReferencialTipoPadrao()
+    with patch("builtins.open", m):
+        with open("", "") as fp:
+            r.read(fp)
+
+    assert r.data == [1]
+    assert r.tipo_referencia == 1
+    r.tipo_referencia = 2
+    assert r.tipo_referencia == 2
+
+
+def test_registro_volume_referencial_periodo():
+    m: MagicMock = mock_open(read_data="".join(MockVolumeReferencialPeriodo))
+    r = VolumeReferencialPeriodo()
+    with patch("builtins.open", m):
+        with open("", "") as fp:
+            r.read(fp)
+
+    assert r.data == [4, datetime(2023, 4, 1), None, 266.0]
+    assert r.codigo_usina == 4
+    r.codigo_usina = 5
+    assert r.codigo_usina == 5
+    assert r.data_inicio == datetime(2023, 4, 1)
+    r.data_inicio = datetime(2023, 5, 1)
+    assert r.data_inicio == datetime(2023, 5, 1)
+    assert r.data_fim is None
+    r.data_fim = datetime(2023, 6, 1)
+    assert r.data_fim == datetime(2023, 6, 1)
+    assert r.volume_referencia == 266.0
+    r.volume_referencia = 0.0
+    assert r.volume_referencia == 0.0
+
+
 def test_atributos_encontrados():
     m: MagicMock = mock_open(read_data="".join(MockUsinasHidreletricas))
     with patch("builtins.open", m):
@@ -402,6 +441,8 @@ def test_atributos_encontrados():
         assert uhes.estacao_bombeamento() is not None
         assert uhes.estacao_bombeamento_limites_periodo_patamar() is not None
         assert uhes.estacao_bombeamento_submercado() is not None
+        assert uhes.volume_referencial_tipo_padrao() is not None
+        assert uhes.volume_referencial_periodo() is not None
 
 
 def test_eq():
