@@ -45,3 +45,9 @@ para cada um.
 
 .. autoclass:: HidreletricaPerdaHidraulicaGrade
    :members:
+
+.. autoclass:: VolumeReferencialTipoPadrao
+   :members:
+
+.. autoclass:: VolumeReferencialPeriodo
+   :members:

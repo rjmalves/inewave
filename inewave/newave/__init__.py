@@ -45,6 +45,7 @@ from .tecno import Tecno  # noqa
 from .term import Term  # noqa
 from .vazoes import Vazoes  # noqa
 from .vazpast import Vazpast  # noqa
+from .volref_saz import VolrefSaz  # noqa
 from .avl_cortesfpha_nwv import AvlCortesFpha  # noqa
 from .avl_desvfpha_s import AvlDesvFphaS  # noqa
 from .avl_desvfpha_v_q import AvlDesvFphaVQ  # noqa

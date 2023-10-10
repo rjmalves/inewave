@@ -14,6 +14,8 @@ from inewave.libs.modelos.usinas_hidreletricas import (
     EstacaoBombeamento,
     HidreletricaProdutibilidadeEspecificaGrade,
     HidreletricaPerdaHidraulicaGrade,
+    VolumeReferencialTipoPadrao,
+    VolumeReferencialPeriodo,
 )
 
 
@@ -36,6 +38,8 @@ class UsinasHidreletricas(RegisterFile):
         EstacaoBombeamentoLimitesPeriodoPatamar,
         EstacaoBombeamentoSubmercado,
         EstacaoBombeamento,
+        VolumeReferencialTipoPadrao,
+        VolumeReferencialPeriodo,
     ]
 
     def __registros_ou_df(
@@ -321,6 +325,12 @@ class UsinasHidreletricas(RegisterFile):
 
         :param codigo_estacao: código da estação associada
         :type codigo_estacao: int | None
+        :param data_inicio: data de início da validade dos limites
+        :type data_inicio: datetime | None
+        :param data_fim: data de fim da validade dos limites
+        :type data_fim: datetime | None
+        :param patamar: patamar de validade dos limites
+        :type patamar: int | None
         """
         return self.__registros_ou_df(
             EstacaoBombeamentoLimitesPeriodoPatamar,
@@ -385,5 +395,55 @@ class UsinasHidreletricas(RegisterFile):
             nome_estacao=nome_estacao,
             codigo_usina_origem=codigo_usina_origem,
             codigo_usina_destino=codigo_usina_destino,
+            df=df,
+        )
+
+    def volume_referencial_tipo_padrao(
+        self,
+        df: bool = False,
+    ) -> Optional[
+        Union[
+            VolumeReferencialTipoPadrao,
+            List[VolumeReferencialTipoPadrao],
+            pd.DataFrame,
+        ]
+    ]:
+        """
+        Obtém registros que definem o tipo de volume de referência.
+        """
+        return self.__registros_ou_df(
+            VolumeReferencialTipoPadrao,
+            df=df,
+        )
+
+    def volume_referencial_periodo(
+        self,
+        codigo_usina: Optional[int] = None,
+        data_inicio: Optional[datetime] = None,
+        data_fim: Optional[datetime] = None,
+        df: bool = False,
+    ) -> Optional[
+        Union[
+            VolumeReferencialPeriodo,
+            List[VolumeReferencialPeriodo],
+            pd.DataFrame,
+        ]
+    ]:
+        """
+        Obtém registros que definem o volume de referência por perídoo
+        para cada usina hidrelétrica.
+
+        :param codigo_usina: código da usina associada
+        :type codigo_usina: int | None
+        :param data_inicio: data de início da validade da referência
+        :type data_inicio: datetime | None
+        :param data_fim: data de fim da validade da referência
+        :type data_fim: datetime | None
+        """
+        return self.__registros_ou_df(
+            VolumeReferencialPeriodo,
+            codigo_usina=codigo_usina,
+            data_inicio=data_inicio,
+            data_fim=data_fim,
             df=df,
         )
