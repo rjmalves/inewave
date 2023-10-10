@@ -52,6 +52,7 @@ NEWAVE
    arquivos/vazaof
    arquivos/vazaob
    arquivos/vazaos
+   arquivos/volref_saz
    arquivos/nwv_avl_evap
    arquivos/nwv_cortes_evap
    arquivos/nwv_eco_evap
