@@ -1,3 +1,11 @@
+# v1.5.0
+- Refactor da modelagem utilizada para dados provenientes das LIBS: criado o submódulo `libs`, de forma que o usuário possa realizar a importação com `from inewave.libs import ...`.
+- Modelagem de entidades das LIBS não é feita baseada nos arquivos fornecidos nos casos de exemplo das versões do modelo, mas sim baseado nas entidades envolvidas na informação, semelhante à divisão feita no site da documentação oficial [LIBS](https://see.cepel.br/manual/libs/latest/index.html)
+- Suporte aos arquivos e mnemônicos faltantes para ter suporte total à versão `28.16.1` do modelo NEWAVE
+- Novo arquivo de entrada suportados: `volref_saz.dat`
+- Novos dados das LIBS: restrições RHV e RHQ, produtibilidade e perdas variáveis, FPHA, polinjus.
+- Novos arquivos do NWLISTOP suportados: `c_v_rhqXXX.out`, `c_v_rhvXXX.out`, `cbombXXX.out`, `cbombsin.out`, `celetricas.out`, `deletricas.out`, `form_rhqXXX.out`, `form_rhvXXX.out`, `ghmax_fphaXXX.out`, `ghmax_fphcXXX.out`, `pivarmincrXXX.out`, `vbombXXX.out`, `viol_rhqXXX.out`, `viol_rhvXXX.out`.
+
 # v1.4.0
 - Suporte a arquivos do NWLISTOP necessários para fechamento de balanço hídrico de REE: `ghidrXXX.out`, `ghidrmXXX.out`, `ghidrsin.out`, `edesvcXXX.out`, `edesvcmXXX.out`, `edesvcsin.out`,   `evapoXXX.out`, `evapomXXX.out`, `evaporsin.out`, `vmortXXX.out`, `vmortmXXX.out`, `vmortsin.out`, `mevminXXX.out`, `mevminmXXX.out`, `mevminsin.out`.
 
