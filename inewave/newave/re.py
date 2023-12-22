@@ -56,6 +56,7 @@ class Re(SectionFile):
         - ano_fim (`int`)
         - patamar (`int`)
         - restricao (`float`)
+        - motivo (`str`)
 
         :return: A tabela como um DataFrame.
         :rtype: pd.DataFrame | None

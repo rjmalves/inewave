@@ -1,3 +1,6 @@
+# v1.5.1
+- Fix nas colunas do DataFrame das restrições do arquivo `re.dat`
+
 # v1.5.0
 - Refactor da modelagem utilizada para dados provenientes das LIBS: criado o submódulo `libs`, de forma que o usuário possa realizar a importação com `from inewave.libs import ...`.
 - Modelagem de entidades das LIBS não é feita baseada nos arquivos fornecidos nos casos de exemplo das versões do modelo, mas sim baseado nas entidades envolvidas na informação, semelhante à divisão feita no site da documentação oficial [LIBS](https://see.cepel.br/manual/libs/latest/index.html)

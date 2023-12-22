@@ -149,7 +149,7 @@ class BlocoConfiguracaoRestricoesRE(Section):
                 "restricao",
             ]
             df = pd.DataFrame(tabela, columns=cols)
-            df["Motivo"] = motivos
+            df["motivo"] = motivos
             df = df.astype(
                 {
                     "conjunto": "int64",
