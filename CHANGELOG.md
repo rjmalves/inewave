@@ -1,3 +1,6 @@
+# v1.5.2
+- Fix na modelagem do arquivo `modif.dat` para listar as modificações de uma usina
+
 # v1.5.1
 - Fix nas colunas do DataFrame das restrições do arquivo `re.dat`
 
