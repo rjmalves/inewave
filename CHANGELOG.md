@@ -1,3 +1,6 @@
+# v1.5.3
+- Fix na modelagem do arquivo `modif.dat` para modelar de maneira "exata" os registros VOLMIN e VOLMAX, que possuem posição livre dos campos de dados, separados por espaços.
+
 # v1.5.2
 - Fix na modelagem do arquivo `modif.dat` para listar as modificações de uma usina
 
