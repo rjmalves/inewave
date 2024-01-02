@@ -258,6 +258,7 @@ def test_leitura_escrita_modif():
         linhas_escritas = [
             chamadas[i].args[0] for i in range(1, len(chamadas) - 1)
         ]
+
     m_releitura: MagicMock = mock_open(read_data="".join(linhas_escritas))
     with patch("builtins.open", m_releitura):
         cf2 = Modif.read(ARQ_TESTE)

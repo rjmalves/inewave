@@ -1,11 +1,69 @@
 from cfinterface.components.register import Register
 from cfinterface.components.line import Line
+from cfinterface.components.field import Field
 from cfinterface.components.integerfield import IntegerField
 from cfinterface.components.literalfield import LiteralField
 from cfinterface.components.floatfield import FloatField
 from cfinterface.components.datetimefield import DatetimeField
+from cfinterface.adapters.components.repository import factory
+from copy import deepcopy
 from datetime import datetime
-from typing import Optional
+from typing import Optional, IO
+
+
+class ModifRegister(Register):
+    """
+    Registro base para o arquivo modif.dat, que contém
+    características específicas deste arquivo:
+
+    - Possibilidade de ler uma linha assumindo que o conteúdo
+        de cada campo é separado por um número variável
+        de espaços.
+    - Capacidade de escrever uma linha assumindo uma formatação
+        constante para melhor visualização.
+
+    OBS: Atualmente só utilizados para registros VOLMIN e VOLMAX.
+    """
+
+    def __init__(
+        self,
+        previous=None,
+        next=None,
+        data=None,
+    ) -> None:
+        self.__identifier_field: Field = LiteralField(
+            self.__class__.IDENTIFIER_DIGITS, 0
+        )
+        self.__previous = previous
+        self.__next = next
+        if data is None:
+            self.__data = [None] * len(self.__class__.LINE.fields)
+        else:
+            self.__data = data
+
+    def read(self, file: IO, storage: str = "", *args, **kwargs) -> bool:
+        delimited_fields = [deepcopy(f) for f in self.__class__.LINE.fields]
+        line = Line(
+            [self.__identifier_field] + delimited_fields,
+            delimiter=" ",
+            storage=storage,
+        )
+        line_full_spaces = file.readline().strip()
+        line_parts = [p for p in line_full_spaces.split(" ") if len(p) > 0]
+        line_simple_spaces = " ".join(line_parts)
+        self.data = line.read(line_simple_spaces)[1:]
+        return True
+
+    def write(self, file: IO, storage: str = "", *args, **kwargs) -> bool:
+        if not self.empty:
+            line = Line(
+                [self.__identifier_field] + self.__class__.LINE.fields,
+                delimiter=self.__class__.LINE.delimiter,
+                storage=storage,
+            )
+            linedata = line.write([self.__class__.IDENTIFIER] + self.data)
+            factory(storage).write(file, linedata)
+        return True
 
 
 class USINA(Register):
@@ -46,7 +104,7 @@ class USINA(Register):
         self.data[1] = t
 
 
-class VOLMIN(Register):
+class VOLMIN(ModifRegister):
     """
     Registro que contém uma modificação de volume mínimo
     operativo para uma usina.
@@ -85,7 +143,7 @@ class VOLMIN(Register):
         self.data[1] = t
 
 
-class VOLMAX(Register):
+class VOLMAX(ModifRegister):
     """
     Registro que contém uma modificação de volume máximo
     operativo para uma usina.
