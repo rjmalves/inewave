@@ -1,3 +1,6 @@
+# v1.5.4
+- Fix na modelagem do arquivo `modif.dat` para modelar de maneira "exata" os demais registros suportados, exceto o registro USINA, devido ao campo de comentário com nome da usina permitir espaços.
+
 # v1.5.3
 - Fix na modelagem do arquivo `modif.dat` para modelar de maneira "exata" os registros VOLMIN e VOLMAX, que possuem posição livre dos campos de dados, separados por espaços.
 
