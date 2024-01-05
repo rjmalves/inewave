@@ -39,6 +39,7 @@ class ModifRegister(Register):
             self.__data = [None] * len(self.__class__.LINE.fields)
         else:
             self.__data = data
+        super().__init__(previous, next, data)
 
     def read(self, file: IO, storage: str = "", *args, **kwargs) -> bool:
         delimited_fields = [deepcopy(f) for f in self.__class__.LINE.fields]

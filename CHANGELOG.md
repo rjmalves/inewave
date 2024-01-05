@@ -1,3 +1,6 @@
+# v1.5.5
+- Fix na construção dos registros específicos do `modif.dat`, que não permitiam atribuir valores a propriedades de registros criados fora do contexto de leitura.
+
 # v1.5.4
 - Fix na modelagem do arquivo `modif.dat` para modelar de maneira "exata" os demais registros suportados, exceto o registro USINA, devido ao campo de comentário com nome da usina permitir espaços.
 

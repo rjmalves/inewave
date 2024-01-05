@@ -54,7 +54,11 @@ def test_registro_usina_modif():
 
     assert r.data == [1, "CAMARGOS"]
     assert r.codigo == 1
+    r.codigo = 2
+    assert r.codigo == 2
     assert r.nome == "CAMARGOS"
+    r.nome = "C1"
+    assert r.nome == "C1"
 
 
 def test_registro_vazmin_modif():
@@ -66,6 +70,8 @@ def test_registro_vazmin_modif():
 
     assert r.data == [34]
     assert r.vazao == 34
+    r.vazao = 50
+    assert r.vazao == 50
 
 
 def test_registro_vmaxt_modif():
@@ -77,8 +83,14 @@ def test_registro_vmaxt_modif():
 
     assert r.data == [12, 2021, 61.310, "'%'"]
     assert r.data_inicio == datetime(2021, 12, 1)
+    r.data_inicio = datetime(2022, 12, 1)
+    assert r.data_inicio == datetime(2022, 12, 1)
     assert r.volume == 61.310
+    r.volume = 50.0
+    assert r.volume == 50.0
     assert r.unidade == "'%'"
+    r.unidade = "'h'"
+    assert r.unidade == "'h'"
 
 
 def test_registro_vazmint_modif():
@@ -90,7 +102,11 @@ def test_registro_vazmint_modif():
 
     assert r.data == [10, 2021, 10.00]
     assert r.data_inicio == datetime(2021, 10, 1)
+    r.data_inicio = datetime(2022, 10, 1)
+    assert r.data_inicio == datetime(2022, 10, 1)
     assert r.vazao == 10.00
+    r.vazao = 5.0
+    assert r.vazao == 5.0
 
 
 def test_registro_volmin_modif():
@@ -102,6 +118,11 @@ def test_registro_volmin_modif():
 
     assert r.data == [15563.63, "'h'"]
     assert r.volume == 15563.63
+    r.volume = 15
+    assert r.volume == 15
+    assert r.unidade == "'h'"
+    r.unidade = "'%'"
+    assert r.unidade == "'%'"
 
 
 def test_registro_volmax_modif():
@@ -113,7 +134,11 @@ def test_registro_volmax_modif():
 
     assert r.data == [55.0, "'%'"]
     assert r.volume == 55.0
+    r.volume = 1000
+    assert r.volume == 1000
     assert r.unidade == "'%'"
+    r.unidade = "'h'"
+    assert r.unidade == "'h'"
 
 
 def test_registro_numcnj_modif():
@@ -125,6 +150,8 @@ def test_registro_numcnj_modif():
 
     assert r.data == [2]
     assert r.numero == 2
+    r.numero = 1
+    assert r.numero == 1
 
 
 def test_registro_nummaq_modif():
@@ -136,7 +163,11 @@ def test_registro_nummaq_modif():
 
     assert r.data == [2, 5]
     assert r.conjunto == 2
+    r.conjunto = 1
+    assert r.conjunto == 1
     assert r.numero_maquinas == 5
+    r.numero_maquinas = 10
+    assert r.numero_maquinas == 10
 
 
 def test_registro_vmint_modif():
@@ -148,8 +179,14 @@ def test_registro_vmint_modif():
 
     assert r.data == [10, 2021, 20.0, "'%'"]
     assert r.data_inicio == datetime(2021, 10, 1)
+    r.data_inicio = datetime(2022, 10, 1)
+    assert r.data_inicio == datetime(2022, 10, 1)
     assert r.volume == 20.0
+    r.volume = 10.0
+    assert r.volume == 10.0
     assert r.unidade == "'%'"
+    r.unidade = "'h'"
+    assert r.unidade == "'h'"
 
 
 def test_registro_vminp_modif():
@@ -161,8 +198,14 @@ def test_registro_vminp_modif():
 
     assert r.data == [10, 2021, 20.0, "'%'"]
     assert r.data_inicio == datetime(2021, 10, 1)
+    r.data_inicio = datetime(2022, 10, 1)
+    assert r.data_inicio == datetime(2022, 10, 1)
     assert r.volume == 20.0
+    r.volume = 10.0
+    assert r.volume == 10.0
     assert r.unidade == "'%'"
+    r.unidade = "'h'"
+    assert r.unidade == "'h'"
 
 
 def test_registro_cfuga_modif():
@@ -174,7 +217,11 @@ def test_registro_cfuga_modif():
 
     assert r.data == [10, 2021, 5.60]
     assert r.data_inicio == datetime(2021, 10, 1)
+    r.data_inicio = datetime(2022, 10, 1)
+    assert r.data_inicio == datetime(2022, 10, 1)
     assert r.nivel == 5.60
+    r.nivel = 10.0
+    assert r.nivel == 10.0
 
 
 def test_registro_cmont_modif():
@@ -186,7 +233,11 @@ def test_registro_cmont_modif():
 
     assert r.data == [10, 2021, 71.30]
     assert r.data_inicio == datetime(2021, 10, 1)
+    r.data_inicio = datetime(2022, 10, 1)
+    assert r.data_inicio == datetime(2022, 10, 1)
     assert r.nivel == 71.30
+    r.nivel = 10.0
+    assert r.nivel == 10.0
 
 
 def test_registro_vazmaxt_modif():
@@ -198,7 +249,11 @@ def test_registro_vazmaxt_modif():
 
     assert r.data == [1, 2020, 0.00]
     assert r.data_inicio == datetime(2020, 1, 1)
+    r.data_inicio = datetime(2022, 10, 1)
+    assert r.data_inicio == datetime(2022, 10, 1)
     assert r.vazao == 0.0
+    r.vazao = 5.0
+    assert r.vazao == 5.0
 
 
 def test_registro_turbmaxt_modif():
@@ -210,7 +265,11 @@ def test_registro_turbmaxt_modif():
 
     assert r.data == [1, 2020, 0.00]
     assert r.data_inicio == datetime(2020, 1, 1)
+    r.data_inicio = datetime(2022, 10, 1)
+    assert r.data_inicio == datetime(2022, 10, 1)
     assert r.turbinamento == 0.0
+    r.turbinamento = 5.0
+    assert r.turbinamento == 5.0
 
 
 def test_registro_turbmint_modif():
@@ -222,7 +281,11 @@ def test_registro_turbmint_modif():
 
     assert r.data == [1, 2020, 0.00]
     assert r.data_inicio == datetime(2020, 1, 1)
+    r.data_inicio = datetime(2022, 10, 1)
+    assert r.data_inicio == datetime(2022, 10, 1)
     assert r.turbinamento == 0.0
+    r.turbinamento = 5.0
+    assert r.turbinamento == 5.0
 
 
 def test_atributos_encontrados_modif():
