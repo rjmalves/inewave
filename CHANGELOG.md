@@ -1,3 +1,6 @@
+# v1.5.6
+- Fix na modelagem do arquivo `dger.dat`, na posição do campo de agregação da simulação final.
+
 # v1.5.5
 - Fix na construção dos registros específicos do `modif.dat`, que não permitiam atribuir valores a propriedades de registros criados fora do contexto de leitura.
 

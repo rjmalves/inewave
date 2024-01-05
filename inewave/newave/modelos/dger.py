@@ -1173,7 +1173,7 @@ class BlocoTipoSimFinal(Section):
             [
                 LiteralField(24, 0),
                 IntegerField(1, 24),
-                IntegerField(4, 26),
+                IntegerField(1, 28),
                 LiteralField(76, 31),
             ]
         )
