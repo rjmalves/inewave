@@ -7,17 +7,56 @@ from cfinterface.components.floatfield import FloatField
 from inewave.newave.modelos.blocos.tabelacsv import TabelaCSV
 
 
-class TabelaAvlCortesFpha(TabelaCSV):
+class TabelaAvlCortesFpha28(TabelaCSV):
     """
     Bloco com as informações dos cortes da função de produção para as
     UHEs do modelo NEWAVE.
     """
 
     BEGIN_PATTERN = "-----;-----;--------------;"
+
     LINE_MODEL = Line(
         [
             IntegerField(size=5),
             IntegerField(size=5),
+            LiteralField(size=14),
+            IntegerField(size=7),
+            FloatField(size=10, decimal_digits=6),
+            FloatField(size=16, decimal_digits=8),
+            FloatField(size=16, decimal_digits=8),
+            FloatField(size=16, decimal_digits=8),
+            FloatField(size=16, decimal_digits=8),
+            FloatField(size=16, decimal_digits=8),
+        ],
+        delimiter=";",
+    )
+    COLUMN_NAMES = [
+        "codigo_usina",
+        "periodo",
+        "nome_usina",
+        "indice_corte",
+        "fator_correcao",
+        "rhs_energia",
+        "coeficiente_volume_util_MW_hm3",
+        "coeficiente_vazao_turbinada_MW_m3s",
+        "coeficiente_vazao_vertida_MW_m3s",
+        "coeficiente_vazao_lateral_MW_m3s",
+    ]
+    END_PATTERN = ""
+
+
+class TabelaAvlCortesFpha(TabelaCSV):
+    """
+    Bloco com as informações dos cortes da função de produção para as
+    UHEs do modelo NEWAVE.
+    """
+
+    BEGIN_PATTERN = "----;----;--------------;-------;"
+
+    LINE_MODEL = Line(
+        [
+            IntegerField(size=4),
+            IntegerField(size=4),
             LiteralField(size=14),
             IntegerField(size=7),
             FloatField(size=10, decimal_digits=6),

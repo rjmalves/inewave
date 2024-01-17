@@ -1,4 +1,7 @@
-from inewave.newave.modelos.blocos.versaomodelo import VersaoModelo
+from inewave.newave.modelos.blocos.versaomodelo import (
+    VersaoModelo,
+    VersaoModeloLibs,
+)
 from inewave.newave.modelos.blocos.tabelacsv import TabelaCSV
 
 from cfinterface.components.block import Block
@@ -34,8 +37,11 @@ class ArquivoCSV(BlockFile):
         :rtype: str | None
         """
         b = self.data.get_blocks_of_type(VersaoModelo)
+        b_libs = self.data.get_blocks_of_type(VersaoModeloLibs)
         if isinstance(b, VersaoModelo):
             return b.data
+        elif isinstance(b_libs, VersaoModeloLibs):
+            return b_libs.data
         return None
 
     def _tabela(self) -> Optional[pd.DataFrame]:

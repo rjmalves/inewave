@@ -1,3 +1,6 @@
+# v1.5.7
+- Suporte à leitura do arquivo `avl_cortesfpha_nwv.csv`, que mudou de sintaxe na versão `28.16` do NEWAVE
+
 # v1.5.6
 - Fix na modelagem do arquivo `dger.dat`, na posição do campo de agregação da simulação final.
 

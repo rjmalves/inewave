@@ -1,5 +1,11 @@
-from inewave.newave.modelos.blocos.versaomodelo import VersaoModelo
-from inewave.newave.modelos.avl_cortesfpha_nwv import TabelaAvlCortesFpha
+from inewave.newave.modelos.blocos.versaomodelo import (
+    VersaoModelo,
+    VersaoModeloLibs,
+)
+from inewave.newave.modelos.avl_cortesfpha_nwv import (
+    TabelaAvlCortesFpha28,
+    TabelaAvlCortesFpha,
+)
 
 from inewave.newave.modelos.arquivoscsv.arquivocsv import ArquivoCSV
 from typing import Optional
@@ -12,7 +18,11 @@ class AvlCortesFpha(ArquivoCSV):
     do NEWAVE.
     """
 
-    BLOCKS = [VersaoModelo, TabelaAvlCortesFpha]
+    BLOCKS = [VersaoModeloLibs, TabelaAvlCortesFpha]
+    VERSIONS = {
+        "28": [VersaoModelo, TabelaAvlCortesFpha28],
+        "28.16": [VersaoModeloLibs, TabelaAvlCortesFpha],
+    }
 
     @property
     def tabela(self) -> Optional[pd.DataFrame]:
