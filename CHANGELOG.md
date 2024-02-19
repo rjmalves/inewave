@@ -1,3 +1,7 @@
+# v1.6.0
+- Suporte aos blocos com valores de penalidades por tipo de violação no arquivo `pmo.dat`
+- Suporte aos novos arquivos do `NWLISTOP` associados à evaporação: `vevapuhXXX.out`, `dpos_evapXXX.out`, `dneg_evapXXX.out` e ao arquivo `gh_fphexatXXX.out`.
+
 # v1.5.7
 - Suporte à leitura do arquivo `avl_cortesfpha_nwv.csv`, que mudou de sintaxe na versão `28.16` do NEWAVE
 
