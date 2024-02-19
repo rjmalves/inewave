@@ -9,6 +9,17 @@ from inewave.newave.modelos.pmo import BlocoCustoOperacaoTotalPMO
 from inewave.newave.modelos.pmo import BlocoProdutibilidadesConfiguracaoPMO
 from inewave.newave.modelos.pmo import BlocoEnergiaArmazenadaInicialPMO
 from inewave.newave.modelos.pmo import BlocoVolumeArmazenadoInicialPMO
+from inewave.newave.modelos.pmo import BlocoPenalidadeViolacaoOutrosUsosPMO
+from inewave.newave.modelos.pmo import BlocoPenalidadeViolacaoVazaoMinimaPMO
+from inewave.newave.modelos.pmo import BlocoPenalidadeViolacaoCurvaSegurancaPMO
+from inewave.newave.modelos.pmo import BlocoPenalidadeViolacaoFphaPMO
+from inewave.newave.modelos.pmo import BlocoPenalidadeViolacaoEvaporacaoPMO
+from inewave.newave.modelos.pmo import (
+    BlocoPenalidadeViolacaoTurbinamentoMaximoPMO,
+)
+from inewave.newave.modelos.pmo import (
+    BlocoPenalidadeViolacaoTurbinamentoMinimoPMO,
+)
 
 from cfinterface.files.blockfile import BlockFile
 from typing import TypeVar, Optional
@@ -43,6 +54,13 @@ class Pmo(BlockFile):
         BlocoProdutibilidadesConfiguracaoPMO,
         BlocoEnergiaArmazenadaInicialPMO,
         BlocoVolumeArmazenadoInicialPMO,
+        BlocoPenalidadeViolacaoOutrosUsosPMO,
+        BlocoPenalidadeViolacaoVazaoMinimaPMO,
+        BlocoPenalidadeViolacaoCurvaSegurancaPMO,
+        BlocoPenalidadeViolacaoFphaPMO,
+        BlocoPenalidadeViolacaoEvaporacaoPMO,
+        BlocoPenalidadeViolacaoTurbinamentoMaximoPMO,
+        BlocoPenalidadeViolacaoTurbinamentoMinimoPMO,
     ]
 
     @property
@@ -341,5 +359,146 @@ class Pmo(BlockFile):
         """
         b = self.data.get_blocks_of_type(BlocoProdutibilidadesConfiguracaoPMO)
         if isinstance(b, BlocoProdutibilidadesConfiguracaoPMO):
+            return b.data
+        return None
+
+    @property
+    def penalidade_violacao_outros_usos(self) -> Optional[pd.DataFrame]:
+        """
+        Tabela de penalidades aplicadas à violação de restrições de
+        outros usos da água.
+
+        - ree (`str`)
+        - data (`datetime`)
+        - valor (`float`)
+
+        :return: As penalidades em um DataFrame.
+        :rtype: pd.DataFrame | None
+        """
+        b = self.data.get_blocks_of_type(BlocoPenalidadeViolacaoOutrosUsosPMO)
+        if isinstance(b, BlocoPenalidadeViolacaoOutrosUsosPMO):
+            return b.data
+        return None
+
+    @property
+    def penalidade_violacao_vazao_minima(self) -> Optional[pd.DataFrame]:
+        """
+        Tabela de penalidades aplicadas à violação de restrições de
+        vazão mínima.
+
+        - ree (`str`)
+        - data (`datetime`)
+        - patamar (`int`)
+        - valor (`float`)
+
+        :return: As penalidades em um DataFrame.
+        :rtype: pd.DataFrame | None
+        """
+        b = self.data.get_blocks_of_type(BlocoPenalidadeViolacaoVazaoMinimaPMO)
+        if isinstance(b, BlocoPenalidadeViolacaoVazaoMinimaPMO):
+            return b.data
+        return None
+
+    @property
+    def penalidade_violacao_turbinamento_minimo(
+        self,
+    ) -> Optional[pd.DataFrame]:
+        """
+        Tabela de penalidades aplicadas à violação de restrições de
+        turbinamento mínimo.
+
+        - data (`datetime`)
+        - valor (`float`)
+
+        :return: As penalidades em um DataFrame.
+        :rtype: pd.DataFrame | None
+        """
+        b = self.data.get_blocks_of_type(
+            BlocoPenalidadeViolacaoTurbinamentoMinimoPMO
+        )
+        if isinstance(b, BlocoPenalidadeViolacaoTurbinamentoMinimoPMO):
+            return b.data
+        return None
+
+    @property
+    def penalidade_violacao_turbinamento_maximo(
+        self,
+    ) -> Optional[pd.DataFrame]:
+        """
+        Tabela de penalidades aplicadas à violação de restrições de
+        turbinamento máximo.
+
+        - data (`datetime`)
+        - valor (`float`)
+
+        :return: As penalidades em um DataFrame.
+        :rtype: pd.DataFrame | None
+        """
+        b = self.data.get_blocks_of_type(
+            BlocoPenalidadeViolacaoTurbinamentoMaximoPMO
+        )
+        if isinstance(b, BlocoPenalidadeViolacaoTurbinamentoMaximoPMO):
+            return b.data
+        return None
+
+    @property
+    def penalidade_violacao_curva(
+        self,
+    ) -> Optional[pd.DataFrame]:
+        """
+        Tabela de penalidades aplicadas à violação de restrições de
+        curva de segurança.
+
+        - ree (`str`)
+        - data (`datetime`)
+        - valor (`float`)
+
+        :return: As penalidades em um DataFrame.
+        :rtype: pd.DataFrame | None
+        """
+        b = self.data.get_blocks_of_type(
+            BlocoPenalidadeViolacaoCurvaSegurancaPMO
+        )
+        if isinstance(b, BlocoPenalidadeViolacaoCurvaSegurancaPMO):
+            return b.data
+        return None
+
+    @property
+    def penalidade_violacao_fpha(
+        self,
+    ) -> Optional[pd.DataFrame]:
+        """
+        Tabela de penalidades aplicadas à violação de restrições da
+        FPHA.
+
+        - ree (`str`)
+        - data (`datetime`)
+        - valor (`float`)
+
+        :return: As penalidades em um DataFrame.
+        :rtype: pd.DataFrame | None
+        """
+        b = self.data.get_blocks_of_type(BlocoPenalidadeViolacaoFphaPMO)
+        if isinstance(b, BlocoPenalidadeViolacaoFphaPMO):
+            return b.data
+        return None
+
+    @property
+    def penalidade_violacao_evaporacao(
+        self,
+    ) -> Optional[pd.DataFrame]:
+        """
+        Tabela de penalidades aplicadas à violação de restrições da
+        evaporação.
+
+        - ree (`str`)
+        - data (`datetime`)
+        - valor (`float`)
+
+        :return: As penalidades em um DataFrame.
+        :rtype: pd.DataFrame | None
+        """
+        b = self.data.get_blocks_of_type(BlocoPenalidadeViolacaoEvaporacaoPMO)
+        if isinstance(b, BlocoPenalidadeViolacaoEvaporacaoPMO):
             return b.data
         return None
