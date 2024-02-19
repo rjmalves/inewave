@@ -122,3 +122,6 @@ from .vdesviouh import Vdesviouh  # noqa
 from .vmort import Vmort  # noqa
 from .vmortm import Vmortm  # noqa
 from .vmortsin import Vmortsin  # noqa
+from .vevapuh import Vevapuh  # noqa
+from .dposevap import Dposevap  # noqa
+from .dnegevap import Dnegevap  # noqa

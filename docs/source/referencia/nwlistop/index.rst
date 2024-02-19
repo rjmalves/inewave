@@ -38,6 +38,8 @@ NWLISTOP
    arquivos/dtbmax
    arquivos/dtbmin
    arquivos/dvazmax
+   arquivos/dposevap
+   arquivos/dnegevap
    arquivos/eaf
    arquivos/eafm
    arquivos/eafb
@@ -73,6 +75,7 @@ NWLISTOP
    arquivos/ghiduh
    arquivos/ghmax_fpha
    arquivos/ghmax_fphc
+   arquivos/gh_fphexat
    arquivos/ghmax
    arquivos/ghmaxr
    arquivos/ghmaxm
@@ -130,3 +133,4 @@ NWLISTOP
    arquivos/vmortm
    arquivos/vmortsin
    arquivos/vturuh
+   arquivos/vevapuh
