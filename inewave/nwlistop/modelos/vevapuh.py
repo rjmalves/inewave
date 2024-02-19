@@ -1,7 +1,6 @@
 from inewave.config import MESES_DF
 
 from cfinterface.components.line import Line
-from cfinterface.components.literalfield import LiteralField
 from cfinterface.components.integerfield import IntegerField
 from cfinterface.components.floatfield import FloatField
 
