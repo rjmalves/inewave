@@ -862,3 +862,558 @@ class BlocoProdutibilidadesConfiguracaoPMO(Block):
             if "PRODUTIBILIDADES DOS RESERVATORIOS (MW/m3/s)" in linha:
                 df_acumuladas = self.__le_produtibilidade_acumulada(file)
                 df_acumuladas.set_index("nome_usina", inplace=True)
+
+
+class BlocoPenalidadeViolacaoOutrosUsosPMO(Block):
+    """
+    Bloco de informações de penalidades para violações de
+    outros usos da água.
+    """
+
+    BEGIN_PATTERN = "PENALIDADE POR VIOLACAO DOS OUTROS USOS DA AGUA "
+    END_PATTERN = ""
+
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
+        ree_field: List[Field] = [LiteralField(10, 7)]
+        pen_fields: List[Field] = [IntegerField(4, 2)] + [
+            FloatField(10, 9 + 10 * i, 2) for i in range(len(MESES_DF))
+        ]
+        self.__ree_line = Line(ree_field)
+        self.__pen_line = Line(pen_fields)
+
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoPenalidadeViolacaoOutrosUsosPMO):
+            return False
+        bloco: BlocoPenalidadeViolacaoOutrosUsosPMO = o
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
+            return False
+        else:
+            return self.data.equals(bloco.data)
+
+    # Override
+    def read(self, file: IO, *args, **kwargs):
+        def converte_tabela_em_df():
+            df = pd.DataFrame(
+                data={
+                    "ree": repete_vetor(rees),
+                    "data": prepara_vetor_anos_tabela(anos),
+                    "valor": tabela.flatten(),
+                }
+            )
+            return df
+
+        linha_ree = " REE: "
+        margem_tabela = " X-----------------"
+
+        # Pula as linhas iniciais
+        for _ in range(2):
+            file.readline()
+        # Variáveis auxiliares
+        anos: List[int] = []
+        rees: List[str] = []
+        tabela = np.zeros(
+            (MAX_REES * MAX_ANOS_ESTUDO, len(MESES_DF)), dtype=np.float64
+        )
+        i = 0
+        ree_atual = None
+        while True:
+            linha: str = file.readline()
+            # Confere se acabou
+            if margem_tabela in linha:
+                tabela = tabela[:i, :]
+                self.data = converte_tabela_em_df()
+                break
+            if linha_ree in linha:
+                dados_ree = self.__ree_line.read(linha)
+                ree_atual = dados_ree[0]
+                for _ in range(2):
+                    file.readline()
+                continue
+            if ree_atual:
+                if len(linha) < 3:
+                    ree_atual = None
+                    continue
+                # Lê mais uma linha
+                dados = self.__pen_line.read(linha)
+                rees.append(ree_atual)
+                anos.append(dados[0])
+                tabela[i, :] = dados[1:]
+                i += 1
+
+
+class BlocoPenalidadeViolacaoVazaoMinimaPMO(Block):
+    """
+    Bloco de informações de penalidades para violações de
+    vazão mínima.
+    """
+
+    BEGIN_PATTERN = "PENALIDADE POR VIOLACAO DE VAZAO MINIMA "
+    END_PATTERN = ""
+
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
+        ree_field: List[Field] = [LiteralField(10, 7)]
+        patamar_field: List[Field] = [IntegerField(1, 14)]
+        pen_fields: List[Field] = [IntegerField(4, 2)] + [
+            FloatField(10, 9 + 10 * i, 2) for i in range(len(MESES_DF))
+        ]
+        self.__ree_line = Line(ree_field)
+        self.__patamar_line = Line(patamar_field)
+        self.__pen_line = Line(pen_fields)
+
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoPenalidadeViolacaoVazaoMinimaPMO):
+            return False
+        bloco: BlocoPenalidadeViolacaoVazaoMinimaPMO = o
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
+            return False
+        else:
+            return self.data.equals(bloco.data)
+
+    # Override
+    def read(self, file: IO, *args, **kwargs):
+        def converte_tabela_em_df():
+            df = pd.DataFrame(
+                data={
+                    "ree": repete_vetor(rees),
+                    "data": prepara_vetor_anos_tabela(anos),
+                    "patamar": repete_vetor(patamares),
+                    "valor": tabela.flatten(),
+                }
+            )
+            return df
+
+        linha_ree = " REE: "
+        linha_patamar = " PATAMAR:   "
+        margem_tabela = " X-----------------"
+
+        # Pula as linhas iniciais
+        for _ in range(2):
+            file.readline()
+        # Variáveis auxiliares
+        anos: List[int] = []
+        rees: List[str] = []
+        patamares: List[int] = []
+        tabela = np.zeros(
+            (MAX_REES * MAX_ANOS_ESTUDO, len(MESES_DF)), dtype=np.float64
+        )
+        i = 0
+        ree_atual = None
+        patamar_atual = None
+        while True:
+            linha: str = file.readline()
+            # Confere se acabou
+            if margem_tabela in linha:
+                tabela = tabela[:i, :]
+                self.data = converte_tabela_em_df()
+                break
+            if linha_ree in linha:
+                dados_ree = self.__ree_line.read(linha)
+                ree_atual = dados_ree[0]
+                continue
+            if linha_patamar in linha:
+                dados_patamar = self.__patamar_line.read(linha)
+                patamar_atual = dados_patamar[0]
+                for _ in range(2):
+                    file.readline()
+                continue
+            if ree_atual and patamar_atual:
+                if len(linha) < 3:
+                    ree_atual = None
+                    patamar_atual = None
+                    continue
+                # Lê mais uma linha
+                dados = self.__pen_line.read(linha)
+                rees.append(ree_atual)
+                patamares.append(patamar_atual)
+                anos.append(dados[0])
+                tabela[i, :] = dados[1:]
+                i += 1
+
+
+class BlocoPenalidadeViolacaoCurvaSegurancaPMO(Block):
+    """
+    Bloco de informações de penalidades para violações da
+    curva-guia de segurança.
+    """
+
+    BEGIN_PATTERN = "PENALIDADE POR VIOLACAO DA CURVA GUIA DE SEGURANCA "
+    END_PATTERN = ""
+
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
+        ree_field: List[Field] = [LiteralField(10, 7)]
+        pen_fields: List[Field] = [IntegerField(4, 2)] + [
+            FloatField(10, 9 + 10 * i, 2) for i in range(len(MESES_DF))
+        ]
+        self.__ree_line = Line(ree_field)
+        self.__pen_line = Line(pen_fields)
+
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoPenalidadeViolacaoCurvaSegurancaPMO):
+            return False
+        bloco: BlocoPenalidadeViolacaoCurvaSegurancaPMO = o
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
+            return False
+        else:
+            return self.data.equals(bloco.data)
+
+    # Override
+    def read(self, file: IO, *args, **kwargs):
+        def converte_tabela_em_df():
+            df = pd.DataFrame(
+                data={
+                    "ree": repete_vetor(rees),
+                    "data": prepara_vetor_anos_tabela(anos),
+                    "valor": tabela.flatten(),
+                }
+            )
+            return df
+
+        linha_ree = " REE: "
+        margem_tabela = " X-----------------"
+
+        # Pula as linhas iniciais
+        for _ in range(2):
+            file.readline()
+        # Variáveis auxiliares
+        anos: List[int] = []
+        rees: List[str] = []
+        tabela = np.zeros(
+            (MAX_REES * MAX_ANOS_ESTUDO, len(MESES_DF)), dtype=np.float64
+        )
+        i = 0
+        ree_atual = None
+        while True:
+            linha: str = file.readline()
+            # Confere se acabou
+            if margem_tabela in linha:
+                tabela = tabela[:i, :]
+                self.data = converte_tabela_em_df()
+                break
+            if linha_ree in linha:
+                dados_ree = self.__ree_line.read(linha)
+                ree_atual = dados_ree[0]
+                for _ in range(2):
+                    file.readline()
+                continue
+            if ree_atual:
+                if len(linha) < 3:
+                    ree_atual = None
+                    continue
+                # Lê mais uma linha
+                dados = self.__pen_line.read(linha)
+                rees.append(ree_atual)
+                anos.append(dados[0])
+                tabela[i, :] = dados[1:]
+                i += 1
+
+
+class BlocoPenalidadeViolacaoFphaPMO(Block):
+    """
+    Bloco de informações de penalidades para violações da
+    FPHA.
+    """
+
+    BEGIN_PATTERN = "PENALIDADE POR VIOLACAO DA FPHA "
+    END_PATTERN = ""
+
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
+        ree_field: List[Field] = [LiteralField(10, 7)]
+        pen_fields: List[Field] = [IntegerField(4, 2)] + [
+            FloatField(10, 9 + 10 * i, 2) for i in range(len(MESES_DF))
+        ]
+        self.__ree_line = Line(ree_field)
+        self.__pen_line = Line(pen_fields)
+
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoPenalidadeViolacaoFphaPMO):
+            return False
+        bloco: BlocoPenalidadeViolacaoFphaPMO = o
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
+            return False
+        else:
+            return self.data.equals(bloco.data)
+
+    # Override
+    def read(self, file: IO, *args, **kwargs):
+        def converte_tabela_em_df():
+            df = pd.DataFrame(
+                data={
+                    "ree": repete_vetor(rees),
+                    "data": prepara_vetor_anos_tabela(anos),
+                    "valor": tabela.flatten(),
+                }
+            )
+            return df
+
+        linha_ree = " REE: "
+        margem_tabela = " X-----------------"
+
+        # Pula as linhas iniciais
+        for _ in range(2):
+            file.readline()
+        # Variáveis auxiliares
+        anos: List[int] = []
+        rees: List[str] = []
+        tabela = np.zeros(
+            (MAX_REES * MAX_ANOS_ESTUDO, len(MESES_DF)), dtype=np.float64
+        )
+        i = 0
+        ree_atual = None
+        while True:
+            linha: str = file.readline()
+            # Confere se acabou
+            if margem_tabela in linha:
+                tabela = tabela[:i, :]
+                self.data = converte_tabela_em_df()
+                break
+            if linha_ree in linha:
+                dados_ree = self.__ree_line.read(linha)
+                ree_atual = dados_ree[0]
+                for _ in range(2):
+                    file.readline()
+                continue
+            if ree_atual:
+                if len(linha) < 3:
+                    ree_atual = None
+                    continue
+                # Lê mais uma linha
+                dados = self.__pen_line.read(linha)
+                rees.append(ree_atual)
+                anos.append(dados[0])
+                tabela[i, :] = dados[1:]
+                i += 1
+
+
+class BlocoPenalidadeViolacaoEvaporacaoPMO(Block):
+    """
+    Bloco de informações de penalidades para violações da
+    evaporação.
+    """
+
+    BEGIN_PATTERN = "PENALIDADE POR VIOLACAO DA EVAPORACAO "
+    END_PATTERN = ""
+
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
+        ree_field: List[Field] = [LiteralField(10, 7)]
+        pen_fields: List[Field] = [IntegerField(4, 2)] + [
+            FloatField(10, 9 + 10 * i, 2) for i in range(len(MESES_DF))
+        ]
+        self.__ree_line = Line(ree_field)
+        self.__pen_line = Line(pen_fields)
+
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoPenalidadeViolacaoEvaporacaoPMO):
+            return False
+        bloco: BlocoPenalidadeViolacaoEvaporacaoPMO = o
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
+            return False
+        else:
+            return self.data.equals(bloco.data)
+
+    # Override
+    def read(self, file: IO, *args, **kwargs):
+        def converte_tabela_em_df():
+            df = pd.DataFrame(
+                data={
+                    "ree": repete_vetor(rees),
+                    "data": prepara_vetor_anos_tabela(anos),
+                    "valor": tabela.flatten(),
+                }
+            )
+            return df
+
+        linha_ree = " REE: "
+        margem_tabela = " X-----------------"
+
+        # Pula as linhas iniciais
+        for _ in range(2):
+            file.readline()
+        # Variáveis auxiliares
+        anos: List[int] = []
+        rees: List[str] = []
+        tabela = np.zeros(
+            (MAX_REES * MAX_ANOS_ESTUDO, len(MESES_DF)), dtype=np.float64
+        )
+        i = 0
+        ree_atual = None
+        while True:
+            linha: str = file.readline()
+            # Confere se acabou
+            if margem_tabela in linha:
+                tabela = tabela[:i, :]
+                self.data = converte_tabela_em_df()
+                break
+            if linha_ree in linha:
+                dados_ree = self.__ree_line.read(linha)
+                ree_atual = dados_ree[0]
+                for _ in range(2):
+                    file.readline()
+                continue
+            if ree_atual:
+                if len(linha) < 3:
+                    ree_atual = None
+                    continue
+                # Lê mais uma linha
+                dados = self.__pen_line.read(linha)
+                rees.append(ree_atual)
+                anos.append(dados[0])
+                tabela[i, :] = dados[1:]
+                i += 1
+
+
+class BlocoPenalidadeViolacaoTurbinamentoMaximoPMO(Block):
+    """
+    Bloco de informações de penalidades para violações de
+    turbinamento máximo.
+    """
+
+    BEGIN_PATTERN = "PENALIDADE POR VIOLACAO DE TURBINAMENTO MAXIMO "
+    END_PATTERN = ""
+
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
+        pen_fields: List[Field] = [IntegerField(4, 2)] + [
+            FloatField(10, 9 + 10 * i, 2) for i in range(len(MESES_DF))
+        ]
+        self.__pen_line = Line(pen_fields)
+
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoPenalidadeViolacaoTurbinamentoMaximoPMO):
+            return False
+        bloco: BlocoPenalidadeViolacaoTurbinamentoMaximoPMO = o
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
+            return False
+        else:
+            return self.data.equals(bloco.data)
+
+    # Override
+    def read(self, file: IO, *args, **kwargs):
+        def converte_tabela_em_df():
+            df = pd.DataFrame(
+                data={
+                    "data": prepara_vetor_anos_tabela(anos),
+                    "valor": tabela.flatten(),
+                }
+            )
+            return df
+
+        margem_tabela = " X-----------------"
+
+        # Pula as linhas iniciais
+        for _ in range(3):
+            file.readline()
+        # Variáveis auxiliares
+        anos: List[int] = []
+        tabela = np.zeros((MAX_ANOS_ESTUDO, len(MESES_DF)), dtype=np.float64)
+        i = 0
+        while True:
+            linha: str = file.readline()
+            # Confere se acabou
+            if margem_tabela in linha:
+                tabela = tabela[:i, :]
+                self.data = converte_tabela_em_df()
+                break
+            # Lê mais uma linha
+            dados = self.__pen_line.read(linha)
+            anos.append(dados[0])
+            tabela[i, :] = dados[1:]
+            i += 1
+
+
+class BlocoPenalidadeViolacaoTurbinamentoMinimoPMO(Block):
+    """
+    Bloco de informações de penalidades para violações de
+    turbinamento máximo.
+    """
+
+    BEGIN_PATTERN = "PENALIDADE POR VIOLACAO DE TURBINAMENTO MINIMO "
+    END_PATTERN = ""
+
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
+        pen_fields: List[Field] = [IntegerField(4, 2)] + [
+            FloatField(10, 9 + 10 * i, 2) for i in range(len(MESES_DF))
+        ]
+        self.__pen_line = Line(pen_fields)
+
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoPenalidadeViolacaoTurbinamentoMinimoPMO):
+            return False
+        bloco: BlocoPenalidadeViolacaoTurbinamentoMinimoPMO = o
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
+            return False
+        else:
+            return self.data.equals(bloco.data)
+
+    # Override
+    def read(self, file: IO, *args, **kwargs):
+        def converte_tabela_em_df():
+            df = pd.DataFrame(
+                data={
+                    "data": prepara_vetor_anos_tabela(anos),
+                    "valor": tabela.flatten(),
+                }
+            )
+            return df
+
+        margem_tabela = " X-----------------"
+
+        # Pula as linhas iniciais
+        for _ in range(3):
+            file.readline()
+        # Variáveis auxiliares
+        anos: List[int] = []
+        tabela = np.zeros((MAX_ANOS_ESTUDO, len(MESES_DF)), dtype=np.float64)
+        i = 0
+        while True:
+            linha: str = file.readline()
+            # Confere se acabou
+            if margem_tabela in linha:
+                tabela = tabela[:i, :]
+                self.data = converte_tabela_em_df()
+                break
+            # Lê mais uma linha
+            dados = self.__pen_line.read(linha)
+            anos.append(dados[0])
+            tabela[i, :] = dados[1:]
+            i += 1
