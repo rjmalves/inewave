@@ -153,6 +153,11 @@ class BlocoEafPastCfugaMedioPMO(Block):
             i += 1
 
 
+# TODO
+class BlocoEnergiaArmazenadaMaximaPMO(Block):
+    pass
+
+
 class BlocoEnergiaArmazenadaInicialPMO(Block):
     """
     Bloco de informações da energia armazenada inicial dos REE
@@ -822,7 +827,7 @@ class BlocoProdutibilidadesConfiguracaoPMO(Block):
         while True:
             linha = file.readline()
             # Verifica se acabou:
-            if "PRODUTIBILIDADES ACUMULADAS PARA CALCULO DE" in linha:
+            if "DADOS DE PENALIDADE POR PERIODO" in linha:
                 if cfg_atual != 0:
                     df_atual = self.__fecha_configuracao(
                         df_usinas,
