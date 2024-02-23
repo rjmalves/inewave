@@ -8,6 +8,7 @@ from inewave.newave.modelos.pmo import (
     BlocoCustoOperacaoPMO,
     BlocoCustoOperacaoTotalPMO,
     BlocoProdutibilidadesConfiguracaoPMO,
+    BlocoEnergiaArmazenadaMaximaPMO,
     BlocoEnergiaArmazenadaInicialPMO,
     BlocoVolumeArmazenadoInicialPMO,
     BlocoPenalidadeViolacaoOutrosUsosPMO,
@@ -37,6 +38,7 @@ from tests.mocks.arquivos.pmo import MockBlocoMARSPMOFinal
 from tests.mocks.arquivos.pmo import MockBlocoRiscoDeficitENSPMO
 from tests.mocks.arquivos.pmo import MockBlocoCustoOperacaoPMO
 from tests.mocks.arquivos.pmo import MockBlocoCustoOperacaoTotalPMO
+from tests.mocks.arquivos.pmo import MockBlocoEnergiaArmazenadaMaximaPMO
 from tests.mocks.arquivos.pmo import MockBlocoEnergiaArmazenadaInicialPMO
 from tests.mocks.arquivos.pmo import MockBlocoVolumeArmazenadoInicialPMO
 from tests.mocks.arquivos.pmo import MockPenalidadeViolacaoOutrosUsosPMO
@@ -83,6 +85,23 @@ def test_eafpast_cfuga_medio():
     assert b.data.iloc[0, 1] == 1
     assert b.data.iloc[0, 2] == 7196.96
     assert b.data.iloc[-1, -1] == 409.13
+
+
+def test_energia_armazenada_maxima():
+    m: MagicMock = mock_open(
+        read_data="".join(MockBlocoEnergiaArmazenadaMaximaPMO)
+    )
+    b = BlocoEnergiaArmazenadaMaximaPMO()
+    with patch("builtins.open", m):
+        with open("", "") as fp:
+            b.read(fp)
+
+    assert b.data.shape[0] == 720
+    assert b.data.shape[1] == 3
+    assert b.data.iloc[0, 0] == "SUDESTE"
+    assert b.data.iloc[0, 1] == 1
+    assert b.data.iloc[0, 2] == 50969.1
+    assert b.data.iloc[-1, -1] == 786.0
 
 
 def test_energia_armazenada_inicial():
@@ -338,6 +357,7 @@ def test_atributos_encontrados_pmo():
         assert pmo.custo_operacao_total is not None
         assert pmo.desvio_custo_operacao_total is not None
         assert pmo.produtibilidades_equivalentes is not None
+        assert pmo.energia_armazenada_maxima is not None
         assert pmo.energia_armazenada_inicial is not None
         assert pmo.volume_armazenado_inicial is not None
         assert pmo.penalidade_violacao_outros_usos is not None
@@ -358,6 +378,7 @@ def test_atributos_nao_encontrados_pmo():
         assert pmo.custo_operacao_total is None
         assert pmo.desvio_custo_operacao_total is None
         assert pmo.produtibilidades_equivalentes is None
+        assert pmo.energia_armazenada_maxima is None
         assert pmo.energia_armazenada_inicial is None
         assert pmo.volume_armazenado_inicial is None
         assert pmo.penalidade_violacao_outros_usos is None

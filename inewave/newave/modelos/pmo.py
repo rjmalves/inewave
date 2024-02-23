@@ -155,7 +155,73 @@ class BlocoEafPastCfugaMedioPMO(Block):
 
 # TODO
 class BlocoEnergiaArmazenadaMaximaPMO(Block):
-    pass
+    """
+    Bloco de informações da energia armazenada máxima dos REE
+    por configuração localizado no arquivo `pmo.dat`.
+    """
+
+    BEGIN_PATTERN = "ENERGIA ARMAZENAVEL MAXIMA POR REE"
+    END_PATTERN = ""
+
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
+
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoEnergiaArmazenadaMaximaPMO):
+            return False
+        bloco: BlocoEnergiaArmazenadaMaximaPMO = o
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
+            return False
+        else:
+            return self.data.equals(bloco.data)
+
+    # Override
+    def read(self, file: IO, *args, **kwargs):
+        def converte_tabela_em_df():
+            df = pd.DataFrame(
+                data={
+                    "nome_ree": np.tile(np.array(nomes), len(configuracoes)),
+                    "configuracao": np.repeat(
+                        np.array(configuracoes), len(nomes)
+                    ),
+                    "valor_MWmes": tabela_valores.flatten(),
+                }
+            )
+            return df
+
+        # Pula as linhas iniciais
+        for _ in range(4):
+            file.readline()
+
+        linha_nomes = file.readline()
+        nomes = [n.strip() for n in linha_nomes.split(" ") if len(n) > 2][1:]
+        num_rees = len(nomes)
+        linha_valores = Line(
+            [IntegerField(3, 5)]
+            + [FloatField(15, 8 + 15 * i, 1) for i in range(num_rees)]
+        )
+        tabela_valores = np.zeros(
+            (MAX_MESES_ESTUDO, num_rees), dtype=np.float64
+        )
+        configuracoes: List[int] = []
+        i = 0
+        while True:
+            linha = file.readline()
+            if len(linha) < 3:
+                tabela_valores = tabela_valores[:i, :]
+                self.data = converte_tabela_em_df()
+                break
+
+            dados_linha = linha_valores.read(linha)
+            configuracoes.append(dados_linha[0])
+            tabela_valores[i, :] = dados_linha[1:]
+
+            i += 1
 
 
 class BlocoEnergiaArmazenadaInicialPMO(Block):
