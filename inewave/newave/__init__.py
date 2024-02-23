@@ -53,3 +53,13 @@ from .eco_fpha import EcoFpha  # noqa
 from .nwv_avl_evap import NwvAvlEvap  # noqa
 from .nwv_cortes_evap import NwvCortesEvap  # noqa
 from .nwv_eco_evap import NwvEcoEvap  # noqa
+from .energiaf import Energiaf  # noqa
+from .energiab import Energiab  # noqa
+from .energias import Energias  # noqa
+from .enavazf import Enavazf  # noqa
+from .enavazb import Enavazb  # noqa
+from .engnat import Engnat  # noqa
+from .vazaof import Vazaof  # noqa
+from .vazaob import Vazaob  # noqa
+from .vazaos import Vazaos  # noqa
+from .vazinat import Vazinat  # noqa

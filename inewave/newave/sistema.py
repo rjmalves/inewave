@@ -130,8 +130,8 @@ class Sistema(SectionFile):
         Tabela com a geração das usinas não simuladas por fonte
         de geração.
 
-        - submercado (`int`)
-        - bloco (`int`)
+        - codigo_submercado (`int`)
+        - indice_bloco (`int`)
         - fonte (`str`)
         - data (`int`)
         - valor (`float`)

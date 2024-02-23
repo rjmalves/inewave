@@ -1,9 +1,11 @@
 import pandas as pd  # type: ignore
 
-from inewave.nwlistop.modelos.mediasmerc import LeituraMediasMerc
+from cfinterface.files.sectionfile import SectionFile
+
+from inewave.nwlistop.modelos.mediasmerc import TabelaMediasmerc
 
 
-class Mediasmerc:
+class Mediasmerc(SectionFile):
     """
     Armazena os dados das saídas referentes às médias de diversas variáveis
     agrupadas por submercado.
@@ -13,26 +15,23 @@ class Mediasmerc:
 
     """
 
-    def __init__(self, dados: pd.DataFrame):
-        self.__dados = dados
-
-    def __eq__(self, o: object) -> bool:
-        """
-        A igualdade entre Mediasmerc avalia todos os valores da tabela.
-        """
-        if not isinstance(o, Mediasmerc):
-            return False
-        m: Mediasmerc = o
-        return self.medias.equals(m.medias)
+    SECTIONS = [TabelaMediasmerc]
 
     @property
-    def medias(self) -> pd.DataFrame:
-        return self.__dados
+    def valores(self) -> pd.DataFrame:
+        """
+        Tabela com os valores de médias para as variáveis dos submercados.
 
-    @medias.setter
-    def medias(self, d: pd.DataFrame) -> pd.DataFrame:
-        self.__dados = d
+        - estagio (`int`)
+        - codigo_submercado (`int`)
+        - <variavel_1> (`float`)
+        - ...
+        - <variavel_n> (`float`)
 
-    @classmethod
-    def le_arquivo(cls, diretorio: str, nome_arquivo="MEDIAS-MERC.CSV"):
-        return cls(LeituraMediasMerc(diretorio).le_arquivo(nome_arquivo))
+        :return: A tabela como um DataFrame
+        :rtype: pd.DataFrame | None
+        """
+        b = self.data.get_sections_of_type(TabelaMediasmerc)
+        if isinstance(b, TabelaMediasmerc):
+            return b.data
+        return None

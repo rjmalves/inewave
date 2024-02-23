@@ -1,7 +1,7 @@
 # Imports do próprio módulo
 
 from inewave.config import MAX_ANOS_ESTUDO, MAX_ITERS, MAX_MESES_ESTUDO
-from inewave.config import MAX_REES
+from inewave.config import MAX_REES, MAX_UTES
 from inewave.config import MESES_DF
 
 # Imports de módulos externos
@@ -11,7 +11,7 @@ from cfinterface.components.field import Field
 from cfinterface.components.integerfield import IntegerField
 from cfinterface.components.literalfield import LiteralField
 from cfinterface.components.floatfield import FloatField
-from datetime import timedelta
+from datetime import timedelta, datetime
 import numpy as np  # type: ignore
 import pandas as pd  # type: ignore
 from typing import IO, List, Optional
@@ -153,6 +153,76 @@ class BlocoEafPastCfugaMedioPMO(Block):
             i += 1
 
 
+class BlocoEnergiaArmazenadaMaximaPMO(Block):
+    """
+    Bloco de informações da energia armazenada máxima dos REE
+    por configuração localizado no arquivo `pmo.dat`.
+    """
+
+    BEGIN_PATTERN = "ENERGIA ARMAZENAVEL MAXIMA POR REE"
+    END_PATTERN = ""
+
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
+
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoEnergiaArmazenadaMaximaPMO):
+            return False
+        bloco: BlocoEnergiaArmazenadaMaximaPMO = o
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
+            return False
+        else:
+            return self.data.equals(bloco.data)
+
+    # Override
+    def read(self, file: IO, *args, **kwargs):
+        def converte_tabela_em_df():
+            df = pd.DataFrame(
+                data={
+                    "nome_ree": np.tile(np.array(nomes), len(configuracoes)),
+                    "configuracao": np.repeat(
+                        np.array(configuracoes), len(nomes)
+                    ),
+                    "valor_MWmes": tabela_valores.flatten(),
+                }
+            )
+            return df
+
+        # Pula as linhas iniciais
+        for _ in range(4):
+            file.readline()
+
+        linha_nomes = file.readline()
+        nomes = [n.strip() for n in linha_nomes.split(" ") if len(n) > 2][1:]
+        num_rees = len(nomes)
+        linha_valores = Line(
+            [IntegerField(3, 5)]
+            + [FloatField(15, 8 + 15 * i, 1) for i in range(num_rees)]
+        )
+        tabela_valores = np.zeros(
+            (MAX_MESES_ESTUDO, num_rees), dtype=np.float64
+        )
+        configuracoes: List[int] = []
+        i = 0
+        while True:
+            linha = file.readline()
+            if len(linha) < 3:
+                tabela_valores = tabela_valores[:i, :]
+                self.data = converte_tabela_em_df()
+                break
+
+            dados_linha = linha_valores.read(linha)
+            configuracoes.append(dados_linha[0])
+            tabela_valores[i, :] = dados_linha[1:]
+
+            i += 1
+
+
 class BlocoEnergiaArmazenadaInicialPMO(Block):
     """
     Bloco de informações da energia armazenada inicial dos REE
@@ -275,6 +345,174 @@ class BlocoVolumeArmazenadoInicialPMO(Block):
             volume_percentual.append(dados[3])
 
         self.data = converte_tabela_em_df()
+
+
+class BlocoGeracaoMinimaUsinasTermicasPMO(Block):
+    """
+    Bloco de informações sobre a geração térmica mínima
+    por usina existentes no arquivo `pmo.dat`.
+    """
+
+    BEGIN_PATTERN = "GERACAO TERMICA MINIMA POR USINA"
+    END_PATTERN = ""
+
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
+        # Cria a estrutura de uma linha da tabela
+        self.__line = Line(
+            [IntegerField(6, 2), LiteralField(12, 9), IntegerField(7, 22)]
+            + [FloatField(7, 30 + 8 * i, 2) for i in range(12)]
+        )
+
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoGeracaoMinimaUsinasTermicasPMO):
+            return False
+        bloco: BlocoGeracaoMinimaUsinasTermicasPMO = o
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
+            return False
+        else:
+            return self.data.equals(bloco.data)
+
+    # Override
+    def read(self, file: IO, *args, **kwargs):
+        def converte_tabela_em_df():
+            cols_meses = [str(m) for m in range(1, 13)]
+            df = pd.DataFrame(tabela, columns=cols_meses)
+            df["codigo_usina"] = codigos_usinas
+            df["nome_usina"] = nomes_usinas
+            df["ano"] = anos
+            df = df.melt(
+                id_vars=["codigo_usina", "nome_usina", "ano"],
+                value_vars=cols_meses,
+                var_name="mes",
+                value_name="valor_MWmed",
+            )
+            df = df.astype({"mes": int})
+            df["data"] = df.apply(
+                lambda linha: datetime(linha["ano"], linha["mes"], 1), axis=1
+            )
+            return df.drop(columns=["ano", "mes"])
+
+        # Pula as linhas iniciais
+        for _ in range(6):
+            file.readline()
+        # Variáveis auxiliares
+        codigos_usinas: List[int] = []
+        nomes_usinas: List[str] = []
+        codigo_atual = 0
+        nome_atual = ""
+        anos: List[int] = []
+        tabela = np.zeros(
+            (MAX_ANOS_ESTUDO * MAX_UTES, len(MESES_DF)), dtype=np.float64
+        )
+        i = 0
+        while True:
+            linha: str = file.readline()
+            # Confere se acabou
+            if len(linha) < 3 or "X--------------------" in linha:
+                tabela = tabela[:i, :]
+                self.data = converte_tabela_em_df()
+                break
+            # Lê mais uma linha
+            dados = self.__line.read(linha)
+            if dados[0] is not None:
+                codigo_atual = dados[0]
+            if len(dados[1]) > 0:
+                nome_atual = dados[1]
+            codigos_usinas.append(codigo_atual)
+            nomes_usinas.append(nome_atual)
+            anos.append(dados[2])
+            tabela[i, :] = dados[3:]
+            i += 1
+
+
+class BlocoGeracaoMaximaUsinasTermicasPMO(Block):
+    """
+    Bloco de informações sobre a geração térmica máxima
+    por usina existentes no arquivo `pmo.dat`.
+    """
+
+    BEGIN_PATTERN = "GERACAO TERMICA MAXIMA POR USINA"
+    END_PATTERN = ""
+
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
+        # Cria a estrutura de uma linha da tabela
+        self.__line = Line(
+            [IntegerField(6, 2), LiteralField(12, 9), IntegerField(7, 22)]
+            + [FloatField(7, 30 + 8 * i, 2) for i in range(12)]
+        )
+
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoGeracaoMaximaUsinasTermicasPMO):
+            return False
+        bloco: BlocoGeracaoMaximaUsinasTermicasPMO = o
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
+            return False
+        else:
+            return self.data.equals(bloco.data)
+
+    # Override
+    def read(self, file: IO, *args, **kwargs):
+        def converte_tabela_em_df():
+            cols_meses = [str(m) for m in range(1, 13)]
+            df = pd.DataFrame(tabela, columns=cols_meses)
+            df["codigo_usina"] = codigos_usinas
+            df["nome_usina"] = nomes_usinas
+            df["ano"] = anos
+            df = df.melt(
+                id_vars=["codigo_usina", "nome_usina", "ano"],
+                value_vars=cols_meses,
+                var_name="mes",
+                value_name="valor_MWmed",
+            )
+            df = df.astype({"mes": int})
+            df["data"] = df.apply(
+                lambda linha: datetime(linha["ano"], linha["mes"], 1), axis=1
+            )
+            return df.drop(columns=["ano", "mes"])
+
+        # Pula as linhas iniciais
+        for _ in range(6):
+            file.readline()
+        # Variáveis auxiliares
+        codigos_usinas: List[int] = []
+        nomes_usinas: List[str] = []
+        codigo_atual = 0
+        nome_atual = ""
+        anos: List[int] = []
+        tabela = np.zeros(
+            (MAX_ANOS_ESTUDO * MAX_UTES, len(MESES_DF)), dtype=np.float64
+        )
+        i = 0
+        while True:
+            linha: str = file.readline()
+            # Confere se acabou
+            if len(linha) < 3 or "X--------------------" in linha:
+                tabela = tabela[:i, :]
+                self.data = converte_tabela_em_df()
+                break
+            # Lê mais uma linha
+            dados = self.__line.read(linha)
+            if dados[0] is not None:
+                codigo_atual = dados[0]
+            if len(dados[1]) > 0:
+                nome_atual = dados[1]
+            codigos_usinas.append(codigo_atual)
+            nomes_usinas.append(nome_atual)
+            anos.append(dados[2])
+            tabela[i, :] = dados[3:]
+            i += 1
 
 
 class BlocoConvergenciaPMO(Block):
@@ -822,7 +1060,9 @@ class BlocoProdutibilidadesConfiguracaoPMO(Block):
         while True:
             linha = file.readline()
             # Verifica se acabou:
-            if "PRODUTIBILIDADES ACUMULADAS PARA CALCULO DE" in linha:
+            if ("DADOS DE PENALIDADE POR PERIODO" in linha) or (
+                "PRODUTIBILIDADES ACUMULADAS PARA CALCULO DE" in linha
+            ):
                 if cfg_atual != 0:
                     df_atual = self.__fecha_configuracao(
                         df_usinas,

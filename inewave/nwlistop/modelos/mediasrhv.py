@@ -4,18 +4,18 @@ from typing import IO
 import pandas as pd  # type: ignore
 
 
-class TabelaMediasmerc(Section):
+class TabelaMediasrhv(Section):
     """
-    Bloco com o conteúdo da tabela existente no arquivo `MEDIAS-MERC.CSV`.
+    Bloco com o conteúdo da tabela existente no arquivo `MEDIAS-RHV.CSV`.
     """
 
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
 
     def __eq__(self, o: object) -> bool:
-        if not isinstance(o, TabelaMediasmerc):
+        if not isinstance(o, TabelaMediasrhv):
             return False
-        bloco: TabelaMediasmerc = o
+        bloco: TabelaMediasrhv = o
         if not all(
             [
                 isinstance(self.data, pd.DataFrame),
@@ -29,12 +29,12 @@ class TabelaMediasmerc(Section):
     # Override
     def read(self, file: IO, *args, **kwargs):
         tabela = pd.read_csv(file, skipinitialspace=True)
-        col_sbm = "SBM_ext"
-        tabela = tabela.rename(columns={col_sbm: "codigo_submercado"})
-        tabela = tabela.loc[tabela["codigo_submercado"] > 0]
+        col_rhv = "RHV_ext"
+        tabela = tabela.rename(columns={col_rhv: "codigo_restricao"})
+        tabela = tabela.loc[tabela["codigo_restricao"] > 0]
         cols = tabela.columns.tolist()
         df = tabela.drop(columns=[cols[-1]])
-        cols_id = ["VAR", "codigo_submercado"]
+        cols_id = ["VAR", "codigo_restricao"]
         cols_estagios = [c for c in df.columns.tolist() if c not in cols_id]
         df = df.melt(
             id_vars=cols_id,
@@ -45,7 +45,7 @@ class TabelaMediasmerc(Section):
         df["estagio"] = df["estagio"].astype(int)
         df["estagio"] -= df["estagio"].min() - 1
         df = df.pivot_table(
-            index=["estagio", "codigo_submercado"],
+            index=["estagio", "codigo_restricao"],
             columns="VAR",
             values="valor",
         ).reset_index()
