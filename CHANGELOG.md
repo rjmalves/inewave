@@ -1,3 +1,9 @@
+# 1.7.0
+- Suporte aos blocos de energia armazenada máxima por REE, geração térmica mínima e máxima por UTE no `pmo.dat` [#77](https://github.com/rjmalves/inewave/issues/77), [#76](https://github.com/rjmalves/inewave/issues/76)
+- Suporte ao arquivo `vazinat.dat` [#74](https://github.com/rjmalves/inewave/issues/74)
+- Refactor da leitura dos arquivos `MEDIAS-*` do NWLISTOP, com novo suporte aos `MEDIAS-REE`, `MEDIAS-USIH`, `MEDIAS-USIT`, `MEDIAS-USIE`, `MEDIAS-REP`, `MEDIAS-RHQ` e `MEDIAS-RHV` [#78](https://github.com/rjmalves/inewave/issues/78)
+- Atualizaçao da documentação das propriedades do modelo do `sistema.dat` [#70](https://github.com/rjmalves/inewave/issues/70)
+
 # v1.6.0
 - Suporte aos blocos com valores de penalidades por tipo de violação no arquivo `pmo.dat`
 - Suporte aos novos arquivos do `NWLISTOP` associados à evaporação: `vevapuhXXX.out`, `dpos_evapXXX.out`, `dneg_evapXXX.out` e ao arquivo `gh_fphexatXXX.out`.
