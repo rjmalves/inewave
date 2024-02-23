@@ -2,27 +2,29 @@ import pandas as pd  # type: ignore
 
 from cfinterface.files.sectionfile import SectionFile
 
-from inewave.nwlistop.modelos.mediassin import TabelaMediassin
+from inewave.nwlistop.modelos.mediasusie import TabelaMediasusie
 
 
-class Mediassin(SectionFile):
+class Mediasusie(SectionFile):
     """
     Armazena os dados das saídas referentes às médias de diversas variáveis
-    para o SIN.
+    de cada estação elevatória.
 
     Esta classe lida com as informações de saída fornecidas pelo
-    NWLISTOP e reproduzidas nos `MEDIAS-SIN.CSV`.
+    NWLISTOP e reproduzidas nos `MEDIAS-USIE.CSV`.
 
     """
 
-    SECTIONS = [TabelaMediassin]
+    SECTIONS = [TabelaMediasusie]
 
     @property
     def valores(self) -> pd.DataFrame:
         """
-        Tabela com os valores de médias para as variáveis do SIN.
+        Tabela com os valores de médias para as variáveis das estações
+        elevatórias.
 
         - estagio (`int`)
+        - codigo_usina (`int`)
         - <variavel_1> (`float`)
         - ...
         - <variavel_n> (`float`)
@@ -30,7 +32,7 @@ class Mediassin(SectionFile):
         :return: A tabela como um DataFrame
         :rtype: pd.DataFrame | None
         """
-        b = self.data.get_sections_of_type(TabelaMediassin)
-        if isinstance(b, TabelaMediassin):
+        b = self.data.get_sections_of_type(TabelaMediasusie)
+        if isinstance(b, TabelaMediasusie):
             return b.data
         return None

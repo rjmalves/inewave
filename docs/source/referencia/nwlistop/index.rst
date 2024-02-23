@@ -94,8 +94,15 @@ NWLISTOP
    arquivos/intercambio
    arquivos/invade
    arquivos/invadem
-   arquivos/mediasmerc
    arquivos/mediassin
+   arquivos/mediasmerc
+   arquivos/mediasree
+   arquivos/mediasusih
+   arquivos/mediasusit
+   arquivos/mediasusie
+   arquivos/mediasrep
+   arquivos/mediasrhq
+   arquivos/mediasrhv
    arquivos/mercl
    arquivos/merclsin
    arquivos/mevmin

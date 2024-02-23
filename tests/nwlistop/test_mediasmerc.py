@@ -3,15 +3,11 @@ from inewave.nwlistop.mediasmerc import Mediasmerc
 import pandas as pd  # type: ignore
 
 
-leitor = Mediasmerc.le_arquivo("tests/_arquivos")
+ARQ_TESTE = "tests/_arquivos/MEDIAS-MERC.CSV"
 
 
 def test_eq_mediasmerc():
-    leitor2 = Mediasmerc.le_arquivo("tests/_arquivos")
+    leitor = Mediasmerc.read(ARQ_TESTE)
+    leitor2 = Mediasmerc.read(ARQ_TESTE)
     assert leitor == leitor2
-
-
-def test_neq_mediasmerc():
-    leitor2 = Mediasmerc.le_arquivo("tests/_arquivos")
-    leitor2.medias = pd.DataFrame()
-    assert leitor != leitor2
+    assert leitor.valores.shape == (228, 54)

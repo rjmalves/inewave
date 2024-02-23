@@ -83,8 +83,15 @@ from .hmont import Hmont  # noqa
 from .intercambio import Intercambio  # noqa
 from .invade import Invade  # noqa
 from .invadem import Invadem  # noqa
-from .mediasmerc import Mediasmerc  # noqa
 from .mediassin import Mediassin  # noqa
+from .mediasmerc import Mediasmerc  # noqa
+from .mediasree import Mediasree  # noqa
+from .mediasusih import Mediasusih  # noqa
+from .mediasusit import Mediasusit  # noqa
+from .mediasusie import Mediasusie  # noqa
+from .mediasrep import Mediasrep  # noqa
+from .mediasrhq import Mediasrhq  # noqa
+from .mediasrhv import Mediasrhv  # noqa
 from .mercl import Mercl  # noqa
 from .merclsin import Merclsin  # noqa
 from .mevmin import Mevmin  # noqa
