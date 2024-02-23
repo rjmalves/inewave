@@ -18,6 +18,8 @@ from inewave.newave.modelos.pmo import (
     BlocoPenalidadeViolacaoEvaporacaoPMO,
     BlocoPenalidadeViolacaoTurbinamentoMaximoPMO,
     BlocoPenalidadeViolacaoTurbinamentoMinimoPMO,
+    BlocoGeracaoMinimaUsinasTermicasPMO,
+    BlocoGeracaoMaximaUsinasTermicasPMO,
 )
 
 from inewave.newave import Pmo
@@ -51,6 +53,10 @@ from tests.mocks.arquivos.pmo import (
 )
 from tests.mocks.arquivos.pmo import (
     MockPenalidadeViolacaoTurbinamentoMaximoPMO,
+)
+from tests.mocks.arquivos.pmo import (
+    MockBlocoGeracaoMinimaUsinasTermicasPMO,
+    MockBlocoGeracaoMaximaUsinasTermicasPMO,
 )
 from tests.mocks.arquivos.pmo import MockPMO
 
@@ -338,6 +344,34 @@ def test_leitura_penalidades_violacao_turbinamento_maximo():
     assert b.data.iloc[-1, -1] == 842.25
 
 
+def test_leitura_geracao_termica_minima_usina():
+    m: MagicMock = mock_open(
+        read_data="".join(MockBlocoGeracaoMinimaUsinasTermicasPMO)
+    )
+    b = BlocoGeracaoMinimaUsinasTermicasPMO()
+    with patch("builtins.open", m):
+        with open("", "") as fp:
+            b.read(fp)
+
+    assert b.data.shape == (420, 4)
+    assert b.data.iloc[-1, -2] == 0.00
+    assert b.data.iloc[-1, -1] == datetime(2027, 12, 1)
+
+
+def test_leitura_geracao_termica_maxima_usina():
+    m: MagicMock = mock_open(
+        read_data="".join(MockBlocoGeracaoMaximaUsinasTermicasPMO)
+    )
+    b = BlocoGeracaoMaximaUsinasTermicasPMO()
+    with patch("builtins.open", m):
+        with open("", "") as fp:
+            b.read(fp)
+
+    assert b.data.shape == (60, 4)
+    assert b.data.iloc[-1, -2] == 558.02
+    assert b.data.iloc[-1, -1] == datetime(2027, 12, 1)
+
+
 def test_atributos_encontrados_pmo():
     m: MagicMock = mock_open(read_data="".join(MockPMO))
     with patch("builtins.open", m):
@@ -367,6 +401,8 @@ def test_atributos_encontrados_pmo():
         assert pmo.penalidade_violacao_evaporacao is not None
         assert pmo.penalidade_violacao_turbinamento_maximo is not None
         assert pmo.penalidade_violacao_turbinamento_minimo is not None
+        assert pmo.geracao_minima_usinas_termicas is not None
+        assert pmo.geracao_maxima_usinas_termicas is not None
 
 
 def test_atributos_nao_encontrados_pmo():
@@ -388,6 +424,8 @@ def test_atributos_nao_encontrados_pmo():
         assert pmo.penalidade_violacao_evaporacao is None
         assert pmo.penalidade_violacao_turbinamento_maximo is None
         assert pmo.penalidade_violacao_turbinamento_minimo is None
+        assert pmo.geracao_minima_usinas_termicas is None
+        assert pmo.geracao_maxima_usinas_termicas is None
 
 
 def test_eq_pmo():

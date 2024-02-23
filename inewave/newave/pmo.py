@@ -21,6 +21,10 @@ from inewave.newave.modelos.pmo import (
 from inewave.newave.modelos.pmo import (
     BlocoPenalidadeViolacaoTurbinamentoMinimoPMO,
 )
+from inewave.newave.modelos.pmo import (
+    BlocoGeracaoMinimaUsinasTermicasPMO,
+    BlocoGeracaoMaximaUsinasTermicasPMO,
+)
 
 from cfinterface.files.blockfile import BlockFile
 from typing import TypeVar, Optional
@@ -63,6 +67,8 @@ class Pmo(BlockFile):
         BlocoPenalidadeViolacaoEvaporacaoPMO,
         BlocoPenalidadeViolacaoTurbinamentoMaximoPMO,
         BlocoPenalidadeViolacaoTurbinamentoMinimoPMO,
+        BlocoGeracaoMinimaUsinasTermicasPMO,
+        BlocoGeracaoMaximaUsinasTermicasPMO,
     ]
 
     @property
@@ -520,4 +526,58 @@ class Pmo(BlockFile):
         b = self.data.get_blocks_of_type(BlocoPenalidadeViolacaoEvaporacaoPMO)
         if isinstance(b, BlocoPenalidadeViolacaoEvaporacaoPMO):
             return b.data
+        return None
+
+    @property
+    def geracao_minima_usinas_termicas(
+        self,
+    ) -> Optional[pd.DataFrame]:
+        """
+        Tabela de geração térmica mínima por usina térmica
+        existente no caso.
+
+        - codigo_usina (`int`)
+        - nome_usina (`str`)
+        - data (`datetime`)
+        - valor_MWmed (`float`)
+
+        :return: As gerações em um DataFrame.
+        :rtype: pd.DataFrame | None
+        """
+        b = self.data.get_blocks_of_type(BlocoGeracaoMinimaUsinasTermicasPMO)
+        cols = ["codigo_usina", "nome_usina", "data", "valor_MWmed"]
+        if isinstance(b, list):
+            df = pd.concat([b.data for b in b], ignore_index=True)
+            df = df.sort_values(by=["codigo_usina", "data"])
+            return df[cols]
+        elif isinstance(b, BlocoGeracaoMinimaUsinasTermicasPMO):
+            df = b.data.sort_values(by=["codigo_usina", "data"])
+            return df[cols]
+        return None
+
+    @property
+    def geracao_maxima_usinas_termicas(
+        self,
+    ) -> Optional[pd.DataFrame]:
+        """
+        Tabela de geração térmica máxima por usina térmica
+        existente no caso.
+
+        - codigo_usina (`int`)
+        - nome_usina (`str`)
+        - data (`datetime`)
+        - valor_MWmed (`float`)
+
+        :return: As gerações em um DataFrame.
+        :rtype: pd.DataFrame | None
+        """
+        b = self.data.get_blocks_of_type(BlocoGeracaoMaximaUsinasTermicasPMO)
+        cols = ["codigo_usina", "nome_usina", "data", "valor_MWmed"]
+        if isinstance(b, list):
+            df = pd.concat([b.data for b in b], ignore_index=True)
+            df = df.sort_values(by=["codigo_usina", "data"])
+            return df[cols]
+        elif isinstance(b, BlocoGeracaoMaximaUsinasTermicasPMO):
+            df = b.data.sort_values(by=["codigo_usina", "data"])
+            return df[cols]
         return None
