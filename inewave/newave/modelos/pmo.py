@@ -404,8 +404,8 @@ class BlocoGeracaoMinimaUsinasTermicasPMO(Block):
         # Variáveis auxiliares
         codigos_usinas: List[int] = []
         nomes_usinas: List[str] = []
-        codigo_atual = None
-        nome_atual = None
+        codigo_atual = 0
+        nome_atual = ""
         anos: List[int] = []
         tabela = np.zeros(
             (MAX_ANOS_ESTUDO * MAX_UTES, len(MESES_DF)), dtype=np.float64
@@ -488,8 +488,8 @@ class BlocoGeracaoMaximaUsinasTermicasPMO(Block):
         # Variáveis auxiliares
         codigos_usinas: List[int] = []
         nomes_usinas: List[str] = []
-        codigo_atual = None
-        nome_atual = None
+        codigo_atual = 0
+        nome_atual = ""
         anos: List[int] = []
         tabela = np.zeros(
             (MAX_ANOS_ESTUDO * MAX_UTES, len(MESES_DF)), dtype=np.float64
