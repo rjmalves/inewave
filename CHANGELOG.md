@@ -1,3 +1,6 @@
+# 1.7.1
+- Fix na leitura do bloco de configurações por estágio do `pmo.dat` no caso do relatório conter apenas um bloco [#79](https://github.com/rjmalves/inewave/issues/79)
+
 # 1.7.0
 - Suporte aos blocos de energia armazenada máxima por REE, geração térmica mínima e máxima por UTE no `pmo.dat` [#77](https://github.com/rjmalves/inewave/issues/77), [#76](https://github.com/rjmalves/inewave/issues/76)
 - Suporte ao arquivo `vazinat.dat` [#74](https://github.com/rjmalves/inewave/issues/74)

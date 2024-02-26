@@ -158,6 +158,8 @@ class Pmo(BlockFile):
         b = self.data.get_blocks_of_type(BlocoConfiguracoesExpansaoPMO)
         if isinstance(b, list):
             return b[2].data
+        elif isinstance(b, BlocoConfiguracoesExpansaoPMO):
+            return b.data
         return None
 
     @property
