@@ -1,3 +1,7 @@
+# 1.7.2
+- Fix na leitura dos blocos de valores de penalidades do `pmo.dat` em casos com períodos pós-estudo
+- Atualização do formato da leitura dos arquivos `dpos_evapXXX.out` e `dneg_evapXXX.out` do nwlistop para notação científica.
+
 # 1.7.1
 - Fix na leitura do bloco de configurações por estágio do `pmo.dat` no caso do relatório conter apenas um bloco [#79](https://github.com/rjmalves/inewave/issues/79)
 
