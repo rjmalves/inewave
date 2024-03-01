@@ -20,5 +20,5 @@ class DnegEvapAnos(ValoresSerie):
         [  # type: ignore
             IntegerField(4, 2),
         ]
-        + [FloatField(9, 14 + 9 * i, 2) for i in range(len(MESES_DF))]  # type: ignore
+        + [FloatField(14, 15 + 15 * i, 7, format="E") for i in range(len(MESES_DF))]  # type: ignore
     )

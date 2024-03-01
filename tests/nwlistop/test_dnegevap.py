@@ -15,10 +15,10 @@ def test_atributos_encontrados_dnegevap():
     with patch("builtins.open", m):
         n = Dnegevap.read(ARQ_TESTE)
         assert n.usina is not None
-        assert n.usina == "FURNAS"
+        assert n.usina == "SAO ROQUE"
         assert n.valores is not None
         assert n.valores.iloc[0, 0] == datetime(2023, 1, 1)
-        assert np.isnan(n.valores.iloc[-1, -1])
+        assert n.valores.iloc[-1, -1] == 0.0
 
 
 def test_atributos_nao_encontrados_dnegevap():

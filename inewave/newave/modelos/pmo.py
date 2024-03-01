@@ -1116,7 +1116,7 @@ class BlocoPenalidadeViolacaoOutrosUsosPMO(Block):
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
         ree_field: List[Field] = [LiteralField(10, 7)]
-        pen_fields: List[Field] = [IntegerField(4, 2)] + [
+        pen_fields: List[Field] = [LiteralField(4, 2)] + [
             FloatField(10, 9 + 10 * i, 2) for i in range(len(MESES_DF))
         ]
         self.__ree_line = Line(ree_field)
@@ -1155,7 +1155,7 @@ class BlocoPenalidadeViolacaoOutrosUsosPMO(Block):
         for _ in range(2):
             file.readline()
         # Variáveis auxiliares
-        anos: List[int] = []
+        anos: List[str] = []
         rees: List[str] = []
         tabela = np.zeros(
             (MAX_REES * MAX_ANOS_ESTUDO, len(MESES_DF)), dtype=np.float64
@@ -1200,7 +1200,7 @@ class BlocoPenalidadeViolacaoVazaoMinimaPMO(Block):
         super().__init__(previous, next, data)
         ree_field: List[Field] = [LiteralField(10, 7)]
         patamar_field: List[Field] = [IntegerField(1, 14)]
-        pen_fields: List[Field] = [IntegerField(4, 2)] + [
+        pen_fields: List[Field] = [LiteralField(4, 2)] + [
             FloatField(10, 9 + 10 * i, 2) for i in range(len(MESES_DF))
         ]
         self.__ree_line = Line(ree_field)
@@ -1242,7 +1242,7 @@ class BlocoPenalidadeViolacaoVazaoMinimaPMO(Block):
         for _ in range(2):
             file.readline()
         # Variáveis auxiliares
-        anos: List[int] = []
+        anos: List[str] = []
         rees: List[str] = []
         patamares: List[int] = []
         tabela = np.zeros(
@@ -1294,7 +1294,7 @@ class BlocoPenalidadeViolacaoCurvaSegurancaPMO(Block):
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
         ree_field: List[Field] = [LiteralField(10, 7)]
-        pen_fields: List[Field] = [IntegerField(4, 2)] + [
+        pen_fields: List[Field] = [LiteralField(4, 2)] + [
             FloatField(10, 9 + 10 * i, 2) for i in range(len(MESES_DF))
         ]
         self.__ree_line = Line(ree_field)
@@ -1333,7 +1333,7 @@ class BlocoPenalidadeViolacaoCurvaSegurancaPMO(Block):
         for _ in range(2):
             file.readline()
         # Variáveis auxiliares
-        anos: List[int] = []
+        anos: List[str] = []
         rees: List[str] = []
         tabela = np.zeros(
             (MAX_REES * MAX_ANOS_ESTUDO, len(MESES_DF)), dtype=np.float64
@@ -1377,7 +1377,7 @@ class BlocoPenalidadeViolacaoFphaPMO(Block):
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
         ree_field: List[Field] = [LiteralField(10, 7)]
-        pen_fields: List[Field] = [IntegerField(4, 2)] + [
+        pen_fields: List[Field] = [LiteralField(4, 2)] + [
             FloatField(10, 9 + 10 * i, 2) for i in range(len(MESES_DF))
         ]
         self.__ree_line = Line(ree_field)
@@ -1416,7 +1416,7 @@ class BlocoPenalidadeViolacaoFphaPMO(Block):
         for _ in range(2):
             file.readline()
         # Variáveis auxiliares
-        anos: List[int] = []
+        anos: List[str] = []
         rees: List[str] = []
         tabela = np.zeros(
             (MAX_REES * MAX_ANOS_ESTUDO, len(MESES_DF)), dtype=np.float64
@@ -1460,7 +1460,7 @@ class BlocoPenalidadeViolacaoEvaporacaoPMO(Block):
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
         ree_field: List[Field] = [LiteralField(10, 7)]
-        pen_fields: List[Field] = [IntegerField(4, 2)] + [
+        pen_fields: List[Field] = [LiteralField(4, 2)] + [
             FloatField(10, 9 + 10 * i, 2) for i in range(len(MESES_DF))
         ]
         self.__ree_line = Line(ree_field)
@@ -1499,7 +1499,7 @@ class BlocoPenalidadeViolacaoEvaporacaoPMO(Block):
         for _ in range(2):
             file.readline()
         # Variáveis auxiliares
-        anos: List[int] = []
+        anos: List[str] = []
         rees: List[str] = []
         tabela = np.zeros(
             (MAX_REES * MAX_ANOS_ESTUDO, len(MESES_DF)), dtype=np.float64
@@ -1542,7 +1542,7 @@ class BlocoPenalidadeViolacaoTurbinamentoMaximoPMO(Block):
 
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
-        pen_fields: List[Field] = [IntegerField(4, 2)] + [
+        pen_fields: List[Field] = [LiteralField(4, 2)] + [
             FloatField(10, 9 + 10 * i, 2) for i in range(len(MESES_DF))
         ]
         self.__pen_line = Line(pen_fields)
@@ -1578,7 +1578,7 @@ class BlocoPenalidadeViolacaoTurbinamentoMaximoPMO(Block):
         for _ in range(3):
             file.readline()
         # Variáveis auxiliares
-        anos: List[int] = []
+        anos: List[str] = []
         tabela = np.zeros((MAX_ANOS_ESTUDO, len(MESES_DF)), dtype=np.float64)
         i = 0
         while True:
@@ -1606,7 +1606,7 @@ class BlocoPenalidadeViolacaoTurbinamentoMinimoPMO(Block):
 
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
-        pen_fields: List[Field] = [IntegerField(4, 2)] + [
+        pen_fields: List[Field] = [LiteralField(4, 2)] + [
             FloatField(10, 9 + 10 * i, 2) for i in range(len(MESES_DF))
         ]
         self.__pen_line = Line(pen_fields)
@@ -1642,7 +1642,7 @@ class BlocoPenalidadeViolacaoTurbinamentoMinimoPMO(Block):
         for _ in range(3):
             file.readline()
         # Variáveis auxiliares
-        anos: List[int] = []
+        anos: List[str] = []
         tabela = np.zeros((MAX_ANOS_ESTUDO, len(MESES_DF)), dtype=np.float64)
         i = 0
         while True:

@@ -6,7 +6,7 @@ inewave é um módulo em Python para manipulação dos arquivos de entrada
 e saída do NEWAVE.
 """
 
-__version__ = "1.7.1"
+__version__ = "1.7.2"
 
 from . import newave  # noqa
 from . import nwlistcf  # noqa
