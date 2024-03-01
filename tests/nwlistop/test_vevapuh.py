@@ -17,7 +17,7 @@ def test_atributos_encontrados_vevapuh():
         assert n.usina == "FURNAS"
         assert n.valores is not None
         assert n.valores.iloc[0, 0] == datetime(2023, 1, 1)
-        assert n.valores.iloc[-1, -1] == 40.09
+        assert n.valores.iloc[-1, -1] == 40.04
 
 
 def test_atributos_nao_encontrados_vevapuh():

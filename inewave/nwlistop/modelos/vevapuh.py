@@ -20,5 +20,5 @@ class VevapuhAnos(ValoresSerie):
         [  # type: ignore
             IntegerField(4, 2),
         ]
-        + [FloatField(9, 14 + 9 * i, 2) for i in range(len(MESES_DF))]  # type: ignore
+        + [FloatField(15, 14 + 15 * i, 4) for i in range(len(MESES_DF))]  # type: ignore
     )

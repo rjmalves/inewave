@@ -1,3 +1,6 @@
+# 1.7.3
+- Atualização do formato da leitura do arquivo `vevapuhXXX.out` do nwlistop para maior precisão.
+
 # 1.7.2
 - Fix na leitura dos blocos de valores de penalidades do `pmo.dat` em casos com períodos pós-estudo
 - Atualização do formato da leitura dos arquivos `dpos_evapXXX.out` e `dneg_evapXXX.out` do nwlistop para notação científica.
