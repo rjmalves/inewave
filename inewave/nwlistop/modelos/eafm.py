@@ -14,6 +14,8 @@ class EafsAnos(ValoresSerie):
     por série e por mês/ano de estudo.
     """
 
+    __slots__ = []
+
     HEADER_LINE = Line([IntegerField(4, 10)])
     DATA_LINE = Line(
         [IntegerField(4, 2)]  # type: ignore

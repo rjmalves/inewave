@@ -14,6 +14,8 @@ class TabelaAvlDesvFphaS(Block):
     vazão vertida (S).
     """
 
+    __slots__ = ["__linha"]
+
     BEGIN_PATTERN = "-----;--------------;--------;"
 
     COLUMN_NAMES = [

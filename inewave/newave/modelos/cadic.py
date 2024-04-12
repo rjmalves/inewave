@@ -26,6 +26,8 @@ class BlocoCargasAdicionais(Section):
     e por subsistema.
     """
 
+    __slots__ = ["__linha_subsis", "__linha_cargas", "__cabecalhos"]
+
     FIM_BLOCO = " 999"
 
     def __init__(self, previous=None, next=None, data=None) -> None:

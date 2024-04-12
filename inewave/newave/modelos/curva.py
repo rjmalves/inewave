@@ -21,6 +21,8 @@ class BlocoConfiguracoesPenalizacaoCurva(Section):
     existente no arquivo do NEWAVE `curva.dat`.
     """
 
+    __slots__ = ["__linha", "__cabecalhos"]
+
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line(

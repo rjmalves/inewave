@@ -22,6 +22,8 @@ class BlocoUTEClasT(Section):
     e por subsistema.
     """
 
+    __slots__ = ["__linha", "__cabecalhos", "__numero_anos_planejamento"]
+
     FIM_BLOCO = " 9999"
 
     def __init__(self, previous=None, next=None, data=None) -> None:

@@ -9,6 +9,8 @@ class TabelaMediasmerc(Section):
     Bloco com o conteúdo da tabela existente no arquivo `MEDIAS-MERC.CSV`.
     """
 
+    __slots__ = ["data"]
+
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
 

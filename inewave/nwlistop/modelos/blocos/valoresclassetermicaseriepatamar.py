@@ -20,6 +20,14 @@ class ValoresClasseTermicaSeriePatamar(Block):
     entradas por classe térmica, série e patamar.
     """
 
+    __slots__ = [
+        "__linha",
+        "__linha_ano",
+        "__serie_atual",
+        "__classe_atual",
+        "__ano",
+    ]
+
     BEGIN_PATTERN = "     ANO: "
     END_PATTERN = "  TOTAL "
     HEADER_LINE = Line([])

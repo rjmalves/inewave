@@ -31,6 +31,12 @@ class BlocoSerieVazoesUHE(Block):
     relativo às séries de vazões por usina.
     """
 
+    __slots__ = [
+        "__campo_uhe",
+        "__campo_cfg",
+        "__linha",
+    ]
+
     BEGIN_PATTERN = "SERIE  DE VAZOES   DA USINA"
     END_PATTERN = ""
 
@@ -104,6 +110,10 @@ class BlocoCorrelVazoesUHE(Block):
     relativo às séries de autocorrelações
     das vazões por usina.
     """
+
+    __slots__ = [
+        "__linha",
+    ]
 
     BEGIN_PATTERN = "CORRELOGRAMO DA SERIE DE VAZOES"
     END_PATTERN = ""
@@ -211,6 +221,10 @@ class BlocoCorrelParcialVazoesUHE(Block):
     das vazões por UHE.
     """
 
+    __slots__ = [
+        "__linha",
+    ]
+
     BEGIN_PATTERN = "CORRELOGRAMO PARCIAL DA SERIE DE VAZOES"
     END_PATTERN = ""
 
@@ -317,6 +331,11 @@ class BlocoOrdemModeloUHE(Block):
     seus coeficientes por UHE.
     """
 
+    __slots__ = [
+        "__linha",
+        "__tipo",
+    ]
+
     BEGIN_PATTERN = "DO MODELO AUTORREGRESSIVO PARA CADA PERIODO"
     END_PATTERN = ""
 
@@ -411,6 +430,10 @@ class BlocoCoeficientesModeloUHE(Block):
     Lista de coeficientes dos modelos PAR ou PAR-A por UHE.
     """
 
+    __slots__ = [
+        "__linha",
+    ]
+
     BEGIN_PATTERN = " COEFICIENTES DA EQUACAO DE REGRESSAO DE UM PROCESSO"
     END_PATTERN = ""
 
@@ -472,6 +495,12 @@ class BlocoSerieRuidosUHE(Block):
     Bloco de informações do arquivo `parpvaz.dat`
     relativo às séries de ruídos por usina.
     """
+
+    __slots__ = [
+        "__campo_ano",
+        "__campo_cfg",
+        "__linha",
+    ]
 
     BEGIN_PATTERN = "SERIE DE RUIDOS  - ANO:"
     END_PATTERN = ""
@@ -543,6 +572,10 @@ class BlocoCorrelRuidosUHE(Block):
     relativo às séries de autocorrelações
     dos ruídos por usina.
     """
+
+    __slots__ = [
+        "__linha",
+    ]
 
     BEGIN_PATTERN = "CORRELOGRAMO DA SERIE DE RUIDOS"
     END_PATTERN = ""
@@ -649,6 +682,10 @@ class BlocoCorrelEspacialAnualMensalUHE(Block):
     relativo à correlação espacial histórica anual e
     mensal para as UHEs.
     """
+
+    __slots__ = [
+        "__linha",
+    ]
 
     BEGIN_PATTERN = "CORRELACAO ESPACIAL HISTORICA MENSAL/ANUAL ENTRE AS UHEs"
     END_PATTERN = ""

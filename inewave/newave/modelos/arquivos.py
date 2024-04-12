@@ -11,6 +11,8 @@ class BlocoNomesArquivos(Section):
     entrada do NEWAVE `arquivos.dat`.
     """
 
+    __slots__ = ["__linha"]
+
     FIM_BLOCO = " 9999"
 
     def __init__(self, previous=None, next=None, data=None) -> None:

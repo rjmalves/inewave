@@ -13,6 +13,8 @@ class ArquivoUsinaPatamar(BlockFile):
     Armazena os dados das saídas por patamar, por Usina.
     """
 
+    __slots__ = ["__valores"]
+
     T = TypeVar("T")
 
     BLOCKS = [Usina, ValoresSeriePatamar]

@@ -15,6 +15,8 @@ class ArquivoEstacaoBombeamentoPatamar(BlockFile):
     Armazena os dados das saídas por patamar, por Estação de Bombeamento.
     """
 
+    __slots__ = ["__valores"]
+
     T = TypeVar("T")
 
     BLOCKS = [EstacaoBombeamento, ValoresSeriePatamar]

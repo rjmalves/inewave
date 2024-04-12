@@ -11,6 +11,8 @@ class EstacaoBombeamento(Block):
     associada aos valores.
     """
 
+    __slots__ = ["__linha"]
+
     BEGIN_PATTERN = r"EST.BOMB.:"
     END_PATTERN = ""
 

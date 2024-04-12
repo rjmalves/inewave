@@ -15,6 +15,8 @@ class CortesPeriodoNwlistcf(Block):
     Bloco do arquivo nwlistcf.rel que armazena os cortes de um período.
     """
 
+    __slots__ = ["__linha", "__linha_periodo", "__ireg_atual", "__periodo"]
+
     BEGIN_PATTERN = "PERIODO: "
     END_PATTERN = "PERIODO: "
 

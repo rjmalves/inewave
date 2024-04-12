@@ -11,9 +11,11 @@ class BlocoDadosSelcor(Section):
     de cortes existentes no arquivo `selcor.dat`.
     """
 
+    __slots__ = ["__linha", "__cabecalhos", "__comentarios", "data"]
+
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
-        self.__line = Line(
+        self.__linha = Line(
             [
                 LiteralField(60, 0),
                 IntegerField(4, 63),
@@ -46,7 +48,7 @@ class BlocoDadosSelcor(Section):
         # Lê as linhas de parâmetros
         self.data: List[List[int]] = []
         for _ in range(7):
-            dados_linha = self.__line.read(file.readline())
+            dados_linha = self.__linha.read(file.readline())
             self.__comentarios.append(dados_linha[0])
             self.data.append(dados_linha[1:])
 
@@ -58,4 +60,4 @@ class BlocoDadosSelcor(Section):
             raise ValueError("Dados do selcor.dat não foram lidos com sucesso")
 
         for c, s in zip(self.__comentarios, self.data):
-            file.write(self.__line.write([c] + s))
+            file.write(self.__linha.write([c] + s))

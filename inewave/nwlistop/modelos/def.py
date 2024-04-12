@@ -16,6 +16,8 @@ class DefAnos(ValoresSeriePatamar):
     Bloco com as informações das tabelas de déficit.
     """
 
+    __slots__ = []
+
     HEADER_LINE = Line([IntegerField(4, 10)])
     DATA_LINE = Line(
         [

@@ -14,6 +14,8 @@ class TabelaAvlDesvFphaVQ(Block):
     volume armazenado e vazão turbinada (V-Q).
     """
 
+    __slots__ = ["__linha"]
+
     BEGIN_PATTERN = "-----;--------------;------;"
 
     COLUMN_NAMES = [

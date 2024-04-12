@@ -12,6 +12,15 @@ class SecaoDadosEnergias(Section):
     no arquivo energias.dat.
     """
 
+    __slots__ = [
+        "__linha",
+        "numero_series",
+        "numero_rees",
+        "numero_estagios",
+        "numero_estagios_th",
+        "__linha_saldo",
+    ]
+
     TAMANHO_REGISTRO = 4000
 
     def __init__(self, previous=None, next=None, data=None) -> None:

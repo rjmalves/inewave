@@ -10,6 +10,8 @@ class Restricao(Block):
     Bloco com a informaçao da restrição associada aos valores.
     """
 
+    __slots__ = ["__linha"]
+
     BEGIN_PATTERN = r"RESTRICAO:"
     END_PATTERN = ""
 

@@ -12,6 +12,8 @@ class RegistroUHEHidr(Register):
     arquivo HIDR.
     """
 
+    __slots__ = []
+
     LINE = Line(
         [
             LiteralField(size=12, starting_position=0),  # Nome

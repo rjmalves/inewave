@@ -13,6 +13,8 @@ class TabelaCortesEvap(TabelaCSV):
     Bloco com as informações dos cortes da evaporação linear.
     """
 
+    __slots__ = []
+
     BEGIN_PATTERN = "-----;-----;--------------;"
     LINE_MODEL = Line(
         [

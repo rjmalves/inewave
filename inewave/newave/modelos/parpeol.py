@@ -32,6 +32,12 @@ class BlocoSerieVentosUEE(Block):
     relativo às séries de ventos por usina.
     """
 
+    __slots__ = [
+        "__campo_uee",
+        "__campo_cfg",
+        "__linha",
+    ]
+
     BEGIN_PATTERN = "SERIE  DE VENTOS   DA USINA"
     END_PATTERN = ""
 
@@ -105,6 +111,10 @@ class BlocoCorrelVentosUEE(Block):
     relativo às séries de autocorrelações
     dos ventos por usina.
     """
+
+    __slots__ = [
+        "__linha",
+    ]
 
     BEGIN_PATTERN = "CORRELOGRAMO DA SERIE DE VENTOS"
     END_PATTERN = ""
@@ -206,6 +216,11 @@ class BlocoSerieRuidosUEE(Block):
     relativo às séries de ruídos por usina.
     """
 
+    __slots__ = [
+        "__campo_ano",
+        "__linha",
+    ]
+
     BEGIN_PATTERN = "SERIE DE RUIDOS  - ANO:"
     END_PATTERN = ""
 
@@ -276,6 +291,10 @@ class BlocoCorrelRuidosUEE(Block):
     relativo às séries de autocorrelações
     dos ruídos por usina.
     """
+
+    __slots__ = [
+        "__linha",
+    ]
 
     BEGIN_PATTERN = "CORRELOGRAMO DA SERIE DE RUIDOS"
     END_PATTERN = ""
@@ -378,6 +397,8 @@ class BlocoCorrelEspacialAnualConfig(Block):
     anual por configuração.
     """
 
+    __slots__ = ["__campo_cfg", "__linha"]
+
     BEGIN_PATTERN = "CORRELACAO ESPACIAL HISTORICA ANUAL"
     END_PATTERN = ""
 
@@ -445,6 +466,8 @@ class BlocoCorrelEspacialMensalConfig(Block):
     relativo à correlação espacial histórica espacial
     mensal por configuração.
     """
+
+    __slots__ = ["__campo_cfg", "__linha"]
 
     BEGIN_PATTERN = "CORRELACAO ESPACIAL HISTORICA MENSAL"
     END_PATTERN = ""

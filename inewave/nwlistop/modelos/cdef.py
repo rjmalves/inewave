@@ -11,6 +11,8 @@ class CdefAnos(ValoresSerie):
     Bloco com as informações das tabelas de custos de déficit.
     """
 
+    __slots__ = []
+
     HEADER_LINE = Line([IntegerField(4, 10)])
     DATA_LINE = Line(
         [  # type: ignore

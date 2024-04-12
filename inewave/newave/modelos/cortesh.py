@@ -11,6 +11,26 @@ class SecaoDadosCortesh(Section):
     arquivo cortesh.dat
     """
 
+    __slots__ = [
+        "data" "__df_ultimo_corte_por_estagio",
+        "__df_dados_submercado",
+        "__df_dados_uhes",
+        "__tamanho_segundo_registro",
+        "__tamanho_terceiro_registro",
+        "__tamanho_quarto_registro",
+        "__tamanho_quinto_registro",
+        "__tamanho_sexto_registro",
+        "__tamanho_setimo_registro",
+        "__tamanho_oitavo_registro",
+        "__tamanho_nono_registro",
+        "__tamanho_decimo_registro",
+        "__tamanho_decimo_primeiro_registro",
+        "__tamanho_decimo_segundo_registro",
+        "__tamanho_decimo_terceiro_registro",
+        "__tamanho_decimo_quarto_registro",
+        "__df_ultimo_corte_por_estagio",
+    ]
+
     REGISTER_SIZE = 46080
 
     def __init__(self, previous=None, next=None, data=None) -> None:

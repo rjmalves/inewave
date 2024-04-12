@@ -19,6 +19,8 @@ class BlocoPenalidades(Section):
     e outras ações.
     """
 
+    __slots__ = ["__linha", "__cabecalhos", "__numero_patamares_penalidade"]
+
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line(

@@ -27,6 +27,8 @@ class BlocoEafPastTendenciaHidrolPMO(Block):
     tendência hidrológica localizado no arquivo `pmo.dat`.
     """
 
+    __slots__ = ["__line"]
+
     BEGIN_PATTERN = "ENERGIAS AFLUENTES PASSADAS PARA A TENDENCIA HIDROLOGICA"
     END_PATTERN = ""
 
@@ -91,6 +93,8 @@ class BlocoEafPastCfugaMedioPMO(Block):
     Bloco de informações de afluências passadas para
     tendência hidrológica localizado no arquivo `pmo.dat`.
     """
+
+    __slots__ = ["__line"]
 
     BEGIN_PATTERN = (
         "ENERGIAS AFLUENTES PASSADAS EM REFERENCIA A PRIMEIRA CONFIG"
@@ -282,6 +286,8 @@ class BlocoVolumeArmazenadoInicialPMO(Block):
     localizado no arquivo `pmo.dat`.
     """
 
+    __slots__ = ["__linha"]
+
     BEGIN_PATTERN = r" VOLUME ARMAZENADO INICIAL"
     END_PATTERN = "X-----X------------X"
 
@@ -352,6 +358,8 @@ class BlocoGeracaoMinimaUsinasTermicasPMO(Block):
     Bloco de informações sobre a geração térmica mínima
     por usina existentes no arquivo `pmo.dat`.
     """
+
+    __slots__ = ["__line"]
 
     BEGIN_PATTERN = "GERACAO TERMICA MINIMA POR USINA"
     END_PATTERN = ""
@@ -439,6 +447,8 @@ class BlocoGeracaoMaximaUsinasTermicasPMO(Block):
     por usina existentes no arquivo `pmo.dat`.
     """
 
+    __slots__ = ["__line"]
+
     BEGIN_PATTERN = "GERACAO TERMICA MAXIMA POR USINA"
     END_PATTERN = ""
 
@@ -525,6 +535,8 @@ class BlocoConvergenciaPMO(Block):
     no arquivo `pmo.dat`.
     """
 
+    __slots__ = ["__line"]
+
     BEGIN_PATTERN = "    ITER               LIM.INF.        "
     END_PATTERN = ""
 
@@ -606,6 +618,8 @@ class BlocoConfiguracoesExpansaoPMO(Block):
     do sistema existentes no arquivo `pmo.dat`.
     """
 
+    __slots__ = ["__line"]
+
     BEGIN_PATTERN = "CONFIGURACOES POR"
     END_PATTERN = ""
 
@@ -666,6 +680,8 @@ class BlocoMARSPMO(Block):
     para as retas de perdas por engolimento máximo
     existentes no arquivo `pmo.dat`.
     """
+
+    __slots__ = ["__line", "__ree_field"]
 
     BEGIN_PATTERN = "PARAMETROS DAS RETAS DE PERDAS POR ENGOLIMENTO MAXIMO"
     END_PATTERN = 'ENERGIA FIO D"AGUA LIQUIDA|CEPEL'
@@ -738,6 +754,8 @@ class BlocoRiscoDeficitENSPMO(Block):
     ENS (energia não suprida) existentes no arquivo `pmo.dat`.
     """
 
+    __slots__ = ["__line"]
+
     BEGIN_PATTERN = r"RISCO ANUAL DE DEFICIT E E\(ENS\) \(%\)"  # noqa
     END_PATTERN = ""
 
@@ -807,6 +825,8 @@ class BlocoCustoOperacaoPMO(Block):
     existentes no arquivo `pmo.dat`.
     """
 
+    __slots__ = ["__line"]
+
     BEGIN_PATTERN = "PARCELA           V.ESPERADO"
     END_PATTERN = ""
 
@@ -869,6 +889,8 @@ class BlocoCustoOperacaoTotalPMO(Block):
     existentes no arquivo `pmo.dat`.
     """
 
+    __slots__ = ["__line"]
+
     BEGIN_PATTERN = "           VALOR ESPERADO TOTAL:"
     END_PATTERN = ""
 
@@ -904,6 +926,13 @@ class BlocoProdutibilidadesConfiguracaoPMO(Block):
     Bloco de informações sobre as produtibilidades das UHEs por
     configuração.
     """
+
+    __slots__ = [
+        "__cfg_line",
+        "__prodt_line",
+        "__prodt_reserv_line",
+        "__prod_acum_line",
+    ]
 
     BEGIN_PATTERN = r"PRODUTIBILIDADES \(MW/m3/s\)"
     END_PATTERN = ""
@@ -1114,6 +1143,11 @@ class BlocoPenalidadeViolacaoOutrosUsosPMO(Block):
     outros usos da água.
     """
 
+    __slots__ = [
+        "__ree_line",
+        "__pen_line",
+    ]
+
     BEGIN_PATTERN = "PENALIDADE POR VIOLACAO DOS OUTROS USOS DA AGUA "
     END_PATTERN = ""
 
@@ -1196,6 +1230,12 @@ class BlocoPenalidadeViolacaoVazaoMinimaPMO(Block):
     Bloco de informações de penalidades para violações de
     vazão mínima.
     """
+
+    __slots__ = [
+        "__ree_line",
+        "__patamar_line",
+        "__pen_line",
+    ]
 
     BEGIN_PATTERN = "PENALIDADE POR VIOLACAO DE VAZAO MINIMA "
     END_PATTERN = ""
@@ -1292,6 +1332,11 @@ class BlocoPenalidadeViolacaoCurvaSegurancaPMO(Block):
     curva-guia de segurança.
     """
 
+    __slots__ = [
+        "__ree_line",
+        "__pen_line",
+    ]
+
     BEGIN_PATTERN = "PENALIDADE POR VIOLACAO DA CURVA GUIA DE SEGURANCA "
     END_PATTERN = ""
 
@@ -1374,6 +1419,11 @@ class BlocoPenalidadeViolacaoFphaPMO(Block):
     Bloco de informações de penalidades para violações da
     FPHA.
     """
+
+    __slots__ = [
+        "__ree_line",
+        "__pen_line",
+    ]
 
     BEGIN_PATTERN = "PENALIDADE POR VIOLACAO DA FPHA "
     END_PATTERN = ""
@@ -1458,6 +1508,11 @@ class BlocoPenalidadeViolacaoEvaporacaoPMO(Block):
     evaporação.
     """
 
+    __slots__ = [
+        "__ree_line",
+        "__pen_line",
+    ]
+
     BEGIN_PATTERN = "PENALIDADE POR VIOLACAO DA EVAPORACAO "
     END_PATTERN = ""
 
@@ -1541,6 +1596,10 @@ class BlocoPenalidadeViolacaoTurbinamentoMaximoPMO(Block):
     turbinamento máximo.
     """
 
+    __slots__ = [
+        "__pen_line",
+    ]
+
     BEGIN_PATTERN = "PENALIDADE POR VIOLACAO DE TURBINAMENTO MAXIMO "
     END_PATTERN = ""
 
@@ -1604,6 +1663,10 @@ class BlocoPenalidadeViolacaoTurbinamentoMinimoPMO(Block):
     Bloco de informações de penalidades para violações de
     turbinamento máximo.
     """
+
+    __slots__ = [
+        "__pen_line",
+    ]
 
     BEGIN_PATTERN = "PENALIDADE POR VIOLACAO DE TURBINAMENTO MINIMO "
     END_PATTERN = ""

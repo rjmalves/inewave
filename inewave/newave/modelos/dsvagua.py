@@ -20,6 +20,8 @@ class BlocoDsvUHE(Section):
     usina no arquivo do NEWAVE `dsvagua.dat`.
     """
 
+    __slots__ = ["__linha_uhe", "__cabecalhos"]
+
     FIM_BLOCO = "9999"
 
     def __init__(self, previous=None, next=None, data=None) -> None:

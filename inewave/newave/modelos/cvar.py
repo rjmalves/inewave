@@ -19,6 +19,8 @@ class BlocoValoresConstantesCVAR(Block):
     Bloco com valores dos parâmetros ALFA e LAMBDA constantes.
     """
 
+    __slots__ = ["__linha", "__cabecalhos"]
+
     BEGIN_PATTERN = "VALORES CONSTANTE NO TEMPO"
     END_PATTERN = ""
 

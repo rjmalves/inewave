@@ -14,6 +14,8 @@ class TabelaEcoEvap(TabelaCSV):
     da evaporação.
     """
 
+    __slots__ = []
+
     BEGIN_PATTERN = "-----;-----;"
     LINE_MODEL = Line(
         [

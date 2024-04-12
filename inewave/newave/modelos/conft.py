@@ -12,6 +12,8 @@ class BlocoConfUTE(Section):
     no arquivo do NEWAVE `conft.dat`.
     """
 
+    __slots__ = ["__linha_ute", "__cabecalhos"]
+
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
         self.__linha_ute = Line(

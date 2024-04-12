@@ -16,6 +16,8 @@ class GhfphexatAnos(ValoresSeriePatamar):
     exata da usina nos pontos de operação por mês/ano de estudo.
     """
 
+    __slots__ = []
+
     HEADER_LINE = Line([IntegerField(4, 10)])
     DATA_LINE = Line(
         [  # type: ignore

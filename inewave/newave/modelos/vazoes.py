@@ -9,6 +9,8 @@ class RegistroVazoesPostos(Register):
     Registro com os dados associados às vazões dos postos.
     """
 
+    __slots__ = []
+
     POSTOS = 320
 
     LINE = Line(

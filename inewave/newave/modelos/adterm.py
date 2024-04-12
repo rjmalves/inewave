@@ -18,6 +18,13 @@ class BlocoUTEAdTerm(Section):
     Bloco com os despachos antecipados das UTEs por patamar.
     """
 
+    __slots__ = [
+        "__linha_ute",
+        "__linha_despachos",
+        "__cabecalhos",
+        "__numero_patamares",
+    ]
+
     FIM_BLOCO = " 9999"
 
     def __init__(self, previous=None, next=None, data=None) -> None:

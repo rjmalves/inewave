@@ -13,6 +13,8 @@ class ArquivoREE(BlockFile):
     Armazena os dados das saídas por REE.
     """
 
+    __slots__ = ["__valores"]
+
     T = TypeVar("T")
 
     BLOCKS = [REE, ValoresSerie]

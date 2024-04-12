@@ -13,6 +13,8 @@ class ArquivoRestricao(BlockFile):
     Armazena os dados das saídas por usina.
     """
 
+    __slots__ = ["__valores"]
+
     T = TypeVar("T")
 
     BLOCKS = [Restricao, ValoresSerie]

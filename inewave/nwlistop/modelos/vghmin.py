@@ -17,6 +17,8 @@ class VghminAnos(ValoresSeriePatamar):
     geração hidráulica mínima.
     """
 
+    __slots__ = []
+
     HEADER_LINE = Line([IntegerField(4, 10)])
     DATA_LINE = Line(
         [  # type: ignore

@@ -14,6 +14,8 @@ class BlocoUTEExpt(Section):
     Bloco com as expensões das UTEs.
     """
 
+    __slots__ = ["__linha_uhe", "__cabecalhos"]
+
     FIM_BLOCO = ""
 
     def __init__(self, previous=None, next=None, data=None) -> None:

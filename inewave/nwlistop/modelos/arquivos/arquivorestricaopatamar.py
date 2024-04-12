@@ -13,6 +13,8 @@ class ArquivoRestricaoPatamar(BlockFile):
     Armazena os dados das saídas por patamar, por Restrição.
     """
 
+    __slots__ = ["__valores"]
+
     T = TypeVar("T")
 
     BLOCKS = [Restricao, ValoresSeriePatamar]

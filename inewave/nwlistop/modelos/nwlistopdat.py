@@ -11,6 +11,17 @@ class BlocoDadosNwlistop(Section):
     início e fim para a impressão.
     """
 
+    __slots__ = [
+        "__linha_opcao",
+        "__linha_arquivo",
+        "__linha_series_op1",
+        "__linha_periodos",
+        "__linha_variaveis_op2",
+        "__linha_uhes_op2",
+        "data",
+        "__comentarios",
+    ]
+
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
         self.__linha_opcao = Line([IntegerField(1, 1)])
