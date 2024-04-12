@@ -41,6 +41,11 @@ class SecaoDadosEnergias(Section):
         *args,
         **kwargs,
     ):
+        self.numero_series = numero_series
+        self.numero_rees = numero_rees
+        self.numero_estagios = numero_estagios
+        self.numero_estagios_th = numero_estagios_th
+
         numero_entradas_estagio = numero_series * numero_rees
         saldo_final_registro = (
             self.TAMANHO_REGISTRO - numero_entradas_estagio
@@ -82,11 +87,29 @@ class SecaoDadosEnergias(Section):
 
     def write(self, file: IO, *args, **kwargs):
         dados = self.data["valor"].to_numpy()
-        linha = Line(
+        numero_entradas_estagio = self.numero_series * self.numero_rees
+        saldo_final_registro = (
+            self.TAMANHO_REGISTRO - numero_entradas_estagio
+        ) % self.TAMANHO_REGISTRO
+        self.__linha = Line(
             [
                 FloatField(size=8, starting_position=8 * i)
-                for i in range(len(dados))
+                for i in range(numero_entradas_estagio)
             ],
             storage="BINARY",
         )
-        file.write(linha.write(dados))
+        self.__linha_saldo = Line(
+            [
+                FloatField(size=8, starting_position=8 * i)
+                for i in range(saldo_final_registro)
+            ],
+            storage="BINARY",
+        )
+        for i in range(self.numero_estagios + self.numero_estagios_th):
+            idx_i = i * numero_entradas_estagio
+            idx_f = idx_i + numero_entradas_estagio
+            file.write(self.__linha.write(dados[idx_i:idx_f]))
+            if saldo_final_registro > 0:
+                file.write(
+                    self.__linha_saldo.write([0.0] * saldo_final_registro)
+                )
