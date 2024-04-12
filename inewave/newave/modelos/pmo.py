@@ -416,7 +416,9 @@ class BlocoGeracaoMinimaUsinasTermicasPMO(Block):
             # Confere se acabou
             if len(linha) < 3 or "X--------------------" in linha:
                 tabela = tabela[:i, :]
-                self.data = converte_tabela_em_df()
+                self.data = (
+                    converte_tabela_em_df() if i > 0 else pd.DataFrame()
+                )
                 break
             # Lê mais uma linha
             dados = self.__line.read(linha)
@@ -500,7 +502,9 @@ class BlocoGeracaoMaximaUsinasTermicasPMO(Block):
             # Confere se acabou
             if len(linha) < 3 or "X--------------------" in linha:
                 tabela = tabela[:i, :]
-                self.data = converte_tabela_em_df()
+                self.data = (
+                    converte_tabela_em_df() if i > 0 else pd.DataFrame()
+                )
                 break
             # Lê mais uma linha
             dados = self.__line.read(linha)
