@@ -1,3 +1,7 @@
+# 1.7.4
+- Fix na leitura dos blocos de geração mínima e máxima de usinas térmicas do `pmo.dat` [#83](https://github.com/rjmalves/inewave/issues/83)
+- Fix na leitura do arquivo `energias.dat` [#82](https://github.com/rjmalves/inewave/issues/82)
+
 # 1.7.3
 - Atualização do formato da leitura do arquivo `vevapuhXXX.out` do nwlistop para maior precisão.
 

@@ -8,10 +8,10 @@ from unittest.mock import MagicMock, patch
 
 ARQ_TESTE = "./tests/mocks/arquivos/energias.dat"
 
-NUM_SERIES = 2
-NUM_REES = 1
-NUM_ESTAGIOS = 16
-NUM_ESTAGIOS_TH = 12
+NUM_SERIES = 3
+NUM_REES = 2
+NUM_ESTAGIOS = 3
+NUM_ESTAGIOS_TH = 3
 NUM_ENTRADAS = NUM_SERIES * NUM_REES * (NUM_ESTAGIOS_TH + NUM_ESTAGIOS)
 
 
