@@ -15,6 +15,8 @@ class BlocoReesSubmercados(Section):
     submercados.
     """
 
+    __slots__ = ["__linha", "__cabecalhos"]
+
     FIM_BLOCO = " 999"
 
     def __init__(self, previous=None, next=None, data=None) -> None:

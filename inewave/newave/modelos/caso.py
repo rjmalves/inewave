@@ -10,6 +10,8 @@ class NomeCaso(Section):
     entrada do NEWAVE `caso.dat`.
     """
 
+    __slots__ = ["__linha"]
+
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([LiteralField(40, 0)])
@@ -42,6 +44,8 @@ class CaminhoGerenciadorProcessos(Section):
     Bloco com o caminho do gerenciador de processos usado
     no NEWAVE, contido no arquivo `caso.dat`.
     """
+
+    __slots__ = ["__linha"]
 
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)

@@ -14,6 +14,8 @@ class ArquivoClasseTermicaSubmercadoPatamar(BlockFile):
     classe térmica.
     """
 
+    __slots__ = ["__valores"]
+
     T = TypeVar("T")
 
     BLOCKS = [Submercado, ValoresClasseTermicaSeriePatamar]

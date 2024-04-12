@@ -16,6 +16,16 @@ class EstadosPeriodoNwlistcf(Block):
     por período na construção dos cortes da FCF.
     """
 
+    __slots__ = [
+        "__linha_periodo",
+        "__linha",
+        "__periodo",
+        "__ireg_atual",
+        "__itec_atual",
+        "__simc_atual",
+        "__itef_atual",
+    ]
+
     BEGIN_PATTERN = "PERIODO: "
     END_PATTERN = "PERIODO: "
 

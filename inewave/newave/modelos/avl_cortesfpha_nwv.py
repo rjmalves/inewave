@@ -13,6 +13,8 @@ class TabelaAvlCortesFpha28(TabelaCSV):
     UHEs do modelo NEWAVE.
     """
 
+    __slots__ = []
+
     BEGIN_PATTERN = "-----;-----;--------------;"
 
     LINE_MODEL = Line(
@@ -50,6 +52,8 @@ class TabelaAvlCortesFpha(TabelaCSV):
     Bloco com as informações dos cortes da função de produção para as
     UHEs do modelo NEWAVE.
     """
+
+    __slots__ = []
 
     BEGIN_PATTERN = "----;----;--------------;-------;"
 

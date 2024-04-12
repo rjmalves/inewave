@@ -11,6 +11,8 @@ class InvadeAnos(ValoresSerie):
     Bloco com as informações das tabelas de violação da CAR em MWmes.
     """
 
+    __slots__ = []
+
     HEADER_LINE = Line([IntegerField(4, 10)])
     DATA_LINE = Line(
         [  # type: ignore

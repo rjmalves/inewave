@@ -14,6 +14,8 @@ class TabelaAvlEvap(TabelaCSV):
     para a evaporação.
     """
 
+    __slots__ = []
+
     BEGIN_PATTERN = "-----;-----;"
     LINE_MODEL = Line(
         [

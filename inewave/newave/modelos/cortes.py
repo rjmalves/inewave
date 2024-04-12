@@ -9,6 +9,20 @@ class SecaoDadosCortes(Section):
     Registro com os cortes da FCF.
     """
 
+    __slots__ = [
+        "__tabela_int",
+        "__numero_coeficientes",
+        "__tabela_float",
+        "__tamanho_registro",
+        "__numero_total_cortes",
+        "__codigos_rees",
+        "__codigos_uhes",
+        "__codigos_submercados",
+        "__ordem_maxima_parp",
+        "__numero_patamares_carga",
+        "__lag_maximo_gnl",
+    ]
+
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, SecaoDadosCortes):
             return False

@@ -10,6 +10,8 @@ class ParSubmercados(Block):
     Bloco com a informaçao do submercado associado aos valores.
     """
 
+    __slots__ = ["__linha"]
+
     BEGIN_PATTERN = r"SUBMERCADO:"
     END_PATTERN = ""
 

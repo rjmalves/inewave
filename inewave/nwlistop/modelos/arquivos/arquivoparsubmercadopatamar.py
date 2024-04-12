@@ -13,6 +13,8 @@ class ArquivoParSubmercadoPatamar(BlockFile):
     Armazena os dados das saídas por patamar, por par de submercados.
     """
 
+    __slots__ = ["__valores"]
+
     T = TypeVar("T")
 
     BLOCKS = [ParSubmercados, ValoresSeriePatamar]

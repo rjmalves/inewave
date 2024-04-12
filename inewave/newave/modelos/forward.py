@@ -97,6 +97,33 @@ class SecaoDadosForward(Section):
     Registro com os resultados da operação do modelo NEWAVE.
     """
 
+    ___slots__ = [
+        "data",
+        "__estagios_df",
+        "__cenarios_df",
+        "__num_simulacoes",
+        "numero_rees",
+        "numero_submercados",
+        "numero_total_submercados",
+        "numero_patamares_carga",
+        "numero_patamares_deficit",
+        "numero_agrupamentos_intercambio",
+        "numero_classes_termicas_submercados",
+        "total_classes_termicas",
+        "numero_usinas_hidreletricas",
+        "lag_maximo_usinas_gnl",
+        "numero_parques_eolicos_equivalentes",
+        "numero_restricoes_eletricas_especiais",
+        "numero_estacoes_bombeamento",
+        "nomes_submercados",
+        "nomes_submercados_totais",
+        "nomes_rees",
+        "nomes_classes_termicas",
+        "nomes_usinas_hidreletricas",
+        "nomes_parques_eolicos_equivalentes",
+        "nomes_estacoes_bombeamento",
+    ]
+
     VARIAVEIS: List[VariavelOperacao] = [
         VariavelOperacao.MERCADO,
         VariavelOperacao.ENERGIA_ARMAZENADA_ABSOLUTA_INICIAL,

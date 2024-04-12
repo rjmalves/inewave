@@ -1,3 +1,7 @@
+# 1.7.5
+- Dependência da cfinterface atualizada para [v1.6.0](https://github.com/rjmalves/cfi/releases/tag/v1.6.0) 
+- Uso de `__slots__` nas definições de componentes
+
 # 1.7.4
 - Fix na leitura dos blocos de geração mínima e máxima de usinas térmicas do `pmo.dat` [#83](https://github.com/rjmalves/inewave/issues/83)
 - Fix na leitura do arquivo `energias.dat` [#82](https://github.com/rjmalves/inewave/issues/82)

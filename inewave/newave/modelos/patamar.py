@@ -26,6 +26,11 @@ class BlocoNumeroPatamares(Section):
     no caso.
     """
 
+    __slots__ = [
+        "__linha",
+        "__cabecalhos",
+    ]
+
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line(
@@ -72,6 +77,11 @@ class BlocoDuracaoPatamar(Section):
     Bloco com a duração de cada patamar por mês
     de estudo, extraído do arquivo `patamar.dat`.
     """
+
+    __slots__ = [
+        "__linha",
+        "__cabecalhos",
+    ]
 
     FIM_BLOCO = "SUBSISTEMA"
 
@@ -171,6 +181,12 @@ class BlocoCargaPatamar(Section):
     Bloco com a carga de cada patamar por mês
     de estudo, extraído do arquivo `patamar.dat`.
     """
+
+    __slots__ = [
+        "__linha",
+        "__linha_subsis",
+        "__cabecalhos",
+    ]
 
     FIM_BLOCO = "9999"
 
@@ -305,6 +321,12 @@ class BlocoIntercambioPatamarSubsistemas(Section):
     Bloco com o fator de correção do intercâmbio entre subsistemas para
     cada patamar, por mês de estudo, extraído do arquivo `patamar.dat`.
     """
+
+    __slots__ = [
+        "__linha",
+        "__linha_subsis",
+        "__cabecalhos",
+    ]
 
     FIM_BLOCO = "9999"
 
@@ -462,6 +484,12 @@ class BlocoUsinasNaoSimuladas(Section):
     Bloco com a geração de usinas não simuladas em P.U. para
     cada patamar, por mês de estudo, extraído do arquivo `patamar.dat`.
     """
+
+    __slots__ = [
+        "__linha",
+        "__linha_subsis",
+        "__cabecalhos",
+    ]
 
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)

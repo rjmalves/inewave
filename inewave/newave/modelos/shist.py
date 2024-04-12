@@ -9,9 +9,11 @@ class BlocoVarreduraShist(Section):
     Bloco de informações de varredura existente no arquivo `shist.dat`.
     """
 
+    __slots__ = ["__linha", "__cabecalhos"]
+
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
-        self.__line = Line(
+        self.__linha = Line(
             [
                 IntegerField(3, 0),
                 IntegerField(4, 4),
@@ -39,7 +41,7 @@ class BlocoVarreduraShist(Section):
         for _ in range(2):
             self.__cabecalhos.append(file.readline())
 
-        self.data = self.__line.read(file.readline())
+        self.data = self.__linha.read(file.readline())
 
     # Override
     def write(self, file: IO, *args, **kwargs):
@@ -48,7 +50,7 @@ class BlocoVarreduraShist(Section):
         if not isinstance(self.data, list):
             raise ValueError("Dados do shist.dat não foram lidos com sucesso")
 
-        file.write(self.__line.write(self.data))
+        file.write(self.__linha.write(self.data))
 
 
 class BlocoSeriesSimulacaoShist(Section):
@@ -57,11 +59,13 @@ class BlocoSeriesSimulacaoShist(Section):
     existente no arquivo `shist.dat`.
     """
 
+    __slots__ = ["__linha", "__cabecalhos", "data"]
+
     END_PATTERN = "9999"
 
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
-        self.__line = Line(
+        self.__linha = Line(
             [
                 IntegerField(4, 0),
             ]
@@ -97,7 +101,7 @@ class BlocoSeriesSimulacaoShist(Section):
             ):
                 break
 
-            self.data.append(self.__line.read(linha)[0])
+            self.data.append(self.__linha.read(linha)[0])
 
     # Override
     def write(self, file: IO, *args, **kwargs):
@@ -107,6 +111,6 @@ class BlocoSeriesSimulacaoShist(Section):
             raise ValueError("Dados do shist.dat não foram lidos com sucesso")
 
         for s in self.data:
-            file.write(self.__line.write([s]))
+            file.write(self.__linha.write([s]))
 
         file.write(BlocoSeriesSimulacaoShist.END_PATTERN + "\n")

@@ -13,6 +13,8 @@ class SecaoDadosEnavazf(Section):
     vazões incrementais das UHEs.
     """
 
+    __slots__ = ["__linha"]
+
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
 

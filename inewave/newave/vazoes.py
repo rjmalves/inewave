@@ -12,6 +12,8 @@ class Vazoes(RegisterFile):
     usinas hidroelétricas.
     """
 
+    __slots__ = ["__df"]
+
     T = TypeVar("T")
 
     REGISTERS = [RegistroVazoesPostos]

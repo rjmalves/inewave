@@ -11,6 +11,8 @@ class BlocoNomesArquivos(Section):
     entrada do NWLISTCF `arquivos.dat`.
     """
 
+    __slots__ = ["__linha"]
+
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([LiteralField(30, 0), LiteralField(40, 30)])

@@ -1431,8 +1431,6 @@ def test_leitura_escrita_dger():
         linhas_escritas = [
             chamadas[i].args[0] for i in range(1, len(chamadas) - 1)
         ]
-        for lin in linhas_escritas:
-            print(lin)
     m_releitura: MagicMock = mock_open(read_data="".join(linhas_escritas))
     with patch("builtins.open", m_releitura):
         d2 = Dger.read(ARQ_TESTE)

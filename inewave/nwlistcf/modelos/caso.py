@@ -10,6 +10,8 @@ class NomeCaso(Section):
     entrada do NWLISTCF `caso.dat`.
     """
 
+    __slots__ = ["__linha"]
+
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([LiteralField(40, 0)])

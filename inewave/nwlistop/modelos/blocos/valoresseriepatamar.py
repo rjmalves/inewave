@@ -15,6 +15,8 @@ class ValoresSeriePatamar(Block):
     entradas por série e patamar.
     """
 
+    __slots__ = ["__linha", "__linha_ano", "__serie_atual", "__ano"]
+
     BEGIN_PATTERN = "     ANO: "
     END_PATTERN = " MEDIA"
     HEADER_LINE = Line([])

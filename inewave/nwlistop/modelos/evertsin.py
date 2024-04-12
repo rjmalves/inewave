@@ -11,6 +11,8 @@ class EvertAnos(ValoresSerie):
     Bloco com as informações das tabelas de vertimento em resevatórios.
     """
 
+    __slots__ = []
+
     HEADER_LINE = Line([IntegerField(4, 10)])
     DATA_LINE = Line(
         [  # type: ignore

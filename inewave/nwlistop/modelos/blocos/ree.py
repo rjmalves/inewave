@@ -10,6 +10,8 @@ class REE(Block):
     Bloco com a informaçao do REE associado aos valores.
     """
 
+    __slots__ = ["__linha"]
+
     BEGIN_PATTERN = r"REE:"
     END_PATTERN = ""
 

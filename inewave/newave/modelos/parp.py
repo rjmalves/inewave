@@ -32,6 +32,12 @@ class BlocoSerieEnergiaREE(Block):
     relativo às séries de energia por REE.
     """
 
+    __slots__ = [
+        "__campo_ree",
+        "__campo_cfg",
+        "__linha",
+    ]
+
     BEGIN_PATTERN = "SERIE  DE ENERGIAS DO REE"
     END_PATTERN = ""
 
@@ -105,6 +111,10 @@ class BlocoCorrelEnergiasREE(Block):
     relativo às séries de autocorrelações
     das energias por REE.
     """
+
+    __slots__ = [
+        "__linha",
+    ]
 
     BEGIN_PATTERN = "CORRELOGRAMO DA SERIE DE ENERGIAS"
     END_PATTERN = ""
@@ -207,6 +217,10 @@ class BlocoCorrelParcialEnergiasREE(Block):
     das energias por REE.
     """
 
+    __slots__ = [
+        "__linha",
+    ]
+
     BEGIN_PATTERN = "CORRELOGRAMO PARCIAL DA SERIE DE ENERGIAS"
     END_PATTERN = ""
 
@@ -308,6 +322,11 @@ class BlocoOrdemModeloREE(Block):
     seus coeficientes por REE.
     """
 
+    __slots__ = [
+        "__linha",
+        "__tipo",
+    ]
+
     BEGIN_PATTERN = "DO MODELO AUTORREGRESSIVO PARA CADA PERIODO"
     END_PATTERN = ""
 
@@ -397,6 +416,10 @@ class BlocoCoeficientesModeloREE(Block):
     Lista de coeficientes dos modelos PAR ou PAR-A por REE.
     """
 
+    __slots__ = [
+        "__linha",
+    ]
+
     BEGIN_PATTERN = " COEFICIENTES DA EQUACAO DE REGRESSAO DE UM PROCESSO"
     END_PATTERN = ""
 
@@ -458,6 +481,11 @@ class BlocoSerieRuidosREE(Block):
     Bloco de informações do arquivo `parp.dat`
     relativo às séries de ruídos por REE.
     """
+
+    __slots__ = [
+        "__campo_ano",
+        "__linha",
+    ]
 
     BEGIN_PATTERN = "SERIE DE RUIDOS  - ANO:"
     END_PATTERN = ""
@@ -529,6 +557,10 @@ class BlocoCorrelRuidosREE(Block):
     relativo às séries de autocorrelações
     dos ruídos por REE.
     """
+
+    __slots__ = [
+        "__linha",
+    ]
 
     BEGIN_PATTERN = "CORRELOGRAMO DA SERIE DE RUIDOS"
     END_PATTERN = ""
@@ -630,6 +662,11 @@ class BlocoSerieMediasREE(Block):
     relativo às séries de médias de 12 meses por REE.
     """
 
+    __slots__ = [
+        "__campo_ano",
+        "__linha",
+    ]
+
     BEGIN_PATTERN = "SERIE MEDIA 12 MESES - ANO:"
     END_PATTERN = ""
 
@@ -700,6 +737,10 @@ class BlocoCorrelCruzadaMediaREE(Block):
     relativo às séries de correlação cruzada da variável
     anual com as energias por REE.
     """
+
+    __slots__ = [
+        "__linha",
+    ]
 
     BEGIN_PATTERN = "CORRELACAO CRUZADA VARIAVEL ANUAL  ENERGIAS"
     END_PATTERN = ""
@@ -804,6 +845,8 @@ class BlocoCorrelEspacialAnualConfig(Block):
     anual por configuração.
     """
 
+    __slots__ = ["__campo_cfg", "__linha"]
+
     BEGIN_PATTERN = "CORRELACAO ESPACIAL HISTORICA ANUAL"
     END_PATTERN = ""
 
@@ -867,6 +910,8 @@ class BlocoCorrelEspacialMensalConfig(Block):
     relativo à correlação espacial histórica espacial
     mensal por configuração.
     """
+
+    __slots__ = ["__campo_cfg", "__linha"]
 
     BEGIN_PATTERN = "CORRELACAO ESPACIAL HISTORICA MENSAL"
     END_PATTERN = ""

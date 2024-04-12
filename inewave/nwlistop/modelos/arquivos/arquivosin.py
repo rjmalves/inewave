@@ -12,6 +12,8 @@ class ArquivoSIN(BlockFile):
     Armazena os dados das saídas por submercado.
     """
 
+    __slots__ = ["__valores"]
+
     T = TypeVar("T")
 
     BLOCKS = [ValoresSerie]

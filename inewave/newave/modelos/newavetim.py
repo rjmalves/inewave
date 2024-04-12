@@ -14,6 +14,8 @@ class BlocoTemposEtapasTim(Block):
     do NEWAVE obtidas no arquivo `newave.tim`.
     """
 
+    __slots__ = ["__line"]
+
     BEGIN_PATTERN = "Leitura de Dados:"
     END_PATTERN = ""
 

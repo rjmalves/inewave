@@ -24,6 +24,8 @@ class ModifRegister(Register):
     OBS: Atualmente só utilizados para registros VOLMIN e VOLMAX.
     """
 
+    __slots__ = ["__identifier_field", "__previous", "__next", "__data"]
+
     def __init__(
         self,
         previous=None,
@@ -71,6 +73,8 @@ class USINA(Register):
     Registro que contém a usina modificada.
     """
 
+    __slots__ = []
+
     IDENTIFIER = " USINA"
     IDENTIFIER_DIGITS = 8
     LINE = Line([IntegerField(4, 9), LiteralField(20, 44)])
@@ -109,6 +113,8 @@ class VOLMIN(ModifRegister):
     Registro que contém uma modificação de volume mínimo
     operativo para uma usina.
     """
+
+    __slots__ = []
 
     IDENTIFIER = " VOLMIN"
     IDENTIFIER_DIGITS = 8
@@ -149,6 +155,8 @@ class VOLMAX(ModifRegister):
     operativo para uma usina.
     """
 
+    __slots__ = []
+
     IDENTIFIER = " VOLMAX"
     IDENTIFIER_DIGITS = 8
     LINE = Line([FloatField(6, 10, 3), LiteralField(3, 17)])
@@ -188,6 +196,8 @@ class NUMCNJ(ModifRegister):
     de máquinas.
     """
 
+    __slots__ = []
+
     IDENTIFIER = " NUMCNJ"
     IDENTIFIER_DIGITS = 8
     LINE = Line([IntegerField(2, 11)])
@@ -212,6 +222,8 @@ class NUMMAQ(ModifRegister):
     Registro que contém uma modificação do número de máquinas em um
     conjunto de máquinas.
     """
+
+    __slots__ = []
 
     IDENTIFIER = " NUMMAQ"
     IDENTIFIER_DIGITS = 8
@@ -251,6 +263,8 @@ class VAZMIN(ModifRegister):
     Registro que contém uma modificação de vazão mínima (m3/s).
     """
 
+    __slots__ = []
+
     IDENTIFIER = " VAZMIN "
     IDENTIFIER_DIGITS = 8
     LINE = Line([IntegerField(8, 10)])
@@ -274,6 +288,8 @@ class CFUGA(ModifRegister):
     """
     Registro que contém uma modificação do nível do canal de fuga.
     """
+
+    __slots__ = []
 
     IDENTIFIER = " CFUGA"
     IDENTIFIER_DIGITS = 8
@@ -316,6 +332,8 @@ class CMONT(ModifRegister):
     Registro que contém uma modificação do nível do canal de montante.
     """
 
+    __slots__ = []
+
     IDENTIFIER = " CMONT"
     IDENTIFIER_DIGITS = 8
     LINE = Line(
@@ -357,6 +375,8 @@ class VMAXT(Register):
     Registro que contém uma modificação do volume máximo
     com data.
     """
+
+    __slots__ = []
 
     IDENTIFIER = " VMAXT"
     IDENTIFIER_DIGITS = 8
@@ -419,6 +439,8 @@ class VMINT(Register):
     com data.
     """
 
+    __slots__ = []
+
     IDENTIFIER = " VMINT"
     IDENTIFIER_DIGITS = 8
     LINE = Line(
@@ -479,6 +501,8 @@ class VMINP(Register):
     Registro que contém uma modificação do volume mínimo
     com data para adoção de penalidade.
     """
+
+    __slots__ = []
 
     IDENTIFIER = " VMINP"
     IDENTIFIER_DIGITS = 8
@@ -541,6 +565,8 @@ class VAZMINT(Register):
     com data.
     """
 
+    __slots__ = []
+
     IDENTIFIER = " VAZMINT"
     IDENTIFIER_DIGITS = 8
     LINE = Line(
@@ -586,6 +612,8 @@ class VAZMAXT(Register):
     Registro que contém uma modificação da vazão máxima
     com data.
     """
+
+    __slots__ = []
 
     IDENTIFIER = " VAZMAXT"
     IDENTIFIER_DIGITS = 8
@@ -633,6 +661,8 @@ class TURBMAXT(Register):
     com data.
     """
 
+    __slots__ = []
+
     IDENTIFIER = " TURBMAXT"
     IDENTIFIER_DIGITS = 9
     LINE = Line(
@@ -678,6 +708,8 @@ class TURBMINT(Register):
     Registro que contém uma modificação da turbinamento mínimo
     com data.
     """
+
+    __slots__ = []
 
     IDENTIFIER = " TURBMINT"
     IDENTIFIER_DIGITS = 9

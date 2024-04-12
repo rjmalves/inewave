@@ -15,6 +15,8 @@ class ValoresSerie(Block):
     entradas por série.
     """
 
+    __slots__ = ["__linha", "__linha_ano", "__ano"]
+
     BEGIN_PATTERN = "     ANO: "
     END_PATTERN = "MEDIA  "
     HEADER_LINE = Line([])

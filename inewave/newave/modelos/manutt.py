@@ -15,6 +15,8 @@ class BlocoManutencaoUTE(Section):
     no arquivo do NEWAVE `manutt.dat`.
     """
 
+    __slots__ = ["__linha_uhe", "__cabecalhos"]
+
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
         self.__linha_uhe = Line(

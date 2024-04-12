@@ -13,6 +13,8 @@ class BlocoNomeCaso(Section):
     no arquivo `dger.dat` do NEWAVE.
     """
 
+    __slots__ = ["__linha"]
+
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([LiteralField(80, 0)])
@@ -57,6 +59,8 @@ class BlocoTipoExecucao(Section):
     Bloco com o tipo de execução do caso,
     existente no arquivo `dger.dat` do NEWAVE.
     """
+
+    __slots__ = ["__linha"]
 
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
@@ -105,6 +109,8 @@ class BlocoDuracaoPeriodo(Section):
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
+    __slots__ = ["__linha"]
+
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([LiteralField(24, 0), IntegerField(2, 23)])
@@ -149,6 +155,8 @@ class BlocoNumAnosEstudo(Section):
     Bloco com o número de anos no período de estudo,
     existente no arquivo `dger.dat` do NEWAVE.
     """
+
+    __slots__ = ["__linha"]
 
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
@@ -195,6 +203,8 @@ class BlocoMesInicioPreEstudo(Section):
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
+    __slots__ = ["__linha"]
+
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([LiteralField(24, 0), IntegerField(2, 23)])
@@ -239,6 +249,8 @@ class BlocoMesInicioEstudo(Section):
     Bloco com o mês de início do período de estudo,
     existente no arquivo `dger.dat` do NEWAVE.
     """
+
+    __slots__ = ["__linha"]
 
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
@@ -299,6 +311,8 @@ class BlocoAnoInicioEstudo(Section):
         else:
             return self.data == bloco.data
 
+    __slots__ = ["__linha"]
+
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([LiteralField(24, 0), IntegerField(4, 21)])
@@ -329,6 +343,8 @@ class BlocoNumAnosPreEstudo(Section):
     Bloco com o número de anos do período pré-estudo,
     existente no arquivo `dger.dat` do NEWAVE.
     """
+
+    __slots__ = ["__linha"]
 
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
@@ -375,6 +391,8 @@ class BlocoNumAnosPosEstudo(Section):
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
+    __slots__ = ["__linha"]
+
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([LiteralField(24, 0), IntegerField(2, 23)])
@@ -419,6 +437,8 @@ class BlocoNumAnosPosEstudoSimFinal(Section):
     Bloco com o número de anos do período pós-estudo na simulação final,
     existente no arquivo `dger.dat` do NEWAVE.
     """
+
+    __slots__ = ["__linha"]
 
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
@@ -465,6 +485,8 @@ class BlocoImprimeDados(Section):
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
+    __slots__ = ["__linha"]
+
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([LiteralField(24, 0), IntegerField(1, 24)])
@@ -509,6 +531,8 @@ class BlocoImprimeMercados(Section):
     Bloco com a opção de imprimir dados de mercados,
     existente no arquivo `dger.dat` do NEWAVE.
     """
+
+    __slots__ = ["__linha"]
 
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
@@ -555,6 +579,8 @@ class BlocoImprimeEnergias(Section):
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
+    __slots__ = ["__linha"]
+
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([LiteralField(24, 0), IntegerField(1, 24)])
@@ -599,6 +625,8 @@ class BlocoImprimeModeloEstocastico(Section):
     Bloco com a opção de imprimir dados do modelo estocástico,
     de geração de cenários existente no arquivo `dger.dat` do NEWAVE.
     """
+
+    __slots__ = ["__linha"]
 
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
@@ -645,6 +673,8 @@ class BlocoImprimeSubsistema(Section):
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
+    __slots__ = ["__linha"]
+
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([LiteralField(24, 0), IntegerField(1, 24)])
@@ -689,6 +719,8 @@ class BlocoNumMaxIteracoes(Section):
     Bloco com o número máximo de iterações,
     existente no arquivo `dger.dat` do NEWAVE.
     """
+
+    __slots__ = ["__linha"]
 
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
@@ -735,6 +767,8 @@ class BlocoNumForwards(Section):
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
+    __slots__ = ["__linha"]
+
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([LiteralField(24, 0), IntegerField(4, 21)])
@@ -779,6 +813,8 @@ class BlocoNumAberturas(Section):
     Bloco com o número aberturas e se são consideradas
     aberturas variáveis, existente no arquivo `dger.dat` do NEWAVE.
     """
+
+    __slots__ = ["__linha"]
 
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
@@ -825,6 +861,8 @@ class BlocoNumSeriesSinteticas(Section):
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
+    __slots__ = ["__linha"]
+
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([LiteralField(24, 0), IntegerField(4, 21)])
@@ -870,6 +908,8 @@ class BlocoOrdemMaximaPARp(Section):
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
+    __slots__ = ["__linha"]
+
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([LiteralField(24, 0), IntegerField(2, 23)])
@@ -914,6 +954,8 @@ class BlocoAnoInicialHistorico(Section):
     Bloco com o ano inicial do histórico,
     existente no arquivo `dger.dat` do NEWAVE.
     """
+
+    __slots__ = ["__linha"]
 
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
@@ -978,6 +1020,8 @@ class BlocoCalculaVolInicial(Section):
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
+    __slots__ = ["__linha"]
+
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line(
@@ -1024,6 +1068,8 @@ class BlocoVolInicialSubsistema(Section):
     Bloco com o ano inicial do histórico,
     existente no arquivo `dger.dat` do NEWAVE.
     """
+
+    __slots__ = ["__linha", "__cabecalho"]
 
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
@@ -1077,6 +1123,8 @@ class BlocoTolerancia(Section):
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
+    __slots__ = ["__linha"]
+
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([LiteralField(21, 0), FloatField(5, 21, 1)])
@@ -1122,6 +1170,8 @@ class BlocoTaxaDesconto(Section):
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
+    __slots__ = ["__linha"]
+
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([LiteralField(21, 0), FloatField(5, 21, 1)])
@@ -1166,6 +1216,8 @@ class BlocoTipoSimFinal(Section):
     Bloco com a opção do tipo de simulação final,
     existente no arquivo `dger.dat` do NEWAVE.
     """
+
+    __slots__ = ["__linha"]
 
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
@@ -1219,6 +1271,8 @@ class BlocoImpressaoOperacao(Section):
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
+    __slots__ = ["__linha"]
+
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line(
@@ -1265,6 +1319,8 @@ class BlocoImpressaoConvergencia(Section):
     Bloco com a opção para impressão da convergência,
     existente no arquivo `dger.dat` do NEWAVE.
     """
+
+    __slots__ = ["__linha"]
 
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
@@ -1313,6 +1369,8 @@ class BlocoIntervaloGravar(Section):
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
+    __slots__ = ["__linha"]
+
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line(
@@ -1360,6 +1418,8 @@ class BlocoMinIteracoes(Section):
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
+    __slots__ = ["__linha"]
+
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([LiteralField(24, 0), IntegerField(3, 22)])
@@ -1404,6 +1464,8 @@ class BlocoRacionamentoPreventivo(Section):
     Bloco com o uso de racionamento preventivo,
     existente no arquivo `dger.dat` do NEWAVE.
     """
+
+    __slots__ = ["__linha"]
 
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
@@ -1452,6 +1514,8 @@ class BlocoNumAnosManutUTE(Section):
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
+    __slots__ = ["__linha"]
+
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line(
@@ -1498,6 +1562,8 @@ class BlocoTendenciaHidrologica(Section):
     Bloco com o uso e a forma de uso da tendência hidrológica,
     existente no arquivo `dger.dat` do NEWAVE.
     """
+
+    __slots__ = ["__linha"]
 
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
@@ -1569,6 +1635,8 @@ class BlocoRestricaoItaipu(Section):
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
+    __slots__ = ["__linha"]
+
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line(
@@ -1615,6 +1683,8 @@ class BlocoBid(Section):
     Bloco com a consideração das restrições de BID,
     existente no arquivo `dger.dat` do NEWAVE.
     """
+
+    __slots__ = ["__linha"]
 
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
@@ -1663,6 +1733,8 @@ class BlocoPerdasTransmissao(Section):
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
+    __slots__ = ["__linha"]
+
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line(
@@ -1709,6 +1781,8 @@ class BlocoElNino(Section):
     Bloco com a consideração do El Nino,
     existente no arquivo `dger.dat` do NEWAVE.
     """
+
+    __slots__ = ["__linha"]
 
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
@@ -1757,6 +1831,8 @@ class BlocoEnso(Section):
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
+    __slots__ = ["__linha"]
+
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line(
@@ -1803,6 +1879,8 @@ class BlocoDuracaoPorPatamar(Section):
     Bloco com a consideração da duração por patamar,
     existente no arquivo `dger.dat` do NEWAVE.
     """
+
+    __slots__ = ["__linha"]
 
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
@@ -1851,6 +1929,8 @@ class BlocoOutrosUsosAgua(Section):
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
+    __slots__ = ["__linha"]
+
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line(
@@ -1897,6 +1977,8 @@ class BlocoCorrecaoDesvio(Section):
     Bloco com a consideração da correção do desvio,
     existente no arquivo `dger.dat` do NEWAVE.
     """
+
+    __slots__ = ["__linha"]
 
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
@@ -1945,6 +2027,8 @@ class BlocoCurvaAversao(Section):
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
+    __slots__ = ["__linha"]
+
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line(
@@ -1992,6 +2076,8 @@ class BlocoTipoGeracaoENA(Section):
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
+    __slots__ = ["__linha"]
+
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line(
@@ -2038,6 +2124,8 @@ class BlocoRiscoDeficit(Section):
     Bloco com o uso e a forma de consideração do risco de déficit,
     existente no arquivo `dger.dat` do NEWAVE.
     """
+
+    __slots__ = ["__linha"]
 
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
@@ -2102,6 +2190,8 @@ class BlocoIteracaoParaSimFinal(Section):
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
+    __slots__ = ["__linha"]
+
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line(
@@ -2148,6 +2238,8 @@ class BlocoAgrupamentoLivre(Section):
     Bloco com a consideração do agrupamento de intercâmbios,
     existente no arquivo `dger.dat` do NEWAVE.
     """
+
+    __slots__ = ["__linha"]
 
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
@@ -2196,6 +2288,8 @@ class BlocoEqualizacaoPenalInt(Section):
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
+    __slots__ = ["__linha"]
+
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line(
@@ -2242,6 +2336,8 @@ class BlocoRepresentacaoSubmot(Section):
     Bloco com a consideração da representação de submotorização,
     existente no arquivo `dger.dat` do NEWAVE.
     """
+
+    __slots__ = ["__linha"]
 
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
@@ -2290,6 +2386,8 @@ class BlocoOrdenacaoAutomatica(Section):
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
+    __slots__ = ["__linha"]
+
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line(
@@ -2336,6 +2434,8 @@ class BlocoConsideraCargaAdicional(Section):
     Bloco com a consideração de cargas adicionais,
     existente no arquivo `dger.dat` do NEWAVE.
     """
+
+    __slots__ = ["__linha"]
 
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
@@ -2384,6 +2484,8 @@ class BlocoDeltaZSUP(Section):
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
+    __slots__ = ["__linha"]
+
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line(
@@ -2430,6 +2532,8 @@ class BlocoDeltaZINF(Section):
     Bloco com a tolerância de variação do Zinf,
     existente no arquivo `dger.dat` do NEWAVE.
     """
+
+    __slots__ = ["__linha"]
 
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
@@ -2478,6 +2582,8 @@ class BlocoDeltasConsecutivos(Section):
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
+    __slots__ = ["__linha"]
+
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([LiteralField(24, 0), IntegerField(1, 24)])
@@ -2522,6 +2628,8 @@ class BlocoDespachoAntecipadoGNL(Section):
     Bloco com a consideração de despacho antecipado,
     existente no arquivo `dger.dat` do NEWAVE.
     """
+
+    __slots__ = ["__linha"]
 
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
@@ -2570,6 +2678,8 @@ class BlocoModifAutomaticaAdTerm(Section):
     de térmicas, existente no arquivo `dger.dat` do NEWAVE.
     """
 
+    __slots__ = ["__linha"]
+
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line(
@@ -2616,6 +2726,8 @@ class BlocoGeracaoHidraulicaMin(Section):
     Bloco com a consideração de geração hidraulica mínima,
     existente no arquivo `dger.dat` do NEWAVE.
     """
+
+    __slots__ = ["__linha"]
 
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
@@ -2664,6 +2776,8 @@ class BlocoSimFinalComData(Section):
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
+    __slots__ = ["__linha"]
+
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line(
@@ -2710,6 +2824,8 @@ class BlocoGerenciamentoPLs(Section):
     Bloco com as configurações do gerenciamento de PLs
     aberturas variáveis, existente no arquivo `dger.dat` do NEWAVE.
     """
+
+    __slots__ = ["__linha"]
 
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
@@ -2824,6 +2940,8 @@ class BlocoSAR(Section):
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
+    __slots__ = ["__linha"]
+
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line(
@@ -2870,6 +2988,8 @@ class BlocoCVAR(Section):
     Bloco com a configuração para uso do CVAR,
     existente no arquivo `dger.dat` do NEWAVE.
     """
+
+    __slots__ = ["__linha"]
 
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
@@ -2918,6 +3038,8 @@ class BlocoZSUPMinConvergencia(Section):
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
+    __slots__ = ["__linha"]
+
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line(
@@ -2964,6 +3086,8 @@ class BlocoDesconsideraVazaoMinima(Section):
     Bloco com a configuração para desconsiderar vazao mínima,
     existente no arquivo `dger.dat` do NEWAVE.
     """
+
+    __slots__ = ["__linha"]
 
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
@@ -3012,6 +3136,8 @@ class BlocoRestricoesEletricas(Section):
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
+    __slots__ = ["__linha"]
+
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line(
@@ -3058,6 +3184,8 @@ class BlocoSelecaoCortes(Section):
     Bloco com a consideração da seleção de cortes,
     existente no arquivo `dger.dat` do NEWAVE.
     """
+
+    __slots__ = ["__linha"]
 
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
@@ -3125,6 +3253,8 @@ class BlocoJanelaCortes(Section):
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
+    __slots__ = ["__linha"]
+
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line(
@@ -3171,6 +3301,8 @@ class BlocoReamostragemCenarios(Section):
     Bloco com as configurações de reamostragem de cenários,
     existente no arquivo `dger.dat` do NEWAVE.
     """
+
+    __slots__ = ["__linha"]
 
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
@@ -3253,6 +3385,8 @@ class BlocoConvergeNoZero(Section):
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
+    __slots__ = ["__linha"]
+
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line(
@@ -3299,6 +3433,8 @@ class BlocoConsultaFCF(Section):
     Bloco com a consideração da consulta à FCF,
     existente no arquivo `dger.dat` do NEWAVE.
     """
+
+    __slots__ = ["__linha"]
 
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
@@ -3347,6 +3483,8 @@ class BlocoImpressaoENA(Section):
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
+    __slots__ = ["__linha"]
+
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line(
@@ -3393,6 +3531,8 @@ class BlocoImpressaoCortesAtivosSimFinal(Section):
     Bloco com a consideração da impressão dos cortes ativos
     na simulação final, existente no arquivo `dger.dat` do NEWAVE.
     """
+
+    __slots__ = ["__linha"]
 
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
@@ -3441,6 +3581,8 @@ class BlocoRepresentacaoAgregacao(Section):
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
+    __slots__ = ["__linha"]
+
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line(
@@ -3487,6 +3629,8 @@ class BlocoMatrizCorrelacaoEspacial(Section):
     Bloco com a representação da correlação espacial,
     existente no arquivo `dger.dat` do NEWAVE.
     """
+
+    __slots__ = ["__linha"]
 
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
@@ -3535,6 +3679,8 @@ class BlocoDesconsideraConvEstatistica(Section):
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
+    __slots__ = ["__linha"]
+
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line(
@@ -3581,6 +3727,8 @@ class BlocoMomentoReamostragem(Section):
     Bloco com a escolha do momento de reamostragem,
     existente no arquivo `dger.dat` do NEWAVE.
     """
+
+    __slots__ = ["__linha"]
 
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
@@ -3629,6 +3777,8 @@ class BlocoMantemArquivosEnergias(Section):
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
+    __slots__ = ["__linha"]
+
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line(
@@ -3675,6 +3825,8 @@ class BlocoInicioTesteConvergencia(Section):
     Bloco com a iteração de início para o teste de convergência,
     existente no arquivo `dger.dat` do NEWAVE.
     """
+
+    __slots__ = ["__linha"]
 
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
@@ -3723,6 +3875,8 @@ class BlocoSazonalizarVminT(Section):
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
+    __slots__ = ["__linha"]
+
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line(
@@ -3769,6 +3923,8 @@ class BlocoSazonalizarVmaxT(Section):
     Bloco com a escolha de sazonalizar o VmaxT nos períodos estáticos,
     existente no arquivo `dger.dat` do NEWAVE.
     """
+
+    __slots__ = ["__linha"]
 
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
@@ -3817,6 +3973,8 @@ class BlocoSazonalizarVminP(Section):
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
+    __slots__ = ["__linha"]
+
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line(
@@ -3863,6 +4021,8 @@ class BlocoSazonalizarCfugaCmont(Section):
     Bloco com a escolha de sazonalizar Cfuga e Cmont nos períodos
     estáticos, existente no arquivo `dger.dat` do NEWAVE.
     """
+
+    __slots__ = ["__linha"]
 
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
@@ -3911,6 +4071,8 @@ class BlocoRestricoesEmissaoGEE(Section):
     existente no arquivo `dger.dat` do NEWAVE.
     """
 
+    __slots__ = ["__linha"]
+
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line(
@@ -3957,6 +4119,8 @@ class BlocoAfluenciaAnualPARp(Section):
     Bloco com a consideração da componente de afluência anual
     para o PAR(p), existente no arquivo `dger.dat` do NEWAVE.
     """
+
+    __slots__ = ["__linha"]
 
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
@@ -4026,6 +4190,8 @@ class BlocoRestricoesFornecGas(Section):
     de gás, existente no arquivo `dger.dat` do NEWAVE.
     """
 
+    __slots__ = ["__linha"]
+
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line(
@@ -4074,6 +4240,8 @@ class BlocoMemCalculoCortes(Section):
     cálculo dos cortes de Benders.
     """
 
+    __slots__ = ["__linha"]
+
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line(
@@ -4121,6 +4289,8 @@ class BlocoGeracaoEolica(Section):
     eólica na geração de cenários, cálculo da política e simulação final,
     e também a penalidade para corte de eólica.
     """
+
+    __slots__ = ["__linha"]
 
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
@@ -4188,6 +4358,8 @@ class BlocoCompensacaoCorrelacaoCruzada(Section):
     cruzada nos cenários do NEWAVE.
     """
 
+    __slots__ = ["__linha"]
+
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line(
@@ -4236,6 +4408,8 @@ class BlocoConsideracaoTurbinamentoMinimoMaximo(Section):
     turbinamento mínimo e máximo nos períodos individualizados do NEWAVE.
     """
 
+    __slots__ = ["__linha"]
+
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line(
@@ -4282,6 +4456,8 @@ class BlocoConsideracaoDefluenciaMaxima(Section):
     Bloco com a escolha da consideração, ou não, das restrições de
     defluência máxima nos períodos individualizados do NEWAVE.
     """
+
+    __slots__ = ["__linha"]
 
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
@@ -4330,6 +4506,8 @@ class BlocoAproveitamentoBasePLsBackward(Section):
     calculadas na forward para a execução da backward.
     """
 
+    __slots__ = ["__linha"]
+
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line(
@@ -4376,6 +4554,8 @@ class BlocoImpressaoEstadosGeracaoCortes(Section):
     Bloco com a escolha da consideração, ou não, da impressão dos estados
     nos quais foram construídos os cortes (cortese.dat).
     """
+
+    __slots__ = ["__linha"]
 
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
@@ -4424,6 +4604,8 @@ class BlocoSementeForward(Section):
     valores aleatórios durante a simulação forward.
     """
 
+    __slots__ = ["__linha"]
+
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line(
@@ -4470,6 +4652,8 @@ class BlocoSementeBackward(Section):
     Bloco com a escolha da semente utilizada para geração de
     valores aleatórios durante a etapa backward.
     """
+
+    __slots__ = ["__linha"]
 
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
@@ -4518,6 +4702,8 @@ class BlocoRestricaoLPPTurbinamentoMaximoREE(Section):
     de turbinamento máximo por REE.
     """
 
+    __slots__ = ["__linha"]
+
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line(
@@ -4564,6 +4750,8 @@ class BlocoRestricaoLPPDefluenciaMaximaREE(Section):
     Bloco com a escolha da consideração, ou não, das restrições LPP
     de defluência máxima por REE.
     """
+
+    __slots__ = ["__linha"]
 
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
@@ -4612,6 +4800,8 @@ class BlocoRestricaoLPPTurbinamentoMaximoUHE(Section):
     de turbinamento máximo por UHE.
     """
 
+    __slots__ = ["__linha"]
+
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line(
@@ -4658,6 +4848,8 @@ class BlocoRestricaoLPPDefluenciaMaximaUHE(Section):
     Bloco com a escolha da consideração, ou não, das restrições LPP
     de defluência máxima por UHE.
     """
+
+    __slots__ = ["__linha"]
 
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
@@ -4706,6 +4898,8 @@ class BlocoRestricoesEletricasEspeciais(Section):
     elétricas especiais.
     """
 
+    __slots__ = ["__linha"]
+
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line(
@@ -4752,6 +4946,8 @@ class BlocoFuncaoProducaoUHE(Section):
     Bloco com a escolha da consideração, ou não, da função de produção
     hidroelétricas via FPHA ou linear.
     """
+
+    __slots__ = ["__linha"]
 
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
@@ -4800,6 +4996,8 @@ class BlocoFCFPosEstudo(Section):
     do período pós-estudo para acoplamento.
     """
 
+    __slots__ = ["__linha"]
+
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line(
@@ -4846,6 +5044,8 @@ class BlocoEstacoesBombeamento(Section):
     Bloco com a escolha da consideração, ou não, de estações de bombeamento
     no estudo.
     """
+
+    __slots__ = ["__linha"]
 
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
@@ -4894,6 +5094,8 @@ class BlocoCanalDesvio(Section):
     hidrelétricas e reservatórios.
     """
 
+    __slots__ = ["__linha"]
+
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line(
@@ -4940,6 +5142,8 @@ class BlocoRHQ(Section):
     Bloco com a escolha da consideração, ou não, de restrições de vazão
     (RHQ).
     """
+
+    __slots__ = ["__linha"]
 
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
@@ -4988,6 +5192,8 @@ class BlocoRHV(Section):
     (RHV).
     """
 
+    __slots__ = ["__linha"]
+
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line(
@@ -5034,6 +5240,8 @@ class BlocoTratamentoCortes(Section):
     Bloco com a escolha dos tratamentos aplicados ao arquivo
     de cortes.
     """
+
+    __slots__ = ["__linha"]
 
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)

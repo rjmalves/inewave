@@ -10,6 +10,8 @@ class Usina(Block):
     Bloco com a informaçao da usina associado aos valores.
     """
 
+    __slots__ = ["__linha"]
+
     BEGIN_PATTERN = r"USINA:"
     END_PATTERN = ""
 

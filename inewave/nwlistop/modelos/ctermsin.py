@@ -13,6 +13,8 @@ class CtermsAnos(ValoresSerie):
     Bloco com a informaçao de custo de geração térmica.
     """
 
+    __slots__ = []
+
     HEADER_LINE = Line([IntegerField(4, 10)])
     DATA_LINE = Line(
         [  # type: ignore

@@ -12,6 +12,8 @@ class VevminAnos(ValoresSerie):
     de energia de vazão mínima em MWmes.
     """
 
+    __slots__ = []
+
     HEADER_LINE = Line([IntegerField(4, 10)])
     DATA_LINE = Line(
         [  # type: ignore

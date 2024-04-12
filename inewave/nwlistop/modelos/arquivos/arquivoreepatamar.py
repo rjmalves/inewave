@@ -13,6 +13,8 @@ class ArquivoREEPatamar(BlockFile):
     Armazena os dados das saídas por patamar, por REE.
     """
 
+    __slots__ = ["__valores"]
+
     T = TypeVar("T")
 
     BLOCKS = [REE, ValoresSeriePatamar]

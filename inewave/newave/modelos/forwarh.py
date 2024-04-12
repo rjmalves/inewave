@@ -10,6 +10,8 @@ class SecaoDadosForwarh(Section):
     arquivo forwarh.dat
     """
 
+    __slots__ = []
+
     ZVAZ = 100
 
     def __eq__(self, o: object) -> bool:

@@ -26,6 +26,8 @@ class BlocoNumeroPatamaresDeficit(Section):
     Bloco com o número de patamares de déficit considerados.
     """
 
+    __slots__ = ["__linha", "__cabecalhos"]
+
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line(
@@ -72,6 +74,8 @@ class BlocoCustosDeficit(Section):
     Bloco com informações sobre o custo de déficit por
     patamar de déficit e o número de patamares de déficit.
     """
+
+    __slots__ = ["__linha", "__cabecalhos"]
 
     FIM_BLOCO = " 999"
 
@@ -219,6 +223,8 @@ class BlocoIntercambioSubsistema(Section):
     Bloco com a informação de intercâmbio
     por mês/ano de estudo para cada subsistema.
     """
+
+    __slots__ = ["__linha", "__linha_subsis", "__cabecalhos"]
 
     FIM_BLOCO = " 999"
 
@@ -391,6 +397,8 @@ class BlocoMercadoEnergiaSistema(Section):
     por mês/ano de estudo para cada subsistema.
     """
 
+    __slots__ = ["__linha", "__linha_subsis", "__cabecalhos"]
+
     FIM_BLOCO = " 999"
 
     def __init__(self, previous=None, next=None, data=None) -> None:
@@ -519,6 +527,8 @@ class BlocoGeracaoUsinasNaoSimuladas(Section):
     Bloco com a geração de usinas não simuladas em P.U. para
     cada patamar, por mês de estudo, extraído do arquivo `sistema.dat`.
     """
+
+    __slots__ = ["__linha", "__linha_subsis", "__cabecalhos"]
 
     FIM_BLOCO = " 999"
 

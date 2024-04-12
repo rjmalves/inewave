@@ -29,6 +29,8 @@ class Modif(RegisterFile):
     configurações das usinas hidroelétricas.
     """
 
+    __slots__ = []
+
     T = TypeVar("T")
 
     REGISTERS = [
