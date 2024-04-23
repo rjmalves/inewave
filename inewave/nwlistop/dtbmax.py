@@ -4,6 +4,8 @@ from inewave.nwlistop.modelos.arquivos.arquivousinapatamar import (
 )
 from inewave.nwlistop.modelos.dtbmax import DtbmaxAnos
 
+from warnings import warn
+
 
 class Dtbmax(ArquivoUsinaPatamar):
     """
@@ -20,3 +22,11 @@ class Dtbmax(ArquivoUsinaPatamar):
         Usina,
         DtbmaxAnos,
     ]
+
+    def __init__(self, data=...) -> None:
+        warn(
+            "Esta classe é relativa a um arquivo que não é mais suportado."
+            + " Utilize a classe ViolTurbmax no lugar.",
+            DeprecationWarning,
+        )
+        super().__init__(data)

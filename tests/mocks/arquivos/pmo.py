@@ -1,3 +1,7 @@
+MockVersaoModeloPMO = [
+    " CEPEL                         MODELO ESTRATEGICO DE GERACAO HIDROTERMICA A SUBSISTEMAS              VERSAO  29.3.1                             \n"
+]
+
 MockBlocoEafPastTendenciaHidrolPMO = [
     "         ENERGIAS AFLUENTES PASSADAS PARA A TENDENCIA HIDROLOGICA EM REFERENCIA A PRIMEIRA CONFIGURACAO DO SISTEMA (MWmes)\n",
     " X--------------------------------------------------------------------------------------------------------------------------------------------X\n",
@@ -7095,7 +7099,8 @@ MockBlocoCustoOperacaoTotalPMO = [
 ]
 
 MockPMO = (
-    MockBlocoEafPastTendenciaHidrolPMO
+    MockVersaoModeloPMO
+    + MockBlocoEafPastTendenciaHidrolPMO
     + MockBlocoEafPastCfugaMedioPMO
     + MockBlocoEnergiaArmazenadaMaximaPMO
     + MockBlocoEnergiaArmazenadaInicialPMO

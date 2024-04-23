@@ -1,3 +1,4 @@
+from inewave.newave.modelos.pmo import BlocoVersaoModeloPMO
 from inewave.newave.modelos.pmo import BlocoEafPastTendenciaHidrolPMO
 from inewave.newave.modelos.pmo import BlocoEafPastCfugaMedioPMO
 from inewave.newave.modelos.pmo import BlocoConvergenciaPMO
@@ -48,6 +49,7 @@ class Pmo(BlockFile):
     T = TypeVar("T")
 
     BLOCKS = [
+        BlocoVersaoModeloPMO,
         BlocoEafPastTendenciaHidrolPMO,
         BlocoEafPastCfugaMedioPMO,
         BlocoConvergenciaPMO,
@@ -70,6 +72,21 @@ class Pmo(BlockFile):
         BlocoGeracaoMinimaUsinasTermicasPMO,
         BlocoGeracaoMaximaUsinasTermicasPMO,
     ]
+
+    @property
+    def versao_modelo(self) -> Optional[str]:
+        """
+        A versão do modelo que produziu o arquivo.
+
+        :return: A string de versão do modelo.
+        :rtype: str | None
+        """
+        b = self.data.get_blocks_of_type(BlocoVersaoModeloPMO)
+        if isinstance(b, BlocoVersaoModeloPMO):
+            return b.data
+        elif isinstance(b, list):
+            return b[0].data
+        return None
 
     @property
     def eafpast_tendencia_hidrologica(self) -> Optional[pd.DataFrame]:

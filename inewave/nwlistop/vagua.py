@@ -3,6 +3,8 @@ from inewave.nwlistop.modelos.arquivos.arquivoree import ArquivoREE
 
 from inewave.nwlistop.modelos.vagua import VAAnos
 
+from warnings import warn
+
 
 class Vagua(ArquivoREE):
     """
@@ -19,3 +21,11 @@ class Vagua(ArquivoREE):
         REE,
         VAAnos,
     ]
+
+    def __init__(self, data=...) -> None:
+        warn(
+            "Esta classe é relativa a um arquivo que não é mais suportado."
+            + " Utilize a classe ValorAgua no lugar.",
+            DeprecationWarning,
+        )
+        super().__init__(data)

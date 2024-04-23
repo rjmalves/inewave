@@ -478,8 +478,6 @@ def test_leitura_escrita_usinas_hidreletricas():
         linhas_escritas = [
             chamadas[i].args[0] for i in range(1, len(chamadas) - 1)
         ]
-        for li in linhas_escritas:
-            print(li)
     m_releitura: MagicMock = mock_open(read_data="".join(linhas_escritas))
     with patch("builtins.open", m_releitura):
         cf2 = UsinasHidreletricas.read(ARQ_TESTE)

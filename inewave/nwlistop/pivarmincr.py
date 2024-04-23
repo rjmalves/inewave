@@ -2,7 +2,7 @@ from inewave.nwlistop.modelos.blocos.usina import Usina
 from inewave.nwlistop.modelos.arquivos.arquivousina import (
     ArquivoUsina,
 )
-from inewave.nwlistop.modelos.pivarmincr import PivarmAnos
+from inewave.nwlistop.modelos.pivarmincr import PivarmAnos, PivarmAnos_v29_2
 
 
 class Pivarmincr(ArquivoUsina):
@@ -18,5 +18,16 @@ class Pivarmincr(ArquivoUsina):
 
     BLOCKS = [
         Usina,
-        PivarmAnos,
+        PivarmAnos_v29_2,
     ]
+
+    VERSIONS = {
+        "28.12": [
+            Usina,
+            PivarmAnos,
+        ],
+        "29.2": [
+            Usina,
+            PivarmAnos_v29_2,
+        ],
+    }

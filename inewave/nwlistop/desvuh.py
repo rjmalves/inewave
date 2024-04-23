@@ -4,6 +4,8 @@ from inewave.nwlistop.modelos.arquivos.arquivousina import (
 )
 from inewave.nwlistop.modelos.desvuh import DesvuhAnos
 
+from warnings import warn
+
 
 class Desvuh(ArquivoUsina):
     """
@@ -19,3 +21,11 @@ class Desvuh(ArquivoUsina):
         Usina,
         DesvuhAnos,
     ]
+
+    def __init__(self, data=...) -> None:
+        warn(
+            "Esta classe é relativa a um arquivo que não é mais suportado."
+            + " Utilize a classe Vretiradauh no lugar.",
+            DeprecationWarning,
+        )
+        super().__init__(data)

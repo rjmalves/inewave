@@ -3,6 +3,8 @@ from inewave.nwlistop.modelos.arquivos.arquivosin import (
 )
 from inewave.nwlistop.modelos.vevminsin import VevminAnos
 
+from warnings import warn
+
 
 class Vevminsin(ArquivoSIN):
     """
@@ -17,3 +19,11 @@ class Vevminsin(ArquivoSIN):
     BLOCKS = [
         VevminAnos,
     ]
+
+    def __init__(self, data=...) -> None:
+        warn(
+            "Esta classe é relativa a um arquivo que não é mais suportado."
+            + " Utilize a classe ViolEvminsin no lugar.",
+            DeprecationWarning,
+        )
+        super().__init__(data)

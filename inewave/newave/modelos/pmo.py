@@ -21,6 +21,46 @@ from inewave._utils.formatacao import (
 )
 
 
+class BlocoVersaoModeloPMO(Block):
+    """
+    Bloco com a versão do modelo localizado no arquivo `pmo.dat`.
+    """
+
+    __slots__ = ["__line"]
+
+    BEGIN_PATTERN = (
+        " CEPEL                         MODELO ESTRATEGICO DE"
+        + " GERACAO HIDROTERMICA A SUBSISTEMAS              VERSAO"
+    )
+    END_PATTERN = ""
+
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
+
+        self.__line = Line([LiteralField(18, 109)])
+
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoVersaoModeloPMO):
+            return False
+        bloco: BlocoVersaoModeloPMO = o
+        if not all(
+            [
+                isinstance(self.data, str),
+                isinstance(o.data, str),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
+
+    # Override
+    def read(self, file: IO, *args, **kwargs):
+
+        linha = file.readline()
+        dados: List[str] = self.__line.read(linha)
+        self.data = dados[0].strip()
+
+
 class BlocoEafPastTendenciaHidrolPMO(Block):
     """
     Bloco de informações de afluências passadas para

@@ -3,6 +3,8 @@ from inewave.nwlistop.modelos.arquivos.arquivosin import (
 )
 from inewave.nwlistop.modelos.c_v_rhv_s import CVRHVAnos
 
+from warnings import warn
+
 
 class CVRHVs(ArquivoSIN):
     """
@@ -17,3 +19,11 @@ class CVRHVs(ArquivoSIN):
     BLOCKS = [
         CVRHVAnos,
     ]
+
+    def __init__(self, data=...) -> None:
+        warn(
+            "Esta classe é relativa a um arquivo que não é mais suportado."
+            + " Utilize a classe CviolRhvsin no lugar.",
+            DeprecationWarning,
+        )
+        super().__init__(data)
