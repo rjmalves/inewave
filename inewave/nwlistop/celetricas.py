@@ -3,6 +3,8 @@ from inewave.nwlistop.modelos.arquivos.arquivosinpatamar import (  # noqa
 )
 from inewave.nwlistop.modelos.celetricas import CeletricasAnos
 
+from warnings import warn
+
 
 class Celetricas(ArquivoSINPatamar):
     """
@@ -17,3 +19,11 @@ class Celetricas(ArquivoSINPatamar):
     BLOCKS = [
         CeletricasAnos,
     ]
+
+    def __init__(self, data=...) -> None:
+        warn(
+            "Esta classe é relativa a um arquivo que não é mais suportado."
+            + " Utilize a classe CviolEletricasin no lugar.",
+            DeprecationWarning,
+        )
+        super().__init__(data)

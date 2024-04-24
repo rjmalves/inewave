@@ -4,6 +4,8 @@ from inewave.nwlistop.modelos.arquivos.arquivosubmercadopatamar import (
 )
 from inewave.nwlistop.modelos.vghminm import VghminAnos
 
+from warnings import warn
+
 
 class Vghminm(ArquivoSubmercadoPatamar):
     """
@@ -20,3 +22,11 @@ class Vghminm(ArquivoSubmercadoPatamar):
         Submercado,
         VghminAnos,
     ]
+
+    def __init__(self, data=...) -> None:
+        warn(
+            "Esta classe é relativa a um arquivo que não é mais suportado."
+            + " Utilize a classe ViolGhminm no lugar.",
+            DeprecationWarning,
+        )
+        super().__init__(data)

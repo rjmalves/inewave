@@ -1,4 +1,5 @@
 from inewave.newave.modelos.pmo import (
+    BlocoVersaoModeloPMO,
     BlocoConvergenciaPMO,
     BlocoEafPastTendenciaHidrolPMO,
     BlocoEafPastCfugaMedioPMO,
@@ -28,6 +29,7 @@ from datetime import datetime
 from tests.mocks.mock_open import mock_open
 from unittest.mock import MagicMock, patch
 
+from tests.mocks.arquivos.pmo import MockVersaoModeloPMO
 from tests.mocks.arquivos.pmo import MockBlocoEafPastTendenciaHidrolPMO
 from tests.mocks.arquivos.pmo import MockBlocoEafPastCfugaMedioPMO
 from tests.mocks.arquivos.pmo import MockBlocoConvergenciaPMO
@@ -61,6 +63,16 @@ from tests.mocks.arquivos.pmo import (
 from tests.mocks.arquivos.pmo import MockPMO
 
 ARQ_TESTE = "./tests/mocks/arquivos/__init__.py"
+
+
+def test_versao_modelo():
+    m: MagicMock = mock_open(read_data="".join(MockVersaoModeloPMO))
+    b = BlocoVersaoModeloPMO()
+    with patch("builtins.open", m):
+        with open("", "") as fp:
+            b.read(fp)
+
+    assert b.data == "29.3.1"
 
 
 def test_eafpast_tendencia_hidrologica():
@@ -376,6 +388,7 @@ def test_atributos_encontrados_pmo():
     m: MagicMock = mock_open(read_data="".join(MockPMO))
     with patch("builtins.open", m):
         pmo = Pmo.read(ARQ_TESTE)
+        assert pmo.versao_modelo is not None
         assert pmo.eafpast_tendencia_hidrologica is not None
         assert pmo.eafpast_cfuga_medio is not None
         assert pmo.convergencia is not None
@@ -409,6 +422,7 @@ def test_atributos_nao_encontrados_pmo():
     m: MagicMock = mock_open(read_data="".join(MockBlocoConvergenciaPMO))
     with patch("builtins.open", m):
         pmo = Pmo.read(ARQ_TESTE)
+        assert pmo.versao_modelo is None
         assert pmo.convergencia is not None
         assert pmo.custo_operacao_series_simuladas is None
         assert pmo.custo_operacao_total is None

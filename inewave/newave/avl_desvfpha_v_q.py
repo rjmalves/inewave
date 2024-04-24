@@ -5,6 +5,8 @@ from cfinterface.files.blockfile import BlockFile
 from typing import Optional, TypeVar
 import pandas as pd  # type: ignore
 
+from warnings import warn
+
 
 class AvlDesvFphaVQ(BlockFile):
     """
@@ -18,6 +20,11 @@ class AvlDesvFphaVQ(BlockFile):
     T = TypeVar("T")
 
     def __init__(self, data=...) -> None:
+        warn(
+            "Esta classe é relativa a um arquivo que não é mais suportado."
+            + " Utilize a classe FphaAvlDesvVQ no lugar.",
+            DeprecationWarning,
+        )
         super().__init__(data)
         self.__df_completo: Optional[pd.DataFrame] = None
 

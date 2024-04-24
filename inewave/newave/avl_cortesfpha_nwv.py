@@ -11,6 +11,8 @@ from inewave.newave.modelos.arquivoscsv.arquivocsv import ArquivoCSV
 from typing import Optional
 import pandas as pd  # type: ignore
 
+from warnings import warn
+
 
 class AvlCortesFpha(ArquivoCSV):
     """
@@ -44,3 +46,11 @@ class AvlCortesFpha(ArquivoCSV):
         :rtype: pd.DataFrame | None
         """
         return self._tabela()
+
+    def __init__(self, data=...) -> None:
+        warn(
+            "Esta classe é relativa a um arquivo que não é mais suportado."
+            + " Utilize a classe FphaCortes no lugar.",
+            DeprecationWarning,
+        )
+        super().__init__(data)

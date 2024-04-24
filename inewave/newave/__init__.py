@@ -1,5 +1,14 @@
 # Inclui os membros
 
+# Deprecated
+from .avl_cortesfpha_nwv import AvlCortesFpha  # noqa
+from .avl_desvfpha_s import AvlDesvFphaS  # noqa
+from .avl_desvfpha_v_q import AvlDesvFphaVQ  # noqa
+from .eco_fpha import EcoFpha  # noqa
+from .nwv_avl_evap import NwvAvlEvap  # noqa
+from .nwv_cortes_evap import NwvCortesEvap  # noqa
+from .nwv_eco_evap import NwvEcoEvap  # noqa
+
 from .abertura import Abertura  # noqa
 from .adterm import Adterm  # noqa
 from .agrint import Agrint  # noqa
@@ -46,13 +55,13 @@ from .term import Term  # noqa
 from .vazoes import Vazoes  # noqa
 from .vazpast import Vazpast  # noqa
 from .volref_saz import VolrefSaz  # noqa
-from .avl_cortesfpha_nwv import AvlCortesFpha  # noqa
-from .avl_desvfpha_s import AvlDesvFphaS  # noqa
-from .avl_desvfpha_v_q import AvlDesvFphaVQ  # noqa
-from .eco_fpha import EcoFpha  # noqa
-from .nwv_avl_evap import NwvAvlEvap  # noqa
-from .nwv_cortes_evap import NwvCortesEvap  # noqa
-from .nwv_eco_evap import NwvEcoEvap  # noqa
+from .fpha_cortes import FphaCortes  # noqa
+from .fpha_avl_desv_s import FphaAvlDesvS  # noqa
+from .fpha_avl_desv_v_q import FphaAvlDesvVQ  # noqa
+from .fpha_eco import FphaEco  # noqa
+from .evap_avl_desv import EvapAvlDesv  # noqa
+from .evap_cortes import EvapCortes  # noqa
+from .evap_eco import EvapEco  # noqa
 from .energiaf import Energiaf  # noqa
 from .energiab import Energiab  # noqa
 from .energias import Energias  # noqa

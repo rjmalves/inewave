@@ -230,7 +230,6 @@ def test_registro_rhv():
     with patch("builtins.open", m):
         with open("", "") as fp:
             r.read(fp)
-    print(r.data)
     assert r.data == [1, "1*vtur(18) + 2*vver(17) + 2*varm(18)"]
     assert r.codigo_restricao == 1
     r.codigo_restricao = 5
@@ -328,8 +327,6 @@ def test_leitura_escrita_restricoes():
         linhas_escritas = [
             chamadas[i].args[0] for i in range(1, len(chamadas) - 1)
         ]
-        for li in linhas_escritas:
-            print(li)
     m_releitura: MagicMock = mock_open(read_data="".join(linhas_escritas))
     with patch("builtins.open", m_releitura):
         cf2 = Restricoes.read(ARQ_TESTE)

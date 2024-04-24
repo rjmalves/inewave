@@ -3,6 +3,8 @@ from inewave.nwlistop.modelos.arquivos.arquivosinpatamar import (
 )
 from inewave.nwlistop.modelos.vghmin import VghminAnos
 
+from warnings import warn
+
 
 class Vghminsin(ArquivoSINPatamar):
     """
@@ -17,3 +19,11 @@ class Vghminsin(ArquivoSINPatamar):
     BLOCKS = [
         VghminAnos,
     ]
+
+    def __init__(self, data=...) -> None:
+        warn(
+            "Esta classe é relativa a um arquivo que não é mais suportado."
+            + " Utilize a classe ViolGhminsin no lugar.",
+            DeprecationWarning,
+        )
+        super().__init__(data)

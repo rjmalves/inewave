@@ -1,3 +1,10 @@
+# 1.8.0
+- Nomes de arquivos e formatos atualizados para compatibilidade com a versão 29.3 do modelo NEWAVE. Classes que implementam os arquivos antigos foram marcadas como `deprecated`, mas ainda existem no módulo.
+- Suporte à obtenção da versão do modelo utilizada, impressa no arquivo `pmo.dat`.
+- Arquivos do modelo NEWAVE renomeados: `nwv_avl_evap.csv` (`evap_avl_desv.csv`), `nwv_cortes_evap.csv` (`evap_cortes.csv`), `nwv_eco_evap.csv` (`evap_eco.csv`), `avl_cortesfpha_nwv.csv` (`fpha_cortes.csv`), `eco_fpha.csv` (`fpha_eco_.csv`), `avl_desvfpha_v_q.csv` (`fpha_avl_desv_v_q.csv`) e `avl_desvfpha_s.csv` (`fpha_avl_desv_s.csv`)
+- Arquivos do NWLISTOP renomeados: `dlpptbmax.out` (`viol_lpp_tbmax.out`), `dlpptbmaxm.out` (`viol_lpp_tbmaxm.out`), `dlpptbmaxsin.out` (`viol_lpp_tbmaxsin.out`), `dlppdfmax.out` (`viol_lpp_dfmax.out`), `dlppdfmaxm.out` (`viol_lpp_dfmaxm.out`), `dlppdfmaxsin.out` (`viol_lpp_dfmaxsin.out`), `vevmin.out` (`viol_evmin.out`), `vevminm.out` (`viol_evminm.out`), `vevminsin.out` (`viol_evminsin.out`), `deletricasin.out` (`viol_eletricasin.out`), `celetricasin.out` (`cviol_eletricasin.out`), `c_v_rhq.out` (`cviol_rhq.out`),  `c_v_rhq_s.out` (`cviol_rhq_sin.out`), `c_v_rhv.out` (`cviol_rhv.out`),  `c_v_rhv_s.out` (`cviol_rhv_sin.out`), `vghmin.out` (`viol_ghmin.out`), `vghminm.out` (`viol_ghminm.out`), `vghminsin.out` (`viol_ghminsin.out`), `vghminuh.out` (`viol_ghminuh.out`),  `vagua.out` (`valor_agua.out`), `depminuh.out` (`viol_vazmin.out`), `dvazmax.out` (`viol_vazmax.out`), `desvuh.out` (`vretiradauh.out`), `vturuh.out` (`qturuh.out`), `vertuh.out` (`qvertuh.out`), `vdesviouh.out` (`qdesviouh.out`), `dfphauh.out` (`viol_fpha.out`), `dtbmax.out` (`viol_turbmax.out`), `dtbmin.out` (`viol_turbmin.out`),  `dpos_evap.out` (`viol_pos_evap.out`), `dneg_evap.out` (`viol_neg_evap.out`).
+
+
 # 1.7.5
 - Dependência da cfinterface atualizada para [v1.6.0](https://github.com/rjmalves/cfi/releases/tag/v1.6.0) 
 - Uso de `__slots__` nas definições de componentes
