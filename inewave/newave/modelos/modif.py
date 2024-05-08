@@ -7,7 +7,7 @@ from cfinterface.components.floatfield import FloatField
 from cfinterface.adapters.components.repository import factory
 from copy import deepcopy
 from datetime import datetime
-from typing import Optional, IO
+from typing import Optional, IO, List
 
 
 class ModifRegister(Register):
@@ -73,7 +73,7 @@ class USINA(Register):
     Registro que contém a usina modificada.
     """
 
-    __slots__ = []
+    __slots__: List[str] = []
 
     IDENTIFIER = " USINA"
     IDENTIFIER_DIGITS = 8
@@ -376,7 +376,7 @@ class VMAXT(Register):
     com data.
     """
 
-    __slots__ = []
+    __slots__: List[str] = []
 
     IDENTIFIER = " VMAXT"
     IDENTIFIER_DIGITS = 8
@@ -439,7 +439,7 @@ class VMINT(Register):
     com data.
     """
 
-    __slots__ = []
+    __slots__: List[str] = []
 
     IDENTIFIER = " VMINT"
     IDENTIFIER_DIGITS = 8
@@ -502,7 +502,7 @@ class VMINP(Register):
     com data para adoção de penalidade.
     """
 
-    __slots__ = []
+    __slots__: List[str] = []
 
     IDENTIFIER = " VMINP"
     IDENTIFIER_DIGITS = 8
@@ -565,7 +565,7 @@ class VAZMINT(Register):
     com data.
     """
 
-    __slots__ = []
+    __slots__: List[str] = []
 
     IDENTIFIER = " VAZMINT"
     IDENTIFIER_DIGITS = 8
@@ -613,7 +613,7 @@ class VAZMAXT(Register):
     com data.
     """
 
-    __slots__ = []
+    __slots__: List[str] = []
 
     IDENTIFIER = " VAZMAXT"
     IDENTIFIER_DIGITS = 8
@@ -661,7 +661,7 @@ class TURBMAXT(Register):
     com data.
     """
 
-    __slots__ = []
+    __slots__: List[str] = []
 
     IDENTIFIER = " TURBMAXT"
     IDENTIFIER_DIGITS = 9
@@ -709,7 +709,7 @@ class TURBMINT(Register):
     com data.
     """
 
-    __slots__ = []
+    __slots__: List[str] = []
 
     IDENTIFIER = " TURBMINT"
     IDENTIFIER_DIGITS = 9

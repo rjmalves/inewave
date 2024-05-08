@@ -2,7 +2,7 @@ from cfinterface.components.block import Block
 from cfinterface.components.literalfield import LiteralField
 from cfinterface.components.line import Line
 
-from typing import IO
+from typing import IO, List
 
 
 class VersaoModelo(Block):
@@ -11,7 +11,7 @@ class VersaoModelo(Block):
     título do arquivo.
     """
 
-    __slots__ = []
+    __slots__: List[str] = []
 
     BEGIN_PATTERN = r"CEPEL: NEWAVE"
     END_PATTERN = ""
@@ -36,7 +36,7 @@ class VersaoModeloLibs(Block):
     título do arquivo.
     """
 
-    __slots__ = []
+    __slots__: List[str] = []
 
     BEGIN_PATTERN = r"NEWAVE -"
     END_PATTERN = ""
