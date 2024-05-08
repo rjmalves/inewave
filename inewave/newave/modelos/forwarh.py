@@ -10,7 +10,7 @@ class SecaoDadosForwarh(Section):
     arquivo forwarh.dat
     """
 
-    __slots__ = []
+    __slots__: List[str] = []
 
     ZVAZ = 100
 

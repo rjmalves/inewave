@@ -11,7 +11,7 @@ class TabelaCSV(Block):
     a partir de um modelo de linha, para arquivos de saída do NEWAVE.
     """
 
-    __slots__ = []
+    __slots__: List[str] = []
 
     BEGIN_PATTERN = "-----;------;"
     LINE_MODEL = Line([])

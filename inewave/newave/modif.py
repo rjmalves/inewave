@@ -29,7 +29,7 @@ class Modif(RegisterFile):
     configurações das usinas hidroelétricas.
     """
 
-    __slots__ = []
+    __slots__: List[str] = []
 
     T = TypeVar("T")
 

@@ -18,7 +18,7 @@ class ValoresSerie(Block):
     __slots__ = ["__linha", "__linha_ano", "__ano"]
 
     BEGIN_PATTERN = "     ANO: "
-    END_PATTERN = "MEDIA  "
+    END_PATTERN = "MEDIA "
     HEADER_LINE = Line([])
     DATA_LINE = Line([])
 

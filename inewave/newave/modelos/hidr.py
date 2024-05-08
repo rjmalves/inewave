@@ -12,7 +12,7 @@ class RegistroUHEHidr(Register):
     arquivo HIDR.
     """
 
-    __slots__ = []
+    __slots__: List[str] = []
 
     LINE = Line(
         [

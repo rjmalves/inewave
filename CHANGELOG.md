@@ -1,3 +1,6 @@
+# 1.8.1
+- Correção da leitura dos arquivos `pivarm.out` e `pivarmincr.out` do NWLISTOP [#87](https://github.com/rjmalves/inewave/issues/87).
+
 # 1.8.0
 - Nomes de arquivos e formatos atualizados para compatibilidade com a versão 29.3 do modelo NEWAVE. Classes que implementam os arquivos antigos foram marcadas como `deprecated`, mas ainda existem no módulo.
 - Suporte à obtenção da versão do modelo utilizada, impressa no arquivo `pmo.dat`.
