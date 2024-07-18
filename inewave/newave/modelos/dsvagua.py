@@ -28,7 +28,7 @@ class BlocoDsvUHE(Section):
         super().__init__(previous, next, data)
         campos_iniciais: List[Field] = [IntegerField(4, 0), IntegerField(3, 6)]
         campos_desvios: List[Field] = [
-            FloatField(6, 10 + 7 * i, 2) for i in range(len(MESES_DF))
+            FloatField(7, 9 + 7 * i, 2) for i in range(len(MESES_DF))
         ]
         campos_finais: List[Field] = [
             IntegerField(4, 94),
