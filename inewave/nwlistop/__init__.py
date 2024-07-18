@@ -43,10 +43,12 @@ from .cbomb import Cbomb  # noqa
 from .cbombsin import Cbombsin  # noqa
 from .cdef import Cdef  # noqa
 from .cdefsin import Cdefsin  # noqa
+from .cviol_eletrica import CviolEletrica  # noqa
 from .cviol_eletricasin import CviolEletricasin  # noqa
 from .cmarg import Cmarg  # noqa
 from .cmargmed import Cmargmed  # noqa
 from .coper import Coper  # noqa
+from .custo_futuro import CustoFuturo  # noqa
 from .corteolm import Corteolm  # noqa
 from .cterm import Cterm  # noqa
 from .ctermsin import Ctermsin  # noqa
@@ -165,5 +167,8 @@ from .viol_ghminsin import ViolGhminsin  # noqa
 from .viol_ghminuh import ViolGhminuh  # noqa
 from .viol_rhq import ViolRHQ  # noqa
 from .viol_rhv import ViolRHV  # noqa
+from .viol_eletrica import ViolEletrica  # noqa
 from .viol_pos_evap import ViolPosEvap  # noqa
 from .viol_neg_evap import ViolNegEvap  # noqa
+from .viol_neg_vretiruh import ViolNegVretiruh  # noqa
+from .viol_pos_vretiruh import ViolPosVretiruh  # noqa

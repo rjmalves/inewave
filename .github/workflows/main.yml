@@ -15,17 +15,17 @@ jobs:
       matrix:
         python-version: ["3.8", "3.9", "3.10", "3.11"]
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Configura o Python ${{ matrix.python-version }}
       uses: actions/setup-python@v4
       with:
         python-version: ${{ matrix.python-version }}
     - name: Instala os requisitos do módulo
       run: |
-        python -m pip install -r dev-requirements.txt
+        pip install -r dev-requirements.txt
     - name: Executa os testes do pacote
       run: |
-        python -m pytest --cov-report=xml --cov=inewave tests/
+        pytest --cov-report=xml --cov=inewave tests/
     - uses: codecov/codecov-action@v1
       with:
         token: ${{ secrets.CODECOV_TOKEN }} 
@@ -37,7 +37,7 @@ jobs:
         verbose: true 
     - name: Veriricações de qualidade de código - tipagem estática
       run: |
-        python -m mypy ./inewave
+        mypy ./inewave
     - name: Verificações de qualidade de código - linter PEP8
       run: |
-        python -m pylama --ignore E203 ./inewave
+        ruff check ./inewave
