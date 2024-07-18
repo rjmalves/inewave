@@ -14,27 +14,27 @@ jobs:
     permissions:
       id-token: write
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Configura o Python
       uses: actions/setup-python@v4
       with:
         python-version: '3.11'
     - name: Instala os requisitos do módulo
       run: |
-        python -m pip install -r dev-requirements.txt
+        pip install -r dev-requirements.txt
     - name: Executa os testes do pacote
       run: |
-        python -m pytest --cov=inewave tests/
+        pytest --cov=inewave tests/
     - name: Veriricações de qualidade de código - tipagem estática
       run: |
-        python -m mypy ./inewave
+        mypy ./inewave
     - name: Verificações de qualidade de código - linter PEP8
       run: |
-        python -m pylama --ignore E203 ./inewave
+        ruff check ./inewave
     - name: Instala dependências e constroi o pacote
       if: startsWith(github.ref, 'refs/tags')
       run: |
-        python -m pip install --upgrade pip setuptools wheel twine
+        pip install --upgrade pip setuptools wheel twine
         python setup.py sdist bdist_wheel
     - name: Publica o pacote no PyPI
       if: startsWith(github.ref, 'refs/tags')

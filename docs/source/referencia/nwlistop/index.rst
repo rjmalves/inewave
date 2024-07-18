@@ -16,15 +16,18 @@ NWLISTOP
    arquivos/cbombsin
    arquivos/cdef
    arquivos/cdefsin
+   arquivos/cviol_eletrica
    arquivos/cviol_eletricasin
    arquivos/cmarg
    arquivos/cmargmed
    arquivos/coper
+   arquivos/custo_futuro
    arquivos/corteolm
    arquivos/cterm
    arquivos/ctermsin
    arquivos/deficit
    arquivos/defsin
+   arquivos/viol_eletrica
    arquivos/viol_eletricasin
    arquivos/viol_vazmin
    arquivos/vretiradauh
@@ -40,6 +43,8 @@ NWLISTOP
    arquivos/viol_vazmax
    arquivos/viol_pos_evap
    arquivos/viol_neg_evap
+   arquivos/viol_pos_vretiruh
+   arquivos/viol_neg_vretiruh
    arquivos/eaf
    arquivos/eafm
    arquivos/eafb
