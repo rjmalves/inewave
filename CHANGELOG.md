@@ -1,3 +1,6 @@
+# 1.9.1
+- Correção nos tamanhos dos campos de vazão desviada do arquivo `dsvagua.dat`
+
 # 1.9.0
 - Suporte ao arquivo do NWLISTOP com informação do Custo Futuro por cenário (`custo_futuro.out`)
 - Suporte a arquivos do NWLISTOP renomeados: `viol_eletrica.out`, `cviol_eletrica.out`, `viol_pos_vretiruh.out`, `viol_neg_vretiruh.out`.
