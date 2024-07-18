@@ -24,7 +24,7 @@ jobs:
           mypy ./inewave
       - name: PEP8 check
         run: |
-          pylama --ignore E203 ./inewave
+          ruff check ./inewave
       - name: Sphinx build
         run: |
           sphinx-build -M html docs/source docs/build
