@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.8", "3.9", "3.10", "3.11"]
+        python-version: ["3.8", "3.9", "3.10", "3.11", "3.12"]
     steps:
     - uses: actions/checkout@v4
     - name: Configura o Python ${{ matrix.python-version }}
@@ -41,3 +41,6 @@ jobs:
     - name: Verificações de qualidade de código - linter PEP8
       run: |
         ruff check ./inewave
+    - name: Sphinx build
+      run: |
+        sphinx-build -M html docs/source docs/build
