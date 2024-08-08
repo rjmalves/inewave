@@ -1,15 +1,15 @@
+# dependencies
+-r requirements.txt
+# test dependencies
 pytest
 pytest-cov
-numpy
-pandas
+# code quality dependencies
 ruff
 mypy
-sphinx
-sphinx-gallery
+# docs dependencies
 sphinx-rtd-theme
+sphinx-gallery
+sphinx
 numpydoc
-cfinterface>=1.6.0
-pyflakes
-nb2plots
-black
 plotly
+matplotlib
