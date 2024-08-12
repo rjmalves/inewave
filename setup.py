@@ -9,7 +9,7 @@ requirements = []
 with open("requirements.txt", "r") as fh:
     requirements = fh.readlines()
 
-with open("requirements-dev.txt", "r") as fh:
+with open("dev-requirements.txt", "r") as fh:
     extras_requirements = {"dev": fh.readlines()}
 
 setup(
