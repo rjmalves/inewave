@@ -1,8 +1,8 @@
-from inewave.nwlistop.modelos.blocos.submercado import Submercado
 from inewave.nwlistop.modelos.arquivos.arquivosubmercado import (
     ArquivoSubmercado,
 )
-from inewave.nwlistop.modelos.cmargmed import CmargsAnos
+from inewave.nwlistop.modelos.blocos.submercado import Submercado
+from inewave.nwlistop.modelos.cmargmed import CmargsAnos, CmargsAnos28
 
 
 class Cmargmed(ArquivoSubmercado):
@@ -20,3 +20,11 @@ class Cmargmed(ArquivoSubmercado):
         Submercado,
         CmargsAnos,
     ]
+
+    VERSIONS = {
+        "28": [
+            Submercado,
+            CmargsAnos28,
+        ],
+        "29.4.1": [Submercado, CmargsAnos],
+    }
