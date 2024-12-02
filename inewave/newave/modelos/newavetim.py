@@ -61,3 +61,36 @@ class BlocoTemposEtapasTim(Block):
             tempos.append(ts)
 
         self.data = converte_tabela_em_df()
+
+class BlocoVersaoModeloTim(Block):
+    """
+    Bloco com a versão do NEWAVE obtida no
+    arquivo `newave.tim`.
+    """
+
+    __slots__ = ["__linha"]
+
+    BEGIN_PATTERN = r"Versao "
+    END_PATTERN = ""
+
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
+        self.__linha = Line([LiteralField(16, 78)])
+
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoVersaoModeloTim):
+            return False
+        bloco: BlocoVersaoModeloTim = o
+        if not all(
+            [
+                isinstance(self.data, str),
+                isinstance(o.data, str),
+            ]
+        ):
+            return False
+        else:
+            return self.data == bloco.data
+
+    # Override
+    def read(self, file: IO, *args, **kwargs):
+        self.data = self.__linha.read(file.readline())[0]
