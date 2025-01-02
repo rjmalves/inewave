@@ -1,0 +1,55 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "inewave"
+dynamic = ["version"]
+dependencies = [
+    "cfinterface>=1.8.0",
+    "numpy>=2.2.1",
+    "pandas>=2.2.3",
+]
+requires-python = ">= 3.10"
+authors = [
+  {name = "Rogerio Alves", email = "rogerioalves.ee@gmail.com"},
+]
+description = "inewave"
+readme = "README.md"
+license = {file = "LICENSE.md"}
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.10",
+    "Operating System :: OS Independent",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "pytest-cov",
+    "ruff",
+    "mypy",
+    "sphinx-rtd-theme",
+    "sphinx-gallery",
+    "sphinx",
+    "numpydoc",
+    "plotly",
+    "matplotlib",
+]
+
+[project.urls]
+Documentation = "https://rjmalves.github.io/inewave/"
+Repository = "https://github.com/rjmalves/inewave/"
+
+[tool.hatch.version]
+path = "inewave/__init__.py"
+
+[tool.hatch.build.targets.wheel]
+include = [
+  "inewave/",
+]
+
+[tool.ruff]
+line-length = 80
