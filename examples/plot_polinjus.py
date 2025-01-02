@@ -77,8 +77,8 @@ for indice_familia in range(num_curvas):
         lim_sup = df_polinomio["limite_superior_vazao_jusante"].iloc[0]
         vazoes_limites += [lim_inf, lim_sup]
         coeficientes = df_polinomio[cols_coeficientes].to_numpy().flatten()
-        polinomio = Polynomial(coeficientes, domain=[lim_inf, lim_sup])
-        x, y = polinomio.linspace(n=num_pontos)
+        polinomio = Polynomial(coeficientes)
+        x, y = polinomio.linspace(n=num_pontos, domain=[lim_inf, lim_sup])
         pontos_familias[indice_familia]["x"] += list(x)
         pontos_familias[indice_familia]["y"] += list(y)
 
