@@ -1,8 +1,6 @@
 MockRE = "RE  ;    1; 1.0ger_usit(13) + ger_usih(66)\n"
 MockREHorizPer = "RE-HORIZ-PER ; 1; 2021/01; 2021/01\n"
-MockRELimFormPer = (
-    "RE-LIM-FORM-PER ;        1; 2021/01;  2021/03;     1;   -1.1e30;  5000\n"
-)
+MockRELimFormPer = "RE-LIM-FORM-PER-PAT ;        1; 2021/01;  2021/03;     1;   -1.1e30;  5000\n"
 
 MockRestricaoEletrica = [
     "&RE; cod_rest;  formula\n",
@@ -14,12 +12,12 @@ MockRestricaoEletrica = [
     "RE-HORIZ-PER ;        2;2021/01;2021/03\n",
     "\n",
     "&RE-LIM-FORM-PER; cod_rest;  PerIni;  PerFin;   Pat;    LimInf;  LimSup\n",
-    "RE-LIM-FORM-PER ;        1; 2021/01; 2021/03;     1;   -1.1e30;  5000\n",
-    "RE-LIM-FORM-PER ;        1; 2021/01; 2021/03;     2;   -1.1e30;  5000\n",
-    "RE-LIM-FORM-PER ;        1; 2021/01; 2021/03;     3;   -1.1e30;  5000\n",
-    "RE-LIM-FORM-PER ;        2; 2021/01; 2021/03;     1;   -1.1e30;  1000\n",
-    "RE-LIM-FORM-PER ;        2; 2021/01; 2021/03;     2;   -1.1e30;  1000\n",
-    "RE-LIM-FORM-PER ;        2; 2021/01; 2021/03;     3;   -1.1e30;  1000",
+    "RE-LIM-FORM-PER-PAT ;        1; 2021/01; 2021/03;     1;   -1.1e30;  5000\n",
+    "RE-LIM-FORM-PER-PAT ;        1; 2021/01; 2021/03;     2;   -1.1e30;  5000\n",
+    "RE-LIM-FORM-PER-PAT ;        1; 2021/01; 2021/03;     3;   -1.1e30;  5000\n",
+    "RE-LIM-FORM-PER-PAT ;        2; 2021/01; 2021/03;     1;   -1.1e30;  1000\n",
+    "RE-LIM-FORM-PER-PAT ;        2; 2021/01; 2021/03;     2;   -1.1e30;  1000\n",
+    "RE-LIM-FORM-PER-PAT ;        2; 2021/01; 2021/03;     3;   -1.1e30;  1000",
 ]
 
 MockRHE = "RHE;       1 ; ger_ree(1) + ener_ver_ree(1)   \n"

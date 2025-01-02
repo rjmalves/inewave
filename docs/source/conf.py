@@ -14,13 +14,13 @@ import os
 import sys
 from datetime import date
 from typing import List
+
 import plotly.io as pio
 
 pio.renderers.default = "sphinx_gallery"
 
 sys.path.insert(0, os.path.abspath("../../"))
 from inewave import __version__  # noqa: E402
-
 
 # -- Project information -----------------------------------------------------
 
@@ -114,7 +114,7 @@ intersphinx_mapping = {
     ),
     "pandas": ("http://pandas.pydata.org/pandas-docs/stable/", None),
     "numpy": ("https://numpy.org/doc/stable/", None),
-    "cfinterface": ("https://rjmalves.github.io/cfi/", None),
+    "cfinterface": ("https://rjmalves.github.io/cfinterface/", None),
 }
 
 # https://github.com/sphinx-gallery/sphinx-gallery
