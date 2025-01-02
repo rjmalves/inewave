@@ -1,10 +1,9 @@
 # Rotinas de testes associadas ao arquivo dger.dat do NEWAVE
-from inewave.newave.dger import Dger
-
-from tests.mocks.mock_open import mock_open
 from unittest.mock import MagicMock, patch
 
+from inewave.newave.dger import Dger
 from tests.mocks.arquivos.dger import MockDger
+from tests.mocks.mock_open import mock_open
 
 ARQ_TESTE = "./tests/mocks/arquivos/__init__.py"
 
@@ -37,6 +36,16 @@ def test_atributos_nao_encontrados_dger():
         assert d.tamanho_registro_arquivo_historico is None
         assert d.calcula_volume_inicial is None
         assert d.volume_inicial_subsistema == [
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
             None,
             None,
             None,
@@ -168,6 +177,16 @@ def test_atributos_encontrados_dger():
         assert d.tamanho_registro_arquivo_historico is not None
         assert d.calcula_volume_inicial is not None
         assert d.volume_inicial_subsistema != [
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
             None,
             None,
             None,
@@ -508,8 +527,40 @@ def test_volume_inicial_subsistema_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
         d = Dger.read(ARQ_TESTE)
-        assert d.volume_inicial_subsistema == [0.0, 0.0, 0.0, 0.0, 0.0]
-        novo_valor = [1.0, 1.0, 1.0, 1.0, 1.0]
+        assert d.volume_inicial_subsistema == [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+        ]
+        novo_valor = [
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+        ]
         d.volume_inicial_subsistema = novo_valor
         assert d.volume_inicial_subsistema == novo_valor
 
