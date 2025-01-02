@@ -70,7 +70,7 @@ class BlocoVersaoModeloTim(Block):
 
     __slots__ = ["__linha"]
 
-    BEGIN_PATTERN = r"Versao "
+    BEGIN_PATTERN = r"            Versao "
     END_PATTERN = ""
 
     def __init__(self, previous=None, next=None, data=None) -> None:

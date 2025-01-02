@@ -7,6 +7,10 @@ MockBlocoTemposEtapas = [
     "\n",
 ]
 
+MockBlocoVersaoModelo = [
+    "Programa Newave                                                        Versao 28.6.3_CPAMP      \n"
+]
+
 MockNewaveTim = [
     "Programa Newave                                                        Versao 28.6.3_CPAMP      \n",
     "Caso: PMO MARCO - 2020  27/2/2020 13:13:47  Niveis para 29/02 NW Versao 27            \n",
