@@ -1,17 +1,17 @@
+from typing import IO, List
+
+import numpy as np  # type: ignore
+import pandas as pd  # type: ignore
 from cfinterface.components.block import Block
 from cfinterface.components.line import Line
 
+from inewave._utils.formatacao import formata_df_meses_para_datas_nwlistop
 from inewave.config import (
-    MESES_DF,
     MAX_PATAMARES,
     MAX_SERIES_SINTETICAS,
     MAX_UTES,
+    MESES_DF,
 )
-from inewave._utils.formatacao import formata_df_meses_para_datas_nwlistop
-
-from typing import IO, List
-import pandas as pd  # type: ignore
-import numpy as np  # type: ignore
 
 
 class ValoresClasseTermicaSeriePatamar(Block):
@@ -42,12 +42,10 @@ class ValoresClasseTermicaSeriePatamar(Block):
         if not isinstance(o, ValoresClasseTermicaSeriePatamar):
             return False
         bloco: ValoresClasseTermicaSeriePatamar = o
-        if not all(
-            [
-                isinstance(self.data, pd.DataFrame),
-                isinstance(o.data, pd.DataFrame),
-            ]
-        ):
+        if not all([
+            isinstance(self.data, pd.DataFrame),
+            isinstance(o.data, pd.DataFrame),
+        ]):
             return False
         else:
             return self.data.equals(bloco.data)
@@ -60,9 +58,11 @@ class ValoresClasseTermicaSeriePatamar(Block):
             df["ano"] = self.__ano
             df["patamar"] = patamares
             df = df[["ano", "classe", "serie", "patamar"] + cols]
-            df = df.astype(
-                {"classe": "int64", "serie": "int64", "ano": "int64"}
-            )
+            df = df.astype({
+                "classe": "int64",
+                "serie": "int64",
+                "ano": "int64",
+            })
             return formata_df_meses_para_datas_nwlistop(df)
 
         self.__ano = self.__linha_ano.read(file.readline())[0]
@@ -71,19 +71,17 @@ class ValoresClasseTermicaSeriePatamar(Block):
         # Variáveis auxiliares
         self.__classe_atual = 0
         self.__serie_atual = 0
-        tabela = np.zeros(
-            (
-                MAX_PATAMARES * MAX_SERIES_SINTETICAS * MAX_UTES,
-                len(MESES_DF) + 2,
-            )
-        )
+        tabela = np.zeros((
+            MAX_PATAMARES * MAX_SERIES_SINTETICAS * MAX_UTES,
+            len(MESES_DF) + 2,
+        ))
         patamares: List[str] = []
         i = 0
         intervalo_classes = False
         while True:
             linha = file.readline()
             if self.ends(linha) or len(linha) <= 1:
-                tabela = tabela[:i, :]
+                tabela = tabela[:i, :]  # type: ignore
                 self.data = converte_tabela_em_df()
                 break
 

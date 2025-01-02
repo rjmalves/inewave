@@ -1,17 +1,18 @@
-from inewave.config import MAX_ANOS_ESTUDO, MESES_DF
+from typing import IO, List
 
+import numpy as np  # type: ignore
+import pandas as pd  # type: ignore
 from cfinterface.components.block import Block
-from cfinterface.components.line import Line
 from cfinterface.components.field import Field
 from cfinterface.components.floatfield import FloatField
+from cfinterface.components.line import Line
 from cfinterface.components.literalfield import LiteralField
-from typing import List, IO
-import pandas as pd  # type: ignore
-import numpy as np  # type: ignore
+
 from inewave._utils.formatacao import (
-    prepara_vetor_anos_tabela,
     prepara_valor_ano,
+    prepara_vetor_anos_tabela,
 )
+from inewave.config import MAX_ANOS_ESTUDO, MESES_DF
 
 
 class BlocoValoresConstantesCVAR(Block):
@@ -26,24 +27,20 @@ class BlocoValoresConstantesCVAR(Block):
 
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line(
-            [
-                FloatField(5, 7, 1),
-                FloatField(5, 14, 1),
-            ]
-        )
+        self.__linha = Line([
+            FloatField(5, 7, 1),
+            FloatField(5, 14, 1),
+        ])
         self.__cabecalhos: List[str] = []
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoValoresConstantesCVAR):
             return False
         bloco: BlocoValoresConstantesCVAR = o
-        if not all(
-            [
-                isinstance(self.data, list),
-                isinstance(o.data, list),
-            ]
-        ):
+        if not all([
+            isinstance(self.data, list),
+            isinstance(o.data, list),
+        ]):
             return False
         else:
             return self.data == bloco.data
@@ -85,12 +82,10 @@ class BlocoAlfaVariavelNoTempo(Block):
         if not isinstance(o, BlocoAlfaVariavelNoTempo):
             return False
         bloco: BlocoAlfaVariavelNoTempo = o
-        if not all(
-            [
-                isinstance(self.data, pd.DataFrame),
-                isinstance(o.data, pd.DataFrame),
-            ]
-        ):
+        if not all([
+            isinstance(self.data, pd.DataFrame),
+            isinstance(o.data, pd.DataFrame),
+        ]):
             return False
         else:
             return self.data.equals(bloco.data)
@@ -121,7 +116,7 @@ class BlocoAlfaVariavelNoTempo(Block):
             # Confere se terminaram
             if self.ends(linha):
                 file.seek(ultima_linha)
-                tabela = tabela[:i, :]
+                tabela = tabela[:i, :]  # type: ignore
                 self.data = converte_tabela_em_df()
                 return linha
             dados = self.__linha.read(linha)
@@ -171,12 +166,10 @@ class BlocoLambdaVariavelNoTempo(Block):
         if not isinstance(o, BlocoLambdaVariavelNoTempo):
             return False
         bloco: BlocoLambdaVariavelNoTempo = o
-        if not all(
-            [
-                isinstance(self.data, pd.DataFrame),
-                isinstance(o.data, pd.DataFrame),
-            ]
-        ):
+        if not all([
+            isinstance(self.data, pd.DataFrame),
+            isinstance(o.data, pd.DataFrame),
+        ]):
             return False
         else:
             return self.data.equals(bloco.data)
@@ -204,7 +197,7 @@ class BlocoLambdaVariavelNoTempo(Block):
             # Confere se terminaram
             if len(linha) < 3:
                 if i > 0:
-                    tabela = tabela[:i, :]
+                    tabela = tabela[:i, :]  # type: ignore
                     self.data = converte_tabela_em_df()
                 break
             dados = self.__linha.read(linha)

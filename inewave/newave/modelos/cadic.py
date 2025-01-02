@@ -1,22 +1,23 @@
+from typing import IO, List
+
+import numpy as np  # type: ignore
+import pandas as pd  # type: ignore
+from cfinterface.components.field import Field
+from cfinterface.components.floatfield import FloatField
+from cfinterface.components.integerfield import IntegerField
+from cfinterface.components.line import Line
+from cfinterface.components.literalfield import LiteralField
+from cfinterface.components.section import Section
+
+from inewave._utils.formatacao import (
+    prepara_valor_ano,
+    prepara_vetor_anos_tabela,
+    repete_vetor,
+)
 from inewave.config import (
     MAX_ANOS_ESTUDO,
     MAX_SUBMERCADOS,
     MESES_DF,
-)
-
-from cfinterface.components.section import Section
-from cfinterface.components.line import Line
-from cfinterface.components.field import Field
-from cfinterface.components.integerfield import IntegerField
-from cfinterface.components.literalfield import LiteralField
-from cfinterface.components.floatfield import FloatField
-from typing import List, IO
-import numpy as np  # type: ignore
-import pandas as pd  # type: ignore
-from inewave._utils.formatacao import (
-    prepara_vetor_anos_tabela,
-    prepara_valor_ano,
-    repete_vetor,
 )
 
 
@@ -32,9 +33,11 @@ class BlocoCargasAdicionais(Section):
 
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
-        self.__linha_subsis = Line(
-            [IntegerField(3, 1), LiteralField(10, 6), LiteralField(12, 21)]
-        )
+        self.__linha_subsis = Line([
+            IntegerField(3, 1),
+            LiteralField(10, 6),
+            LiteralField(12, 21),
+        ])
         campo_ano: List[Field] = [LiteralField(4, 0)]
         campos_cargas: List[Field] = [
             FloatField(8, 6 + 8 * i, 0) for i in range(len(MESES_DF))
@@ -46,12 +49,10 @@ class BlocoCargasAdicionais(Section):
         if not isinstance(o, BlocoCargasAdicionais):
             return False
         bloco: BlocoCargasAdicionais = o
-        if not all(
-            [
-                isinstance(self.data, pd.DataFrame),
-                isinstance(o.data, pd.DataFrame),
-            ]
-        ):
+        if not all([
+            isinstance(self.data, pd.DataFrame),
+            isinstance(o.data, pd.DataFrame),
+        ]):
             return False
         else:
             return self.data.equals(bloco.data)
@@ -90,7 +91,7 @@ class BlocoCargasAdicionais(Section):
             if len(linha) < 3:
                 break
             if BlocoCargasAdicionais.FIM_BLOCO in linha:
-                tabela = tabela[:i, :]
+                tabela = tabela[:i, :]  # type: ignore
                 self.data = converte_tabela_em_df()
                 break
             if len(linha.strip()) < 80:
@@ -132,13 +133,11 @@ class BlocoCargasAdicionais(Section):
                 & (df["ano"] == linha_razao["ano"])
             ]
             df_razao = df_razao.sort_values(["data"])
-            if any(
-                [
-                    linha_razao["codigo_submercado"] != ultimo_codigo,
-                    linha_razao["nome_submercado"] != ultimo_subsis,
-                    linha_razao["razao"] != ultima_razao,
-                ]
-            ):
+            if any([
+                linha_razao["codigo_submercado"] != ultimo_codigo,
+                linha_razao["nome_submercado"] != ultimo_subsis,
+                linha_razao["razao"] != ultima_razao,
+            ]):
                 ultimo_codigo = linha_razao["codigo_submercado"]
                 ultimo_subsis = linha_razao["nome_submercado"]
                 ultima_razao = linha_razao["razao"]

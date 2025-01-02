@@ -1,22 +1,23 @@
+from typing import IO, List
+
+import numpy as np  # type: ignore
+import pandas as pd  # type: ignore
+from cfinterface.components.field import Field
+from cfinterface.components.floatfield import FloatField
+from cfinterface.components.integerfield import IntegerField
+from cfinterface.components.line import Line
+from cfinterface.components.section import Section
+
+from inewave._utils.formatacao import (
+    prepara_valor_ano,
+    prepara_vetor_anos_tabela,
+    repete_vetor,
+)
 from inewave.config import (
     MAX_ANOS_ESTUDO,
     MAX_PATAMARES,
     MAX_SUBMERCADOS,
     MESES_DF,
-)
-
-from cfinterface.components.section import Section
-from cfinterface.components.line import Line
-from cfinterface.components.field import Field
-from cfinterface.components.integerfield import IntegerField
-from cfinterface.components.floatfield import FloatField
-from typing import List, IO
-import pandas as pd  # type: ignore
-import numpy as np  # type: ignore
-from inewave._utils.formatacao import (
-    prepara_vetor_anos_tabela,
-    prepara_valor_ano,
-    repete_vetor,
 )
 
 
@@ -33,23 +34,19 @@ class BlocoNumeroPatamares(Section):
 
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line(
-            [
-                IntegerField(2, 1),
-            ]
-        )
+        self.__linha = Line([
+            IntegerField(2, 1),
+        ])
         self.__cabecalhos: List[str] = []
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoNumeroPatamares):
             return False
         bloco: BlocoNumeroPatamares = o
-        if not all(
-            [
-                isinstance(self.data, int),
-                isinstance(o.data, int),
-            ]
-        ):
+        if not all([
+            isinstance(self.data, int),
+            isinstance(o.data, int),
+        ]):
             return False
         else:
             return self.data == bloco.data
@@ -66,9 +63,7 @@ class BlocoNumeroPatamares(Section):
         for linha in self.__cabecalhos:
             file.write(linha)
         if not isinstance(self.data, int):
-            raise ValueError(
-                "Dados do patamar.dat não foram lidos com sucesso"
-            )
+            raise ValueError("Dados do patamar.dat não foram lidos com sucesso")
         file.write(self.__linha.write([self.data]))
 
 
@@ -98,12 +93,10 @@ class BlocoDuracaoPatamar(Section):
         if not isinstance(o, BlocoDuracaoPatamar):
             return False
         bloco: BlocoDuracaoPatamar = o
-        if not all(
-            [
-                isinstance(self.data, pd.DataFrame),
-                isinstance(o.data, pd.DataFrame),
-            ]
-        ):
+        if not all([
+            isinstance(self.data, pd.DataFrame),
+            isinstance(o.data, pd.DataFrame),
+        ]):
             return False
         else:
             return self.data.equals(bloco.data)
@@ -139,7 +132,7 @@ class BlocoDuracaoPatamar(Section):
                 file.seek(ultima_linha)
                 # Converte para df e salva na variável
                 if i > 0:
-                    tabela = tabela[:i, :]
+                    tabela = tabela[:i, :]  # type: ignore
                     self.data = converte_tabela_em_df()
                 break
             # Confere se é uma linha de subsistema ou tabela
@@ -159,9 +152,7 @@ class BlocoDuracaoPatamar(Section):
         for linha in self.__cabecalhos:
             file.write(linha)
         if not isinstance(self.data, pd.DataFrame):
-            raise ValueError(
-                "Dados do patamar.dat não foram lidos com sucesso"
-            )
+            raise ValueError("Dados do patamar.dat não foram lidos com sucesso")
 
         df = self.data.copy()
         df["ano"] = df.apply(lambda linha: linha["data"].year, axis=1)
@@ -204,12 +195,10 @@ class BlocoCargaPatamar(Section):
         if not isinstance(o, BlocoCargaPatamar):
             return False
         bloco: BlocoCargaPatamar = o
-        if not all(
-            [
-                isinstance(self.data, pd.DataFrame),
-                isinstance(o.data, pd.DataFrame),
-            ]
-        ):
+        if not all([
+            isinstance(self.data, pd.DataFrame),
+            isinstance(o.data, pd.DataFrame),
+        ]):
             return False
         else:
             return self.data.equals(bloco.data)
@@ -239,19 +228,17 @@ class BlocoCargaPatamar(Section):
         submercados: List[int] = []
         anos: List[int] = []
         patamares: List[int] = []
-        tabela = np.zeros(
-            (
-                MAX_SUBMERCADOS * MAX_ANOS_ESTUDO * MAX_PATAMARES,
-                len(MESES_DF),
-            )
-        )
+        tabela = np.zeros((
+            MAX_SUBMERCADOS * MAX_ANOS_ESTUDO * MAX_PATAMARES,
+            len(MESES_DF),
+        ))
         while True:
             linha = file.readline()
             # Confere se terminaram
             if len(linha) < 3 or BlocoCargaPatamar.FIM_BLOCO in linha[:4]:
                 # Converte para df e salva na variável
                 if i > 0:
-                    tabela = tabela[:i, :]
+                    tabela = tabela[:i, :]  # type: ignore
                     self.data = converte_tabela_em_df()
                 break
             # Confere se é uma linha de subsistema ou tabela
@@ -274,9 +261,7 @@ class BlocoCargaPatamar(Section):
         for linha in self.__cabecalhos:
             file.write(linha)
         if not isinstance(self.data, pd.DataFrame):
-            raise ValueError(
-                "Dados do patamar.dat não foram lidos com sucesso"
-            )
+            raise ValueError("Dados do patamar.dat não foram lidos com sucesso")
 
         ultimo_subsistema = 0
 
@@ -344,12 +329,10 @@ class BlocoIntercambioPatamarSubsistemas(Section):
         if not isinstance(o, BlocoIntercambioPatamarSubsistemas):
             return False
         bloco: BlocoIntercambioPatamarSubsistemas = o
-        if not all(
-            [
-                isinstance(self.data, pd.DataFrame),
-                isinstance(o.data, pd.DataFrame),
-            ]
-        ):
+        if not all([
+            isinstance(self.data, pd.DataFrame),
+            isinstance(o.data, pd.DataFrame),
+        ]):
             return False
         else:
             return self.data.equals(bloco.data)
@@ -381,12 +364,10 @@ class BlocoIntercambioPatamarSubsistemas(Section):
         submercados_para: List[int] = []
         patamares: List[int] = []
         anos: List[int] = []
-        tabela = np.zeros(
-            (
-                MAX_SUBMERCADOS * MAX_SUBMERCADOS * MAX_ANOS_ESTUDO,
-                len(MESES_DF),
-            )
-        )
+        tabela = np.zeros((
+            MAX_SUBMERCADOS * MAX_SUBMERCADOS * MAX_ANOS_ESTUDO,
+            len(MESES_DF),
+        ))
         while True:
             linha = file.readline()
             # Confere se terminaram
@@ -396,7 +377,7 @@ class BlocoIntercambioPatamarSubsistemas(Section):
             ):
                 # Converte para df e salva na variável
                 if i > 0:
-                    tabela = tabela[:i, :]
+                    tabela = tabela[:i, :]  # type: ignore
                     self.data = converte_tabela_em_df()
                 break
             # Confere se é uma linha de subsistema ou tabela
@@ -422,9 +403,7 @@ class BlocoIntercambioPatamarSubsistemas(Section):
         for linha in self.__cabecalhos:
             file.write(linha)
         if not isinstance(self.data, pd.DataFrame):
-            raise ValueError(
-                "Dados do patamar.dat não foram lidos com sucesso"
-            )
+            raise ValueError("Dados do patamar.dat não foram lidos com sucesso")
 
         ultimo_subsistema_de = 0
         ultimo_subsistema_para = 0
@@ -447,18 +426,13 @@ class BlocoIntercambioPatamarSubsistemas(Section):
                     & (df["patamar"] == patamar)
                 ]
                 df_merc = df_merc.sort_values(["data"])
-                if any(
-                    [
-                        linha_submercado["submercado_de"]
-                        != ultimo_subsistema_de,
-                        linha_submercado["submercado_para"]
-                        != ultimo_subsistema_para,
-                    ]
-                ):
+                if any([
+                    linha_submercado["submercado_de"] != ultimo_subsistema_de,
+                    linha_submercado["submercado_para"]
+                    != ultimo_subsistema_para,
+                ]):
                     ultimo_subsistema_de = linha_submercado["submercado_de"]
-                    ultimo_subsistema_para = linha_submercado[
-                        "submercado_para"
-                    ]
+                    ultimo_subsistema_para = linha_submercado["submercado_para"]
                     file.write(
                         self.__linha_subsis.write(
                             linha_submercado[
@@ -505,12 +479,10 @@ class BlocoUsinasNaoSimuladas(Section):
         if not isinstance(o, BlocoUsinasNaoSimuladas):
             return False
         bloco: BlocoUsinasNaoSimuladas = o
-        if not all(
-            [
-                isinstance(self.data, pd.DataFrame),
-                isinstance(o.data, pd.DataFrame),
-            ]
-        ):
+        if not all([
+            isinstance(self.data, pd.DataFrame),
+            isinstance(o.data, pd.DataFrame),
+        ]):
             return False
         else:
             return self.data.equals(bloco.data)
@@ -542,19 +514,17 @@ class BlocoUsinasNaoSimuladas(Section):
         blocos: List[int] = []
         patamares: List[int] = []
         anos: List[int] = []
-        tabela = np.zeros(
-            (
-                MAX_SUBMERCADOS * MAX_SUBMERCADOS * MAX_ANOS_ESTUDO,
-                len(MESES_DF),
-            )
-        )
+        tabela = np.zeros((
+            MAX_SUBMERCADOS * MAX_SUBMERCADOS * MAX_ANOS_ESTUDO,
+            len(MESES_DF),
+        ))
         while True:
             linha = file.readline()
             # Confere se terminaram
             if len(linha) < 3:
                 # Converte para df e salva na variável
                 if i > 0:
-                    tabela = tabela[:i, :]
+                    tabela = tabela[:i, :]  # type: ignore
                     self.data = converte_tabela_em_df()
                 break
             # Confere se é uma linha de subsistema ou tabela
@@ -580,9 +550,7 @@ class BlocoUsinasNaoSimuladas(Section):
         for linha in self.__cabecalhos:
             file.write(linha)
         if not isinstance(self.data, pd.DataFrame):
-            raise ValueError(
-                "Dados do patamar.dat não foram lidos com sucesso"
-            )
+            raise ValueError("Dados do patamar.dat não foram lidos com sucesso")
 
         ultimo_subsistema = 0
         ultimo_bloco = 0
@@ -605,13 +573,10 @@ class BlocoUsinasNaoSimuladas(Section):
                     & (df["patamar"] == patamar)
                 ]
                 df_merc = df_merc.sort_values(["data"])
-                if any(
-                    [
-                        linha_submercado["codigo_submercado"]
-                        != ultimo_subsistema,
-                        linha_submercado["indice_bloco"] != ultimo_bloco,
-                    ]
-                ):
+                if any([
+                    linha_submercado["codigo_submercado"] != ultimo_subsistema,
+                    linha_submercado["indice_bloco"] != ultimo_bloco,
+                ]):
                     ultimo_subsistema = linha_submercado["codigo_submercado"]
                     ultimo_bloco = linha_submercado["indice_bloco"]
                     file.write(

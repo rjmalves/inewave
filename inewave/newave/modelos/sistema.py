@@ -1,23 +1,24 @@
+from typing import IO, List, Optional
+
+import numpy as np  # type: ignore
+import pandas as pd  # type: ignore
+from cfinterface.components.field import Field
+from cfinterface.components.floatfield import FloatField
+from cfinterface.components.integerfield import IntegerField
+from cfinterface.components.line import Line
+from cfinterface.components.literalfield import LiteralField
+from cfinterface.components.section import Section
+
+from inewave._utils.formatacao import (
+    prepara_valor_ano,
+    prepara_vetor_anos_tabela,
+    repete_vetor,
+)
 from inewave.config import (
     MAX_ANOS_ESTUDO,
+    MAX_PATAMARES_DEFICIT,
     MAX_SUBMERCADOS,
     MESES_DF,
-    MAX_PATAMARES_DEFICIT,
-)
-
-from cfinterface.components.section import Section
-from cfinterface.components.line import Line
-from cfinterface.components.field import Field
-from cfinterface.components.literalfield import LiteralField
-from cfinterface.components.integerfield import IntegerField
-from cfinterface.components.floatfield import FloatField
-from typing import List, IO, Optional
-import pandas as pd  # type: ignore
-import numpy as np  # type: ignore
-from inewave._utils.formatacao import (
-    prepara_vetor_anos_tabela,
-    prepara_valor_ano,
-    repete_vetor,
 )
 
 
@@ -30,23 +31,19 @@ class BlocoNumeroPatamaresDeficit(Section):
 
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line(
-            [
-                IntegerField(3, 1),
-            ]
-        )
+        self.__linha = Line([
+            IntegerField(3, 1),
+        ])
         self.__cabecalhos: List[str] = []
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoNumeroPatamaresDeficit):
             return False
         bloco: BlocoNumeroPatamaresDeficit = o
-        if not all(
-            [
-                isinstance(self.data, int),
-                isinstance(o.data, int),
-            ]
-        ):
+        if not all([
+            isinstance(self.data, int),
+            isinstance(o.data, int),
+        ]):
             return False
         else:
             return self.data == bloco.data
@@ -63,9 +60,7 @@ class BlocoNumeroPatamaresDeficit(Section):
         for linha in self.__cabecalhos:
             file.write(linha)
         if not isinstance(self.data, int):
-            raise ValueError(
-                "Dados do sistema.dat não foram lidos com sucesso"
-            )
+            raise ValueError("Dados do sistema.dat não foram lidos com sucesso")
         file.write(self.__linha.write([self.data]))
 
 
@@ -99,12 +94,10 @@ class BlocoCustosDeficit(Section):
         if not isinstance(o, BlocoCustosDeficit):
             return False
         bloco: BlocoCustosDeficit = o
-        if not all(
-            [
-                isinstance(self.data, pd.DataFrame),
-                isinstance(o.data, pd.DataFrame),
-            ]
-        ):
+        if not all([
+            isinstance(self.data, pd.DataFrame),
+            isinstance(o.data, pd.DataFrame),
+        ]):
             return False
         else:
             return self.data.equals(bloco.data)
@@ -151,8 +144,8 @@ class BlocoCustosDeficit(Section):
             if len(linha) < 3 or BlocoCustosDeficit.FIM_BLOCO in linha[:4]:
                 # Converte para df e salva na variável
                 if i > 0:
-                    tabela_custo = tabela_custo[:i, :]
-                    tabela_corte = tabela_corte[:i, :]
+                    tabela_custo = tabela_custo[:i, :]  # type: ignore
+                    tabela_corte = tabela_corte[:i, :]  # type: ignore
                     self.data = converte_tabela_em_df()
                 break
             # Confere se é uma linha de subsistema ou tabela
@@ -172,9 +165,7 @@ class BlocoCustosDeficit(Section):
         for linha in self.__cabecalhos:
             file.write(linha)
         if not isinstance(self.data, pd.DataFrame):
-            raise ValueError(
-                "Dados do sistema.dat não foram lidos com sucesso"
-            )
+            raise ValueError("Dados do sistema.dat não foram lidos com sucesso")
         df = self.data.copy()
         for _, linha_submercado in (
             self.data[
@@ -192,10 +183,7 @@ class BlocoCustosDeficit(Section):
                     df["codigo_submercado"]
                     == linha_submercado["codigo_submercado"]
                 )
-                & (
-                    df["nome_submercado"]
-                    == linha_submercado["nome_submercado"]
-                )
+                & (df["nome_submercado"] == linha_submercado["nome_submercado"])
                 & (df["ficticio"] == linha_submercado["ficticio"])
             ]
 
@@ -230,9 +218,11 @@ class BlocoIntercambioSubsistema(Section):
 
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
-        self.__linha_subsis = Line(
-            [IntegerField(3, 1), IntegerField(3, 5), IntegerField(1, 23)]
-        )
+        self.__linha_subsis = Line([
+            IntegerField(3, 1),
+            IntegerField(3, 5),
+            IntegerField(1, 23),
+        ])
         campo_ano: List[Field] = [IntegerField(4, 0)]
         campos_interc: List[Field] = [
             FloatField(6, 8 + i * 8, 0) for i in range(len(MESES_DF))
@@ -244,12 +234,10 @@ class BlocoIntercambioSubsistema(Section):
         if not isinstance(o, BlocoIntercambioSubsistema):
             return False
         bloco: BlocoIntercambioSubsistema = o
-        if not all(
-            [
-                isinstance(self.data, pd.DataFrame),
-                isinstance(o.data, pd.DataFrame),
-            ]
-        ):
+        if not all([
+            isinstance(self.data, pd.DataFrame),
+            isinstance(o.data, pd.DataFrame),
+        ]):
             return False
         else:
             return self.data.equals(bloco.data)
@@ -281,12 +269,10 @@ class BlocoIntercambioSubsistema(Section):
         subsistemas_para: List[int] = []
         sentidos: List[int] = []
         anos: List[int] = []
-        tabela = np.zeros(
-            (
-                MAX_SUBMERCADOS * MAX_SUBMERCADOS * MAX_ANOS_ESTUDO,
-                len(MESES_DF),
-            )
-        )
+        tabela = np.zeros((
+            MAX_SUBMERCADOS * MAX_SUBMERCADOS * MAX_ANOS_ESTUDO,
+            len(MESES_DF),
+        ))
         while True:
             linha = file.readline()
             # Confere se terminaram
@@ -295,7 +281,7 @@ class BlocoIntercambioSubsistema(Section):
             ):
                 # Converte para df e salva na variável
                 if i > 0:
-                    tabela = tabela[:i, :]
+                    tabela = tabela[:i, :]  # type: ignore
                     self.data = converte_tabela_em_df()
                 break
             # Confere se é uma linha de subsistema ou tabela
@@ -308,9 +294,7 @@ class BlocoIntercambioSubsistema(Section):
                     subsis_para_atual if dados[1] is None else dados[1]
                 )
                 sentido_atual = (
-                    dados[2]
-                    if dados[2] is not None
-                    else int(not sentido_atual)
+                    dados[2] if dados[2] is not None else int(not sentido_atual)
                 )
             else:
                 dados = self.__linha.read(linha)
@@ -328,9 +312,7 @@ class BlocoIntercambioSubsistema(Section):
         for linha in self.__cabecalhos:
             file.write(linha)
         if not isinstance(self.data, pd.DataFrame):
-            raise ValueError(
-                "Dados do sistema.dat não foram lidos com sucesso"
-            )
+            raise ValueError("Dados do sistema.dat não foram lidos com sucesso")
 
         ultimo_subsistema_de = 0
         ultimo_subsistema_para = 0
@@ -357,15 +339,13 @@ class BlocoIntercambioSubsistema(Section):
                 & (df["ano"] == linha_submercados_sentido["ano"])
             ]
             df_interc = df_interc.sort_values(["data"])
-            if any(
-                [
-                    linha_submercados_sentido["submercado_de"]
-                    != ultimo_subsistema_de,
-                    linha_submercados_sentido["submercado_para"]
-                    != ultimo_subsistema_para,
-                    linha_submercados_sentido["sentido"] != ultimo_sentido,
-                ]
-            ):
+            if any([
+                linha_submercados_sentido["submercado_de"]
+                != ultimo_subsistema_de,
+                linha_submercados_sentido["submercado_para"]
+                != ultimo_subsistema_para,
+                linha_submercados_sentido["sentido"] != ultimo_sentido,
+            ]):
                 ultimo_subsistema_de = linha_submercados_sentido[
                     "submercado_de"
                 ]
@@ -415,12 +395,10 @@ class BlocoMercadoEnergiaSistema(Section):
         if not isinstance(o, BlocoMercadoEnergiaSistema):
             return False
         bloco: BlocoMercadoEnergiaSistema = o
-        if not all(
-            [
-                isinstance(self.data, pd.DataFrame),
-                isinstance(o.data, pd.DataFrame),
-            ]
-        ):
+        if not all([
+            isinstance(self.data, pd.DataFrame),
+            isinstance(o.data, pd.DataFrame),
+        ]):
             return False
         else:
             return self.data.equals(bloco.data)
@@ -446,12 +424,10 @@ class BlocoMercadoEnergiaSistema(Section):
         ano_atual = ""
         submercados: List[int] = []
         anos: List[str] = []
-        tabela = np.zeros(
-            (
-                MAX_SUBMERCADOS * MAX_ANOS_ESTUDO,
-                len(MESES_DF),
-            )
-        )
+        tabela = np.zeros((
+            MAX_SUBMERCADOS * MAX_ANOS_ESTUDO,
+            len(MESES_DF),
+        ))
         while True:
             linha = file.readline()
             # Confere se terminaram
@@ -461,7 +437,7 @@ class BlocoMercadoEnergiaSistema(Section):
             ):
                 # Converte para df e salva na variável
                 if i > 0:
-                    tabela = tabela[:i, :]
+                    tabela = tabela[:i, :]  # type: ignore
                     self.data = converte_tabela_em_df()
                 break
             # Confere se é uma linha de subsistema ou tabela
@@ -482,9 +458,7 @@ class BlocoMercadoEnergiaSistema(Section):
         for linha in self.__cabecalhos:
             file.write(linha)
         if not isinstance(self.data, pd.DataFrame):
-            raise ValueError(
-                "Dados do sistema.dat não foram lidos com sucesso"
-            )
+            raise ValueError("Dados do sistema.dat não foram lidos com sucesso")
 
         ultimo_subsistema = 0
 
@@ -501,11 +475,9 @@ class BlocoMercadoEnergiaSistema(Section):
                 & (df["ano"] == linha_submercado["ano"])
             ]
             df_merc = df_merc.sort_values(["data"])
-            if any(
-                [
-                    linha_submercado["codigo_submercado"] != ultimo_subsistema,
-                ]
-            ):
+            if any([
+                linha_submercado["codigo_submercado"] != ultimo_subsistema,
+            ]):
                 ultimo_subsistema = linha_submercado["codigo_submercado"]
                 file.write(
                     self.__linha_subsis.write(
@@ -534,9 +506,11 @@ class BlocoGeracaoUsinasNaoSimuladas(Section):
 
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
-        self.__linha_subsis = Line(
-            [IntegerField(3, 1), IntegerField(3, 6), LiteralField(3, 11)]
-        )
+        self.__linha_subsis = Line([
+            IntegerField(3, 1),
+            IntegerField(3, 6),
+            LiteralField(3, 11),
+        ])
 
         campo_ano: List[Field] = [IntegerField(4, 0)]
         campos_geradores: List[Field] = [
@@ -549,12 +523,10 @@ class BlocoGeracaoUsinasNaoSimuladas(Section):
         if not isinstance(o, BlocoGeracaoUsinasNaoSimuladas):
             return False
         bloco: BlocoGeracaoUsinasNaoSimuladas = o
-        if not all(
-            [
-                isinstance(self.data, pd.DataFrame),
-                isinstance(o.data, pd.DataFrame),
-            ]
-        ):
+        if not all([
+            isinstance(self.data, pd.DataFrame),
+            isinstance(o.data, pd.DataFrame),
+        ]):
             return False
         else:
             return self.data.equals(bloco.data)
@@ -586,12 +558,10 @@ class BlocoGeracaoUsinasNaoSimuladas(Section):
         blocos: List[int] = []
         razoes: List[str] = []
         anos: List[int] = []
-        tabela = np.zeros(
-            (
-                MAX_SUBMERCADOS * MAX_SUBMERCADOS * MAX_ANOS_ESTUDO,
-                len(MESES_DF),
-            )
-        )
+        tabela = np.zeros((
+            MAX_SUBMERCADOS * MAX_SUBMERCADOS * MAX_ANOS_ESTUDO,
+            len(MESES_DF),
+        ))
         while True:
             linha = file.readline()
             # Confere se terminaram
@@ -601,7 +571,7 @@ class BlocoGeracaoUsinasNaoSimuladas(Section):
             ):
                 # Converte para df e salva na variável
                 if i > 0:
-                    tabela = tabela[:i, :]
+                    tabela = tabela[:i, :]  # type: ignore
                     self.data = converte_tabela_em_df()
                 break
             # Confere se é uma linha de subsistema ou tabela
@@ -626,9 +596,7 @@ class BlocoGeracaoUsinasNaoSimuladas(Section):
         for linha in self.__cabecalhos:
             file.write(linha)
         if not isinstance(self.data, pd.DataFrame):
-            raise ValueError(
-                "Dados do sistema.dat não foram lidos com sucesso"
-            )
+            raise ValueError("Dados do sistema.dat não foram lidos com sucesso")
 
         ultimo_subsistema: Optional[int] = 0
         ultimo_bloco: Optional[int] = 0
@@ -646,22 +614,17 @@ class BlocoGeracaoUsinasNaoSimuladas(Section):
                     df["codigo_submercado"]
                     == linha_submercado_fonte["codigo_submercado"]
                 )
-                & (
-                    df["indice_bloco"]
-                    == linha_submercado_fonte["indice_bloco"]
-                )
+                & (df["indice_bloco"] == linha_submercado_fonte["indice_bloco"])
                 & (df["fonte"] == linha_submercado_fonte["fonte"])
                 & (df["ano"] == linha_submercado_fonte["ano"])
             ]
             df_ger = df_ger.sort_values(["data"])
-            if any(
-                [
-                    linha_submercado_fonte["codigo_submercado"]
-                    != ultimo_subsistema,
-                    linha_submercado_fonte["indice_bloco"] != ultimo_bloco,
-                    linha_submercado_fonte["fonte"] != ultima_razao,
-                ]
-            ):
+            if any([
+                linha_submercado_fonte["codigo_submercado"]
+                != ultimo_subsistema,
+                linha_submercado_fonte["indice_bloco"] != ultimo_bloco,
+                linha_submercado_fonte["fonte"] != ultima_razao,
+            ]):
                 ultimo_subsistema = linha_submercado_fonte["codigo_submercado"]
                 ultimo_bloco = linha_submercado_fonte["indice_bloco"]
                 ultima_razao = linha_submercado_fonte["fonte"]

@@ -1,12 +1,14 @@
-from cfinterface.components.section import Section
-from cfinterface.components.line import Line
-from cfinterface.components.field import Field
-from cfinterface.components.literalfield import LiteralField
-from cfinterface.components.integerfield import IntegerField
-from cfinterface.components.floatfield import FloatField
-from typing import List, IO
-import pandas as pd  # type: ignore
+from typing import IO, List
+
 import numpy as np  # type: ignore
+import pandas as pd  # type: ignore
+from cfinterface.components.field import Field
+from cfinterface.components.floatfield import FloatField
+from cfinterface.components.integerfield import IntegerField
+from cfinterface.components.line import Line
+from cfinterface.components.literalfield import LiteralField
+from cfinterface.components.section import Section
+
 from inewave._utils.formatacao import (
     prepara_vetor_anos_tabela,
     repete_vetor,
@@ -43,12 +45,10 @@ class BlocoDsvUHE(Section):
         if not isinstance(o, BlocoDsvUHE):
             return False
         bloco: BlocoDsvUHE = o
-        if not all(
-            [
-                isinstance(self.data, pd.DataFrame),
-                isinstance(o.data, pd.DataFrame),
-            ]
-        ):
+        if not all([
+            isinstance(self.data, pd.DataFrame),
+            isinstance(o.data, pd.DataFrame),
+        ]):
             return False
         else:
             return self.data.equals(bloco.data)
@@ -86,7 +86,7 @@ class BlocoDsvUHE(Section):
             if len(linha) < 3 or BlocoDsvUHE.FIM_BLOCO in linha:
                 # Converte para df e salva na variável
                 if i > 0:
-                    tabela = tabela[:i, :]
+                    tabela = tabela[:i, :]  # type: ignore
                     self.data = converte_tabela_em_df()
                 break
             dados = self.__linha_uhe.read(linha)

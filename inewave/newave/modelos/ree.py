@@ -1,12 +1,13 @@
-from inewave.config import MAX_REES
+from typing import IO, List
 
-from cfinterface.components.section import Section
+import numpy as np  # type: ignore
+import pandas as pd  # type: ignore
+from cfinterface.components.integerfield import IntegerField
 from cfinterface.components.line import Line
 from cfinterface.components.literalfield import LiteralField
-from cfinterface.components.integerfield import IntegerField
-from typing import List, IO
-import pandas as pd  # type: ignore
-import numpy as np  # type: ignore
+from cfinterface.components.section import Section
+
+from inewave.config import MAX_REES
 
 
 class BlocoReesSubmercados(Section):
@@ -21,27 +22,23 @@ class BlocoReesSubmercados(Section):
 
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line(
-            [
-                IntegerField(3, 1),
-                LiteralField(10, 5),
-                IntegerField(3, 18),
-                IntegerField(2, 23),
-                IntegerField(4, 26),
-            ]
-        )
+        self.__linha = Line([
+            IntegerField(3, 1),
+            LiteralField(10, 5),
+            IntegerField(3, 18),
+            IntegerField(2, 23),
+            IntegerField(4, 26),
+        ])
         self.__cabecalhos: List[str] = []
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoReesSubmercados):
             return False
         bloco: BlocoReesSubmercados = o
-        if not all(
-            [
-                isinstance(self.data, pd.DataFrame),
-                isinstance(o.data, pd.DataFrame),
-            ]
-        ):
+        if not all([
+            isinstance(self.data, pd.DataFrame),
+            isinstance(o.data, pd.DataFrame),
+        ]):
             return False
         else:
             return self.data.equals(bloco.data)
@@ -82,7 +79,7 @@ class BlocoReesSubmercados(Section):
             if len(linha) < 3 or BlocoReesSubmercados.FIM_BLOCO in linha:
                 # Converte para df e salva na variável
                 if i > 0:
-                    tabela = tabela[:i, :]
+                    tabela = tabela[:i, :]  # type: ignore
                     self.data = converte_tabela_em_df()
                 break
             # Confere se é uma linha de subsistema ou tabela
@@ -121,12 +118,10 @@ class BlocoFicticiasIndividualizado(Section):
         if not isinstance(o, BlocoFicticiasIndividualizado):
             return False
         bloco: BlocoFicticiasIndividualizado = o
-        if not all(
-            [
-                isinstance(self.data, list),
-                isinstance(o.data, list),
-            ]
-        ):
+        if not all([
+            isinstance(self.data, list),
+            isinstance(o.data, list),
+        ]):
             return False
         else:
             return self.data == bloco.data

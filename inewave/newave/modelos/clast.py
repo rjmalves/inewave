@@ -1,19 +1,20 @@
-from inewave.config import MAX_UTES
+from datetime import datetime
+from typing import IO, List
 
-from cfinterface.components.section import Section
-from cfinterface.components.line import Line
-from cfinterface.components.field import Field
-from cfinterface.components.integerfield import IntegerField
-from cfinterface.components.literalfield import LiteralField
-from cfinterface.components.datetimefield import DatetimeField
-from cfinterface.components.floatfield import FloatField
-from typing import List, IO
 import numpy as np  # type: ignore
 import pandas as pd  # type: ignore
-from datetime import datetime
+from cfinterface.components.datetimefield import DatetimeField
+from cfinterface.components.field import Field
+from cfinterface.components.floatfield import FloatField
+from cfinterface.components.integerfield import IntegerField
+from cfinterface.components.line import Line
+from cfinterface.components.literalfield import LiteralField
+from cfinterface.components.section import Section
+
 from inewave._utils.formatacao import (
     repete_vetor,
 )
+from inewave.config import MAX_UTES
 
 
 class BlocoUTEClasT(Section):
@@ -43,12 +44,10 @@ class BlocoUTEClasT(Section):
         if not isinstance(o, BlocoUTEClasT):
             return False
         bloco: BlocoUTEClasT = o
-        if not all(
-            [
-                isinstance(self.data, pd.DataFrame),
-                isinstance(o.data, pd.DataFrame),
-            ]
-        ):
+        if not all([
+            isinstance(self.data, pd.DataFrame),
+            isinstance(o.data, pd.DataFrame),
+        ]):
             return False
         else:
             return self.data.equals(bloco.data)
@@ -96,7 +95,7 @@ class BlocoUTEClasT(Section):
             if len(linha) < 3:
                 break
             if BlocoUTEClasT.FIM_BLOCO in linha:
-                tabela = tabela[:i, :]
+                tabela = tabela[:i, :]  # type: ignore
                 self.data = converte_tabela_em_df()
                 break
             dados = self.__linha.read(linha)
@@ -119,9 +118,7 @@ class BlocoUTEClasT(Section):
             .drop_duplicates()
             .iterrows()
         ):
-            df_ute = df.loc[
-                (df["codigo_usina"] == linha_usina["codigo_usina"])
-            ]
+            df_ute = df.loc[(df["codigo_usina"] == linha_usina["codigo_usina"])]
             file.write(
                 self.__linha.write(
                     [
@@ -157,12 +154,10 @@ class BlocoModificacaoUTEClasT(Section):
         if not isinstance(o, BlocoModificacaoUTEClasT):
             return False
         bloco: BlocoModificacaoUTEClasT = o
-        if not all(
-            [
-                isinstance(self.data, pd.DataFrame),
-                isinstance(o.data, pd.DataFrame),
-            ]
-        ):
+        if not all([
+            isinstance(self.data, pd.DataFrame),
+            isinstance(o.data, pd.DataFrame),
+        ]):
             return False
         else:
             return self.data.equals(bloco.data)
