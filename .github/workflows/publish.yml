@@ -15,27 +15,26 @@ jobs:
       id-token: write
     steps:
     - uses: actions/checkout@v4
-    - name: Configura o Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.11'
-    - name: Instala os requisitos do módulo
+    - name: Install uv
+      uses: astral-sh/setup-uv@v3
+    - name: Set up Python
+      run: uv python install 3.11
+    - name: Install the project
       run: |
-        pip install -r dev-requirements.txt
-    - name: Executa os testes do pacote
+        uv sync --all-extras --dev
+    - name: Runs tests
       run: |
-        pytest --cov=inewave tests/
-    - name: Veriricações de qualidade de código - tipagem estática
+        uv run pytest ./tests
+    - name: Static typing check
       run: |
-        mypy ./inewave
-    - name: Verificações de qualidade de código - linter PEP8
+        uv run mypy ./inewave
+    - name: PEP8 check
       run: |
-        ruff check ./inewave
-    - name: Instala dependências e constroi o pacote
+        uv run ruff check ./inewave
+    - name: Builds package
       if: startsWith(github.ref, 'refs/tags')
       run: |
-        pip install --upgrade pip setuptools wheel twine
-        python setup.py sdist bdist_wheel
-    - name: Publica o pacote no PyPI
+        uv build
+    - name: PyPI publish
       if: startsWith(github.ref, 'refs/tags')
       uses: pypa/gh-action-pypi-publish@release/v1
