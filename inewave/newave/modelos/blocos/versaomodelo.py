@@ -26,8 +26,7 @@ class VersaoModelo(Block):
 
     def read(self, file: IO, *args, **kwargs):
         linha = file.readline()
-        modelo_linha = Line([LiteralField(size=12, starting_position=29)])
-        self.data = modelo_linha.read(linha)[0]
+        self.data = linha.split("Versao")[1].strip().split(" ")[0]
 
 
 class VersaoModeloLibs(Block):
@@ -51,5 +50,4 @@ class VersaoModeloLibs(Block):
 
     def read(self, file: IO, *args, **kwargs):
         linha = file.readline()
-        modelo_linha = Line([LiteralField(size=20, starting_position=12)])
-        self.data = modelo_linha.read(linha)[0]
+        self.data = linha.split("NEWAVE -")[1].strip().split(" ")[0]
