@@ -1,8 +1,6 @@
-from cfinterface.components.block import Block
-from cfinterface.components.literalfield import LiteralField
-from cfinterface.components.line import Line
-
 from typing import IO, List
+
+from cfinterface.components.block import Block
 
 
 class VersaoModelo(Block):
