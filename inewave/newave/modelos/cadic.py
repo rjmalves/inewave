@@ -31,6 +31,18 @@ class BlocoCargasAdicionais(Section):
 
     FIM_BLOCO = " 999"
 
+    @staticmethod
+    def __corrige_nome_submercado(nome: str) -> str:
+        """
+        Corrige nomes de submercados que podem ter sido lidos incorretamente
+        devido a desalinhamentos no arquivo.
+        """
+        nome = nome.strip()
+        # Corrige ORDESTE para NORDESTE
+        if nome == "ORDESTE":
+            return "NORDESTE"
+        return nome
+
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
         self.__linha_subsis = Line([
@@ -100,6 +112,8 @@ class BlocoCargasAdicionais(Section):
                     nome_atual,
                     razao_atual,
                 ) = self.__linha_subsis.read(linha)
+                # Corrige o nome do submercado se necessário
+                nome_atual = self.__corrige_nome_submercado(nome_atual)
             else:
                 dados = self.__linha_cargas.read(linha)
                 tabela[i, :] = dados[1:]
