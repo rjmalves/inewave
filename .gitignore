@@ -133,3 +133,6 @@ _saidas/
 .vscode
 
 *.zip
+
+# UV
+uv.lock

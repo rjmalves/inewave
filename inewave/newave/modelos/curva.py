@@ -1,18 +1,19 @@
-from inewave.config import MAX_ANOS_ESTUDO, MAX_SUBMERCADOS, MESES_DF
+from typing import IO, List
 
-from cfinterface.components.section import Section
-from cfinterface.components.line import Line
-from cfinterface.components.field import Field
-from cfinterface.components.integerfield import IntegerField
-from cfinterface.components.floatfield import FloatField
-from cfinterface.components.literalfield import LiteralField
-from typing import List, IO
-import pandas as pd  # type: ignore
 import numpy as np  # type: ignore
+import pandas as pd  # type: ignore
+from cfinterface.components.field import Field
+from cfinterface.components.floatfield import FloatField
+from cfinterface.components.integerfield import IntegerField
+from cfinterface.components.line import Line
+from cfinterface.components.literalfield import LiteralField
+from cfinterface.components.section import Section
+
 from inewave._utils.formatacao import (
     prepara_vetor_anos_tabela,
     repete_vetor,
 )
+from inewave.config import MAX_ANOS_ESTUDO, MAX_SUBMERCADOS, MESES_DF
 
 
 class BlocoConfiguracoesPenalizacaoCurva(Section):
@@ -25,25 +26,21 @@ class BlocoConfiguracoesPenalizacaoCurva(Section):
 
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line(
-            [
-                IntegerField(3, 1),
-                IntegerField(3, 5),
-                IntegerField(3, 9),
-            ]
-        )
+        self.__linha = Line([
+            IntegerField(3, 1),
+            IntegerField(3, 5),
+            IntegerField(3, 9),
+        ])
         self.__cabecalhos: List[str] = []
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoConfiguracoesPenalizacaoCurva):
             return False
         bloco: BlocoConfiguracoesPenalizacaoCurva = o
-        if not all(
-            [
-                isinstance(self.data, list),
-                isinstance(o.data, list),
-            ]
-        ):
+        if not all([
+            isinstance(self.data, list),
+            isinstance(o.data, list),
+        ]):
             return False
         else:
             return self.data == bloco.data
@@ -73,24 +70,20 @@ class BlocoPenalidadesViolacaoREECurva(Section):
 
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line(
-            [
-                IntegerField(3, 1),
-                FloatField(7, 11, 2),
-            ]
-        )
+        self.__linha = Line([
+            IntegerField(3, 1),
+            FloatField(7, 11, 2),
+        ])
         self.__cabecalhos: List[str] = []
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoPenalidadesViolacaoREECurva):
             return False
         bloco: BlocoPenalidadesViolacaoREECurva = o
-        if not all(
-            [
-                isinstance(self.data, pd.DataFrame),
-                isinstance(o.data, pd.DataFrame),
-            ]
-        ):
+        if not all([
+            isinstance(self.data, pd.DataFrame),
+            isinstance(o.data, pd.DataFrame),
+        ]):
             return False
         else:
             return self.data.equals(bloco.data)
@@ -117,7 +110,7 @@ class BlocoPenalidadesViolacaoREECurva(Section):
             ):
                 # Converte para df e salva na variável
                 if i > 0:
-                    tabela = tabela[:i, :]
+                    tabela = tabela[:i, :]  # type: ignore
                     self.data = converte_tabela_em_df()
                 break
             tabela[i, :] = self.__linha.read(linha)
@@ -161,12 +154,10 @@ class BlocoCurvaSegurancaREE(Section):
         if not isinstance(o, BlocoCurvaSegurancaREE):
             return False
         bloco: BlocoCurvaSegurancaREE = o
-        if not all(
-            [
-                isinstance(self.data, pd.DataFrame),
-                isinstance(o.data, pd.DataFrame),
-            ]
-        ):
+        if not all([
+            isinstance(self.data, pd.DataFrame),
+            isinstance(o.data, pd.DataFrame),
+        ]):
             return False
         else:
             return self.data.equals(bloco.data)
@@ -198,7 +189,7 @@ class BlocoCurvaSegurancaREE(Section):
             if len(linha) < 3 or BlocoCurvaSegurancaREE.FIM_BLOCO in linha:
                 # Converte para df e salva na variável
                 if i > 0:
-                    tabela = tabela[:i, :]
+                    tabela = tabela[:i, :]  # type: ignore
                     self.data = converte_tabela_em_df()
                 break
             # Confere se é uma linha de ree ou tabela
@@ -250,9 +241,11 @@ class BlocoMaximoIteracoesProcessoIterativoEtapa2(Section):
 
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line(
-            [LiteralField(26, 0), IntegerField(6, 28), LiteralField(46, 39)]
-        )
+        self.__linha = Line([
+            LiteralField(26, 0),
+            IntegerField(6, 28),
+            LiteralField(46, 39),
+        ])
         self.__cabecalhos: List[str] = []
         self.__campo: str = ""
         self.__comentario: str = ""
@@ -261,12 +254,10 @@ class BlocoMaximoIteracoesProcessoIterativoEtapa2(Section):
         if not isinstance(o, BlocoMaximoIteracoesProcessoIterativoEtapa2):
             return False
         bloco: BlocoMaximoIteracoesProcessoIterativoEtapa2 = o
-        if not all(
-            [
-                isinstance(self.data, int),
-                isinstance(o.data, int),
-            ]
-        ):
+        if not all([
+            isinstance(self.data, int),
+            isinstance(o.data, int),
+        ]):
             return False
         else:
             return self.data == bloco.data
@@ -300,9 +291,11 @@ class BlocoIteracaoAPartirProcessoIterativoEtapa2(Section):
 
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line(
-            [LiteralField(26, 0), IntegerField(6, 28), LiteralField(46, 39)]
-        )
+        self.__linha = Line([
+            LiteralField(26, 0),
+            IntegerField(6, 28),
+            LiteralField(46, 39),
+        ])
         self.__campo: str = ""
         self.__comentario: str = ""
 
@@ -310,12 +303,10 @@ class BlocoIteracaoAPartirProcessoIterativoEtapa2(Section):
         if not isinstance(o, BlocoIteracaoAPartirProcessoIterativoEtapa2):
             return False
         bloco: BlocoIteracaoAPartirProcessoIterativoEtapa2 = o
-        if not all(
-            [
-                isinstance(self.data, int),
-                isinstance(o.data, int),
-            ]
-        ):
+        if not all([
+            isinstance(self.data, int),
+            isinstance(o.data, int),
+        ]):
             return False
         else:
             return self.data == bloco.data
@@ -344,9 +335,11 @@ class BlocoToleranciaProcessoIterativoEtapa2(Section):
 
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line(
-            [LiteralField(26, 0), FloatField(6, 28, 3), LiteralField(46, 39)]
-        )
+        self.__linha = Line([
+            LiteralField(26, 0),
+            FloatField(6, 28, 3),
+            LiteralField(46, 39),
+        ])
         self.__campo: str = ""
         self.__comentario: str = ""
 
@@ -354,12 +347,10 @@ class BlocoToleranciaProcessoIterativoEtapa2(Section):
         if not isinstance(o, BlocoToleranciaProcessoIterativoEtapa2):
             return False
         bloco: BlocoToleranciaProcessoIterativoEtapa2 = o
-        if not all(
-            [
-                isinstance(self.data, float),
-                isinstance(o.data, float),
-            ]
-        ):
+        if not all([
+            isinstance(self.data, float),
+            isinstance(o.data, float),
+        ]):
             return False
         else:
             return self.data == bloco.data
@@ -388,9 +379,11 @@ class BlocoImpressaoRelatorioProcessoIterativoEtapa2(Section):
 
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line(
-            [LiteralField(26, 0), IntegerField(6, 28), LiteralField(46, 39)]
-        )
+        self.__linha = Line([
+            LiteralField(26, 0),
+            IntegerField(6, 28),
+            LiteralField(46, 39),
+        ])
         self.__campo: str = ""
         self.__comentario: str = ""
 
@@ -398,12 +391,10 @@ class BlocoImpressaoRelatorioProcessoIterativoEtapa2(Section):
         if not isinstance(o, BlocoImpressaoRelatorioProcessoIterativoEtapa2):
             return False
         bloco: BlocoImpressaoRelatorioProcessoIterativoEtapa2 = o
-        if not all(
-            [
-                isinstance(self.data, int),
-                isinstance(o.data, int),
-            ]
-        ):
+        if not all([
+            isinstance(self.data, int),
+            isinstance(o.data, int),
+        ]):
             return False
         else:
             return self.data == bloco.data

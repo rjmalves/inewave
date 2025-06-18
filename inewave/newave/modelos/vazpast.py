@@ -1,11 +1,13 @@
-from cfinterface.components.section import Section
+from typing import IO, List
+
+import numpy as np  # type: ignore
+import pandas as pd  # type: ignore
+from cfinterface.components.floatfield import FloatField
+from cfinterface.components.integerfield import IntegerField
 from cfinterface.components.line import Line
 from cfinterface.components.literalfield import LiteralField
-from cfinterface.components.integerfield import IntegerField
-from cfinterface.components.floatfield import FloatField
-from typing import List, IO
-import pandas as pd  # type: ignore
-import numpy as np  # type: ignore
+from cfinterface.components.section import Section
+
 from inewave._utils.formatacao import (
     repete_vetor,
 )
@@ -33,12 +35,10 @@ class BlocoVazPast(Section):
         if not isinstance(o, BlocoVazPast):
             return False
         bloco: BlocoVazPast = o
-        if not all(
-            [
-                isinstance(self.data, pd.DataFrame),
-                isinstance(o.data, pd.DataFrame),
-            ]
-        ):
+        if not all([
+            isinstance(self.data, pd.DataFrame),
+            isinstance(o.data, pd.DataFrame),
+        ]):
             return False
         else:
             return self.data.equals(bloco.data)
@@ -70,7 +70,7 @@ class BlocoVazPast(Section):
             if len(linha) < 3:
                 # Converte para df e salva na variável
                 if i > 0:
-                    tabela = tabela[:i, :]
+                    tabela = tabela[:i, :]  # type: ignore
                     self.data = converte_tabela_em_df()
                 break
             dados = self.__linha.read(linha)
@@ -84,9 +84,7 @@ class BlocoVazPast(Section):
         for linha in self.__cabecalhos:
             file.write(linha)
         if not isinstance(self.data, pd.DataFrame):
-            raise ValueError(
-                "Dados do vazpast.dat não foram lidos com sucesso"
-            )
+            raise ValueError("Dados do vazpast.dat não foram lidos com sucesso")
 
         df = self.data.copy()
         usinas = self.data["codigo_usina"].unique()

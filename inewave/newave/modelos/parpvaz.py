@@ -1,27 +1,29 @@
 # Imports do próprio módulo
 
+from datetime import date
+from typing import IO, List
+
+import numpy as np  # type: ignore
+import pandas as pd  # type: ignore
+
+# Imports de módulos externos
+from cfinterface.components.block import Block
+from cfinterface.components.field import Field
+from cfinterface.components.floatfield import FloatField
+from cfinterface.components.integerfield import IntegerField
+from cfinterface.components.line import Line
+from cfinterface.components.literalfield import LiteralField
+
+from inewave._utils.formatacao import (
+    prepara_vetor_anos_tabela,
+    repete_vetor,
+)
 from inewave.config import (
     MAX_ANOS_ESTUDO,
     MAX_ANOS_HISTORICO,
     MAX_UHES,
     MESES_ABREV,
     MESES_DF,
-)
-
-# Imports de módulos externos
-from cfinterface.components.block import Block
-from cfinterface.components.line import Line
-from cfinterface.components.field import Field
-from cfinterface.components.integerfield import IntegerField
-from cfinterface.components.literalfield import LiteralField
-from cfinterface.components.floatfield import FloatField
-from datetime import date
-import numpy as np  # type: ignore
-import pandas as pd  # type: ignore
-from typing import IO, List
-from inewave._utils.formatacao import (
-    prepara_vetor_anos_tabela,
-    repete_vetor,
 )
 
 
@@ -54,12 +56,10 @@ class BlocoSerieVazoesUHE(Block):
         if not isinstance(o, BlocoSerieVazoesUHE):
             return False
         bloco: BlocoSerieVazoesUHE = o
-        if not all(
-            [
-                isinstance(self.data, pd.DataFrame),
-                isinstance(o.data, pd.DataFrame),
-            ]
-        ):
+        if not all([
+            isinstance(self.data, pd.DataFrame),
+            isinstance(o.data, pd.DataFrame),
+        ]):
             return False
         else:
             return self.data.equals(bloco.data)
@@ -94,7 +94,7 @@ class BlocoSerieVazoesUHE(Block):
             linha = file.readline()
             # Confere se acabou
             if len(linha) < 4:
-                tabela = tabela[:i, :]
+                tabela = tabela[:i, :]  # type: ignore
                 self.data = converte_tabela_em_df()
                 break
             # Senão, processa os dados
@@ -122,21 +122,17 @@ class BlocoCorrelVazoesUHE(Block):
         super().__init__(previous, next, data)
         campo_mes: List[Field] = [LiteralField(3, 1)]
         campo_ano: List[Field] = [LiteralField(4, 5)]
-        correl: List[Field] = [
-            FloatField(10, 9 + 10 * i, 5) for i in range(11)
-        ]
+        correl: List[Field] = [FloatField(10, 9 + 10 * i, 5) for i in range(11)]
         self.__linha = Line(campo_mes + campo_ano + correl)
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoCorrelVazoesUHE):
             return False
         bloco: BlocoCorrelVazoesUHE = o
-        if not all(
-            [
-                isinstance(self.data, pd.DataFrame),
-                isinstance(o.data, pd.DataFrame),
-            ]
-        ):
+        if not all([
+            isinstance(self.data, pd.DataFrame),
+            isinstance(o.data, pd.DataFrame),
+        ]):
             return False
         else:
             return self.data.equals(bloco.data)
@@ -203,7 +199,7 @@ class BlocoCorrelVazoesUHE(Block):
             linha = file.readline()
             # Confere se acabou
             if len(linha) < 4:
-                tabela = tabela[:i, :]
+                tabela = tabela[:i, :]  # type: ignore
                 self.data = converte_tabela_em_df()
                 break
             # Senão, processa os dados
@@ -232,21 +228,17 @@ class BlocoCorrelParcialVazoesUHE(Block):
         super().__init__(previous, next, data)
         campo_mes: List[Field] = [LiteralField(3, 1)]
         campo_ano: List[Field] = [LiteralField(4, 5)]
-        correl: List[Field] = [
-            FloatField(10, 9 + 10 * i, 5) for i in range(11)
-        ]
+        correl: List[Field] = [FloatField(10, 9 + 10 * i, 5) for i in range(11)]
         self.__linha = Line(campo_mes + campo_ano + correl)
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoCorrelParcialVazoesUHE):
             return False
         bloco: BlocoCorrelParcialVazoesUHE = o
-        if not all(
-            [
-                isinstance(self.data, pd.DataFrame),
-                isinstance(o.data, pd.DataFrame),
-            ]
-        ):
+        if not all([
+            isinstance(self.data, pd.DataFrame),
+            isinstance(o.data, pd.DataFrame),
+        ]):
             return False
         else:
             return self.data.equals(bloco.data)
@@ -313,7 +305,7 @@ class BlocoCorrelParcialVazoesUHE(Block):
             linha = file.readline()
             # Confere se acabou
             if len(linha) < 4:
-                tabela = tabela[:i, :]
+                tabela = tabela[:i, :]  # type: ignore
                 self.data = converte_tabela_em_df()
                 break
             # Senão, processa os dados
@@ -351,12 +343,10 @@ class BlocoOrdemModeloUHE(Block):
         if not isinstance(o, BlocoOrdemModeloUHE):
             return False
         bloco: BlocoOrdemModeloUHE = o
-        if not all(
-            [
-                isinstance(self.data, pd.DataFrame),
-                isinstance(o.data, pd.DataFrame),
-            ]
-        ):
+        if not all([
+            isinstance(self.data, pd.DataFrame),
+            isinstance(o.data, pd.DataFrame),
+        ]):
             return False
         else:
             return self.data.equals(bloco.data)
@@ -415,7 +405,7 @@ class BlocoOrdemModeloUHE(Block):
             linha = file.readline()
             # Confere se acabou
             if len(linha) < 4:
-                tabela = tabela[:i, :]
+                tabela = tabela[:i, :]  # type: ignore
                 self.data = converte_tabela_em_df()
                 break
             # Senão, processa os dados
@@ -448,12 +438,10 @@ class BlocoCoeficientesModeloUHE(Block):
         if not isinstance(o, BlocoCoeficientesModeloUHE):
             return False
         bloco: BlocoCoeficientesModeloUHE = o
-        if not all(
-            [
-                isinstance(self.data, pd.DataFrame),
-                isinstance(o.data, pd.DataFrame),
-            ]
-        ):
+        if not all([
+            isinstance(self.data, pd.DataFrame),
+            isinstance(o.data, pd.DataFrame),
+        ]):
             return False
         else:
             return self.data.equals(bloco.data)
@@ -518,12 +506,10 @@ class BlocoSerieRuidosUHE(Block):
         if not isinstance(o, BlocoSerieRuidosUHE):
             return False
         bloco: BlocoSerieRuidosUHE = o
-        if not all(
-            [
-                isinstance(self.data, pd.DataFrame),
-                isinstance(o.data, pd.DataFrame),
-            ]
-        ):
+        if not all([
+            isinstance(self.data, pd.DataFrame),
+            isinstance(o.data, pd.DataFrame),
+        ]):
             return False
         else:
             return self.data.equals(bloco.data)
@@ -558,7 +544,7 @@ class BlocoSerieRuidosUHE(Block):
             linha = file.readline()
             # Confere se acabou
             if len(linha) < 4:
-                tabela = tabela[:i, :]
+                tabela = tabela[:i, :]  # type: ignore
                 self.data = converte_tabela_em_df()
                 break
             # Senão, processa os dados
@@ -584,21 +570,17 @@ class BlocoCorrelRuidosUHE(Block):
         super().__init__(previous, next, data)
         campo_mes: List[Field] = [LiteralField(3, 1)]
         campo_ano: List[Field] = [LiteralField(4, 5)]
-        correl: List[Field] = [
-            FloatField(10, 9 + 10 * i, 5) for i in range(11)
-        ]
+        correl: List[Field] = [FloatField(10, 9 + 10 * i, 5) for i in range(11)]
         self.__linha = Line(campo_mes + campo_ano + correl)
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoCorrelRuidosUHE):
             return False
         bloco: BlocoCorrelRuidosUHE = o
-        if not all(
-            [
-                isinstance(self.data, pd.DataFrame),
-                isinstance(o.data, pd.DataFrame),
-            ]
-        ):
+        if not all([
+            isinstance(self.data, pd.DataFrame),
+            isinstance(o.data, pd.DataFrame),
+        ]):
             return False
         else:
             return self.data.equals(bloco.data)
@@ -665,7 +647,7 @@ class BlocoCorrelRuidosUHE(Block):
             linha = file.readline()
             # Confere se acabou
             if len(linha) < 4:
-                tabela = tabela[:i, :]
+                tabela = tabela[:i, :]  # type: ignore
                 self.data = converte_tabela_em_df()
                 break
             # Senão, processa os dados
@@ -701,12 +683,10 @@ class BlocoCorrelEspacialAnualMensalUHE(Block):
         if not isinstance(o, BlocoCorrelEspacialAnualMensalUHE):
             return False
         bloco: BlocoCorrelEspacialAnualMensalUHE = o
-        if not all(
-            [
-                isinstance(self.data, pd.DataFrame),
-                isinstance(bloco.data, pd.DataFrame),
-            ]
-        ):
+        if not all([
+            isinstance(self.data, pd.DataFrame),
+            isinstance(bloco.data, pd.DataFrame),
+        ]):
             return False
         else:
             return self.data.equals(bloco.data)
@@ -731,7 +711,7 @@ class BlocoCorrelEspacialAnualMensalUHE(Block):
             linha = file.readline()
             # Confere se acabou
             if len(linha) < 4:
-                tabela = tabela[:i, :]
+                tabela = tabela[:i, :]  # type: ignore
                 self.data = converte_tabela_em_df()
                 break
             # Senão, processa os dados

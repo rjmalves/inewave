@@ -1,12 +1,12 @@
+from typing import IO
+
+import numpy as np  # type: ignore
+import pandas as pd  # type: ignore
 from cfinterface.components.block import Block
 from cfinterface.components.line import Line
 
-from inewave.config import MESES_DF, MAX_SERIES_SINTETICAS
 from inewave._utils.formatacao import formata_df_meses_para_datas_nwlistop
-
-from typing import IO
-import pandas as pd  # type: ignore
-import numpy as np  # type: ignore
+from inewave.config import MAX_SERIES_SINTETICAS, MESES_DF
 
 
 class ValoresSerie(Block):
@@ -31,12 +31,10 @@ class ValoresSerie(Block):
         if not isinstance(o, ValoresSerie):
             return False
         bloco: ValoresSerie = o
-        if not all(
-            [
-                isinstance(self.data, pd.DataFrame),
-                isinstance(o.data, pd.DataFrame),
-            ]
-        ):
+        if not all([
+            isinstance(self.data, pd.DataFrame),
+            isinstance(o.data, pd.DataFrame),
+        ]):
             return False
         else:
             return self.data.equals(bloco.data)
@@ -61,7 +59,7 @@ class ValoresSerie(Block):
         while True:
             linha = file.readline()
             if self.ends(linha) or len(linha) <= 1:
-                tabela = tabela[:i, :]
+                tabela = tabela[:i, :]  # type: ignore
                 self.data = converte_tabela_em_df()
                 break
             tabela[i, :] = self.__linha.read(linha)

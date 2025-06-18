@@ -1,3 +1,13 @@
+# 1.10.0
+
+- Gestão do projeto através de arquivo `pyproject.toml` em substituição ao par `setup.py` + `requirements.txt`
+- Correção no processamento da energia armazenada inicial por subsistema do `dger.dat` [#97](https://github.com/rjmalves/inewave/issues/97).
+- Suporte aos campos de restrições elétricas especiais existentes na versão 30 do modelo NEWAVE
+- Melhorias na documentação, incluindo exemplos de arquivos das LIBS [#94](https://github.com/rjmalves/inewave/issues/94)
+- Suporte a obter a versão do modelo NEWAVE utilizada a partir do arquivo newave.tim (@eduardomdc)
+- Requisito de versão de Python atualizado para `>=3.10`
+
+
 # 1.9.2
 
 - Versionamento dos arquivos `cmargXXX.out` e `cmargXXX-med.out` do NWLISTOP devido o aumento de dígitos impressos.

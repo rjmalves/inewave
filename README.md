@@ -16,7 +16,7 @@ O inewave oferece:
 
 ## Instalação
 
-O inewave é compatível com versões de Python >= 3.8.
+O inewave é compatível com versões de Python >= 3.10.
 
 É possível instalar a versão distribuída oficialmente com pip:
 

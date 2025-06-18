@@ -1,13 +1,14 @@
-from inewave.config import MAX_CORTES, MAX_UHES
+from typing import IO, List
 
-from cfinterface.components.block import Block
-from cfinterface.components.line import Line
-from cfinterface.components.field import Field
-from cfinterface.components.integerfield import IntegerField
-from cfinterface.components.floatfield import FloatField
-from typing import List, IO
-import pandas as pd  # type: ignore
 import numpy as np  # type: ignore
+import pandas as pd  # type: ignore
+from cfinterface.components.block import Block
+from cfinterface.components.field import Field
+from cfinterface.components.floatfield import FloatField
+from cfinterface.components.integerfield import IntegerField
+from cfinterface.components.line import Line
+
+from inewave.config import MAX_CORTES, MAX_UHES
 
 
 class CortesPeriodoNwlistcf(Block):
@@ -28,12 +29,10 @@ class CortesPeriodoNwlistcf(Block):
         if not isinstance(o, CortesPeriodoNwlistcf):
             return False
         bloco: CortesPeriodoNwlistcf = o
-        if not all(
-            [
-                isinstance(self.data, pd.DataFrame),
-                isinstance(o.data, pd.DataFrame),
-            ]
-        ):
+        if not all([
+            isinstance(self.data, pd.DataFrame),
+            isinstance(o.data, pd.DataFrame),
+        ]):
             return False
         else:
             return self.data.equals(bloco.data)
@@ -80,7 +79,7 @@ class CortesPeriodoNwlistcf(Block):
             linha = file.readline()
             if self.ends(linha) or len(linha) < 3:
                 file.seek(ultima_posicao)
-                tabela = tabela[:i, :]
+                tabela = tabela[:i, :]  # type: ignore
                 self.data = converte_tabela_em_df()
                 break
             dados = self.__linha.read(linha)

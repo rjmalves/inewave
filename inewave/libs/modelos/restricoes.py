@@ -1,11 +1,12 @@
-from typing import Optional
-from cfinterface.components.register import Register
-from cfinterface.components.line import Line
-from cfinterface.components.integerfield import IntegerField
-from cfinterface.components.literalfield import LiteralField
-from cfinterface.components.floatfield import FloatField
-from cfinterface.components.datetimefield import DatetimeField
 from datetime import datetime
+from typing import Optional
+
+from cfinterface.components.datetimefield import DatetimeField
+from cfinterface.components.floatfield import FloatField
+from cfinterface.components.integerfield import IntegerField
+from cfinterface.components.line import Line
+from cfinterface.components.literalfield import LiteralField
+from cfinterface.components.register import Register
 
 
 class RegistroRE(Register):
@@ -118,8 +119,8 @@ class RegistroRELimFormPer(Register):
     RE por patamar.
     """
 
-    IDENTIFIER = "RE-LIM-FORM-PER"
-    IDENTIFIER_DIGITS = 15
+    IDENTIFIER = "RE-LIM-FORM-PER-PAT"
+    IDENTIFIER_DIGITS = 19
     LINE = Line(
         [
             IntegerField(),

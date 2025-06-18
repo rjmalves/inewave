@@ -1,17 +1,18 @@
-from inewave.config import MAX_RES, MAX_USINAS_RE
+from typing import IO, List
 
-from cfinterface.components.section import Section
-from cfinterface.components.line import Line
-from cfinterface.components.field import Field
-from cfinterface.components.literalfield import LiteralField
-from cfinterface.components.integerfield import IntegerField
-from cfinterface.components.floatfield import FloatField
-from typing import List, IO
-import pandas as pd  # type: ignore
 import numpy as np  # type: ignore
+import pandas as pd  # type: ignore
+from cfinterface.components.field import Field
+from cfinterface.components.floatfield import FloatField
+from cfinterface.components.integerfield import IntegerField
+from cfinterface.components.line import Line
+from cfinterface.components.literalfield import LiteralField
+from cfinterface.components.section import Section
+
 from inewave._utils.formatacao import (
     repete_vetor,
 )
+from inewave.config import MAX_RES, MAX_USINAS_RE
 
 
 class BlocoUsinasConjuntoRE(Section):
@@ -37,12 +38,10 @@ class BlocoUsinasConjuntoRE(Section):
         if not isinstance(o, BlocoUsinasConjuntoRE):
             return False
         bloco: BlocoUsinasConjuntoRE = o
-        if not all(
-            [
-                isinstance(self.data, pd.DataFrame),
-                isinstance(o.data, pd.DataFrame),
-            ]
-        ):
+        if not all([
+            isinstance(self.data, pd.DataFrame),
+            isinstance(o.data, pd.DataFrame),
+        ]):
             return False
         else:
             return self.data.equals(bloco.data)
@@ -72,7 +71,7 @@ class BlocoUsinasConjuntoRE(Section):
             if len(linha) < 3 or BlocoUsinasConjuntoRE.FIM_BLOCO in linha:
                 # Converte para df e salva na variável
                 if i > 0:
-                    tabela = tabela[:i, :]
+                    tabela = tabela[:i, :]  # type: ignore
                     self.data = converte_tabela_em_df()
                 break
             # Confere se é uma linha de subsistema ou tabela
@@ -91,9 +90,7 @@ class BlocoUsinasConjuntoRE(Section):
 
         df = self.data.copy()
         for conjunto in df["conjunto"].unique():
-            usinas = df.loc[
-                df["conjunto"] == conjunto, "codigo_usina"
-            ].tolist()
+            usinas = df.loc[df["conjunto"] == conjunto, "codigo_usina"].tolist()
             usinas = usinas + [None] * (MAX_USINAS_RE - len(usinas))
             file.write(self.__linha.write([conjunto] + usinas))
 
@@ -110,30 +107,26 @@ class BlocoConfiguracaoRestricoesRE(Section):
 
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line(
-            [
-                IntegerField(3, 0),
-                IntegerField(2, 4),
-                IntegerField(4, 7),
-                IntegerField(2, 12),
-                IntegerField(4, 15),
-                IntegerField(1, 20),
-                FloatField(10, 22, 2),
-                LiteralField(23, 38),
-            ]
-        )
+        self.__linha = Line([
+            IntegerField(3, 0),
+            IntegerField(2, 4),
+            IntegerField(4, 7),
+            IntegerField(2, 12),
+            IntegerField(4, 15),
+            IntegerField(1, 20),
+            FloatField(10, 22, 2),
+            LiteralField(23, 38),
+        ])
         self.__cabecalhos: List[str] = []
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoConfiguracaoRestricoesRE):
             return False
         bloco: BlocoConfiguracaoRestricoesRE = o
-        if not all(
-            [
-                isinstance(self.data, pd.DataFrame),
-                isinstance(o.data, pd.DataFrame),
-            ]
-        ):
+        if not all([
+            isinstance(self.data, pd.DataFrame),
+            isinstance(o.data, pd.DataFrame),
+        ]):
             return False
         else:
             return self.data.equals(bloco.data)
@@ -152,16 +145,14 @@ class BlocoConfiguracaoRestricoesRE(Section):
             ]
             df = pd.DataFrame(tabela, columns=cols)
             df["motivo"] = motivos
-            df = df.astype(
-                {
-                    "conjunto": "int64",
-                    "mes_inicio": "int64",
-                    "ano_inicio": "int64",
-                    "mes_fim": "int64",
-                    "ano_fim": "int64",
-                    "patamar": "int64",
-                }
-            )
+            df = df.astype({
+                "conjunto": "int64",
+                "mes_inicio": "int64",
+                "ano_inicio": "int64",
+                "mes_fim": "int64",
+                "ano_fim": "int64",
+                "patamar": "int64",
+            })
             return df
 
         # Salta as linhas adicionais
@@ -177,7 +168,7 @@ class BlocoConfiguracaoRestricoesRE(Section):
             if len(linha) < 3 or BlocoUsinasConjuntoRE.FIM_BLOCO in linha:
                 # Converte para df e salva na variável
                 if i > 0:
-                    tabela = tabela[:i, :]
+                    tabela = tabela[:i, :]  # type: ignore
                     self.data = converte_tabela_em_df()
                 break
             # Confere se é uma linha de subsistema ou tabela

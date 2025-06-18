@@ -1,23 +1,30 @@
 # Imports do próprio módulo
 
-from inewave.config import MAX_ANOS_ESTUDO, MAX_ITERS, MAX_MESES_ESTUDO
-from inewave.config import MAX_REES, MAX_UTES
-from inewave.config import MESES_DF
+from datetime import datetime, timedelta
+from typing import IO, List, Optional
+
+import numpy as np  # type: ignore
+import pandas as pd  # type: ignore
 
 # Imports de módulos externos
 from cfinterface.components.block import Block
-from cfinterface.components.line import Line
 from cfinterface.components.field import Field
-from cfinterface.components.integerfield import IntegerField
-from cfinterface.components.literalfield import LiteralField
 from cfinterface.components.floatfield import FloatField
-from datetime import timedelta, datetime
-import numpy as np  # type: ignore
-import pandas as pd  # type: ignore
-from typing import IO, List, Optional
+from cfinterface.components.integerfield import IntegerField
+from cfinterface.components.line import Line
+from cfinterface.components.literalfield import LiteralField
+
 from inewave._utils.formatacao import (
     prepara_vetor_anos_tabela,
     repete_vetor,
+)
+from inewave.config import (
+    MAX_ANOS_ESTUDO,
+    MAX_ITERS,
+    MAX_MESES_ESTUDO,
+    MAX_REES,
+    MAX_UTES,
+    MESES_DF,
 )
 
 
@@ -43,19 +50,16 @@ class BlocoVersaoModeloPMO(Block):
         if not isinstance(o, BlocoVersaoModeloPMO):
             return False
         bloco: BlocoVersaoModeloPMO = o
-        if not all(
-            [
-                isinstance(self.data, str),
-                isinstance(o.data, str),
-            ]
-        ):
+        if not all([
+            isinstance(self.data, str),
+            isinstance(o.data, str),
+        ]):
             return False
         else:
             return self.data == bloco.data
 
     # Override
     def read(self, file: IO, *args, **kwargs):
-
         linha = file.readline()
         dados: List[str] = self.__line.read(linha)
         self.data = dados[0].strip()
@@ -84,12 +88,10 @@ class BlocoEafPastTendenciaHidrolPMO(Block):
         if not isinstance(o, BlocoEafPastTendenciaHidrolPMO):
             return False
         bloco: BlocoEafPastTendenciaHidrolPMO = o
-        if not all(
-            [
-                isinstance(self.data, pd.DataFrame),
-                isinstance(o.data, pd.DataFrame),
-            ]
-        ):
+        if not all([
+            isinstance(self.data, pd.DataFrame),
+            isinstance(o.data, pd.DataFrame),
+        ]):
             return False
         else:
             return self.data.equals(bloco.data)
@@ -118,7 +120,7 @@ class BlocoEafPastTendenciaHidrolPMO(Block):
             linha = file.readline()
             # Confere se acabou
             if "X-------" in linha:
-                tabela = tabela[:i, :]
+                tabela = tabela[:i, :]  # type: ignore
                 self.data = converte_tabela_em_df()
                 break
             # Senão, processa os dados
@@ -153,12 +155,10 @@ class BlocoEafPastCfugaMedioPMO(Block):
         if not isinstance(o, BlocoEafPastCfugaMedioPMO):
             return False
         bloco: BlocoEafPastCfugaMedioPMO = o
-        if not all(
-            [
-                isinstance(self.data, pd.DataFrame),
-                isinstance(o.data, pd.DataFrame),
-            ]
-        ):
+        if not all([
+            isinstance(self.data, pd.DataFrame),
+            isinstance(o.data, pd.DataFrame),
+        ]):
             return False
         else:
             return self.data.equals(bloco.data)
@@ -187,7 +187,7 @@ class BlocoEafPastCfugaMedioPMO(Block):
             linha = file.readline()
             # Confere se acabou
             if "X-------" in linha:
-                tabela = tabela[:i, :]
+                tabela = tabela[:i, :]  # type: ignore
                 self.data = converte_tabela_em_df()
                 break
             # Senão, processa os dados
@@ -213,12 +213,10 @@ class BlocoEnergiaArmazenadaMaximaPMO(Block):
         if not isinstance(o, BlocoEnergiaArmazenadaMaximaPMO):
             return False
         bloco: BlocoEnergiaArmazenadaMaximaPMO = o
-        if not all(
-            [
-                isinstance(self.data, pd.DataFrame),
-                isinstance(o.data, pd.DataFrame),
-            ]
-        ):
+        if not all([
+            isinstance(self.data, pd.DataFrame),
+            isinstance(o.data, pd.DataFrame),
+        ]):
             return False
         else:
             return self.data.equals(bloco.data)
@@ -256,7 +254,7 @@ class BlocoEnergiaArmazenadaMaximaPMO(Block):
         while True:
             linha = file.readline()
             if len(linha) < 3:
-                tabela_valores = tabela_valores[:i, :]
+                tabela_valores = tabela_valores[:i, :]  # type: ignore
                 self.data = converte_tabela_em_df()
                 break
 
@@ -283,12 +281,10 @@ class BlocoEnergiaArmazenadaInicialPMO(Block):
         if not isinstance(o, BlocoEnergiaArmazenadaInicialPMO):
             return False
         bloco: BlocoEnergiaArmazenadaInicialPMO = o
-        if not all(
-            [
-                isinstance(self.data, pd.DataFrame),
-                isinstance(o.data, pd.DataFrame),
-            ]
-        ):
+        if not all([
+            isinstance(self.data, pd.DataFrame),
+            isinstance(o.data, pd.DataFrame),
+        ]):
             return False
         else:
             return self.data.equals(bloco.data)
@@ -312,9 +308,9 @@ class BlocoEnergiaArmazenadaInicialPMO(Block):
         linha_nomes = file.readline()
         nomes = [n.strip() for n in linha_nomes.split(" ") if len(n) > 2]
         num_rees = len(nomes)
-        linha_valores = Line(
-            [FloatField(11, 13 * i, 1) for i in range(num_rees)]
-        )
+        linha_valores = Line([
+            FloatField(11, 13 * i, 1) for i in range(num_rees)
+        ])
         valores_MWmes: List[float] = linha_valores.read(file.readline())
         valores_percentual: List[float] = linha_valores.read(file.readline())
         self.data = converte_tabela_em_df()
@@ -333,25 +329,21 @@ class BlocoVolumeArmazenadoInicialPMO(Block):
 
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line(
-            [
-                IntegerField(5, 2),
-                LiteralField(12, 8),
-                FloatField(14, 21, 1),
-                FloatField(12, 36, 1),
-            ]
-        )
+        self.__linha = Line([
+            IntegerField(5, 2),
+            LiteralField(12, 8),
+            FloatField(14, 21, 1),
+            FloatField(12, 36, 1),
+        ])
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoVolumeArmazenadoInicialPMO):
             return False
         bloco: BlocoVolumeArmazenadoInicialPMO = o
-        if not all(
-            [
-                isinstance(self.data, pd.DataFrame),
-                isinstance(o.data, pd.DataFrame),
-            ]
-        ):
+        if not all([
+            isinstance(self.data, pd.DataFrame),
+            isinstance(o.data, pd.DataFrame),
+        ]):
             return False
         else:
             return self.data.equals(bloco.data)
@@ -416,12 +408,10 @@ class BlocoGeracaoMinimaUsinasTermicasPMO(Block):
         if not isinstance(o, BlocoGeracaoMinimaUsinasTermicasPMO):
             return False
         bloco: BlocoGeracaoMinimaUsinasTermicasPMO = o
-        if not all(
-            [
-                isinstance(self.data, pd.DataFrame),
-                isinstance(o.data, pd.DataFrame),
-            ]
-        ):
+        if not all([
+            isinstance(self.data, pd.DataFrame),
+            isinstance(o.data, pd.DataFrame),
+        ]):
             return False
         else:
             return self.data.equals(bloco.data)
@@ -463,10 +453,8 @@ class BlocoGeracaoMinimaUsinasTermicasPMO(Block):
             linha: str = file.readline()
             # Confere se acabou
             if len(linha) < 3 or "X--------------------" in linha:
-                tabela = tabela[:i, :]
-                self.data = (
-                    converte_tabela_em_df() if i > 0 else pd.DataFrame()
-                )
+                tabela = tabela[:i, :]  # type: ignore
+                self.data = converte_tabela_em_df() if i > 0 else pd.DataFrame()
                 break
             # Lê mais uma linha
             dados = self.__line.read(linha)
@@ -504,12 +492,10 @@ class BlocoGeracaoMaximaUsinasTermicasPMO(Block):
         if not isinstance(o, BlocoGeracaoMaximaUsinasTermicasPMO):
             return False
         bloco: BlocoGeracaoMaximaUsinasTermicasPMO = o
-        if not all(
-            [
-                isinstance(self.data, pd.DataFrame),
-                isinstance(o.data, pd.DataFrame),
-            ]
-        ):
+        if not all([
+            isinstance(self.data, pd.DataFrame),
+            isinstance(o.data, pd.DataFrame),
+        ]):
             return False
         else:
             return self.data.equals(bloco.data)
@@ -551,10 +537,8 @@ class BlocoGeracaoMaximaUsinasTermicasPMO(Block):
             linha: str = file.readline()
             # Confere se acabou
             if len(linha) < 3 or "X--------------------" in linha:
-                tabela = tabela[:i, :]
-                self.data = (
-                    converte_tabela_em_df() if i > 0 else pd.DataFrame()
-                )
+                tabela = tabela[:i, :]  # type: ignore
+                self.data = converte_tabela_em_df() if i > 0 else pd.DataFrame()
                 break
             # Lê mais uma linha
             dados = self.__line.read(linha)
@@ -593,12 +577,10 @@ class BlocoConvergenciaPMO(Block):
         if not isinstance(o, BlocoConvergenciaPMO):
             return False
         bloco: BlocoConvergenciaPMO = o
-        if not all(
-            [
-                isinstance(self.data, pd.DataFrame),
-                isinstance(o.data, pd.DataFrame),
-            ]
-        ):
+        if not all([
+            isinstance(self.data, pd.DataFrame),
+            isinstance(o.data, pd.DataFrame),
+        ]):
             return False
         else:
             return self.data.equals(bloco.data)
@@ -631,7 +613,7 @@ class BlocoConvergenciaPMO(Block):
             linha: str = file.readline()
             # Confere se já acabou
             if len(linha) < 3:
-                tabela = tabela[:i, :]
+                tabela = tabela[:i, :]  # type: ignore
                 self.data = converte_tabela_em_df()
                 break
             # Se não tem nada na coluna de iteração, ignora a linha
@@ -672,12 +654,10 @@ class BlocoConfiguracoesExpansaoPMO(Block):
         if not isinstance(o, BlocoConfiguracoesExpansaoPMO):
             return False
         bloco: BlocoConfiguracoesExpansaoPMO = o
-        if not all(
-            [
-                isinstance(self.data, pd.DataFrame),
-                isinstance(o.data, pd.DataFrame),
-            ]
-        ):
+        if not all([
+            isinstance(self.data, pd.DataFrame),
+            isinstance(o.data, pd.DataFrame),
+        ]):
             return False
         else:
             return self.data.equals(bloco.data)
@@ -704,7 +684,7 @@ class BlocoConfiguracoesExpansaoPMO(Block):
             linha: str = file.readline()
             # Confere se acabou
             if len(linha) < 3:
-                tabela = tabela[:i, :]
+                tabela = tabela[:i, :]  # type: ignore
                 self.data = converte_tabela_em_df()
                 break
             # Lê mais uma linha
@@ -731,25 +711,21 @@ class BlocoMARSPMO(Block):
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
         # Cria a estrutura de uma linha da tabela
-        self.__line = Line(
-            [
-                IntegerField(12, 1),
-                FloatField(12, 14, 5, format="E"),
-                FloatField(12, 27, 5, format="E"),
-            ]
-        )
+        self.__line = Line([
+            IntegerField(12, 1),
+            FloatField(12, 14, 5, format="E"),
+            FloatField(12, 27, 5, format="E"),
+        ])
         self.__ree_field = LiteralField(10, 6)
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoMARSPMO):
             return False
         bloco: BlocoMARSPMO = o
-        if not all(
-            [
-                isinstance(self.data, pd.DataFrame),
-                isinstance(o.data, pd.DataFrame),
-            ]
-        ):
+        if not all([
+            isinstance(self.data, pd.DataFrame),
+            isinstance(o.data, pd.DataFrame),
+        ]):
             return False
         else:
             return self.data.equals(bloco.data)
@@ -775,7 +751,7 @@ class BlocoMARSPMO(Block):
         while True:
             linha: str = file.readline()
             if self.ends(linha):
-                tabela = tabela[:i, :]
+                tabela = tabela[:i, :]  # type: ignore
                 self.data = converte_tabela_em_df()
                 break
             elif "REE:" in linha:
@@ -803,12 +779,10 @@ class BlocoRiscoDeficitENSPMO(Block):
         if not isinstance(o, BlocoRiscoDeficitENSPMO):
             return False
         bloco: BlocoRiscoDeficitENSPMO = o
-        if not all(
-            [
-                isinstance(self.data, pd.DataFrame),
-                isinstance(o.data, pd.DataFrame),
-            ]
-        ):
+        if not all([
+            isinstance(self.data, pd.DataFrame),
+            isinstance(o.data, pd.DataFrame),
+        ]):
             return False
         else:
             return self.data.equals(bloco.data)
@@ -852,7 +826,7 @@ class BlocoRiscoDeficitENSPMO(Block):
             linha: str = file.readline()
             # Confere se acabou
             if len(linha) < 3:
-                tabela = tabela[:i, :]
+                tabela = tabela[:i, :]  # type: ignore
                 self.data = converte_tabela_em_df()
                 break
             tabela[i, :] = self.__line.read(linha)
@@ -873,25 +847,21 @@ class BlocoCustoOperacaoPMO(Block):
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
         # Cria a estrutura de uma linha da tabela
-        self.__line = Line(
-            [
-                LiteralField(18, 13),
-                FloatField(13, 32, 2),
-                FloatField(13, 46, 2),
-                FloatField(7, 60, 2),
-            ]
-        )
+        self.__line = Line([
+            LiteralField(18, 13),
+            FloatField(13, 32, 2),
+            FloatField(13, 46, 2),
+            FloatField(7, 60, 2),
+        ])
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoCustoOperacaoPMO):
             return False
         bloco: BlocoCustoOperacaoPMO = o
-        if not all(
-            [
-                isinstance(self.data, pd.DataFrame),
-                isinstance(o.data, pd.DataFrame),
-            ]
-        ):
+        if not all([
+            isinstance(self.data, pd.DataFrame),
+            isinstance(o.data, pd.DataFrame),
+        ]):
             return False
         else:
             return self.data.equals(bloco.data)
@@ -914,7 +884,7 @@ class BlocoCustoOperacaoPMO(Block):
         while True:
             linha = file.readline()
             if "----------------" in linha:
-                tabela = tabela[:i, :]
+                tabela = tabela[:i, :]  # type: ignore
                 self.data = converte_tabela_em_df()
                 break
             dados_linha = self.__line.read(linha)
@@ -943,12 +913,10 @@ class BlocoCustoOperacaoTotalPMO(Block):
         if not isinstance(o, BlocoCustoOperacaoTotalPMO):
             return False
         bloco: BlocoCustoOperacaoTotalPMO = o
-        if not all(
-            [
-                isinstance(self.data, list),
-                isinstance(o.data, list),
-            ]
-        ):
+        if not all([
+            isinstance(self.data, list),
+            isinstance(o.data, list),
+        ]):
             return False
         else:
             return all([sd == d for sd, d in zip(self.data, bloco.data)])
@@ -995,12 +963,10 @@ class BlocoProdutibilidadesConfiguracaoPMO(Block):
         if not isinstance(o, BlocoProdutibilidadesConfiguracaoPMO):
             return False
         bloco: BlocoProdutibilidadesConfiguracaoPMO = o
-        if not all(
-            [
-                isinstance(self.data, pd.DataFrame),
-                isinstance(bloco.data, pd.DataFrame),
-            ]
-        ):
+        if not all([
+            isinstance(self.data, pd.DataFrame),
+            isinstance(bloco.data, pd.DataFrame),
+        ]):
             return False
         else:
             return self.data.equals(bloco.data)
@@ -1168,9 +1134,7 @@ class BlocoProdutibilidadesConfiguracaoPMO(Block):
                 df_usinas = self.__le_produtibilidade_usinas(file)
                 df_usinas.set_index("nome_usina", inplace=True)
             if "USINA      PRODTM   PDTMIN   PDTMED   PDTMAX" in linha:
-                df_reservatorios = self.__le_produtibilidade_reservatorios(
-                    file
-                )
+                df_reservatorios = self.__le_produtibilidade_reservatorios(file)
                 df_reservatorios.set_index("nome_usina", inplace=True)
             if "PRODUTIBILIDADES DOS RESERVATORIOS (MW/m3/s)" in linha:
                 df_acumuladas = self.__le_produtibilidade_acumulada(file)
@@ -1204,12 +1168,10 @@ class BlocoPenalidadeViolacaoOutrosUsosPMO(Block):
         if not isinstance(o, BlocoPenalidadeViolacaoOutrosUsosPMO):
             return False
         bloco: BlocoPenalidadeViolacaoOutrosUsosPMO = o
-        if not all(
-            [
-                isinstance(self.data, pd.DataFrame),
-                isinstance(o.data, pd.DataFrame),
-            ]
-        ):
+        if not all([
+            isinstance(self.data, pd.DataFrame),
+            isinstance(o.data, pd.DataFrame),
+        ]):
             return False
         else:
             return self.data.equals(bloco.data)
@@ -1244,7 +1206,7 @@ class BlocoPenalidadeViolacaoOutrosUsosPMO(Block):
             linha: str = file.readline()
             # Confere se acabou
             if margem_tabela in linha:
-                tabela = tabela[:i, :]
+                tabela = tabela[:i, :]  # type: ignore
                 self.data = converte_tabela_em_df()
                 break
             if linha_ree in linha:
@@ -1295,12 +1257,10 @@ class BlocoPenalidadeViolacaoVazaoMinimaPMO(Block):
         if not isinstance(o, BlocoPenalidadeViolacaoVazaoMinimaPMO):
             return False
         bloco: BlocoPenalidadeViolacaoVazaoMinimaPMO = o
-        if not all(
-            [
-                isinstance(self.data, pd.DataFrame),
-                isinstance(o.data, pd.DataFrame),
-            ]
-        ):
+        if not all([
+            isinstance(self.data, pd.DataFrame),
+            isinstance(o.data, pd.DataFrame),
+        ]):
             return False
         else:
             return self.data.equals(bloco.data)
@@ -1339,7 +1299,7 @@ class BlocoPenalidadeViolacaoVazaoMinimaPMO(Block):
             linha: str = file.readline()
             # Confere se acabou
             if margem_tabela in linha:
-                tabela = tabela[:i, :]
+                tabela = tabela[:i, :]  # type: ignore
                 self.data = converte_tabela_em_df()
                 break
             if linha_ree in linha:
@@ -1393,12 +1353,10 @@ class BlocoPenalidadeViolacaoCurvaSegurancaPMO(Block):
         if not isinstance(o, BlocoPenalidadeViolacaoCurvaSegurancaPMO):
             return False
         bloco: BlocoPenalidadeViolacaoCurvaSegurancaPMO = o
-        if not all(
-            [
-                isinstance(self.data, pd.DataFrame),
-                isinstance(o.data, pd.DataFrame),
-            ]
-        ):
+        if not all([
+            isinstance(self.data, pd.DataFrame),
+            isinstance(o.data, pd.DataFrame),
+        ]):
             return False
         else:
             return self.data.equals(bloco.data)
@@ -1433,7 +1391,7 @@ class BlocoPenalidadeViolacaoCurvaSegurancaPMO(Block):
             linha: str = file.readline()
             # Confere se acabou
             if margem_tabela in linha:
-                tabela = tabela[:i, :]
+                tabela = tabela[:i, :]  # type: ignore
                 self.data = converte_tabela_em_df()
                 break
             if linha_ree in linha:
@@ -1481,12 +1439,10 @@ class BlocoPenalidadeViolacaoFphaPMO(Block):
         if not isinstance(o, BlocoPenalidadeViolacaoFphaPMO):
             return False
         bloco: BlocoPenalidadeViolacaoFphaPMO = o
-        if not all(
-            [
-                isinstance(self.data, pd.DataFrame),
-                isinstance(o.data, pd.DataFrame),
-            ]
-        ):
+        if not all([
+            isinstance(self.data, pd.DataFrame),
+            isinstance(o.data, pd.DataFrame),
+        ]):
             return False
         else:
             return self.data.equals(bloco.data)
@@ -1521,7 +1477,7 @@ class BlocoPenalidadeViolacaoFphaPMO(Block):
             linha: str = file.readline()
             # Confere se acabou
             if margem_tabela in linha:
-                tabela = tabela[:i, :]
+                tabela = tabela[:i, :]  # type: ignore
                 self.data = converte_tabela_em_df()
                 break
             if linha_ree in linha:
@@ -1569,12 +1525,10 @@ class BlocoPenalidadeViolacaoEvaporacaoPMO(Block):
         if not isinstance(o, BlocoPenalidadeViolacaoEvaporacaoPMO):
             return False
         bloco: BlocoPenalidadeViolacaoEvaporacaoPMO = o
-        if not all(
-            [
-                isinstance(self.data, pd.DataFrame),
-                isinstance(o.data, pd.DataFrame),
-            ]
-        ):
+        if not all([
+            isinstance(self.data, pd.DataFrame),
+            isinstance(o.data, pd.DataFrame),
+        ]):
             return False
         else:
             return self.data.equals(bloco.data)
@@ -1609,7 +1563,7 @@ class BlocoPenalidadeViolacaoEvaporacaoPMO(Block):
             linha: str = file.readline()
             # Confere se acabou
             if margem_tabela in linha:
-                tabela = tabela[:i, :]
+                tabela = tabela[:i, :]  # type: ignore
                 self.data = converte_tabela_em_df()
                 break
             if linha_ree in linha:
@@ -1654,12 +1608,10 @@ class BlocoPenalidadeViolacaoTurbinamentoMaximoPMO(Block):
         if not isinstance(o, BlocoPenalidadeViolacaoTurbinamentoMaximoPMO):
             return False
         bloco: BlocoPenalidadeViolacaoTurbinamentoMaximoPMO = o
-        if not all(
-            [
-                isinstance(self.data, pd.DataFrame),
-                isinstance(o.data, pd.DataFrame),
-            ]
-        ):
+        if not all([
+            isinstance(self.data, pd.DataFrame),
+            isinstance(o.data, pd.DataFrame),
+        ]):
             return False
         else:
             return self.data.equals(bloco.data)
@@ -1688,7 +1640,7 @@ class BlocoPenalidadeViolacaoTurbinamentoMaximoPMO(Block):
             linha: str = file.readline()
             # Confere se acabou
             if margem_tabela in linha:
-                tabela = tabela[:i, :]
+                tabela = tabela[:i, :]  # type: ignore
                 self.data = converte_tabela_em_df()
                 break
             # Lê mais uma linha
@@ -1722,12 +1674,10 @@ class BlocoPenalidadeViolacaoTurbinamentoMinimoPMO(Block):
         if not isinstance(o, BlocoPenalidadeViolacaoTurbinamentoMinimoPMO):
             return False
         bloco: BlocoPenalidadeViolacaoTurbinamentoMinimoPMO = o
-        if not all(
-            [
-                isinstance(self.data, pd.DataFrame),
-                isinstance(o.data, pd.DataFrame),
-            ]
-        ):
+        if not all([
+            isinstance(self.data, pd.DataFrame),
+            isinstance(o.data, pd.DataFrame),
+        ]):
             return False
         else:
             return self.data.equals(bloco.data)
@@ -1756,7 +1706,7 @@ class BlocoPenalidadeViolacaoTurbinamentoMinimoPMO(Block):
             linha: str = file.readline()
             # Confere se acabou
             if margem_tabela in linha:
-                tabela = tabela[:i, :]
+                tabela = tabela[:i, :]  # type: ignore
                 self.data = converte_tabela_em_df()
                 break
             # Lê mais uma linha

@@ -1,16 +1,17 @@
-from inewave.config import MAX_LAG_ADTERM, MAX_UTES
+from typing import IO, List
 
-from cfinterface.components.section import Section
-from cfinterface.components.line import Line
-from cfinterface.components.integerfield import IntegerField
-from cfinterface.components.literalfield import LiteralField
-from cfinterface.components.floatfield import FloatField
-from typing import List, IO
 import numpy as np  # type: ignore
 import pandas as pd  # type: ignore
+from cfinterface.components.floatfield import FloatField
+from cfinterface.components.integerfield import IntegerField
+from cfinterface.components.line import Line
+from cfinterface.components.literalfield import LiteralField
+from cfinterface.components.section import Section
+
 from inewave._utils.formatacao import (
     repete_vetor,
 )
+from inewave.config import MAX_LAG_ADTERM, MAX_UTES
 
 
 class BlocoUTEAdTerm(Section):
@@ -29,9 +30,11 @@ class BlocoUTEAdTerm(Section):
 
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
-        self.__linha_ute = Line(
-            [IntegerField(4, 1), LiteralField(12, 7), IntegerField(1, 21)]
-        )
+        self.__linha_ute = Line([
+            IntegerField(4, 1),
+            LiteralField(12, 7),
+            IntegerField(1, 21),
+        ])
         self.__linha_despachos = Line([])
         self.__cabecalhos: List[str] = []
 
@@ -39,12 +42,10 @@ class BlocoUTEAdTerm(Section):
         if not isinstance(o, BlocoUTEAdTerm):
             return False
         bloco: BlocoUTEAdTerm = o
-        if not all(
-            [
-                isinstance(self.data, pd.DataFrame),
-                isinstance(o.data, pd.DataFrame),
-            ]
-        ):
+        if not all([
+            isinstance(self.data, pd.DataFrame),
+            isinstance(o.data, pd.DataFrame),
+        ]):
             return False
         else:
             return self.data.equals(bloco.data)
@@ -75,12 +76,10 @@ class BlocoUTEAdTerm(Section):
             self.__cabecalhos.append(file.readline())
 
         self.__numero_patamares = numero_patamares
-        self.__linha_despachos = Line(
-            [
-                FloatField(12, 22 + 12 * i, 2)
-                for i in range(self.__numero_patamares)
-            ]
-        )
+        self.__linha_despachos = Line([
+            FloatField(12, 22 + 12 * i, 2)
+            for i in range(self.__numero_patamares)
+        ])
 
         # Variáveis auxiliares
         codigo_utes: List[int] = []
@@ -97,7 +96,7 @@ class BlocoUTEAdTerm(Section):
             if len(linha) < 3:
                 break
             if BlocoUTEAdTerm.FIM_BLOCO in linha:
-                tabela = tabela[:i, :]
+                tabela = tabela[:i, :]  # type: ignore
                 self.data = converte_tabela_em_df()
                 break
             # Senão, confere se é uma linha de UTE ou despacho

@@ -10,24 +10,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v4
-        with:
-          python-version: '3.10'
-      - name: Install dependencies
+      - name: Install uv
+        uses: astral-sh/setup-uv@v3
+      - name: Set up Python
+        run: uv python install
+      - name: Install the project
         run: |
-          pip install -r dev-requirements.txt
+          uv sync --all-extras --dev
       - name: Runs tests
         run: |
-          pytest --cov=inewave tests/
-      - name: Static typing check
-        run: |
-          mypy ./inewave
-      - name: PEP8 check
-        run: |
-          ruff check ./inewave
+          uv run pytest ./tests
       - name: Sphinx build
         run: |
-          sphinx-build -M html docs/source docs/build
+          uv run sphinx-build -M html docs/source docs/build
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
