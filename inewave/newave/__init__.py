@@ -44,7 +44,6 @@ from .patamar import Patamar  # noqa
 from .penalid import Penalid  # noqa
 from .perda import Perda  # noqa
 from .pmo import Pmo  # noqa
-from .simfinal import Simfinal  # noqa
 from .re import Re  # noqa
 from .ree import Ree  # noqa
 from .sar import Sar  # noqa
