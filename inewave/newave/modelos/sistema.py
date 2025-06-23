@@ -509,7 +509,7 @@ class BlocoGeracaoUsinasNaoSimuladas(Section):
         self.__linha_subsis = Line([
             IntegerField(3, 1),
             IntegerField(3, 6),
-            LiteralField(3, 11),
+            LiteralField(8, 11),
         ])
 
         campo_ano: List[Field] = [IntegerField(4, 0)]

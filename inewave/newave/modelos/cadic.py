@@ -35,7 +35,7 @@ class BlocoCargasAdicionais(Section):
         super().__init__(previous, next, data)
         self.__linha_subsis = Line([
             IntegerField(3, 1),
-            LiteralField(10, 6),
+            LiteralField(10, 5),
             LiteralField(12, 21),
         ])
         campo_ano: List[Field] = [LiteralField(4, 0)]
