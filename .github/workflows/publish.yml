@@ -1,6 +1,5 @@
 name: deploy
 
-
 on:
   release:
     types: [created]
@@ -14,27 +13,27 @@ jobs:
     permissions:
       id-token: write
     steps:
-    - uses: actions/checkout@v4
-    - name: Install uv
-      uses: astral-sh/setup-uv@v3
-    - name: Set up Python
-      run: uv python install 3.11
-    - name: Install the project
-      run: |
-        uv sync --all-extras --dev
-    - name: Runs tests
-      run: |
-        uv run pytest ./tests
-    - name: Static typing check
-      run: |
-        uv run mypy ./inewave
-    - name: PEP8 check
-      run: |
-        uv run ruff check ./inewave
-    - name: Builds package
-      if: startsWith(github.ref, 'refs/tags')
-      run: |
-        uv build
-    - name: PyPI publish
-      if: startsWith(github.ref, 'refs/tags')
-      uses: pypa/gh-action-pypi-publish@release/v1
+      - uses: actions/checkout@v4
+      - name: Install uv
+        uses: astral-sh/setup-uv@v3
+      - name: Set up Python
+        run: uv python install 3.12
+      - name: Install the project
+        run: |
+          uv sync --all-extras --dev
+      - name: Runs tests
+        run: |
+          uv run pytest ./tests
+      - name: Static typing check
+        run: |
+          uv run mypy ./inewave
+      - name: PEP8 check
+        run: |
+          uv run ruff check ./inewave
+      - name: Builds package
+        if: startsWith(github.ref, 'refs/tags')
+        run: |
+          uv build
+      - name: PyPI publish
+        if: startsWith(github.ref, 'refs/tags')
+        uses: pypa/gh-action-pypi-publish@release/v1
