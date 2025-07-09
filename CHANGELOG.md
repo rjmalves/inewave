@@ -1,3 +1,8 @@
+# 1.10.1
+
+- Correção na leitura dos arquivos `c_adic.dat` e `sistema.dat` para considerar nomes completos de submercados [#101](https://github.com/rjmalves/inewave/issues/101).
+- Correção no nome da coluna `codigo_usina` para `codigo_posto` no arquivo `vazpast.dat`
+
 # 1.10.0
 
 - Gestão do projeto através de arquivo `pyproject.toml` em substituição ao par `setup.py` + `requirements.txt`
@@ -6,7 +11,6 @@
 - Melhorias na documentação, incluindo exemplos de arquivos das LIBS [#94](https://github.com/rjmalves/inewave/issues/94)
 - Suporte a obter a versão do modelo NEWAVE utilizada a partir do arquivo newave.tim (@eduardomdc)
 - Requisito de versão de Python atualizado para `>=3.10`
-
 
 # 1.9.2
 
