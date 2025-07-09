@@ -1,8 +1,9 @@
-from inewave.newave.modelos.vazpast import BlocoVazPast
+from typing import Optional, TypeVar
 
-from cfinterface.files.sectionfile import SectionFile
-from typing import TypeVar, Optional
 import pandas as pd  # type: ignore
+from cfinterface.files.sectionfile import SectionFile
+
+from inewave.newave.modelos.vazpast import BlocoVazPast
 
 
 class Vazpast(SectionFile):
@@ -24,7 +25,7 @@ class Vazpast(SectionFile):
         """
         Tabela com a tendência hidrológica por UHE.
 
-        - codigo_usina (`int`)
+        - codigo_posto (`int`)
         - nome_usina (`str`)
         - mes (`int`)
         - valor (`float`)
