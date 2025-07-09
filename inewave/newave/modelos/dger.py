@@ -1074,7 +1074,7 @@ class BlocoVolInicialSubsistema(Section):
         return self.data[1:]
 
     @valores.setter
-    def valores(self, v: List[float]):
+    def valores(self, v: List[Optional[float]]):
         self.data = [self.data[0]] + v
 
 
