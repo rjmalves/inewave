@@ -1,8 +1,9 @@
-from cfinterface.components.section import Section
-from cfinterface.components.line import Line
+from typing import IO, Any, Dict, List
+
 from cfinterface.components.integerfield import IntegerField
+from cfinterface.components.line import Line
 from cfinterface.components.literalfield import LiteralField
-from typing import List, Dict, IO, Any
+from cfinterface.components.section import Section
 
 
 class BlocoDadosNwlistop(Section):
@@ -25,19 +26,15 @@ class BlocoDadosNwlistop(Section):
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
         self.__linha_opcao = Line([IntegerField(1, 1)])
-        self.__linha_arquivo = Line(
-            [LiteralField(29, 0), LiteralField(40, 30)]
-        )
-        self.__linha_series_op1 = Line(
-            [IntegerField(4, 1), IntegerField(4, 6)]
-        )
+        self.__linha_arquivo = Line([LiteralField(29, 0), LiteralField(40, 30)])
+        self.__linha_series_op1 = Line([IntegerField(4, 1), IntegerField(4, 6)])
         self.__linha_periodos = Line([IntegerField(3, 1), IntegerField(3, 5)])
-        self.__linha_variaveis_op2 = Line(
-            [IntegerField(2, 1 + 3 * i) for i in range(21)]
-        )
-        self.__linha_uhes_op2 = Line(
-            [IntegerField(3, 1 + 4 * i) for i in range(16)]
-        )
+        self.__linha_variaveis_op2 = Line([
+            IntegerField(2, 1 + 3 * i) for i in range(21)
+        ])
+        self.__linha_uhes_op2 = Line([
+            IntegerField(3, 1 + 4 * i) for i in range(16)
+        ])
         self.data: Dict[str, Any] = {}
         self.__comentarios: List[List[str]] = []
 
@@ -45,12 +42,10 @@ class BlocoDadosNwlistop(Section):
         if not isinstance(o, BlocoDadosNwlistop):
             return False
         bloco: BlocoDadosNwlistop = o
-        if not all(
-            [
-                isinstance(self.data, dict),
-                isinstance(o.data, dict),
-            ]
-        ):
+        if not all([
+            isinstance(self.data, dict),
+            isinstance(o.data, dict),
+        ]):
             return False
         else:
             return self.data == bloco.data
@@ -162,7 +157,7 @@ class BlocoDadosNwlistop(Section):
         for c in self.__comentarios[1]:
             file.write(c)
         # Escreve as séries
-        file.write(self.__linha_periodos.write(self.data["series"]))
+        file.write(self.__linha_series_op1.write(self.data["series"]))
 
     # Override
     def __write_op2(self, file: IO, *args, **kwargs):
@@ -178,17 +173,17 @@ class BlocoDadosNwlistop(Section):
         for c in self.__comentarios[1]:
             file.write(c)
         # Escreve as séries
-        file.write(self.__linha_periodos.write(self.data["variaveis_ree"]))
+        file.write(self.__linha_variaveis_op2.write(self.data["variaveis_ree"]))
         # Escreve as linhas de cabeçalho para variáveis individualizadas
         for c in self.__comentarios[2]:
             file.write(c)
         # Escreve as séries
-        file.write(self.__linha_periodos.write(self.data["variaveis_uhe"]))
+        file.write(self.__linha_variaveis_op2.write(self.data["variaveis_uhe"]))
         # Escreve as linhas de cabeçalho para usinas
         for c in self.__comentarios[3]:
             file.write(c)
         # Escreve as séries
-        file.write(self.__linha_periodos.write(self.data["uhes"]))
+        file.write(self.__linha_uhes_op2.write(self.data["uhes"]))
 
     # Override
     def __write_op4(self, file: IO, *args, **kwargs):
