@@ -1,3 +1,7 @@
+# 1.10.2
+
+- Correção na escrita do arquivo `nwlistop.dat` para suportar o numero de variaveis totais da opção 2 do programa NWLISTOP [#104](https://github.com/rjmalves/inewave/issues/104).
+
 # 1.10.1
 
 - Correção na leitura dos arquivos `c_adic.dat` e `sistema.dat` para considerar nomes completos de submercados [#101](https://github.com/rjmalves/inewave/issues/101).
