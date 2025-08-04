@@ -285,7 +285,7 @@ class BlocoIntercambioSubsistema(Section):
                     self.data = converte_tabela_em_df()
                 break
             # Confere se é uma linha de subsistema ou tabela
-            if len(linha) < 30:
+            if len(linha.strip()) < 30:
                 dados = self.__linha_subsis.read(linha)
                 subsis_de_atual = (
                     subsis_de_atual if dados[0] is None else dados[0]
@@ -575,7 +575,7 @@ class BlocoGeracaoUsinasNaoSimuladas(Section):
                     self.data = converte_tabela_em_df()
                 break
             # Confere se é uma linha de subsistema ou tabela
-            if len(linha) < 30:
+            if len(linha.strip()) < 30:
                 dados = self.__linha_subsis.read(linha)
                 subsis_atual = dados[0]
                 bloco_atual = dados[1]
