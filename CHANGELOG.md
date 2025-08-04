@@ -1,3 +1,7 @@
+# 1.10.3
+
+- Correção na leitura do arquivo `sistema.dat` em arquivos gerados com espaços adicionais nas linhas dos blocos [#104](https://github.com/rjmalves/inewave/issues/106).
+
 # 1.10.2
 
 - Correção na escrita do arquivo `nwlistop.dat` para suportar o numero de variaveis totais da opção 2 do programa NWLISTOP [#104](https://github.com/rjmalves/inewave/issues/104).
