@@ -89,12 +89,12 @@ class BlocoUHEGhmin(Section):
             file.write(linha)
         if not isinstance(self.data, pd.DataFrame):
             raise ValueError("Dados do ghmin.dat não foram lidos com sucesso")
-        
-        self.data['ano'] = self.data['data'].apply(lambda x: prepara_valor_ano(x.year))
-        self.data['mes'] = self.data['data'].apply(lambda x: f"{x.month:2d}")
-        self.data.drop("data", inplace=True, axis=1)
+        df_aux = self.data.copy()
+        df_aux['ano'] = df_aux['data'].apply(lambda x: prepara_valor_ano(x.year))
+        df_aux['mes'] = df_aux['data'].apply(lambda x: f"{x.month:2d}")
+        df_aux.drop("data", inplace=True, axis=1)
 
-        for _, linha in self.data[['codigo_usina','mes','ano','patamar','geracao']].iterrows():
+        for _, linha in df_aux[['codigo_usina','mes','ano','patamar','geracao']].iterrows():
             linha_lida: pd.Series = linha
             dados_linha = linha_lida.tolist()
             file.write(self.__linha_uhe.write(dados_linha))
