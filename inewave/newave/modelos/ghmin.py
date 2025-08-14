@@ -2,10 +2,14 @@ from cfinterface.components.section import Section
 from cfinterface.components.line import Line
 from cfinterface.components.integerfield import IntegerField
 from cfinterface.components.floatfield import FloatField
-from cfinterface.components.datetimefield import DatetimeField
+from cfinterface.components.literalfield import LiteralField
 from typing import List, IO, Optional
 import pandas as pd  # type: ignore
-from datetime import datetime
+
+from inewave._utils.formatacao import (
+    prepara_valor_ano,
+    prepara_vetor_ano_mes_tabela,
+)
 
 
 class BlocoUHEGhmin(Section):
@@ -22,7 +26,8 @@ class BlocoUHEGhmin(Section):
         self.__linha_uhe = Line(
             [
                 IntegerField(3, 0),
-                DatetimeField(7, 5, format="%m %Y"),
+                LiteralField(2, 5),
+                LiteralField(4, 8),
                 IntegerField(1, 14),
                 FloatField(6, 17, 0),
             ]
@@ -48,7 +53,7 @@ class BlocoUHEGhmin(Section):
         def converte_tabela_em_df():
             df = pd.DataFrame()
             df["codigo_usina"] = codigos
-            df["data"] = datas
+            df["data"] = prepara_vetor_ano_mes_tabela(anos, meses)
             df["patamar"] = patamares
             df["geracao"] = geracoes
             return df
@@ -59,7 +64,8 @@ class BlocoUHEGhmin(Section):
 
         # Variáveis auxiliares
         codigos: List[Optional[int]] = []
-        datas: List[Optional[datetime]] = []
+        meses: List[Optional[str]] = []
+        anos: List[Optional[str]] = []
         patamares: List[Optional[int]] = []
         geracoes: List[Optional[float]] = []
 
@@ -72,9 +78,10 @@ class BlocoUHEGhmin(Section):
                 break
             dados = self.__linha_uhe.read(linha)
             codigos.append(dados[0])
-            datas.append(dados[1])
-            patamares.append(dados[2])
-            geracoes.append(dados[3])
+            meses.append(dados[1])
+            anos.append(dados[2])
+            patamares.append(dados[3])
+            geracoes.append(dados[4])
 
     # Override
     def write(self, file: IO, *args, **kwargs):
@@ -82,8 +89,12 @@ class BlocoUHEGhmin(Section):
             file.write(linha)
         if not isinstance(self.data, pd.DataFrame):
             raise ValueError("Dados do ghmin.dat não foram lidos com sucesso")
+        df_aux = self.data.copy()
+        df_aux['ano'] = df_aux['data'].apply(lambda x: prepara_valor_ano(x.year))
+        df_aux['mes'] = df_aux['data'].apply(lambda x: f"{x.month:2d}")
+        df_aux.drop("data", inplace=True, axis=1)
 
-        for _, linha in self.data.iterrows():
+        for _, linha in df_aux[['codigo_usina','mes','ano','patamar','geracao']].iterrows():
             linha_lida: pd.Series = linha
             dados_linha = linha_lida.tolist()
             file.write(self.__linha_uhe.write(dados_linha))

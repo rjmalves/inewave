@@ -166,20 +166,34 @@ def formata_df_meses_para_datas_nwlistop(df: pd.DataFrame) -> pd.DataFrame:
     }
     return mapa_formatacao[colunas_identificacao](df)
 
+def converte_anos(anos: List[str]) -> List[int]:
+    """
+    Converte uma lista de anos representados como strings para inteiros.
+    Se o ano for 'PRE', converte para 1; se for 'POS', converte para 9999.
+    """
+    anos_convertidos = []
+    for a in anos:
+        if a == "PRE":
+            anos_convertidos.append(1)
+        elif a == "POS":
+            anos_convertidos.append(9999)
+        else:
+            anos_convertidos.append(int(a))
+    return anos_convertidos
+
+def prepara_vetor_ano_mes_tabela(anos: List[int], meses: List[int]) -> List[datetime]:
+
+    anos_convertidos = converte_anos(anos)
+    return [
+        datetime(year=int(a), month=int(m), day=1) for a, m in zip(anos_convertidos, meses)
+    ]
+
 
 def prepara_vetor_anos_tabela(anos: List[str]) -> List[datetime]:
     # Se tem pré, substitui por 0001
     # Se tem pós, substitui por 9999
     # Repete os valores existentes 12 vezes
-    anos_convertidos: List[int] = []
-    for a in anos:
-        if a == "PRE":
-            a_convertido = 1
-        elif a == "POS":
-            a_convertido = 9999
-        else:
-            a_convertido = int(a)
-        anos_convertidos.append(a_convertido)
+    anos_convertidos = converte_anos(anos)
 
     anos_array = np.array(anos_convertidos).repeat(len(MESES_DF))
     meses = np.tile(np.arange(1, 13), len(anos))
