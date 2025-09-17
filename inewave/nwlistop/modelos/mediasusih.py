@@ -44,8 +44,7 @@ class TabelaMediasusih(Section):
             var_name="estagio",
             value_name="valor",
         )
-        df.loc[df["valor"] == "-   ", "valor"] = 0.0
-        df = df.astype({"valor": float})
+        df["valor"] = pd.to_numeric(df["valor"], errors="coerce")
         df["estagio"] = df["estagio"].astype(int)
         df["estagio"] -= df["estagio"].min() - 1
         df = df.pivot_table(
