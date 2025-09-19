@@ -51,8 +51,10 @@ class BlocoTemposEtapasTim(Block):
         tempos: List[timedelta] = []
 
         # Leitura das etapas
-        for _ in range(5):
+        while True:
             dados = self.__line.read(file.readline())
+            if not dados or not dados[0].strip("- \t\n"):
+                break
             etapas.append(dados[0].split(":")[0])
             h = int(dados[1].split("h")[0])
             min = int(dados[1].split("h")[1].split("min")[0])
