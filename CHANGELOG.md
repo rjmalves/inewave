@@ -1,3 +1,10 @@
+# 1.10.4
+
+- Correção na escrita do arquivo `ghmin.dat` em linhas relativas aos anos "POS" [#106](https://github.com/rjmalves/inewave/issues/106) (@joaoCalmon).
+- Melhor processamento de variáveis ausentes ao caso no arquivo MEDIAS-USIH.CSV (@rdlobato)
+- Suporte a processar um número variável de etapas no arquivo newave.tim (@rdlobato)
+- Correção de tipagem estática para mypy
+
 # 1.10.3
 
 - Correção na leitura do arquivo `sistema.dat` em arquivos gerados com espaços adicionais nas linhas dos blocos [#104](https://github.com/rjmalves/inewave/issues/106).

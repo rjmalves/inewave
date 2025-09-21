@@ -181,7 +181,7 @@ def converte_anos(anos: List[str]) -> List[int]:
             anos_convertidos.append(int(a))
     return anos_convertidos
 
-def prepara_vetor_ano_mes_tabela(anos: List[int], meses: List[int]) -> List[datetime]:
+def prepara_vetor_ano_mes_tabela(anos: List[str], meses: List[int]) -> List[datetime]:
 
     anos_convertidos = converte_anos(anos)
     return [
