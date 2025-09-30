@@ -27,6 +27,7 @@ from .cvar import Cvar  # noqa
 from .dger import Dger  # noqa
 from .dsvagua import Dsvagua  # noqa
 from .eafpast import Eafpast  # noqa
+from .eliminacao_cortes import EliminacaoCortes  # noqa
 from .elnino import ElNino  # noqa
 from .ensoaux import ENSOAux  # noqa
 from .exph import Exph  # noqa
