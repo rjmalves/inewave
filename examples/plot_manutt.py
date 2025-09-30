@@ -121,58 +121,6 @@ fig = px.bar(
 )
 fig
 
-# Análise por mês (sazonalidade)
-manut_por_mes = (
-    manut_temporal.groupby("mes")
-    .agg({"codigo_usina": "count", "duracao": "mean", "potencia": "sum"})
-    .round(2)
-)
-manut_por_mes.columns = [
-    "num_manutencoes",
-    "duracao_media",
-    "potencia_total",
-]
-
-print("\nSazonalidade das manutenções:")
-meses_nomes = [
-    "Jan",
-    "Fev",
-    "Mar",
-    "Abr",
-    "Mai",
-    "Jun",
-    "Jul",
-    "Ago",
-    "Set",
-    "Out",
-    "Nov",
-    "Dez",
-]
-manut_por_mes.index = [meses_nomes[i - 1] for i in manut_por_mes.index]
-print(manut_por_mes)
-
-# Visualização da sazonalidade
-fig = px.bar(
-    manut_por_mes.reset_index(),
-    x="mes",
-    y="num_manutencoes",
-    title="Sazonalidade das Manutenções por Mês",
-    labels={"mes": "Mês", "num_manutencoes": "Número de Manutenções"},
-)
-fig.show()
-
-# Identificando períodos de maior concentração
-mes_pico = manut_por_mes["num_manutencoes"].idxmax()
-mes_baixo = manut_por_mes["num_manutencoes"].idxmin()
-
-print("\nSazonalidade identificada:")
-print(
-    f"- Mês de pico: {mes_pico} ({manut_por_mes.loc[mes_pico, 'num_manutencoes']} manutenções)"
-)
-print(
-    f"- Mês de menor atividade: {mes_baixo} ({manut_por_mes.loc[mes_baixo, 'num_manutencoes']} manutenções)"
-)
-
 # %%
 # **Análise da duração das manutenções**
 #
@@ -195,7 +143,7 @@ fig = px.histogram(
     title="Distribuição da Duração das Manutenções",
     labels={"duracao": "Duração (dias)", "count": "Número de Manutenções"},
 )
-fig.show()
+fig
 
 # Classificação por duração
 manutencoes_copy = manutencoes.copy()
@@ -236,30 +184,6 @@ print(f"- Potência média por manutenção: {potencia_stats['mean']:.1f} MW")
 print(f"- Potência total afetada: {manutencoes['potencia'].sum():.1f} MW")
 print(f"- Maior potência individual: {potencia_stats['max']:.1f} MW")
 print(f"- Menor potência individual: {potencia_stats['min']:.1f} MW")
-
-# Impacto total por período
-if "data_inicio" in manutencoes.columns:
-    impacto_mensal = (
-        manut_temporal.groupby(["ano", "mes"])
-        .agg({"potencia": "sum", "duracao": "sum"})
-        .round(1)
-    )
-    impacto_mensal["impacto_mwh"] = (
-        impacto_mensal["potencia"] * impacto_mensal["duracao"] * 24
-    )
-
-    print("\nImpacto energético das manutenções (MWh indisponíveis):")
-    print(f"- Total anual: {impacto_mensal['impacto_mwh'].sum():,.0f} MWh")
-    print(f"- Média mensal: {impacto_mensal['impacto_mwh'].mean():,.0f} MWh")
-
-    # Top 5 meses com maior impacto
-    top_impacto = impacto_mensal.nlargest(5, "impacto_mwh")
-    print("\nTop 5 períodos com maior impacto:")
-    for (ano, mes), row in top_impacto.iterrows():
-        mes_nome = meses_nomes[mes - 1] if "meses_nomes" in locals() else mes
-        print(
-            f"- {mes_nome}/{ano}: {row['impacto_mwh']:,.0f} MWh ({row['potencia']:.0f} MW, {row['duracao']:.0f} dias)"
-        )
 
 # Análise por faixa de potência
 manutencoes_copy["faixa_potencia"] = pd.cut(
