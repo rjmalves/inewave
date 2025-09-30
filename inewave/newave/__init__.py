@@ -20,6 +20,8 @@ from .clasgas import Clasgas  # noqa
 from .clast import Clast  # noqa
 from .confhd import Confhd  # noqa
 from .conft import Conft  # noqa
+from .cortes import Cortes  # noqa
+from .cortesh import Cortesh  # noqa
 from .curva import Curva  # noqa
 from .cvar import Cvar  # noqa
 from .dger import Dger  # noqa
@@ -29,6 +31,8 @@ from .elnino import ElNino  # noqa
 from .ensoaux import ENSOAux  # noqa
 from .exph import Exph  # noqa
 from .expt import Expt  # noqa
+from .forward import Forward  # noqa
+from .forwarh import Forwarh  # noqa
 from .gee import GEE  # noqa
 from .ghmin import Ghmin  # noqa
 from .gtminpat import Gtminpat  # noqa
