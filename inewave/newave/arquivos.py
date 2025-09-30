@@ -554,3 +554,25 @@ class Arquivos(SectionFile):
     @cortesh_pos_estudo.setter
     def cortesh_pos_estudo(self, arq: str):
         self.__atualiza_nome_por_indice(43, arq)
+
+    @property
+    def volume_referencia_sazonal(self) -> Optional[str]:
+        """
+        Nome do arquivo com os volumes de referência sazonais.
+        """
+        return self.__le_nome_por_indice(44)
+
+    @volume_referencia_sazonal.setter
+    def volume_referencia_sazonal(self, arq: str):
+        self.__atualiza_nome_por_indice(44, arq)
+
+    @property
+    def eliminacao_cortes(self) -> Optional[str]:
+        """
+        Nome do arquivo com parâmetros para eliminação de cortes.
+        """
+        return self.__le_nome_por_indice(45)
+
+    @eliminacao_cortes.setter
+    def eliminacao_cortes(self, arq: str):
+        self.__atualiza_nome_por_indice(45, arq)

@@ -43,4 +43,6 @@ MockArquivos = [
     "ARQUIVO DE DADOS SIM. FINAL : simfinal.dat \n",
     "ARQ. DE CORTES POS ESTUDO   : cortes-pos.dat\n",
     "ARQ. DE CABECALHO CORTES POS: cortesh-pos.dat  \n",
+    "ARQ. C/ VOLUME REF. SAZONAL : volref_saz.dat  \n",
+    "ARQ. C/ PARAMETROS ELIM.COR.: eliminacao-cortes.dat  \n",
 ]
