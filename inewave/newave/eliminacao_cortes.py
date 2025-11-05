@@ -41,7 +41,8 @@ class EliminacaoCortes(SectionFile):
         :return: O valor do parâmetro
         :rtype: int | None
         """
-        return self._get_parametro_por_indice(0, 0)  # Linha 0, Coluna PARAL
+        valor = self._get_parametro_por_indice(0, 0)    
+        return int(valor) if valor is not None else None
 
     @property
     def algoritmo_avaliacao_pares(self) -> Optional[int]:
@@ -51,7 +52,8 @@ class EliminacaoCortes(SectionFile):
         :return: O valor do parâmetro
         :rtype: int | None
         """
-        return self._get_parametro_por_indice(0, 1)  # Linha 0, Coluna A.P.P
+        valor = self._get_parametro_por_indice(0, 1)
+        return int(valor) if valor is not None else None
 
     @property
     def algoritmo_avaliacao_shapiro(self) -> Optional[int]:
@@ -61,7 +63,8 @@ class EliminacaoCortes(SectionFile):
         :return: O valor do parâmetro
         :rtype: int | None
         """
-        return self._get_parametro_por_indice(0, 2)  # Linha 0, Coluna S.M.
+        valor = self._get_parametro_por_indice(0, 2)
+        return int(valor) if valor is not None else None
 
     @property
     def iteracao_inicial_paralelo(self) -> Optional[int]:
@@ -71,7 +74,8 @@ class EliminacaoCortes(SectionFile):
         :return: O valor do parâmetro
         :rtype: int | None
         """
-        return self._get_parametro_por_indice(1, 0)  # Linha 1, Coluna PARAL
+        valor = self._get_parametro_por_indice(1, 0)
+        return int(valor) if valor is not None else None
 
     @property
     def iteracao_inicial_pares(self) -> Optional[int]:
@@ -81,7 +85,8 @@ class EliminacaoCortes(SectionFile):
         :return: O valor do parâmetro
         :rtype: int | None
         """
-        return self._get_parametro_por_indice(1, 1)  # Linha 1, Coluna A.P.P
+        valor = self._get_parametro_por_indice(1, 1)
+        return int(valor) if valor is not None else None
 
     @property
     def iteracao_inicial_shapiro(self) -> Optional[int]:
@@ -91,7 +96,8 @@ class EliminacaoCortes(SectionFile):
         :return: O valor do parâmetro
         :rtype: int | None
         """
-        return self._get_parametro_por_indice(1, 2)  # Linha 1, Coluna S.M.
+        valor = self._get_parametro_por_indice(1, 2)
+        return int(valor) if valor is not None else None
 
     @property
     def passo_aplicacao_paralelo(self) -> Optional[int]:
@@ -101,7 +107,8 @@ class EliminacaoCortes(SectionFile):
         :return: O valor do parâmetro
         :rtype: int | None
         """
-        return self._get_parametro_por_indice(2, 0)  # Linha 2, Coluna PARAL
+        valor = self._get_parametro_por_indice(2, 0)
+        return int(valor) if valor is not None else None
 
     @property
     def passo_aplicacao_pares(self) -> Optional[int]:
@@ -111,7 +118,8 @@ class EliminacaoCortes(SectionFile):
         :return: O valor do parâmetro
         :rtype: int | None
         """
-        return self._get_parametro_por_indice(2, 1)  # Linha 2, Coluna A.P.P
+        valor = self._get_parametro_por_indice(2, 1)
+        return int(valor) if valor is not None else None
 
     @property
     def passo_aplicacao_shapiro(self) -> Optional[int]:
@@ -121,7 +129,8 @@ class EliminacaoCortes(SectionFile):
         :return: O valor do parâmetro
         :rtype: int | None
         """
-        return self._get_parametro_por_indice(2, 2)  # Linha 2, Coluna S.M.
+        valor = self._get_parametro_por_indice(2, 2)
+        return int(valor) if valor is not None else None
 
     @property
     def janela_iteracoes_pares(self) -> Optional[int]:
@@ -131,7 +140,8 @@ class EliminacaoCortes(SectionFile):
         :return: O valor do parâmetro
         :rtype: int | None
         """
-        return self._get_parametro_por_indice(3, 1)  # Linha 3, Coluna A.P.P
+        valor = self._get_parametro_por_indice(3, 1)
+        return int(valor) if valor is not None else None
 
     @property
     def janela_iteracoes_shapiro(self) -> Optional[int]:
@@ -141,7 +151,8 @@ class EliminacaoCortes(SectionFile):
         :return: O valor do parâmetro
         :rtype: int | None
         """
-        return self._get_parametro_por_indice(3, 2)  # Linha 3, Coluna S.M.
+        valor = self._get_parametro_por_indice(3, 2)
+        return int(valor) if valor is not None else None
 
     @property
     def fator_limites_afluencias(self) -> Optional[float]:
@@ -151,7 +162,8 @@ class EliminacaoCortes(SectionFile):
         :return: O valor do parâmetro
         :rtype: float | None
         """
-        return self._get_parametro_por_indice(4, 0)  # Linha 4, Coluna PARAL
+        valor = self._get_parametro_por_indice(4, 0)
+        return float(valor) if valor is not None else None
 
     @property
     def afluencias_sim_final_calculo_limites(self) -> Optional[int]:
@@ -161,7 +173,8 @@ class EliminacaoCortes(SectionFile):
         :return: O valor do parâmetro
         :rtype: int | None
         """
-        return self._get_parametro_por_indice(5, 0)  # Linha 5, Coluna PARAL
+        valor = self._get_parametro_por_indice(5, 0)
+        return int(valor) if valor is not None else None
 
     @property
     def impressao_relatorios(self) -> Optional[int]:
@@ -171,4 +184,5 @@ class EliminacaoCortes(SectionFile):
         :return: O valor do parâmetro (0=NÃO, 1=SIM)
         :rtype: int | None
         """
-        return self._get_parametro_por_indice(6, 0)  # Linha 6, Coluna PARAL
+        valor = self._get_parametro_por_indice(6, 0)
+        return int(valor) if valor is not None else None
