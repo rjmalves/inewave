@@ -40,6 +40,7 @@ NEWAVE
    arquivos/vazoes
    arquivos/shist
    arquivos/selcor
+   arquivos/eliminacao_cortes
    arquivos/parp
    arquivos/parpeol
    arquivos/parpvaz

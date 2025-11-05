@@ -1,0 +1,68 @@
+&RE; cod_rest;  formula
+RE ;        1;   ger_usih(285) + ger_usih(287)
+RE ;       20;   1.0ener_interc(2,1) + 0.5ger_usih(66)
+RE ;       21;   1.0ener_interc(11,1) + ger_usih(261)+ ger_usih(257)
+RE ;       22;   1.0ener_interc(11,1) + 1.0ener_interc(3,1) + ger_usih(261)+ ger_usih(257)
+RE ;       23;   1.0ener_interc(11,1) + 1.0ener_interc(3,1) + 1.0ener_interc(4,1) + ger_usih(261)+ ger_usih(257)
+RE ;       10;   ger_usih(204) + ger_usih(284)
+ 
+&RE-HORIZ-PER; cod_rest; PerIni; PerFin
+RE-HORIZ-PER ;        1;2025/06;2025/07
+RE-HORIZ-PER ;       20;2025/06;2026/05
+RE-HORIZ-PER ;       21;2025/06;2026/05
+RE-HORIZ-PER ;       22;2025/06;2025/07
+RE-HORIZ-PER ;       23;2025/08;2026/05
+RE-HORIZ-PER ;       10;2025/06;2025/07
+ 
+&RE-LIM-FORM-PER-PAT; cod_rest;  PerIni;  PerFin;   Pat;    LimInf;  LimSup
+& Escoamento Madeira
+RE-LIM-FORM-PER-PAT ;        1; 2025/06; 2025/06;     1;   -1.1e30;  7359.87
+RE-LIM-FORM-PER-PAT ;        1; 2025/06; 2025/06;     2;   -1.1e30;  7359.87
+RE-LIM-FORM-PER-PAT ;        1; 2025/06; 2025/06;     3;   -1.1e30;  7359.87
+RE-LIM-FORM-PER-PAT ;        1; 2025/07; 2025/07;     1;   -1.1e30;  7406.33
+RE-LIM-FORM-PER-PAT ;        1; 2025/07; 2025/07;     2;   -1.1e30;  7406.33
+RE-LIM-FORM-PER-PAT ;        1; 2025/07; 2025/07;     3;   -1.1e30;  7406.33
+& Limite Sul-SE = Min (FSUL , RSE - 1/2 Itaipu) - valores de RSE:
+RE-LIM-FORM-PER-PAT ;       20; 2025/06; 2025/06;     1;   -1.1e30;  9145.00
+RE-LIM-FORM-PER-PAT ;       20; 2025/06; 2025/06;     2;   -1.1e30; 10195.00
+RE-LIM-FORM-PER-PAT ;       20; 2025/06; 2025/06;     3;   -1.1e30; 10355.00
+RE-LIM-FORM-PER-PAT ;       20; 2025/07; 2025/07;     1;   -1.1e30; 10200.00
+RE-LIM-FORM-PER-PAT ;       20; 2025/07; 2025/07;     2;   -1.1e30; 10200.00
+RE-LIM-FORM-PER-PAT ;       20; 2025/07; 2025/07;     3;   -1.1e30; 10675.00
+RE-LIM-FORM-PER-PAT ;       20; 2025/08; 2026/05;     1;   -1.1e30;  8000.00
+RE-LIM-FORM-PER-PAT ;       20; 2025/08; 2026/05;     2;   -1.1e30;  8000.00
+RE-LIM-FORM-PER-PAT ;       20; 2025/08; 2026/05;     3;   -1.1e30; 10900.00
+&  Limite Imperatriz - Sudeste = FNS - Lajeado - Peixe Angical - valores do FNS:
+RE-LIM-FORM-PER-PAT ;       21; 2025/06; 2025/06;     1;   -1.1e30;  3200.00
+RE-LIM-FORM-PER-PAT ;       21; 2025/06; 2025/06;     2;   -1.1e30;  3200.00
+RE-LIM-FORM-PER-PAT ;       21; 2025/06; 2025/06;     3;   -1.1e30;  5000.00
+RE-LIM-FORM-PER-PAT ;       21; 2025/07; 2025/07;     1;   -1.1e30;  3200.00
+RE-LIM-FORM-PER-PAT ;       21; 2025/07; 2025/07;     2;   -1.1e30;  5200.00
+RE-LIM-FORM-PER-PAT ;       21; 2025/07; 2025/07;     3;   -1.1e30;  5000.00
+RE-LIM-FORM-PER-PAT ;       21; 2025/08; 2026/05;     1;   -1.1e30;  5400.00
+RE-LIM-FORM-PER-PAT ;       21; 2025/08; 2026/05;     2;   -1.1e30;  5400.00
+RE-LIM-FORM-PER-PAT ;       21; 2025/08; 2026/05;     3;   -1.1e30;  5200.00
+& Limite FNS + FNESE = Limite 11-1 + Limite 3-1 + Lajeado + Peixe Angical 
+RE-LIM-FORM-PER-PAT ;       22; 2025/06; 2025/06;     1;   -1.1e30;  7700.00
+RE-LIM-FORM-PER-PAT ;       22; 2025/06; 2025/06;     2;   -1.1e30;  6129.00
+RE-LIM-FORM-PER-PAT ;       22; 2025/06; 2025/06;     3;   -1.1e30; 11200.00
+RE-LIM-FORM-PER-PAT ;       22; 2025/07; 2025/07;     1;   -1.1e30;  7700.00
+RE-LIM-FORM-PER-PAT ;       22; 2025/07; 2025/07;     2;   -1.1e30; 10175.00
+RE-LIM-FORM-PER-PAT ;       22; 2025/07; 2025/07;     3;   -1.1e30; 11200.00
+& Limite FNS + FNESE + XINGU->SE/CO +  = Limite 11-1 + Limite 3-1 + + Limite 4-1 + Lajeado + Peixe Angical 
+RE-LIM-FORM-PER-PAT ;       23; 2025/08; 2025/10;     1;   -1.1e30; 13800.00
+RE-LIM-FORM-PER-PAT ;       23; 2025/08; 2025/10;     2;   -1.1e30; 13200.00
+RE-LIM-FORM-PER-PAT ;       23; 2025/08; 2025/10;     3;   -1.1e30; 13800.00
+RE-LIM-FORM-PER-PAT ;       23; 2025/11; 2025/11;     1;   -1.1e30; 14800.00
+RE-LIM-FORM-PER-PAT ;       23; 2025/11; 2025/11;     2;   -1.1e30; 14200.00
+RE-LIM-FORM-PER-PAT ;       23; 2025/11; 2025/11;     3;   -1.1e30; 14800.00
+RE-LIM-FORM-PER-PAT ;       23; 2025/12; 2025/12;     1;   -1.1e30; 15800.00
+RE-LIM-FORM-PER-PAT ;       23; 2025/12; 2025/12;     2;   -1.1e30; 15200.00
+RE-LIM-FORM-PER-PAT ;       23; 2025/12; 2025/12;     3;   -1.1e30; 15800.00
+RE-LIM-FORM-PER-PAT ;       23; 2026/01; 2026/05;     1;   -1.1e30; 17000.00
+RE-LIM-FORM-PER-PAT ;       23; 2026/01; 2026/05;     2;   -1.1e30; 15800.00
+RE-LIM-FORM-PER-PAT ;       23; 2026/01; 2026/05;     3;   -1.1e30; 16800.00
+& Restricao de geracao Cachoeira Caldeirão + Ferreira Gomes
+RE-LIM-FORM-PER-PAT ;       10; 2025/06; 2025/07;     1;   -1.1e30;   400.00
+RE-LIM-FORM-PER-PAT ;       10; 2025/06; 2025/07;     2;   -1.1e30;   400.00
+RE-LIM-FORM-PER-PAT ;       10; 2025/06; 2025/07;     3;   -1.1e30;   400.00
