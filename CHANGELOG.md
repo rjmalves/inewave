@@ -1,3 +1,10 @@
+# 1.11.0
+
+- Suporte ao processamento do arquivo `eliminacao_cortes.dat`
+- Atualização do arquivo `arquivos.dat` com as linhas adicionais relativas ao `volref_saz.dat` e `eliminacao_cortes.dat` 
+- Correção de tipagem estática para mypy
+- Adicionados mais exemplos para a documentação
+
 # 1.10.4
 
 - Correção na escrita do arquivo `ghmin.dat` em linhas relativas aos anos "POS" [#106](https://github.com/rjmalves/inewave/issues/106) (@joaoCalmon).
