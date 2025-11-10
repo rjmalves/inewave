@@ -1,0 +1,370 @@
+:orphan:
+
+Exemplos
+==================
+
+Nesta seção estão descritos alguns exemplos de casos de uso para a `inewave`.
+O uso do módulo não se limita às funcionalidades aqui mostradas, mas recursos que não estão
+explicitamente apresentados devem ser extensões naturais daquilo que é mostrado.
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
+
+.. thumbnail-parent-div-open
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Versionamento de Arquivos">
+
+.. only:: html
+
+  .. image:: /examples/images/thumb/sphx_glr_plot_versionamento_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_examples_plot_versionamento.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Versionamento de Arquivos</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Alteração no dger.dat">
+
+.. only:: html
+
+  .. image:: /examples/images/thumb/sphx_glr_plot_dger_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_examples_plot_dger.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Alteração no dger.dat</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Análise do pmo.dat">
+
+.. only:: html
+
+  .. image:: /examples/images/thumb/sphx_glr_plot_pmo_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_examples_plot_pmo.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Análise do pmo.dat</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Análise de modificações do modif.dat">
+
+.. only:: html
+
+  .. image:: /examples/images/thumb/sphx_glr_plot_modif_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_examples_plot_modif.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Análise de modificações do modif.dat</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Geração de sensibilidades de mercado no sistema.dat">
+
+.. only:: html
+
+  .. image:: /examples/images/thumb/sphx_glr_plot_sistema_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_examples_plot_sistema.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Geração de sensibilidades de mercado no sistema.dat</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Processamento dos dados do polinjus.csv">
+
+.. only:: html
+
+  .. image:: /examples/images/thumb/sphx_glr_plot_polinjus_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_examples_plot_polinjus.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Processamento dos dados do polinjus.csv</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Leitura dos binários forwarh.dat e forward.dat">
+
+.. only:: html
+
+  .. image:: /examples/images/thumb/sphx_glr_plot_forward_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_examples_plot_forward.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Leitura dos binários forwarh.dat e forward.dat</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Processamento das restrições elétricas (CSV)">
+
+.. only:: html
+
+  .. image:: /examples/images/thumb/sphx_glr_plot_restricoes_eletricas_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_examples_plot_restricoes_eletricas.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Processamento das restrições elétricas (CSV)</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Análise dos cortes de Benders e política operativa">
+
+.. only:: html
+
+  .. image:: /examples/images/thumb/sphx_glr_plot_cortes_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_examples_plot_cortes.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Análise dos cortes de Benders e política operativa</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Análise de configuração dos REEs (Reservatórios Equivalentes)">
+
+.. only:: html
+
+  .. image:: /examples/images/thumb/sphx_glr_plot_ree_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_examples_plot_ree.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Análise de configuração dos REEs (Reservatórios Equivalentes)</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Análise e modificação do cadastro de usinas hidrelétricas">
+
+.. only:: html
+
+  .. image:: /examples/images/thumb/sphx_glr_plot_hidr_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_examples_plot_hidr.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Análise e modificação do cadastro de usinas hidrelétricas</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Análise e configuração de penalidades por déficit">
+
+.. only:: html
+
+  .. image:: /examples/images/thumb/sphx_glr_plot_penalid_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_examples_plot_penalid.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Análise e configuração de penalidades por déficit</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Análise das séries sintéticas de energia afluente">
+
+.. only:: html
+
+  .. image:: /examples/images/thumb/sphx_glr_plot_energiaf_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_examples_plot_energiaf.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Análise das séries sintéticas de energia afluente</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Análise da programação de manutenção das térmicas">
+
+.. only:: html
+
+  .. image:: /examples/images/thumb/sphx_glr_plot_manutt_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_examples_plot_manutt.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Análise da programação de manutenção das térmicas</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Análise das configurações das usinas hidrelétricas">
+
+.. only:: html
+
+  .. image:: /examples/images/thumb/sphx_glr_plot_confhd_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_examples_plot_confhd.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Análise das configurações das usinas hidrelétricas</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Análise e modificação do cadastro de usinas térmicas">
+
+.. only:: html
+
+  .. image:: /examples/images/thumb/sphx_glr_plot_term_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_examples_plot_term.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Análise e modificação do cadastro de usinas térmicas</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Análise de patamares de carga e curva de demanda">
+
+.. only:: html
+
+  .. image:: /examples/images/thumb/sphx_glr_plot_patamar_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_examples_plot_patamar.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Análise de patamares de carga e curva de demanda</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Análise das séries sintéticas de vazões afluentes">
+
+.. only:: html
+
+  .. image:: /examples/images/thumb/sphx_glr_plot_vazaof_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_examples_plot_vazaof.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Análise das séries sintéticas de vazões afluentes</div>
+    </div>
+
+
+.. thumbnail-parent-div-close
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /examples/plot_versionamento
+   /examples/plot_dger
+   /examples/plot_pmo
+   /examples/plot_modif
+   /examples/plot_sistema
+   /examples/plot_polinjus
+   /examples/plot_forward
+   /examples/plot_restricoes_eletricas
+   /examples/plot_cortes
+   /examples/plot_ree
+   /examples/plot_hidr
+   /examples/plot_penalid
+   /examples/plot_energiaf
+   /examples/plot_manutt
+   /examples/plot_confhd
+   /examples/plot_term
+   /examples/plot_patamar
+   /examples/plot_vazaof
+
+
+.. only:: html
+
+  .. container:: sphx-glr-footer sphx-glr-footer-gallery
+
+    .. container:: sphx-glr-download sphx-glr-download-python
+
+      :download:`Download all examples in Python source code: examples_python.zip </examples/examples_python.zip>`
+
+    .. container:: sphx-glr-download sphx-glr-download-jupyter
+
+      :download:`Download all examples in Jupyter notebooks: examples_jupyter.zip </examples/examples_jupyter.zip>`
+
+
+.. only:: html
+
+ .. rst-class:: sphx-glr-signature
+
+    `Gallery generated by Sphinx-Gallery <https://sphinx-gallery.github.io>`_

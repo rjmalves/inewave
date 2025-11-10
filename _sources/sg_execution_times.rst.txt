@@ -1,0 +1,88 @@
+
+:orphan:
+
+.. _sphx_glr_sg_execution_times:
+
+
+Computation times
+=================
+**00:10.295** total execution time for 18 files **from all galleries**:
+
+.. container::
+
+  .. raw:: html
+
+    <style scoped>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
+    </style>
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+    <script type="text/javascript" class="init">
+    $(document).ready( function () {
+        $('table.sg-datatable').DataTable({order: [[1, 'desc']]});
+    } );
+    </script>
+
+  .. list-table::
+   :header-rows: 1
+   :class: table table-striped sg-datatable
+
+   * - Example
+     - Time
+     - Mem (MB)
+   * - :ref:`sphx_glr_examples_plot_vazaof.py` (``../../examples/plot_vazaof.py``)
+     - 00:06.102
+     - 0.0
+   * - :ref:`sphx_glr_examples_plot_hidr.py` (``../../examples/plot_hidr.py``)
+     - 00:01.594
+     - 0.0
+   * - :ref:`sphx_glr_examples_plot_pmo.py` (``../../examples/plot_pmo.py``)
+     - 00:00.564
+     - 0.0
+   * - :ref:`sphx_glr_examples_plot_energiaf.py` (``../../examples/plot_energiaf.py``)
+     - 00:00.524
+     - 0.0
+   * - :ref:`sphx_glr_examples_plot_sistema.py` (``../../examples/plot_sistema.py``)
+     - 00:00.249
+     - 0.0
+   * - :ref:`sphx_glr_examples_plot_cortes.py` (``../../examples/plot_cortes.py``)
+     - 00:00.176
+     - 0.0
+   * - :ref:`sphx_glr_examples_plot_manutt.py` (``../../examples/plot_manutt.py``)
+     - 00:00.159
+     - 0.0
+   * - :ref:`sphx_glr_examples_plot_confhd.py` (``../../examples/plot_confhd.py``)
+     - 00:00.155
+     - 0.0
+   * - :ref:`sphx_glr_examples_plot_patamar.py` (``../../examples/plot_patamar.py``)
+     - 00:00.129
+     - 0.0
+   * - :ref:`sphx_glr_examples_plot_polinjus.py` (``../../examples/plot_polinjus.py``)
+     - 00:00.128
+     - 0.0
+   * - :ref:`sphx_glr_examples_plot_modif.py` (``../../examples/plot_modif.py``)
+     - 00:00.111
+     - 0.0
+   * - :ref:`sphx_glr_examples_plot_term.py` (``../../examples/plot_term.py``)
+     - 00:00.099
+     - 0.0
+   * - :ref:`sphx_glr_examples_plot_versionamento.py` (``../../examples/plot_versionamento.py``)
+     - 00:00.083
+     - 0.0
+   * - :ref:`sphx_glr_examples_plot_restricoes_eletricas.py` (``../../examples/plot_restricoes_eletricas.py``)
+     - 00:00.080
+     - 0.0
+   * - :ref:`sphx_glr_examples_plot_ree.py` (``../../examples/plot_ree.py``)
+     - 00:00.055
+     - 0.0
+   * - :ref:`sphx_glr_examples_plot_penalid.py` (``../../examples/plot_penalid.py``)
+     - 00:00.053
+     - 0.0
+   * - :ref:`sphx_glr_examples_plot_forward.py` (``../../examples/plot_forward.py``)
+     - 00:00.031
+     - 0.0
+   * - :ref:`sphx_glr_examples_plot_dger.py` (``../../examples/plot_dger.py``)
+     - 00:00.004
+     - 0.0
