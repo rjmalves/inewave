@@ -1,7 +1,11 @@
+# 1.11.1
+
+- Correção no arquivo `dger.dat` em relação ao número de aberturas variável por estágio
+
 # 1.11.0
 
 - Suporte ao processamento do arquivo `eliminacao_cortes.dat`
-- Atualização do arquivo `arquivos.dat` com as linhas adicionais relativas ao `volref_saz.dat` e `eliminacao_cortes.dat` 
+- Atualização do arquivo `arquivos.dat` com as linhas adicionais relativas ao `volref_saz.dat` e `eliminacao_cortes.dat`
 - Correção de tipagem estática para mypy
 - Adicionados mais exemplos para a documentação
 

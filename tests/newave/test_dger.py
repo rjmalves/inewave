@@ -171,6 +171,7 @@ def test_atributos_encontrados_dger():
         assert d.num_max_iteracoes is not None
         assert d.num_forwards is not None
         assert d.num_aberturas is not None
+        assert d.aberturas_variaveis is not None
         assert d.num_series_sinteticas is not None
         assert d.ordem_maxima_parp is not None
         assert d.ano_inicial_historico is not None
@@ -471,6 +472,16 @@ def test_num_aberturas_dger():
         novo_valor = 0
         d.num_aberturas = novo_valor
         assert d.num_aberturas == novo_valor
+
+
+def test_aberturas_variaveis_dger():
+    m: MagicMock = mock_open(read_data="".join(MockDger))
+    with patch("builtins.open", m):
+        d = Dger.read(ARQ_TESTE)
+        assert d.aberturas_variaveis == 1
+        novo_valor = 0
+        d.aberturas_variaveis = novo_valor
+        assert d.aberturas_variaveis == novo_valor
 
 
 def test_num_series_sinteticas_dger():

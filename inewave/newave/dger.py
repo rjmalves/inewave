@@ -1,113 +1,113 @@
+from typing import List, Optional, TypeVar
+
 from cfinterface.files.sectionfile import SectionFile
-from typing import TypeVar, Optional, List
-
-
-from inewave.newave.modelos.dger import BlocoMesInicioEstudo, BlocoNomeCaso
-from inewave.newave.modelos.dger import BlocoTipoExecucao
-from inewave.newave.modelos.dger import BlocoDuracaoPeriodo
-from inewave.newave.modelos.dger import BlocoNumAnosEstudo
-from inewave.newave.modelos.dger import BlocoMesInicioPreEstudo
-from inewave.newave.modelos.dger import BlocoAnoInicioEstudo
-from inewave.newave.modelos.dger import BlocoNumAnosPreEstudo
-from inewave.newave.modelos.dger import BlocoNumAnosPosEstudo
-from inewave.newave.modelos.dger import BlocoNumAnosPosEstudoSimFinal
-from inewave.newave.modelos.dger import BlocoImprimeDados
-from inewave.newave.modelos.dger import BlocoImprimeMercados
-from inewave.newave.modelos.dger import BlocoImprimeEnergias
-from inewave.newave.modelos.dger import BlocoImprimeModeloEstocastico
-from inewave.newave.modelos.dger import BlocoImprimeSubsistema
-from inewave.newave.modelos.dger import BlocoNumMaxIteracoes
-from inewave.newave.modelos.dger import BlocoNumForwards
-from inewave.newave.modelos.dger import BlocoNumAberturas
-from inewave.newave.modelos.dger import BlocoNumSeriesSinteticas
-from inewave.newave.modelos.dger import BlocoOrdemMaximaPARp
-from inewave.newave.modelos.dger import BlocoAnoInicialHistorico
-from inewave.newave.modelos.dger import BlocoCalculaVolInicial
-from inewave.newave.modelos.dger import BlocoVolInicialSubsistema
-from inewave.newave.modelos.dger import BlocoTolerancia
-from inewave.newave.modelos.dger import BlocoTaxaDesconto
-from inewave.newave.modelos.dger import BlocoTipoSimFinal
-from inewave.newave.modelos.dger import BlocoImpressaoOperacao
-from inewave.newave.modelos.dger import BlocoImpressaoConvergencia
-from inewave.newave.modelos.dger import BlocoIntervaloGravar
-from inewave.newave.modelos.dger import BlocoMinIteracoes
-from inewave.newave.modelos.dger import BlocoRacionamentoPreventivo
-from inewave.newave.modelos.dger import BlocoNumAnosManutUTE
-from inewave.newave.modelos.dger import BlocoTendenciaHidrologica
-from inewave.newave.modelos.dger import BlocoRestricaoItaipu
-from inewave.newave.modelos.dger import BlocoBid
-from inewave.newave.modelos.dger import BlocoPerdasTransmissao
-from inewave.newave.modelos.dger import BlocoElNino
-from inewave.newave.modelos.dger import BlocoEnso
-from inewave.newave.modelos.dger import BlocoDuracaoPorPatamar
-from inewave.newave.modelos.dger import BlocoOutrosUsosAgua
-from inewave.newave.modelos.dger import BlocoCorrecaoDesvio
-from inewave.newave.modelos.dger import BlocoCurvaAversao
-from inewave.newave.modelos.dger import BlocoTipoGeracaoENA
-from inewave.newave.modelos.dger import BlocoRiscoDeficit
-from inewave.newave.modelos.dger import BlocoIteracaoParaSimFinal
-from inewave.newave.modelos.dger import BlocoAgrupamentoLivre
-from inewave.newave.modelos.dger import BlocoEqualizacaoPenalInt
-from inewave.newave.modelos.dger import BlocoRepresentacaoSubmot
-from inewave.newave.modelos.dger import BlocoOrdenacaoAutomatica
-from inewave.newave.modelos.dger import BlocoConsideraCargaAdicional
-from inewave.newave.modelos.dger import BlocoDeltaZSUP
-from inewave.newave.modelos.dger import BlocoDeltaZINF
-from inewave.newave.modelos.dger import BlocoDeltasConsecutivos
-from inewave.newave.modelos.dger import BlocoDespachoAntecipadoGNL
-from inewave.newave.modelos.dger import BlocoModifAutomaticaAdTerm
-from inewave.newave.modelos.dger import BlocoGeracaoHidraulicaMin
-from inewave.newave.modelos.dger import BlocoSimFinalComData
-from inewave.newave.modelos.dger import BlocoGerenciamentoPLs
-from inewave.newave.modelos.dger import BlocoSAR
-from inewave.newave.modelos.dger import BlocoCVAR
-from inewave.newave.modelos.dger import BlocoZSUPMinConvergencia
-from inewave.newave.modelos.dger import BlocoDesconsideraVazaoMinima
-from inewave.newave.modelos.dger import BlocoRestricoesEletricas
-from inewave.newave.modelos.dger import BlocoSelecaoCortes
-from inewave.newave.modelos.dger import BlocoJanelaCortes
-from inewave.newave.modelos.dger import BlocoReamostragemCenarios
-from inewave.newave.modelos.dger import BlocoConvergeNoZero
-from inewave.newave.modelos.dger import BlocoConsultaFCF
-from inewave.newave.modelos.dger import BlocoImpressaoENA
-from inewave.newave.modelos.dger import BlocoImpressaoCortesAtivosSimFinal
-from inewave.newave.modelos.dger import BlocoRepresentacaoAgregacao
-from inewave.newave.modelos.dger import BlocoMatrizCorrelacaoEspacial
-from inewave.newave.modelos.dger import BlocoDesconsideraConvEstatistica
-from inewave.newave.modelos.dger import BlocoMomentoReamostragem
-from inewave.newave.modelos.dger import BlocoMantemArquivosEnergias
-from inewave.newave.modelos.dger import BlocoInicioTesteConvergencia
-from inewave.newave.modelos.dger import BlocoSazonalizarVminT
-from inewave.newave.modelos.dger import BlocoSazonalizarVmaxT
-from inewave.newave.modelos.dger import BlocoSazonalizarVminP
-from inewave.newave.modelos.dger import BlocoSazonalizarCfugaCmont
-from inewave.newave.modelos.dger import BlocoRestricoesEmissaoGEE
-from inewave.newave.modelos.dger import BlocoAfluenciaAnualPARp
-from inewave.newave.modelos.dger import BlocoRestricoesFornecGas
-from inewave.newave.modelos.dger import BlocoMemCalculoCortes
-from inewave.newave.modelos.dger import BlocoGeracaoEolica
 
 # from inewave.newave.modelos.dger import BlocoCompensacaoCorrelacaoCruzada
 from inewave.newave.modelos.dger import (
+    BlocoAfluenciaAnualPARp,
+    BlocoAgrupamentoLivre,
+    BlocoAnoInicialHistorico,
+    BlocoAnoInicioEstudo,
+    BlocoAproveitamentoBasePLsBackward,
+    BlocoBid,
+    BlocoCalculaVolInicial,
+    BlocoCanalDesvio,
+    BlocoConsideracaoDefluenciaMaxima,
     BlocoConsideracaoTurbinamentoMinimoMaximo,
+    BlocoConsideraCargaAdicional,
+    BlocoConsultaFCF,
+    BlocoConvergeNoZero,
+    BlocoCorrecaoDesvio,
+    BlocoCurvaAversao,
+    BlocoCVAR,
+    BlocoDeltasConsecutivos,
+    BlocoDeltaZINF,
+    BlocoDeltaZSUP,
+    BlocoDesconsideraConvEstatistica,
+    BlocoDesconsideraVazaoMinima,
+    BlocoDespachoAntecipadoGNL,
+    BlocoDuracaoPeriodo,
+    BlocoDuracaoPorPatamar,
+    BlocoElNino,
+    BlocoEnso,
+    BlocoEqualizacaoPenalInt,
+    BlocoEstacoesBombeamento,
+    BlocoFCFPosEstudo,
+    BlocoFuncaoProducaoUHE,
+    BlocoGeracaoEolica,
+    BlocoGeracaoHidraulicaMin,
+    BlocoGerenciamentoPLs,
+    BlocoImpressaoConvergencia,
+    BlocoImpressaoCortesAtivosSimFinal,
+    BlocoImpressaoENA,
+    BlocoImpressaoEstadosGeracaoCortes,
+    BlocoImpressaoOperacao,
+    BlocoImprimeDados,
+    BlocoImprimeEnergias,
+    BlocoImprimeMercados,
+    BlocoImprimeModeloEstocastico,
+    BlocoImprimeSubsistema,
+    BlocoInicioTesteConvergencia,
+    BlocoIntervaloGravar,
+    BlocoIteracaoParaSimFinal,
+    BlocoJanelaCortes,
+    BlocoMantemArquivosEnergias,
+    BlocoMatrizCorrelacaoEspacial,
+    BlocoMemCalculoCortes,
+    BlocoMesInicioEstudo,
+    BlocoMesInicioPreEstudo,
+    BlocoMinIteracoes,
+    BlocoModifAutomaticaAdTerm,
+    BlocoMomentoReamostragem,
+    BlocoNomeCaso,
+    BlocoNumAberturas,
+    BlocoNumAnosEstudo,
+    BlocoNumAnosManutUTE,
+    BlocoNumAnosPosEstudo,
+    BlocoNumAnosPosEstudoSimFinal,
+    BlocoNumAnosPreEstudo,
+    BlocoNumForwards,
+    BlocoNumMaxIteracoes,
+    BlocoNumSeriesSinteticas,
+    BlocoOrdemMaximaPARp,
+    BlocoOrdenacaoAutomatica,
+    BlocoOutrosUsosAgua,
+    BlocoPerdasTransmissao,
+    BlocoRacionamentoPreventivo,
+    BlocoReamostragemCenarios,
+    BlocoRepresentacaoAgregacao,
+    BlocoRepresentacaoSubmot,
+    BlocoRestricaoItaipu,
+    BlocoRestricaoLPPDefluenciaMaximaREE,
+    BlocoRestricaoLPPDefluenciaMaximaUHE,
+    BlocoRestricaoLPPTurbinamentoMaximoREE,
+    BlocoRestricaoLPPTurbinamentoMaximoUHE,
+    BlocoRestricoesEletricas,
+    BlocoRestricoesEletricasEspeciais,
+    BlocoRestricoesEmissaoGEE,
+    BlocoRestricoesFornecGas,
+    BlocoRHQ,
+    BlocoRHV,
+    BlocoRiscoDeficit,
+    BlocoSAR,
+    BlocoSazonalizarCfugaCmont,
+    BlocoSazonalizarVmaxT,
+    BlocoSazonalizarVminP,
+    BlocoSazonalizarVminT,
+    BlocoSelecaoCortes,
+    BlocoSementeBackward,
+    BlocoSementeForward,
+    BlocoSimFinalComData,
+    BlocoTaxaDesconto,
+    BlocoTendenciaHidrologica,
+    BlocoTipoExecucao,
+    BlocoTipoGeracaoENA,
+    BlocoTipoSimFinal,
+    BlocoTolerancia,
+    BlocoTratamentoCortes,
+    BlocoVolInicialSubsistema,
+    BlocoZSUPMinConvergencia,
 )
-from inewave.newave.modelos.dger import BlocoConsideracaoDefluenciaMaxima
-from inewave.newave.modelos.dger import BlocoAproveitamentoBasePLsBackward
-from inewave.newave.modelos.dger import BlocoImpressaoEstadosGeracaoCortes
-from inewave.newave.modelos.dger import BlocoSementeForward
-from inewave.newave.modelos.dger import BlocoSementeBackward
-from inewave.newave.modelos.dger import BlocoRestricaoLPPTurbinamentoMaximoREE
-from inewave.newave.modelos.dger import BlocoRestricaoLPPDefluenciaMaximaREE
-from inewave.newave.modelos.dger import BlocoRestricaoLPPTurbinamentoMaximoUHE
-from inewave.newave.modelos.dger import BlocoRestricaoLPPDefluenciaMaximaUHE
-from inewave.newave.modelos.dger import BlocoRestricoesEletricasEspeciais
-from inewave.newave.modelos.dger import BlocoFuncaoProducaoUHE
-from inewave.newave.modelos.dger import BlocoFCFPosEstudo
-from inewave.newave.modelos.dger import BlocoEstacoesBombeamento
-from inewave.newave.modelos.dger import BlocoCanalDesvio
-from inewave.newave.modelos.dger import BlocoRHQ
-from inewave.newave.modelos.dger import BlocoRHV
-from inewave.newave.modelos.dger import BlocoTratamentoCortes
 
 
 class Dger(SectionFile):
@@ -566,6 +566,25 @@ class Dger(SectionFile):
         b = self.data.get_sections_of_type(BlocoNumAberturas)
         if isinstance(b, BlocoNumAberturas):
             b.valor = dado
+
+    @property
+    def aberturas_variaveis(self) -> Optional[int]:
+        """
+        Configuração da linha número 18 do arquivo `dger.dat`.
+
+        :return: O valor do campo
+        :rtype: int
+        """
+        b = self.data.get_sections_of_type(BlocoNumAberturas)
+        if isinstance(b, BlocoNumAberturas):
+            return b.variaveis
+        return None
+
+    @aberturas_variaveis.setter
+    def aberturas_variaveis(self, dado: int):
+        b = self.data.get_sections_of_type(BlocoNumAberturas)
+        if isinstance(b, BlocoNumAberturas):
+            b.variaveis = dado
 
     @property
     def num_series_sinteticas(self) -> Optional[int]:
@@ -2260,18 +2279,14 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int | None
         """
-        b = self.data.get_sections_of_type(
-            BlocoRestricaoLPPDefluenciaMaximaREE
-        )
+        b = self.data.get_sections_of_type(BlocoRestricaoLPPDefluenciaMaximaREE)
         if isinstance(b, BlocoRestricaoLPPDefluenciaMaximaREE):
             return b.valor
         return None
 
     @restricao_lpp_defluencia_maxima_ree.setter
     def restricao_lpp_defluencia_maxima_ree(self, dado: int):
-        b = self.data.get_sections_of_type(
-            BlocoRestricaoLPPDefluenciaMaximaREE
-        )
+        b = self.data.get_sections_of_type(BlocoRestricaoLPPDefluenciaMaximaREE)
         if isinstance(b, BlocoRestricaoLPPDefluenciaMaximaREE):
             b.valor = dado
 
@@ -2306,18 +2321,14 @@ class Dger(SectionFile):
         :return: O valor do campo
         :rtype: int | None
         """
-        b = self.data.get_sections_of_type(
-            BlocoRestricaoLPPDefluenciaMaximaUHE
-        )
+        b = self.data.get_sections_of_type(BlocoRestricaoLPPDefluenciaMaximaUHE)
         if isinstance(b, BlocoRestricaoLPPDefluenciaMaximaUHE):
             return b.valor
         return None
 
     @restricao_lpp_defluencia_maxima_uhe.setter
     def restricao_lpp_defluencia_maxima_uhe(self, dado: int):
-        b = self.data.get_sections_of_type(
-            BlocoRestricaoLPPDefluenciaMaximaUHE
-        )
+        b = self.data.get_sections_of_type(BlocoRestricaoLPPDefluenciaMaximaUHE)
         if isinstance(b, BlocoRestricaoLPPDefluenciaMaximaUHE):
             b.valor = dado
 

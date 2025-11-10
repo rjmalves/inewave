@@ -16,7 +16,7 @@ MockDger = [
     "IMPRIME SUBSISTEMA      1\n",
     "No MAX. DE ITER.       45\n",
     "No DE SIM. FORWARD    200\n",
-    "No DE ABERTURAS        20\n",
+    "No DE ABERTURAS        20   1\n",
     "No DE SERIES SINT.   2000\n",
     "ORDEM MAX. PAR(P)       6\n",
     "ANO INICIAL HIST.    1931   0\n",

@@ -787,7 +787,11 @@ class BlocoNumAberturas(Section):
 
     def __init__(self, previous=None, next=None, data=None) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([LiteralField(24, 0), IntegerField(4, 21)])
+        self.__linha = Line([
+            LiteralField(24, 0),
+            IntegerField(4, 21),
+            IntegerField(4, 26),
+        ])
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoNumAberturas):
@@ -820,6 +824,20 @@ class BlocoNumAberturas(Section):
     @valor.setter
     def valor(self, v: int):
         self.data[1] = v
+
+    @property
+    def variaveis(self) -> Optional[int]:
+        """
+        A consideração ou não de aberturas variáveis
+
+        :return: A consideração ou não de aberturas variáveis
+        :rtype: int
+        """
+        return self.data[2]
+
+    @variaveis.setter
+    def variaveis(self, v: int):
+        self.data[2] = v
 
 
 class BlocoNumSeriesSinteticas(Section):
