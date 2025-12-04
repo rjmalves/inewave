@@ -1,3 +1,7 @@
+# 1.11.2
+
+- Correção no arquivo `dger.dat` em relação aos campos adicionados recentemente ao final do arquivo
+
 # 1.11.1
 
 - Correção no arquivo `dger.dat` em relação ao número de aberturas variável por estágio
