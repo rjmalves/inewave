@@ -5261,3 +5261,100 @@ class BlocoTratamentoCortes(Section):
         elif len(v) < 3:
             v = v + [None] * (3 - len(v))
         self.data = self.data[0:3] + v + [self.data[-1]]
+
+
+class BlocoEliminacaoCortes(Section):
+    """
+    Bloco com a escolha de habilitar ou não eliminação de cortes
+    """
+
+    __slots__ = ["__linha"]
+
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
+        self.__linha = Line([
+            LiteralField(24, 0),
+            IntegerField(1, 24),
+            LiteralField(148, 28),
+        ])
+
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoEliminacaoCortes):
+            return False
+        bloco: BlocoEliminacaoCortes = o
+        if not all([
+            isinstance(self.data, list),
+            isinstance(o.data, list),
+        ]):
+            return False
+        else:
+            return self.data == bloco.data
+
+    def read(self, file: IO, *args, **kwargs):
+        self.data = self.__linha.read(file.readline())
+
+    def write(self, file: IO, *args, **kwargs):
+        file.write(self.__linha.write(self.data))
+
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: A consideração ou não de RHV
+        :rtype: int | None
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v
+
+
+class BlocoCalculaProdtMediaSin(Section):
+    """
+    Bloco com a escolha de calcular ou não a produtibilidade
+    média do SIN
+    """
+
+    __slots__ = ["__linha"]
+
+    def __init__(self, previous=None, next=None, data=None) -> None:
+        super().__init__(previous, next, data)
+        self.__linha = Line([
+            LiteralField(24, 0),
+            IntegerField(1, 24),
+            LiteralField(148, 28),
+        ])
+
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, BlocoCalculaProdtMediaSin):
+            return False
+        bloco: BlocoCalculaProdtMediaSin = o
+        if not all([
+            isinstance(self.data, list),
+            isinstance(o.data, list),
+        ]):
+            return False
+        else:
+            return self.data == bloco.data
+
+    def read(self, file: IO, *args, **kwargs):
+        self.data = self.__linha.read(file.readline())
+
+    def write(self, file: IO, *args, **kwargs):
+        file.write(self.__linha.write(self.data))
+
+    @property
+    def valor(self) -> Optional[int]:
+        """
+        O valor da opção configurada
+
+        :return: A consideração ou não de RHV
+        :rtype: int | None
+        """
+        return self.data[1]
+
+    @valor.setter
+    def valor(self, v: int):
+        self.data[1] = v

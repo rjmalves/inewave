@@ -131,8 +131,6 @@ def test_atributos_nao_encontrados_dger():
         assert d.restricao_turbinamento is None
         assert d.aproveitamento_bases_backward is None
         assert d.impressao_estados_geracao_cortes is None
-        assert d.semente_forward is None
-        assert d.semente_backward is None
         assert d.restricao_lpp_turbinamento_maximo_ree is None
         assert d.restricao_lpp_defluencia_maxima_ree is None
         assert d.restricao_lpp_turbinamento_maximo_uhe is None
@@ -147,6 +145,8 @@ def test_atributos_nao_encontrados_dger():
         assert d.gera_arquivo_cortes_unico is None
         assert d.mantem_arquivos_cortes_por_periodo is None
         assert d.periodos_manutencao_cortes == [None, None, None]
+        assert d.eliminacao_cortes is None
+        assert d.calcula_prodt_media_sin is None
 
 
 def test_atributos_encontrados_dger():
@@ -273,8 +273,6 @@ def test_atributos_encontrados_dger():
         assert d.restricao_turbinamento is not None
         assert d.aproveitamento_bases_backward is not None
         assert d.impressao_estados_geracao_cortes is not None
-        assert d.semente_forward is not None
-        assert d.semente_backward is not None
         assert d.restricao_lpp_turbinamento_maximo_ree is not None
         assert d.restricao_lpp_defluencia_maxima_ree is not None
         assert d.restricao_lpp_turbinamento_maximo_uhe is not None
@@ -289,6 +287,8 @@ def test_atributos_encontrados_dger():
         assert d.gera_arquivo_cortes_unico is not None
         assert d.mantem_arquivos_cortes_por_periodo is not None
         assert d.periodos_manutencao_cortes is not None
+        assert d.eliminacao_cortes is not None
+        assert d.calcula_prodt_media_sin is not None
 
 
 def test_nome_caso_dger():
@@ -1304,26 +1304,6 @@ def test_impressao_estados_geracao_cortes_dger():
         assert d.impressao_estados_geracao_cortes == novo_valor
 
 
-def test_semente_forward_dger():
-    m: MagicMock = mock_open(read_data="".join(MockDger))
-    with patch("builtins.open", m):
-        d = Dger.read(ARQ_TESTE)
-        assert d.semente_forward == 0
-        novo_valor = 1000
-        d.semente_forward = novo_valor
-        assert d.semente_forward == novo_valor
-
-
-def test_semente_backward_dger():
-    m: MagicMock = mock_open(read_data="".join(MockDger))
-    with patch("builtins.open", m):
-        d = Dger.read(ARQ_TESTE)
-        assert d.semente_backward == 0
-        novo_valor = 1000
-        d.semente_backward = novo_valor
-        assert d.semente_backward == novo_valor
-
-
 def test_restricao_lpp_turbinamento_maximo_ree_dger():
     m: MagicMock = mock_open(read_data="".join(MockDger))
     with patch("builtins.open", m):
@@ -1462,6 +1442,26 @@ def test_periodos_manutencao_cortes():
         novo_valor = [1, 2, 3]
         d.periodos_manutencao_cortes = novo_valor
         assert d.periodos_manutencao_cortes == novo_valor
+
+
+def test_eliminacao_cortes():
+    m: MagicMock = mock_open(read_data="".join(MockDger))
+    with patch("builtins.open", m):
+        d = Dger.read(ARQ_TESTE)
+        assert d.eliminacao_cortes == 1
+        novo_valor = 0
+        d.eliminacao_cortes = novo_valor
+        assert d.eliminacao_cortes == novo_valor
+
+
+def test_calc_prodt_media_sin():
+    m: MagicMock = mock_open(read_data="".join(MockDger))
+    with patch("builtins.open", m):
+        d = Dger.read(ARQ_TESTE)
+        assert d.calcula_prodt_media_sin == 0
+        novo_valor = 1
+        d.calcula_prodt_media_sin = novo_valor
+        assert d.calcula_prodt_media_sin == novo_valor
 
 
 def test_eq_dger():
