@@ -1,6 +1,7 @@
 # Inclui os membros
 
 import importlib
+from typing import Any
 
 _LAZY_IMPORTS: dict[str, str] = {
     # Deprecated
@@ -179,7 +180,7 @@ _LAZY_IMPORTS: dict[str, str] = {
 __all__ = sorted(_LAZY_IMPORTS.keys())
 
 
-def __getattr__(name: str):
+def __getattr__(name: str) -> Any:
     if name in _LAZY_IMPORTS:
         module = importlib.import_module(f".{_LAZY_IMPORTS[name]}", __name__)
         value = getattr(module, name)

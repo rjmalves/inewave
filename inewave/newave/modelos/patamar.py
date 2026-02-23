@@ -1,7 +1,7 @@
-from typing import IO, List
+from typing import Any, IO, List, Optional
 
-import numpy as np  # type: ignore
-import pandas as pd  # type: ignore
+import numpy as np
+import pandas as pd  # type: ignore[import-untyped]  # no pandas-stubs package
 from cfinterface.components.field import Field
 from cfinterface.components.floatfield import FloatField
 from cfinterface.components.integerfield import IntegerField
@@ -32,7 +32,7 @@ class BlocoNumeroPatamares(Section):
         "__cabecalhos",
     ]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([
             IntegerField(2, 1),
@@ -52,14 +52,14 @@ class BlocoNumeroPatamares(Section):
             return self.data == bloco.data
 
     # Override
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         for _ in range(2):
             self.__cabecalhos.append(file.readline())
 
         self.data = self.__linha.read(file.readline())[0]
 
     # Override
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         for linha in self.__cabecalhos:
             file.write(linha)
         if not isinstance(self.data, int):
@@ -80,7 +80,7 @@ class BlocoDuracaoPatamar(Section):
 
     FIM_BLOCO = "SUBSISTEMA"
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         campo_ano: List[Field] = [IntegerField(4, 0)]
         campos_duracao: List[Field] = [
@@ -102,11 +102,11 @@ class BlocoDuracaoPatamar(Section):
             return self.data.equals(bloco.data)
 
     # Override
-    def read(self, file: IO, *args, **kwargs):
-        def converte_tabela_em_df():
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
+        def converte_tabela_em_df() -> pd.DataFrame:
             df = pd.DataFrame(
                 data={
-                    "data": prepara_vetor_anos_tabela(anos),
+                    "data": prepara_vetor_anos_tabela(anos),  # type: ignore[arg-type]  # numpy array passed where List[str] expected
                     "patamar": repete_vetor(patamares),
                     "valor": tabela.flatten(),
                 }
@@ -132,7 +132,7 @@ class BlocoDuracaoPatamar(Section):
                 file.seek(ultima_linha)
                 # Converte para df e salva na variável
                 if i > 0:
-                    tabela = tabela[:i, :]  # type: ignore
+                    tabela = tabela[:i, :]
                     self.data = converte_tabela_em_df()
                 break
             # Confere se é uma linha de subsistema ou tabela
@@ -148,7 +148,7 @@ class BlocoDuracaoPatamar(Section):
                 i += 1
 
     # Override
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         for linha in self.__cabecalhos:
             file.write(linha)
         if not isinstance(self.data, pd.DataFrame):
@@ -181,7 +181,7 @@ class BlocoCargaPatamar(Section):
 
     FIM_BLOCO = "9999"
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha_subsis = Line([IntegerField(4, 0)])
         campo_ano: List[Field] = [IntegerField(4, 3)]
@@ -204,12 +204,12 @@ class BlocoCargaPatamar(Section):
             return self.data.equals(bloco.data)
 
     # Override
-    def read(self, file: IO, *args, **kwargs):
-        def converte_tabela_em_df():
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
+        def converte_tabela_em_df() -> pd.DataFrame:
             df = pd.DataFrame(
                 data={
                     "codigo_submercado": repete_vetor(submercados),
-                    "data": prepara_vetor_anos_tabela(anos),
+                    "data": prepara_vetor_anos_tabela(anos),  # type: ignore[arg-type]  # numpy array passed where List[str] expected
                     "patamar": repete_vetor(patamares),
                     "valor": tabela.flatten(),
                 }
@@ -238,7 +238,7 @@ class BlocoCargaPatamar(Section):
             if len(linha) < 3 or BlocoCargaPatamar.FIM_BLOCO in linha[:4]:
                 # Converte para df e salva na variável
                 if i > 0:
-                    tabela = tabela[:i, :]  # type: ignore
+                    tabela = tabela[:i, :]
                     self.data = converte_tabela_em_df()
                 break
             # Confere se é uma linha de subsistema ou tabela
@@ -257,7 +257,7 @@ class BlocoCargaPatamar(Section):
                 i += 1
 
     # Override
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         for linha in self.__cabecalhos:
             file.write(linha)
         if not isinstance(self.data, pd.DataFrame):
@@ -315,7 +315,7 @@ class BlocoIntercambioPatamarSubsistemas(Section):
 
     FIM_BLOCO = "9999"
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha_subsis = Line([IntegerField(3, 1), IntegerField(3, 5)])
         campo_ano: List[Field] = [IntegerField(4, 3)]
@@ -338,13 +338,13 @@ class BlocoIntercambioPatamarSubsistemas(Section):
             return self.data.equals(bloco.data)
 
     # Override
-    def read(self, file: IO, *args, **kwargs):
-        def converte_tabela_em_df():
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
+        def converte_tabela_em_df() -> pd.DataFrame:
             df = pd.DataFrame(
                 data={
                     "submercado_de": repete_vetor(submercados_de),
                     "submercado_para": repete_vetor(submercados_para),
-                    "data": prepara_vetor_anos_tabela(anos),
+                    "data": prepara_vetor_anos_tabela(anos),  # type: ignore[arg-type]  # numpy array passed where List[str] expected
                     "patamar": repete_vetor(patamares),
                     "valor": tabela.flatten(),
                 }
@@ -377,7 +377,7 @@ class BlocoIntercambioPatamarSubsistemas(Section):
             ):
                 # Converte para df e salva na variável
                 if i > 0:
-                    tabela = tabela[:i, :]  # type: ignore
+                    tabela = tabela[:i, :]
                     self.data = converte_tabela_em_df()
                 break
             # Confere se é uma linha de subsistema ou tabela
@@ -399,7 +399,7 @@ class BlocoIntercambioPatamarSubsistemas(Section):
                 i += 1
 
     # Override
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         for linha in self.__cabecalhos:
             file.write(linha)
         if not isinstance(self.data, pd.DataFrame):
@@ -465,7 +465,7 @@ class BlocoUsinasNaoSimuladas(Section):
         "__cabecalhos",
     ]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha_subsis = Line([IntegerField(3, 1), IntegerField(3, 5)])
         campo_ano: List[Field] = [IntegerField(4, 3)]
@@ -488,13 +488,13 @@ class BlocoUsinasNaoSimuladas(Section):
             return self.data.equals(bloco.data)
 
     # Override
-    def read(self, file: IO, *args, **kwargs):
-        def converte_tabela_em_df():
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
+        def converte_tabela_em_df() -> pd.DataFrame:
             df = pd.DataFrame(
                 data={
                     "codigo_submercado": repete_vetor(submercados),
                     "indice_bloco": repete_vetor(blocos),
-                    "data": prepara_vetor_anos_tabela(anos),
+                    "data": prepara_vetor_anos_tabela(anos),  # type: ignore[arg-type]  # numpy array passed where List[str] expected
                     "patamar": repete_vetor(patamares),
                     "valor": tabela.flatten(),
                 }
@@ -524,7 +524,7 @@ class BlocoUsinasNaoSimuladas(Section):
             if len(linha) < 3:
                 # Converte para df e salva na variável
                 if i > 0:
-                    tabela = tabela[:i, :]  # type: ignore
+                    tabela = tabela[:i, :]
                     self.data = converte_tabela_em_df()
                 break
             # Confere se é uma linha de subsistema ou tabela
@@ -546,7 +546,7 @@ class BlocoUsinasNaoSimuladas(Section):
                 i += 1
 
     # Override
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         for linha in self.__cabecalhos:
             file.write(linha)
         if not isinstance(self.data, pd.DataFrame):

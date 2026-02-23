@@ -1,7 +1,7 @@
-from typing import IO, List
+from typing import Any, IO, List, Optional
 
-import numpy as np  # type: ignore
-import pandas as pd  # type: ignore
+import numpy as np
+import pandas as pd  # type: ignore[import-untyped]  # no pandas-stubs package
 from cfinterface.components.field import Field
 from cfinterface.components.floatfield import FloatField
 from cfinterface.components.integerfield import IntegerField
@@ -26,7 +26,7 @@ class BlocoDsvUHE(Section):
 
     FIM_BLOCO = "9999"
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         campos_iniciais: List[Field] = [IntegerField(4, 0), IntegerField(3, 6)]
         campos_desvios: List[Field] = [
@@ -54,7 +54,7 @@ class BlocoDsvUHE(Section):
             return self.data.equals(bloco.data)
 
     # Override
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         def converte_tabela_em_df() -> pd.DataFrame:
             df = pd.DataFrame(
                 data={
@@ -86,7 +86,7 @@ class BlocoDsvUHE(Section):
             if len(linha) < 3 or BlocoDsvUHE.FIM_BLOCO in linha:
                 # Converte para df e salva na variável
                 if i > 0:
-                    tabela = tabela[:i, :]  # type: ignore
+                    tabela = tabela[:i, :]
                     self.data = converte_tabela_em_df()
                 break
             dados = self.__linha_uhe.read(linha)
@@ -100,7 +100,7 @@ class BlocoDsvUHE(Section):
             i += 1
 
     # Override
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         for linha in self.__cabecalhos:
             file.write(linha)
         if not isinstance(self.data, pd.DataFrame):

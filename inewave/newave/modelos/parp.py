@@ -1,10 +1,10 @@
 # Imports do próprio módulo
 
 from datetime import date
-from typing import IO, List
+from typing import Any, IO, List, Optional
 
-import numpy as np  # type: ignore
-import pandas as pd  # type: ignore
+import numpy as np
+import pandas as pd  # type: ignore[import-untyped]  # no pandas-stubs package
 
 # Imports de módulos externos
 from cfinterface.components.block import Block
@@ -43,7 +43,7 @@ class BlocoSerieEnergiaREE(Block):
     BEGIN_PATTERN = "SERIE  DE ENERGIAS DO REE"
     END_PATTERN = ""
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__campo_ree = LiteralField(16, 55)
         self.__campo_cfg = IntegerField(5, 88)
@@ -66,11 +66,11 @@ class BlocoSerieEnergiaREE(Block):
             return self.data.equals(bloco.data)
 
     # Override
-    def read(self, file: IO, *args, **kwargs):
-        def converte_tabela_em_df():
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
+        def converte_tabela_em_df() -> pd.DataFrame:
             df = pd.DataFrame(
                 data={
-                    "data": prepara_vetor_anos_tabela(anos),
+                    "data": prepara_vetor_anos_tabela(anos),  # type: ignore[arg-type]  # numpy array passed where List[str] expected
                     "valor": tabela.flatten(),
                 }
             )
@@ -95,7 +95,7 @@ class BlocoSerieEnergiaREE(Block):
             linha = file.readline()
             # Confere se acabou
             if len(linha) < 4:
-                tabela = tabela[:i, :]  # type: ignore
+                tabela = tabela[:i, :]
                 self.data = converte_tabela_em_df()
                 break
             # Senão, processa os dados
@@ -119,7 +119,7 @@ class BlocoCorrelEnergiasREE(Block):
     BEGIN_PATTERN = "CORRELOGRAMO DA SERIE DE ENERGIAS"
     END_PATTERN = ""
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         campo_mes: List[Field] = [LiteralField(3, 1)]
         campo_ano: List[Field] = [LiteralField(4, 5)]
@@ -139,7 +139,7 @@ class BlocoCorrelEnergiasREE(Block):
             return self.data.equals(bloco.data)
 
     # Override
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         def converte_vetor_anos(anos: List[str]) -> List[int]:
             # Descobre os anos pré e pós estudo
             numero_anos_pre = len([p for p in anos if p == "PRE"]) // 12
@@ -166,7 +166,7 @@ class BlocoCorrelEnergiasREE(Block):
         def converte_vetor_meses(meses: List[str]) -> List[int]:
             return [MESES_ABREV.index(m) + 1 for m in meses]
 
-        def converte_tabela_em_df():
+        def converte_tabela_em_df() -> pd.DataFrame:
             anos_conv = converte_vetor_anos(anos)
             meses_conv = converte_vetor_meses(meses)
             datas = [
@@ -195,7 +195,7 @@ class BlocoCorrelEnergiasREE(Block):
             linha = file.readline()
             # Confere se acabou
             if len(linha) < 4:
-                tabela = tabela[:i, :]  # type: ignore
+                tabela = tabela[:i, :]
                 self.data = converte_tabela_em_df()
                 break
             # Senão, processa os dados
@@ -220,7 +220,7 @@ class BlocoCorrelParcialEnergiasREE(Block):
     BEGIN_PATTERN = "CORRELOGRAMO PARCIAL DA SERIE DE ENERGIAS"
     END_PATTERN = ""
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         campo_mes: List[Field] = [LiteralField(3, 1)]
         campo_ano: List[Field] = [LiteralField(4, 5)]
@@ -240,7 +240,7 @@ class BlocoCorrelParcialEnergiasREE(Block):
             return self.data.equals(bloco.data)
 
     # Override
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         def converte_vetor_anos(anos: List[str]) -> List[int]:
             # Descobre os anos pré e pós estudo
             numero_anos_pre = len([p for p in anos if p == "PRE"]) // 12
@@ -267,7 +267,7 @@ class BlocoCorrelParcialEnergiasREE(Block):
         def converte_vetor_meses(meses: List[str]) -> List[int]:
             return [MESES_ABREV.index(m) + 1 for m in meses]
 
-        def converte_tabela_em_df():
+        def converte_tabela_em_df() -> pd.DataFrame:
             anos_conv = converte_vetor_anos(anos)
             meses_conv = converte_vetor_meses(meses)
             datas = [
@@ -296,7 +296,7 @@ class BlocoCorrelParcialEnergiasREE(Block):
             linha = file.readline()
             # Confere se acabou
             if len(linha) < 4:
-                tabela = tabela[:i, :]  # type: ignore
+                tabela = tabela[:i, :]
                 self.data = converte_tabela_em_df()
                 break
             # Senão, processa os dados
@@ -322,7 +322,7 @@ class BlocoOrdemModeloREE(Block):
     BEGIN_PATTERN = "DO MODELO AUTORREGRESSIVO PARA CADA PERIODO"
     END_PATTERN = ""
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         campo_ano: List[Field] = [LiteralField(4, 32)]
         orders: List[Field] = [
@@ -343,7 +343,7 @@ class BlocoOrdemModeloREE(Block):
             return self.data.equals(bloco.data)
 
     # Override
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         def converte_vetor_anos(anos: List[str]) -> List[int]:
             # Descobre os anos pré e pós estudo
             numero_anos_pre = len([p for p in anos if p == "PRE"])
@@ -365,11 +365,11 @@ class BlocoOrdemModeloREE(Block):
                 anos[idx] = str(ano)
             return [int(a) for a in anos]
 
-        def converte_tabela_em_df():
+        def converte_tabela_em_df() -> pd.DataFrame:
             df = pd.DataFrame(
                 data={
                     "data": prepara_vetor_anos_tabela(
-                        converte_vetor_anos(anos)
+                        converte_vetor_anos(anos)  # type: ignore[arg-type]  # numpy array passed where List[str] expected
                     ),
                     "valor": tabela.flatten(),
                 }
@@ -391,7 +391,7 @@ class BlocoOrdemModeloREE(Block):
             linha = file.readline()
             # Confere se acabou
             if len(linha) < 4:
-                tabela = tabela[:i, :]  # type: ignore
+                tabela = tabela[:i, :]
                 self.data = converte_tabela_em_df()
                 break
             # Senão, processa os dados
@@ -413,7 +413,7 @@ class BlocoCoeficientesModeloREE(Block):
     BEGIN_PATTERN = " COEFICIENTES DA EQUACAO DE REGRESSAO DE UM PROCESSO"
     END_PATTERN = ""
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         coefs: List[Field] = [
             FloatField(9, 11 * i, 3, format="E") for i in range(11)
@@ -433,8 +433,8 @@ class BlocoCoeficientesModeloREE(Block):
             return self.data.equals(bloco.data)
 
     # Override
-    def read(self, file: IO, *args, **kwargs):
-        def converte_tabela_em_df():
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
+        def converte_tabela_em_df() -> pd.DataFrame:
             df = pd.DataFrame(
                 data={
                     "tipo": repete_vetor(["psi", "psi_norm"], len(MESES_DF)),
@@ -478,7 +478,7 @@ class BlocoSerieRuidosREE(Block):
     BEGIN_PATTERN = "SERIE DE RUIDOS  - ANO:"
     END_PATTERN = ""
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__campo_ano = LiteralField(5, 81)
         campos: List[Field] = [
@@ -500,8 +500,8 @@ class BlocoSerieRuidosREE(Block):
             return self.data.equals(bloco.data)
 
     # Override
-    def read(self, file: IO, *args, **kwargs):
-        def converte_tabela_em_df():
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
+        def converte_tabela_em_df() -> pd.DataFrame:
             df = pd.DataFrame(
                 data={
                     "valor": tabela.flatten(),
@@ -529,7 +529,7 @@ class BlocoSerieRuidosREE(Block):
             linha = file.readline()
             # Confere se acabou
             if len(linha) < 4:
-                tabela = tabela[:i, :]  # type: ignore
+                tabela = tabela[:i, :]
                 self.data = converte_tabela_em_df()
                 break
             # Senão, processa os dados
@@ -551,7 +551,7 @@ class BlocoCorrelRuidosREE(Block):
     BEGIN_PATTERN = "CORRELOGRAMO DA SERIE DE RUIDOS"
     END_PATTERN = ""
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         campo_mes: List[Field] = [LiteralField(3, 1)]
         campo_ano: List[Field] = [LiteralField(4, 5)]
@@ -571,7 +571,7 @@ class BlocoCorrelRuidosREE(Block):
             return self.data.equals(bloco.data)
 
     # Override
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         def converte_vetor_anos(anos: List[str]) -> List[int]:
             # Descobre os anos pré e pós estudo
             numero_anos_pre = len([p for p in anos if p == "PRE"]) // 12
@@ -598,7 +598,7 @@ class BlocoCorrelRuidosREE(Block):
         def converte_vetor_meses(meses: List[str]) -> List[int]:
             return [MESES_ABREV.index(m) + 1 for m in meses]
 
-        def converte_tabela_em_df():
+        def converte_tabela_em_df() -> pd.DataFrame:
             anos_conv = converte_vetor_anos(anos)
             meses_conv = converte_vetor_meses(meses)
             datas = [
@@ -627,7 +627,7 @@ class BlocoCorrelRuidosREE(Block):
             linha = file.readline()
             # Confere se acabou
             if len(linha) < 4:
-                tabela = tabela[:i, :]  # type: ignore
+                tabela = tabela[:i, :]
                 self.data = converte_tabela_em_df()
                 break
             # Senão, processa os dados
@@ -652,7 +652,7 @@ class BlocoSerieMediasREE(Block):
     BEGIN_PATTERN = "SERIE MEDIA 12 MESES - ANO:"
     END_PATTERN = ""
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__campo_ano = LiteralField(5, 77)
         campos: List[Field] = [
@@ -674,8 +674,8 @@ class BlocoSerieMediasREE(Block):
             return self.data.equals(bloco.data)
 
     # Override
-    def read(self, file: IO, *args, **kwargs):
-        def converte_tabela_em_df():
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
+        def converte_tabela_em_df() -> pd.DataFrame:
             df = pd.DataFrame(
                 data={
                     "valor": tabela.flatten(),
@@ -703,7 +703,7 @@ class BlocoSerieMediasREE(Block):
             linha = file.readline()
             # Confere se acabou
             if len(linha) < 4:
-                tabela = tabela[:i, :]  # type: ignore
+                tabela = tabela[:i, :]
                 self.data = converte_tabela_em_df()
                 break
             # Senão, processa os dados
@@ -725,7 +725,7 @@ class BlocoCorrelCruzadaMediaREE(Block):
     BEGIN_PATTERN = "CORRELACAO CRUZADA VARIAVEL ANUAL  ENERGIAS"
     END_PATTERN = ""
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         campo_mes: List[Field] = [LiteralField(3, 1)]
         campo_ano: List[Field] = [LiteralField(4, 5)]
@@ -747,7 +747,7 @@ class BlocoCorrelCruzadaMediaREE(Block):
             return self.data.equals(bloco.data)
 
     # Override
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         def converte_vetor_anos(anos: List[str]) -> List[int]:
             # Descobre os anos pré e pós estudo
             numero_anos_pre = len([p for p in anos if p == "PRE"]) // 12
@@ -774,7 +774,7 @@ class BlocoCorrelCruzadaMediaREE(Block):
         def converte_vetor_meses(meses: List[str]) -> List[int]:
             return [MESES_ABREV.index(m) + 1 for m in meses]
 
-        def converte_tabela_em_df():
+        def converte_tabela_em_df() -> pd.DataFrame:
             anos_conv = converte_vetor_anos(anos)
             meses_conv = converte_vetor_meses(meses)
             datas = [
@@ -803,7 +803,7 @@ class BlocoCorrelCruzadaMediaREE(Block):
             linha = file.readline()
             # Confere se acabou
             if len(linha) < 4:
-                tabela = tabela[:i, :]  # type: ignore
+                tabela = tabela[:i, :]
                 self.data = converte_tabela_em_df()
                 break
             # Senão, processa os dados
@@ -826,7 +826,7 @@ class BlocoCorrelEspacialAnualConfig(Block):
     BEGIN_PATTERN = "CORRELACAO ESPACIAL HISTORICA ANUAL"
     END_PATTERN = ""
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__campo_cfg = IntegerField(4, 68)
 
@@ -843,8 +843,8 @@ class BlocoCorrelEspacialAnualConfig(Block):
             return self.data.equals(bloco.data)
 
     # Override
-    def read(self, file: IO, *args, **kwargs):
-        def converte_tabela_em_df():
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
+        def converte_tabela_em_df() -> pd.DataFrame:
             df = pd.DataFrame(tabela, columns=rees)
             df["ree"] = rees
             df["configuracao"] = cfg
@@ -890,7 +890,7 @@ class BlocoCorrelEspacialMensalConfig(Block):
     BEGIN_PATTERN = "CORRELACAO ESPACIAL HISTORICA MENSAL"
     END_PATTERN = ""
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__campo_cfg = IntegerField(4, 69)
 
@@ -907,8 +907,8 @@ class BlocoCorrelEspacialMensalConfig(Block):
             return self.data.equals(bloco.data)
 
     # Override
-    def read(self, file: IO, *args, **kwargs):
-        def converte_tabela_em_df():
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
+        def converte_tabela_em_df() -> pd.DataFrame:
             df = pd.DataFrame(tabela, columns=rees)
             df["ree"] = valores_rees
             df["configuracao"] = cfg
@@ -944,7 +944,7 @@ class BlocoCorrelEspacialMensalConfig(Block):
             if len(linha) < 4:
                 linha = file.readline()
                 if len(linha) < 4:
-                    tabela = tabela[:i, :]  # type: ignore
+                    tabela = tabela[:i, :]
                     self.data = converte_tabela_em_df()
                     break
                 else:

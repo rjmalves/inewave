@@ -1,7 +1,7 @@
-from typing import IO, List
+from typing import Any, IO, List, Optional
 
-import numpy as np  # type: ignore
-import pandas as pd  # type: ignore
+import numpy as np
+import pandas as pd  # type: ignore[import-untyped]  # no pandas-stubs package
 from cfinterface.components.integerfield import IntegerField
 from cfinterface.components.line import Line
 from cfinterface.components.literalfield import LiteralField
@@ -20,7 +20,7 @@ class BlocoReesSubmercados(Section):
 
     FIM_BLOCO = " 999"
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([
             IntegerField(3, 1),
@@ -44,8 +44,8 @@ class BlocoReesSubmercados(Section):
             return self.data.equals(bloco.data)
 
     # Override
-    def read(self, file: IO, *args, **kwargs):
-        def converte_tabela_em_df():
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
+        def converte_tabela_em_df() -> pd.DataFrame:
             cols = [
                 "codigo",
                 "submercado",
@@ -79,7 +79,7 @@ class BlocoReesSubmercados(Section):
             if len(linha) < 3 or BlocoReesSubmercados.FIM_BLOCO in linha:
                 # Converte para df e salva na variável
                 if i > 0:
-                    tabela = tabela[:i, :]  # type: ignore
+                    tabela = tabela[:i, :]
                     self.data = converte_tabela_em_df()
                 break
             # Confere se é uma linha de subsistema ou tabela
@@ -90,7 +90,7 @@ class BlocoReesSubmercados(Section):
                 i += 1
 
     # Override
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         for linha in self.__cabecalhos:
             file.write(linha)
         if not isinstance(self.data, pd.DataFrame):
@@ -110,7 +110,7 @@ class BlocoFicticiasIndividualizado(Section):
     períodos individualizados.
     """
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([LiteralField(20, 0), IntegerField(4, 21)])
 
@@ -126,8 +126,8 @@ class BlocoFicticiasIndividualizado(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))

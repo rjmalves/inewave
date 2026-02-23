@@ -34,7 +34,7 @@ class HidreletricaCurvaJusante(Register):
         return self.data[0]
 
     @codigo_usina.setter
-    def codigo_usina(self, c: int):
+    def codigo_usina(self, c: int) -> None:
         self.data[0] = c
 
     @property
@@ -48,7 +48,7 @@ class HidreletricaCurvaJusante(Register):
         return self.data[1]
 
     @indice_familia.setter
-    def indice_familia(self, c: int):
+    def indice_familia(self, c: int) -> None:
         self.data[1] = c
 
     @property
@@ -63,7 +63,7 @@ class HidreletricaCurvaJusante(Register):
         return self.data[2]
 
     @nivel_montante_referencia.setter
-    def nivel_montante_referencia(self, c: float):
+    def nivel_montante_referencia(self, c: float) -> None:
         self.data[2] = c
 
 
@@ -92,7 +92,7 @@ class HidreletricaCurvaJusantePolinomioPorPartes(Register):
         return self.data[0]
 
     @codigo_usina.setter
-    def codigo_usina(self, c: int):
+    def codigo_usina(self, c: int) -> None:
         self.data[0] = c
 
     @property
@@ -106,7 +106,7 @@ class HidreletricaCurvaJusantePolinomioPorPartes(Register):
         return self.data[1]
 
     @indice_familia.setter
-    def indice_familia(self, c: int):
+    def indice_familia(self, c: int) -> None:
         self.data[1] = c
 
     @property
@@ -120,7 +120,7 @@ class HidreletricaCurvaJusantePolinomioPorPartes(Register):
         return self.data[2]
 
     @numero_polinomios.setter
-    def numero_polinomios(self, c: int):
+    def numero_polinomios(self, c: int) -> None:
         self.data[2] = c
 
 
@@ -156,7 +156,7 @@ class HidreletricaCurvaJusantePolinomioPorPartesSegmento(Register):
         return self.data[0]
 
     @codigo_usina.setter
-    def codigo_usina(self, c: int):
+    def codigo_usina(self, c: int) -> None:
         self.data[0] = c
 
     @property
@@ -170,7 +170,7 @@ class HidreletricaCurvaJusantePolinomioPorPartesSegmento(Register):
         return self.data[1]
 
     @indice_familia.setter
-    def indice_familia(self, c: int):
+    def indice_familia(self, c: int) -> None:
         self.data[1] = c
 
     @property
@@ -184,7 +184,7 @@ class HidreletricaCurvaJusantePolinomioPorPartesSegmento(Register):
         return self.data[2]
 
     @indice_polinomio.setter
-    def indice_polinomio(self, c: int):
+    def indice_polinomio(self, c: int) -> None:
         self.data[2] = c
 
     @property
@@ -199,7 +199,7 @@ class HidreletricaCurvaJusantePolinomioPorPartesSegmento(Register):
         return self.data[3]
 
     @limite_inferior_vazao_jusante.setter
-    def limite_inferior_vazao_jusante(self, c: float):
+    def limite_inferior_vazao_jusante(self, c: float) -> None:
         self.data[3] = c
 
     @property
@@ -214,7 +214,7 @@ class HidreletricaCurvaJusantePolinomioPorPartesSegmento(Register):
         return self.data[4]
 
     @limite_superior_vazao_jusante.setter
-    def limite_superior_vazao_jusante(self, c: float):
+    def limite_superior_vazao_jusante(self, c: float) -> None:
         self.data[4] = c
 
     @property
@@ -228,7 +228,7 @@ class HidreletricaCurvaJusantePolinomioPorPartesSegmento(Register):
         return self.data[5]
 
     @coeficiente_a0.setter
-    def coeficiente_a0(self, c: float):
+    def coeficiente_a0(self, c: float) -> None:
         self.data[5] = c
 
     @property
@@ -242,7 +242,7 @@ class HidreletricaCurvaJusantePolinomioPorPartesSegmento(Register):
         return self.data[6]
 
     @coeficiente_a1.setter
-    def coeficiente_a1(self, c: float):
+    def coeficiente_a1(self, c: float) -> None:
         self.data[6] = c
 
     @property
@@ -256,7 +256,7 @@ class HidreletricaCurvaJusantePolinomioPorPartesSegmento(Register):
         return self.data[7]
 
     @coeficiente_a2.setter
-    def coeficiente_a2(self, c: float):
+    def coeficiente_a2(self, c: float) -> None:
         self.data[7] = c
 
     @property
@@ -270,7 +270,7 @@ class HidreletricaCurvaJusantePolinomioPorPartesSegmento(Register):
         return self.data[8]
 
     @coeficiente_a3.setter
-    def coeficiente_a3(self, c: float):
+    def coeficiente_a3(self, c: float) -> None:
         self.data[8] = c
 
     @property
@@ -284,7 +284,7 @@ class HidreletricaCurvaJusantePolinomioPorPartesSegmento(Register):
         return self.data[9]
 
     @coeficiente_a4.setter
-    def coeficiente_a4(self, c: float):
+    def coeficiente_a4(self, c: float) -> None:
         self.data[9] = c
 
 
@@ -312,7 +312,7 @@ class HidreletricaCurvaJusanteAfogamentoExplicitoUsina(Register):
         return self.data[0]
 
     @codigo_usina.setter
-    def codigo_usina(self, c: int):
+    def codigo_usina(self, c: int) -> None:
         self.data[0] = c
 
     @property
@@ -326,7 +326,7 @@ class HidreletricaCurvaJusanteAfogamentoExplicitoUsina(Register):
         return self.data[1]
 
     @considera_afogamento.setter
-    def considera_afogamento(self, c: str):
+    def considera_afogamento(self, c: str) -> None:
         self.data[1] = c
 
 
@@ -353,7 +353,7 @@ class HidreletricaCurvaJusanteAfogamentoExplicitoPadrao(Register):
         return self.data[0]
 
     @considera_afogamento.setter
-    def considera_afogamento(self, c: str):
+    def considera_afogamento(self, c: str) -> None:
         self.data[0] = c
 
 
@@ -383,7 +383,7 @@ class HidreletricaProdutibilidadeEspecificaGrade(Register):
         return self.data[0]
 
     @codigo_usina.setter
-    def codigo_usina(self, c: int):
+    def codigo_usina(self, c: int) -> None:
         self.data[0] = c
 
     @property
@@ -397,7 +397,7 @@ class HidreletricaProdutibilidadeEspecificaGrade(Register):
         return self.data[1]
 
     @altura_queda_liquida.setter
-    def altura_queda_liquida(self, c: float):
+    def altura_queda_liquida(self, c: float) -> None:
         self.data[1] = c
 
     @property
@@ -411,7 +411,7 @@ class HidreletricaProdutibilidadeEspecificaGrade(Register):
         return self.data[2]
 
     @turbinamento.setter
-    def turbinamento(self, c: float):
+    def turbinamento(self, c: float) -> None:
         self.data[2] = c
 
     @property
@@ -425,7 +425,7 @@ class HidreletricaProdutibilidadeEspecificaGrade(Register):
         return self.data[3]
 
     @produtibilidade_especifica.setter
-    def produtibilidade_especifica(self, c: float):
+    def produtibilidade_especifica(self, c: float) -> None:
         self.data[3] = c
 
 
@@ -454,7 +454,7 @@ class HidreletricaPerdaHidraulicaGrade(Register):
         return self.data[0]
 
     @codigo_usina.setter
-    def codigo_usina(self, c: int):
+    def codigo_usina(self, c: int) -> None:
         self.data[0] = c
 
     @property
@@ -468,7 +468,7 @@ class HidreletricaPerdaHidraulicaGrade(Register):
         return self.data[1]
 
     @turbinamento.setter
-    def turbinamento(self, c: float):
+    def turbinamento(self, c: float) -> None:
         self.data[1] = c
 
     @property
@@ -482,7 +482,7 @@ class HidreletricaPerdaHidraulicaGrade(Register):
         return self.data[2]
 
     @perda_hidraulica.setter
-    def perda_hidraulica(self, c: float):
+    def perda_hidraulica(self, c: float) -> None:
         self.data[2] = c
 
 
@@ -514,7 +514,7 @@ class EstacaoBombeamento(Register):
         return self.data[0]
 
     @codigo_estacao.setter
-    def codigo_estacao(self, c: int):
+    def codigo_estacao(self, c: int) -> None:
         self.data[0] = c
 
     @property
@@ -528,7 +528,7 @@ class EstacaoBombeamento(Register):
         return self.data[1]
 
     @nome_estacao.setter
-    def nome_estacao(self, c: str):
+    def nome_estacao(self, c: str) -> None:
         self.data[1] = c
 
     @property
@@ -542,7 +542,7 @@ class EstacaoBombeamento(Register):
         return self.data[2]
 
     @codigo_usina_origem.setter
-    def codigo_usina_origem(self, c: int):
+    def codigo_usina_origem(self, c: int) -> None:
         self.data[2] = c
 
     @property
@@ -556,7 +556,7 @@ class EstacaoBombeamento(Register):
         return self.data[3]
 
     @codigo_usina_destino.setter
-    def codigo_usina_destino(self, c: int):
+    def codigo_usina_destino(self, c: int) -> None:
         self.data[3] = c
 
     @property
@@ -570,7 +570,7 @@ class EstacaoBombeamento(Register):
         return self.data[4]
 
     @consumo_estacao.setter
-    def consumo_estacao(self, c: float):
+    def consumo_estacao(self, c: float) -> None:
         self.data[4] = c
 
     @property
@@ -584,7 +584,7 @@ class EstacaoBombeamento(Register):
         return self.data[5]
 
     @bombeamento_maximo.setter
-    def bombeamento_maximo(self, c: float):
+    def bombeamento_maximo(self, c: float) -> None:
         self.data[5] = c
 
 
@@ -619,7 +619,7 @@ class EstacaoBombeamentoLimitesPeriodoPatamar(Register):
         return self.data[0]
 
     @codigo_estacao.setter
-    def codigo_estacao(self, c: int):
+    def codigo_estacao(self, c: int) -> None:
         self.data[0] = c
 
     @property
@@ -633,7 +633,7 @@ class EstacaoBombeamentoLimitesPeriodoPatamar(Register):
         return self.data[1]
 
     @data_inicio.setter
-    def data_inicio(self, c: datetime):
+    def data_inicio(self, c: datetime) -> None:
         self.data[1] = c
 
     @property
@@ -647,7 +647,7 @@ class EstacaoBombeamentoLimitesPeriodoPatamar(Register):
         return self.data[2]
 
     @data_fim.setter
-    def data_fim(self, v: datetime):
+    def data_fim(self, v: datetime) -> None:
         self.data[2] = v
 
     @property
@@ -661,7 +661,7 @@ class EstacaoBombeamentoLimitesPeriodoPatamar(Register):
         return self.data[3]
 
     @patamar.setter
-    def patamar(self, v: int):
+    def patamar(self, v: int) -> None:
         self.data[3] = v
 
     @property
@@ -675,7 +675,7 @@ class EstacaoBombeamentoLimitesPeriodoPatamar(Register):
         return self.data[4]
 
     @limite_inferior.setter
-    def limite_inferior(self, v: float):
+    def limite_inferior(self, v: float) -> None:
         self.data[4] = v
 
     @property
@@ -689,7 +689,7 @@ class EstacaoBombeamentoLimitesPeriodoPatamar(Register):
         return self.data[5]
 
     @limite_superior.setter
-    def limite_superior(self, v: float):
+    def limite_superior(self, v: float) -> None:
         self.data[5] = v
 
 
@@ -717,7 +717,7 @@ class EstacaoBombeamentoSubmercado(Register):
         return self.data[0]
 
     @codigo_estacao.setter
-    def codigo_estacao(self, c: int):
+    def codigo_estacao(self, c: int) -> None:
         self.data[0] = c
 
     @property
@@ -731,7 +731,7 @@ class EstacaoBombeamentoSubmercado(Register):
         return self.data[1]
 
     @codigo_submercado.setter
-    def codigo_submercado(self, c: int):
+    def codigo_submercado(self, c: int) -> None:
         self.data[1] = c
 
 
@@ -758,7 +758,7 @@ class VolumeReferencialTipoPadrao(Register):
         return self.data[0]
 
     @tipo_referencia.setter
-    def tipo_referencia(self, c: int):
+    def tipo_referencia(self, c: int) -> None:
         self.data[0] = c
 
 
@@ -788,7 +788,7 @@ class VolumeReferencialPeriodo(Register):
         return self.data[0]
 
     @codigo_usina.setter
-    def codigo_usina(self, c: int):
+    def codigo_usina(self, c: int) -> None:
         self.data[0] = c
 
     @property
@@ -802,7 +802,7 @@ class VolumeReferencialPeriodo(Register):
         return self.data[1]
 
     @data_inicio.setter
-    def data_inicio(self, c: datetime):
+    def data_inicio(self, c: datetime) -> None:
         self.data[1] = c
 
     @property
@@ -816,7 +816,7 @@ class VolumeReferencialPeriodo(Register):
         return self.data[2]
 
     @data_fim.setter
-    def data_fim(self, v: datetime):
+    def data_fim(self, v: datetime) -> None:
         self.data[2] = v
 
     @property
@@ -830,5 +830,5 @@ class VolumeReferencialPeriodo(Register):
         return self.data[3]
 
     @volume_referencia.setter
-    def volume_referencia(self, c: float):
+    def volume_referencia(self, c: float) -> None:
         self.data[3] = c

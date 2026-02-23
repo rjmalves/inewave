@@ -2,7 +2,7 @@ from inewave.newave.modelos.newavetim import BlocoTemposEtapasTim, BlocoVersaoMo
 
 from cfinterface.files.blockfile import BlockFile
 from typing import TypeVar, Optional
-import pandas as pd  # type: ignore
+import pandas as pd  # type: ignore[import-untyped]  # no pandas-stubs package
 
 
 class Newavetim(BlockFile):

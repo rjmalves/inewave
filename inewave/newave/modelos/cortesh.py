@@ -1,7 +1,7 @@
 from cfinterface.components.section import Section
-import numpy as np  # type: ignore
-import pandas as pd  # type: ignore
-from typing import List
+import numpy as np
+import pandas as pd  # type: ignore[import-untyped]  # no pandas-stubs package
+from typing import Any, List, Optional
 from typing import IO
 
 
@@ -33,7 +33,7 @@ class SecaoDadosCortesh(Section):
 
     REGISTER_SIZE = 46080
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__df_ultimo_corte_por_estagio = pd.DataFrame()
         self.__df_dados_submercado = pd.DataFrame()
@@ -53,7 +53,7 @@ class SecaoDadosCortesh(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         # Leitura do primeiro registro (dados gerais)
         self.__le_primeiro_registro(file)
         # Segundo registro (ultimo registro de cortes por estagio)
@@ -83,7 +83,7 @@ class SecaoDadosCortesh(Section):
         # Decimo quarto registro (dados UHEs)
         self.__le_decimo_quarto_registro(file)
 
-    def __le_primeiro_registro(self, file: IO):
+    def __le_primeiro_registro(self, file: IO[Any]) -> Any:
         dados_primeiro_bloco = np.frombuffer(
             file.read(24 * 4),
             dtype=np.int32,
@@ -101,7 +101,7 @@ class SecaoDadosCortesh(Section):
             + list(dados_segundo_bloco)
         )
 
-    def __le_segundo_registro(self, file: IO):
+    def __le_segundo_registro(self, file: IO[Any]) -> Any:
         file.seek(1 * self.__class__.REGISTER_SIZE)
         n_estagios = (
             self.numero_estagios_pre
@@ -116,7 +116,7 @@ class SecaoDadosCortesh(Section):
         )
         self.data += list(dados_segundo_registro)
 
-    def __le_terceiro_registro(self, file: IO):
+    def __le_terceiro_registro(self, file: IO[Any]) -> Any:
         file.seek(2 * self.__class__.REGISTER_SIZE)
         n_estagios = (
             self.numero_estagios_pre
@@ -131,7 +131,7 @@ class SecaoDadosCortesh(Section):
         )
         self.data += list(dados_terceiro_registro)
 
-    def __le_quarto_registro(self, file: IO):
+    def __le_quarto_registro(self, file: IO[Any]) -> Any:
         file.seek(3 * self.__class__.REGISTER_SIZE)
         n_estagios = (
             self.numero_estagios_pre
@@ -146,7 +146,7 @@ class SecaoDadosCortesh(Section):
         )
         self.data += list(dados_quarto_registro)
 
-    def __le_quinto_registro(self, file: IO):
+    def __le_quinto_registro(self, file: IO[Any]) -> Any:
         file.seek(4 * self.__class__.REGISTER_SIZE)
         self.__tamanho_quinto_registro = (
             self.numero_estagios_estudo * self.numero_patamares
@@ -158,7 +158,7 @@ class SecaoDadosCortesh(Section):
         )
         self.data += list(dados_quinto_registro)
 
-    def __le_sexto_registro(self, file: IO):
+    def __le_sexto_registro(self, file: IO[Any]) -> Any:
         file.seek(5 * self.__class__.REGISTER_SIZE)
         self.__tamanho_sexto_registro = 1
         dados_sexto_registro = np.frombuffer(
@@ -168,7 +168,7 @@ class SecaoDadosCortesh(Section):
         )
         self.data += list(dados_sexto_registro)
 
-    def __le_setimo_registro(self, file: IO):
+    def __le_setimo_registro(self, file: IO[Any]) -> Any:
         file.seek(6 * self.__class__.REGISTER_SIZE)
         self.__tamanho_setimo_registro = (
             self.numero_rees * (self.numero_estagios_estudo + 1)
@@ -186,7 +186,7 @@ class SecaoDadosCortesh(Section):
         )
         self.data += list(dados_setimo_registro)
 
-    def __le_oitavo_registro(self, file: IO):
+    def __le_oitavo_registro(self, file: IO[Any]) -> Any:
         file.seek(7 * self.__class__.REGISTER_SIZE)
         self.__tamanho_oitavo_registro = (
             (2 + self.numero_estagios_estudo + 2 * self.numero_estagios_ano)
@@ -213,7 +213,7 @@ class SecaoDadosCortesh(Section):
         )
         self.data += list(dados_oitavo_registro)
 
-    def __le_nono_registro(self, file: IO):
+    def __le_nono_registro(self, file: IO[Any]) -> Any:
         file.seek(8 * self.__class__.REGISTER_SIZE)
         self.__tamanho_nono_registro = (
             (
@@ -244,7 +244,7 @@ class SecaoDadosCortesh(Section):
         )
         self.data += list(dados_nono_registro)
 
-    def __le_decimo_registro(self, file: IO):
+    def __le_decimo_registro(self, file: IO[Any]) -> Any:
         file.seek(9 * self.__class__.REGISTER_SIZE)
         self.__tamanho_decimo_registro = 1 + 2 * self.numero_maximo_uhes
         dados_decimo_registro = np.frombuffer(
@@ -254,7 +254,7 @@ class SecaoDadosCortesh(Section):
         )
         self.data += list(dados_decimo_registro)
 
-    def __le_decimo_primeiro_registro(self, file: IO):
+    def __le_decimo_primeiro_registro(self, file: IO[Any]) -> Any:
         file.seek(10 * self.__class__.REGISTER_SIZE)
         tamanho_decimo_primeiro_registro_bloco_1 = (
             self.numero_submercados + self.numero_rees
@@ -289,7 +289,7 @@ class SecaoDadosCortesh(Section):
             + tamanho_decimo_primeiro_registro_bloco_3
         )
 
-    def __le_decimo_segundo_registro(self, file: IO):
+    def __le_decimo_segundo_registro(self, file: IO[Any]) -> Any:
         file.seek(11 * self.__class__.REGISTER_SIZE)
         self.__tamanho_decimo_segundo_registro = 8
         dados_decimo_segundo_registro = np.frombuffer(
@@ -299,7 +299,7 @@ class SecaoDadosCortesh(Section):
         )
         self.data += list(dados_decimo_segundo_registro)
 
-    def __le_decimo_terceiro_registro(self, file: IO):
+    def __le_decimo_terceiro_registro(self, file: IO[Any]) -> Any:
         file.seek(12 * self.__class__.REGISTER_SIZE)
         self.__tamanho_decimo_terceiro_registro = self.mes_agregacao
         dados_decimo_terceiro_registro = np.frombuffer(
@@ -309,7 +309,7 @@ class SecaoDadosCortesh(Section):
         )
         self.data += list(dados_decimo_terceiro_registro)
 
-    def __le_decimo_quarto_registro(self, file: IO):
+    def __le_decimo_quarto_registro(self, file: IO[Any]) -> Any:
         tamanho_bloco_decimo_quarto_registro = (
             6
             + self.numero_estagios_pre
@@ -387,7 +387,7 @@ class SecaoDadosCortesh(Section):
         return self.data[0]
 
     @versao_newave.setter
-    def versao_newave(self, v: int):
+    def versao_newave(self, v: int) -> None:
         self.data[0] = v
 
     @property
@@ -395,7 +395,7 @@ class SecaoDadosCortesh(Section):
         return self.data[1]
 
     @tamanho_corte.setter
-    def tamanho_corte(self, v: int):
+    def tamanho_corte(self, v: int) -> None:
         self.data[1] = v
 
     @property
@@ -403,7 +403,7 @@ class SecaoDadosCortesh(Section):
         return self.data[2]
 
     @tamanho_estado.setter
-    def tamanho_estado(self, v: int):
+    def tamanho_estado(self, v: int) -> None:
         self.data[2] = v
 
     @property
@@ -411,7 +411,7 @@ class SecaoDadosCortesh(Section):
         return self.data[3]
 
     @numero_rees.setter
-    def numero_rees(self, v: int):
+    def numero_rees(self, v: int) -> None:
         self.data[3] = v
 
     @property
@@ -419,7 +419,7 @@ class SecaoDadosCortesh(Section):
         return self.data[4]
 
     @numero_estagios_pre.setter
-    def numero_estagios_pre(self, v: int):
+    def numero_estagios_pre(self, v: int) -> None:
         self.data[4] = v
 
     @property
@@ -427,7 +427,7 @@ class SecaoDadosCortesh(Section):
         return self.data[5]
 
     @numero_estagios_estudo.setter
-    def numero_estagios_estudo(self, v: int):
+    def numero_estagios_estudo(self, v: int) -> None:
         self.data[5] = v
 
     @property
@@ -435,7 +435,7 @@ class SecaoDadosCortesh(Section):
         return self.data[6]
 
     @numero_estagios_pos.setter
-    def numero_estagios_pos(self, v: int):
+    def numero_estagios_pos(self, v: int) -> None:
         self.data[6] = v
 
     @property
@@ -443,7 +443,7 @@ class SecaoDadosCortesh(Section):
         return self.data[7]
 
     @numero_estagios_ano.setter
-    def numero_estagios_ano(self, v: int):
+    def numero_estagios_ano(self, v: int) -> None:
         self.data[7] = v
 
     @property
@@ -451,7 +451,7 @@ class SecaoDadosCortesh(Section):
         return self.data[8]
 
     @numero_configuracoes.setter
-    def numero_configuracoes(self, v: int):
+    def numero_configuracoes(self, v: int) -> None:
         self.data[8] = v
 
     @property
@@ -459,7 +459,7 @@ class SecaoDadosCortesh(Section):
         return self.data[9]
 
     @numero_forwards.setter
-    def numero_forwards(self, v: int):
+    def numero_forwards(self, v: int) -> None:
         self.data[9] = v
 
     @property
@@ -467,7 +467,7 @@ class SecaoDadosCortesh(Section):
         return self.data[10]
 
     @numero_patamares.setter
-    def numero_patamares(self, v: int):
+    def numero_patamares(self, v: int) -> None:
         self.data[10] = v
 
     @property
@@ -475,7 +475,7 @@ class SecaoDadosCortesh(Section):
         return self.data[11]
 
     @ano_inicio_estudo.setter
-    def ano_inicio_estudo(self, v: int):
+    def ano_inicio_estudo(self, v: int) -> None:
         self.data[11] = v
 
     @property
@@ -483,7 +483,7 @@ class SecaoDadosCortesh(Section):
         return self.data[12]
 
     @mes_inicio_estudo.setter
-    def mes_inicio_estudo(self, v: int):
+    def mes_inicio_estudo(self, v: int) -> None:
         self.data[12] = v
 
     @property
@@ -491,7 +491,7 @@ class SecaoDadosCortesh(Section):
         return self.data[13]
 
     @lag_maximo_gnl.setter
-    def lag_maximo_gnl(self, v: int):
+    def lag_maximo_gnl(self, v: int) -> None:
         self.data[13] = v
 
     @property
@@ -499,7 +499,7 @@ class SecaoDadosCortesh(Section):
         return self.data[14]
 
     @mecanismo_aversao.setter
-    def mecanismo_aversao(self, v: int):
+    def mecanismo_aversao(self, v: int) -> None:
         self.data[14] = v
 
     @property
@@ -507,7 +507,7 @@ class SecaoDadosCortesh(Section):
         return self.data[15]
 
     @numero_submercados.setter
-    def numero_submercados(self, v: int):
+    def numero_submercados(self, v: int) -> None:
         self.data[15] = v
 
     @property
@@ -515,7 +515,7 @@ class SecaoDadosCortesh(Section):
         return self.data[16]
 
     @numero_total_submercados.setter
-    def numero_total_submercados(self, v: int):
+    def numero_total_submercados(self, v: int) -> None:
         self.data[16] = v
 
     @property
@@ -523,7 +523,7 @@ class SecaoDadosCortesh(Section):
         return self.data[17]
 
     @usa_curva_aversao.setter
-    def usa_curva_aversao(self, v: int):
+    def usa_curva_aversao(self, v: int) -> None:
         self.data[17] = v
 
     @property
@@ -531,7 +531,7 @@ class SecaoDadosCortesh(Section):
         return self.data[18]
 
     @usa_sar.setter
-    def usa_sar(self, v: int):
+    def usa_sar(self, v: int) -> None:
         self.data[18] = v
 
     @property
@@ -539,7 +539,7 @@ class SecaoDadosCortesh(Section):
         return self.data[19]
 
     @usa_cvar.setter
-    def usa_cvar(self, v: int):
+    def usa_cvar(self, v: int) -> None:
         self.data[19] = v
 
     @property
@@ -547,7 +547,7 @@ class SecaoDadosCortesh(Section):
         return self.data[20]
 
     @considera_no_zero_calculo_zinf.setter
-    def considera_no_zero_calculo_zinf(self, v: int):
+    def considera_no_zero_calculo_zinf(self, v: int) -> None:
         self.data[20] = v
 
     @property
@@ -555,7 +555,7 @@ class SecaoDadosCortesh(Section):
         return self.data[21]
 
     @mes_agregacao.setter
-    def mes_agregacao(self, v: int):
+    def mes_agregacao(self, v: int) -> None:
         self.data[21] = v
 
     @property
@@ -563,7 +563,7 @@ class SecaoDadosCortesh(Section):
         return self.data[22]
 
     @numero_maximo_uhes.setter
-    def numero_maximo_uhes(self, v: int):
+    def numero_maximo_uhes(self, v: int) -> None:
         self.data[22] = v
 
     @property
@@ -571,7 +571,7 @@ class SecaoDadosCortesh(Section):
         return self.data[23]
 
     @considera_afluencia_anual.setter
-    def considera_afluencia_anual(self, v: int):
+    def considera_afluencia_anual(self, v: int) -> None:
         self.data[23] = v
 
     @property
@@ -579,7 +579,7 @@ class SecaoDadosCortesh(Section):
         return self.data[24]
 
     @versao_nao_oficial.setter
-    def versao_nao_oficial(self, v: str):
+    def versao_nao_oficial(self, v: str) -> None:
         self.data[24] = v
 
     @property
@@ -587,7 +587,7 @@ class SecaoDadosCortesh(Section):
         return self.data[25]
 
     @tipo_penalizacao_curva.setter
-    def tipo_penalizacao_curva(self, v: int):
+    def tipo_penalizacao_curva(self, v: int) -> None:
         self.data[25] = v
 
     @property
@@ -595,7 +595,7 @@ class SecaoDadosCortesh(Section):
         return self.data[26]
 
     @mes_penalizacao_curva.setter
-    def mes_penalizacao_curva(self, v: int):
+    def mes_penalizacao_curva(self, v: int) -> None:
         self.data[26] = v
 
     @property
@@ -603,7 +603,7 @@ class SecaoDadosCortesh(Section):
         return self.data[27]
 
     @opcao_parpa.setter
-    def opcao_parpa(self, v: int):
+    def opcao_parpa(self, v: int) -> None:
         self.data[27] = v
 
     @property
@@ -611,7 +611,7 @@ class SecaoDadosCortesh(Section):
         return self.data[28]
 
     @tipo_agregacao_caso.setter
-    def tipo_agregacao_caso(self, v: int):
+    def tipo_agregacao_caso(self, v: int) -> None:
         self.data[28] = v
 
     @property
@@ -619,7 +619,7 @@ class SecaoDadosCortesh(Section):
         return self.data[29]
 
     @estagio_individualizado_inicial.setter
-    def estagio_individualizado_inicial(self, v: int):
+    def estagio_individualizado_inicial(self, v: int) -> None:
         self.data[29] = v
 
     @property
@@ -627,7 +627,7 @@ class SecaoDadosCortesh(Section):
         return self.data[30]
 
     @estagio_individualizado_final.setter
-    def estagio_individualizado_final(self, v: int):
+    def estagio_individualizado_final(self, v: int) -> None:
         self.data[30] = v
 
     @property
@@ -635,7 +635,7 @@ class SecaoDadosCortesh(Section):
         return self.data[31]
 
     @tamanho_registro_individualizado.setter
-    def tamanho_registro_individualizado(self, v: int):
+    def tamanho_registro_individualizado(self, v: int) -> None:
         self.data[31] = v
 
     @property
@@ -643,7 +643,7 @@ class SecaoDadosCortesh(Section):
         return self.data[32]
 
     @estagio_agregado_inicial.setter
-    def estagio_agregado_inicial(self, v: int):
+    def estagio_agregado_inicial(self, v: int) -> None:
         self.data[32] = v
 
     @property
@@ -651,7 +651,7 @@ class SecaoDadosCortesh(Section):
         return self.data[33]
 
     @estagio_agregado_final.setter
-    def estagio_agregado_final(self, v: int):
+    def estagio_agregado_final(self, v: int) -> None:
         self.data[33] = v
 
     @property
@@ -659,7 +659,7 @@ class SecaoDadosCortesh(Section):
         return self.data[34]
 
     @tamanho_registro_agregado.setter
-    def tamanho_registro_agregado(self, v: int):
+    def tamanho_registro_agregado(self, v: int) -> None:
         self.data[34] = v
 
     @property

@@ -51,6 +51,51 @@ include = [
   "inewave/",
 ]
 
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = false
+warn_unused_ignores = true
+
+[[tool.mypy.overrides]]
+module = "inewave.newave.*"
+strict = true
+warn_return_any = false
+
+[[tool.mypy.overrides]]
+module = "inewave.newave"
+strict = true
+warn_return_any = false
+
+[[tool.mypy.overrides]]
+module = "inewave"
+strict = true
+warn_return_any = false
+
+[[tool.mypy.overrides]]
+module = "inewave.nwlistop.*"
+strict = true
+warn_return_any = false
+
+[[tool.mypy.overrides]]
+module = "inewave.nwlistop"
+strict = true
+warn_return_any = false
+
+[[tool.mypy.overrides]]
+module = "inewave.nwlistcf.*"
+strict = true
+warn_return_any = false
+
+[[tool.mypy.overrides]]
+module = "inewave._utils.*"
+strict = true
+warn_return_any = false
+
+[[tool.mypy.overrides]]
+module = "inewave.libs.*"
+strict = true
+warn_return_any = false
+
 [tool.ruff]
 line-length = 80
 

@@ -4,7 +4,7 @@ from typing import TypeVar, List, Type, Optional
 
 from inewave.newave.modelos.ghmin import BlocoUHEGhmin
 
-import pandas as pd  # type: ignore
+import pandas as pd  # type: ignore[import-untyped]  # no pandas-stubs package
 
 
 class Ghmin(SectionFile):
@@ -38,7 +38,7 @@ class Ghmin(SectionFile):
         return None
 
     @geracoes.setter
-    def geracoes(self, valor: pd.DataFrame):
+    def geracoes(self, valor: pd.DataFrame) -> None:
         b = self.data.get_sections_of_type(BlocoUHEGhmin)
         if isinstance(b, BlocoUHEGhmin):
             b.data = valor

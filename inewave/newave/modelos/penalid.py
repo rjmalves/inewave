@@ -1,7 +1,7 @@
-from typing import IO, List
+from typing import Any, IO, List, Optional
 
-import numpy as np  # type: ignore
-import pandas as pd  # type: ignore
+import numpy as np
+import pandas as pd  # type: ignore[import-untyped]  # no pandas-stubs package
 from cfinterface.components.floatfield import FloatField
 from cfinterface.components.integerfield import IntegerField
 from cfinterface.components.line import Line
@@ -22,7 +22,7 @@ class BlocoPenalidades(Section):
 
     __slots__ = ["__linha", "__cabecalhos", "__numero_patamares_penalidade"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([
             LiteralField(6, 1),
@@ -48,10 +48,10 @@ class BlocoPenalidades(Section):
             return self.data.equals(bloco.data)
 
     # Override
-    def read(
-        self, file: IO, numero_patamares_penalidade: int = 2, *args, **kwargs
-    ):
-        def converte_tabela_em_df():
+    def read(  # type: ignore[override]  # signature extends base class
+        self, file: IO[Any], numero_patamares_penalidade: int = 2, *args: Any, **kwargs: Any
+    ) -> None:
+        def converte_tabela_em_df() -> pd.DataFrame:
             df = pd.DataFrame(
                 data={
                     "variavel": repete_vetor(
@@ -92,8 +92,8 @@ class BlocoPenalidades(Section):
             if len(linha) < 3:
                 # Converte para df e salva na variável
                 if i > 0:
-                    tabela_MWh = tabela_MWh[:i, :]  # type: ignore
-                    tabela_hm3 = tabela_hm3[:i, :]  # type: ignore
+                    tabela_MWh = tabela_MWh[:i, :]
+                    tabela_hm3 = tabela_hm3[:i, :]
                     self.data = converte_tabela_em_df()
                 break
             # Confere se é uma linha de subsistema ou tabela
@@ -107,7 +107,7 @@ class BlocoPenalidades(Section):
                 i += 1
 
     # Override
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         for linha in self.__cabecalhos:
             file.write(linha)
         if not isinstance(self.data, pd.DataFrame):

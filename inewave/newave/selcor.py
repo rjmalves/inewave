@@ -35,7 +35,7 @@ class Selcor(SectionFile):
         return None
 
     @iteracao_inicial.setter
-    def iteracao_inicial(self, valor: int):
+    def iteracao_inicial(self, valor: int) -> None:
         b = self.data.get_sections_of_type(BlocoDadosSelcor)
         if isinstance(b, BlocoDadosSelcor):
             b.data[0][0] = valor
@@ -56,7 +56,7 @@ class Selcor(SectionFile):
         return None
 
     @tamanho_janela.setter
-    def tamanho_janela(self, valor: int):
+    def tamanho_janela(self, valor: int) -> None:
         b = self.data.get_sections_of_type(BlocoDadosSelcor)
         if isinstance(b, BlocoDadosSelcor):
             b.data[1][0] = valor
@@ -78,7 +78,7 @@ class Selcor(SectionFile):
         return None
 
     @numero_cortes_adicionados_por_iteracao.setter
-    def numero_cortes_adicionados_por_iteracao(self, valor: int):
+    def numero_cortes_adicionados_por_iteracao(self, valor: int) -> None:
         b = self.data.get_sections_of_type(BlocoDadosSelcor)
         if isinstance(b, BlocoDadosSelcor):
             b.data[2][0] = valor
@@ -100,7 +100,7 @@ class Selcor(SectionFile):
         return None
 
     @considera_cortes_da_propria_iteracao.setter
-    def considera_cortes_da_propria_iteracao(self, valor: int):
+    def considera_cortes_da_propria_iteracao(self, valor: int) -> None:
         b = self.data.get_sections_of_type(BlocoDadosSelcor)
         if isinstance(b, BlocoDadosSelcor):
             b.data[3][0] = valor
@@ -122,7 +122,7 @@ class Selcor(SectionFile):
         return None
 
     @imprime_relatorio.setter
-    def imprime_relatorio(self, valor: int):
+    def imprime_relatorio(self, valor: int) -> None:
         b = self.data.get_sections_of_type(BlocoDadosSelcor)
         if isinstance(b, BlocoDadosSelcor):
             b.data[4][0] = valor
@@ -144,7 +144,7 @@ class Selcor(SectionFile):
         return None
 
     @iteracoes_impressao.setter
-    def iteracoes_impressao(self, valor: List[int]):
+    def iteracoes_impressao(self, valor: List[int]) -> None:
         b = self.data.get_sections_of_type(BlocoDadosSelcor)
         if isinstance(b, BlocoDadosSelcor):
             b.data[5] = valor
@@ -166,7 +166,7 @@ class Selcor(SectionFile):
         return None
 
     @series_impressao.setter
-    def series_impressao(self, valor: List[int]):
+    def series_impressao(self, valor: List[int]) -> None:
         b = self.data.get_sections_of_type(BlocoDadosSelcor)
         if isinstance(b, BlocoDadosSelcor):
             b.data[6] = valor

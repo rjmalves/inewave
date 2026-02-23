@@ -7,7 +7,7 @@ from inewave.newave.modelos.avl_cortesfpha_nwv import (
 
 from inewave.newave.modelos.arquivoscsv.arquivocsv import ArquivoCSV
 from typing import Optional
-import pandas as pd  # type: ignore
+import pandas as pd  # type: ignore[import-untyped]  # no pandas-stubs package
 
 
 class FphaCortes(ArquivoCSV):

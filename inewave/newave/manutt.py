@@ -1,7 +1,7 @@
 from cfinterface.files.sectionfile import SectionFile
 from cfinterface.components.section import Section
 from typing import TypeVar, List, Type, Optional
-import pandas as pd  # type: ignore
+import pandas as pd  # type: ignore[import-untyped]  # no pandas-stubs package
 
 from inewave.newave.modelos.manutt import BlocoManutencaoUTE
 
@@ -40,7 +40,7 @@ class Manutt(SectionFile):
         return None
 
     @manutencoes.setter
-    def manutencoes(self, valor: pd.DataFrame):
+    def manutencoes(self, valor: pd.DataFrame) -> None:
         b = self.data.get_sections_of_type(BlocoManutencaoUTE)
         if isinstance(b, BlocoManutencaoUTE):
             b.data = valor

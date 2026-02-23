@@ -5,6 +5,7 @@ from inewave.nwlistop.modelos.arquivos.arquivousinapatamar import (
 from inewave.nwlistop.modelos.vertuh import VertAnos
 
 from warnings import warn
+from typing import Any
 
 
 class Vertuh(ArquivoUsinaPatamar):
@@ -22,7 +23,7 @@ class Vertuh(ArquivoUsinaPatamar):
         VertAnos,
     ]
 
-    def __init__(self, data=...) -> None:
+    def __init__(self, data: Any = ...) -> None:
         warn(
             "Esta classe é relativa a um arquivo que não é mais suportado."
             + " Utilize a classe Qvertuh no lugar.",

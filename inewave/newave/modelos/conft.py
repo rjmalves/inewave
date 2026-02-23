@@ -2,8 +2,8 @@ from cfinterface.components.section import Section
 from cfinterface.components.line import Line
 from cfinterface.components.integerfield import IntegerField
 from cfinterface.components.literalfield import LiteralField
-from typing import List, IO
-import pandas as pd  # type: ignore
+from typing import Any, IO, List, Optional
+import pandas as pd  # type: ignore[import-untyped]  # no pandas-stubs package
 
 
 class BlocoConfUTE(Section):
@@ -14,7 +14,7 @@ class BlocoConfUTE(Section):
 
     __slots__ = ["__linha_ute", "__cabecalhos"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha_ute = Line(
             [
@@ -42,8 +42,8 @@ class BlocoConfUTE(Section):
             return self.data.equals(bloco.data)
 
     # Override
-    def read(self, file: IO, *args, **kwargs):
-        def extrai_coluna_de_listas(listas: List[list], coluna: int) -> list:
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
+        def extrai_coluna_de_listas(listas: List[list[Any]], coluna: int) -> list[Any]:
             return [lista[coluna] for lista in listas]
 
         def transforma_utes_em_tabela() -> pd.DataFrame:
@@ -67,7 +67,7 @@ class BlocoConfUTE(Section):
             self.__cabecalhos.append(file.readline())
 
         # Para cada usina, lê e processa as informações
-        dados_utes: List[list] = []
+        dados_utes: List[list[Any]] = []
         while True:
             linha = file.readline()
             # Confere se terminaram as usinas
@@ -80,7 +80,7 @@ class BlocoConfUTE(Section):
             dados_utes.append(dados_ute)
 
     # Override
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         for linha in self.__cabecalhos:
             file.write(linha)
         if not isinstance(self.data, pd.DataFrame):

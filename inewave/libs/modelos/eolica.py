@@ -28,7 +28,7 @@ class RegistroPEECadastro(Register):
         return self.data[0]
 
     @codigo_pee.setter
-    def codigo_pee(self, c: int):
+    def codigo_pee(self, c: int) -> None:
         self.data[0] = c
 
     @property
@@ -36,7 +36,7 @@ class RegistroPEECadastro(Register):
         return self.data[1]
 
     @nome_pee.setter
-    def nome_pee(self, n: str):
+    def nome_pee(self, n: str) -> None:
         self.data[1] = n
 
 
@@ -70,7 +70,7 @@ class RegistroPEEPotenciaInstaladaPeriodo(Register):
         return self.data[0]
 
     @codigo_pee.setter
-    def codigo_pee(self, c: int):
+    def codigo_pee(self, c: int) -> None:
         self.data[0] = c
 
     @property
@@ -84,7 +84,7 @@ class RegistroPEEPotenciaInstaladaPeriodo(Register):
         return self.data[1]
 
     @periodo_inicial.setter
-    def periodo_inicial(self, p: datetime):
+    def periodo_inicial(self, p: datetime) -> None:
         self.data[1] = p
 
     @property
@@ -98,7 +98,7 @@ class RegistroPEEPotenciaInstaladaPeriodo(Register):
         return self.data[2]
 
     @periodo_final.setter
-    def periodo_final(self, p: datetime):
+    def periodo_final(self, p: datetime) -> None:
         self.data[2] = p
 
     @property
@@ -106,7 +106,7 @@ class RegistroPEEPotenciaInstaladaPeriodo(Register):
         return self.data[3]
 
     @potencia_instalada.setter
-    def potencia_instalada(self, n: float):
+    def potencia_instalada(self, n: float) -> None:
         self.data[3] = n
 
 
@@ -139,7 +139,7 @@ class RegistroPEEConfiguracaoPeriodo(Register):
         return self.data[0]
 
     @codigo_pee.setter
-    def codigo_pee(self, c: int):
+    def codigo_pee(self, c: int) -> None:
         self.data[0] = c
 
     @property
@@ -153,7 +153,7 @@ class RegistroPEEConfiguracaoPeriodo(Register):
         return self.data[1]
 
     @data_inicio.setter
-    def data_inicio(self, n: datetime):
+    def data_inicio(self, n: datetime) -> None:
         self.data[1] = n
 
     @property
@@ -167,7 +167,7 @@ class RegistroPEEConfiguracaoPeriodo(Register):
         return self.data[2]
 
     @data_fim.setter
-    def data_fim(self, n: datetime):
+    def data_fim(self, n: datetime) -> None:
         self.data[2] = n
 
     @property
@@ -181,7 +181,7 @@ class RegistroPEEConfiguracaoPeriodo(Register):
         return self.data[3]
 
     @estado_operacao.setter
-    def estado_operacao(self, n: str):
+    def estado_operacao(self, n: str) -> None:
         self.data[3] = n
 
 
@@ -215,7 +215,7 @@ class RegistroPEEFTE(Register):
         return self.data[0]
 
     @codigo_pee.setter
-    def codigo_pee(self, c: int):
+    def codigo_pee(self, c: int) -> None:
         self.data[0] = c
 
     @property
@@ -230,7 +230,7 @@ class RegistroPEEFTE(Register):
         return self.data[1]
 
     @data_inicio.setter
-    def data_inicio(self, c: datetime):
+    def data_inicio(self, c: datetime) -> None:
         self.data[1] = c
 
     @property
@@ -245,7 +245,7 @@ class RegistroPEEFTE(Register):
         return self.data[2]
 
     @data_fim.setter
-    def data_fim(self, c: datetime):
+    def data_fim(self, c: datetime) -> None:
         self.data[2] = c
 
     @property
@@ -259,7 +259,7 @@ class RegistroPEEFTE(Register):
         return self.data[3]
 
     @coeficiente_linear.setter
-    def coeficiente_linear(self, c: float):
+    def coeficiente_linear(self, c: float) -> None:
         self.data[3] = c
 
     @property
@@ -273,7 +273,7 @@ class RegistroPEEFTE(Register):
         return self.data[4]
 
     @coeficiente_angular.setter
-    def coeficiente_angular(self, c: float):
+    def coeficiente_angular(self, c: float) -> None:
         self.data[4] = c
 
 
@@ -307,7 +307,7 @@ class RegistroPEEGeracaoPatamar(Register):
         return self.data[0]
 
     @codigo_pee.setter
-    def codigo_pee(self, c: int):
+    def codigo_pee(self, c: int) -> None:
         self.data[0] = c
 
     @property
@@ -321,7 +321,7 @@ class RegistroPEEGeracaoPatamar(Register):
         return self.data[1]
 
     @data_inicio.setter
-    def data_inicio(self, c: datetime):
+    def data_inicio(self, c: datetime) -> None:
         self.data[1] = c
 
     @property
@@ -335,7 +335,7 @@ class RegistroPEEGeracaoPatamar(Register):
         return self.data[2]
 
     @data_fim.setter
-    def data_fim(self, c: datetime):
+    def data_fim(self, c: datetime) -> None:
         self.data[2] = c
 
     @property
@@ -349,7 +349,7 @@ class RegistroPEEGeracaoPatamar(Register):
         return self.data[3]
 
     @indice_patamar.setter
-    def indice_patamar(self, c: int):
+    def indice_patamar(self, c: int) -> None:
         self.data[3] = c
 
     @property
@@ -363,7 +363,7 @@ class RegistroPEEGeracaoPatamar(Register):
         return self.data[4]
 
     @profundidade.setter
-    def profundidade(self, c: float):
+    def profundidade(self, c: float) -> None:
         self.data[4] = c
 
 
@@ -393,7 +393,7 @@ class RegistroHistoricoVentoHorizonte(Register):
         return self.data[0]
 
     @data_inicio.setter
-    def data_inicio(self, c: datetime):
+    def data_inicio(self, c: datetime) -> None:
         self.data[0] = c
 
     @property
@@ -407,7 +407,7 @@ class RegistroHistoricoVentoHorizonte(Register):
         return self.data[1]
 
     @data_fim.setter
-    def data_fim(self, c: datetime):
+    def data_fim(self, c: datetime) -> None:
         self.data[1] = c
 
 
@@ -441,7 +441,7 @@ class RegistroHistoricoVento(Register):
         return self.data[0]
 
     @codigo_posto.setter
-    def codigo_posto(self, c: int):
+    def codigo_posto(self, c: int) -> None:
         self.data[0] = c
 
     @property
@@ -455,7 +455,7 @@ class RegistroHistoricoVento(Register):
         return self.data[1]
 
     @data_inicio.setter
-    def data_inicio(self, c: datetime):
+    def data_inicio(self, c: datetime) -> None:
         self.data[1] = c
 
     @property
@@ -469,7 +469,7 @@ class RegistroHistoricoVento(Register):
         return self.data[2]
 
     @data_fim.setter
-    def data_fim(self, c: datetime):
+    def data_fim(self, c: datetime) -> None:
         self.data[2] = c
 
     @property
@@ -483,7 +483,7 @@ class RegistroHistoricoVento(Register):
         return self.data[3]
 
     @velocidade.setter
-    def velocidade(self, c: float):
+    def velocidade(self, c: float) -> None:
         self.data[3] = c
 
     @property
@@ -497,7 +497,7 @@ class RegistroHistoricoVento(Register):
         return self.data[4]
 
     @direcao.setter
-    def direcao(self, c: float):
+    def direcao(self, c: float) -> None:
         self.data[4] = c
 
 
@@ -527,7 +527,7 @@ class RegistroPostoVentoCadastro(Register):
         return self.data[0]
 
     @codigo_posto.setter
-    def codigo_posto(self, c: int):
+    def codigo_posto(self, c: int) -> None:
         self.data[0] = c
 
     @property
@@ -541,7 +541,7 @@ class RegistroPostoVentoCadastro(Register):
         return self.data[1]
 
     @nome_posto.setter
-    def nome_posto(self, n: str):
+    def nome_posto(self, n: str) -> None:
         self.data[1] = n
 
 
@@ -571,7 +571,7 @@ class RegistroPEEPostoVento(Register):
         return self.data[0]
 
     @codigo_pee.setter
-    def codigo_pee(self, c: int):
+    def codigo_pee(self, c: int) -> None:
         self.data[0] = c
 
     @property
@@ -585,7 +585,7 @@ class RegistroPEEPostoVento(Register):
         return self.data[1]
 
     @codigo_posto.setter
-    def codigo_posto(self, c: int):
+    def codigo_posto(self, c: int) -> None:
         self.data[1] = c
 
 
@@ -615,7 +615,7 @@ class RegistroPEESubmercado(Register):
         return self.data[0]
 
     @codigo_pee.setter
-    def codigo_pee(self, c: int):
+    def codigo_pee(self, c: int) -> None:
         self.data[0] = c
 
     @property
@@ -629,5 +629,5 @@ class RegistroPEESubmercado(Register):
         return self.data[1]
 
     @codigo_submercado.setter
-    def codigo_submercado(self, c: int):
+    def codigo_submercado(self, c: int) -> None:
         self.data[1] = c

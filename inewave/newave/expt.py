@@ -3,7 +3,7 @@ from inewave.newave.modelos.expt import BlocoUTEExpt
 from cfinterface.files.sectionfile import SectionFile
 from cfinterface.components.section import Section
 from typing import TypeVar, List, Type, Optional
-import pandas as pd  # type: ignore
+import pandas as pd  # type: ignore[import-untyped]  # no pandas-stubs package
 
 
 class Expt(SectionFile):
@@ -38,7 +38,7 @@ class Expt(SectionFile):
         return None
 
     @expansoes.setter
-    def expansoes(self, d: pd.DataFrame):
+    def expansoes(self, d: pd.DataFrame) -> None:
         b = self.data.get_sections_of_type(BlocoUTEExpt)
         if isinstance(b, BlocoUTEExpt):
             b.data = d

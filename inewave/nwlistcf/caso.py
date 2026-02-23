@@ -31,7 +31,7 @@ class Caso(SectionFile):
         return None
 
     @arquivos.setter
-    def arquivos(self, a: str):
+    def arquivos(self, a: str) -> None:
         b = self.data.get_sections_of_type(NomeCaso)
         if isinstance(b, NomeCaso):
             b.data = a

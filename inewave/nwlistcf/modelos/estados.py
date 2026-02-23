@@ -1,7 +1,7 @@
-from typing import IO, List
+from typing import IO, Any, List, Optional
 
-import numpy as np  # type: ignore
-import pandas as pd  # type: ignore
+import numpy as np
+import pandas as pd  # type: ignore[import-untyped]  # no pandas-stubs package
 from cfinterface.components.block import Block
 from cfinterface.components.field import Field
 from cfinterface.components.floatfield import FloatField
@@ -30,7 +30,12 @@ class EstadosPeriodoNwlistcf(Block):
     BEGIN_PATTERN = "PERIODO: "
     END_PATTERN = "PERIODO: "
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         self.__linha_periodo = Line([IntegerField(4, 19)])
 
@@ -38,24 +43,28 @@ class EstadosPeriodoNwlistcf(Block):
         if not isinstance(o, EstadosPeriodoNwlistcf):
             return False
         bloco: EstadosPeriodoNwlistcf = o
-        if not all([
-            isinstance(self.data, pd.DataFrame),
-            isinstance(o.data, pd.DataFrame),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
             return False
         else:
-            return self.data.equals(bloco.data)
+            return bool(self.data.equals(bloco.data))
 
     # Override
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         def converte_tabela_em_df() -> pd.DataFrame:
             df = pd.DataFrame(tabela, columns=campos_cabecalho)
-            df = df.astype({
-                "IREG": "int64",
-                "ITEc": "int64",
-                "SIMc": "int64",
-                "ITEf": "int64",
-            })
+            df = df.astype(
+                {
+                    "IREG": "int64",
+                    "ITEc": "int64",
+                    "SIMc": "int64",
+                    "ITEf": "int64",
+                }
+            )
             if "REE" in df.columns:
                 df = df.astype({"REE": "int64"})
             elif "UHE" in df.columns:
@@ -108,7 +117,7 @@ class EstadosPeriodoNwlistcf(Block):
             linha = file.readline()
             if self.ends(linha) or len(linha) < 3:
                 file.seek(ultima_posicao)
-                tabela = tabela[:i, :]  # type: ignore
+                tabela = tabela[:i, :]
                 self.data = converte_tabela_em_df()
                 break
             dados = self.__linha.read(linha)

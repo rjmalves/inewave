@@ -6,7 +6,7 @@ from cfinterface.components.literalfield import LiteralField
 from cfinterface.components.floatfield import FloatField
 
 from inewave.nwlistop.modelos.blocos.valoresclassetermicaseriepatamar import (
-    ValoresClasseTermicaSeriePatamar,  # type: ignore
+    ValoresClasseTermicaSeriePatamar,
 )
 
 
@@ -15,14 +15,14 @@ class GTAnos(ValoresClasseTermicaSeriePatamar):
     Bloco com as informações das tabelas de geração térmica por classe.
     """
 
-    __slots__ = []
+    __slots__: list[str] = []
 
     HEADER_LINE = Line([IntegerField(4, 10)])
     DATA_LINE = Line(
-        [  # type: ignore
+        [
             IntegerField(3, 2),
             IntegerField(4, 7),
             LiteralField(1, 15),
         ]
-        + [FloatField(9, 16 + 9 * i, 1) for i in range(len(MESES_DF))]  # type: ignore
+        + [FloatField(9, 16 + 9 * i, 1) for i in range(len(MESES_DF))]
     )

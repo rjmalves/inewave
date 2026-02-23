@@ -1,7 +1,7 @@
 from inewave.newave.modelos.eliminacao_cortes import BlocoParametrosEliminacaoCortes
 
 from cfinterface.files.sectionfile import SectionFile
-from typing import TypeVar, Optional, List
+from typing import TypeVar, Optional, List, Any
 
 
 class EliminacaoCortes(SectionFile):
@@ -21,7 +21,7 @@ class EliminacaoCortes(SectionFile):
     SECTIONS = [BlocoParametrosEliminacaoCortes]
 
     @property
-    def _parametros(self) -> Optional[List[List]]:
+    def _parametros(self) -> Optional[List[List[Any]]]:
         b = self.data.get_sections_of_type(BlocoParametrosEliminacaoCortes)
         if isinstance(b, BlocoParametrosEliminacaoCortes) and isinstance(b.data, list) and len(b.data) > 0:
             return b.data

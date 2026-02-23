@@ -1,8 +1,8 @@
 from datetime import datetime
-from typing import IO, List
+from typing import Any, IO, List, Optional
 
-import numpy as np  # type: ignore
-import pandas as pd  # type: ignore
+import numpy as np
+import pandas as pd  # type: ignore[import-untyped]  # no pandas-stubs package
 from cfinterface.components.datetimefield import DatetimeField
 from cfinterface.components.field import Field
 from cfinterface.components.floatfield import FloatField
@@ -27,7 +27,7 @@ class BlocoUTEClasT(Section):
 
     FIM_BLOCO = " 9999"
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         campos_ute: List[Field] = [
             IntegerField(4, 1),
@@ -53,10 +53,10 @@ class BlocoUTEClasT(Section):
             return self.data.equals(bloco.data)
 
     # Override
-    def read(
-        self, file: IO, numero_anos_planejamento: int = 5, *args, **kwargs
-    ):
-        def converte_tabela_em_df():
+    def read(  # type: ignore[override]  # signature extends base class
+        self, file: IO[Any], numero_anos_planejamento: int = 5, *args: Any, **kwargs: Any
+    ) -> None:
+        def converte_tabela_em_df() -> pd.DataFrame:
             df = pd.DataFrame(
                 data={
                     "codigo_usina": repete_vetor(
@@ -95,7 +95,7 @@ class BlocoUTEClasT(Section):
             if len(linha) < 3:
                 break
             if BlocoUTEClasT.FIM_BLOCO in linha:
-                tabela = tabela[:i, :]  # type: ignore
+                tabela = tabela[:i, :]
                 self.data = converte_tabela_em_df()
                 break
             dados = self.__linha.read(linha)
@@ -106,7 +106,7 @@ class BlocoUTEClasT(Section):
             i += 1
 
     # Override
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         for linha in self.__cabecalhos:
             file.write(linha)
         if not isinstance(self.data, pd.DataFrame):
@@ -138,7 +138,7 @@ class BlocoModificacaoUTEClasT(Section):
     usinas cadastradas no arquivo do NEWAVE `clast.dat`.
     """
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         campos_modificacao: List[Field] = [
             IntegerField(4, 1),
@@ -163,8 +163,8 @@ class BlocoModificacaoUTEClasT(Section):
             return self.data.equals(bloco.data)
 
     # Override
-    def read(self, file: IO, *args, **kwargs):
-        def converte_tabela_em_df():
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
+        def converte_tabela_em_df() -> pd.DataFrame:
             df = pd.DataFrame(
                 data={
                     "codigo_usina": codigo_ute,
@@ -201,7 +201,7 @@ class BlocoModificacaoUTEClasT(Section):
             nomes.append(dados[4])
 
     # Override
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         for linha in self.__cabecalhos:
             file.write(linha)
         if not isinstance(self.data, pd.DataFrame):

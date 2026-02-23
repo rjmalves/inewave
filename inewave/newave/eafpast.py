@@ -2,7 +2,7 @@ from inewave.newave.modelos.eafpast import BlocoEafPast
 
 from cfinterface.files.sectionfile import SectionFile
 from typing import TypeVar, Optional
-import pandas as pd  # type: ignore
+import pandas as pd  # type: ignore[import-untyped]  # no pandas-stubs package
 
 
 class Eafpast(SectionFile):
@@ -38,7 +38,7 @@ class Eafpast(SectionFile):
         return None
 
     @tendencia.setter
-    def tendencia(self, df: pd.DataFrame):
+    def tendencia(self, df: pd.DataFrame) -> None:
         b = self.data.get_sections_of_type(BlocoEafPast)
         if isinstance(b, BlocoEafPast):
             b.data = df

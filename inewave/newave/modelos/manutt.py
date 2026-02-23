@@ -4,9 +4,9 @@ from cfinterface.components.integerfield import IntegerField
 from cfinterface.components.literalfield import LiteralField
 from cfinterface.components.floatfield import FloatField
 from cfinterface.components.datetimefield import DatetimeField
-from typing import List, IO
+from typing import Any, IO, List, Optional
 from datetime import datetime
-import pandas as pd  # type: ignore
+import pandas as pd  # type: ignore[import-untyped]  # no pandas-stubs package
 
 
 class BlocoManutencaoUTE(Section):
@@ -17,7 +17,7 @@ class BlocoManutencaoUTE(Section):
 
     __slots__ = ["__linha_uhe", "__cabecalhos"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha_uhe = Line(
             [
@@ -48,7 +48,7 @@ class BlocoManutencaoUTE(Section):
             return self.data.equals(bloco.data)
 
     # Override
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         def transforma_em_tabela() -> pd.DataFrame:
             # Converte as informações de cada linha em colunas
             dados = {
@@ -95,7 +95,7 @@ class BlocoManutencaoUTE(Section):
             potencia.append(dados_uhe[7])
 
     # Override
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         for linha in self.__cabecalhos:
             file.write(linha)
         if not isinstance(self.data, pd.DataFrame):

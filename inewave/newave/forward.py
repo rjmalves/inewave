@@ -4,7 +4,7 @@ from inewave.newave.modelos.forward import VariavelOperacao, SecaoDadosForward
 
 
 from typing import TypeVar, Optional
-import pandas as pd  # type: ignore
+import pandas as pd  # type: ignore[import-untyped]  # no pandas-stubs package
 
 
 class Forward(SectionFile):

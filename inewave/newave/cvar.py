@@ -5,8 +5,8 @@ from inewave.newave.modelos.cvar import (
 )
 
 from cfinterface.files.blockfile import BlockFile
-from typing import TypeVar, Optional
-import pandas as pd  # type: ignore
+from typing import TypeVar, Optional, Any
+import pandas as pd  # type: ignore[import-untyped]  # no pandas-stubs package
 
 
 class Cvar(BlockFile):
@@ -24,7 +24,7 @@ class Cvar(BlockFile):
     ]
 
     @property
-    def valores_constantes(self) -> Optional[list]:
+    def valores_constantes(self) -> Optional[list[Any]]:
         """
         Valores constantes dos parâmetros ALFA e LAMBDA do CVAR.
 
@@ -37,7 +37,7 @@ class Cvar(BlockFile):
         return None
 
     @valores_constantes.setter
-    def valores_constantes(self, valores: list):
+    def valores_constantes(self, valores: list[Any]) -> None:
         """
         Valores constantes dos parâmetros ALFA e LAMBDA do CVAR.
 

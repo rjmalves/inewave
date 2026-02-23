@@ -4,8 +4,8 @@ from cfinterface.components.line import Line
 from cfinterface.components.field import Field
 from cfinterface.components.literalfield import LiteralField
 from datetime import timedelta
-import pandas as pd  # type: ignore
-from typing import IO, List
+import pandas as pd  # type: ignore[import-untyped]  # no pandas-stubs package
+from typing import Any, IO, List, Optional
 
 
 class BlocoTemposEtapasTim(Block):
@@ -19,7 +19,7 @@ class BlocoTemposEtapasTim(Block):
     BEGIN_PATTERN = "Leitura de Dados:"
     END_PATTERN = ""
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         # Cria a estrutura de uma linha da tabela
         etapa_field: List[Field] = [LiteralField(25, 0)]
@@ -41,7 +41,7 @@ class BlocoTemposEtapasTim(Block):
             return self.data.equals(bloco.data)
 
     # Override
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         def converte_tabela_em_df() -> pd.DataFrame:
             df = pd.DataFrame(data={"etapa": etapas, "tempo": tempos})
             return df
@@ -75,7 +75,7 @@ class BlocoVersaoModeloTim(Block):
     BEGIN_PATTERN = r"            Versao "
     END_PATTERN = ""
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([LiteralField(16, 78)])
 
@@ -94,5 +94,5 @@ class BlocoVersaoModeloTim(Block):
             return self.data == bloco.data
 
     # Override
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())[0]

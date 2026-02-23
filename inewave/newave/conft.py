@@ -2,7 +2,7 @@ from inewave.newave.modelos.conft import BlocoConfUTE
 
 from cfinterface.files.sectionfile import SectionFile
 from typing import TypeVar, Optional
-import pandas as pd  # type: ignore
+import pandas as pd  # type: ignore[import-untyped]  # no pandas-stubs package
 
 
 class Conft(SectionFile):
@@ -35,7 +35,7 @@ class Conft(SectionFile):
         return None
 
     @usinas.setter
-    def usinas(self, valor: pd.DataFrame):
+    def usinas(self, valor: pd.DataFrame) -> None:
         b = self.data.get_sections_of_type(BlocoConfUTE)
         if isinstance(b, BlocoConfUTE):
             b.data = valor

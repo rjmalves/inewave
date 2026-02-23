@@ -1,6 +1,6 @@
 from cfinterface.components.section import Section
-import numpy as np  # type: ignore
-from typing import List
+import numpy as np
+from typing import Any, List
 from typing import IO
 
 
@@ -28,7 +28,7 @@ class SecaoDadosForwarh(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         _ = np.frombuffer(
             file.read(1 * 4),
             dtype=np.int32,
@@ -54,10 +54,10 @@ class SecaoDadosForwarh(Section):
         )
         self.data += list(dados_terceiro_bloco)
 
-    def __offset_primeiro_bloco(self):
+    def __offset_primeiro_bloco(self) -> int:
         return 7 + self.numero_submercados
 
-    def __offset_segundo_bloco(self):
+    def __offset_segundo_bloco(self) -> int:
         return self.__offset_primeiro_bloco() + 13 + self.__class__.ZVAZ
 
     @property
@@ -65,7 +65,7 @@ class SecaoDadosForwarh(Section):
         return self.data[0]
 
     @nome_caso.setter
-    def nome_caso(self, v: str):
+    def nome_caso(self, v: str) -> None:
         self.data[0] = v
 
     @property
@@ -73,7 +73,7 @@ class SecaoDadosForwarh(Section):
         return self.data[1]
 
     @numero_rees.setter
-    def numero_rees(self, v: int):
+    def numero_rees(self, v: int) -> None:
         self.data[1] = v
 
     @property
@@ -81,7 +81,7 @@ class SecaoDadosForwarh(Section):
         return self.data[2]
 
     @numero_submercados.setter
-    def numero_submercados(self, v: int):
+    def numero_submercados(self, v: int) -> None:
         self.data[2] = v
 
     @property
@@ -89,7 +89,7 @@ class SecaoDadosForwarh(Section):
         return self.data[3]
 
     @numero_series_gravadas.setter
-    def numero_series_gravadas(self, v: int):
+    def numero_series_gravadas(self, v: int) -> None:
         self.data[3] = v
 
     @property
@@ -97,7 +97,7 @@ class SecaoDadosForwarh(Section):
         return self.data[4]
 
     @numero_aberturas.setter
-    def numero_aberturas(self, v: int):
+    def numero_aberturas(self, v: int) -> None:
         self.data[4] = v
 
     @property
@@ -105,7 +105,7 @@ class SecaoDadosForwarh(Section):
         return self.data[5]
 
     @numero_estagios_estudo.setter
-    def numero_estagios_estudo(self, v: int):
+    def numero_estagios_estudo(self, v: int) -> None:
         self.data[5] = v
 
     @property
@@ -113,7 +113,7 @@ class SecaoDadosForwarh(Section):
         return self.data[6]
 
     @intervalo_series_gravadas.setter
-    def intervalo_series_gravadas(self, v: int):
+    def intervalo_series_gravadas(self, v: int) -> None:
         self.data[6] = v
 
     @property
@@ -121,7 +121,7 @@ class SecaoDadosForwarh(Section):
         return self.data[7 : self.__offset_primeiro_bloco()]
 
     @numero_classes_termicas_submercados.setter
-    def numero_classes_termicas_submercados(self, v: List[int]):
+    def numero_classes_termicas_submercados(self, v: List[int]) -> None:
         self.data = (
             self.data[:7] + v + self.data[: self.__offset_primeiro_bloco()]
         )
@@ -131,7 +131,7 @@ class SecaoDadosForwarh(Section):
         return self.data[self.__offset_primeiro_bloco()]
 
     @numero_patamares_deficit.setter
-    def numero_patamares_deficit(self, v: int):
+    def numero_patamares_deficit(self, v: int) -> None:
         self.data[self.__offset_primeiro_bloco()] = v
 
     @property
@@ -139,7 +139,7 @@ class SecaoDadosForwarh(Section):
         return self.data[self.__offset_primeiro_bloco() + 1]
 
     @tamanho_registro_arquivo_forward.setter
-    def tamanho_registro_arquivo_forward(self, v: int):
+    def tamanho_registro_arquivo_forward(self, v: int) -> None:
         self.data[self.__offset_primeiro_bloco() + 1] = v
 
     @property
@@ -147,7 +147,7 @@ class SecaoDadosForwarh(Section):
         return self.data[self.__offset_primeiro_bloco() + 2]
 
     @numero_registros_arquivo_forward.setter
-    def numero_registros_arquivo_forward(self, v: int):
+    def numero_registros_arquivo_forward(self, v: int) -> None:
         self.data[self.__offset_primeiro_bloco() + 2] = v
 
     @property
@@ -155,7 +155,7 @@ class SecaoDadosForwarh(Section):
         return self.data[self.__offset_primeiro_bloco() + 3]
 
     @numero_registros_necessarios_estagio.setter
-    def numero_registros_necessarios_estagio(self, v: int):
+    def numero_registros_necessarios_estagio(self, v: int) -> None:
         self.data[self.__offset_primeiro_bloco() + 3] = v
 
     @property
@@ -163,7 +163,7 @@ class SecaoDadosForwarh(Section):
         return self.data[self.__offset_primeiro_bloco() + 4]
 
     @ano_inicio_estudo.setter
-    def ano_inicio_estudo(self, v: int):
+    def ano_inicio_estudo(self, v: int) -> None:
         self.data[self.__offset_primeiro_bloco() + 4] = v
 
     @property
@@ -171,7 +171,7 @@ class SecaoDadosForwarh(Section):
         return self.data[self.__offset_primeiro_bloco() + 5]
 
     @ano_inicio_historico_vazoes.setter
-    def ano_inicio_historico_vazoes(self, v: int):
+    def ano_inicio_historico_vazoes(self, v: int) -> None:
         self.data[self.__offset_primeiro_bloco() + 5] = v
 
     @property
@@ -179,7 +179,7 @@ class SecaoDadosForwarh(Section):
         return self.data[self.__offset_primeiro_bloco() + 6]
 
     @numero_anos_descontar_historico_vazoes.setter
-    def numero_anos_descontar_historico_vazoes(self, v: int):
+    def numero_anos_descontar_historico_vazoes(self, v: int) -> None:
         self.data[self.__offset_primeiro_bloco() + 6] = v
 
     @property
@@ -187,7 +187,7 @@ class SecaoDadosForwarh(Section):
         return self.data[self.__offset_primeiro_bloco() + 7]
 
     @numero_estagios_ano.setter
-    def numero_estagios_ano(self, v: int):
+    def numero_estagios_ano(self, v: int) -> None:
         self.data[self.__offset_primeiro_bloco() + 7] = v
 
     @property
@@ -195,7 +195,7 @@ class SecaoDadosForwarh(Section):
         return self.data[self.__offset_primeiro_bloco() + 8]
 
     @mes_inicio_estudo.setter
-    def mes_inicio_estudo(self, v: int):
+    def mes_inicio_estudo(self, v: int) -> None:
         self.data[self.__offset_primeiro_bloco() + 8] = v
 
     @property
@@ -203,7 +203,7 @@ class SecaoDadosForwarh(Section):
         return self.data[self.__offset_primeiro_bloco() + 9]
 
     @mes_inicio_pre_estudo.setter
-    def mes_inicio_pre_estudo(self, v: int):
+    def mes_inicio_pre_estudo(self, v: int) -> None:
         self.data[self.__offset_primeiro_bloco() + 9] = v
 
     @property
@@ -211,7 +211,7 @@ class SecaoDadosForwarh(Section):
         return self.data[self.__offset_primeiro_bloco() + 10]
 
     @numero_estagios_pre_estudo.setter
-    def numero_estagios_pre_estudo(self, v: int):
+    def numero_estagios_pre_estudo(self, v: int) -> None:
         self.data[self.__offset_primeiro_bloco() + 10] = v
 
     @property
@@ -219,7 +219,7 @@ class SecaoDadosForwarh(Section):
         return self.data[self.__offset_primeiro_bloco() + 11]
 
     @numero_patamares_carga.setter
-    def numero_patamares_carga(self, v: int):
+    def numero_patamares_carga(self, v: int) -> None:
         self.data[self.__offset_primeiro_bloco() + 11] = v
 
     @property
@@ -227,7 +227,7 @@ class SecaoDadosForwarh(Section):
         return self.data[self.__offset_primeiro_bloco() + 12]
 
     @ordem_maxima_parp.setter
-    def ordem_maxima_parp(self, v: int):
+    def ordem_maxima_parp(self, v: int) -> None:
         self.data[self.__offset_primeiro_bloco() + 12] = v
 
     @property
@@ -237,7 +237,7 @@ class SecaoDadosForwarh(Section):
         ]
 
     @ano_inicio_series_historicas_simuladas.setter
-    def ano_inicio_series_historicas_simuladas(self, v: List[int]):
+    def ano_inicio_series_historicas_simuladas(self, v: List[int]) -> None:
         self.data = (
             self.data[self.__offset_primeiro_bloco() + 13 :]
             + v
@@ -249,7 +249,7 @@ class SecaoDadosForwarh(Section):
         return self.data[self.__offset_segundo_bloco()]
 
     @numero_anos_historico_vazoes.setter
-    def numero_anos_historico_vazoes(self, v: int):
+    def numero_anos_historico_vazoes(self, v: int) -> None:
         self.data[self.__offset_segundo_bloco()] = v
 
     @property
@@ -257,7 +257,7 @@ class SecaoDadosForwarh(Section):
         return self.data[self.__offset_segundo_bloco() + 1]
 
     @numero_total_submercados.setter
-    def numero_total_submercados(self, v: int):
+    def numero_total_submercados(self, v: int) -> None:
         self.data[self.__offset_segundo_bloco() + 1] = v
 
     @property
@@ -265,5 +265,5 @@ class SecaoDadosForwarh(Section):
         return self.data[self.__offset_segundo_bloco() + 2]
 
     @simulacao_final_individualizada.setter
-    def simulacao_final_individualizada(self, v: int):
+    def simulacao_final_individualizada(self, v: int) -> None:
         self.data[self.__offset_segundo_bloco() + 2] = v

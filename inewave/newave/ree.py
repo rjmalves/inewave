@@ -2,7 +2,7 @@ from cfinterface.files.sectionfile import SectionFile
 from cfinterface.components.section import Section
 from typing import TypeVar, List, Type, Optional
 
-import pandas as pd  # type: ignore
+import pandas as pd  # type: ignore[import-untyped]  # no pandas-stubs package
 
 from inewave.newave.modelos.ree import (
     BlocoReesSubmercados,
@@ -44,7 +44,7 @@ class Ree(SectionFile):
         return None
 
     @rees.setter
-    def rees(self, df: pd.DataFrame):
+    def rees(self, df: pd.DataFrame) -> None:
         b = self.data.get_sections_of_type(BlocoReesSubmercados)
         if isinstance(b, BlocoReesSubmercados):
             b.data = df
@@ -63,7 +63,7 @@ class Ree(SectionFile):
         return None
 
     @remocao_ficticias.setter
-    def remocao_ficticias(self, d: int):
+    def remocao_ficticias(self, d: int) -> None:
         b = self.data.get_sections_of_type(BlocoFicticiasIndividualizado)
         if isinstance(b, BlocoFicticiasIndividualizado):
             b.data[1] = d

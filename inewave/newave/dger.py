@@ -241,7 +241,7 @@ class Dger(SectionFile):
         return None
 
     @nome_caso.setter
-    def nome_caso(self, dado: str):
+    def nome_caso(self, dado: str) -> None:
         b = self.data.get_sections_of_type(BlocoNomeCaso)
         if isinstance(b, BlocoNomeCaso):
             b.valor = dado
@@ -260,7 +260,7 @@ class Dger(SectionFile):
         return None
 
     @tipo_execucao.setter
-    def tipo_execucao(self, dado: int):
+    def tipo_execucao(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoTipoExecucao)
         if isinstance(b, BlocoTipoExecucao):
             b.valor = dado
@@ -279,7 +279,7 @@ class Dger(SectionFile):
         return None
 
     @duracao_periodo.setter
-    def duracao_periodo(self, dado: int):
+    def duracao_periodo(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoDuracaoPeriodo)
         if isinstance(b, BlocoDuracaoPeriodo):
             b.valor = dado
@@ -298,7 +298,7 @@ class Dger(SectionFile):
         return None
 
     @num_anos_estudo.setter
-    def num_anos_estudo(self, dado: int):
+    def num_anos_estudo(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoNumAnosEstudo)
         if isinstance(b, BlocoNumAnosEstudo):
             b.valor = dado
@@ -317,7 +317,7 @@ class Dger(SectionFile):
         return None
 
     @mes_inicio_pre_estudo.setter
-    def mes_inicio_pre_estudo(self, dado: int):
+    def mes_inicio_pre_estudo(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoMesInicioPreEstudo)
         if isinstance(b, BlocoMesInicioPreEstudo):
             b.valor = dado
@@ -336,7 +336,7 @@ class Dger(SectionFile):
         return None
 
     @mes_inicio_estudo.setter
-    def mes_inicio_estudo(self, dado: int):
+    def mes_inicio_estudo(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoMesInicioEstudo)
         if isinstance(b, BlocoMesInicioEstudo):
             b.valor = dado
@@ -355,7 +355,7 @@ class Dger(SectionFile):
         return None
 
     @ano_inicio_estudo.setter
-    def ano_inicio_estudo(self, dado: int):
+    def ano_inicio_estudo(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoAnoInicioEstudo)
         if isinstance(b, BlocoAnoInicioEstudo):
             b.valor = dado
@@ -374,7 +374,7 @@ class Dger(SectionFile):
         return None
 
     @num_anos_pre_estudo.setter
-    def num_anos_pre_estudo(self, dado: int):
+    def num_anos_pre_estudo(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoNumAnosPreEstudo)
         if isinstance(b, BlocoNumAnosPreEstudo):
             b.valor = dado
@@ -393,7 +393,7 @@ class Dger(SectionFile):
         return None
 
     @num_anos_pos_estudo.setter
-    def num_anos_pos_estudo(self, dado: int):
+    def num_anos_pos_estudo(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoNumAnosPosEstudo)
         if isinstance(b, BlocoNumAnosPosEstudo):
             b.valor = dado
@@ -412,7 +412,7 @@ class Dger(SectionFile):
         return None
 
     @num_anos_pos_sim_final.setter
-    def num_anos_pos_sim_final(self, dado: int):
+    def num_anos_pos_sim_final(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoNumAnosPosEstudoSimFinal)
         if isinstance(b, BlocoNumAnosPosEstudoSimFinal):
             b.valor = dado
@@ -431,7 +431,7 @@ class Dger(SectionFile):
         return None
 
     @imprime_dados.setter
-    def imprime_dados(self, dado: int):
+    def imprime_dados(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoImprimeDados)
         if isinstance(b, BlocoImprimeDados):
             b.valor = dado
@@ -450,7 +450,7 @@ class Dger(SectionFile):
         return None
 
     @imprime_mercados.setter
-    def imprime_mercados(self, dado: int):
+    def imprime_mercados(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoImprimeMercados)
         if isinstance(b, BlocoImprimeMercados):
             b.valor = dado
@@ -469,7 +469,7 @@ class Dger(SectionFile):
         return None
 
     @imprime_energias.setter
-    def imprime_energias(self, dado: int):
+    def imprime_energias(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoImprimeEnergias)
         if isinstance(b, BlocoImprimeEnergias):
             b.valor = dado
@@ -488,7 +488,7 @@ class Dger(SectionFile):
         return None
 
     @imprime_modelo_estocastico.setter
-    def imprime_modelo_estocastico(self, dado: int):
+    def imprime_modelo_estocastico(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoImprimeModeloEstocastico)
         if isinstance(b, BlocoImprimeModeloEstocastico):
             b.valor = dado
@@ -507,7 +507,7 @@ class Dger(SectionFile):
         return None
 
     @imprime_subsistema.setter
-    def imprime_subsistema(self, dado: int):
+    def imprime_subsistema(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoImprimeSubsistema)
         if isinstance(b, BlocoImprimeSubsistema):
             b.valor = dado
@@ -526,7 +526,7 @@ class Dger(SectionFile):
         return None
 
     @num_max_iteracoes.setter
-    def num_max_iteracoes(self, dado: int):
+    def num_max_iteracoes(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoNumMaxIteracoes)
         if isinstance(b, BlocoNumMaxIteracoes):
             b.valor = dado
@@ -545,7 +545,7 @@ class Dger(SectionFile):
         return None
 
     @num_forwards.setter
-    def num_forwards(self, dado: int):
+    def num_forwards(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoNumForwards)
         if isinstance(b, BlocoNumForwards):
             b.valor = dado
@@ -564,7 +564,7 @@ class Dger(SectionFile):
         return None
 
     @num_aberturas.setter
-    def num_aberturas(self, dado: int):
+    def num_aberturas(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoNumAberturas)
         if isinstance(b, BlocoNumAberturas):
             b.valor = dado
@@ -583,7 +583,7 @@ class Dger(SectionFile):
         return None
 
     @aberturas_variaveis.setter
-    def aberturas_variaveis(self, dado: int):
+    def aberturas_variaveis(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoNumAberturas)
         if isinstance(b, BlocoNumAberturas):
             b.variaveis = dado
@@ -602,7 +602,7 @@ class Dger(SectionFile):
         return None
 
     @num_series_sinteticas.setter
-    def num_series_sinteticas(self, dado: int):
+    def num_series_sinteticas(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoNumSeriesSinteticas)
         if isinstance(b, BlocoNumSeriesSinteticas):
             b.valor = dado
@@ -621,7 +621,7 @@ class Dger(SectionFile):
         return None
 
     @ordem_maxima_parp.setter
-    def ordem_maxima_parp(self, dado: int):
+    def ordem_maxima_parp(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoOrdemMaximaPARp)
         if isinstance(b, BlocoOrdemMaximaPARp):
             b.valor = dado
@@ -640,7 +640,7 @@ class Dger(SectionFile):
         return None
 
     @ano_inicial_historico.setter
-    def ano_inicial_historico(self, dado: int):
+    def ano_inicial_historico(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoAnoInicialHistorico)
         if isinstance(b, BlocoAnoInicialHistorico):
             b.ano_inicial = dado
@@ -659,7 +659,7 @@ class Dger(SectionFile):
         return None
 
     @tamanho_registro_arquivo_historico.setter
-    def tamanho_registro_arquivo_historico(self, dado: int):
+    def tamanho_registro_arquivo_historico(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoAnoInicialHistorico)
         if isinstance(b, BlocoAnoInicialHistorico):
             b.tamanho_registro_arquivo = dado
@@ -678,7 +678,7 @@ class Dger(SectionFile):
         return None
 
     @calcula_volume_inicial.setter
-    def calcula_volume_inicial(self, dado: int):
+    def calcula_volume_inicial(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoCalculaVolInicial)
         if isinstance(b, BlocoCalculaVolInicial):
             b.valor = dado
@@ -697,7 +697,7 @@ class Dger(SectionFile):
         return []
 
     @volume_inicial_subsistema.setter
-    def volume_inicial_subsistema(self, dado: List[Optional[float]]):
+    def volume_inicial_subsistema(self, dado: List[Optional[float]]) -> None:
         b = self.data.get_sections_of_type(BlocoVolInicialSubsistema)
         if isinstance(b, BlocoVolInicialSubsistema):
             b.valores = dado
@@ -716,7 +716,7 @@ class Dger(SectionFile):
         return None
 
     @tolerancia.setter
-    def tolerancia(self, dado: float):
+    def tolerancia(self, dado: float) -> None:
         b = self.data.get_sections_of_type(BlocoTolerancia)
         if isinstance(b, BlocoTolerancia):
             b.valor = dado
@@ -735,7 +735,7 @@ class Dger(SectionFile):
         return None
 
     @taxa_de_desconto.setter
-    def taxa_de_desconto(self, dado: float):
+    def taxa_de_desconto(self, dado: float) -> None:
         b = self.data.get_sections_of_type(BlocoTaxaDesconto)
         if isinstance(b, BlocoTaxaDesconto):
             b.valor = dado
@@ -755,7 +755,7 @@ class Dger(SectionFile):
         return None
 
     @tipo_simulacao_final.setter
-    def tipo_simulacao_final(self, dado: int):
+    def tipo_simulacao_final(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoTipoSimFinal)
         if isinstance(b, BlocoTipoSimFinal):
             b.valor = [dado] + [b.valor[1]]
@@ -775,7 +775,7 @@ class Dger(SectionFile):
         return None
 
     @agregacao_simulacao_final.setter
-    def agregacao_simulacao_final(self, dado: int):
+    def agregacao_simulacao_final(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoTipoSimFinal)
         if isinstance(b, BlocoTipoSimFinal):
             b.valor = [b.valor[0]] + [dado]
@@ -794,7 +794,7 @@ class Dger(SectionFile):
         return None
 
     @impressao_operacao.setter
-    def impressao_operacao(self, dado: int):
+    def impressao_operacao(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoImpressaoOperacao)
         if isinstance(b, BlocoImpressaoOperacao):
             b.valor = dado
@@ -813,7 +813,7 @@ class Dger(SectionFile):
         return None
 
     @impressao_convergencia.setter
-    def impressao_convergencia(self, dado: int):
+    def impressao_convergencia(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoImpressaoConvergencia)
         if isinstance(b, BlocoImpressaoConvergencia):
             b.valor = dado
@@ -832,7 +832,7 @@ class Dger(SectionFile):
         return None
 
     @intervalo_para_gravar.setter
-    def intervalo_para_gravar(self, dado: int):
+    def intervalo_para_gravar(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoIntervaloGravar)
         if isinstance(b, BlocoIntervaloGravar):
             b.valor = dado
@@ -851,7 +851,7 @@ class Dger(SectionFile):
         return None
 
     @num_minimo_iteracoes.setter
-    def num_minimo_iteracoes(self, dado: int):
+    def num_minimo_iteracoes(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoMinIteracoes)
         if isinstance(b, BlocoMinIteracoes):
             b.valor = dado
@@ -870,7 +870,7 @@ class Dger(SectionFile):
         return None
 
     @racionamento_preventivo.setter
-    def racionamento_preventivo(self, dado: int):
+    def racionamento_preventivo(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoRacionamentoPreventivo)
         if isinstance(b, BlocoRacionamentoPreventivo):
             b.valor = dado
@@ -889,7 +889,7 @@ class Dger(SectionFile):
         return None
 
     @num_anos_manutencao_utes.setter
-    def num_anos_manutencao_utes(self, dado: int):
+    def num_anos_manutencao_utes(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoNumAnosManutUTE)
         if isinstance(b, BlocoNumAnosManutUTE):
             b.valor = dado
@@ -910,7 +910,7 @@ class Dger(SectionFile):
         return None
 
     @considera_tendencia_hidrologica_calculo_politica.setter
-    def considera_tendencia_hidrologica_calculo_politica(self, dado: int):
+    def considera_tendencia_hidrologica_calculo_politica(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoTendenciaHidrologica)
         if isinstance(b, BlocoTendenciaHidrologica):
             b.considera_tendencia_hidrologica_calculo_politica = dado
@@ -929,7 +929,7 @@ class Dger(SectionFile):
         return None
 
     @considera_tendencia_hidrologica_sim_final.setter
-    def considera_tendencia_hidrologica_sim_final(self, dado: int):
+    def considera_tendencia_hidrologica_sim_final(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoTendenciaHidrologica)
         if isinstance(b, BlocoTendenciaHidrologica):
             b.considera_tendencia_hidrologica_sim_final = dado
@@ -948,7 +948,7 @@ class Dger(SectionFile):
         return None
 
     @restricao_itaipu.setter
-    def restricao_itaipu(self, dado: int):
+    def restricao_itaipu(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoRestricaoItaipu)
         if isinstance(b, BlocoRestricaoItaipu):
             b.valor = dado
@@ -967,7 +967,7 @@ class Dger(SectionFile):
         return None
 
     @bid.setter
-    def bid(self, dado: int):
+    def bid(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoBid)
         if isinstance(b, BlocoBid):
             b.valor = dado
@@ -986,7 +986,7 @@ class Dger(SectionFile):
         return None
 
     @perdas_rede_transmissao.setter
-    def perdas_rede_transmissao(self, dado: int):
+    def perdas_rede_transmissao(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoPerdasTransmissao)
         if isinstance(b, BlocoPerdasTransmissao):
             b.valor = dado
@@ -1005,7 +1005,7 @@ class Dger(SectionFile):
         return None
 
     @el_nino.setter
-    def el_nino(self, dado: int):
+    def el_nino(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoElNino)
         if isinstance(b, BlocoElNino):
             b.valor = dado
@@ -1024,7 +1024,7 @@ class Dger(SectionFile):
         return None
 
     @enso.setter
-    def enso(self, dado: int):
+    def enso(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoEnso)
         if isinstance(b, BlocoEnso):
             b.valor = dado
@@ -1043,7 +1043,7 @@ class Dger(SectionFile):
         return None
 
     @duracao_por_patamar.setter
-    def duracao_por_patamar(self, dado: int):
+    def duracao_por_patamar(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoDuracaoPorPatamar)
         if isinstance(b, BlocoDuracaoPorPatamar):
             b.valor = dado
@@ -1062,7 +1062,7 @@ class Dger(SectionFile):
         return None
 
     @outros_usos_da_agua.setter
-    def outros_usos_da_agua(self, dado: int):
+    def outros_usos_da_agua(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoOutrosUsosAgua)
         if isinstance(b, BlocoOutrosUsosAgua):
             b.valor = dado
@@ -1081,7 +1081,7 @@ class Dger(SectionFile):
         return None
 
     @correcao_desvio.setter
-    def correcao_desvio(self, dado: int):
+    def correcao_desvio(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoCorrecaoDesvio)
         if isinstance(b, BlocoCorrecaoDesvio):
             b.valor = dado
@@ -1100,7 +1100,7 @@ class Dger(SectionFile):
         return None
 
     @curva_aversao.setter
-    def curva_aversao(self, dado: int):
+    def curva_aversao(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoCurvaAversao)
         if isinstance(b, BlocoCurvaAversao):
             b.valor = dado
@@ -1119,7 +1119,7 @@ class Dger(SectionFile):
         return None
 
     @tipo_geracao_enas.setter
-    def tipo_geracao_enas(self, dado: int):
+    def tipo_geracao_enas(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoTipoGeracaoENA)
         if isinstance(b, BlocoTipoGeracaoENA):
             b.valor = dado
@@ -1138,7 +1138,7 @@ class Dger(SectionFile):
         return None
 
     @primeira_profundidade_risco_deficit.setter
-    def primeira_profundidade_risco_deficit(self, dado: float):
+    def primeira_profundidade_risco_deficit(self, dado: float) -> None:
         b = self.data.get_sections_of_type(BlocoRiscoDeficit)
         if isinstance(b, BlocoRiscoDeficit):
             b.primeira_profundidade_risco_deficit = dado
@@ -1157,7 +1157,7 @@ class Dger(SectionFile):
         return None
 
     @segunda_profundidade_risco_deficit.setter
-    def segunda_profundidade_risco_deficit(self, dado: float):
+    def segunda_profundidade_risco_deficit(self, dado: float) -> None:
         b = self.data.get_sections_of_type(BlocoRiscoDeficit)
         if isinstance(b, BlocoRiscoDeficit):
             b.segunda_profundidade_risco_deficit = dado
@@ -1176,7 +1176,7 @@ class Dger(SectionFile):
         return None
 
     @iteracao_para_simulacao_final.setter
-    def iteracao_para_simulacao_final(self, dado: int):
+    def iteracao_para_simulacao_final(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoIteracaoParaSimFinal)
         if isinstance(b, BlocoIteracaoParaSimFinal):
             b.valor = dado
@@ -1195,7 +1195,7 @@ class Dger(SectionFile):
         return None
 
     @agrupamento_livre.setter
-    def agrupamento_livre(self, dado: int):
+    def agrupamento_livre(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoAgrupamentoLivre)
         if isinstance(b, BlocoAgrupamentoLivre):
             b.valor = dado
@@ -1214,7 +1214,7 @@ class Dger(SectionFile):
         return None
 
     @equalizacao_penal_intercambio.setter
-    def equalizacao_penal_intercambio(self, dado: int):
+    def equalizacao_penal_intercambio(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoEqualizacaoPenalInt)
         if isinstance(b, BlocoEqualizacaoPenalInt):
             b.valor = dado
@@ -1233,7 +1233,7 @@ class Dger(SectionFile):
         return None
 
     @representacao_submotorizacao.setter
-    def representacao_submotorizacao(self, dado: int):
+    def representacao_submotorizacao(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoRepresentacaoSubmot)
         if isinstance(b, BlocoRepresentacaoSubmot):
             b.valor = dado
@@ -1252,7 +1252,7 @@ class Dger(SectionFile):
         return None
 
     @ordenacao_automatica.setter
-    def ordenacao_automatica(self, dado: int):
+    def ordenacao_automatica(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoOrdenacaoAutomatica)
         if isinstance(b, BlocoOrdenacaoAutomatica):
             b.valor = dado
@@ -1271,7 +1271,7 @@ class Dger(SectionFile):
         return None
 
     @considera_carga_adicional.setter
-    def considera_carga_adicional(self, dado: int):
+    def considera_carga_adicional(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoConsideraCargaAdicional)
         if isinstance(b, BlocoConsideraCargaAdicional):
             b.valor = dado
@@ -1290,7 +1290,7 @@ class Dger(SectionFile):
         return None
 
     @delta_zsup.setter
-    def delta_zsup(self, dado: float):
+    def delta_zsup(self, dado: float) -> None:
         b = self.data.get_sections_of_type(BlocoDeltaZSUP)
         if isinstance(b, BlocoDeltaZSUP):
             b.valor = dado
@@ -1309,7 +1309,7 @@ class Dger(SectionFile):
         return None
 
     @delta_zinf.setter
-    def delta_zinf(self, dado: float):
+    def delta_zinf(self, dado: float) -> None:
         b = self.data.get_sections_of_type(BlocoDeltaZINF)
         if isinstance(b, BlocoDeltaZINF):
             b.valor = dado
@@ -1328,7 +1328,7 @@ class Dger(SectionFile):
         return None
 
     @deltas_consecutivos.setter
-    def deltas_consecutivos(self, dado: int):
+    def deltas_consecutivos(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoDeltasConsecutivos)
         if isinstance(b, BlocoDeltasConsecutivos):
             b.valor = dado
@@ -1347,7 +1347,7 @@ class Dger(SectionFile):
         return None
 
     @despacho_antecipado_gnl.setter
-    def despacho_antecipado_gnl(self, dado: int):
+    def despacho_antecipado_gnl(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoDespachoAntecipadoGNL)
         if isinstance(b, BlocoDespachoAntecipadoGNL):
             b.valor = dado
@@ -1366,7 +1366,7 @@ class Dger(SectionFile):
         return None
 
     @modif_automatica_adterm.setter
-    def modif_automatica_adterm(self, dado: int):
+    def modif_automatica_adterm(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoModifAutomaticaAdTerm)
         if isinstance(b, BlocoModifAutomaticaAdTerm):
             b.valor = dado
@@ -1385,7 +1385,7 @@ class Dger(SectionFile):
         return None
 
     @considera_ghmin.setter
-    def considera_ghmin(self, dado: int):
+    def considera_ghmin(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoGeracaoHidraulicaMin)
         if isinstance(b, BlocoGeracaoHidraulicaMin):
             b.valor = dado
@@ -1404,7 +1404,7 @@ class Dger(SectionFile):
         return None
 
     @simulacao_final_com_data.setter
-    def simulacao_final_com_data(self, dado: int):
+    def simulacao_final_com_data(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoSimFinalComData)
         if isinstance(b, BlocoSimFinalComData):
             b.valor = dado
@@ -1423,7 +1423,7 @@ class Dger(SectionFile):
         return None
 
     @utiliza_gerenciamento_pls.setter
-    def utiliza_gerenciamento_pls(self, dado: int):
+    def utiliza_gerenciamento_pls(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoGerenciamentoPLs)
         if isinstance(b, BlocoGerenciamentoPLs):
             b.utiliza_gerenciamento_pls = dado
@@ -1442,7 +1442,7 @@ class Dger(SectionFile):
         return None
 
     @comunicacao_dois_niveis.setter
-    def comunicacao_dois_niveis(self, dado: int):
+    def comunicacao_dois_niveis(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoGerenciamentoPLs)
         if isinstance(b, BlocoGerenciamentoPLs):
             b.comunicacao_dois_niveis = dado
@@ -1461,7 +1461,7 @@ class Dger(SectionFile):
         return None
 
     @armazenamento_local_arquivos_temporarios.setter
-    def armazenamento_local_arquivos_temporarios(self, dado: int):
+    def armazenamento_local_arquivos_temporarios(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoGerenciamentoPLs)
         if isinstance(b, BlocoGerenciamentoPLs):
             b.armazenamento_local_arquivos_temporarios = dado
@@ -1480,7 +1480,7 @@ class Dger(SectionFile):
         return None
 
     @alocacao_memoria_ena.setter
-    def alocacao_memoria_ena(self, dado: int):
+    def alocacao_memoria_ena(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoGerenciamentoPLs)
         if isinstance(b, BlocoGerenciamentoPLs):
             b.alocacao_memoria_ena = dado
@@ -1499,7 +1499,7 @@ class Dger(SectionFile):
         return None
 
     @alocacao_memoria_cortes.setter
-    def alocacao_memoria_cortes(self, dado: int):
+    def alocacao_memoria_cortes(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoGerenciamentoPLs)
         if isinstance(b, BlocoGerenciamentoPLs):
             b.alocacao_memoria_cortes = dado
@@ -1518,7 +1518,7 @@ class Dger(SectionFile):
         return None
 
     @sar.setter
-    def sar(self, dado: int):
+    def sar(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoSAR)
         if isinstance(b, BlocoSAR):
             b.valor = dado
@@ -1537,7 +1537,7 @@ class Dger(SectionFile):
         return None
 
     @cvar.setter
-    def cvar(self, dado: int):
+    def cvar(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoCVAR)
         if isinstance(b, BlocoCVAR):
             b.valor = dado
@@ -1556,7 +1556,7 @@ class Dger(SectionFile):
         return None
 
     @considera_zsup_min_convergencia.setter
-    def considera_zsup_min_convergencia(self, dado: int):
+    def considera_zsup_min_convergencia(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoZSUPMinConvergencia)
         if isinstance(b, BlocoZSUPMinConvergencia):
             b.valor = dado
@@ -1575,7 +1575,7 @@ class Dger(SectionFile):
         return None
 
     @desconsidera_vazao_minima.setter
-    def desconsidera_vazao_minima(self, dado: int):
+    def desconsidera_vazao_minima(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoDesconsideraVazaoMinima)
         if isinstance(b, BlocoDesconsideraVazaoMinima):
             b.valor = dado
@@ -1594,7 +1594,7 @@ class Dger(SectionFile):
         return None
 
     @restricoes_eletricas.setter
-    def restricoes_eletricas(self, dado: int):
+    def restricoes_eletricas(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoRestricoesEletricas)
         if isinstance(b, BlocoRestricoesEletricas):
             b.valor = dado
@@ -1613,7 +1613,7 @@ class Dger(SectionFile):
         return None
 
     @selecao_de_cortes_backward.setter
-    def selecao_de_cortes_backward(self, dado: int):
+    def selecao_de_cortes_backward(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoSelecaoCortes)
         if isinstance(b, BlocoSelecaoCortes):
             b.considera_na_backward = dado
@@ -1632,7 +1632,7 @@ class Dger(SectionFile):
         return None
 
     @selecao_de_cortes_forward.setter
-    def selecao_de_cortes_forward(self, dado: int):
+    def selecao_de_cortes_forward(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoSelecaoCortes)
         if isinstance(b, BlocoSelecaoCortes):
             b.considera_na_forward = dado
@@ -1651,7 +1651,7 @@ class Dger(SectionFile):
         return None
 
     @janela_de_cortes.setter
-    def janela_de_cortes(self, dado: int):
+    def janela_de_cortes(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoJanelaCortes)
         if isinstance(b, BlocoJanelaCortes):
             b.valor = dado
@@ -1670,7 +1670,7 @@ class Dger(SectionFile):
         return None
 
     @considera_reamostragem_cenarios.setter
-    def considera_reamostragem_cenarios(self, dado: int):
+    def considera_reamostragem_cenarios(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoReamostragemCenarios)
         if isinstance(b, BlocoReamostragemCenarios):
             b.considera_reamostragem_cenarios = dado
@@ -1689,7 +1689,7 @@ class Dger(SectionFile):
         return None
 
     @tipo_reamostragem_cenarios.setter
-    def tipo_reamostragem_cenarios(self, dado: int):
+    def tipo_reamostragem_cenarios(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoReamostragemCenarios)
         if isinstance(b, BlocoReamostragemCenarios):
             b.tipo_reamostragem_cenarios = dado
@@ -1708,7 +1708,7 @@ class Dger(SectionFile):
         return None
 
     @passo_reamostragem_cenarios.setter
-    def passo_reamostragem_cenarios(self, dado: int):
+    def passo_reamostragem_cenarios(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoReamostragemCenarios)
         if isinstance(b, BlocoReamostragemCenarios):
             b.passo_reamostragem_cenarios = dado
@@ -1727,7 +1727,7 @@ class Dger(SectionFile):
         return None
 
     @converge_no_zero.setter
-    def converge_no_zero(self, dado: int):
+    def converge_no_zero(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoConvergeNoZero)
         if isinstance(b, BlocoConvergeNoZero):
             b.valor = dado
@@ -1746,7 +1746,7 @@ class Dger(SectionFile):
         return None
 
     @consulta_fcf.setter
-    def consulta_fcf(self, dado: int):
+    def consulta_fcf(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoConsultaFCF)
         if isinstance(b, BlocoConsultaFCF):
             b.valor = dado
@@ -1765,7 +1765,7 @@ class Dger(SectionFile):
         return None
 
     @impressao_ena.setter
-    def impressao_ena(self, dado: int):
+    def impressao_ena(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoImpressaoENA)
         if isinstance(b, BlocoImpressaoENA):
             b.valor = dado
@@ -1784,7 +1784,7 @@ class Dger(SectionFile):
         return None
 
     @impressao_cortes_ativos_sim_final.setter
-    def impressao_cortes_ativos_sim_final(self, dado: int):
+    def impressao_cortes_ativos_sim_final(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoImpressaoCortesAtivosSimFinal)
         if isinstance(b, BlocoImpressaoCortesAtivosSimFinal):
             b.valor = dado
@@ -1803,7 +1803,7 @@ class Dger(SectionFile):
         return None
 
     @representacao_agregacao.setter
-    def representacao_agregacao(self, dado: int):
+    def representacao_agregacao(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoRepresentacaoAgregacao)
         if isinstance(b, BlocoRepresentacaoAgregacao):
             b.valor = dado
@@ -1822,7 +1822,7 @@ class Dger(SectionFile):
         return None
 
     @matriz_correlacao_espacial.setter
-    def matriz_correlacao_espacial(self, dado: int):
+    def matriz_correlacao_espacial(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoMatrizCorrelacaoEspacial)
         if isinstance(b, BlocoMatrizCorrelacaoEspacial):
             b.valor = dado
@@ -1841,7 +1841,7 @@ class Dger(SectionFile):
         return None
 
     @desconsidera_convergencia_estatistica.setter
-    def desconsidera_convergencia_estatistica(self, dado: int):
+    def desconsidera_convergencia_estatistica(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoDesconsideraConvEstatistica)
         if isinstance(b, BlocoDesconsideraConvEstatistica):
             b.valor = dado
@@ -1860,7 +1860,7 @@ class Dger(SectionFile):
         return None
 
     @momento_reamostragem.setter
-    def momento_reamostragem(self, dado: int):
+    def momento_reamostragem(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoMomentoReamostragem)
         if isinstance(b, BlocoMomentoReamostragem):
             b.valor = dado
@@ -1879,7 +1879,7 @@ class Dger(SectionFile):
         return None
 
     @mantem_arquivos_energias.setter
-    def mantem_arquivos_energias(self, dado: int):
+    def mantem_arquivos_energias(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoMantemArquivosEnergias)
         if isinstance(b, BlocoMantemArquivosEnergias):
             b.valor = dado
@@ -1898,7 +1898,7 @@ class Dger(SectionFile):
         return None
 
     @inicio_teste_convergencia.setter
-    def inicio_teste_convergencia(self, dado: int):
+    def inicio_teste_convergencia(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoInicioTesteConvergencia)
         if isinstance(b, BlocoInicioTesteConvergencia):
             b.valor = dado
@@ -1917,7 +1917,7 @@ class Dger(SectionFile):
         return None
 
     @sazonaliza_vmint.setter
-    def sazonaliza_vmint(self, dado: int):
+    def sazonaliza_vmint(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoSazonalizarVminT)
         if isinstance(b, BlocoSazonalizarVminT):
             b.valor = dado
@@ -1936,7 +1936,7 @@ class Dger(SectionFile):
         return None
 
     @sazonaliza_vmaxt.setter
-    def sazonaliza_vmaxt(self, dado: int):
+    def sazonaliza_vmaxt(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoSazonalizarVmaxT)
         if isinstance(b, BlocoSazonalizarVmaxT):
             b.valor = dado
@@ -1955,7 +1955,7 @@ class Dger(SectionFile):
         return None
 
     @sazonaliza_vminp.setter
-    def sazonaliza_vminp(self, dado: int):
+    def sazonaliza_vminp(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoSazonalizarVminP)
         if isinstance(b, BlocoSazonalizarVminP):
             b.valor = dado
@@ -1974,7 +1974,7 @@ class Dger(SectionFile):
         return None
 
     @sazonaliza_cfuga_cmont.setter
-    def sazonaliza_cfuga_cmont(self, dado: int):
+    def sazonaliza_cfuga_cmont(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoSazonalizarCfugaCmont)
         if isinstance(b, BlocoSazonalizarCfugaCmont):
             b.valor = dado
@@ -1993,7 +1993,7 @@ class Dger(SectionFile):
         return None
 
     @restricoes_emissao_gee.setter
-    def restricoes_emissao_gee(self, dado: int):
+    def restricoes_emissao_gee(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoRestricoesEmissaoGEE)
         if isinstance(b, BlocoRestricoesEmissaoGEE):
             b.valor = dado
@@ -2012,7 +2012,7 @@ class Dger(SectionFile):
         return None
 
     @consideracao_media_anual_afluencias.setter
-    def consideracao_media_anual_afluencias(self, dado: int):
+    def consideracao_media_anual_afluencias(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoAfluenciaAnualPARp)
         if isinstance(b, BlocoAfluenciaAnualPARp):
             b.consideracao_media_anual_afluencias = dado
@@ -2031,7 +2031,7 @@ class Dger(SectionFile):
         return None
 
     @reducao_automatica_ordem.setter
-    def reducao_automatica_ordem(self, dado: int):
+    def reducao_automatica_ordem(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoAfluenciaAnualPARp)
         if isinstance(b, BlocoAfluenciaAnualPARp):
             b.reducao_automatica_ordem = dado
@@ -2050,7 +2050,7 @@ class Dger(SectionFile):
         return None
 
     @restricoes_fornecimento_gas.setter
-    def restricoes_fornecimento_gas(self, dado: int):
+    def restricoes_fornecimento_gas(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoRestricoesFornecGas)
         if isinstance(b, BlocoRestricoesFornecGas):
             b.valor = dado
@@ -2069,7 +2069,7 @@ class Dger(SectionFile):
         return None
 
     @memoria_calculo_cortes.setter
-    def memoria_calculo_cortes(self, dado: int):
+    def memoria_calculo_cortes(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoMemCalculoCortes)
         if isinstance(b, BlocoMemCalculoCortes):
             b.valor = dado
@@ -2088,7 +2088,7 @@ class Dger(SectionFile):
         return None
 
     @considera_geracao_eolica.setter
-    def considera_geracao_eolica(self, dado: int):
+    def considera_geracao_eolica(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoGeracaoEolica)
         if isinstance(b, BlocoGeracaoEolica):
             b.considera = dado
@@ -2107,7 +2107,7 @@ class Dger(SectionFile):
         return None
 
     @penalidade_corte_geracao_eolica.setter
-    def penalidade_corte_geracao_eolica(self, dado: float):
+    def penalidade_corte_geracao_eolica(self, dado: float) -> None:
         b = self.data.get_sections_of_type(BlocoGeracaoEolica)
         if isinstance(b, BlocoGeracaoEolica):
             b.penalidade = dado
@@ -2148,7 +2148,7 @@ class Dger(SectionFile):
         return None
 
     @restricao_turbinamento.setter
-    def restricao_turbinamento(self, dado: int):
+    def restricao_turbinamento(self, dado: int) -> None:
         b = self.data.get_sections_of_type(
             BlocoConsideracaoTurbinamentoMinimoMaximo
         )
@@ -2169,7 +2169,7 @@ class Dger(SectionFile):
         return None
 
     @restricao_defluencia.setter
-    def restricao_defluencia(self, dado: int):
+    def restricao_defluencia(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoConsideracaoDefluenciaMaxima)
         if isinstance(b, BlocoConsideracaoDefluenciaMaxima):
             b.valor = dado
@@ -2188,7 +2188,7 @@ class Dger(SectionFile):
         return None
 
     @aproveitamento_bases_backward.setter
-    def aproveitamento_bases_backward(self, dado: int):
+    def aproveitamento_bases_backward(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoAproveitamentoBasePLsBackward)
         if isinstance(b, BlocoAproveitamentoBasePLsBackward):
             b.valor = dado
@@ -2207,7 +2207,7 @@ class Dger(SectionFile):
         return None
 
     @impressao_estados_geracao_cortes.setter
-    def impressao_estados_geracao_cortes(self, dado: int):
+    def impressao_estados_geracao_cortes(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoImpressaoEstadosGeracaoCortes)
         if isinstance(b, BlocoImpressaoEstadosGeracaoCortes):
             b.valor = dado
@@ -2266,7 +2266,7 @@ class Dger(SectionFile):
         return None
 
     @restricao_lpp_turbinamento_maximo_ree.setter
-    def restricao_lpp_turbinamento_maximo_ree(self, dado: int):
+    def restricao_lpp_turbinamento_maximo_ree(self, dado: int) -> None:
         b = self.data.get_sections_of_type(
             BlocoRestricaoLPPTurbinamentoMaximoREE
         )
@@ -2287,7 +2287,7 @@ class Dger(SectionFile):
         return None
 
     @restricao_lpp_defluencia_maxima_ree.setter
-    def restricao_lpp_defluencia_maxima_ree(self, dado: int):
+    def restricao_lpp_defluencia_maxima_ree(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoRestricaoLPPDefluenciaMaximaREE)
         if isinstance(b, BlocoRestricaoLPPDefluenciaMaximaREE):
             b.valor = dado
@@ -2308,7 +2308,7 @@ class Dger(SectionFile):
         return None
 
     @restricao_lpp_turbinamento_maximo_uhe.setter
-    def restricao_lpp_turbinamento_maximo_uhe(self, dado: int):
+    def restricao_lpp_turbinamento_maximo_uhe(self, dado: int) -> None:
         b = self.data.get_sections_of_type(
             BlocoRestricaoLPPTurbinamentoMaximoUHE
         )
@@ -2329,7 +2329,7 @@ class Dger(SectionFile):
         return None
 
     @restricao_lpp_defluencia_maxima_uhe.setter
-    def restricao_lpp_defluencia_maxima_uhe(self, dado: int):
+    def restricao_lpp_defluencia_maxima_uhe(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoRestricaoLPPDefluenciaMaximaUHE)
         if isinstance(b, BlocoRestricaoLPPDefluenciaMaximaUHE):
             b.valor = dado
@@ -2348,7 +2348,7 @@ class Dger(SectionFile):
         return None
 
     @restricoes_eletricas_especiais.setter
-    def restricoes_eletricas_especiais(self, dado: int):
+    def restricoes_eletricas_especiais(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoRestricoesEletricasEspeciais)
         if isinstance(b, BlocoRestricoesEletricasEspeciais):
             b.valor = dado
@@ -2367,7 +2367,7 @@ class Dger(SectionFile):
         return None
 
     @funcao_producao_uhe.setter
-    def funcao_producao_uhe(self, dado: int):
+    def funcao_producao_uhe(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoFuncaoProducaoUHE)
         if isinstance(b, BlocoFuncaoProducaoUHE):
             b.valor = dado
@@ -2386,7 +2386,7 @@ class Dger(SectionFile):
         return None
 
     @fcf_pos_estudo.setter
-    def fcf_pos_estudo(self, dado: int):
+    def fcf_pos_estudo(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoFCFPosEstudo)
         if isinstance(b, BlocoFCFPosEstudo):
             b.valor = dado
@@ -2405,7 +2405,7 @@ class Dger(SectionFile):
         return None
 
     @estacoes_bombeamento.setter
-    def estacoes_bombeamento(self, dado: int):
+    def estacoes_bombeamento(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoEstacoesBombeamento)
         if isinstance(b, BlocoEstacoesBombeamento):
             b.valor = dado
@@ -2424,7 +2424,7 @@ class Dger(SectionFile):
         return None
 
     @canal_desvio.setter
-    def canal_desvio(self, dado: int):
+    def canal_desvio(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoCanalDesvio)
         if isinstance(b, BlocoCanalDesvio):
             b.valor = dado
@@ -2443,7 +2443,7 @@ class Dger(SectionFile):
         return None
 
     @restricoes_rhq.setter
-    def restricoes_rhq(self, dado: int):
+    def restricoes_rhq(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoRHQ)
         if isinstance(b, BlocoRHQ):
             b.valor = dado
@@ -2462,7 +2462,7 @@ class Dger(SectionFile):
         return None
 
     @restricoes_rhv.setter
-    def restricoes_rhv(self, dado: int):
+    def restricoes_rhv(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoRHV)
         if isinstance(b, BlocoRHV):
             b.valor = dado
@@ -2481,7 +2481,7 @@ class Dger(SectionFile):
         return None
 
     @gera_arquivo_cortes_unico.setter
-    def gera_arquivo_cortes_unico(self, dado: int):
+    def gera_arquivo_cortes_unico(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoTratamentoCortes)
         if isinstance(b, BlocoTratamentoCortes):
             b.gera_arquivo_unico = dado
@@ -2500,7 +2500,7 @@ class Dger(SectionFile):
         return None
 
     @mantem_arquivos_cortes_por_periodo.setter
-    def mantem_arquivos_cortes_por_periodo(self, dado: int):
+    def mantem_arquivos_cortes_por_periodo(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoTratamentoCortes)
         if isinstance(b, BlocoTratamentoCortes):
             b.mantem_arquivos_por_periodo = dado
@@ -2519,7 +2519,7 @@ class Dger(SectionFile):
         return [None]
 
     @periodos_manutencao_cortes.setter
-    def periodos_manutencao_cortes(self, dado: List[Optional[int]]):
+    def periodos_manutencao_cortes(self, dado: List[Optional[int]]) -> None:
         b = self.data.get_sections_of_type(BlocoTratamentoCortes)
         if isinstance(b, BlocoTratamentoCortes):
             b.periodos_cortes = dado
@@ -2538,7 +2538,7 @@ class Dger(SectionFile):
         return None
 
     @eliminacao_cortes.setter
-    def eliminacao_cortes(self, dado: int):
+    def eliminacao_cortes(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoEliminacaoCortes)
         if isinstance(b, BlocoEliminacaoCortes):
             b.valor = dado
@@ -2557,7 +2557,7 @@ class Dger(SectionFile):
         return None
 
     @calcula_prodt_media_sin.setter
-    def calcula_prodt_media_sin(self, dado: int):
+    def calcula_prodt_media_sin(self, dado: int) -> None:
         b = self.data.get_sections_of_type(BlocoCalculaProdtMediaSin)
         if isinstance(b, BlocoCalculaProdtMediaSin):
             b.valor = dado

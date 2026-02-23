@@ -1,4 +1,4 @@
-from typing import IO, List, Optional
+from typing import Any, IO, List, Optional
 
 from cfinterface.components.field import Field
 from cfinterface.components.floatfield import FloatField
@@ -16,7 +16,7 @@ class BlocoNomeCaso(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([LiteralField(80, 0)])
 
@@ -32,10 +32,10 @@ class BlocoNomeCaso(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -49,7 +49,7 @@ class BlocoNomeCaso(Section):
         return self.data[0]
 
     @valor.setter
-    def valor(self, v: str):
+    def valor(self, v: str) -> None:
         self.data[0] = v
 
 
@@ -61,7 +61,7 @@ class BlocoTipoExecucao(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([
             LiteralField(24, 0),
@@ -81,10 +81,10 @@ class BlocoTipoExecucao(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -98,7 +98,7 @@ class BlocoTipoExecucao(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -110,7 +110,7 @@ class BlocoDuracaoPeriodo(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([LiteralField(24, 0), IntegerField(2, 23)])
 
@@ -126,10 +126,10 @@ class BlocoDuracaoPeriodo(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -143,7 +143,7 @@ class BlocoDuracaoPeriodo(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -155,7 +155,7 @@ class BlocoNumAnosEstudo(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([LiteralField(24, 0), IntegerField(2, 23)])
 
@@ -171,10 +171,10 @@ class BlocoNumAnosEstudo(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -188,7 +188,7 @@ class BlocoNumAnosEstudo(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -200,7 +200,7 @@ class BlocoMesInicioPreEstudo(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([LiteralField(24, 0), IntegerField(2, 23)])
 
@@ -216,10 +216,10 @@ class BlocoMesInicioPreEstudo(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -233,7 +233,7 @@ class BlocoMesInicioPreEstudo(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -245,7 +245,7 @@ class BlocoMesInicioEstudo(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([LiteralField(24, 0), IntegerField(2, 23)])
 
@@ -261,10 +261,10 @@ class BlocoMesInicioEstudo(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -278,7 +278,7 @@ class BlocoMesInicioEstudo(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -302,14 +302,14 @@ class BlocoAnoInicioEstudo(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([LiteralField(24, 0), IntegerField(4, 21)])
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -323,7 +323,7 @@ class BlocoAnoInicioEstudo(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -335,7 +335,7 @@ class BlocoNumAnosPreEstudo(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([LiteralField(24, 0), IntegerField(2, 23)])
 
@@ -351,10 +351,10 @@ class BlocoNumAnosPreEstudo(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -368,7 +368,7 @@ class BlocoNumAnosPreEstudo(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -380,7 +380,7 @@ class BlocoNumAnosPosEstudo(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([LiteralField(24, 0), IntegerField(2, 23)])
 
@@ -396,10 +396,10 @@ class BlocoNumAnosPosEstudo(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -413,7 +413,7 @@ class BlocoNumAnosPosEstudo(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -425,7 +425,7 @@ class BlocoNumAnosPosEstudoSimFinal(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([LiteralField(24, 0), IntegerField(2, 23)])
 
@@ -441,10 +441,10 @@ class BlocoNumAnosPosEstudoSimFinal(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -458,7 +458,7 @@ class BlocoNumAnosPosEstudoSimFinal(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -470,7 +470,7 @@ class BlocoImprimeDados(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([LiteralField(24, 0), IntegerField(1, 24)])
 
@@ -486,10 +486,10 @@ class BlocoImprimeDados(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -503,7 +503,7 @@ class BlocoImprimeDados(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -515,7 +515,7 @@ class BlocoImprimeMercados(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([LiteralField(24, 0), IntegerField(1, 24)])
 
@@ -531,10 +531,10 @@ class BlocoImprimeMercados(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -548,7 +548,7 @@ class BlocoImprimeMercados(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -560,7 +560,7 @@ class BlocoImprimeEnergias(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([LiteralField(24, 0), IntegerField(1, 24)])
 
@@ -576,10 +576,10 @@ class BlocoImprimeEnergias(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -593,7 +593,7 @@ class BlocoImprimeEnergias(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -605,7 +605,7 @@ class BlocoImprimeModeloEstocastico(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([LiteralField(24, 0), IntegerField(1, 24)])
 
@@ -621,10 +621,10 @@ class BlocoImprimeModeloEstocastico(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -638,7 +638,7 @@ class BlocoImprimeModeloEstocastico(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -650,7 +650,7 @@ class BlocoImprimeSubsistema(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([LiteralField(24, 0), IntegerField(1, 24)])
 
@@ -666,10 +666,10 @@ class BlocoImprimeSubsistema(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -683,7 +683,7 @@ class BlocoImprimeSubsistema(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -695,7 +695,7 @@ class BlocoNumMaxIteracoes(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([LiteralField(24, 0), IntegerField(4, 21)])
 
@@ -711,10 +711,10 @@ class BlocoNumMaxIteracoes(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -728,7 +728,7 @@ class BlocoNumMaxIteracoes(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -740,7 +740,7 @@ class BlocoNumForwards(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([LiteralField(24, 0), IntegerField(4, 21)])
 
@@ -756,10 +756,10 @@ class BlocoNumForwards(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -773,7 +773,7 @@ class BlocoNumForwards(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -785,7 +785,7 @@ class BlocoNumAberturas(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([
             LiteralField(24, 0),
@@ -805,10 +805,10 @@ class BlocoNumAberturas(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -822,7 +822,7 @@ class BlocoNumAberturas(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
     @property
@@ -836,7 +836,7 @@ class BlocoNumAberturas(Section):
         return self.data[2]
 
     @variaveis.setter
-    def variaveis(self, v: int):
+    def variaveis(self, v: int) -> None:
         self.data[2] = v
 
 
@@ -848,7 +848,7 @@ class BlocoNumSeriesSinteticas(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([LiteralField(24, 0), IntegerField(4, 21)])
 
@@ -864,10 +864,10 @@ class BlocoNumSeriesSinteticas(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -881,7 +881,7 @@ class BlocoNumSeriesSinteticas(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -893,7 +893,7 @@ class BlocoOrdemMaximaPARp(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([LiteralField(24, 0), IntegerField(2, 23)])
 
@@ -909,10 +909,10 @@ class BlocoOrdemMaximaPARp(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -926,7 +926,7 @@ class BlocoOrdemMaximaPARp(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -938,7 +938,7 @@ class BlocoAnoInicialHistorico(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([
             LiteralField(24, 0),
@@ -958,10 +958,10 @@ class BlocoAnoInicialHistorico(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -975,7 +975,7 @@ class BlocoAnoInicialHistorico(Section):
         return self.data[1]
 
     @ano_inicial.setter
-    def ano_inicial(self, v: int):
+    def ano_inicial(self, v: int) -> None:
         self.data[1] = v
 
     @property
@@ -990,7 +990,7 @@ class BlocoAnoInicialHistorico(Section):
         return self.data[2]
 
     @tamanho_registro_arquivo.setter
-    def tamanho_registro_arquivo(self, v: int):
+    def tamanho_registro_arquivo(self, v: int) -> None:
         self.data[2] = v
 
 
@@ -1003,7 +1003,7 @@ class BlocoCalculaVolInicial(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([
             LiteralField(24, 0),
@@ -1023,10 +1023,10 @@ class BlocoCalculaVolInicial(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -1040,7 +1040,7 @@ class BlocoCalculaVolInicial(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -1052,7 +1052,7 @@ class BlocoVolInicialSubsistema(Section):
 
     __slots__ = ["__linha", "__cabecalho"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         campo_nome: List[Field] = [LiteralField(21, 0)]
         campos_volumes: List[Field] = [
@@ -1073,11 +1073,11 @@ class BlocoVolInicialSubsistema(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.__cabecalho = file.readline()
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__cabecalho)
         file.write(self.__linha.write(self.data))
 
@@ -1092,7 +1092,7 @@ class BlocoVolInicialSubsistema(Section):
         return self.data[1:]
 
     @valores.setter
-    def valores(self, v: List[Optional[float]]):
+    def valores(self, v: List[Optional[float]]) -> None:
         self.data = [self.data[0]] + v
 
 
@@ -1104,7 +1104,7 @@ class BlocoTolerancia(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([LiteralField(21, 0), FloatField(5, 21, 1)])
 
@@ -1120,10 +1120,10 @@ class BlocoTolerancia(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -1137,7 +1137,7 @@ class BlocoTolerancia(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: float):
+    def valor(self, v: float) -> None:
         self.data[1] = v
 
 
@@ -1149,7 +1149,7 @@ class BlocoTaxaDesconto(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([LiteralField(21, 0), FloatField(5, 21, 1)])
 
@@ -1165,10 +1165,10 @@ class BlocoTaxaDesconto(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -1182,7 +1182,7 @@ class BlocoTaxaDesconto(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: float):
+    def valor(self, v: float) -> None:
         self.data[1] = v
 
 
@@ -1194,7 +1194,7 @@ class BlocoTipoSimFinal(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([
             LiteralField(24, 0),
@@ -1215,10 +1215,10 @@ class BlocoTipoSimFinal(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -1232,7 +1232,7 @@ class BlocoTipoSimFinal(Section):
         return self.data[1:3]
 
     @valor.setter
-    def valor(self, v: List[int]):
+    def valor(self, v: List[int]) -> None:
         self.data[1:3] = v
 
 
@@ -1244,7 +1244,7 @@ class BlocoImpressaoOperacao(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([
             LiteralField(24, 0),
@@ -1264,10 +1264,10 @@ class BlocoImpressaoOperacao(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -1281,7 +1281,7 @@ class BlocoImpressaoOperacao(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -1293,7 +1293,7 @@ class BlocoImpressaoConvergencia(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([
             LiteralField(24, 0),
@@ -1313,10 +1313,10 @@ class BlocoImpressaoConvergencia(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -1330,7 +1330,7 @@ class BlocoImpressaoConvergencia(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -1342,7 +1342,7 @@ class BlocoIntervaloGravar(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([
             LiteralField(24, 0),
@@ -1362,10 +1362,10 @@ class BlocoIntervaloGravar(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -1379,7 +1379,7 @@ class BlocoIntervaloGravar(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -1391,7 +1391,7 @@ class BlocoMinIteracoes(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([LiteralField(24, 0), IntegerField(3, 22)])
 
@@ -1407,10 +1407,10 @@ class BlocoMinIteracoes(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -1424,7 +1424,7 @@ class BlocoMinIteracoes(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -1436,7 +1436,7 @@ class BlocoRacionamentoPreventivo(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([
             LiteralField(24, 0),
@@ -1456,10 +1456,10 @@ class BlocoRacionamentoPreventivo(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -1473,7 +1473,7 @@ class BlocoRacionamentoPreventivo(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -1485,7 +1485,7 @@ class BlocoNumAnosManutUTE(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([
             LiteralField(24, 0),
@@ -1505,10 +1505,10 @@ class BlocoNumAnosManutUTE(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -1522,7 +1522,7 @@ class BlocoNumAnosManutUTE(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -1534,7 +1534,7 @@ class BlocoTendenciaHidrologica(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([
             LiteralField(24, 0),
@@ -1555,10 +1555,10 @@ class BlocoTendenciaHidrologica(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -1575,7 +1575,7 @@ class BlocoTendenciaHidrologica(Section):
         return self.data[1]
 
     @considera_tendencia_hidrologica_calculo_politica.setter
-    def considera_tendencia_hidrologica_calculo_politica(self, v: int):
+    def considera_tendencia_hidrologica_calculo_politica(self, v: int) -> None:
         self.data[1] = v
 
     @property
@@ -1590,7 +1590,7 @@ class BlocoTendenciaHidrologica(Section):
         return self.data[2]
 
     @considera_tendencia_hidrologica_sim_final.setter
-    def considera_tendencia_hidrologica_sim_final(self, v: int):
+    def considera_tendencia_hidrologica_sim_final(self, v: int) -> None:
         self.data[2] = v
 
 
@@ -1602,7 +1602,7 @@ class BlocoRestricaoItaipu(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([
             LiteralField(24, 0),
@@ -1622,10 +1622,10 @@ class BlocoRestricaoItaipu(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -1639,7 +1639,7 @@ class BlocoRestricaoItaipu(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -1651,7 +1651,7 @@ class BlocoBid(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([
             LiteralField(24, 0),
@@ -1671,10 +1671,10 @@ class BlocoBid(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -1688,7 +1688,7 @@ class BlocoBid(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -1700,7 +1700,7 @@ class BlocoPerdasTransmissao(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([
             LiteralField(24, 0),
@@ -1720,10 +1720,10 @@ class BlocoPerdasTransmissao(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -1737,7 +1737,7 @@ class BlocoPerdasTransmissao(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -1749,7 +1749,7 @@ class BlocoElNino(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([
             LiteralField(24, 0),
@@ -1769,10 +1769,10 @@ class BlocoElNino(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -1786,7 +1786,7 @@ class BlocoElNino(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -1798,7 +1798,7 @@ class BlocoEnso(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([
             LiteralField(24, 0),
@@ -1818,10 +1818,10 @@ class BlocoEnso(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -1835,7 +1835,7 @@ class BlocoEnso(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -1847,7 +1847,7 @@ class BlocoDuracaoPorPatamar(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([
             LiteralField(24, 0),
@@ -1867,10 +1867,10 @@ class BlocoDuracaoPorPatamar(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -1884,7 +1884,7 @@ class BlocoDuracaoPorPatamar(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -1896,7 +1896,7 @@ class BlocoOutrosUsosAgua(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([
             LiteralField(24, 0),
@@ -1916,10 +1916,10 @@ class BlocoOutrosUsosAgua(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -1933,7 +1933,7 @@ class BlocoOutrosUsosAgua(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -1945,7 +1945,7 @@ class BlocoCorrecaoDesvio(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([
             LiteralField(24, 0),
@@ -1965,10 +1965,10 @@ class BlocoCorrecaoDesvio(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -1982,7 +1982,7 @@ class BlocoCorrecaoDesvio(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -1994,7 +1994,7 @@ class BlocoCurvaAversao(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([
             LiteralField(24, 0),
@@ -2014,10 +2014,10 @@ class BlocoCurvaAversao(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -2031,7 +2031,7 @@ class BlocoCurvaAversao(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -2043,7 +2043,7 @@ class BlocoTipoGeracaoENA(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([
             LiteralField(24, 0),
@@ -2063,10 +2063,10 @@ class BlocoTipoGeracaoENA(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -2080,7 +2080,7 @@ class BlocoTipoGeracaoENA(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -2092,7 +2092,7 @@ class BlocoRiscoDeficit(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([
             LiteralField(21, 0),
@@ -2112,10 +2112,10 @@ class BlocoRiscoDeficit(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -2130,7 +2130,7 @@ class BlocoRiscoDeficit(Section):
         return self.data[1]
 
     @primeira_profundidade_risco_deficit.setter
-    def primeira_profundidade_risco_deficit(self, v: float):
+    def primeira_profundidade_risco_deficit(self, v: float) -> None:
         self.data[1] = v
 
     @property
@@ -2145,7 +2145,7 @@ class BlocoRiscoDeficit(Section):
         return self.data[2]
 
     @segunda_profundidade_risco_deficit.setter
-    def segunda_profundidade_risco_deficit(self, v: float):
+    def segunda_profundidade_risco_deficit(self, v: float) -> None:
         self.data[2] = v
 
 
@@ -2157,7 +2157,7 @@ class BlocoIteracaoParaSimFinal(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([
             LiteralField(24, 0),
@@ -2177,10 +2177,10 @@ class BlocoIteracaoParaSimFinal(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -2194,7 +2194,7 @@ class BlocoIteracaoParaSimFinal(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -2206,7 +2206,7 @@ class BlocoAgrupamentoLivre(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([
             LiteralField(24, 0),
@@ -2226,10 +2226,10 @@ class BlocoAgrupamentoLivre(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -2243,7 +2243,7 @@ class BlocoAgrupamentoLivre(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -2255,7 +2255,7 @@ class BlocoEqualizacaoPenalInt(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([
             LiteralField(24, 0),
@@ -2275,10 +2275,10 @@ class BlocoEqualizacaoPenalInt(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -2292,7 +2292,7 @@ class BlocoEqualizacaoPenalInt(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -2304,7 +2304,7 @@ class BlocoRepresentacaoSubmot(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([
             LiteralField(24, 0),
@@ -2324,10 +2324,10 @@ class BlocoRepresentacaoSubmot(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -2341,7 +2341,7 @@ class BlocoRepresentacaoSubmot(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -2353,7 +2353,7 @@ class BlocoOrdenacaoAutomatica(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([
             LiteralField(24, 0),
@@ -2373,10 +2373,10 @@ class BlocoOrdenacaoAutomatica(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -2390,7 +2390,7 @@ class BlocoOrdenacaoAutomatica(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -2402,7 +2402,7 @@ class BlocoConsideraCargaAdicional(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([
             LiteralField(24, 0),
@@ -2422,10 +2422,10 @@ class BlocoConsideraCargaAdicional(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -2439,7 +2439,7 @@ class BlocoConsideraCargaAdicional(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -2451,7 +2451,7 @@ class BlocoDeltaZSUP(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([
             LiteralField(21, 0),
@@ -2471,10 +2471,10 @@ class BlocoDeltaZSUP(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -2488,7 +2488,7 @@ class BlocoDeltaZSUP(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: float):
+    def valor(self, v: float) -> None:
         self.data[1] = v
 
 
@@ -2500,7 +2500,7 @@ class BlocoDeltaZINF(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([
             LiteralField(21, 0),
@@ -2520,10 +2520,10 @@ class BlocoDeltaZINF(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -2537,7 +2537,7 @@ class BlocoDeltaZINF(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: float):
+    def valor(self, v: float) -> None:
         self.data[1] = v
 
 
@@ -2549,7 +2549,7 @@ class BlocoDeltasConsecutivos(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([LiteralField(24, 0), IntegerField(1, 24)])
 
@@ -2565,10 +2565,10 @@ class BlocoDeltasConsecutivos(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -2582,7 +2582,7 @@ class BlocoDeltasConsecutivos(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -2594,7 +2594,7 @@ class BlocoDespachoAntecipadoGNL(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([
             LiteralField(24, 0),
@@ -2614,10 +2614,10 @@ class BlocoDespachoAntecipadoGNL(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -2631,7 +2631,7 @@ class BlocoDespachoAntecipadoGNL(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -2643,7 +2643,7 @@ class BlocoModifAutomaticaAdTerm(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([
             LiteralField(24, 0),
@@ -2663,10 +2663,10 @@ class BlocoModifAutomaticaAdTerm(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -2680,7 +2680,7 @@ class BlocoModifAutomaticaAdTerm(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -2692,7 +2692,7 @@ class BlocoGeracaoHidraulicaMin(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([
             LiteralField(24, 0),
@@ -2712,10 +2712,10 @@ class BlocoGeracaoHidraulicaMin(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -2729,7 +2729,7 @@ class BlocoGeracaoHidraulicaMin(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -2741,7 +2741,7 @@ class BlocoSimFinalComData(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([
             LiteralField(24, 0),
@@ -2761,10 +2761,10 @@ class BlocoSimFinalComData(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -2778,7 +2778,7 @@ class BlocoSimFinalComData(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -2790,7 +2790,7 @@ class BlocoGerenciamentoPLs(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([
             LiteralField(24, 0),
@@ -2814,10 +2814,10 @@ class BlocoGerenciamentoPLs(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -2831,7 +2831,7 @@ class BlocoGerenciamentoPLs(Section):
         return self.data[1]
 
     @utiliza_gerenciamento_pls.setter
-    def utiliza_gerenciamento_pls(self, v: int):
+    def utiliza_gerenciamento_pls(self, v: int) -> None:
         self.data[1] = v
 
     @property
@@ -2846,7 +2846,7 @@ class BlocoGerenciamentoPLs(Section):
         return self.data[2]
 
     @comunicacao_dois_niveis.setter
-    def comunicacao_dois_niveis(self, v: int):
+    def comunicacao_dois_niveis(self, v: int) -> None:
         self.data[2] = v
 
     @property
@@ -2861,7 +2861,7 @@ class BlocoGerenciamentoPLs(Section):
         return self.data[3]
 
     @armazenamento_local_arquivos_temporarios.setter
-    def armazenamento_local_arquivos_temporarios(self, v: int):
+    def armazenamento_local_arquivos_temporarios(self, v: int) -> None:
         self.data[3] = v
 
     @property
@@ -2875,7 +2875,7 @@ class BlocoGerenciamentoPLs(Section):
         return self.data[4]
 
     @alocacao_memoria_ena.setter
-    def alocacao_memoria_ena(self, v: int):
+    def alocacao_memoria_ena(self, v: int) -> None:
         self.data[4] = v
 
     @property
@@ -2889,7 +2889,7 @@ class BlocoGerenciamentoPLs(Section):
         return self.data[5]
 
     @alocacao_memoria_cortes.setter
-    def alocacao_memoria_cortes(self, v: int):
+    def alocacao_memoria_cortes(self, v: int) -> None:
         self.data[5] = v
 
 
@@ -2901,7 +2901,7 @@ class BlocoSAR(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([
             LiteralField(24, 0),
@@ -2921,10 +2921,10 @@ class BlocoSAR(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -2938,7 +2938,7 @@ class BlocoSAR(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -2950,7 +2950,7 @@ class BlocoCVAR(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([
             LiteralField(24, 0),
@@ -2970,10 +2970,10 @@ class BlocoCVAR(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -2987,7 +2987,7 @@ class BlocoCVAR(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -2999,7 +2999,7 @@ class BlocoZSUPMinConvergencia(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([
             LiteralField(24, 0),
@@ -3019,10 +3019,10 @@ class BlocoZSUPMinConvergencia(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -3036,7 +3036,7 @@ class BlocoZSUPMinConvergencia(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -3048,7 +3048,7 @@ class BlocoDesconsideraVazaoMinima(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([
             LiteralField(24, 0),
@@ -3068,10 +3068,10 @@ class BlocoDesconsideraVazaoMinima(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -3085,7 +3085,7 @@ class BlocoDesconsideraVazaoMinima(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -3097,7 +3097,7 @@ class BlocoRestricoesEletricas(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([
             LiteralField(24, 0),
@@ -3117,10 +3117,10 @@ class BlocoRestricoesEletricas(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -3134,7 +3134,7 @@ class BlocoRestricoesEletricas(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -3146,7 +3146,7 @@ class BlocoSelecaoCortes(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([
             LiteralField(24, 0),
@@ -3167,10 +3167,10 @@ class BlocoSelecaoCortes(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -3184,7 +3184,7 @@ class BlocoSelecaoCortes(Section):
         return self.data[1]
 
     @considera_na_backward.setter
-    def considera_na_backward(self, v: int):
+    def considera_na_backward(self, v: int) -> None:
         self.data[1] = v
 
     @property
@@ -3198,7 +3198,7 @@ class BlocoSelecaoCortes(Section):
         return self.data[2]
 
     @considera_na_forward.setter
-    def considera_na_forward(self, v: int):
+    def considera_na_forward(self, v: int) -> None:
         self.data[2] = v
 
 
@@ -3210,7 +3210,7 @@ class BlocoJanelaCortes(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([
             LiteralField(24, 0),
@@ -3230,10 +3230,10 @@ class BlocoJanelaCortes(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -3247,7 +3247,7 @@ class BlocoJanelaCortes(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -3259,7 +3259,7 @@ class BlocoReamostragemCenarios(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([
             LiteralField(21, 0),
@@ -3281,10 +3281,10 @@ class BlocoReamostragemCenarios(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -3298,7 +3298,7 @@ class BlocoReamostragemCenarios(Section):
         return self.data[1]
 
     @considera_reamostragem_cenarios.setter
-    def considera_reamostragem_cenarios(self, v: int):
+    def considera_reamostragem_cenarios(self, v: int) -> None:
         self.data[1] = v
 
     @property
@@ -3312,7 +3312,7 @@ class BlocoReamostragemCenarios(Section):
         return self.data[2]
 
     @tipo_reamostragem_cenarios.setter
-    def tipo_reamostragem_cenarios(self, v: int):
+    def tipo_reamostragem_cenarios(self, v: int) -> None:
         self.data[2] = v
 
     @property
@@ -3326,7 +3326,7 @@ class BlocoReamostragemCenarios(Section):
         return self.data[3]
 
     @passo_reamostragem_cenarios.setter
-    def passo_reamostragem_cenarios(self, v: int):
+    def passo_reamostragem_cenarios(self, v: int) -> None:
         self.data[3] = v
 
 
@@ -3338,7 +3338,7 @@ class BlocoConvergeNoZero(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([
             LiteralField(24, 0),
@@ -3358,10 +3358,10 @@ class BlocoConvergeNoZero(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -3375,7 +3375,7 @@ class BlocoConvergeNoZero(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -3387,7 +3387,7 @@ class BlocoConsultaFCF(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([
             LiteralField(24, 0),
@@ -3407,10 +3407,10 @@ class BlocoConsultaFCF(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -3424,7 +3424,7 @@ class BlocoConsultaFCF(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -3436,7 +3436,7 @@ class BlocoImpressaoENA(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([
             LiteralField(21, 0),
@@ -3456,10 +3456,10 @@ class BlocoImpressaoENA(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -3473,7 +3473,7 @@ class BlocoImpressaoENA(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -3485,7 +3485,7 @@ class BlocoImpressaoCortesAtivosSimFinal(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([
             LiteralField(21, 0),
@@ -3505,10 +3505,10 @@ class BlocoImpressaoCortesAtivosSimFinal(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -3522,7 +3522,7 @@ class BlocoImpressaoCortesAtivosSimFinal(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -3534,7 +3534,7 @@ class BlocoRepresentacaoAgregacao(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([
             LiteralField(21, 0),
@@ -3554,10 +3554,10 @@ class BlocoRepresentacaoAgregacao(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -3571,7 +3571,7 @@ class BlocoRepresentacaoAgregacao(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -3583,7 +3583,7 @@ class BlocoMatrizCorrelacaoEspacial(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([
             LiteralField(21, 0),
@@ -3603,10 +3603,10 @@ class BlocoMatrizCorrelacaoEspacial(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -3620,7 +3620,7 @@ class BlocoMatrizCorrelacaoEspacial(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -3632,7 +3632,7 @@ class BlocoDesconsideraConvEstatistica(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([
             LiteralField(21, 0),
@@ -3652,10 +3652,10 @@ class BlocoDesconsideraConvEstatistica(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -3669,7 +3669,7 @@ class BlocoDesconsideraConvEstatistica(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -3681,7 +3681,7 @@ class BlocoMomentoReamostragem(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([
             LiteralField(21, 0),
@@ -3701,10 +3701,10 @@ class BlocoMomentoReamostragem(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -3718,7 +3718,7 @@ class BlocoMomentoReamostragem(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -3730,7 +3730,7 @@ class BlocoMantemArquivosEnergias(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([
             LiteralField(21, 0),
@@ -3750,10 +3750,10 @@ class BlocoMantemArquivosEnergias(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -3767,7 +3767,7 @@ class BlocoMantemArquivosEnergias(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -3779,7 +3779,7 @@ class BlocoInicioTesteConvergencia(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([
             LiteralField(24, 0),
@@ -3799,10 +3799,10 @@ class BlocoInicioTesteConvergencia(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -3816,7 +3816,7 @@ class BlocoInicioTesteConvergencia(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -3828,7 +3828,7 @@ class BlocoSazonalizarVminT(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([
             LiteralField(24, 0),
@@ -3848,10 +3848,10 @@ class BlocoSazonalizarVminT(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -3865,7 +3865,7 @@ class BlocoSazonalizarVminT(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -3877,7 +3877,7 @@ class BlocoSazonalizarVmaxT(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([
             LiteralField(24, 0),
@@ -3897,10 +3897,10 @@ class BlocoSazonalizarVmaxT(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -3914,7 +3914,7 @@ class BlocoSazonalizarVmaxT(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -3926,7 +3926,7 @@ class BlocoSazonalizarVminP(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([
             LiteralField(24, 0),
@@ -3946,10 +3946,10 @@ class BlocoSazonalizarVminP(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -3963,7 +3963,7 @@ class BlocoSazonalizarVminP(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -3975,7 +3975,7 @@ class BlocoSazonalizarCfugaCmont(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([
             LiteralField(24, 0),
@@ -3995,10 +3995,10 @@ class BlocoSazonalizarCfugaCmont(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -4012,7 +4012,7 @@ class BlocoSazonalizarCfugaCmont(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -4024,7 +4024,7 @@ class BlocoRestricoesEmissaoGEE(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([
             LiteralField(24, 0),
@@ -4044,10 +4044,10 @@ class BlocoRestricoesEmissaoGEE(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -4061,7 +4061,7 @@ class BlocoRestricoesEmissaoGEE(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -4073,7 +4073,7 @@ class BlocoAfluenciaAnualPARp(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([
             LiteralField(24, 0),
@@ -4094,10 +4094,10 @@ class BlocoAfluenciaAnualPARp(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -4112,7 +4112,7 @@ class BlocoAfluenciaAnualPARp(Section):
         return self.data[1]
 
     @consideracao_media_anual_afluencias.setter
-    def consideracao_media_anual_afluencias(self, v: int):
+    def consideracao_media_anual_afluencias(self, v: int) -> None:
         self.data[1] = v
 
     @property
@@ -4127,7 +4127,7 @@ class BlocoAfluenciaAnualPARp(Section):
         return self.data[2]
 
     @reducao_automatica_ordem.setter
-    def reducao_automatica_ordem(self, v: int):
+    def reducao_automatica_ordem(self, v: int) -> None:
         self.data[2] = v
 
 
@@ -4139,7 +4139,7 @@ class BlocoRestricoesFornecGas(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([
             LiteralField(24, 0),
@@ -4159,10 +4159,10 @@ class BlocoRestricoesFornecGas(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -4177,7 +4177,7 @@ class BlocoRestricoesFornecGas(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -4189,7 +4189,7 @@ class BlocoMemCalculoCortes(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([
             LiteralField(24, 0),
@@ -4209,10 +4209,10 @@ class BlocoMemCalculoCortes(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -4226,7 +4226,7 @@ class BlocoMemCalculoCortes(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -4239,7 +4239,7 @@ class BlocoGeracaoEolica(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([
             LiteralField(24, 0),
@@ -4260,10 +4260,10 @@ class BlocoGeracaoEolica(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -4277,7 +4277,7 @@ class BlocoGeracaoEolica(Section):
         return self.data[1]
 
     @considera.setter
-    def considera(self, v: int):
+    def considera(self, v: int) -> None:
         self.data[1] = v
 
     @property
@@ -4291,7 +4291,7 @@ class BlocoGeracaoEolica(Section):
         return self.data[2]
 
     @penalidade.setter
-    def penalidade(self, v: float):
+    def penalidade(self, v: float) -> None:
         self.data[2] = v
 
 
@@ -4303,7 +4303,7 @@ class BlocoCompensacaoCorrelacaoCruzada(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([
             LiteralField(24, 0),
@@ -4323,10 +4323,10 @@ class BlocoCompensacaoCorrelacaoCruzada(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -4341,7 +4341,7 @@ class BlocoCompensacaoCorrelacaoCruzada(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -4353,7 +4353,7 @@ class BlocoConsideracaoTurbinamentoMinimoMaximo(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([
             LiteralField(24, 0),
@@ -4373,10 +4373,10 @@ class BlocoConsideracaoTurbinamentoMinimoMaximo(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -4390,7 +4390,7 @@ class BlocoConsideracaoTurbinamentoMinimoMaximo(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -4402,7 +4402,7 @@ class BlocoConsideracaoDefluenciaMaxima(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([
             LiteralField(24, 0),
@@ -4422,10 +4422,10 @@ class BlocoConsideracaoDefluenciaMaxima(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -4439,7 +4439,7 @@ class BlocoConsideracaoDefluenciaMaxima(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -4451,7 +4451,7 @@ class BlocoAproveitamentoBasePLsBackward(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([
             LiteralField(24, 0),
@@ -4471,10 +4471,10 @@ class BlocoAproveitamentoBasePLsBackward(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -4488,7 +4488,7 @@ class BlocoAproveitamentoBasePLsBackward(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -4500,7 +4500,7 @@ class BlocoImpressaoEstadosGeracaoCortes(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([
             LiteralField(21, 0),
@@ -4520,10 +4520,10 @@ class BlocoImpressaoEstadosGeracaoCortes(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -4537,7 +4537,7 @@ class BlocoImpressaoEstadosGeracaoCortes(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -4549,7 +4549,7 @@ class BlocoSementeForward(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([
             LiteralField(21, 0),
@@ -4569,10 +4569,10 @@ class BlocoSementeForward(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -4586,7 +4586,7 @@ class BlocoSementeForward(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -4598,7 +4598,7 @@ class BlocoSementeBackward(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([
             LiteralField(21, 0),
@@ -4618,10 +4618,10 @@ class BlocoSementeBackward(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -4635,7 +4635,7 @@ class BlocoSementeBackward(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -4647,7 +4647,7 @@ class BlocoRestricaoLPPTurbinamentoMaximoREE(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([
             LiteralField(24, 0),
@@ -4667,10 +4667,10 @@ class BlocoRestricaoLPPTurbinamentoMaximoREE(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -4684,7 +4684,7 @@ class BlocoRestricaoLPPTurbinamentoMaximoREE(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -4696,7 +4696,7 @@ class BlocoRestricaoLPPDefluenciaMaximaREE(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([
             LiteralField(24, 0),
@@ -4716,10 +4716,10 @@ class BlocoRestricaoLPPDefluenciaMaximaREE(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -4733,7 +4733,7 @@ class BlocoRestricaoLPPDefluenciaMaximaREE(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -4745,7 +4745,7 @@ class BlocoRestricaoLPPTurbinamentoMaximoUHE(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([
             LiteralField(24, 0),
@@ -4765,10 +4765,10 @@ class BlocoRestricaoLPPTurbinamentoMaximoUHE(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -4782,7 +4782,7 @@ class BlocoRestricaoLPPTurbinamentoMaximoUHE(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -4794,7 +4794,7 @@ class BlocoRestricaoLPPDefluenciaMaximaUHE(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([
             LiteralField(24, 0),
@@ -4814,10 +4814,10 @@ class BlocoRestricaoLPPDefluenciaMaximaUHE(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -4831,7 +4831,7 @@ class BlocoRestricaoLPPDefluenciaMaximaUHE(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -4843,7 +4843,7 @@ class BlocoRestricoesEletricasEspeciais(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([
             LiteralField(24, 0),
@@ -4863,10 +4863,10 @@ class BlocoRestricoesEletricasEspeciais(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -4880,7 +4880,7 @@ class BlocoRestricoesEletricasEspeciais(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -4892,7 +4892,7 @@ class BlocoFuncaoProducaoUHE(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([
             LiteralField(24, 0),
@@ -4912,10 +4912,10 @@ class BlocoFuncaoProducaoUHE(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -4929,7 +4929,7 @@ class BlocoFuncaoProducaoUHE(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -4941,7 +4941,7 @@ class BlocoFCFPosEstudo(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([
             LiteralField(24, 0),
@@ -4961,10 +4961,10 @@ class BlocoFCFPosEstudo(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -4978,7 +4978,7 @@ class BlocoFCFPosEstudo(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -4990,7 +4990,7 @@ class BlocoEstacoesBombeamento(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([
             LiteralField(24, 0),
@@ -5010,10 +5010,10 @@ class BlocoEstacoesBombeamento(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -5027,7 +5027,7 @@ class BlocoEstacoesBombeamento(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -5039,7 +5039,7 @@ class BlocoCanalDesvio(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([
             LiteralField(24, 0),
@@ -5059,10 +5059,10 @@ class BlocoCanalDesvio(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -5076,7 +5076,7 @@ class BlocoCanalDesvio(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -5088,7 +5088,7 @@ class BlocoRHQ(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([
             LiteralField(24, 0),
@@ -5108,10 +5108,10 @@ class BlocoRHQ(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -5125,7 +5125,7 @@ class BlocoRHQ(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -5137,7 +5137,7 @@ class BlocoRHV(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([
             LiteralField(24, 0),
@@ -5157,10 +5157,10 @@ class BlocoRHV(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -5174,7 +5174,7 @@ class BlocoRHV(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -5186,7 +5186,7 @@ class BlocoTratamentoCortes(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([
             LiteralField(24, 0),
@@ -5210,10 +5210,10 @@ class BlocoTratamentoCortes(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -5227,7 +5227,7 @@ class BlocoTratamentoCortes(Section):
         return self.data[1]
 
     @gera_arquivo_unico.setter
-    def gera_arquivo_unico(self, v: int):
+    def gera_arquivo_unico(self, v: int) -> None:
         self.data = [self.data[0]] + [v] + self.data[2:]
 
     @property
@@ -5241,7 +5241,7 @@ class BlocoTratamentoCortes(Section):
         return self.data[2]
 
     @mantem_arquivos_por_periodo.setter
-    def mantem_arquivos_por_periodo(self, v: int):
+    def mantem_arquivos_por_periodo(self, v: int) -> None:
         self.data = self.data[0:2] + [v] + self.data[3:]
 
     @property
@@ -5255,7 +5255,7 @@ class BlocoTratamentoCortes(Section):
         return self.data[3:6]
 
     @periodos_cortes.setter
-    def periodos_cortes(self, v: List[Optional[int]]):
+    def periodos_cortes(self, v: List[Optional[int]]) -> None:
         if len(v) > 3:
             v = v[:3]
         elif len(v) < 3:
@@ -5270,7 +5270,7 @@ class BlocoEliminacaoCortes(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([
             LiteralField(24, 0),
@@ -5290,10 +5290,10 @@ class BlocoEliminacaoCortes(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -5307,7 +5307,7 @@ class BlocoEliminacaoCortes(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -5319,7 +5319,7 @@ class BlocoCalculaProdtMediaSin(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([
             LiteralField(24, 0),
@@ -5339,10 +5339,10 @@ class BlocoCalculaProdtMediaSin(Section):
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -5356,5 +5356,5 @@ class BlocoCalculaProdtMediaSin(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v

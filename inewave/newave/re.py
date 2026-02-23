@@ -5,7 +5,7 @@ from inewave.newave.modelos.re import (
 
 from cfinterface.files.sectionfile import SectionFile
 from typing import TypeVar, Optional
-import pandas as pd  # type: ignore
+import pandas as pd  # type: ignore[import-untyped]  # no pandas-stubs package
 
 
 class Re(SectionFile):
@@ -39,7 +39,7 @@ class Re(SectionFile):
         return None
 
     @usinas_conjuntos.setter
-    def usinas_conjuntos(self, df: pd.DataFrame):
+    def usinas_conjuntos(self, df: pd.DataFrame) -> None:
         b = self.data.get_sections_of_type(BlocoUsinasConjuntoRE)
         if isinstance(b, BlocoUsinasConjuntoRE):
             b.data = df
@@ -67,7 +67,7 @@ class Re(SectionFile):
         return None
 
     @restricoes.setter
-    def restricoes(self, df: pd.DataFrame):
+    def restricoes(self, df: pd.DataFrame) -> None:
         b = self.data.get_sections_of_type(BlocoConfiguracaoRestricoesRE)
         if isinstance(b, BlocoConfiguracaoRestricoesRE):
             b.data = df

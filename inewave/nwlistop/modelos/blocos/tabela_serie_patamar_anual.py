@@ -1,6 +1,6 @@
-from typing import IO, List, Optional
+from typing import IO, Any, Dict, List, Optional
 
-import pandas as pd  # type: ignore
+import pandas as pd  # type: ignore[import-untyped]  # no pandas-stubs package
 from cfinterface.components.block import Block
 from cfinterface.components.integerfield import IntegerField
 from cfinterface.components.line import Line
@@ -47,9 +47,9 @@ class TabelaSeriePatamarAnual(Block):
 
     def __init__(
         self,
-        previous=None,
-        next=None,
-        data=None,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
     ) -> None:
         super().__init__(previous, next, data)
         self._parser = TabularParser(self.__class__.COLUMNS)
@@ -65,7 +65,7 @@ class TabelaSeriePatamarAnual(Block):
             return False
         return self.data.equals(o.data)
 
-    def read(self, file: IO, *args, **kwargs) -> bool:
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> bool:
         self._ano = self.__class__.YEAR_LINE.read(file.readline())[0]
         self._separador = file.readline()
 
@@ -81,7 +81,7 @@ class TabelaSeriePatamarAnual(Block):
         self.data = self._build_dataframe(parsed)
         return True
 
-    def write(self, file: IO, *args, **kwargs) -> bool:
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> bool:
         """
         The serie field is written only on the first patamar row of each
         series group (subsequent rows left blank), matching the source
@@ -110,12 +110,12 @@ class TabelaSeriePatamarAnual(Block):
         return True
 
     @staticmethod
-    def _apply_series_carry_forward(parsed: dict) -> None:
+    def _apply_series_carry_forward(parsed: Dict[str, Any]) -> None:
         """
         Fill None values in the ``serie`` list with the last seen value,
         defaulting to 1. Mutates *parsed* in-place.
         """
-        series_list: List = parsed.get("serie", [])
+        series_list: List[Any] = parsed.get("serie", [])
         current: int = 1
         for idx, val in enumerate(series_list):
             if val is not None:
@@ -123,17 +123,17 @@ class TabelaSeriePatamarAnual(Block):
             else:
                 series_list[idx] = current
 
-    def _build_dataframe(self, parsed: dict) -> pd.DataFrame:
+    def _build_dataframe(self, parsed: Dict[str, Any]) -> pd.DataFrame:
         df = pd.DataFrame(parsed)
         if df.empty:
             return pd.DataFrame(columns=["data", "patamar", "serie", "valor"])
 
-        df["ano"] = int(self._ano)  # type: ignore[arg-type]
+        df["ano"] = int(self._ano)  # type: ignore[arg-type]  # int literal assigned to pandas Series column
         df = df[["ano", "serie", "patamar"] + MESES_DF]
         df = df.astype({"serie": "int64", "ano": "int64"})
         return formata_df_meses_para_datas_nwlistop(df)
 
-    def _tidy_to_wide(self) -> dict:
+    def _tidy_to_wide(self) -> Dict[str, Any]:
         df: pd.DataFrame = self.data
         year = int(df["data"].iloc[0].year)
         df_wide = (
@@ -141,7 +141,7 @@ class TabelaSeriePatamarAnual(Block):
             .pivot(index=["serie", "patamar"], columns="data", values="valor")
             .reset_index()
         )
-        result: dict = {
+        result: Dict[str, Any] = {
             "serie": df_wide["serie"].tolist(),
             "patamar": df_wide["patamar"].tolist(),
         }

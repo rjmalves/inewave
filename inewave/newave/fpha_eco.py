@@ -3,7 +3,7 @@ from inewave.newave.modelos.eco_fpha import TabelaEcoFpha
 
 from inewave.newave.modelos.arquivoscsv.arquivocsv import ArquivoCSV
 from typing import Optional
-import pandas as pd  # type: ignore
+import pandas as pd  # type: ignore[import-untyped]  # no pandas-stubs package
 
 
 class FphaEco(ArquivoCSV):

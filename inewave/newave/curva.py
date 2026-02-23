@@ -9,8 +9,8 @@ from inewave.newave.modelos.curva import (
 )
 
 from cfinterface.files.sectionfile import SectionFile
-from typing import TypeVar, Optional
-import pandas as pd  # type: ignore
+from typing import TypeVar, Optional, Any
+import pandas as pd  # type: ignore[import-untyped]  # no pandas-stubs package
 
 
 class Curva(SectionFile):
@@ -32,7 +32,7 @@ class Curva(SectionFile):
     ]
 
     @property
-    def configuracoes_penalizacao(self) -> Optional[list]:
+    def configuracoes_penalizacao(self) -> Optional[list[Any]]:
         """
         Linha de configuração das opções de penalização do
         arquivo curva.dat.
@@ -46,7 +46,7 @@ class Curva(SectionFile):
         return None
 
     @configuracoes_penalizacao.setter
-    def configuracoes_penalizacao(self, valor: list):
+    def configuracoes_penalizacao(self, valor: list[Any]) -> None:
         b = self.data.get_sections_of_type(BlocoConfiguracoesPenalizacaoCurva)
         if isinstance(b, BlocoConfiguracoesPenalizacaoCurva):
             b.data = valor
@@ -70,7 +70,7 @@ class Curva(SectionFile):
         return None
 
     @custos_penalidades.setter
-    def custos_penalidades(self, valor: pd.DataFrame):
+    def custos_penalidades(self, valor: pd.DataFrame) -> None:
         b = self.data.get_sections_of_type(BlocoPenalidadesViolacaoREECurva)
         if isinstance(b, BlocoPenalidadesViolacaoREECurva):
             b.data = valor
@@ -95,7 +95,7 @@ class Curva(SectionFile):
         return None
 
     @curva_seguranca.setter
-    def curva_seguranca(self, valor: pd.DataFrame):
+    def curva_seguranca(self, valor: pd.DataFrame) -> None:
         b = self.data.get_sections_of_type(BlocoCurvaSegurancaREE)
         if isinstance(b, BlocoCurvaSegurancaREE):
             b.data = valor
@@ -119,7 +119,7 @@ class Curva(SectionFile):
         return None
 
     @maximo_iteracoes_etapa2.setter
-    def maximo_iteracoes_etapa2(self, valor: int):
+    def maximo_iteracoes_etapa2(self, valor: int) -> None:
         b = self.data.get_sections_of_type(
             BlocoMaximoIteracoesProcessoIterativoEtapa2
         )
@@ -145,7 +145,7 @@ class Curva(SectionFile):
         return None
 
     @iteracao_a_partir_etapa2.setter
-    def iteracao_a_partir_etapa2(self, valor: int):
+    def iteracao_a_partir_etapa2(self, valor: int) -> None:
         b = self.data.get_sections_of_type(
             BlocoIteracaoAPartirProcessoIterativoEtapa2
         )
@@ -170,7 +170,7 @@ class Curva(SectionFile):
         return None
 
     @tolerancia_processo_etapa2.setter
-    def tolerancia_processo_etapa2(self, valor: int):
+    def tolerancia_processo_etapa2(self, valor: int) -> None:
         b = self.data.get_sections_of_type(
             BlocoToleranciaProcessoIterativoEtapa2
         )
@@ -196,7 +196,7 @@ class Curva(SectionFile):
         return None
 
     @impressao_relatorio_etapa2.setter
-    def impressao_relatorio_etapa2(self, valor: int):
+    def impressao_relatorio_etapa2(self, valor: int) -> None:
         b = self.data.get_sections_of_type(
             BlocoImpressaoRelatorioProcessoIterativoEtapa2
         )

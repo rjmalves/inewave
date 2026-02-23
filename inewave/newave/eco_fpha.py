@@ -2,8 +2,8 @@ from inewave.newave.modelos.blocos.versaomodelo import VersaoModelo
 from inewave.newave.modelos.eco_fpha import TabelaEcoFpha
 
 from inewave.newave.modelos.arquivoscsv.arquivocsv import ArquivoCSV
-from typing import Optional
-import pandas as pd  # type: ignore
+from typing import Optional, Any
+import pandas as pd  # type: ignore[import-untyped]  # no pandas-stubs package
 
 from warnings import warn
 
@@ -42,7 +42,7 @@ class EcoFpha(ArquivoCSV):
         """
         return self._tabela()
 
-    def __init__(self, data=...) -> None:
+    def __init__(self, data: Any = ...) -> None:
         warn(
             "Esta classe é relativa a um arquivo que não é mais suportado."
             + " Utilize a classe FphaEco no lugar.",

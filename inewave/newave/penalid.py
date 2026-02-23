@@ -1,7 +1,7 @@
 from cfinterface.files.sectionfile import SectionFile
 from cfinterface.components.section import Section
 from typing import TypeVar, List, Type, Optional
-import pandas as pd  # type: ignore
+import pandas as pd  # type: ignore[import-untyped]  # no pandas-stubs package
 
 from inewave.newave.modelos.penalid import BlocoPenalidades
 
@@ -38,7 +38,7 @@ class Penalid(SectionFile):
         return None
 
     @penalidades.setter
-    def penalidades(self, df: pd.DataFrame):
+    def penalidades(self, df: pd.DataFrame) -> None:
         b = self.data.get_sections_of_type(BlocoPenalidades)
         if isinstance(b, BlocoPenalidades):
             b.data = df

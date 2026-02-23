@@ -1,9 +1,9 @@
 from cfinterface.components.section import Section
 from cfinterface.components.line import Line
 from cfinterface.components.floatfield import FloatField
-from typing import IO
-import pandas as pd  # type: ignore
-import numpy as np  # type: ignore
+from typing import Any, IO, Optional
+import pandas as pd  # type: ignore[import-untyped]  # no pandas-stubs package
+import numpy as np
 
 
 class SecaoDadosEnergias(Section):
@@ -23,7 +23,7 @@ class SecaoDadosEnergias(Section):
 
     TAMANHO_REGISTRO = 4000
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
 
     def __eq__(self, o: object) -> bool:
@@ -40,16 +40,16 @@ class SecaoDadosEnergias(Section):
         else:
             return self.data.equals(bloco.data)
 
-    def read(
+    def read(  # type: ignore[override]  # signature extends base class
         self,
-        file: IO,
+        file: IO[Any],
         numero_series: int = 2000,
         numero_rees: int = 12,
         numero_estagios: int = 60,
         numero_estagios_th: int = 12,
-        *args,
-        **kwargs,
-    ):
+        *args: Any,
+        **kwargs: Any,
+    ) -> None:
         self.numero_series = numero_series
         self.numero_rees = numero_rees
         self.numero_estagios = numero_estagios
@@ -94,7 +94,7 @@ class SecaoDadosEnergias(Section):
         )
         self.data = df
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         dados = self.data["valor"].to_numpy()
         numero_entradas_estagio = self.numero_series * self.numero_rees
         saldo_final_registro = (

@@ -146,7 +146,7 @@ class RegistroUHEHidr(Register):
         return self.data[0]
 
     @nome.setter
-    def nome(self, v: str):
+    def nome(self, v: str) -> None:
         self.data[0] = v
 
     @property
@@ -154,7 +154,7 @@ class RegistroUHEHidr(Register):
         return self.data[1]
 
     @posto.setter
-    def posto(self, v: int):
+    def posto(self, v: int) -> None:
         self.data[1] = v
 
     @property
@@ -162,7 +162,7 @@ class RegistroUHEHidr(Register):
         return self.data[3]
 
     @subsistema.setter
-    def subsistema(self, v: int):
+    def subsistema(self, v: int) -> None:
         self.data[3] = v
 
     @property
@@ -170,7 +170,7 @@ class RegistroUHEHidr(Register):
         return self.data[4]
 
     @empresa.setter
-    def empresa(self, v: int):
+    def empresa(self, v: int) -> None:
         self.data[4] = v
 
     @property
@@ -178,7 +178,7 @@ class RegistroUHEHidr(Register):
         return self.data[5]
 
     @jusante.setter
-    def jusante(self, v: int):
+    def jusante(self, v: int) -> None:
         self.data[5] = v
 
     @property
@@ -186,7 +186,7 @@ class RegistroUHEHidr(Register):
         return self.data[6]
 
     @desvio.setter
-    def desvio(self, v: int):
+    def desvio(self, v: int) -> None:
         self.data[6] = v
 
     @property
@@ -194,7 +194,7 @@ class RegistroUHEHidr(Register):
         return self.data[7]
 
     @volume_minimo.setter
-    def volume_minimo(self, v: float):
+    def volume_minimo(self, v: float) -> None:
         self.data[7] = v
 
     @property
@@ -202,7 +202,7 @@ class RegistroUHEHidr(Register):
         return self.data[8]
 
     @volume_maximo.setter
-    def volume_maximo(self, v: float):
+    def volume_maximo(self, v: float) -> None:
         self.data[8] = v
 
     @property
@@ -210,7 +210,7 @@ class RegistroUHEHidr(Register):
         return self.data[9]
 
     @volume_vertedouro.setter
-    def volume_vertedouro(self, v: float):
+    def volume_vertedouro(self, v: float) -> None:
         self.data[9] = v
 
     @property
@@ -218,7 +218,7 @@ class RegistroUHEHidr(Register):
         return self.data[10]
 
     @volume_desvio.setter
-    def volume_desvio(self, v: float):
+    def volume_desvio(self, v: float) -> None:
         self.data[10] = v
 
     @property
@@ -226,7 +226,7 @@ class RegistroUHEHidr(Register):
         return self.data[11]
 
     @cota_minima.setter
-    def cota_minima(self, v: float):
+    def cota_minima(self, v: float) -> None:
         self.data[11] = v
 
     @property
@@ -234,7 +234,7 @@ class RegistroUHEHidr(Register):
         return self.data[12]
 
     @cota_maxima.setter
-    def cota_maxima(self, v: float):
+    def cota_maxima(self, v: float) -> None:
         self.data[12] = v
 
     @property
@@ -242,7 +242,7 @@ class RegistroUHEHidr(Register):
         return self.data[13:18]
 
     @polinomio_volume_cota.setter
-    def polinomio_volume_cota(self, v: List[float]):
+    def polinomio_volume_cota(self, v: List[float]) -> None:
         self.data[13:18] = v
 
     @property
@@ -250,7 +250,7 @@ class RegistroUHEHidr(Register):
         return self.data[18:23]
 
     @polinomio_cota_area.setter
-    def polinomio_cota_area(self, v: List[float]):
+    def polinomio_cota_area(self, v: List[float]) -> None:
         self.data[18:23] = v
 
     @property
@@ -258,7 +258,7 @@ class RegistroUHEHidr(Register):
         return self.data[23:35]
 
     @evaporacao.setter
-    def evaporacao(self, v: List[float]):
+    def evaporacao(self, v: List[float]) -> None:
         self.data[23:35] = v
 
     @property
@@ -266,7 +266,7 @@ class RegistroUHEHidr(Register):
         return self.data[35]
 
     @numero_conjuntos_maquinas.setter
-    def numero_conjuntos_maquinas(self, v: int):
+    def numero_conjuntos_maquinas(self, v: int) -> None:
         self.data[35] = v
 
     @property
@@ -274,7 +274,7 @@ class RegistroUHEHidr(Register):
         return self.data[36:41]
 
     @numero_maquinas_conjunto.setter
-    def numero_maquinas_conjunto(self, v: List[int]):
+    def numero_maquinas_conjunto(self, v: List[int]) -> None:
         self.data[36:41] = v
 
     @property
@@ -282,7 +282,7 @@ class RegistroUHEHidr(Register):
         return self.data[41:46]
 
     @potef_conjunto.setter
-    def potef_conjunto(self, v: List[float]):
+    def potef_conjunto(self, v: List[float]) -> None:
         self.data[41:46] = v
 
     @property
@@ -290,7 +290,7 @@ class RegistroUHEHidr(Register):
         return self.data[47:52]
 
     @hef_conjunto.setter
-    def hef_conjunto(self, v: List[float]):
+    def hef_conjunto(self, v: List[float]) -> None:
         self.data[47:52] = v
 
     @property
@@ -298,7 +298,7 @@ class RegistroUHEHidr(Register):
         return self.data[52:57]
 
     @qef_conjunto.setter
-    def qef_conjunto(self, v: List[float]):
+    def qef_conjunto(self, v: List[float]) -> None:
         self.data[52:57] = v
 
     @property
@@ -306,7 +306,7 @@ class RegistroUHEHidr(Register):
         return self.data[57]
 
     @produtibilidade_especifica.setter
-    def produtibilidade_especifica(self, v: float):
+    def produtibilidade_especifica(self, v: float) -> None:
         self.data[57] = v
 
     @property
@@ -314,7 +314,7 @@ class RegistroUHEHidr(Register):
         return self.data[58]
 
     @perdas.setter
-    def perdas(self, v: float):
+    def perdas(self, v: float) -> None:
         self.data[58] = v
 
     @property
@@ -322,7 +322,7 @@ class RegistroUHEHidr(Register):
         return self.data[59]
 
     @numero_polinomios_jusante.setter
-    def numero_polinomios_jusante(self, v: int):
+    def numero_polinomios_jusante(self, v: int) -> None:
         self.data[59] = v
 
     @property
@@ -330,7 +330,7 @@ class RegistroUHEHidr(Register):
         return self.data[60:96]
 
     @polinomios_jusante.setter
-    def polinomios_jusante(self, v: List[float]):
+    def polinomios_jusante(self, v: List[float]) -> None:
         self.data[60:96] = v
 
     @property
@@ -338,7 +338,7 @@ class RegistroUHEHidr(Register):
         return self.data[96]
 
     @canal_fuga_medio.setter
-    def canal_fuga_medio(self, v: float):
+    def canal_fuga_medio(self, v: float) -> None:
         self.data[96] = v
 
     @property
@@ -346,7 +346,7 @@ class RegistroUHEHidr(Register):
         return self.data[97]
 
     @influencia_vertimento_canal_fuga.setter
-    def influencia_vertimento_canal_fuga(self, v: int):
+    def influencia_vertimento_canal_fuga(self, v: int) -> None:
         self.data[97] = v
 
     @property
@@ -354,7 +354,7 @@ class RegistroUHEHidr(Register):
         return self.data[98]
 
     @fator_carga_maximo.setter
-    def fator_carga_maximo(self, v: float):
+    def fator_carga_maximo(self, v: float) -> None:
         self.data[98] = v
 
     @property
@@ -362,7 +362,7 @@ class RegistroUHEHidr(Register):
         return self.data[99]
 
     @fator_carga_minimo.setter
-    def fator_carga_minimo(self, v: float):
+    def fator_carga_minimo(self, v: float) -> None:
         self.data[99] = v
 
     @property
@@ -370,7 +370,7 @@ class RegistroUHEHidr(Register):
         return self.data[100]
 
     @vazao_minima_historica.setter
-    def vazao_minima_historica(self, v: int):
+    def vazao_minima_historica(self, v: int) -> None:
         self.data[100] = v
 
     @property
@@ -378,7 +378,7 @@ class RegistroUHEHidr(Register):
         return self.data[101]
 
     @numero_unidades_base.setter
-    def numero_unidades_base(self, v: int):
+    def numero_unidades_base(self, v: int) -> None:
         self.data[101] = v
 
     @property
@@ -386,7 +386,7 @@ class RegistroUHEHidr(Register):
         return self.data[102]
 
     @tipo_turbina.setter
-    def tipo_turbina(self, v: int):
+    def tipo_turbina(self, v: int) -> None:
         self.data[102] = v
 
     @property
@@ -394,7 +394,7 @@ class RegistroUHEHidr(Register):
         return self.data[103]
 
     @representacao_conjunto.setter
-    def representacao_conjunto(self, v: int):
+    def representacao_conjunto(self, v: int) -> None:
         self.data[103] = v
 
     @property
@@ -402,7 +402,7 @@ class RegistroUHEHidr(Register):
         return self.data[104]
 
     @teif.setter
-    def teif(self, v: float):
+    def teif(self, v: float) -> None:
         self.data[104] = v
 
     @property
@@ -410,7 +410,7 @@ class RegistroUHEHidr(Register):
         return self.data[105]
 
     @ip.setter
-    def ip(self, v: float):
+    def ip(self, v: float) -> None:
         self.data[105] = v
 
     @property
@@ -418,7 +418,7 @@ class RegistroUHEHidr(Register):
         return self.data[106]
 
     @tipo_perda.setter
-    def tipo_perda(self, v: int):
+    def tipo_perda(self, v: int) -> None:
         self.data[106] = v
 
     @property
@@ -426,7 +426,7 @@ class RegistroUHEHidr(Register):
         return self.data[107]
 
     @data_referencia.setter
-    def data_referencia(self, v: str):
+    def data_referencia(self, v: str) -> None:
         self.data[107] = v
 
     @property
@@ -434,7 +434,7 @@ class RegistroUHEHidr(Register):
         return self.data[108]
 
     @observacao.setter
-    def observacao(self, v: str):
+    def observacao(self, v: str) -> None:
         self.data[108] = v
 
     @property
@@ -442,7 +442,7 @@ class RegistroUHEHidr(Register):
         return self.data[109]
 
     @volume_referencia.setter
-    def volume_referencia(self, v: float):
+    def volume_referencia(self, v: float) -> None:
         self.data[109] = v
 
     @property
@@ -450,5 +450,5 @@ class RegistroUHEHidr(Register):
         return self.data[110]
 
     @tipo_regulacao.setter
-    def tipo_regulacao(self, v: str):
+    def tipo_regulacao(self, v: str) -> None:
         self.data[110] = v

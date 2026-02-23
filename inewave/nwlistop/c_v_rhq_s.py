@@ -4,6 +4,7 @@ from inewave.nwlistop.modelos.arquivos.arquivosinpatamar import (
 from inewave.nwlistop.modelos.c_v_rhq_s import CVRHQAnos
 
 from warnings import warn
+from typing import Any
 
 
 class CVRHQs(ArquivoSINPatamar):
@@ -20,7 +21,7 @@ class CVRHQs(ArquivoSINPatamar):
         CVRHQAnos,
     ]
 
-    def __init__(self, data=...) -> None:
+    def __init__(self, data: Any = ...) -> None:
         warn(
             "Esta classe é relativa a um arquivo que não é mais suportado."
             + " Utilize a classe CviolRhqsin no lugar.",

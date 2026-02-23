@@ -1,7 +1,7 @@
 from cfinterface.components.section import Section
-from typing import IO, List
-import numpy as np  # type: ignore
-import pandas as pd  # type: ignore
+from typing import Any, IO, List
+import numpy as np
+import pandas as pd  # type: ignore[import-untyped]  # no pandas-stubs package
 
 
 class SecaoDadosCortes(Section):
@@ -38,8 +38,8 @@ class SecaoDadosCortes(Section):
             return self.data.equals(bloco.data)
 
     def __le_e_atribui_int(
-        self, file: IO, destino: np.ndarray, tamanho: int, indice: int
-    ):
+        self, file: IO[Any], destino: np.ndarray, tamanho: int, indice: int
+    ) -> None:
         destino[indice, :] = np.frombuffer(
             file.read(tamanho * 4),
             dtype=np.int32,
@@ -47,15 +47,15 @@ class SecaoDadosCortes(Section):
         )
 
     def __le_e_atribui_float(
-        self, file: IO, destino: np.ndarray, tamanho: int, indice: int
-    ):
+        self, file: IO[Any], destino: np.ndarray, tamanho: int, indice: int
+    ) -> None:
         destino[indice, :] = np.frombuffer(
             file.read(tamanho * 8),
             dtype=np.float64,
             count=tamanho,
         )
 
-    def __inicializa_variaveis(self):
+    def __inicializa_variaveis(self) -> None:
         self.__tabela_int = np.zeros(
             (self.__numero_total_cortes, 4), dtype=np.int32
         )
@@ -70,7 +70,7 @@ class SecaoDadosCortes(Section):
 
     def __le_registro(
         self,
-        file: IO,
+        file: IO[Any],
         offset: int,
         indice: int,
     ) -> int:
@@ -170,7 +170,7 @@ class SecaoDadosCortes(Section):
         )
         return pd.concat([df_int, df_float], axis=1)
 
-    def __converte_array_em_dataframe(self, cortes_lidos: int):
+    def __converte_array_em_dataframe(self, cortes_lidos: int) -> Any:
         if len(self.__codigos_rees) > 0:
             df = self.__converte_array_ree(cortes_lidos)
         elif len(self.__codigos_uhes) > 0:
@@ -188,9 +188,9 @@ class SecaoDadosCortes(Section):
         df["indice_corte"] = df["indice_corte"].to_numpy()[::-1]
         self.data = df
 
-    def read(
+    def read(  # type: ignore[override]  # signature extends base class
         self,
-        file: IO,
+        file: IO[Any],
         tamanho_registro: int = 1664,
         indice_ultimo_corte: int = 1,
         numero_total_cortes: int = 10000,
@@ -200,9 +200,9 @@ class SecaoDadosCortes(Section):
         ordem_maxima_parp: int = 12,
         numero_patamares_carga: int = 3,
         lag_maximo_gnl: int = 2,
-        *args,
-        **kwargs,
-    ):
+        *args: Any,
+        **kwargs: Any,
+    ) -> None:
         # Atribui variáveis locais
         self.__tamanho_registro = tamanho_registro
         self.__numero_total_cortes = numero_total_cortes

@@ -1,8 +1,8 @@
 from inewave.nwlistcf.modelos.estados import EstadosPeriodoNwlistcf
 
 from cfinterface.files.blockfile import BlockFile
-from typing import TypeVar, Optional
-import pandas as pd  # type: ignore
+from typing import Any, TypeVar, Optional
+import pandas as pd  # type: ignore[import-untyped]  # no pandas-stubs package
 
 
 class Estados(BlockFile):
@@ -20,7 +20,7 @@ class Estados(BlockFile):
 
     BLOCKS = [EstadosPeriodoNwlistcf]
 
-    def __init__(self, data=...) -> None:
+    def __init__(self, data: Any = ...) -> None:
         super().__init__(data)
         self.__estados_periodos = None
 

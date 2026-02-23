@@ -32,7 +32,7 @@ class Nwlistcfdat(SectionFile):
         return None
 
     @mes_inicio.setter
-    def mes_inicio(self, v: int):
+    def mes_inicio(self, v: int) -> None:
         b = self.data.get_sections_of_type(PeriodoImpressaoCortesEstados)
         if isinstance(b, PeriodoImpressaoCortesEstados):
             b.data[0] = v
@@ -51,7 +51,7 @@ class Nwlistcfdat(SectionFile):
         return None
 
     @mes_fim.setter
-    def mes_fim(self, v: int):
+    def mes_fim(self, v: int) -> None:
         b = self.data.get_sections_of_type(PeriodoImpressaoCortesEstados)
         if isinstance(b, PeriodoImpressaoCortesEstados):
             b.data[1] = v
@@ -70,7 +70,7 @@ class Nwlistcfdat(SectionFile):
         return None
 
     @imprime_cortes_ativos.setter
-    def imprime_cortes_ativos(self, v: int):
+    def imprime_cortes_ativos(self, v: int) -> None:
         b = self.data.get_sections_of_type(PeriodoImpressaoCortesEstados)
         if isinstance(b, PeriodoImpressaoCortesEstados):
             b.data[2] = v
@@ -89,7 +89,7 @@ class Nwlistcfdat(SectionFile):
         return None
 
     @opcoes_impressao.setter
-    def opcoes_impressao(self, v: List[int]):
+    def opcoes_impressao(self, v: List[int]) -> None:
         b = self.data.get_sections_of_type(OpcoesImpressao)
         if isinstance(b, OpcoesImpressao):
             b.data = v

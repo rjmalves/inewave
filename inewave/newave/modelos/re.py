@@ -1,7 +1,7 @@
-from typing import IO, List
+from typing import Any, IO, List, Optional
 
-import numpy as np  # type: ignore
-import pandas as pd  # type: ignore
+import numpy as np
+import pandas as pd  # type: ignore[import-untyped]  # no pandas-stubs package
 from cfinterface.components.field import Field
 from cfinterface.components.floatfield import FloatField
 from cfinterface.components.integerfield import IntegerField
@@ -25,7 +25,7 @@ class BlocoUsinasConjuntoRE(Section):
 
     FIM_BLOCO = "999"
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         campo_conjunto: List[Field] = [IntegerField(3, 0)]
         campos_usinas: List[Field] = [
@@ -47,8 +47,8 @@ class BlocoUsinasConjuntoRE(Section):
             return self.data.equals(bloco.data)
 
     # Override
-    def read(self, file: IO, *args, **kwargs):
-        def converte_tabela_em_df():
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
+        def converte_tabela_em_df() -> pd.DataFrame:
             df = pd.DataFrame(
                 data={
                     "conjunto": repete_vetor(conjuntos, MAX_USINAS_RE),
@@ -71,7 +71,7 @@ class BlocoUsinasConjuntoRE(Section):
             if len(linha) < 3 or BlocoUsinasConjuntoRE.FIM_BLOCO in linha:
                 # Converte para df e salva na variável
                 if i > 0:
-                    tabela = tabela[:i, :]  # type: ignore
+                    tabela = tabela[:i, :]
                     self.data = converte_tabela_em_df()
                 break
             # Confere se é uma linha de subsistema ou tabela
@@ -82,7 +82,7 @@ class BlocoUsinasConjuntoRE(Section):
                 i += 1
 
     # Override
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         for linha in self.__cabecalhos:
             file.write(linha)
         if not isinstance(self.data, pd.DataFrame):
@@ -105,7 +105,7 @@ class BlocoConfiguracaoRestricoesRE(Section):
 
     FIM_BLOCO = "999"
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([
             IntegerField(3, 0),
@@ -132,8 +132,8 @@ class BlocoConfiguracaoRestricoesRE(Section):
             return self.data.equals(bloco.data)
 
     # Override
-    def read(self, file: IO, *args, **kwargs):
-        def converte_tabela_em_df():
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
+        def converte_tabela_em_df() -> pd.DataFrame:
             cols = [
                 "conjunto",
                 "mes_inicio",
@@ -168,7 +168,7 @@ class BlocoConfiguracaoRestricoesRE(Section):
             if len(linha) < 3 or BlocoUsinasConjuntoRE.FIM_BLOCO in linha:
                 # Converte para df e salva na variável
                 if i > 0:
-                    tabela = tabela[:i, :]  # type: ignore
+                    tabela = tabela[:i, :]
                     self.data = converte_tabela_em_df()
                 break
             # Confere se é uma linha de subsistema ou tabela
@@ -179,7 +179,7 @@ class BlocoConfiguracaoRestricoesRE(Section):
                 i += 1
 
     # Override
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         for linha in self.__cabecalhos:
             file.write(linha)
         if not isinstance(self.data, pd.DataFrame):

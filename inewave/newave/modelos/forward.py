@@ -1,8 +1,8 @@
 from cfinterface.components.section import Section
-from typing import IO, List, Dict, Union, Callable, Any
-import numpy as np  # type: ignore
+from typing import Any, Callable, Dict, IO, List, Optional, Union
+import numpy as np
 import numpy.typing as npt
-import pandas as pd  # type: ignore
+import pandas as pd  # type: ignore[import-untyped]  # no pandas-stubs package
 from enum import Enum
 
 
@@ -209,7 +209,12 @@ class SecaoDadosForward(Section):
         VariavelOperacao.VOLUME_CANAL_DESVIO_USINA,
     ]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         self.data: Dict[VariavelOperacao, Union[np.ndarray, pd.DataFrame]] = {}
 
@@ -233,7 +238,7 @@ class SecaoDadosForward(Section):
             else:
                 return all(
                     [
-                        (k1 == k2) and v1.equals(v2)  # type: ignore
+                        (k1 == k2) and v1.equals(v2)  # type: ignore[union-attr]  # pd.DataFrame.equals via union type
                         for (k1, v1), (k2, v2) in zip(
                             self.data.items(), bloco.data.items()
                         )
@@ -241,8 +246,8 @@ class SecaoDadosForward(Section):
                 )
 
     def __le_e_atribui_int(
-        self, file: IO, destino: np.ndarray, tamanho: int, indice: int
-    ):
+        self, file: IO[Any], destino: np.ndarray, tamanho: int, indice: int
+    ) -> None:
         offset = tamanho * indice
         destino[offset : offset + tamanho] = np.frombuffer(
             file.read(tamanho * 4),
@@ -251,8 +256,8 @@ class SecaoDadosForward(Section):
         )
 
     def __le_e_atribui_float(
-        self, file: IO, destino: np.ndarray, tamanho: int, indice: int
-    ):
+        self, file: IO[Any], destino: np.ndarray, tamanho: int, indice: int
+    ) -> None:
         offset = tamanho * indice
         destino[offset : offset + tamanho] = np.frombuffer(
             file.read(tamanho * 4),
@@ -262,7 +267,7 @@ class SecaoDadosForward(Section):
 
     def __inicializa_variaveis(
         self, numero_estagios: int, numero_forwards: int
-    ):
+    ) -> None:
         # Variáveis que sempre existem
         self.__estagios_df = np.repeat(
             np.arange(1, numero_estagios + 1), numero_forwards
@@ -280,11 +285,17 @@ class SecaoDadosForward(Section):
                 (self.numero_submercados * self.__num_simulacoes,),
                 dtype=np.float32,
             ),
-            VariavelOperacao.ENERGIA_ARMAZENADA_ABSOLUTA_INICIAL: lambda _: np.zeros(
-                (self.numero_rees * self.__num_simulacoes,), dtype=np.float32
+            VariavelOperacao.ENERGIA_ARMAZENADA_ABSOLUTA_INICIAL: lambda _: (
+                np.zeros(
+                    (self.numero_rees * self.__num_simulacoes,),
+                    dtype=np.float32,
+                )
             ),
-            VariavelOperacao.ENERGIA_NATURAL_AFLUENTE_ABSOLUTA: lambda _: np.zeros(
-                (self.numero_rees * self.__num_simulacoes,), dtype=np.float32
+            VariavelOperacao.ENERGIA_NATURAL_AFLUENTE_ABSOLUTA: lambda _: (
+                np.zeros(
+                    (self.numero_rees * self.__num_simulacoes,),
+                    dtype=np.float32,
+                )
             ),
             VariavelOperacao.GERACAO_HIDRAULICA_CONTROLAVEL: lambda _: np.zeros(
                 (
@@ -297,17 +308,26 @@ class SecaoDadosForward(Section):
             VariavelOperacao.ENERGIA_VERTIDA: lambda _: np.zeros(
                 (self.numero_rees * self.__num_simulacoes,), dtype=np.float32
             ),
-            VariavelOperacao.ENERGIA_ARMAZENADA_ABSOLUTA_FINAL: lambda _: np.zeros(
-                (self.numero_rees * self.__num_simulacoes,), dtype=np.float32
+            VariavelOperacao.ENERGIA_ARMAZENADA_ABSOLUTA_FINAL: lambda _: (
+                np.zeros(
+                    (self.numero_rees * self.__num_simulacoes,),
+                    dtype=np.float32,
+                )
             ),
-            VariavelOperacao.ENERGIA_NATURAL_AFLUENTE_FIO_BRUTA: lambda _: np.zeros(
-                (self.numero_rees * self.__num_simulacoes,), dtype=np.float32
+            VariavelOperacao.ENERGIA_NATURAL_AFLUENTE_FIO_BRUTA: lambda _: (
+                np.zeros(
+                    (self.numero_rees * self.__num_simulacoes,),
+                    dtype=np.float32,
+                )
             ),
             VariavelOperacao.ENERGIA_EVAPORADA: lambda _: np.zeros(
                 (self.numero_rees * self.__num_simulacoes,), dtype=np.float32
             ),
-            VariavelOperacao.ENERGIA_ENCHIMENTO_VOLUME_MORTO: lambda _: np.zeros(
-                (self.numero_rees * self.__num_simulacoes,), dtype=np.float32
+            VariavelOperacao.ENERGIA_ENCHIMENTO_VOLUME_MORTO: lambda _: (
+                np.zeros(
+                    (self.numero_rees * self.__num_simulacoes,),
+                    dtype=np.float32,
+                )
             ),
             VariavelOperacao.GERACAO_TERMICA: lambda _: np.zeros(
                 (
@@ -368,9 +388,11 @@ class SecaoDadosForward(Section):
                 (self.numero_rees * self.__num_simulacoes,),
                 dtype=np.float32,
             ),
-            VariavelOperacao.ENERGIA_NATURAL_AFLUENTE_CONTROLAVEL_CORRIGIDA: lambda _: np.zeros(
-                (self.numero_rees * self.__num_simulacoes,),
-                dtype=np.float32,
+            VariavelOperacao.ENERGIA_NATURAL_AFLUENTE_CONTROLAVEL_CORRIGIDA: lambda _: (
+                np.zeros(
+                    (self.numero_rees * self.__num_simulacoes,),
+                    dtype=np.float32,
+                )
             ),
             VariavelOperacao.GERACAO_HIDRAULICA_MAXIMA: lambda _: np.zeros(
                 (
@@ -380,9 +402,11 @@ class SecaoDadosForward(Section):
                 ),
                 dtype=np.float32,
             ),
-            VariavelOperacao.ENERGIA_AFLUENTE_CONTROLAVEL_DESVIO: lambda _: np.zeros(
-                (self.numero_rees * self.__num_simulacoes,),
-                dtype=np.float32,
+            VariavelOperacao.ENERGIA_AFLUENTE_CONTROLAVEL_DESVIO: lambda _: (
+                np.zeros(
+                    (self.numero_rees * self.__num_simulacoes,),
+                    dtype=np.float32,
+                )
             ),
             VariavelOperacao.ENERGIA_AFLUENTE_FIO_DESVIO: lambda _: np.zeros(
                 (self.numero_rees * self.__num_simulacoes,),
@@ -397,9 +421,11 @@ class SecaoDadosForward(Section):
                 ),
                 dtype=np.float32,
             ),
-            VariavelOperacao.FATOR_CORRECAO_ENERGIA_NATURAL_AFLUENTE_CONTROLAVEL: lambda _: np.zeros(  # noqa
-                (self.numero_rees * self.__num_simulacoes,),
-                dtype=np.float32,
+            VariavelOperacao.FATOR_CORRECAO_ENERGIA_NATURAL_AFLUENTE_CONTROLAVEL: lambda _: (
+                np.zeros(  # noqa
+                    (self.numero_rees * self.__num_simulacoes,),
+                    dtype=np.float32,
+                )
             ),
             VariavelOperacao.VIOLACAO_CURVA_AVERSAO: lambda _: np.zeros(
                 (self.numero_rees * self.__num_simulacoes,),
@@ -421,13 +447,15 @@ class SecaoDadosForward(Section):
                 (self.numero_submercados * self.__num_simulacoes,),
                 dtype=np.float32,
             ),
-            VariavelOperacao.BENEFICIO_AGRUPAMENTO_INTERCAMBIO: lambda _: np.zeros(
-                (
-                    self.numero_patamares_carga
-                    * self.numero_agrupamentos_intercambio
-                    * self.__num_simulacoes,
-                ),
-                dtype=np.float32,
+            VariavelOperacao.BENEFICIO_AGRUPAMENTO_INTERCAMBIO: lambda _: (
+                np.zeros(
+                    (
+                        self.numero_patamares_carga
+                        * self.numero_agrupamentos_intercambio
+                        * self.__num_simulacoes,
+                    ),
+                    dtype=np.float32,
+                )
             ),
             VariavelOperacao.ENERGIA_NATURAL_AFLUENTE_FIO: lambda _: np.zeros(
                 (self.numero_rees * self.__num_simulacoes,),
@@ -442,13 +470,15 @@ class SecaoDadosForward(Section):
                 ),
                 dtype=np.float32,
             ),
-            VariavelOperacao.VIOLACAO_GERACAO_HIRAULICA_MINIMA: lambda _: np.zeros(
-                (
-                    self.numero_rees
-                    * self.numero_patamares_carga
-                    * self.__num_simulacoes,
-                ),
-                dtype=np.float32,
+            VariavelOperacao.VIOLACAO_GERACAO_HIRAULICA_MINIMA: lambda _: (
+                np.zeros(
+                    (
+                        self.numero_rees
+                        * self.numero_patamares_carga
+                        * self.__num_simulacoes,
+                    ),
+                    dtype=np.float32,
+                )
             ),
             VariavelOperacao.VIOLACAO_ENERGIA_VAZAO_MINIMA: lambda _: np.zeros(
                 (self.numero_rees * self.__num_simulacoes,),
@@ -466,17 +496,21 @@ class SecaoDadosForward(Section):
                 (1 * self.__num_simulacoes,),
                 dtype=np.float32,
             ),
-            VariavelOperacao.GERACAO_HIDRAULICA_MAXIMA_CONSIDERANDO_RE: lambda _: np.zeros(
-                (
-                    self.numero_rees
-                    * self.numero_patamares_carga
-                    * self.__num_simulacoes,
-                ),
-                dtype=np.float32,
+            VariavelOperacao.GERACAO_HIDRAULICA_MAXIMA_CONSIDERANDO_RE: lambda _: (
+                np.zeros(
+                    (
+                        self.numero_rees
+                        * self.numero_patamares_carga
+                        * self.__num_simulacoes,
+                    ),
+                    dtype=np.float32,
+                )
             ),
-            VariavelOperacao.VOLUME_ARMAZENADO_ABSOLUTO_FINAL: lambda _: np.zeros(
-                (self.numero_usinas_hidreletricas * self.__num_simulacoes,),
-                dtype=np.float32,
+            VariavelOperacao.VOLUME_ARMAZENADO_ABSOLUTO_FINAL: lambda _: (
+                np.zeros(
+                    (self.numero_usinas_hidreletricas * self.__num_simulacoes,),
+                    dtype=np.float32,
+                )
             ),
             VariavelOperacao.GERACAO_HIDRAULICA_USINA: lambda _: np.zeros(
                 (
@@ -502,13 +536,15 @@ class SecaoDadosForward(Section):
                 ),
                 dtype=np.float32,
             ),
-            VariavelOperacao.VIOLACAO_GERACAO_HIDRAULICA_MINIMA_USINA: lambda _: np.zeros(
-                (
-                    self.numero_usinas_hidreletricas
-                    * self.numero_patamares_carga
-                    * self.__num_simulacoes,
-                ),
-                dtype=np.float32,
+            VariavelOperacao.VIOLACAO_GERACAO_HIDRAULICA_MINIMA_USINA: lambda _: (
+                np.zeros(
+                    (
+                        self.numero_usinas_hidreletricas
+                        * self.numero_patamares_carga
+                        * self.__num_simulacoes,
+                    ),
+                    dtype=np.float32,
+                )
             ),
             VariavelOperacao.ENCHIMENTO_VOLUME_MORTO_USINA: lambda _: np.zeros(
                 (self.numero_usinas_hidreletricas * self.__num_simulacoes,),
@@ -563,33 +599,45 @@ class SecaoDadosForward(Section):
                 (1 * self.__num_simulacoes,),
                 dtype=np.float32,
             ),
-            VariavelOperacao.VOLUME_ARMAZENADO_PERCENTUAL_FINAL: lambda _: np.zeros(
-                (self.numero_usinas_hidreletricas * self.__num_simulacoes,),
-                dtype=np.float32,
+            VariavelOperacao.VOLUME_ARMAZENADO_PERCENTUAL_FINAL: lambda _: (
+                np.zeros(
+                    (self.numero_usinas_hidreletricas * self.__num_simulacoes,),
+                    dtype=np.float32,
+                )
             ),
-            VariavelOperacao.CUSTO_VIOLACAO_ENERGIA_VAZAO_MINIMA: lambda _: np.zeros(
-                (self.numero_rees * self.__num_simulacoes,),
-                dtype=np.float32,
+            VariavelOperacao.CUSTO_VIOLACAO_ENERGIA_VAZAO_MINIMA: lambda _: (
+                np.zeros(
+                    (self.numero_rees * self.__num_simulacoes,),
+                    dtype=np.float32,
+                )
             ),
-            VariavelOperacao.CUSTO_ENERGIA_AFLUENTE_CONTROLAVEL_DESVIO: lambda _: np.zeros(
-                (self.numero_rees * self.__num_simulacoes,),
-                dtype=np.float32,
+            VariavelOperacao.CUSTO_ENERGIA_AFLUENTE_CONTROLAVEL_DESVIO: lambda _: (
+                np.zeros(
+                    (self.numero_rees * self.__num_simulacoes,),
+                    dtype=np.float32,
+                )
             ),
-            VariavelOperacao.CUSTO_ENERGIA_AFLUENTE_FIO_DESVIO: lambda _: np.zeros(
-                (self.numero_rees * self.__num_simulacoes,),
-                dtype=np.float32,
+            VariavelOperacao.CUSTO_ENERGIA_AFLUENTE_FIO_DESVIO: lambda _: (
+                np.zeros(
+                    (self.numero_rees * self.__num_simulacoes,),
+                    dtype=np.float32,
+                )
             ),
-            VariavelOperacao.CUSTO_VIOLACAO_GERACAO_HIDRAULICA_MINIMA: lambda _: np.zeros(
-                (
-                    self.numero_rees
-                    * self.numero_patamares_carga
-                    * self.__num_simulacoes,
-                ),
-                dtype=np.float32,
+            VariavelOperacao.CUSTO_VIOLACAO_GERACAO_HIDRAULICA_MINIMA: lambda _: (
+                np.zeros(
+                    (
+                        self.numero_rees
+                        * self.numero_patamares_carga
+                        * self.__num_simulacoes,
+                    ),
+                    dtype=np.float32,
+                )
             ),
-            VariavelOperacao.SOMA_ENERGIA_NATURAL_AFLUENTE_12_MESES: lambda _: np.zeros(
-                (self.numero_rees * self.__num_simulacoes,),
-                dtype=np.float32,
+            VariavelOperacao.SOMA_ENERGIA_NATURAL_AFLUENTE_12_MESES: lambda _: (
+                np.zeros(
+                    (self.numero_rees * self.__num_simulacoes,),
+                    dtype=np.float32,
+                )
             ),
             VariavelOperacao.SOMA_VAZAO_AFLUENTE_12_MESES: lambda _: np.zeros(
                 (self.numero_usinas_hidreletricas * self.__num_simulacoes,),
@@ -610,13 +658,15 @@ class SecaoDadosForward(Section):
                 ),
                 dtype=np.float32,
             ),
-            VariavelOperacao.VIOLACAO_FUNCAO_PRODUCAO_EOLICA: lambda _: np.zeros(
-                (
-                    self.numero_parques_eolicos_equivalentes
-                    * self.numero_patamares_carga
-                    * self.__num_simulacoes,
-                ),
-                dtype=np.float32,
+            VariavelOperacao.VIOLACAO_FUNCAO_PRODUCAO_EOLICA: lambda _: (
+                np.zeros(
+                    (
+                        self.numero_parques_eolicos_equivalentes
+                        * self.numero_patamares_carga
+                        * self.__num_simulacoes,
+                    ),
+                    dtype=np.float32,
+                )
             ),
             VariavelOperacao.VIOLACAO_DEFLUENCIA_MAXIMA: lambda _: np.zeros(
                 (
@@ -642,13 +692,15 @@ class SecaoDadosForward(Section):
                 ),
                 dtype=np.float32,
             ),
-            VariavelOperacao.VIOLACAO_LPP_TURBINAMENTO_MAXIMO: lambda _: np.zeros(
-                (
-                    self.numero_rees
-                    * self.numero_patamares_carga
-                    * self.__num_simulacoes,
-                ),
-                dtype=np.float32,
+            VariavelOperacao.VIOLACAO_LPP_TURBINAMENTO_MAXIMO: lambda _: (
+                np.zeros(
+                    (
+                        self.numero_rees
+                        * self.numero_patamares_carga
+                        * self.__num_simulacoes,
+                    ),
+                    dtype=np.float32,
+                )
             ),
             VariavelOperacao.VIOLACAO_LPP_DEFLUENCIA_MAXIMA: lambda _: np.zeros(
                 (
@@ -658,21 +710,25 @@ class SecaoDadosForward(Section):
                 ),
                 dtype=np.float32,
             ),
-            VariavelOperacao.VIOLACAO_LPP_TURBINAMENTO_MAXIMO_USINA: lambda _: np.zeros(
-                (
-                    self.numero_usinas_hidreletricas
-                    * self.numero_patamares_carga
-                    * self.__num_simulacoes,
-                ),
-                dtype=np.float32,
+            VariavelOperacao.VIOLACAO_LPP_TURBINAMENTO_MAXIMO_USINA: lambda _: (
+                np.zeros(
+                    (
+                        self.numero_usinas_hidreletricas
+                        * self.numero_patamares_carga
+                        * self.__num_simulacoes,
+                    ),
+                    dtype=np.float32,
+                )
             ),
-            VariavelOperacao.VIOLACAO_LPP_DEFLUENCIA_MAXIMA_USINA: lambda _: np.zeros(
-                (
-                    self.numero_usinas_hidreletricas
-                    * self.numero_patamares_carga
-                    * self.__num_simulacoes,
-                ),
-                dtype=np.float32,
+            VariavelOperacao.VIOLACAO_LPP_DEFLUENCIA_MAXIMA_USINA: lambda _: (
+                np.zeros(
+                    (
+                        self.numero_usinas_hidreletricas
+                        * self.numero_patamares_carga
+                        * self.__num_simulacoes,
+                    ),
+                    dtype=np.float32,
+                )
             ),
             VariavelOperacao.RHS_LPP_TURBINAMENTO_MAXIMO: lambda _: np.zeros(
                 (
@@ -690,41 +746,51 @@ class SecaoDadosForward(Section):
                 ),
                 dtype=np.float32,
             ),
-            VariavelOperacao.RHS_LPP_TURBINAMENTO_MAXIMO_USINA: lambda _: np.zeros(
-                (
-                    self.numero_usinas_hidreletricas
-                    * self.numero_patamares_carga
-                    * self.__num_simulacoes,
-                ),
-                dtype=np.float32,
+            VariavelOperacao.RHS_LPP_TURBINAMENTO_MAXIMO_USINA: lambda _: (
+                np.zeros(
+                    (
+                        self.numero_usinas_hidreletricas
+                        * self.numero_patamares_carga
+                        * self.__num_simulacoes,
+                    ),
+                    dtype=np.float32,
+                )
             ),
-            VariavelOperacao.RHS_LPP_DEFLUENCIA_MAXIMA_USINA: lambda _: np.zeros(
-                (
-                    self.numero_usinas_hidreletricas
-                    * self.numero_patamares_carga
-                    * self.__num_simulacoes,
-                ),
-                dtype=np.float32,
+            VariavelOperacao.RHS_LPP_DEFLUENCIA_MAXIMA_USINA: lambda _: (
+                np.zeros(
+                    (
+                        self.numero_usinas_hidreletricas
+                        * self.numero_patamares_carga
+                        * self.__num_simulacoes,
+                    ),
+                    dtype=np.float32,
+                )
             ),
-            VariavelOperacao.VIOLACAO_RESTRICOES_ELETRICAS_ESPECIAIS: lambda _: np.zeros(
-                (
-                    self.numero_restricoes_eletricas_especiais
-                    * self.numero_patamares_carga
-                    * self.__num_simulacoes,
-                ),
-                dtype=np.float32,
+            VariavelOperacao.VIOLACAO_RESTRICOES_ELETRICAS_ESPECIAIS: lambda _: (
+                np.zeros(
+                    (
+                        self.numero_restricoes_eletricas_especiais
+                        * self.numero_patamares_carga
+                        * self.__num_simulacoes,
+                    ),
+                    dtype=np.float32,
+                )
             ),
-            VariavelOperacao.CUSTO_RESTRICOES_ELETRICAS_ESPECIAIS: lambda _: np.zeros(
-                (
-                    self.numero_restricoes_eletricas_especiais
-                    * self.numero_patamares_carga
-                    * self.__num_simulacoes,
-                ),
-                dtype=np.float32,
+            VariavelOperacao.CUSTO_RESTRICOES_ELETRICAS_ESPECIAIS: lambda _: (
+                np.zeros(
+                    (
+                        self.numero_restricoes_eletricas_especiais
+                        * self.numero_patamares_carga
+                        * self.__num_simulacoes,
+                    ),
+                    dtype=np.float32,
+                )
             ),
-            VariavelOperacao.VOLUME_ARMAZENADO_ABSOLUTO_INICIAL: lambda _: np.zeros(
-                (self.numero_usinas_hidreletricas * self.__num_simulacoes,),
-                dtype=np.float32,
+            VariavelOperacao.VOLUME_ARMAZENADO_ABSOLUTO_INICIAL: lambda _: (
+                np.zeros(
+                    (self.numero_usinas_hidreletricas * self.__num_simulacoes,),
+                    dtype=np.float32,
+                )
             ),
             VariavelOperacao.VALOR_AGUA_USINA: lambda _: np.zeros(
                 (self.numero_usinas_hidreletricas * self.__num_simulacoes,),
@@ -742,13 +808,15 @@ class SecaoDadosForward(Section):
                 ),
                 dtype=np.float32,
             ),
-            VariavelOperacao.CONSUMO_ENERGIA_ESTACAO_BOMBEAMENTO: lambda _: np.zeros(
-                (
-                    self.numero_estacoes_bombeamento
-                    * self.numero_patamares_carga
-                    * self.__num_simulacoes,
-                ),
-                dtype=np.float32,
+            VariavelOperacao.CONSUMO_ENERGIA_ESTACAO_BOMBEAMENTO: lambda _: (
+                np.zeros(
+                    (
+                        self.numero_estacoes_bombeamento
+                        * self.numero_patamares_carga
+                        * self.__num_simulacoes,
+                    ),
+                    dtype=np.float32,
+                )
             ),
             VariavelOperacao.VOLUME_CANAL_DESVIO_USINA: lambda _: np.zeros(
                 (
@@ -764,75 +832,101 @@ class SecaoDadosForward(Section):
 
     def __le_registro(
         self,
-        file: IO,
+        file: IO[Any],
         offset: int,
         indice: int,
-    ):
+    ) -> None:
         file.seek(offset)
         self.__le_e_atribui_int(file, self.estagio, 1, indice)
         # Variáveis que variam com a versão do modelo
-        mapa_variaveis: Dict[VariavelOperacao, Callable] = {
+        mapa_variaveis: Dict[VariavelOperacao, Callable[..., Any]] = {
             VariavelOperacao.MERCADO: lambda _: self.__le_e_atribui_float(
                 file,
                 self.data[VariavelOperacao.MERCADO],
                 self.numero_submercados,
                 indice,
             ),
-            VariavelOperacao.ENERGIA_ARMAZENADA_ABSOLUTA_INICIAL: lambda _: self.__le_e_atribui_float(  # noqa
-                file,
-                self.data[
-                    VariavelOperacao.ENERGIA_ARMAZENADA_ABSOLUTA_INICIAL
-                ],
-                self.numero_rees,
-                indice,
+            VariavelOperacao.ENERGIA_ARMAZENADA_ABSOLUTA_INICIAL: lambda _: (
+                self.__le_e_atribui_float(  # noqa
+                    file,
+                    self.data[
+                        VariavelOperacao.ENERGIA_ARMAZENADA_ABSOLUTA_INICIAL
+                    ],
+                    self.numero_rees,
+                    indice,
+                )
             ),
-            VariavelOperacao.ENERGIA_NATURAL_AFLUENTE_ABSOLUTA: lambda _: self.__le_e_atribui_float(  # noqa
-                file,
-                self.data[VariavelOperacao.ENERGIA_NATURAL_AFLUENTE_ABSOLUTA],
-                self.numero_rees,
-                indice,
+            VariavelOperacao.ENERGIA_NATURAL_AFLUENTE_ABSOLUTA: lambda _: (
+                self.__le_e_atribui_float(  # noqa
+                    file,
+                    self.data[
+                        VariavelOperacao.ENERGIA_NATURAL_AFLUENTE_ABSOLUTA
+                    ],
+                    self.numero_rees,
+                    indice,
+                )
             ),
-            VariavelOperacao.GERACAO_HIDRAULICA_CONTROLAVEL: lambda _: self.__le_e_atribui_float(
-                file,
-                self.data[VariavelOperacao.GERACAO_HIDRAULICA_CONTROLAVEL],
-                self.numero_rees * self.numero_patamares_carga,
-                indice,
+            VariavelOperacao.GERACAO_HIDRAULICA_CONTROLAVEL: lambda _: (
+                self.__le_e_atribui_float(
+                    file,
+                    self.data[VariavelOperacao.GERACAO_HIDRAULICA_CONTROLAVEL],
+                    self.numero_rees * self.numero_patamares_carga,
+                    indice,
+                )
             ),
-            VariavelOperacao.ENERGIA_VERTIDA: lambda _: self.__le_e_atribui_float(
-                file,
-                self.data[VariavelOperacao.ENERGIA_VERTIDA],
-                self.numero_rees,
-                indice,
+            VariavelOperacao.ENERGIA_VERTIDA: lambda _: (
+                self.__le_e_atribui_float(
+                    file,
+                    self.data[VariavelOperacao.ENERGIA_VERTIDA],
+                    self.numero_rees,
+                    indice,
+                )
             ),
-            VariavelOperacao.ENERGIA_ARMAZENADA_ABSOLUTA_FINAL: lambda _: self.__le_e_atribui_float(  # noqa
-                file,
-                self.data[VariavelOperacao.ENERGIA_ARMAZENADA_ABSOLUTA_FINAL],
-                self.numero_rees,
-                indice,
+            VariavelOperacao.ENERGIA_ARMAZENADA_ABSOLUTA_FINAL: lambda _: (
+                self.__le_e_atribui_float(  # noqa
+                    file,
+                    self.data[
+                        VariavelOperacao.ENERGIA_ARMAZENADA_ABSOLUTA_FINAL
+                    ],
+                    self.numero_rees,
+                    indice,
+                )
             ),
-            VariavelOperacao.ENERGIA_NATURAL_AFLUENTE_FIO_BRUTA: lambda _: self.__le_e_atribui_float(  # noqa
-                file,
-                self.data[VariavelOperacao.ENERGIA_NATURAL_AFLUENTE_FIO_BRUTA],
-                self.numero_rees,
-                indice,
+            VariavelOperacao.ENERGIA_NATURAL_AFLUENTE_FIO_BRUTA: lambda _: (
+                self.__le_e_atribui_float(  # noqa
+                    file,
+                    self.data[
+                        VariavelOperacao.ENERGIA_NATURAL_AFLUENTE_FIO_BRUTA
+                    ],
+                    self.numero_rees,
+                    indice,
+                )
             ),
-            VariavelOperacao.ENERGIA_EVAPORADA: lambda _: self.__le_e_atribui_float(
-                file,
-                self.data[VariavelOperacao.ENERGIA_EVAPORADA],
-                self.numero_rees,
-                indice,
+            VariavelOperacao.ENERGIA_EVAPORADA: lambda _: (
+                self.__le_e_atribui_float(
+                    file,
+                    self.data[VariavelOperacao.ENERGIA_EVAPORADA],
+                    self.numero_rees,
+                    indice,
+                )
             ),
-            VariavelOperacao.ENERGIA_ENCHIMENTO_VOLUME_MORTO: lambda _: self.__le_e_atribui_float(
-                file,
-                self.data[VariavelOperacao.ENERGIA_ENCHIMENTO_VOLUME_MORTO],
-                self.numero_rees,
-                indice,
+            VariavelOperacao.ENERGIA_ENCHIMENTO_VOLUME_MORTO: lambda _: (
+                self.__le_e_atribui_float(
+                    file,
+                    self.data[VariavelOperacao.ENERGIA_ENCHIMENTO_VOLUME_MORTO],
+                    self.numero_rees,
+                    indice,
+                )
             ),
-            VariavelOperacao.GERACAO_TERMICA: lambda _: self.__le_e_atribui_float(
-                file,
-                self.data[VariavelOperacao.GERACAO_TERMICA],
-                2 * self.total_classes_termicas * self.numero_patamares_carga,
-                indice,
+            VariavelOperacao.GERACAO_TERMICA: lambda _: (
+                self.__le_e_atribui_float(
+                    file,
+                    self.data[VariavelOperacao.GERACAO_TERMICA],
+                    2
+                    * self.total_classes_termicas
+                    * self.numero_patamares_carga,
+                    indice,
+                )
             ),
             VariavelOperacao.DEFICIT: lambda _: self.__le_e_atribui_float(
                 file,
@@ -848,23 +942,29 @@ class SecaoDadosForward(Section):
                 self.numero_rees,
                 indice,
             ),
-            VariavelOperacao.CUSTO_MARGINAL_OPERACAO: lambda _: self.__le_e_atribui_float(
-                file,
-                self.data[VariavelOperacao.CUSTO_MARGINAL_OPERACAO],
-                self.numero_submercados * self.numero_patamares_carga,
-                indice,
+            VariavelOperacao.CUSTO_MARGINAL_OPERACAO: lambda _: (
+                self.__le_e_atribui_float(
+                    file,
+                    self.data[VariavelOperacao.CUSTO_MARGINAL_OPERACAO],
+                    self.numero_submercados * self.numero_patamares_carga,
+                    indice,
+                )
             ),
-            VariavelOperacao.GERACAO_HIDRAULICA_FIO_LIQUIDA: lambda _: self.__le_e_atribui_float(
-                file,
-                self.data[VariavelOperacao.GERACAO_HIDRAULICA_FIO_LIQUIDA],
-                self.numero_rees,
-                indice,
+            VariavelOperacao.GERACAO_HIDRAULICA_FIO_LIQUIDA: lambda _: (
+                self.__le_e_atribui_float(
+                    file,
+                    self.data[VariavelOperacao.GERACAO_HIDRAULICA_FIO_LIQUIDA],
+                    self.numero_rees,
+                    indice,
+                )
             ),
-            VariavelOperacao.PERDAS_GERACAO_HIDRAULICA_FIO: lambda _: self.__le_e_atribui_float(
-                file,
-                self.data[VariavelOperacao.PERDAS_GERACAO_HIDRAULICA_FIO],
-                self.numero_rees,
-                indice,
+            VariavelOperacao.PERDAS_GERACAO_HIDRAULICA_FIO: lambda _: (
+                self.__le_e_atribui_float(
+                    file,
+                    self.data[VariavelOperacao.PERDAS_GERACAO_HIDRAULICA_FIO],
+                    self.numero_rees,
+                    indice,
+                )
             ),
             VariavelOperacao.INTERCAMBIO: lambda _: self.__le_e_atribui_float(
                 file,
@@ -880,118 +980,156 @@ class SecaoDadosForward(Section):
                 self.numero_submercados * self.numero_patamares_carga,
                 indice,
             ),
-            VariavelOperacao.ENERGIA_NATURAL_AFLUENTE_BRUTA: lambda _: self.__le_e_atribui_float(
-                file,
-                self.data[VariavelOperacao.ENERGIA_NATURAL_AFLUENTE_BRUTA],
-                self.numero_rees,
-                indice,
+            VariavelOperacao.ENERGIA_NATURAL_AFLUENTE_BRUTA: lambda _: (
+                self.__le_e_atribui_float(
+                    file,
+                    self.data[VariavelOperacao.ENERGIA_NATURAL_AFLUENTE_BRUTA],
+                    self.numero_rees,
+                    indice,
+                )
             ),
-            VariavelOperacao.ENERGIA_NATURAL_AFLUENTE_CONTROLAVEL_CORRIGIDA: lambda _: self.__le_e_atribui_float(  # noqa
-                file,
-                self.data[
-                    VariavelOperacao.ENERGIA_NATURAL_AFLUENTE_CONTROLAVEL_CORRIGIDA
-                ],
-                self.numero_rees,
-                indice,
+            VariavelOperacao.ENERGIA_NATURAL_AFLUENTE_CONTROLAVEL_CORRIGIDA: lambda _: (
+                self.__le_e_atribui_float(  # noqa
+                    file,
+                    self.data[
+                        VariavelOperacao.ENERGIA_NATURAL_AFLUENTE_CONTROLAVEL_CORRIGIDA
+                    ],
+                    self.numero_rees,
+                    indice,
+                )
             ),
-            VariavelOperacao.GERACAO_HIDRAULICA_MAXIMA: lambda _: self.__le_e_atribui_float(
-                file,
-                self.data[VariavelOperacao.GERACAO_HIDRAULICA_MAXIMA],
-                self.numero_rees * self.numero_patamares_carga,
-                indice,
+            VariavelOperacao.GERACAO_HIDRAULICA_MAXIMA: lambda _: (
+                self.__le_e_atribui_float(
+                    file,
+                    self.data[VariavelOperacao.GERACAO_HIDRAULICA_MAXIMA],
+                    self.numero_rees * self.numero_patamares_carga,
+                    indice,
+                )
             ),
-            VariavelOperacao.ENERGIA_AFLUENTE_CONTROLAVEL_DESVIO: lambda _: self.__le_e_atribui_float(  # noqa
-                file,
-                self.data[
-                    VariavelOperacao.ENERGIA_AFLUENTE_CONTROLAVEL_DESVIO
-                ],
-                self.numero_rees,
-                indice,
+            VariavelOperacao.ENERGIA_AFLUENTE_CONTROLAVEL_DESVIO: lambda _: (
+                self.__le_e_atribui_float(  # noqa
+                    file,
+                    self.data[
+                        VariavelOperacao.ENERGIA_AFLUENTE_CONTROLAVEL_DESVIO
+                    ],
+                    self.numero_rees,
+                    indice,
+                )
             ),
-            VariavelOperacao.ENERGIA_AFLUENTE_FIO_DESVIO: lambda _: self.__le_e_atribui_float(
-                file,
-                self.data[VariavelOperacao.ENERGIA_AFLUENTE_FIO_DESVIO],
-                self.numero_rees,
-                indice,
+            VariavelOperacao.ENERGIA_AFLUENTE_FIO_DESVIO: lambda _: (
+                self.__le_e_atribui_float(
+                    file,
+                    self.data[VariavelOperacao.ENERGIA_AFLUENTE_FIO_DESVIO],
+                    self.numero_rees,
+                    indice,
+                )
             ),
-            VariavelOperacao.BENEFICIO_INTERCAMBIO: lambda _: self.__le_e_atribui_float(
-                file,
-                self.data[VariavelOperacao.BENEFICIO_INTERCAMBIO],
-                self.numero_total_submercados
-                * (self.numero_total_submercados - 1)
-                * self.numero_patamares_carga,
-                indice,
+            VariavelOperacao.BENEFICIO_INTERCAMBIO: lambda _: (
+                self.__le_e_atribui_float(
+                    file,
+                    self.data[VariavelOperacao.BENEFICIO_INTERCAMBIO],
+                    self.numero_total_submercados
+                    * (self.numero_total_submercados - 1)
+                    * self.numero_patamares_carga,
+                    indice,
+                )
             ),
-            VariavelOperacao.FATOR_CORRECAO_ENERGIA_NATURAL_AFLUENTE_CONTROLAVEL: lambda _: self.__le_e_atribui_float(  # noqa
-                file,
-                self.data[
-                    VariavelOperacao.FATOR_CORRECAO_ENERGIA_NATURAL_AFLUENTE_CONTROLAVEL
-                ],
-                self.numero_rees,
-                indice,
+            VariavelOperacao.FATOR_CORRECAO_ENERGIA_NATURAL_AFLUENTE_CONTROLAVEL: lambda _: (
+                self.__le_e_atribui_float(  # noqa
+                    file,
+                    self.data[
+                        VariavelOperacao.FATOR_CORRECAO_ENERGIA_NATURAL_AFLUENTE_CONTROLAVEL
+                    ],
+                    self.numero_rees,
+                    indice,
+                )
             ),
-            VariavelOperacao.VIOLACAO_CURVA_AVERSAO: lambda _: self.__le_e_atribui_float(
-                file,
-                self.data[VariavelOperacao.VIOLACAO_CURVA_AVERSAO],
-                self.numero_rees,
-                indice,
+            VariavelOperacao.VIOLACAO_CURVA_AVERSAO: lambda _: (
+                self.__le_e_atribui_float(
+                    file,
+                    self.data[VariavelOperacao.VIOLACAO_CURVA_AVERSAO],
+                    self.numero_rees,
+                    indice,
+                )
             ),
-            VariavelOperacao.ACIONAMENTO_CURVA_AVERSAO: lambda _: self.__le_e_atribui_float(
-                file,
-                self.data[VariavelOperacao.ACIONAMENTO_CURVA_AVERSAO],
-                self.numero_rees,
-                indice,
+            VariavelOperacao.ACIONAMENTO_CURVA_AVERSAO: lambda _: (
+                self.__le_e_atribui_float(
+                    file,
+                    self.data[VariavelOperacao.ACIONAMENTO_CURVA_AVERSAO],
+                    self.numero_rees,
+                    indice,
+                )
             ),
-            VariavelOperacao.PENALIDADE_CURVA_AVERSAO: lambda _: self.__le_e_atribui_float(
-                file,
-                self.data[VariavelOperacao.PENALIDADE_CURVA_AVERSAO],
-                self.numero_rees,
-                indice,
+            VariavelOperacao.PENALIDADE_CURVA_AVERSAO: lambda _: (
+                self.__le_e_atribui_float(
+                    file,
+                    self.data[VariavelOperacao.PENALIDADE_CURVA_AVERSAO],
+                    self.numero_rees,
+                    indice,
+                )
             ),
-            VariavelOperacao.CUSTO_OPERACAO: lambda _: self.__le_e_atribui_float(
-                file,
-                self.data[VariavelOperacao.CUSTO_OPERACAO],
-                1,
-                indice,
+            VariavelOperacao.CUSTO_OPERACAO: lambda _: (
+                self.__le_e_atribui_float(
+                    file,
+                    self.data[VariavelOperacao.CUSTO_OPERACAO],
+                    1,
+                    indice,
+                )
             ),
-            VariavelOperacao.CUSTO_GERACAO_TERMICA: lambda _: self.__le_e_atribui_float(
-                file,
-                self.data[VariavelOperacao.CUSTO_GERACAO_TERMICA],
-                self.numero_submercados,
-                indice,
+            VariavelOperacao.CUSTO_GERACAO_TERMICA: lambda _: (
+                self.__le_e_atribui_float(
+                    file,
+                    self.data[VariavelOperacao.CUSTO_GERACAO_TERMICA],
+                    self.numero_submercados,
+                    indice,
+                )
             ),
-            VariavelOperacao.BENEFICIO_AGRUPAMENTO_INTERCAMBIO: lambda _: self.__le_e_atribui_float(
-                file,
-                self.data[VariavelOperacao.BENEFICIO_AGRUPAMENTO_INTERCAMBIO],
-                self.numero_patamares_carga
-                * self.numero_agrupamentos_intercambio,
-                indice,
+            VariavelOperacao.BENEFICIO_AGRUPAMENTO_INTERCAMBIO: lambda _: (
+                self.__le_e_atribui_float(
+                    file,
+                    self.data[
+                        VariavelOperacao.BENEFICIO_AGRUPAMENTO_INTERCAMBIO
+                    ],
+                    self.numero_patamares_carga
+                    * self.numero_agrupamentos_intercambio,
+                    indice,
+                )
             ),
-            VariavelOperacao.ENERGIA_NATURAL_AFLUENTE_FIO: lambda _: self.__le_e_atribui_float(
-                file,
-                self.data[VariavelOperacao.ENERGIA_NATURAL_AFLUENTE_FIO],
-                self.numero_rees,
-                indice,
+            VariavelOperacao.ENERGIA_NATURAL_AFLUENTE_FIO: lambda _: (
+                self.__le_e_atribui_float(
+                    file,
+                    self.data[VariavelOperacao.ENERGIA_NATURAL_AFLUENTE_FIO],
+                    self.numero_rees,
+                    indice,
+                )
             ),
-            VariavelOperacao.BENEFICIO_DESPACHO_GNL: lambda _: self.__le_e_atribui_float(
-                file,
-                self.data[VariavelOperacao.BENEFICIO_DESPACHO_GNL],
-                self.numero_submercados
-                * self.numero_patamares_carga
-                * self.lag_maximo_usinas_gnl,
-                indice,
+            VariavelOperacao.BENEFICIO_DESPACHO_GNL: lambda _: (
+                self.__le_e_atribui_float(
+                    file,
+                    self.data[VariavelOperacao.BENEFICIO_DESPACHO_GNL],
+                    self.numero_submercados
+                    * self.numero_patamares_carga
+                    * self.lag_maximo_usinas_gnl,
+                    indice,
+                )
             ),
-            VariavelOperacao.VIOLACAO_GERACAO_HIRAULICA_MINIMA: lambda _: self.__le_e_atribui_float(
-                file,
-                self.data[VariavelOperacao.VIOLACAO_GERACAO_HIRAULICA_MINIMA],
-                self.numero_rees * self.numero_patamares_carga,
-                indice,
+            VariavelOperacao.VIOLACAO_GERACAO_HIRAULICA_MINIMA: lambda _: (
+                self.__le_e_atribui_float(
+                    file,
+                    self.data[
+                        VariavelOperacao.VIOLACAO_GERACAO_HIRAULICA_MINIMA
+                    ],
+                    self.numero_rees * self.numero_patamares_carga,
+                    indice,
+                )
             ),
-            VariavelOperacao.VIOLACAO_ENERGIA_VAZAO_MINIMA: lambda _: self.__le_e_atribui_float(
-                file,
-                self.data[VariavelOperacao.VIOLACAO_ENERGIA_VAZAO_MINIMA],
-                self.numero_rees,
-                indice,
+            VariavelOperacao.VIOLACAO_ENERGIA_VAZAO_MINIMA: lambda _: (
+                self.__le_e_atribui_float(
+                    file,
+                    self.data[VariavelOperacao.VIOLACAO_ENERGIA_VAZAO_MINIMA],
+                    self.numero_rees,
+                    indice,
+                )
             ),
             VariavelOperacao.INVASAO_SAR: lambda _: self.__le_e_atribui_float(
                 file,
@@ -999,87 +1137,120 @@ class SecaoDadosForward(Section):
                 1,
                 indice,
             ),
-            VariavelOperacao.ACIONAMENTO_SAR: lambda _: self.__le_e_atribui_float(
-                file,
-                self.data[VariavelOperacao.ACIONAMENTO_SAR],
-                1,
-                indice,
+            VariavelOperacao.ACIONAMENTO_SAR: lambda _: (
+                self.__le_e_atribui_float(
+                    file,
+                    self.data[VariavelOperacao.ACIONAMENTO_SAR],
+                    1,
+                    indice,
+                )
             ),
-            VariavelOperacao.PENALIDADE_SAR: lambda _: self.__le_e_atribui_float(
-                file,
-                self.data[VariavelOperacao.PENALIDADE_SAR],
-                1,
-                indice,
+            VariavelOperacao.PENALIDADE_SAR: lambda _: (
+                self.__le_e_atribui_float(
+                    file,
+                    self.data[VariavelOperacao.PENALIDADE_SAR],
+                    1,
+                    indice,
+                )
             ),
-            VariavelOperacao.GERACAO_HIDRAULICA_MAXIMA_CONSIDERANDO_RE: lambda _: self.__le_e_atribui_float(  # noqa
-                file,
-                self.data[
-                    VariavelOperacao.GERACAO_HIDRAULICA_MAXIMA_CONSIDERANDO_RE
-                ],
-                self.numero_rees * self.numero_patamares_carga,
-                indice,
+            VariavelOperacao.GERACAO_HIDRAULICA_MAXIMA_CONSIDERANDO_RE: lambda _: (
+                self.__le_e_atribui_float(  # noqa
+                    file,
+                    self.data[
+                        VariavelOperacao.GERACAO_HIDRAULICA_MAXIMA_CONSIDERANDO_RE
+                    ],
+                    self.numero_rees * self.numero_patamares_carga,
+                    indice,
+                )
             ),
-            VariavelOperacao.VOLUME_ARMAZENADO_ABSOLUTO_FINAL: lambda _: self.__le_e_atribui_float(
-                file,
-                self.data[VariavelOperacao.VOLUME_ARMAZENADO_ABSOLUTO_FINAL],
-                self.numero_usinas_hidreletricas,
-                indice,
+            VariavelOperacao.VOLUME_ARMAZENADO_ABSOLUTO_FINAL: lambda _: (
+                self.__le_e_atribui_float(
+                    file,
+                    self.data[
+                        VariavelOperacao.VOLUME_ARMAZENADO_ABSOLUTO_FINAL
+                    ],
+                    self.numero_usinas_hidreletricas,
+                    indice,
+                )
             ),
-            VariavelOperacao.GERACAO_HIDRAULICA_USINA: lambda _: self.__le_e_atribui_float(
-                file,
-                self.data[VariavelOperacao.GERACAO_HIDRAULICA_USINA],
-                self.numero_usinas_hidreletricas * self.numero_patamares_carga,
-                indice,
+            VariavelOperacao.GERACAO_HIDRAULICA_USINA: lambda _: (
+                self.__le_e_atribui_float(
+                    file,
+                    self.data[VariavelOperacao.GERACAO_HIDRAULICA_USINA],
+                    self.numero_usinas_hidreletricas
+                    * self.numero_patamares_carga,
+                    indice,
+                )
             ),
-            VariavelOperacao.VOLUME_TURBINADO: lambda _: self.__le_e_atribui_float(
-                file,
-                self.data[VariavelOperacao.VOLUME_TURBINADO],
-                self.numero_usinas_hidreletricas * self.numero_patamares_carga,
-                indice,
+            VariavelOperacao.VOLUME_TURBINADO: lambda _: (
+                self.__le_e_atribui_float(
+                    file,
+                    self.data[VariavelOperacao.VOLUME_TURBINADO],
+                    self.numero_usinas_hidreletricas
+                    * self.numero_patamares_carga,
+                    indice,
+                )
             ),
-            VariavelOperacao.VOLUME_VERTIDO: lambda _: self.__le_e_atribui_float(
-                file,
-                self.data[VariavelOperacao.VOLUME_VERTIDO],
-                self.numero_usinas_hidreletricas * self.numero_patamares_carga,
-                indice,
+            VariavelOperacao.VOLUME_VERTIDO: lambda _: (
+                self.__le_e_atribui_float(
+                    file,
+                    self.data[VariavelOperacao.VOLUME_VERTIDO],
+                    self.numero_usinas_hidreletricas
+                    * self.numero_patamares_carga,
+                    indice,
+                )
             ),
-            VariavelOperacao.VIOLACAO_GERACAO_HIDRAULICA_MINIMA_USINA: lambda _: self.__le_e_atribui_float(  # noqa
-                file,
-                self.data[
-                    VariavelOperacao.VIOLACAO_GERACAO_HIDRAULICA_MINIMA_USINA
-                ],
-                self.numero_usinas_hidreletricas * self.numero_patamares_carga,
-                indice,
+            VariavelOperacao.VIOLACAO_GERACAO_HIDRAULICA_MINIMA_USINA: lambda _: (
+                self.__le_e_atribui_float(  # noqa
+                    file,
+                    self.data[
+                        VariavelOperacao.VIOLACAO_GERACAO_HIDRAULICA_MINIMA_USINA
+                    ],
+                    self.numero_usinas_hidreletricas
+                    * self.numero_patamares_carga,
+                    indice,
+                )
             ),
-            VariavelOperacao.ENCHIMENTO_VOLUME_MORTO_USINA: lambda _: self.__le_e_atribui_float(
-                file,
-                self.data[VariavelOperacao.ENCHIMENTO_VOLUME_MORTO_USINA],
-                self.numero_usinas_hidreletricas,
-                indice,
+            VariavelOperacao.ENCHIMENTO_VOLUME_MORTO_USINA: lambda _: (
+                self.__le_e_atribui_float(
+                    file,
+                    self.data[VariavelOperacao.ENCHIMENTO_VOLUME_MORTO_USINA],
+                    self.numero_usinas_hidreletricas,
+                    indice,
+                )
             ),
-            VariavelOperacao.VIOLACAO_DEFLUENCIA_MINIMA: lambda _: self.__le_e_atribui_float(
-                file,
-                self.data[VariavelOperacao.VIOLACAO_DEFLUENCIA_MINIMA],
-                self.numero_usinas_hidreletricas * self.numero_patamares_carga,
-                indice,
+            VariavelOperacao.VIOLACAO_DEFLUENCIA_MINIMA: lambda _: (
+                self.__le_e_atribui_float(
+                    file,
+                    self.data[VariavelOperacao.VIOLACAO_DEFLUENCIA_MINIMA],
+                    self.numero_usinas_hidreletricas
+                    * self.numero_patamares_carga,
+                    indice,
+                )
             ),
-            VariavelOperacao.VOLUME_DESVIO_USINA: lambda _: self.__le_e_atribui_float(
-                file,
-                self.data[VariavelOperacao.VOLUME_DESVIO_USINA],
-                self.numero_usinas_hidreletricas,
-                indice,
+            VariavelOperacao.VOLUME_DESVIO_USINA: lambda _: (
+                self.__le_e_atribui_float(
+                    file,
+                    self.data[VariavelOperacao.VOLUME_DESVIO_USINA],
+                    self.numero_usinas_hidreletricas,
+                    indice,
+                )
             ),
-            VariavelOperacao.VOLUME_DESVIO_POSITIVO_USINA: lambda _: self.__le_e_atribui_float(
-                file,
-                self.data[VariavelOperacao.VOLUME_DESVIO_POSITIVO_USINA],
-                self.numero_usinas_hidreletricas,
-                indice,
+            VariavelOperacao.VOLUME_DESVIO_POSITIVO_USINA: lambda _: (
+                self.__le_e_atribui_float(
+                    file,
+                    self.data[VariavelOperacao.VOLUME_DESVIO_POSITIVO_USINA],
+                    self.numero_usinas_hidreletricas,
+                    indice,
+                )
             ),
-            VariavelOperacao.VOLUME_DESVIO_NEGATIVO_USINA: lambda _: self.__le_e_atribui_float(
-                file,
-                self.data[VariavelOperacao.VOLUME_DESVIO_NEGATIVO_USINA],
-                self.numero_usinas_hidreletricas,
-                indice,
+            VariavelOperacao.VOLUME_DESVIO_NEGATIVO_USINA: lambda _: (
+                self.__le_e_atribui_float(
+                    file,
+                    self.data[VariavelOperacao.VOLUME_DESVIO_NEGATIVO_USINA],
+                    self.numero_usinas_hidreletricas,
+                    indice,
+                )
             ),
             VariavelOperacao.VIOLACAO_FPHA: lambda _: self.__le_e_atribui_float(
                 file,
@@ -1087,23 +1258,31 @@ class SecaoDadosForward(Section):
                 self.numero_usinas_hidreletricas * self.numero_patamares_carga,
                 indice,
             ),
-            VariavelOperacao.VAZAO_AFLUENTE: lambda _: self.__le_e_atribui_float(
-                file,
-                self.data[VariavelOperacao.VAZAO_AFLUENTE],
-                self.numero_usinas_hidreletricas,
-                indice,
+            VariavelOperacao.VAZAO_AFLUENTE: lambda _: (
+                self.__le_e_atribui_float(
+                    file,
+                    self.data[VariavelOperacao.VAZAO_AFLUENTE],
+                    self.numero_usinas_hidreletricas,
+                    indice,
+                )
             ),
-            VariavelOperacao.VAZAO_INCREMENTAL: lambda _: self.__le_e_atribui_float(
-                file,
-                self.data[VariavelOperacao.VAZAO_INCREMENTAL],
-                self.numero_usinas_hidreletricas,
-                indice,
+            VariavelOperacao.VAZAO_INCREMENTAL: lambda _: (
+                self.__le_e_atribui_float(
+                    file,
+                    self.data[VariavelOperacao.VAZAO_INCREMENTAL],
+                    self.numero_usinas_hidreletricas,
+                    indice,
+                )
             ),
-            VariavelOperacao.VOLUME_ARMAZENADO_PERCENTUAL_FINAL: lambda _: self.__le_e_atribui_float(  # noqa
-                file,
-                self.data[VariavelOperacao.VOLUME_ARMAZENADO_PERCENTUAL_FINAL],
-                self.numero_usinas_hidreletricas,
-                indice,
+            VariavelOperacao.VOLUME_ARMAZENADO_PERCENTUAL_FINAL: lambda _: (
+                self.__le_e_atribui_float(  # noqa
+                    file,
+                    self.data[
+                        VariavelOperacao.VOLUME_ARMAZENADO_PERCENTUAL_FINAL
+                    ],
+                    self.numero_usinas_hidreletricas,
+                    indice,
+                )
             ),
             VariavelOperacao.GEOL_GSOL_OLD: lambda _: self.__le_e_atribui_float(
                 file,
@@ -1117,195 +1296,269 @@ class SecaoDadosForward(Section):
                 1,
                 indice,
             ),
-            VariavelOperacao.CUSTO_VIOLACAO_ENERGIA_VAZAO_MINIMA: lambda _: self.__le_e_atribui_float(  # noqa
-                file,
-                self.data[
-                    VariavelOperacao.CUSTO_VIOLACAO_ENERGIA_VAZAO_MINIMA
-                ],
-                self.numero_rees,
-                indice,
+            VariavelOperacao.CUSTO_VIOLACAO_ENERGIA_VAZAO_MINIMA: lambda _: (
+                self.__le_e_atribui_float(  # noqa
+                    file,
+                    self.data[
+                        VariavelOperacao.CUSTO_VIOLACAO_ENERGIA_VAZAO_MINIMA
+                    ],
+                    self.numero_rees,
+                    indice,
+                )
             ),
-            VariavelOperacao.CUSTO_ENERGIA_AFLUENTE_CONTROLAVEL_DESVIO: lambda _: self.__le_e_atribui_float(  # noqa
-                file,
-                self.data[
-                    VariavelOperacao.CUSTO_ENERGIA_AFLUENTE_CONTROLAVEL_DESVIO
-                ],
-                self.numero_rees,
-                indice,
+            VariavelOperacao.CUSTO_ENERGIA_AFLUENTE_CONTROLAVEL_DESVIO: lambda _: (
+                self.__le_e_atribui_float(  # noqa
+                    file,
+                    self.data[
+                        VariavelOperacao.CUSTO_ENERGIA_AFLUENTE_CONTROLAVEL_DESVIO
+                    ],
+                    self.numero_rees,
+                    indice,
+                )
             ),
-            VariavelOperacao.CUSTO_ENERGIA_AFLUENTE_FIO_DESVIO: lambda _: self.__le_e_atribui_float(
-                file,
-                self.data[VariavelOperacao.CUSTO_ENERGIA_AFLUENTE_FIO_DESVIO],
-                self.numero_rees,
-                indice,
+            VariavelOperacao.CUSTO_ENERGIA_AFLUENTE_FIO_DESVIO: lambda _: (
+                self.__le_e_atribui_float(
+                    file,
+                    self.data[
+                        VariavelOperacao.CUSTO_ENERGIA_AFLUENTE_FIO_DESVIO
+                    ],
+                    self.numero_rees,
+                    indice,
+                )
             ),
-            VariavelOperacao.CUSTO_VIOLACAO_GERACAO_HIDRAULICA_MINIMA: lambda _: self.__le_e_atribui_float(  # noqa
-                file,
-                self.data[
-                    VariavelOperacao.CUSTO_VIOLACAO_GERACAO_HIDRAULICA_MINIMA
-                ],
-                self.numero_rees * self.numero_patamares_carga,
-                indice,
+            VariavelOperacao.CUSTO_VIOLACAO_GERACAO_HIDRAULICA_MINIMA: lambda _: (
+                self.__le_e_atribui_float(  # noqa
+                    file,
+                    self.data[
+                        VariavelOperacao.CUSTO_VIOLACAO_GERACAO_HIDRAULICA_MINIMA
+                    ],
+                    self.numero_rees * self.numero_patamares_carga,
+                    indice,
+                )
             ),
-            VariavelOperacao.SOMA_ENERGIA_NATURAL_AFLUENTE_12_MESES: lambda _: self.__le_e_atribui_float(  # noqa
-                file,
-                self.data[
-                    VariavelOperacao.SOMA_ENERGIA_NATURAL_AFLUENTE_12_MESES
-                ],
-                self.numero_rees,
-                indice,
+            VariavelOperacao.SOMA_ENERGIA_NATURAL_AFLUENTE_12_MESES: lambda _: (
+                self.__le_e_atribui_float(  # noqa
+                    file,
+                    self.data[
+                        VariavelOperacao.SOMA_ENERGIA_NATURAL_AFLUENTE_12_MESES
+                    ],
+                    self.numero_rees,
+                    indice,
+                )
             ),
-            VariavelOperacao.SOMA_VAZAO_AFLUENTE_12_MESES: lambda _: self.__le_e_atribui_float(
-                file,
-                self.data[VariavelOperacao.SOMA_VAZAO_AFLUENTE_12_MESES],
-                self.numero_usinas_hidreletricas,
-                indice,
+            VariavelOperacao.SOMA_VAZAO_AFLUENTE_12_MESES: lambda _: (
+                self.__le_e_atribui_float(
+                    file,
+                    self.data[VariavelOperacao.SOMA_VAZAO_AFLUENTE_12_MESES],
+                    self.numero_usinas_hidreletricas,
+                    indice,
+                )
             ),
-            VariavelOperacao.GERACAO_EOLICA: lambda _: self.__le_e_atribui_float(
-                file,
-                self.data[VariavelOperacao.GERACAO_EOLICA],
-                self.numero_parques_eolicos_equivalentes
-                * self.numero_patamares_carga,
-                indice,
+            VariavelOperacao.GERACAO_EOLICA: lambda _: (
+                self.__le_e_atribui_float(
+                    file,
+                    self.data[VariavelOperacao.GERACAO_EOLICA],
+                    self.numero_parques_eolicos_equivalentes
+                    * self.numero_patamares_carga,
+                    indice,
+                )
             ),
-            VariavelOperacao.VELOCIDADE_VENTO: lambda _: self.__le_e_atribui_float(
-                file,
-                self.data[VariavelOperacao.VELOCIDADE_VENTO],
-                self.numero_parques_eolicos_equivalentes,
-                indice,
+            VariavelOperacao.VELOCIDADE_VENTO: lambda _: (
+                self.__le_e_atribui_float(
+                    file,
+                    self.data[VariavelOperacao.VELOCIDADE_VENTO],
+                    self.numero_parques_eolicos_equivalentes,
+                    indice,
+                )
             ),
-            VariavelOperacao.VIOLACAO_FUNCAO_PRODUCAO_EOLICA: lambda _: self.__le_e_atribui_float(
-                file,
-                self.data[VariavelOperacao.VIOLACAO_FUNCAO_PRODUCAO_EOLICA],
-                self.numero_parques_eolicos_equivalentes
-                * self.numero_patamares_carga,
-                indice,
+            VariavelOperacao.VIOLACAO_FUNCAO_PRODUCAO_EOLICA: lambda _: (
+                self.__le_e_atribui_float(
+                    file,
+                    self.data[VariavelOperacao.VIOLACAO_FUNCAO_PRODUCAO_EOLICA],
+                    self.numero_parques_eolicos_equivalentes
+                    * self.numero_patamares_carga,
+                    indice,
+                )
             ),
-            VariavelOperacao.VIOLACAO_DEFLUENCIA_MAXIMA: lambda _: self.__le_e_atribui_float(
-                file,
-                self.data[VariavelOperacao.VIOLACAO_DEFLUENCIA_MAXIMA],
-                self.numero_usinas_hidreletricas * self.numero_patamares_carga,
-                indice,
+            VariavelOperacao.VIOLACAO_DEFLUENCIA_MAXIMA: lambda _: (
+                self.__le_e_atribui_float(
+                    file,
+                    self.data[VariavelOperacao.VIOLACAO_DEFLUENCIA_MAXIMA],
+                    self.numero_usinas_hidreletricas
+                    * self.numero_patamares_carga,
+                    indice,
+                )
             ),
-            VariavelOperacao.VIOLACAO_TURBINAMENTO_MAXIMO: lambda _: self.__le_e_atribui_float(
-                file,
-                self.data[VariavelOperacao.VIOLACAO_TURBINAMENTO_MAXIMO],
-                self.numero_usinas_hidreletricas * self.numero_patamares_carga,
-                indice,
+            VariavelOperacao.VIOLACAO_TURBINAMENTO_MAXIMO: lambda _: (
+                self.__le_e_atribui_float(
+                    file,
+                    self.data[VariavelOperacao.VIOLACAO_TURBINAMENTO_MAXIMO],
+                    self.numero_usinas_hidreletricas
+                    * self.numero_patamares_carga,
+                    indice,
+                )
             ),
-            VariavelOperacao.VIOLACAO_TURBINAMENTO_MINIMO: lambda _: self.__le_e_atribui_float(
-                file,
-                self.data[VariavelOperacao.VIOLACAO_TURBINAMENTO_MINIMO],
-                self.numero_usinas_hidreletricas * self.numero_patamares_carga,
-                indice,
+            VariavelOperacao.VIOLACAO_TURBINAMENTO_MINIMO: lambda _: (
+                self.__le_e_atribui_float(
+                    file,
+                    self.data[VariavelOperacao.VIOLACAO_TURBINAMENTO_MINIMO],
+                    self.numero_usinas_hidreletricas
+                    * self.numero_patamares_carga,
+                    indice,
+                )
             ),
-            VariavelOperacao.VIOLACAO_LPP_TURBINAMENTO_MAXIMO: lambda _: self.__le_e_atribui_float(
-                file,
-                self.data[VariavelOperacao.VIOLACAO_LPP_TURBINAMENTO_MAXIMO],
-                self.numero_rees * self.numero_patamares_carga,
-                indice,
+            VariavelOperacao.VIOLACAO_LPP_TURBINAMENTO_MAXIMO: lambda _: (
+                self.__le_e_atribui_float(
+                    file,
+                    self.data[
+                        VariavelOperacao.VIOLACAO_LPP_TURBINAMENTO_MAXIMO
+                    ],
+                    self.numero_rees * self.numero_patamares_carga,
+                    indice,
+                )
             ),
-            VariavelOperacao.VIOLACAO_LPP_DEFLUENCIA_MAXIMA: lambda _: self.__le_e_atribui_float(
-                file,
-                self.data[VariavelOperacao.VIOLACAO_LPP_DEFLUENCIA_MAXIMA],
-                self.numero_rees * self.numero_patamares_carga,
-                indice,
+            VariavelOperacao.VIOLACAO_LPP_DEFLUENCIA_MAXIMA: lambda _: (
+                self.__le_e_atribui_float(
+                    file,
+                    self.data[VariavelOperacao.VIOLACAO_LPP_DEFLUENCIA_MAXIMA],
+                    self.numero_rees * self.numero_patamares_carga,
+                    indice,
+                )
             ),
-            VariavelOperacao.VIOLACAO_LPP_TURBINAMENTO_MAXIMO_USINA: lambda _: self.__le_e_atribui_float(  # noqa
-                file,
-                self.data[
-                    VariavelOperacao.VIOLACAO_LPP_TURBINAMENTO_MAXIMO_USINA
-                ],
-                self.numero_usinas_hidreletricas * self.numero_patamares_carga,
-                indice,
+            VariavelOperacao.VIOLACAO_LPP_TURBINAMENTO_MAXIMO_USINA: lambda _: (
+                self.__le_e_atribui_float(  # noqa
+                    file,
+                    self.data[
+                        VariavelOperacao.VIOLACAO_LPP_TURBINAMENTO_MAXIMO_USINA
+                    ],
+                    self.numero_usinas_hidreletricas
+                    * self.numero_patamares_carga,
+                    indice,
+                )
             ),
-            VariavelOperacao.VIOLACAO_LPP_DEFLUENCIA_MAXIMA_USINA: lambda _: self.__le_e_atribui_float(  # noqa
-                file,
-                self.data[
-                    VariavelOperacao.VIOLACAO_LPP_DEFLUENCIA_MAXIMA_USINA
-                ],
-                self.numero_usinas_hidreletricas * self.numero_patamares_carga,
-                indice,
+            VariavelOperacao.VIOLACAO_LPP_DEFLUENCIA_MAXIMA_USINA: lambda _: (
+                self.__le_e_atribui_float(  # noqa
+                    file,
+                    self.data[
+                        VariavelOperacao.VIOLACAO_LPP_DEFLUENCIA_MAXIMA_USINA
+                    ],
+                    self.numero_usinas_hidreletricas
+                    * self.numero_patamares_carga,
+                    indice,
+                )
             ),
-            VariavelOperacao.RHS_LPP_TURBINAMENTO_MAXIMO: lambda _: self.__le_e_atribui_float(
-                file,
-                self.data[VariavelOperacao.RHS_LPP_TURBINAMENTO_MAXIMO],
-                self.numero_rees * self.numero_patamares_carga,
-                indice,
+            VariavelOperacao.RHS_LPP_TURBINAMENTO_MAXIMO: lambda _: (
+                self.__le_e_atribui_float(
+                    file,
+                    self.data[VariavelOperacao.RHS_LPP_TURBINAMENTO_MAXIMO],
+                    self.numero_rees * self.numero_patamares_carga,
+                    indice,
+                )
             ),
-            VariavelOperacao.RHS_LPP_DEFLUENCIA_MAXIMA: lambda _: self.__le_e_atribui_float(
-                file,
-                self.data[VariavelOperacao.RHS_LPP_DEFLUENCIA_MAXIMA],
-                self.numero_rees * self.numero_patamares_carga,
-                indice,
+            VariavelOperacao.RHS_LPP_DEFLUENCIA_MAXIMA: lambda _: (
+                self.__le_e_atribui_float(
+                    file,
+                    self.data[VariavelOperacao.RHS_LPP_DEFLUENCIA_MAXIMA],
+                    self.numero_rees * self.numero_patamares_carga,
+                    indice,
+                )
             ),
-            VariavelOperacao.RHS_LPP_TURBINAMENTO_MAXIMO_USINA: lambda _: self.__le_e_atribui_float(  # noqa
-                file,
-                self.data[VariavelOperacao.RHS_LPP_TURBINAMENTO_MAXIMO_USINA],
-                self.numero_usinas_hidreletricas * self.numero_patamares_carga,
-                indice,
+            VariavelOperacao.RHS_LPP_TURBINAMENTO_MAXIMO_USINA: lambda _: (
+                self.__le_e_atribui_float(  # noqa
+                    file,
+                    self.data[
+                        VariavelOperacao.RHS_LPP_TURBINAMENTO_MAXIMO_USINA
+                    ],
+                    self.numero_usinas_hidreletricas
+                    * self.numero_patamares_carga,
+                    indice,
+                )
             ),
-            VariavelOperacao.RHS_LPP_DEFLUENCIA_MAXIMA_USINA: lambda _: self.__le_e_atribui_float(
-                file,
-                self.data[VariavelOperacao.RHS_LPP_DEFLUENCIA_MAXIMA_USINA],
-                self.numero_usinas_hidreletricas * self.numero_patamares_carga,
-                indice,
+            VariavelOperacao.RHS_LPP_DEFLUENCIA_MAXIMA_USINA: lambda _: (
+                self.__le_e_atribui_float(
+                    file,
+                    self.data[VariavelOperacao.RHS_LPP_DEFLUENCIA_MAXIMA_USINA],
+                    self.numero_usinas_hidreletricas
+                    * self.numero_patamares_carga,
+                    indice,
+                )
             ),
-            VariavelOperacao.VIOLACAO_RESTRICOES_ELETRICAS_ESPECIAIS: lambda _: self.__le_e_atribui_float(  # noqa
-                file,
-                self.data[
-                    VariavelOperacao.VIOLACAO_RESTRICOES_ELETRICAS_ESPECIAIS
-                ],
-                self.numero_restricoes_eletricas_especiais
-                * self.numero_patamares_carga,
-                indice,
+            VariavelOperacao.VIOLACAO_RESTRICOES_ELETRICAS_ESPECIAIS: lambda _: (
+                self.__le_e_atribui_float(  # noqa
+                    file,
+                    self.data[
+                        VariavelOperacao.VIOLACAO_RESTRICOES_ELETRICAS_ESPECIAIS
+                    ],
+                    self.numero_restricoes_eletricas_especiais
+                    * self.numero_patamares_carga,
+                    indice,
+                )
             ),
-            VariavelOperacao.CUSTO_RESTRICOES_ELETRICAS_ESPECIAIS: lambda _: self.__le_e_atribui_float(  # noqa
-                file,
-                self.data[
-                    VariavelOperacao.CUSTO_RESTRICOES_ELETRICAS_ESPECIAIS
-                ],
-                self.numero_restricoes_eletricas_especiais
-                * self.numero_patamares_carga,
-                indice,
+            VariavelOperacao.CUSTO_RESTRICOES_ELETRICAS_ESPECIAIS: lambda _: (
+                self.__le_e_atribui_float(  # noqa
+                    file,
+                    self.data[
+                        VariavelOperacao.CUSTO_RESTRICOES_ELETRICAS_ESPECIAIS
+                    ],
+                    self.numero_restricoes_eletricas_especiais
+                    * self.numero_patamares_carga,
+                    indice,
+                )
             ),
-            VariavelOperacao.VOLUME_ARMAZENADO_ABSOLUTO_INICIAL: lambda _: self.__le_e_atribui_float(  # noqa
-                file,
-                self.data[VariavelOperacao.VOLUME_ARMAZENADO_ABSOLUTO_INICIAL],
-                self.numero_usinas_hidreletricas,
-                indice,
+            VariavelOperacao.VOLUME_ARMAZENADO_ABSOLUTO_INICIAL: lambda _: (
+                self.__le_e_atribui_float(  # noqa
+                    file,
+                    self.data[
+                        VariavelOperacao.VOLUME_ARMAZENADO_ABSOLUTO_INICIAL
+                    ],
+                    self.numero_usinas_hidreletricas,
+                    indice,
+                )
             ),
-            VariavelOperacao.VALOR_AGUA_USINA: lambda _: self.__le_e_atribui_float(
-                file,
-                self.data[VariavelOperacao.VALOR_AGUA_USINA],
-                self.numero_usinas_hidreletricas,
-                indice,
+            VariavelOperacao.VALOR_AGUA_USINA: lambda _: (
+                self.__le_e_atribui_float(
+                    file,
+                    self.data[VariavelOperacao.VALOR_AGUA_USINA],
+                    self.numero_usinas_hidreletricas,
+                    indice,
+                )
             ),
-            VariavelOperacao.VOLUME_EVAPORADO: lambda _: self.__le_e_atribui_float(
-                file,
-                self.data[VariavelOperacao.VOLUME_EVAPORADO],
-                self.numero_usinas_hidreletricas,
-                indice,
+            VariavelOperacao.VOLUME_EVAPORADO: lambda _: (
+                self.__le_e_atribui_float(
+                    file,
+                    self.data[VariavelOperacao.VOLUME_EVAPORADO],
+                    self.numero_usinas_hidreletricas,
+                    indice,
+                )
             ),
-            VariavelOperacao.VOLUME_BOMBEADO: lambda _: self.__le_e_atribui_float(
-                file,
-                self.data[VariavelOperacao.VOLUME_BOMBEADO],
-                self.numero_estacoes_bombeamento * self.numero_patamares_carga,
-                indice,
+            VariavelOperacao.VOLUME_BOMBEADO: lambda _: (
+                self.__le_e_atribui_float(
+                    file,
+                    self.data[VariavelOperacao.VOLUME_BOMBEADO],
+                    self.numero_estacoes_bombeamento
+                    * self.numero_patamares_carga,
+                    indice,
+                )
             ),
-            VariavelOperacao.CONSUMO_ENERGIA_ESTACAO_BOMBEAMENTO: lambda _: self.__le_e_atribui_float(  # noqa
-                file,
-                self.data[
-                    VariavelOperacao.CONSUMO_ENERGIA_ESTACAO_BOMBEAMENTO
-                ],
-                self.numero_estacoes_bombeamento * self.numero_patamares_carga,
-                indice,
+            VariavelOperacao.CONSUMO_ENERGIA_ESTACAO_BOMBEAMENTO: lambda _: (
+                self.__le_e_atribui_float(  # noqa
+                    file,
+                    self.data[
+                        VariavelOperacao.CONSUMO_ENERGIA_ESTACAO_BOMBEAMENTO
+                    ],
+                    self.numero_estacoes_bombeamento
+                    * self.numero_patamares_carga,
+                    indice,
+                )
             ),
-            VariavelOperacao.VOLUME_CANAL_DESVIO_USINA: lambda _: self.__le_e_atribui_float(
-                file,
-                self.data[VariavelOperacao.VOLUME_CANAL_DESVIO_USINA],
-                self.numero_usinas_hidreletricas * self.numero_patamares_carga,
-                indice,
+            VariavelOperacao.VOLUME_CANAL_DESVIO_USINA: lambda _: (
+                self.__le_e_atribui_float(
+                    file,
+                    self.data[VariavelOperacao.VOLUME_CANAL_DESVIO_USINA],
+                    self.numero_usinas_hidreletricas
+                    * self.numero_patamares_carga,
+                    indice,
+                )
             ),
         }
         for v in self.__class__.VARIAVEIS:
@@ -1314,9 +1567,9 @@ class SecaoDadosForward(Section):
     def __converte_array_em_dataframe(
         self,
         variavel: np.ndarray,
-        colunas_identificacao: dict,
+        colunas_identificacao: dict[str, Any],
         num_elementos: int,
-    ):
+    ) -> pd.DataFrame:
         return pd.DataFrame(
             data={
                 **{
@@ -1328,7 +1581,7 @@ class SecaoDadosForward(Section):
             }
         )
 
-    def __converte_array_submercado(self, variavel: np.ndarray):
+    def __converte_array_submercado(self, variavel: np.ndarray) -> Any:
         return self.__converte_array_em_dataframe(
             variavel,
             {
@@ -1339,7 +1592,7 @@ class SecaoDadosForward(Section):
             self.numero_submercados,
         )
 
-    def __converte_array_submercado_patamar(self, variavel: np.ndarray):
+    def __converte_array_submercado_patamar(self, variavel: np.ndarray) -> Any:
         return self.__converte_array_em_dataframe(
             variavel,
             {
@@ -1360,14 +1613,14 @@ class SecaoDadosForward(Section):
             self.numero_submercados * self.numero_patamares_carga,
         )
 
-    def __converte_array_ree(self, variavel: np.ndarray):
+    def __converte_array_ree(self, variavel: np.ndarray) -> Any:
         return self.__converte_array_em_dataframe(
             variavel,
             {"ree": np.tile(self.nomes_rees, self.__num_simulacoes)},
             self.numero_rees,
         )
 
-    def __converte_array_ree_patamar(self, variavel: np.ndarray):
+    def __converte_array_ree_patamar(self, variavel: np.ndarray) -> Any:
         return self.__converte_array_em_dataframe(
             variavel,
             {
@@ -1389,7 +1642,7 @@ class SecaoDadosForward(Section):
             self.numero_rees * self.numero_patamares_carga,
         )
 
-    def __converte_array_ute_patamar(self, variavel: np.ndarray):
+    def __converte_array_ute_patamar(self, variavel: np.ndarray) -> Any:
         return self.__converte_array_em_dataframe(
             variavel,
             {
@@ -1413,7 +1666,7 @@ class SecaoDadosForward(Section):
 
     def __converte_array_submercado_patamardeficit_patamar(
         self, variavel: np.ndarray
-    ):
+    ) -> pd.DataFrame:
         return self.__converte_array_em_dataframe(
             variavel,
             {
@@ -1448,7 +1701,9 @@ class SecaoDadosForward(Section):
             * self.numero_patamares_carga,
         )
 
-    def __converte_array_par_submercados_patamar(self, variavel: np.ndarray):
+    def __converte_array_par_submercados_patamar(
+        self, variavel: np.ndarray
+    ) -> Any:
         return self.__converte_array_em_dataframe(
             variavel,
             {
@@ -1486,7 +1741,7 @@ class SecaoDadosForward(Section):
 
     def __converte_array_agrupamentointercambio_patamar(
         self, variavel: np.ndarray
-    ):
+    ) -> pd.DataFrame:
         return self.__converte_array_em_dataframe(
             variavel,
             {
@@ -1506,7 +1761,9 @@ class SecaoDadosForward(Section):
             self.numero_agrupamentos_intercambio * self.numero_patamares_carga,
         )
 
-    def __converte_array_laggnl_submercado_patamar(self, variavel: np.ndarray):
+    def __converte_array_laggnl_submercado_patamar(
+        self, variavel: np.ndarray
+    ) -> Any:
         return self.__converte_array_em_dataframe(
             variavel,
             {
@@ -1537,7 +1794,7 @@ class SecaoDadosForward(Section):
             * self.numero_patamares_carga,
         )
 
-    def __converte_array_uhe(self, variavel: np.ndarray):
+    def __converte_array_uhe(self, variavel: np.ndarray) -> Any:
         return self.__converte_array_em_dataframe(
             variavel,
             {
@@ -1548,7 +1805,7 @@ class SecaoDadosForward(Section):
             self.numero_usinas_hidreletricas,
         )
 
-    def __converte_array_uhe_patamar(self, variavel: np.ndarray):
+    def __converte_array_uhe_patamar(self, variavel: np.ndarray) -> Any:
         return self.__converte_array_em_dataframe(
             variavel,
             {
@@ -1570,7 +1827,7 @@ class SecaoDadosForward(Section):
             self.numero_usinas_hidreletricas * self.numero_patamares_carga,
         )
 
-    def __converte_array_pee(self, variavel: np.ndarray):
+    def __converte_array_pee(self, variavel: np.ndarray) -> Any:
         return self.__converte_array_em_dataframe(
             variavel,
             {
@@ -1582,7 +1839,7 @@ class SecaoDadosForward(Section):
             self.numero_parques_eolicos_equivalentes,
         )
 
-    def __converte_array_pee_patamar(self, variavel: np.ndarray):
+    def __converte_array_pee_patamar(self, variavel: np.ndarray) -> Any:
         return self.__converte_array_em_dataframe(
             variavel,
             {
@@ -1605,7 +1862,9 @@ class SecaoDadosForward(Section):
             * self.numero_patamares_carga,
         )
 
-    def __converte_array_restricaoeletrica_patamar(self, variavel: np.ndarray):
+    def __converte_array_restricaoeletrica_patamar(
+        self, variavel: np.ndarray
+    ) -> Any:
         return self.__converte_array_em_dataframe(
             variavel,
             {
@@ -1633,7 +1892,7 @@ class SecaoDadosForward(Section):
 
     def __converte_array_estacaobombeamento_patamar(
         self, variavel: np.ndarray
-    ):
+    ) -> pd.DataFrame:
         return self.__converte_array_em_dataframe(
             variavel,
             {
@@ -1655,280 +1914,464 @@ class SecaoDadosForward(Section):
             self.numero_estacoes_bombeamento * self.numero_patamares_carga,
         )
 
-    def __converte_arrays_em_dataframes(self):
-        mapa_variaveis: Dict[VariavelOperacao, Callable] = {
-            VariavelOperacao.MERCADO: lambda _: self.__converte_array_submercado(
-                self.data[VariavelOperacao.MERCADO]
+    def __converte_arrays_em_dataframes(self) -> Any:
+        mapa_variaveis: Dict[VariavelOperacao, Callable[..., Any]] = {
+            VariavelOperacao.MERCADO: lambda _: (
+                self.__converte_array_submercado(
+                    self.data[VariavelOperacao.MERCADO]
+                )
             ),
-            VariavelOperacao.ENERGIA_ARMAZENADA_ABSOLUTA_INICIAL: lambda _: self.__converte_array_ree(  # noqa
-                self.data[VariavelOperacao.ENERGIA_ARMAZENADA_ABSOLUTA_INICIAL]
+            VariavelOperacao.ENERGIA_ARMAZENADA_ABSOLUTA_INICIAL: lambda _: (
+                self.__converte_array_ree(  # noqa
+                    self.data[
+                        VariavelOperacao.ENERGIA_ARMAZENADA_ABSOLUTA_INICIAL
+                    ]
+                )
             ),
-            VariavelOperacao.ENERGIA_NATURAL_AFLUENTE_ABSOLUTA: lambda _: self.__converte_array_ree(  # noqa
-                self.data[VariavelOperacao.ENERGIA_NATURAL_AFLUENTE_ABSOLUTA],
+            VariavelOperacao.ENERGIA_NATURAL_AFLUENTE_ABSOLUTA: lambda _: (
+                self.__converte_array_ree(  # noqa
+                    self.data[
+                        VariavelOperacao.ENERGIA_NATURAL_AFLUENTE_ABSOLUTA
+                    ],
+                )
             ),
-            VariavelOperacao.GERACAO_HIDRAULICA_CONTROLAVEL: lambda _: self.__converte_array_ree_patamar(  # noqa
-                self.data[VariavelOperacao.GERACAO_HIDRAULICA_CONTROLAVEL]
+            VariavelOperacao.GERACAO_HIDRAULICA_CONTROLAVEL: lambda _: (
+                self.__converte_array_ree_patamar(  # noqa
+                    self.data[VariavelOperacao.GERACAO_HIDRAULICA_CONTROLAVEL]
+                )
             ),
-            VariavelOperacao.ENERGIA_VERTIDA: lambda _: self.__converte_array_ree(
-                self.data[VariavelOperacao.ENERGIA_VERTIDA]
+            VariavelOperacao.ENERGIA_VERTIDA: lambda _: (
+                self.__converte_array_ree(
+                    self.data[VariavelOperacao.ENERGIA_VERTIDA]
+                )
             ),
-            VariavelOperacao.ENERGIA_ARMAZENADA_ABSOLUTA_FINAL: lambda _: self.__converte_array_ree(  # noqa
-                self.data[VariavelOperacao.ENERGIA_ARMAZENADA_ABSOLUTA_FINAL]
+            VariavelOperacao.ENERGIA_ARMAZENADA_ABSOLUTA_FINAL: lambda _: (
+                self.__converte_array_ree(  # noqa
+                    self.data[
+                        VariavelOperacao.ENERGIA_ARMAZENADA_ABSOLUTA_FINAL
+                    ]
+                )
             ),
-            VariavelOperacao.ENERGIA_NATURAL_AFLUENTE_FIO_BRUTA: lambda _: self.__converte_array_ree(  # noqa
-                self.data[VariavelOperacao.ENERGIA_NATURAL_AFLUENTE_FIO_BRUTA]
+            VariavelOperacao.ENERGIA_NATURAL_AFLUENTE_FIO_BRUTA: lambda _: (
+                self.__converte_array_ree(  # noqa
+                    self.data[
+                        VariavelOperacao.ENERGIA_NATURAL_AFLUENTE_FIO_BRUTA
+                    ]
+                )
             ),
-            VariavelOperacao.ENERGIA_EVAPORADA: lambda _: self.__converte_array_ree(
-                self.data[VariavelOperacao.ENERGIA_EVAPORADA]
+            VariavelOperacao.ENERGIA_EVAPORADA: lambda _: (
+                self.__converte_array_ree(
+                    self.data[VariavelOperacao.ENERGIA_EVAPORADA]
+                )
             ),
-            VariavelOperacao.ENERGIA_ENCHIMENTO_VOLUME_MORTO: lambda _: self.__converte_array_ree(
-                self.data[VariavelOperacao.ENERGIA_ENCHIMENTO_VOLUME_MORTO]
+            VariavelOperacao.ENERGIA_ENCHIMENTO_VOLUME_MORTO: lambda _: (
+                self.__converte_array_ree(
+                    self.data[VariavelOperacao.ENERGIA_ENCHIMENTO_VOLUME_MORTO]
+                )
             ),
-            VariavelOperacao.GERACAO_TERMICA: lambda _: self.__converte_array_ute_patamar(
-                self.data[VariavelOperacao.GERACAO_TERMICA][::2]
-                + self.data[VariavelOperacao.GERACAO_TERMICA][1::2]
+            VariavelOperacao.GERACAO_TERMICA: lambda _: (
+                self.__converte_array_ute_patamar(
+                    self.data[VariavelOperacao.GERACAO_TERMICA][::2]
+                    + self.data[VariavelOperacao.GERACAO_TERMICA][1::2]
+                )
             ),
-            VariavelOperacao.DEFICIT: lambda _: self.__converte_array_submercado_patamardeficit_patamar(  # noqa
-                self.data[VariavelOperacao.DEFICIT]
+            VariavelOperacao.DEFICIT: lambda _: (
+                self.__converte_array_submercado_patamardeficit_patamar(  # noqa
+                    self.data[VariavelOperacao.DEFICIT]
+                )
             ),
             VariavelOperacao.VALOR_AGUA: lambda _: self.__converte_array_ree(
                 self.data[VariavelOperacao.VALOR_AGUA]
             ),
-            VariavelOperacao.CUSTO_MARGINAL_OPERACAO: lambda _: self.__converte_array_submercado_patamar(  # noqa
-                self.data[VariavelOperacao.CUSTO_MARGINAL_OPERACAO]
+            VariavelOperacao.CUSTO_MARGINAL_OPERACAO: lambda _: (
+                self.__converte_array_submercado_patamar(  # noqa
+                    self.data[VariavelOperacao.CUSTO_MARGINAL_OPERACAO]
+                )
             ),
-            VariavelOperacao.GERACAO_HIDRAULICA_FIO_LIQUIDA: lambda _: self.__converte_array_ree(
-                self.data[VariavelOperacao.GERACAO_HIDRAULICA_FIO_LIQUIDA]
+            VariavelOperacao.GERACAO_HIDRAULICA_FIO_LIQUIDA: lambda _: (
+                self.__converte_array_ree(
+                    self.data[VariavelOperacao.GERACAO_HIDRAULICA_FIO_LIQUIDA]
+                )
             ),
-            VariavelOperacao.PERDAS_GERACAO_HIDRAULICA_FIO: lambda _: self.__converte_array_ree(
-                self.data[VariavelOperacao.PERDAS_GERACAO_HIDRAULICA_FIO]
+            VariavelOperacao.PERDAS_GERACAO_HIDRAULICA_FIO: lambda _: (
+                self.__converte_array_ree(
+                    self.data[VariavelOperacao.PERDAS_GERACAO_HIDRAULICA_FIO]
+                )
             ),
-            VariavelOperacao.INTERCAMBIO: lambda _: self.__converte_array_par_submercados_patamar(
-                self.data[VariavelOperacao.INTERCAMBIO]
+            VariavelOperacao.INTERCAMBIO: lambda _: (
+                self.__converte_array_par_submercados_patamar(
+                    self.data[VariavelOperacao.INTERCAMBIO]
+                )
             ),
-            VariavelOperacao.EXCESSO: lambda _: self.__converte_array_submercado_patamar(
-                self.data[VariavelOperacao.EXCESSO]
+            VariavelOperacao.EXCESSO: lambda _: (
+                self.__converte_array_submercado_patamar(
+                    self.data[VariavelOperacao.EXCESSO]
+                )
             ),
-            VariavelOperacao.ENERGIA_NATURAL_AFLUENTE_BRUTA: lambda _: self.__converte_array_ree(
-                self.data[VariavelOperacao.ENERGIA_NATURAL_AFLUENTE_BRUTA]
+            VariavelOperacao.ENERGIA_NATURAL_AFLUENTE_BRUTA: lambda _: (
+                self.__converte_array_ree(
+                    self.data[VariavelOperacao.ENERGIA_NATURAL_AFLUENTE_BRUTA]
+                )
             ),
-            VariavelOperacao.ENERGIA_NATURAL_AFLUENTE_CONTROLAVEL_CORRIGIDA: lambda _: self.__converte_array_ree(  # noqa
-                self.data[
-                    VariavelOperacao.ENERGIA_NATURAL_AFLUENTE_CONTROLAVEL_CORRIGIDA
-                ]
+            VariavelOperacao.ENERGIA_NATURAL_AFLUENTE_CONTROLAVEL_CORRIGIDA: lambda _: (
+                self.__converte_array_ree(  # noqa
+                    self.data[
+                        VariavelOperacao.ENERGIA_NATURAL_AFLUENTE_CONTROLAVEL_CORRIGIDA
+                    ]
+                )
             ),
-            VariavelOperacao.GERACAO_HIDRAULICA_MAXIMA: lambda _: self.__converte_array_ree_patamar(
-                self.data[VariavelOperacao.GERACAO_HIDRAULICA_MAXIMA]
+            VariavelOperacao.GERACAO_HIDRAULICA_MAXIMA: lambda _: (
+                self.__converte_array_ree_patamar(
+                    self.data[VariavelOperacao.GERACAO_HIDRAULICA_MAXIMA]
+                )
             ),
-            VariavelOperacao.ENERGIA_AFLUENTE_CONTROLAVEL_DESVIO: lambda _: self.__converte_array_ree(  # noqa
-                self.data[VariavelOperacao.ENERGIA_AFLUENTE_CONTROLAVEL_DESVIO]
+            VariavelOperacao.ENERGIA_AFLUENTE_CONTROLAVEL_DESVIO: lambda _: (
+                self.__converte_array_ree(  # noqa
+                    self.data[
+                        VariavelOperacao.ENERGIA_AFLUENTE_CONTROLAVEL_DESVIO
+                    ]
+                )
             ),
-            VariavelOperacao.ENERGIA_AFLUENTE_FIO_DESVIO: lambda _: self.__converte_array_ree(
-                self.data[VariavelOperacao.ENERGIA_AFLUENTE_FIO_DESVIO]
+            VariavelOperacao.ENERGIA_AFLUENTE_FIO_DESVIO: lambda _: (
+                self.__converte_array_ree(
+                    self.data[VariavelOperacao.ENERGIA_AFLUENTE_FIO_DESVIO]
+                )
             ),
-            VariavelOperacao.BENEFICIO_INTERCAMBIO: lambda _: self.__converte_array_par_submercados_patamar(  # noqa
-                self.data[VariavelOperacao.BENEFICIO_INTERCAMBIO]
+            VariavelOperacao.BENEFICIO_INTERCAMBIO: lambda _: (
+                self.__converte_array_par_submercados_patamar(  # noqa
+                    self.data[VariavelOperacao.BENEFICIO_INTERCAMBIO]
+                )
             ),
-            VariavelOperacao.FATOR_CORRECAO_ENERGIA_NATURAL_AFLUENTE_CONTROLAVEL: lambda _: self.__converte_array_ree(  # noqa
-                self.data[
-                    VariavelOperacao.FATOR_CORRECAO_ENERGIA_NATURAL_AFLUENTE_CONTROLAVEL
-                ]
+            VariavelOperacao.FATOR_CORRECAO_ENERGIA_NATURAL_AFLUENTE_CONTROLAVEL: lambda _: (
+                self.__converte_array_ree(  # noqa
+                    self.data[
+                        VariavelOperacao.FATOR_CORRECAO_ENERGIA_NATURAL_AFLUENTE_CONTROLAVEL
+                    ]
+                )
             ),
-            VariavelOperacao.VIOLACAO_CURVA_AVERSAO: lambda _: self.__converte_array_ree(
-                self.data[VariavelOperacao.VIOLACAO_CURVA_AVERSAO]
+            VariavelOperacao.VIOLACAO_CURVA_AVERSAO: lambda _: (
+                self.__converte_array_ree(
+                    self.data[VariavelOperacao.VIOLACAO_CURVA_AVERSAO]
+                )
             ),
-            VariavelOperacao.ACIONAMENTO_CURVA_AVERSAO: lambda _: self.__converte_array_ree(
-                self.data[VariavelOperacao.ACIONAMENTO_CURVA_AVERSAO]
+            VariavelOperacao.ACIONAMENTO_CURVA_AVERSAO: lambda _: (
+                self.__converte_array_ree(
+                    self.data[VariavelOperacao.ACIONAMENTO_CURVA_AVERSAO]
+                )
             ),
-            VariavelOperacao.PENALIDADE_CURVA_AVERSAO: lambda _: self.__converte_array_ree(
-                self.data[VariavelOperacao.PENALIDADE_CURVA_AVERSAO]
+            VariavelOperacao.PENALIDADE_CURVA_AVERSAO: lambda _: (
+                self.__converte_array_ree(
+                    self.data[VariavelOperacao.PENALIDADE_CURVA_AVERSAO]
+                )
             ),
-            VariavelOperacao.CUSTO_OPERACAO: lambda _: self.__converte_array_em_dataframe(
-                self.data[VariavelOperacao.CUSTO_OPERACAO],
-                {},
-                1,
+            VariavelOperacao.CUSTO_OPERACAO: lambda _: (
+                self.__converte_array_em_dataframe(
+                    self.data[VariavelOperacao.CUSTO_OPERACAO],
+                    {},
+                    1,
+                )
             ),
-            VariavelOperacao.CUSTO_GERACAO_TERMICA: lambda _: self.__converte_array_submercado(
-                self.data[VariavelOperacao.CUSTO_GERACAO_TERMICA]
+            VariavelOperacao.CUSTO_GERACAO_TERMICA: lambda _: (
+                self.__converte_array_submercado(
+                    self.data[VariavelOperacao.CUSTO_GERACAO_TERMICA]
+                )
             ),
-            VariavelOperacao.BENEFICIO_AGRUPAMENTO_INTERCAMBIO: lambda _: self.__converte_array_agrupamentointercambio_patamar(  # noqa
-                self.data[VariavelOperacao.BENEFICIO_AGRUPAMENTO_INTERCAMBIO]
+            VariavelOperacao.BENEFICIO_AGRUPAMENTO_INTERCAMBIO: lambda _: (
+                self.__converte_array_agrupamentointercambio_patamar(  # noqa
+                    self.data[
+                        VariavelOperacao.BENEFICIO_AGRUPAMENTO_INTERCAMBIO
+                    ]
+                )
             ),
-            VariavelOperacao.ENERGIA_NATURAL_AFLUENTE_FIO: lambda _: self.__converte_array_ree(
-                self.data[VariavelOperacao.ENERGIA_NATURAL_AFLUENTE_FIO]
+            VariavelOperacao.ENERGIA_NATURAL_AFLUENTE_FIO: lambda _: (
+                self.__converte_array_ree(
+                    self.data[VariavelOperacao.ENERGIA_NATURAL_AFLUENTE_FIO]
+                )
             ),
-            VariavelOperacao.BENEFICIO_DESPACHO_GNL: lambda _: self.__converte_array_laggnl_submercado_patamar(  # noqa
-                self.data[VariavelOperacao.BENEFICIO_DESPACHO_GNL]
+            VariavelOperacao.BENEFICIO_DESPACHO_GNL: lambda _: (
+                self.__converte_array_laggnl_submercado_patamar(  # noqa
+                    self.data[VariavelOperacao.BENEFICIO_DESPACHO_GNL]
+                )
             ),
-            VariavelOperacao.VIOLACAO_GERACAO_HIRAULICA_MINIMA: lambda _: self.__converte_array_ree_patamar(  # noqa
-                self.data[VariavelOperacao.VIOLACAO_GERACAO_HIRAULICA_MINIMA]
+            VariavelOperacao.VIOLACAO_GERACAO_HIRAULICA_MINIMA: lambda _: (
+                self.__converte_array_ree_patamar(  # noqa
+                    self.data[
+                        VariavelOperacao.VIOLACAO_GERACAO_HIRAULICA_MINIMA
+                    ]
+                )
             ),
-            VariavelOperacao.VIOLACAO_ENERGIA_VAZAO_MINIMA: lambda _: self.__converte_array_ree(
-                self.data[VariavelOperacao.VIOLACAO_ENERGIA_VAZAO_MINIMA]
+            VariavelOperacao.VIOLACAO_ENERGIA_VAZAO_MINIMA: lambda _: (
+                self.__converte_array_ree(
+                    self.data[VariavelOperacao.VIOLACAO_ENERGIA_VAZAO_MINIMA]
+                )
             ),
-            VariavelOperacao.INVASAO_SAR: lambda _: self.__converte_array_em_dataframe(
-                self.data[VariavelOperacao.INVASAO_SAR],
-                {},
-                1,
+            VariavelOperacao.INVASAO_SAR: lambda _: (
+                self.__converte_array_em_dataframe(
+                    self.data[VariavelOperacao.INVASAO_SAR],
+                    {},
+                    1,
+                )
             ),
-            VariavelOperacao.ACIONAMENTO_SAR: lambda _: self.__converte_array_em_dataframe(
-                self.data[VariavelOperacao.ACIONAMENTO_SAR],
-                {},
-                1,
+            VariavelOperacao.ACIONAMENTO_SAR: lambda _: (
+                self.__converte_array_em_dataframe(
+                    self.data[VariavelOperacao.ACIONAMENTO_SAR],
+                    {},
+                    1,
+                )
             ),
-            VariavelOperacao.PENALIDADE_SAR: lambda _: self.__converte_array_em_dataframe(
-                self.data[VariavelOperacao.PENALIDADE_SAR],
-                {},
-                1,
+            VariavelOperacao.PENALIDADE_SAR: lambda _: (
+                self.__converte_array_em_dataframe(
+                    self.data[VariavelOperacao.PENALIDADE_SAR],
+                    {},
+                    1,
+                )
             ),
-            VariavelOperacao.GERACAO_HIDRAULICA_MAXIMA_CONSIDERANDO_RE: lambda _: self.__converte_array_ree_patamar(  # noqa
-                self.data[
-                    VariavelOperacao.GERACAO_HIDRAULICA_MAXIMA_CONSIDERANDO_RE
-                ]
+            VariavelOperacao.GERACAO_HIDRAULICA_MAXIMA_CONSIDERANDO_RE: lambda _: (
+                self.__converte_array_ree_patamar(  # noqa
+                    self.data[
+                        VariavelOperacao.GERACAO_HIDRAULICA_MAXIMA_CONSIDERANDO_RE
+                    ]
+                )
             ),
-            VariavelOperacao.VOLUME_ARMAZENADO_ABSOLUTO_FINAL: lambda _: self.__converte_array_uhe(  # noqa
-                self.data[VariavelOperacao.VOLUME_ARMAZENADO_ABSOLUTO_FINAL]
+            VariavelOperacao.VOLUME_ARMAZENADO_ABSOLUTO_FINAL: lambda _: (
+                self.__converte_array_uhe(  # noqa
+                    self.data[VariavelOperacao.VOLUME_ARMAZENADO_ABSOLUTO_FINAL]
+                )
             ),
-            VariavelOperacao.GERACAO_HIDRAULICA_USINA: lambda _: self.__converte_array_uhe_patamar(  # noqa
-                self.data[VariavelOperacao.GERACAO_HIDRAULICA_USINA]
+            VariavelOperacao.GERACAO_HIDRAULICA_USINA: lambda _: (
+                self.__converte_array_uhe_patamar(  # noqa
+                    self.data[VariavelOperacao.GERACAO_HIDRAULICA_USINA]
+                )
             ),
-            VariavelOperacao.VOLUME_TURBINADO: lambda _: self.__converte_array_uhe_patamar(
-                self.data[VariavelOperacao.VOLUME_TURBINADO]
+            VariavelOperacao.VOLUME_TURBINADO: lambda _: (
+                self.__converte_array_uhe_patamar(
+                    self.data[VariavelOperacao.VOLUME_TURBINADO]
+                )
             ),
-            VariavelOperacao.VOLUME_VERTIDO: lambda _: self.__converte_array_uhe_patamar(
-                self.data[VariavelOperacao.VOLUME_VERTIDO]
+            VariavelOperacao.VOLUME_VERTIDO: lambda _: (
+                self.__converte_array_uhe_patamar(
+                    self.data[VariavelOperacao.VOLUME_VERTIDO]
+                )
             ),
-            VariavelOperacao.VIOLACAO_GERACAO_HIDRAULICA_MINIMA_USINA: lambda _: self.__converte_array_uhe_patamar(  # noqa
-                self.data[
-                    VariavelOperacao.VIOLACAO_GERACAO_HIDRAULICA_MINIMA_USINA
-                ]
+            VariavelOperacao.VIOLACAO_GERACAO_HIDRAULICA_MINIMA_USINA: lambda _: (
+                self.__converte_array_uhe_patamar(  # noqa
+                    self.data[
+                        VariavelOperacao.VIOLACAO_GERACAO_HIDRAULICA_MINIMA_USINA
+                    ]
+                )
             ),
-            VariavelOperacao.ENCHIMENTO_VOLUME_MORTO_USINA: lambda _: self.__converte_array_uhe(
-                self.data[VariavelOperacao.ENCHIMENTO_VOLUME_MORTO_USINA]
+            VariavelOperacao.ENCHIMENTO_VOLUME_MORTO_USINA: lambda _: (
+                self.__converte_array_uhe(
+                    self.data[VariavelOperacao.ENCHIMENTO_VOLUME_MORTO_USINA]
+                )
             ),
-            VariavelOperacao.VIOLACAO_DEFLUENCIA_MINIMA: lambda _: self.__converte_array_uhe_patamar(  # noqa
-                self.data[VariavelOperacao.VIOLACAO_DEFLUENCIA_MINIMA]
+            VariavelOperacao.VIOLACAO_DEFLUENCIA_MINIMA: lambda _: (
+                self.__converte_array_uhe_patamar(  # noqa
+                    self.data[VariavelOperacao.VIOLACAO_DEFLUENCIA_MINIMA]
+                )
             ),
-            VariavelOperacao.VOLUME_DESVIO_USINA: lambda _: self.__converte_array_uhe(
-                self.data[VariavelOperacao.VOLUME_DESVIO_USINA]
+            VariavelOperacao.VOLUME_DESVIO_USINA: lambda _: (
+                self.__converte_array_uhe(
+                    self.data[VariavelOperacao.VOLUME_DESVIO_USINA]
+                )
             ),
-            VariavelOperacao.VOLUME_DESVIO_POSITIVO_USINA: lambda _: self.__converte_array_uhe(
-                self.data[VariavelOperacao.VOLUME_DESVIO_POSITIVO_USINA]
+            VariavelOperacao.VOLUME_DESVIO_POSITIVO_USINA: lambda _: (
+                self.__converte_array_uhe(
+                    self.data[VariavelOperacao.VOLUME_DESVIO_POSITIVO_USINA]
+                )
             ),
-            VariavelOperacao.VOLUME_DESVIO_NEGATIVO_USINA: lambda _: self.__converte_array_uhe(
-                self.data[VariavelOperacao.VOLUME_DESVIO_NEGATIVO_USINA]
+            VariavelOperacao.VOLUME_DESVIO_NEGATIVO_USINA: lambda _: (
+                self.__converte_array_uhe(
+                    self.data[VariavelOperacao.VOLUME_DESVIO_NEGATIVO_USINA]
+                )
             ),
-            VariavelOperacao.VIOLACAO_FPHA: lambda _: self.__converte_array_uhe_patamar(
-                self.data[VariavelOperacao.VIOLACAO_FPHA]
+            VariavelOperacao.VIOLACAO_FPHA: lambda _: (
+                self.__converte_array_uhe_patamar(
+                    self.data[VariavelOperacao.VIOLACAO_FPHA]
+                )
             ),
-            VariavelOperacao.VAZAO_AFLUENTE: lambda _: self.__converte_array_uhe(
-                self.data[VariavelOperacao.VAZAO_AFLUENTE]
+            VariavelOperacao.VAZAO_AFLUENTE: lambda _: (
+                self.__converte_array_uhe(
+                    self.data[VariavelOperacao.VAZAO_AFLUENTE]
+                )
             ),
-            VariavelOperacao.VAZAO_INCREMENTAL: lambda _: self.__converte_array_uhe(
-                self.data[VariavelOperacao.VAZAO_INCREMENTAL]
+            VariavelOperacao.VAZAO_INCREMENTAL: lambda _: (
+                self.__converte_array_uhe(
+                    self.data[VariavelOperacao.VAZAO_INCREMENTAL]
+                )
             ),
-            VariavelOperacao.VOLUME_ARMAZENADO_PERCENTUAL_FINAL: lambda _: self.__converte_array_uhe(  # noqa
-                self.data[VariavelOperacao.VOLUME_ARMAZENADO_PERCENTUAL_FINAL]
+            VariavelOperacao.VOLUME_ARMAZENADO_PERCENTUAL_FINAL: lambda _: (
+                self.__converte_array_uhe(  # noqa
+                    self.data[
+                        VariavelOperacao.VOLUME_ARMAZENADO_PERCENTUAL_FINAL
+                    ]
+                )
             ),
             VariavelOperacao.GEOL_GSOL_OLD: lambda _: pd.DataFrame(),
             VariavelOperacao.VIOLACAO_GEE: lambda _: pd.DataFrame(),
-            VariavelOperacao.CUSTO_VIOLACAO_ENERGIA_VAZAO_MINIMA: lambda _: self.__converte_array_ree(  # noqa
-                self.data[VariavelOperacao.CUSTO_VIOLACAO_ENERGIA_VAZAO_MINIMA]
+            VariavelOperacao.CUSTO_VIOLACAO_ENERGIA_VAZAO_MINIMA: lambda _: (
+                self.__converte_array_ree(  # noqa
+                    self.data[
+                        VariavelOperacao.CUSTO_VIOLACAO_ENERGIA_VAZAO_MINIMA
+                    ]
+                )
             ),
-            VariavelOperacao.CUSTO_ENERGIA_AFLUENTE_CONTROLAVEL_DESVIO: lambda _: self.__converte_array_ree(  # noqa
-                self.data[
-                    VariavelOperacao.CUSTO_ENERGIA_AFLUENTE_CONTROLAVEL_DESVIO
-                ]
+            VariavelOperacao.CUSTO_ENERGIA_AFLUENTE_CONTROLAVEL_DESVIO: lambda _: (
+                self.__converte_array_ree(  # noqa
+                    self.data[
+                        VariavelOperacao.CUSTO_ENERGIA_AFLUENTE_CONTROLAVEL_DESVIO
+                    ]
+                )
             ),
-            VariavelOperacao.CUSTO_ENERGIA_AFLUENTE_FIO_DESVIO: lambda _: self.__converte_array_ree(  # noqa
-                self.data[VariavelOperacao.CUSTO_ENERGIA_AFLUENTE_FIO_DESVIO]
+            VariavelOperacao.CUSTO_ENERGIA_AFLUENTE_FIO_DESVIO: lambda _: (
+                self.__converte_array_ree(  # noqa
+                    self.data[
+                        VariavelOperacao.CUSTO_ENERGIA_AFLUENTE_FIO_DESVIO
+                    ]
+                )
             ),
-            VariavelOperacao.CUSTO_VIOLACAO_GERACAO_HIDRAULICA_MINIMA: lambda _: self.__converte_array_ree_patamar(  # noqa
-                self.data[
-                    VariavelOperacao.CUSTO_VIOLACAO_GERACAO_HIDRAULICA_MINIMA
-                ]
+            VariavelOperacao.CUSTO_VIOLACAO_GERACAO_HIDRAULICA_MINIMA: lambda _: (
+                self.__converte_array_ree_patamar(  # noqa
+                    self.data[
+                        VariavelOperacao.CUSTO_VIOLACAO_GERACAO_HIDRAULICA_MINIMA
+                    ]
+                )
             ),
-            VariavelOperacao.SOMA_ENERGIA_NATURAL_AFLUENTE_12_MESES: lambda _: self.__converte_array_ree(  # noqa
-                self.data[
-                    VariavelOperacao.SOMA_ENERGIA_NATURAL_AFLUENTE_12_MESES
-                ]
+            VariavelOperacao.SOMA_ENERGIA_NATURAL_AFLUENTE_12_MESES: lambda _: (
+                self.__converte_array_ree(  # noqa
+                    self.data[
+                        VariavelOperacao.SOMA_ENERGIA_NATURAL_AFLUENTE_12_MESES
+                    ]
+                )
             ),
-            VariavelOperacao.SOMA_VAZAO_AFLUENTE_12_MESES: lambda _: self.__converte_array_uhe(
-                self.data[VariavelOperacao.SOMA_VAZAO_AFLUENTE_12_MESES]
+            VariavelOperacao.SOMA_VAZAO_AFLUENTE_12_MESES: lambda _: (
+                self.__converte_array_uhe(
+                    self.data[VariavelOperacao.SOMA_VAZAO_AFLUENTE_12_MESES]
+                )
             ),
-            VariavelOperacao.GERACAO_EOLICA: lambda _: self.__converte_array_pee_patamar(
-                self.data[VariavelOperacao.GERACAO_EOLICA]
+            VariavelOperacao.GERACAO_EOLICA: lambda _: (
+                self.__converte_array_pee_patamar(
+                    self.data[VariavelOperacao.GERACAO_EOLICA]
+                )
             ),
-            VariavelOperacao.VELOCIDADE_VENTO: lambda _: self.__converte_array_pee(
-                self.data[VariavelOperacao.VELOCIDADE_VENTO]
+            VariavelOperacao.VELOCIDADE_VENTO: lambda _: (
+                self.__converte_array_pee(
+                    self.data[VariavelOperacao.VELOCIDADE_VENTO]
+                )
             ),
-            VariavelOperacao.VIOLACAO_FUNCAO_PRODUCAO_EOLICA: lambda _: self.__converte_array_pee_patamar(  # noqa
-                self.data[VariavelOperacao.VIOLACAO_FUNCAO_PRODUCAO_EOLICA]
+            VariavelOperacao.VIOLACAO_FUNCAO_PRODUCAO_EOLICA: lambda _: (
+                self.__converte_array_pee_patamar(  # noqa
+                    self.data[VariavelOperacao.VIOLACAO_FUNCAO_PRODUCAO_EOLICA]
+                )
             ),
-            VariavelOperacao.VIOLACAO_DEFLUENCIA_MAXIMA: lambda _: self.__converte_array_uhe_patamar(  # noqa
-                self.data[VariavelOperacao.VIOLACAO_DEFLUENCIA_MAXIMA]
+            VariavelOperacao.VIOLACAO_DEFLUENCIA_MAXIMA: lambda _: (
+                self.__converte_array_uhe_patamar(  # noqa
+                    self.data[VariavelOperacao.VIOLACAO_DEFLUENCIA_MAXIMA]
+                )
             ),
-            VariavelOperacao.VIOLACAO_TURBINAMENTO_MAXIMO: lambda _: self.__converte_array_uhe_patamar(  # noqa
-                self.data[VariavelOperacao.VIOLACAO_TURBINAMENTO_MAXIMO]
+            VariavelOperacao.VIOLACAO_TURBINAMENTO_MAXIMO: lambda _: (
+                self.__converte_array_uhe_patamar(  # noqa
+                    self.data[VariavelOperacao.VIOLACAO_TURBINAMENTO_MAXIMO]
+                )
             ),
-            VariavelOperacao.VIOLACAO_TURBINAMENTO_MINIMO: lambda _: self.__converte_array_uhe_patamar(  # noqa
-                self.data[VariavelOperacao.VIOLACAO_TURBINAMENTO_MINIMO]
+            VariavelOperacao.VIOLACAO_TURBINAMENTO_MINIMO: lambda _: (
+                self.__converte_array_uhe_patamar(  # noqa
+                    self.data[VariavelOperacao.VIOLACAO_TURBINAMENTO_MINIMO]
+                )
             ),
-            VariavelOperacao.VIOLACAO_LPP_TURBINAMENTO_MAXIMO: lambda _: self.__converte_array_ree_patamar(  # noqa
-                self.data[VariavelOperacao.VIOLACAO_LPP_TURBINAMENTO_MAXIMO]
+            VariavelOperacao.VIOLACAO_LPP_TURBINAMENTO_MAXIMO: lambda _: (
+                self.__converte_array_ree_patamar(  # noqa
+                    self.data[VariavelOperacao.VIOLACAO_LPP_TURBINAMENTO_MAXIMO]
+                )
             ),
-            VariavelOperacao.VIOLACAO_LPP_DEFLUENCIA_MAXIMA: lambda _: self.__converte_array_ree_patamar(  # noqa
-                self.data[VariavelOperacao.VIOLACAO_LPP_DEFLUENCIA_MAXIMA]
+            VariavelOperacao.VIOLACAO_LPP_DEFLUENCIA_MAXIMA: lambda _: (
+                self.__converte_array_ree_patamar(  # noqa
+                    self.data[VariavelOperacao.VIOLACAO_LPP_DEFLUENCIA_MAXIMA]
+                )
             ),
-            VariavelOperacao.VIOLACAO_LPP_TURBINAMENTO_MAXIMO_USINA: lambda _: self.__converte_array_uhe_patamar(  # noqa
-                self.data[
-                    VariavelOperacao.VIOLACAO_LPP_TURBINAMENTO_MAXIMO_USINA
-                ]
+            VariavelOperacao.VIOLACAO_LPP_TURBINAMENTO_MAXIMO_USINA: lambda _: (
+                self.__converte_array_uhe_patamar(  # noqa
+                    self.data[
+                        VariavelOperacao.VIOLACAO_LPP_TURBINAMENTO_MAXIMO_USINA
+                    ]
+                )
             ),
-            VariavelOperacao.VIOLACAO_LPP_DEFLUENCIA_MAXIMA_USINA: lambda _: self.__converte_array_uhe_patamar(  # noqa
-                self.data[
-                    VariavelOperacao.VIOLACAO_LPP_DEFLUENCIA_MAXIMA_USINA
-                ]
+            VariavelOperacao.VIOLACAO_LPP_DEFLUENCIA_MAXIMA_USINA: lambda _: (
+                self.__converte_array_uhe_patamar(  # noqa
+                    self.data[
+                        VariavelOperacao.VIOLACAO_LPP_DEFLUENCIA_MAXIMA_USINA
+                    ]
+                )
             ),
-            VariavelOperacao.RHS_LPP_TURBINAMENTO_MAXIMO: lambda _: self.__converte_array_ree_patamar(  # noqa
-                self.data[VariavelOperacao.RHS_LPP_TURBINAMENTO_MAXIMO]
+            VariavelOperacao.RHS_LPP_TURBINAMENTO_MAXIMO: lambda _: (
+                self.__converte_array_ree_patamar(  # noqa
+                    self.data[VariavelOperacao.RHS_LPP_TURBINAMENTO_MAXIMO]
+                )
             ),
-            VariavelOperacao.RHS_LPP_DEFLUENCIA_MAXIMA: lambda _: self.__converte_array_ree_patamar(  # noqa
-                self.data[VariavelOperacao.RHS_LPP_DEFLUENCIA_MAXIMA]
+            VariavelOperacao.RHS_LPP_DEFLUENCIA_MAXIMA: lambda _: (
+                self.__converte_array_ree_patamar(  # noqa
+                    self.data[VariavelOperacao.RHS_LPP_DEFLUENCIA_MAXIMA]
+                )
             ),
-            VariavelOperacao.RHS_LPP_TURBINAMENTO_MAXIMO_USINA: lambda _: self.__converte_array_uhe_patamar(  # noqa
-                self.data[VariavelOperacao.RHS_LPP_TURBINAMENTO_MAXIMO_USINA]
+            VariavelOperacao.RHS_LPP_TURBINAMENTO_MAXIMO_USINA: lambda _: (
+                self.__converte_array_uhe_patamar(  # noqa
+                    self.data[
+                        VariavelOperacao.RHS_LPP_TURBINAMENTO_MAXIMO_USINA
+                    ]
+                )
             ),
-            VariavelOperacao.RHS_LPP_DEFLUENCIA_MAXIMA_USINA: lambda _: self.__converte_array_uhe_patamar(  # noqa
-                self.data[VariavelOperacao.RHS_LPP_DEFLUENCIA_MAXIMA_USINA]
+            VariavelOperacao.RHS_LPP_DEFLUENCIA_MAXIMA_USINA: lambda _: (
+                self.__converte_array_uhe_patamar(  # noqa
+                    self.data[VariavelOperacao.RHS_LPP_DEFLUENCIA_MAXIMA_USINA]
+                )
             ),
-            VariavelOperacao.VIOLACAO_RESTRICOES_ELETRICAS_ESPECIAIS: lambda _: self.__converte_array_restricaoeletrica_patamar(  # noqa
-                self.data[
-                    VariavelOperacao.VIOLACAO_RESTRICOES_ELETRICAS_ESPECIAIS
-                ]
+            VariavelOperacao.VIOLACAO_RESTRICOES_ELETRICAS_ESPECIAIS: lambda _: (
+                self.__converte_array_restricaoeletrica_patamar(  # noqa
+                    self.data[
+                        VariavelOperacao.VIOLACAO_RESTRICOES_ELETRICAS_ESPECIAIS
+                    ]
+                )
             ),
-            VariavelOperacao.CUSTO_RESTRICOES_ELETRICAS_ESPECIAIS: lambda _: self.__converte_array_restricaoeletrica_patamar(  # noqa
-                self.data[
-                    VariavelOperacao.CUSTO_RESTRICOES_ELETRICAS_ESPECIAIS
-                ]
+            VariavelOperacao.CUSTO_RESTRICOES_ELETRICAS_ESPECIAIS: lambda _: (
+                self.__converte_array_restricaoeletrica_patamar(  # noqa
+                    self.data[
+                        VariavelOperacao.CUSTO_RESTRICOES_ELETRICAS_ESPECIAIS
+                    ]
+                )
             ),
-            VariavelOperacao.VOLUME_ARMAZENADO_ABSOLUTO_INICIAL: lambda _: self.__converte_array_uhe(  # noqa
-                self.data[VariavelOperacao.VOLUME_ARMAZENADO_ABSOLUTO_INICIAL]
+            VariavelOperacao.VOLUME_ARMAZENADO_ABSOLUTO_INICIAL: lambda _: (
+                self.__converte_array_uhe(  # noqa
+                    self.data[
+                        VariavelOperacao.VOLUME_ARMAZENADO_ABSOLUTO_INICIAL
+                    ]
+                )
             ),
-            VariavelOperacao.VALOR_AGUA_USINA: lambda _: self.__converte_array_uhe(
-                self.data[VariavelOperacao.VALOR_AGUA_USINA]
+            VariavelOperacao.VALOR_AGUA_USINA: lambda _: (
+                self.__converte_array_uhe(
+                    self.data[VariavelOperacao.VALOR_AGUA_USINA]
+                )
             ),
-            VariavelOperacao.VOLUME_EVAPORADO: lambda _: self.__converte_array_uhe(
-                self.data[VariavelOperacao.VOLUME_EVAPORADO]
+            VariavelOperacao.VOLUME_EVAPORADO: lambda _: (
+                self.__converte_array_uhe(
+                    self.data[VariavelOperacao.VOLUME_EVAPORADO]
+                )
             ),
-            VariavelOperacao.VOLUME_BOMBEADO: lambda _: self.__converte_array_estacaobombeamento_patamar(  # noqa
-                self.data[VariavelOperacao.VOLUME_BOMBEADO]
+            VariavelOperacao.VOLUME_BOMBEADO: lambda _: (
+                self.__converte_array_estacaobombeamento_patamar(  # noqa
+                    self.data[VariavelOperacao.VOLUME_BOMBEADO]
+                )
             ),
-            VariavelOperacao.CONSUMO_ENERGIA_ESTACAO_BOMBEAMENTO: lambda _: self.__converte_array_estacaobombeamento_patamar(  # noqa
-                self.data[VariavelOperacao.CONSUMO_ENERGIA_ESTACAO_BOMBEAMENTO]
+            VariavelOperacao.CONSUMO_ENERGIA_ESTACAO_BOMBEAMENTO: lambda _: (
+                self.__converte_array_estacaobombeamento_patamar(  # noqa
+                    self.data[
+                        VariavelOperacao.CONSUMO_ENERGIA_ESTACAO_BOMBEAMENTO
+                    ]
+                )
             ),
-            VariavelOperacao.VOLUME_CANAL_DESVIO_USINA: lambda _: self.__converte_array_uhe_patamar(  # noqa
-                self.data[VariavelOperacao.VOLUME_CANAL_DESVIO_USINA]
+            VariavelOperacao.VOLUME_CANAL_DESVIO_USINA: lambda _: (
+                self.__converte_array_uhe_patamar(  # noqa
+                    self.data[VariavelOperacao.VOLUME_CANAL_DESVIO_USINA]
+                )
             ),
         }
         for v in self.__class__.VARIAVEIS:
@@ -1941,9 +2384,9 @@ class SecaoDadosForward(Section):
         # dar diferença. Os nomes deveriam ser fornecidos por
         # submercado já..
 
-    def read(
+    def read(  # type: ignore[override]  # signature extends base class
         self,
-        file: IO,
+        file: IO[Any],
         tamanho_registro: int = 41264,
         numero_estagios: int = 60,
         numero_forwards: int = 200,
@@ -1979,9 +2422,9 @@ class SecaoDadosForward(Section):
         nomes_usinas_hidreletricas: List[str] = [],
         nomes_parques_eolicos_equivalentes: List[str] = [],
         nomes_estacoes_bombeamento: List[str] = [],
-        *args,
-        **kwargs,
-    ):
+        *args: Any,
+        **kwargs: Any,
+    ) -> None:
         # Atribui variáveis locais
         self.numero_rees = len(nomes_rees)
         self.numero_submercados = len(nomes_submercados)

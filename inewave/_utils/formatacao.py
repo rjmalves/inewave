@@ -1,8 +1,8 @@
-import numpy as np  # type: ignore
-import pandas as pd  # type: ignore
+import numpy as np
+import pandas as pd  # type: ignore[import-untyped]  # no pandas-stubs package
 from datetime import datetime
 from inewave.config import MESES_DF
-from typing import List
+from typing import Any, List
 
 __COLS_IDENTIFICACAO = ["data", "ano", "serie", "patamar", "classe"]
 
@@ -166,6 +166,7 @@ def formata_df_meses_para_datas_nwlistop(df: pd.DataFrame) -> pd.DataFrame:
     }
     return mapa_formatacao[colunas_identificacao](df)
 
+
 def converte_anos(anos: List[str]) -> List[int]:
     """
     Converte uma lista de anos representados como strings para inteiros.
@@ -181,11 +182,15 @@ def converte_anos(anos: List[str]) -> List[int]:
             anos_convertidos.append(int(a))
     return anos_convertidos
 
-def prepara_vetor_ano_mes_tabela(anos: List[str], meses: List[int]) -> List[datetime]:
+
+def prepara_vetor_ano_mes_tabela(
+    anos: List[str], meses: List[int]
+) -> List[datetime]:
 
     anos_convertidos = converte_anos(anos)
     return [
-        datetime(year=int(a), month=int(m), day=1) for a, m in zip(anos_convertidos, meses)
+        datetime(year=int(a), month=int(m), day=1)
+        for a, m in zip(anos_convertidos, meses)
     ]
 
 
@@ -197,13 +202,11 @@ def prepara_vetor_anos_tabela(anos: List[str]) -> List[datetime]:
 
     anos_array = np.array(anos_convertidos).repeat(len(MESES_DF))
     meses = np.tile(np.arange(1, 13), len(anos))
-    return [
-        datetime(year=a, month=m, day=1) for a, m in zip(anos_array, meses)
-    ]
+    return [datetime(year=a, month=m, day=1) for a, m in zip(anos_array, meses)]
 
 
 def repete_vetor(
-    valores: list, n_repeticoes: int = len(MESES_DF)
+    valores: list[Any], n_repeticoes: int = len(MESES_DF)
 ) -> np.ndarray:
     return np.array(valores).repeat(n_repeticoes)
 

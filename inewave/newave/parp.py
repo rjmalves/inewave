@@ -13,7 +13,7 @@ from inewave.newave.modelos.parp import BlocoCorrelEspacialMensalConfig
 from cfinterface.components.block import Block
 from cfinterface.files.blockfile import BlockFile
 from typing import Type, TypeVar, Optional, Any, List
-import pandas as pd  # type: ignore
+import pandas as pd  # type: ignore[import-untyped]  # no pandas-stubs package
 from datetime import datetime
 
 
@@ -45,7 +45,7 @@ class Parp(BlockFile):
         BlocoCorrelEspacialMensalConfig,
     ]
 
-    def __init__(self, data=...) -> None:
+    def __init__(self, data: Any = ...) -> None:
         super().__init__(data)
         self.__series_energia = None
         self.__correl_series_energia = None
