@@ -1,174 +1,192 @@
 # Inclui os membros
 
-# Deprecated
-from .c_v_rhq_s import CVRHQs  # noqa
-from .c_v_rhq import CVRHQ  # noqa
-from .c_v_rhv_s import CVRHVs  # noqa
-from .c_v_rhv import CVRHV  # noqa
-from .celetricas import Celetricas  # noqa
-from .vdesviouh import Vdesviouh  # noqa
-from .vturuh import Vturuh  # noqa
-from .vertuh import Vertuh  # noqa
-from .vagua import Vagua  # noqa
-from .deletricas import Deletricas  # noqa
-from .vevmin import Vevmin  # noqa
-from .vevminm import Vevminm  # noqa
-from .vevminsin import Vevminsin  # noqa
-from .dfphauh import Dfphauh  # noqa
-from .vghmin import Vghmin  # noqa
-from .vghminm import Vghminm  # noqa
-from .vghminsin import Vghminsin  # noqa
-from .vghminuh import Vghminuh  # noqa
-from .dlppdfmax import Dlppdfmax  # noqa
-from .dlppdfmaxm import Dlppdfmaxm  # noqa
-from .dlppdfmaxs import Dlppdfmaxs  # noqa
-from .dlpptbmax import Dlpptbmax  # noqa
-from .dlpptbmaxm import Dlpptbmaxm  # noqa
-from .dlpptbmaxs import Dlpptbmaxs  # noqa
-from .dtbmax import Dtbmax  # noqa
-from .dtbmin import Dtbmin  # noqa
-from .dvazmax import Dvazmax  # noqa
-from .depminuh import Depminuh  # noqa
-from .desvuh import Desvuh  # noqa
-from .dposevap import Dposevap  # noqa
-from .dnegevap import Dnegevap  # noqa
-from .vbomb import Vbomb  # noqa
+import importlib
 
-from .nwlistopdat import Nwlistopdat  # noqa
-from .cviol_rhq_sin import CviolRhqsin  # noqa
-from .cviol_rhq import CviolRhq  # noqa
-from .cviol_rhv_sin import CviolRhvsin  # noqa
-from .cviol_rhv import CviolRhv  # noqa
-from .cbomb import Cbomb  # noqa
-from .cbombsin import Cbombsin  # noqa
-from .cdef import Cdef  # noqa
-from .cdefsin import Cdefsin  # noqa
-from .cviol_eletrica import CviolEletrica  # noqa
-from .cviol_eletricasin import CviolEletricasin  # noqa
-from .cmarg import Cmarg  # noqa
-from .cmargmed import Cmargmed  # noqa
-from .coper import Coper  # noqa
-from .custo_futuro import CustoFuturo  # noqa
-from .corteolm import Corteolm  # noqa
-from .cterm import Cterm  # noqa
-from .ctermsin import Ctermsin  # noqa
-from .deficit import Def  # noqa
-from .defsin import Defsin  # noqa
-from .edesvc import Edesvc  # noqa
-from .edesvcm import Edesvcm  # noqa
-from .edesvcsin import Edesvcsin  # noqa
-from .evapo import Evapo  # noqa
-from .evapom import Evapom  # noqa
-from .evaporsin import Evaporsin  # noqa
-from .evert import Evert  # noqa
-from .evertm import Evertm  # noqa
-from .evertsin import Evertsin  # noqa
-from .exces import Exces  # noqa
-from .excessin import Excessin  # noqa
-from .form_rhq import FormRHQ  # noqa
-from .form_rhv import FormRHV  # noqa
-from .fteolm import Fteolm  # noqa
-from .fteolsin import Fteolsin  # noqa
-from .eaf import Eaf  # noqa
-from .eafb import Eafb  # noqa
-from .eafbm import Eafbm  # noqa
-from .eafbsin import Eafbsin  # noqa
-from .eafm import Eafm  # noqa
-from .earmf import Earmf  # noqa
-from .earmfm import Earmfm  # noqa
-from .earmfp import Earmfp  # noqa
-from .earmfpm import Earmfpm  # noqa
-from .earmfsin import Earmfsin  # noqa
-from .earmfpsin import Earmfpsin  # noqa
-from .geol import Geol  # noqa
-from .geolm import Geolm  # noqa
-from .geolsin import Geolsin  # noqa
-from .ghiduh import Ghiduh  # noqa
-from .ghmax_fpha import GhmaxFpha  # noqa
-from .ghmax_fphc import GhmaxFphc  # noqa
-from .ghmax import Ghmax  # noqa
-from .ghmaxm import Ghmaxm  # noqa
-from .ghmaxmr import Ghmaxmr  # noqa
-from .ghmaxr import Ghmaxr  # noqa
-from .ghmaxrsin import Ghmaxrsin  # noqa
-from .ghmaxsin import Ghmaxsin  # noqa
-from .ghidr import Ghidr  # noqa
-from .ghidrm import Ghidrm  # noqa
-from .ghidrsin import Ghidrsin  # noqa
-from .ghtot import Ghtot  # noqa
-from .ghtotm import Ghtotm  # noqa
-from .ghtotsin import Ghtotsin  # noqa
-from .gtert import Gtert  # noqa
-from .gttot import Gttot  # noqa
-from .gttotsin import Gttotsin  # noqa
-from .hjus import Hjus  # noqa
-from .hliq import Hliq  # noqa
-from .hmont import Hmont  # noqa
-from .intercambio import Intercambio  # noqa
-from .invade import Invade  # noqa
-from .invadem import Invadem  # noqa
-from .mediassin import Mediassin  # noqa
-from .mediasmerc import Mediasmerc  # noqa
-from .mediasree import Mediasree  # noqa
-from .mediasusih import Mediasusih  # noqa
-from .mediasusit import Mediasusit  # noqa
-from .mediasusie import Mediasusie  # noqa
-from .mediasrep import Mediasrep  # noqa
-from .mediasrhq import Mediasrhq  # noqa
-from .mediasrhv import Mediasrhv  # noqa
-from .mercl import Mercl  # noqa
-from .merclsin import Merclsin  # noqa
-from .mevmin import Mevmin  # noqa
-from .mevminm import Mevminm  # noqa
-from .mevminsin import Mevminsin  # noqa
-from .perdf import Perdf  # noqa
-from .perdfm import Perdfm  # noqa
-from .perdfsin import Perdfsin  # noqa
-from .pivarm import Pivarm  # noqa
-from .pivarmincr import Pivarmincr  # noqa
-from .qafluh import Qafluh  # noqa
-from .qincruh import Qincruh  # noqa
-from .rhslppdf import Rhslppdf  # noqa
-from .rhslpptb import Rhslpptb  # noqa
-from .valor_agua import ValorAgua  # noqa
-from .varmpuh import Varmpuh  # noqa
-from .varmuh import Varmuh  # noqa
-from .qbomb import Qbomb  # noqa
-from .vento import Vento  # noqa
-from .qvertuh import Qvertuh  # noqa
-from .verturb import Verturb  # noqa
-from .verturbm import Verturbm  # noqa
-from .verturbsin import Verturbsin  # noqa
-from .qturuh import Qturuh  # noqa
-from .qdesviouh import Qdesviouh  # noqa
-from .vmort import Vmort  # noqa
-from .vmortm import Vmortm  # noqa
-from .vmortsin import Vmortsin  # noqa
-from .vevapuh import Vevapuh  # noqa
-from .viol_eletricasin import ViolEletricasin  # noqa
-from .vretiradauh import Vretiradauh  # noqa
-from .viol_fpha import ViolFpha  # noqa
-from .viol_lpp_dfmax import ViolLppDfmax  # noqa
-from .viol_lpp_dfmaxm import ViolLppDfmaxm  # noqa
-from .viol_lpp_dfmaxsin import ViolLppDfmaxsin  # noqa
-from .viol_lpp_tbmax import ViolLppTbmax  # noqa
-from .viol_lpp_tbmaxm import ViolLppTbmaxm  # noqa
-from .viol_lpp_tbmaxsin import ViolLppTbmaxsin  # noqa
-from .viol_turbmax import ViolTurbmax  # noqa
-from .viol_turbmin import ViolTurbmin  # noqa
-from .viol_vazmax import ViolVazmax  # noqa
-from .viol_vazmin import ViolVazmin  # noqa
-from .viol_evmin import ViolEvmin  # noqa
-from .viol_evminm import ViolEvminm  # noqa
-from .viol_evminsin import ViolEvminsin  # noqa
-from .viol_ghmin import ViolGhmin  # noqa
-from .viol_ghminm import ViolGhminm  # noqa
-from .viol_ghminsin import ViolGhminsin  # noqa
-from .viol_ghminuh import ViolGhminuh  # noqa
-from .viol_rhq import ViolRHQ  # noqa
-from .viol_rhv import ViolRHV  # noqa
-from .viol_eletrica import ViolEletrica  # noqa
-from .viol_pos_evap import ViolPosEvap  # noqa
-from .viol_neg_evap import ViolNegEvap  # noqa
-from .viol_neg_vretiruh import ViolNegVretiruh  # noqa
-from .viol_pos_vretiruh import ViolPosVretiruh  # noqa
+_LAZY_IMPORTS: dict[str, str] = {
+    # Deprecated
+    "CVRHQs": "c_v_rhq_s",
+    "CVRHQ": "c_v_rhq",
+    "CVRHVs": "c_v_rhv_s",
+    "CVRHV": "c_v_rhv",
+    "Celetricas": "celetricas",
+    "Vdesviouh": "vdesviouh",
+    "Vturuh": "vturuh",
+    "Vertuh": "vertuh",
+    "Vagua": "vagua",
+    "Deletricas": "deletricas",
+    "Vevmin": "vevmin",
+    "Vevminm": "vevminm",
+    "Vevminsin": "vevminsin",
+    "Dfphauh": "dfphauh",
+    "Vghmin": "vghmin",
+    "Vghminm": "vghminm",
+    "Vghminsin": "vghminsin",
+    "Vghminuh": "vghminuh",
+    "Dlppdfmax": "dlppdfmax",
+    "Dlppdfmaxm": "dlppdfmaxm",
+    "Dlppdfmaxs": "dlppdfmaxs",
+    "Dlpptbmax": "dlpptbmax",
+    "Dlpptbmaxm": "dlpptbmaxm",
+    "Dlpptbmaxs": "dlpptbmaxs",
+    "Dtbmax": "dtbmax",
+    "Dtbmin": "dtbmin",
+    "Dvazmax": "dvazmax",
+    "Depminuh": "depminuh",
+    "Desvuh": "desvuh",
+    "Dposevap": "dposevap",
+    "Dnegevap": "dnegevap",
+    "Vbomb": "vbomb",
+    "Nwlistopdat": "nwlistopdat",
+    "CviolRhqsin": "cviol_rhq_sin",
+    "CviolRhq": "cviol_rhq",
+    "CviolRhvsin": "cviol_rhv_sin",
+    "CviolRhv": "cviol_rhv",
+    "Cbomb": "cbomb",
+    "Cbombsin": "cbombsin",
+    "Cdef": "cdef",
+    "Cdefsin": "cdefsin",
+    "CviolEletrica": "cviol_eletrica",
+    "CviolEletricasin": "cviol_eletricasin",
+    "Cmarg": "cmarg",
+    "Cmargmed": "cmargmed",
+    "Coper": "coper",
+    "CustoFuturo": "custo_futuro",
+    "Corteolm": "corteolm",
+    "Cterm": "cterm",
+    "Ctermsin": "ctermsin",
+    "Def": "deficit",
+    "Defsin": "defsin",
+    "Edesvc": "edesvc",
+    "Edesvcm": "edesvcm",
+    "Edesvcsin": "edesvcsin",
+    "Evapo": "evapo",
+    "Evapom": "evapom",
+    "Evaporsin": "evaporsin",
+    "Evert": "evert",
+    "Evertm": "evertm",
+    "Evertsin": "evertsin",
+    "Exces": "exces",
+    "Excessin": "excessin",
+    "FormRHQ": "form_rhq",
+    "FormRHV": "form_rhv",
+    "Fteolm": "fteolm",
+    "Fteolsin": "fteolsin",
+    "Eaf": "eaf",
+    "Eafb": "eafb",
+    "Eafbm": "eafbm",
+    "Eafbsin": "eafbsin",
+    "Eafm": "eafm",
+    "Earmf": "earmf",
+    "Earmfm": "earmfm",
+    "Earmfp": "earmfp",
+    "Earmfpm": "earmfpm",
+    "Earmfsin": "earmfsin",
+    "Earmfpsin": "earmfpsin",
+    "Geol": "geol",
+    "Geolm": "geolm",
+    "Geolsin": "geolsin",
+    "Ghiduh": "ghiduh",
+    "GhmaxFpha": "ghmax_fpha",
+    "GhmaxFphc": "ghmax_fphc",
+    "Ghmax": "ghmax",
+    "Ghmaxm": "ghmaxm",
+    "Ghmaxmr": "ghmaxmr",
+    "Ghmaxr": "ghmaxr",
+    "Ghmaxrsin": "ghmaxrsin",
+    "Ghmaxsin": "ghmaxsin",
+    "Ghidr": "ghidr",
+    "Ghidrm": "ghidrm",
+    "Ghidrsin": "ghidrsin",
+    "Ghtot": "ghtot",
+    "Ghtotm": "ghtotm",
+    "Ghtotsin": "ghtotsin",
+    "Gtert": "gtert",
+    "Gttot": "gttot",
+    "Gttotsin": "gttotsin",
+    "Hjus": "hjus",
+    "Hliq": "hliq",
+    "Hmont": "hmont",
+    "Intercambio": "intercambio",
+    "Invade": "invade",
+    "Invadem": "invadem",
+    "Mediassin": "mediassin",
+    "Mediasmerc": "mediasmerc",
+    "Mediasree": "mediasree",
+    "Mediasusih": "mediasusih",
+    "Mediasusit": "mediasusit",
+    "Mediasusie": "mediasusie",
+    "Mediasrep": "mediasrep",
+    "Mediasrhq": "mediasrhq",
+    "Mediasrhv": "mediasrhv",
+    "Mercl": "mercl",
+    "Merclsin": "merclsin",
+    "Mevmin": "mevmin",
+    "Mevminm": "mevminm",
+    "Mevminsin": "mevminsin",
+    "Perdf": "perdf",
+    "Perdfm": "perdfm",
+    "Perdfsin": "perdfsin",
+    "Pivarm": "pivarm",
+    "Pivarmincr": "pivarmincr",
+    "Qafluh": "qafluh",
+    "Qincruh": "qincruh",
+    "Rhslppdf": "rhslppdf",
+    "Rhslpptb": "rhslpptb",
+    "ValorAgua": "valor_agua",
+    "Varmpuh": "varmpuh",
+    "Varmuh": "varmuh",
+    "Qbomb": "qbomb",
+    "Vento": "vento",
+    "Qvertuh": "qvertuh",
+    "Verturb": "verturb",
+    "Verturbm": "verturbm",
+    "Verturbsin": "verturbsin",
+    "Qturuh": "qturuh",
+    "Qdesviouh": "qdesviouh",
+    "Vmort": "vmort",
+    "Vmortm": "vmortm",
+    "Vmortsin": "vmortsin",
+    "Vevapuh": "vevapuh",
+    "ViolEletricasin": "viol_eletricasin",
+    "Vretiradauh": "vretiradauh",
+    "ViolFpha": "viol_fpha",
+    "ViolLppDfmax": "viol_lpp_dfmax",
+    "ViolLppDfmaxm": "viol_lpp_dfmaxm",
+    "ViolLppDfmaxsin": "viol_lpp_dfmaxsin",
+    "ViolLppTbmax": "viol_lpp_tbmax",
+    "ViolLppTbmaxm": "viol_lpp_tbmaxm",
+    "ViolLppTbmaxsin": "viol_lpp_tbmaxsin",
+    "ViolTurbmax": "viol_turbmax",
+    "ViolTurbmin": "viol_turbmin",
+    "ViolVazmax": "viol_vazmax",
+    "ViolVazmin": "viol_vazmin",
+    "ViolEvmin": "viol_evmin",
+    "ViolEvminm": "viol_evminm",
+    "ViolEvminsin": "viol_evminsin",
+    "ViolGhmin": "viol_ghmin",
+    "ViolGhminm": "viol_ghminm",
+    "ViolGhminsin": "viol_ghminsin",
+    "ViolGhminuh": "viol_ghminuh",
+    "ViolRHQ": "viol_rhq",
+    "ViolRHV": "viol_rhv",
+    "ViolEletrica": "viol_eletrica",
+    "ViolPosEvap": "viol_pos_evap",
+    "ViolNegEvap": "viol_neg_evap",
+    "ViolNegVretiruh": "viol_neg_vretiruh",
+    "ViolPosVretiruh": "viol_pos_vretiruh",
+}
+
+__all__ = sorted(_LAZY_IMPORTS.keys())
+
+
+def __getattr__(name: str):
+    if name in _LAZY_IMPORTS:
+        module = importlib.import_module(f".{_LAZY_IMPORTS[name]}", __name__)
+        value = getattr(module, name)
+        globals()[name] = value  # cache for subsequent access
+        return value
+    raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
+
+
+def __dir__() -> list[str]:
+    return __all__

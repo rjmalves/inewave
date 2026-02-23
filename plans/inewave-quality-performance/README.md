@@ -18,8 +18,8 @@ Progressive plan to upgrade inewave (v1.12.0 -> v1.13.0) to leverage cfinterface
 | ---- | ------------------------------------ | ------------- | --------- |
 | 01   | Foundation and StorageType Migration | 3 (detailed)  | completed |
 | 02   | nwlistop TabularSection Adoption     | 10 (detailed) | completed |
-| 03   | Schema Versioning                    | 5 (refined)   | executing |
-| 04   | Performance Optimization             | 4 (outline)   | pending   |
+| 03   | Schema Versioning                    | 5 (refined)   | completed |
+| 04   | Performance Optimization             | 4 (refined)   | completed |
 | 05   | Quality and Type Safety              | 4 (outline)   | pending   |
 | 06   | Testing Improvements                 | 4 (outline)   | pending   |
 | 07   | Documentation                        | 3 (outline)   | pending   |
@@ -46,10 +46,10 @@ Progressive plan to upgrade inewave (v1.12.0 -> v1.13.0) to leverage cfinterface
 | ticket-016 | Add VERSIONS to nwlistop BlockFile classes                                     | epic-03 | completed | Refined      |
 | ticket-017 | Add validate() integration to versioned files                                  | epic-03 | completed | Refined      |
 | ticket-018 | Write version-aware tests for versioned files                                  | epic-03 | completed | Refined      |
-| ticket-019 | Profile inewave read operations                                                | epic-04 | pending   | Outline      |
-| ticket-020 | Optimize DataFrame creation in archive bases                                   | epic-04 | pending   | Outline      |
-| ticket-021 | Implement lazy imports for nwlistop                                            | epic-04 | pending   | Outline      |
-| ticket-022 | Create benchmark suite for read performance                                    | epic-04 | pending   | Outline      |
+| ticket-019 | Profile inewave read operations                                                | epic-04 | completed | Refined      |
+| ticket-020 | Optimize DataFrame creation in archive bases                                   | epic-04 | completed | Refined      |
+| ticket-021 | Implement lazy imports for nwlistop                                            | epic-04 | completed | Refined      |
+| ticket-022 | Create benchmark suite for read performance                                    | epic-04 | completed | Refined      |
 | ticket-023 | Enable mypy strict mode for newave module                                      | epic-05 | pending   | Outline      |
 | ticket-024 | Fix mypy strict mode errors in nwlistop                                        | epic-05 | pending   | Outline      |
 | ticket-025 | Reduce code duplication in nwlistop archives                                   | epic-05 | pending   | Outline      |

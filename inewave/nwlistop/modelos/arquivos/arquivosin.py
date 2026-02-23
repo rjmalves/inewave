@@ -24,17 +24,15 @@ class ArquivoSIN(BlockFile):
         self.__valores = None
 
     def __monta_tabela(self) -> pd.DataFrame:
-        df = None
-        for b in self.data:
-            if not isinstance(b, (ValoresSerie, TabelaSerieAnual)):
-                continue
-            if b.data is None:
-                continue
-            elif df is None:
-                df = b.data
-            else:
-                df = pd.concat([df, b.data], ignore_index=True)
-        return df
+        dfs = [
+            b.data
+            for b in self.data
+            if isinstance(b, (ValoresSerie, TabelaSerieAnual))
+            and b.data is not None
+        ]
+        if not dfs:
+            return None
+        return pd.concat(dfs, ignore_index=True)
 
     @property
     def valores(self) -> Optional[pd.DataFrame]:

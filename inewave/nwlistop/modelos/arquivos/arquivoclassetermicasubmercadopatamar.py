@@ -8,7 +8,7 @@ from inewave.nwlistop.modelos.blocos.valoresclassetermicaseriepatamar import (
 
 from cfinterface.files.blockfile import BlockFile
 import pandas as pd  # type: ignore
-from typing import TypeVar, Optional
+from typing import Optional
 
 
 class ArquivoClasseTermicaSubmercadoPatamar(BlockFile):
@@ -19,8 +19,6 @@ class ArquivoClasseTermicaSubmercadoPatamar(BlockFile):
 
     __slots__ = ["__valores"]
 
-    T = TypeVar("T")
-
     BLOCKS = [Submercado, ValoresClasseTermicaSeriePatamar]
 
     def __init__(self, data=...) -> None:
@@ -28,21 +26,18 @@ class ArquivoClasseTermicaSubmercadoPatamar(BlockFile):
         self.__valores = None
 
     def __monta_tabela(self) -> pd.DataFrame:
-        df = None
-        for b in self.data:
-            if not isinstance(
+        dfs = [
+            b.data
+            for b in self.data
+            if isinstance(
                 b,
                 (ValoresClasseTermicaSeriePatamar, TabelaSeriePatamarAnual),
-            ):
-                continue
-            dados = b.data
-            if dados is None:
-                continue
-            elif df is None:
-                df = b.data
-            else:
-                df = pd.concat([df, b.data], ignore_index=True)
-        return df
+            )
+            and b.data is not None
+        ]
+        if not dfs:
+            return None
+        return pd.concat(dfs, ignore_index=True)
 
     @property
     def valores(self) -> Optional[pd.DataFrame]:
