@@ -1,4 +1,5 @@
 from cfinterface.files.sectionfile import SectionFile
+from cfinterface.storage import StorageType
 from inewave.newave.modelos.vazinat import SecaoDadosVazinat
 import pandas as pd  # type: ignore
 
@@ -14,7 +15,7 @@ class Vazinat(SectionFile):
     T = TypeVar("T")
 
     SECTIONS = [SecaoDadosVazinat]
-    STORAGE = "BINARY"
+    STORAGE = StorageType.BINARY
 
     @property
     def series(self) -> Optional[pd.DataFrame]:

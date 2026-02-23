@@ -1,4 +1,5 @@
 from cfinterface.files.sectionfile import SectionFile
+from cfinterface.storage import StorageType
 from inewave.newave.modelos.cortes import SecaoDadosCortes
 
 import pandas as pd  # type: ignore
@@ -14,7 +15,7 @@ class Cortes(SectionFile):
     T = TypeVar("T")
 
     SECTIONS = [SecaoDadosCortes]
-    STORAGE = "BINARY"
+    STORAGE = StorageType.BINARY
 
     @classmethod
     def read(
@@ -29,7 +30,7 @@ class Cortes(SectionFile):
         ordem_maxima_parp: int = 12,
         lag_maximo_gnl: int = 2,
         *args,
-        **kwargs
+        **kwargs,
     ) -> "Cortes":
         return super().read(
             content,
@@ -42,7 +43,7 @@ class Cortes(SectionFile):
             ordem_maxima_parp=ordem_maxima_parp,
             lag_maximo_gnl=lag_maximo_gnl,
             *args,
-            **kwargs
+            **kwargs,
         )
 
     @property

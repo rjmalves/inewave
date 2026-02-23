@@ -6,7 +6,7 @@ build-backend = "hatchling.build"
 name = "inewave"
 dynamic = ["version"]
 dependencies = [
-    "cfinterface>=1.8.0",
+    "cfinterface>=1.9.0",
     "numpy>=2.2.1",
     "pandas>=2.2.3",
 ]
@@ -53,3 +53,6 @@ include = [
 
 [tool.ruff]
 line-length = 80
+
+[tool.uv.sources]
+cfinterface = { path = "/home/rogerio/git/cfinterface" }

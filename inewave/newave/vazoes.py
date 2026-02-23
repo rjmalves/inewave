@@ -1,4 +1,5 @@
 from cfinterface.files.registerfile import RegisterFile
+from cfinterface.storage import StorageType
 from inewave.newave.modelos.vazoes import RegistroVazoesPostos
 import pandas as pd  # type: ignore
 
@@ -18,7 +19,7 @@ class Vazoes(RegisterFile):
 
     REGISTERS = [RegistroVazoesPostos]
     POSTOS = 320
-    STORAGE = "BINARY"
+    STORAGE = StorageType.BINARY
 
     def __init__(self, data=...) -> None:
         super().__init__(data)

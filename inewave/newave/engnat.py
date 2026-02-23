@@ -1,4 +1,5 @@
 from cfinterface.files.sectionfile import SectionFile
+from cfinterface.storage import StorageType
 from inewave.newave.modelos.engnat import SecaoDadosEngnat
 import pandas as pd  # type: ignore
 
@@ -15,7 +16,7 @@ class Engnat(SectionFile):
     T = TypeVar("T")
 
     SECTIONS = [SecaoDadosEngnat]
-    STORAGE = "BINARY"
+    STORAGE = StorageType.BINARY
 
     @property
     def series(self) -> Optional[pd.DataFrame]:

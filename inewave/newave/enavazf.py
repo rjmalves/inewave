@@ -1,4 +1,5 @@
 from cfinterface.files.sectionfile import SectionFile
+from cfinterface.storage import StorageType
 from inewave.newave.modelos.enavazf import SecaoDadosEnavazf
 import pandas as pd  # type: ignore
 
@@ -15,7 +16,7 @@ class Enavazf(SectionFile):
     T = TypeVar("T")
 
     SECTIONS = [SecaoDadosEnavazf]
-    STORAGE = "BINARY"
+    STORAGE = StorageType.BINARY
 
     @property
     def series(self) -> Optional[pd.DataFrame]:

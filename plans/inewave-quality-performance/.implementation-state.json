@@ -1,0 +1,172 @@
+{
+  "plan": "inewave-quality-performance",
+  "last_updated": "2026-02-23T12:00:00Z",
+  "progressive": true,
+  "tickets": {
+    "ticket-001-bump-cfinterface-dependency.md": {
+      "status": "completed",
+      "detail_level": "detailed",
+      "agent": "python-task-automation-developer"
+    },
+    "ticket-002-migrate-storage-string-literals.md": {
+      "status": "completed",
+      "detail_level": "detailed",
+      "agent": "python-task-automation-developer"
+    },
+    "ticket-003-verify-full-test-suite.md": {
+      "status": "completed",
+      "detail_level": "detailed",
+      "agent": "python-task-automation-developer"
+    },
+    "ticket-004-design-tabela-serie-anual-base.md": {
+      "status": "pending",
+      "detail_level": "detailed"
+    },
+    "ticket-005-design-tabela-serie-patamar-anual-base.md": {
+      "status": "pending",
+      "detail_level": "detailed"
+    },
+    "ticket-006-migrate-valores-serie-archives.md": {
+      "status": "pending",
+      "detail_level": "detailed"
+    },
+    "ticket-007-migrate-valores-serie-patamar-archives.md": {
+      "status": "pending",
+      "detail_level": "detailed"
+    },
+    "ticket-008-batch-migrate-ree-sin-models.md": {
+      "status": "pending",
+      "detail_level": "detailed"
+    },
+    "ticket-009-batch-migrate-usina-models.md": {
+      "status": "pending",
+      "detail_level": "detailed"
+    },
+    "ticket-010-batch-migrate-submercado-reepatamar-models.md": {
+      "status": "pending",
+      "detail_level": "detailed"
+    },
+    "ticket-011-batch-migrate-sinpatamar-usinapatamar-models.md": {
+      "status": "pending",
+      "detail_level": "detailed"
+    },
+    "ticket-012-batch-migrate-remaining-archives.md": {
+      "status": "pending",
+      "detail_level": "detailed"
+    },
+    "ticket-013-cleanup-deprecated-blocks.md": {
+      "status": "pending",
+      "detail_level": "detailed"
+    },
+    "ticket-014-survey-version-dependent-formats.md": {
+      "status": "pending",
+      "detail_level": "outline"
+    },
+    "ticket-015-add-versions-to-newave-files.md": {
+      "status": "pending",
+      "detail_level": "outline"
+    },
+    "ticket-016-add-versions-to-nwlistop-files.md": {
+      "status": "pending",
+      "detail_level": "outline"
+    },
+    "ticket-017-add-validate-integration.md": {
+      "status": "pending",
+      "detail_level": "outline"
+    },
+    "ticket-018-write-version-aware-tests.md": {
+      "status": "pending",
+      "detail_level": "outline"
+    },
+    "ticket-019-profile-read-operations.md": {
+      "status": "pending",
+      "detail_level": "outline"
+    },
+    "ticket-020-optimize-dataframe-creation.md": {
+      "status": "pending",
+      "detail_level": "outline"
+    },
+    "ticket-021-implement-lazy-imports.md": {
+      "status": "pending",
+      "detail_level": "outline"
+    },
+    "ticket-022-create-benchmark-suite.md": {
+      "status": "pending",
+      "detail_level": "outline"
+    },
+    "ticket-023-mypy-strict-newave.md": {
+      "status": "pending",
+      "detail_level": "outline"
+    },
+    "ticket-024-mypy-strict-nwlistop.md": {
+      "status": "pending",
+      "detail_level": "outline"
+    },
+    "ticket-025-reduce-nwlistop-duplication.md": {
+      "status": "pending",
+      "detail_level": "outline"
+    },
+    "ticket-026-cleanup-type-ignore-annotations.md": {
+      "status": "pending",
+      "detail_level": "outline"
+    },
+    "ticket-027-roundtrip-tests-newave.md": {
+      "status": "pending",
+      "detail_level": "outline"
+    },
+    "ticket-028-roundtrip-tests-nwlistop.md": {
+      "status": "pending",
+      "detail_level": "outline"
+    },
+    "ticket-029-version-and-validation-tests.md": {
+      "status": "pending",
+      "detail_level": "outline"
+    },
+    "ticket-030-optimize-test-execution.md": {
+      "status": "pending",
+      "detail_level": "outline"
+    },
+    "ticket-031-write-migration-guide.md": {
+      "status": "pending",
+      "detail_level": "outline"
+    },
+    "ticket-032-update-api-documentation.md": {
+      "status": "pending",
+      "detail_level": "outline"
+    },
+    "ticket-033-add-performance-benchmarks.md": {
+      "status": "pending",
+      "detail_level": "outline"
+    }
+  },
+  "epics": {
+    "epic-01-foundation-and-storagetype-migration": {
+      "phase": "completed",
+      "learning_extracted": true
+    },
+    "epic-02-nwlistop-tabular-section-adoption": {
+      "phase": "executing",
+      "learning_extracted": false
+    },
+    "epic-03-schema-versioning": {
+      "phase": "outline",
+      "learning_extracted": false
+    },
+    "epic-04-performance-optimization": {
+      "phase": "outline",
+      "learning_extracted": false
+    },
+    "epic-05-quality-and-type-safety": {
+      "phase": "outline",
+      "learning_extracted": false
+    },
+    "epic-06-testing-improvements": {
+      "phase": "outline",
+      "learning_extracted": false
+    },
+    "epic-07-documentation": {
+      "phase": "outline",
+      "learning_extracted": false
+    }
+  }
+}

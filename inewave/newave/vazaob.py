@@ -1,4 +1,5 @@
 from cfinterface.files.sectionfile import SectionFile
+from cfinterface.storage import StorageType
 from inewave.newave.modelos.vazaob import SecaoDadosVazaob
 import pandas as pd  # type: ignore
 
@@ -14,7 +15,7 @@ class Vazaob(SectionFile):
     T = TypeVar("T")
 
     SECTIONS = [SecaoDadosVazaob]
-    STORAGE = "BINARY"
+    STORAGE = StorageType.BINARY
 
     @property
     def series(self) -> Optional[pd.DataFrame]:

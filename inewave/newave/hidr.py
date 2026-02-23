@@ -1,4 +1,5 @@
 from cfinterface.files.registerfile import RegisterFile
+from cfinterface.storage import StorageType
 from inewave.newave.modelos.hidr import RegistroUHEHidr
 from inewave.config import MESES_ABREV
 import pandas as pd  # type: ignore
@@ -16,7 +17,7 @@ class Hidr(RegisterFile):
     T = TypeVar("T")
 
     REGISTERS = [RegistroUHEHidr]
-    STORAGE = "BINARY"
+    STORAGE = StorageType.BINARY
 
     def __init__(self, data=...) -> None:
         super().__init__(data)

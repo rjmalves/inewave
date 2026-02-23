@@ -1,4 +1,5 @@
 from cfinterface.files.sectionfile import SectionFile
+from cfinterface.storage import StorageType
 from inewave.newave.modelos.cortesh import SecaoDadosCortesh
 
 import pandas as pd  # type: ignore
@@ -14,7 +15,7 @@ class Cortesh(SectionFile):
     T = TypeVar("T")
 
     SECTIONS = [SecaoDadosCortesh]
-    STORAGE = "BINARY"
+    STORAGE = StorageType.BINARY
 
     def __obtem_dados(self) -> SecaoDadosCortesh:
         dados = [r for r in self.data.of_type(SecaoDadosCortesh)]
