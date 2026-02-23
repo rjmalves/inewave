@@ -1,3 +1,4 @@
+import warnings
 from typing import IO
 
 import numpy as np  # type: ignore
@@ -13,6 +14,10 @@ class ValoresSerie(Block):
     """
     Bloco com a informaçao de uma tabela para o SIN, com
     entradas por série.
+
+    .. deprecated::
+        Use :class:`~inewave.nwlistop.modelos.blocos\
+.tabela_serie_anual.TabelaSerieAnual` instead.
     """
 
     __slots__ = ["__linha", "__linha_ano", "__ano"]
@@ -23,6 +28,11 @@ class ValoresSerie(Block):
     DATA_LINE = Line([])
 
     def __init__(self, previous=None, next=None, data=None) -> None:
+        warnings.warn(
+            "ValoresSerie is deprecated. Use TabelaSerieAnual instead.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
         super().__init__(previous, next, data)
         self.__linha_ano = self.__class__.HEADER_LINE
         self.__linha = self.__class__.DATA_LINE
@@ -30,14 +40,11 @@ class ValoresSerie(Block):
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, ValoresSerie):
             return False
-        bloco: ValoresSerie = o
-        if not all([
-            isinstance(self.data, pd.DataFrame),
-            isinstance(o.data, pd.DataFrame),
-        ]):
+        if not isinstance(self.data, pd.DataFrame) or not isinstance(
+            o.data, pd.DataFrame
+        ):
             return False
-        else:
-            return self.data.equals(bloco.data)
+        return self.data.equals(o.data)
 
     # Override
     def read(self, file: IO, *args, **kwargs):

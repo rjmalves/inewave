@@ -1,6 +1,6 @@
 {
   "plan": "inewave-quality-performance",
-  "last_updated": "2026-02-23T12:00:00Z",
+  "last_updated": "2026-02-23T22:00:00Z",
   "progressive": true,
   "tickets": {
     "ticket-001-bump-cfinterface-dependency.md": {
@@ -19,44 +19,54 @@
       "agent": "python-task-automation-developer"
     },
     "ticket-004-design-tabela-serie-anual-base.md": {
-      "status": "pending",
-      "detail_level": "detailed"
+      "status": "completed",
+      "detail_level": "detailed",
+      "agent": "python-task-automation-developer"
     },
     "ticket-005-design-tabela-serie-patamar-anual-base.md": {
-      "status": "pending",
-      "detail_level": "detailed"
+      "status": "completed",
+      "detail_level": "detailed",
+      "agent": "python-task-automation-developer"
     },
     "ticket-006-migrate-valores-serie-archives.md": {
-      "status": "pending",
-      "detail_level": "detailed"
+      "status": "completed",
+      "detail_level": "detailed",
+      "agent": "python-task-automation-developer"
     },
     "ticket-007-migrate-valores-serie-patamar-archives.md": {
-      "status": "pending",
-      "detail_level": "detailed"
+      "status": "completed",
+      "detail_level": "detailed",
+      "agent": "python-task-automation-developer"
     },
     "ticket-008-batch-migrate-ree-sin-models.md": {
-      "status": "pending",
-      "detail_level": "detailed"
+      "status": "completed",
+      "detail_level": "detailed",
+      "agent": "python-task-automation-developer"
     },
     "ticket-009-batch-migrate-usina-models.md": {
-      "status": "pending",
-      "detail_level": "detailed"
+      "status": "completed",
+      "detail_level": "detailed",
+      "agent": "python-task-automation-developer"
     },
     "ticket-010-batch-migrate-submercado-reepatamar-models.md": {
-      "status": "pending",
-      "detail_level": "detailed"
+      "status": "completed",
+      "detail_level": "detailed",
+      "agent": "python-task-automation-developer"
     },
     "ticket-011-batch-migrate-sinpatamar-usinapatamar-models.md": {
-      "status": "pending",
-      "detail_level": "detailed"
+      "status": "completed",
+      "detail_level": "detailed",
+      "agent": "python-task-automation-developer"
     },
     "ticket-012-batch-migrate-remaining-archives.md": {
-      "status": "pending",
-      "detail_level": "detailed"
+      "status": "completed",
+      "detail_level": "detailed",
+      "agent": "python-task-automation-developer"
     },
     "ticket-013-cleanup-deprecated-blocks.md": {
-      "status": "pending",
-      "detail_level": "detailed"
+      "status": "completed",
+      "detail_level": "detailed",
+      "agent": "python-task-automation-developer"
     },
     "ticket-014-survey-version-dependent-formats.md": {
       "status": "pending",

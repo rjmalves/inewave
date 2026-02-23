@@ -1,11 +1,14 @@
 from inewave.nwlistop.modelos.blocos.submercado import Submercado
+from inewave.nwlistop.modelos.blocos.tabela_serie_patamar_anual import (
+    TabelaSeriePatamarAnual,
+)
 from inewave.nwlistop.modelos.blocos.valoresseriepatamar import (
     ValoresSeriePatamar,
 )
 
 from cfinterface.files.blockfile import BlockFile
 import pandas as pd  # type: ignore
-from typing import TypeVar, Optional
+from typing import Optional
 
 
 class ArquivoSubmercadoPatamar(BlockFile):
@@ -15,8 +18,6 @@ class ArquivoSubmercadoPatamar(BlockFile):
 
     __slots__ = ["__valores"]
 
-    T = TypeVar("T")
-
     BLOCKS = [Submercado, ValoresSeriePatamar]
 
     def __init__(self, data=...) -> None:
@@ -25,9 +26,12 @@ class ArquivoSubmercadoPatamar(BlockFile):
 
     def __monta_tabela(self) -> pd.DataFrame:
         df = None
-        for b in self.data.of_type(ValoresSeriePatamar):
-            dados = b.data
-            if dados is None:
+        for b in self.data:
+            if not isinstance(
+                b, (ValoresSeriePatamar, TabelaSeriePatamarAnual)
+            ):
+                continue
+            if b.data is None:
                 continue
             elif df is None:
                 df = b.data

@@ -31,16 +31,16 @@ Progressive plan to upgrade inewave (v1.12.0 -> v1.13.0) to leverage cfinterface
 | ticket-001 | Bump cfinterface dependency to >= 1.9.0                                        | epic-01 | completed | Detailed     |
 | ticket-002 | Migrate STORAGE string literals to StorageType enum                            | epic-01 | completed | Detailed     |
 | ticket-003 | Verify full test suite and fix regressions                                     | epic-01 | completed | Detailed     |
-| ticket-004 | Design and implement TabelaSerieAnual base class                               | epic-02 | pending   | Detailed     |
-| ticket-005 | Design and implement TabelaSeriePatamarAnual base class                        | epic-02 | pending   | Detailed     |
-| ticket-006 | Migrate ValoresSerie archive base classes                                      | epic-02 | pending   | Detailed     |
-| ticket-007 | Migrate ValoresSeriePatamar archive base classes                               | epic-02 | pending   | Detailed     |
-| ticket-008 | Batch migrate ArquivoREE and ArquivoSIN models (35 files)                      | epic-02 | pending   | Detailed     |
-| ticket-009 | Batch migrate ArquivoUsina models (17 files)                                   | epic-02 | pending   | Detailed     |
-| ticket-010 | Batch migrate ArquivoSubmercadoPatamar and ArquivoREEPatamar models (47 files) | epic-02 | pending   | Detailed     |
-| ticket-011 | Batch migrate ArquivoSINPatamar and ArquivoUsinaPatamar models (47 files)      | epic-02 | pending   | Detailed     |
-| ticket-012 | Batch migrate remaining archive types (16 files)                               | epic-02 | pending   | Detailed     |
-| ticket-013 | Clean up deprecated block classes and verify                                   | epic-02 | pending   | Detailed     |
+| ticket-004 | Design and implement TabelaSerieAnual base class                               | epic-02 | completed | Detailed     |
+| ticket-005 | Design and implement TabelaSeriePatamarAnual base class                        | epic-02 | completed | Detailed     |
+| ticket-006 | Migrate ValoresSerie archive base classes                                      | epic-02 | completed | Detailed     |
+| ticket-007 | Migrate ValoresSeriePatamar archive base classes                               | epic-02 | completed | Detailed     |
+| ticket-008 | Batch migrate ArquivoREE and ArquivoSIN models (35 files)                      | epic-02 | completed | Detailed     |
+| ticket-009 | Batch migrate ArquivoUsina models (17 files)                                   | epic-02 | completed | Detailed     |
+| ticket-010 | Batch migrate ArquivoSubmercadoPatamar and ArquivoREEPatamar models (47 files) | epic-02 | completed | Detailed     |
+| ticket-011 | Batch migrate ArquivoSINPatamar and ArquivoUsinaPatamar models (47 files)      | epic-02 | completed | Detailed     |
+| ticket-012 | Batch migrate remaining archive types (16 files)                               | epic-02 | completed | Detailed     |
+| ticket-013 | Clean up deprecated block classes and verify                                   | epic-02 | completed | Detailed     |
 | ticket-014 | Survey and catalog version-dependent formats                                   | epic-03 | pending   | Outline      |
 | ticket-015 | Add VERSIONS to newave SectionFile classes                                     | epic-03 | pending   | Outline      |
 | ticket-016 | Add VERSIONS to nwlistop BlockFile classes                                     | epic-03 | pending   | Outline      |

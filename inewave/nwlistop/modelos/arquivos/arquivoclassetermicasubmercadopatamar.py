@@ -1,4 +1,7 @@
 from inewave.nwlistop.modelos.blocos.submercado import Submercado
+from inewave.nwlistop.modelos.blocos.tabela_serie_patamar_anual import (
+    TabelaSeriePatamarAnual,
+)
 from inewave.nwlistop.modelos.blocos.valoresclassetermicaseriepatamar import (
     ValoresClasseTermicaSeriePatamar,
 )
@@ -26,7 +29,12 @@ class ArquivoClasseTermicaSubmercadoPatamar(BlockFile):
 
     def __monta_tabela(self) -> pd.DataFrame:
         df = None
-        for b in self.data.of_type(ValoresClasseTermicaSeriePatamar):
+        for b in self.data:
+            if not isinstance(
+                b,
+                (ValoresClasseTermicaSeriePatamar, TabelaSeriePatamarAnual),
+            ):
+                continue
             dados = b.data
             if dados is None:
                 continue

@@ -1,4 +1,7 @@
 from inewave.nwlistop.modelos.blocos.restricao import Restricao
+from inewave.nwlistop.modelos.blocos.tabela_serie_anual import (
+    TabelaSerieAnual,
+)
 from inewave.nwlistop.modelos.blocos.valoresserie import (
     ValoresSerie,
 )
@@ -25,7 +28,9 @@ class ArquivoRestricao(BlockFile):
 
     def __monta_tabela(self) -> pd.DataFrame:
         df = None
-        for b in self.data.of_type(ValoresSerie):
+        for b in self.data:
+            if not isinstance(b, (ValoresSerie, TabelaSerieAnual)):
+                continue
             dados = b.data
             if dados is None:
                 continue

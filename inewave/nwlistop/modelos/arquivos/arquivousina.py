@@ -1,3 +1,6 @@
+from inewave.nwlistop.modelos.blocos.tabela_serie_anual import (
+    TabelaSerieAnual,
+)
 from inewave.nwlistop.modelos.blocos.usina import Usina
 from inewave.nwlistop.modelos.blocos.valoresserie import (
     ValoresSerie,
@@ -5,7 +8,7 @@ from inewave.nwlistop.modelos.blocos.valoresserie import (
 
 from cfinterface.files.blockfile import BlockFile
 import pandas as pd  # type: ignore
-from typing import TypeVar, Optional
+from typing import Optional
 
 
 class ArquivoUsina(BlockFile):
@@ -15,8 +18,6 @@ class ArquivoUsina(BlockFile):
 
     __slots__ = ["__valores"]
 
-    T = TypeVar("T")
-
     BLOCKS = [Usina, ValoresSerie]
 
     def __init__(self, data=...) -> None:
@@ -25,9 +26,10 @@ class ArquivoUsina(BlockFile):
 
     def __monta_tabela(self) -> pd.DataFrame:
         df = None
-        for b in self.data.of_type(ValoresSerie):
-            dados = b.data
-            if dados is None:
+        for b in self.data:
+            if not isinstance(b, (ValoresSerie, TabelaSerieAnual)):
+                continue
+            if b.data is None:
                 continue
             elif df is None:
                 df = b.data

@@ -1,6 +1,9 @@
 from inewave.nwlistop.modelos.blocos.estacaobombeamento import (
     EstacaoBombeamento,
 )
+from inewave.nwlistop.modelos.blocos.tabela_serie_patamar_anual import (
+    TabelaSeriePatamarAnual,
+)
 from inewave.nwlistop.modelos.blocos.valoresseriepatamar import (
     ValoresSeriePatamar,
 )
@@ -27,7 +30,11 @@ class ArquivoEstacaoBombeamentoPatamar(BlockFile):
 
     def __monta_tabela(self) -> pd.DataFrame:
         df = None
-        for b in self.data.of_type(ValoresSeriePatamar):
+        for b in self.data:
+            if not isinstance(
+                b, (ValoresSeriePatamar, TabelaSeriePatamarAnual)
+            ):
+                continue
             dados = b.data
             if dados is None:
                 continue
