@@ -1,6 +1,6 @@
 {
   "plan": "inewave-quality-performance",
-  "last_updated": "2026-02-23T22:30:00Z",
+  "last_updated": "2026-02-24T00:15:00Z",
   "progressive": true,
   "tickets": {
     "ticket-001-bump-cfinterface-dependency.md": {
@@ -69,24 +69,29 @@
       "agent": "python-task-automation-developer"
     },
     "ticket-014-survey-version-dependent-formats.md": {
-      "status": "pending",
-      "detail_level": "outline"
+      "status": "completed",
+      "detail_level": "refined",
+      "agent": "python-task-automation-developer"
     },
     "ticket-015-add-versions-to-newave-files.md": {
-      "status": "pending",
-      "detail_level": "outline"
+      "status": "completed",
+      "detail_level": "refined",
+      "agent": "python-task-automation-developer"
     },
     "ticket-016-add-versions-to-nwlistop-files.md": {
-      "status": "pending",
-      "detail_level": "outline"
+      "status": "completed",
+      "detail_level": "refined",
+      "agent": "python-task-automation-developer"
     },
     "ticket-017-add-validate-integration.md": {
-      "status": "pending",
-      "detail_level": "outline"
+      "status": "completed",
+      "detail_level": "refined",
+      "agent": "python-task-automation-developer"
     },
     "ticket-018-write-version-aware-tests.md": {
-      "status": "pending",
-      "detail_level": "outline"
+      "status": "completed",
+      "detail_level": "refined",
+      "agent": "python-task-automation-developer"
     },
     "ticket-019-profile-read-operations.md": {
       "status": "pending",
@@ -159,7 +164,7 @@
       "learning_extracted": true
     },
     "epic-03-schema-versioning": {
-      "phase": "outline",
+      "phase": "executing",
       "learning_extracted": false
     },
     "epic-04-performance-optimization": {

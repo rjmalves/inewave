@@ -14,15 +14,15 @@ Progressive plan to upgrade inewave (v1.12.0 -> v1.13.0) to leverage cfinterface
 
 ## Epics
 
-| Epic | Name                                 | Tickets       | Status  |
-| ---- | ------------------------------------ | ------------- | ------- |
-| 01   | Foundation and StorageType Migration | 3 (detailed)  | pending |
-| 02   | nwlistop TabularSection Adoption     | 10 (detailed) | pending |
-| 03   | Schema Versioning                    | 5 (outline)   | pending |
-| 04   | Performance Optimization             | 4 (outline)   | pending |
-| 05   | Quality and Type Safety              | 4 (outline)   | pending |
-| 06   | Testing Improvements                 | 4 (outline)   | pending |
-| 07   | Documentation                        | 3 (outline)   | pending |
+| Epic | Name                                 | Tickets       | Status    |
+| ---- | ------------------------------------ | ------------- | --------- |
+| 01   | Foundation and StorageType Migration | 3 (detailed)  | completed |
+| 02   | nwlistop TabularSection Adoption     | 10 (detailed) | completed |
+| 03   | Schema Versioning                    | 5 (refined)   | executing |
+| 04   | Performance Optimization             | 4 (outline)   | pending   |
+| 05   | Quality and Type Safety              | 4 (outline)   | pending   |
+| 06   | Testing Improvements                 | 4 (outline)   | pending   |
+| 07   | Documentation                        | 3 (outline)   | pending   |
 
 ## Progress Tracking
 
@@ -41,11 +41,11 @@ Progressive plan to upgrade inewave (v1.12.0 -> v1.13.0) to leverage cfinterface
 | ticket-011 | Batch migrate ArquivoSINPatamar and ArquivoUsinaPatamar models (47 files)      | epic-02 | completed | Detailed     |
 | ticket-012 | Batch migrate remaining archive types (16 files)                               | epic-02 | completed | Detailed     |
 | ticket-013 | Clean up deprecated block classes and verify                                   | epic-02 | completed | Detailed     |
-| ticket-014 | Survey and catalog version-dependent formats                                   | epic-03 | pending   | Outline      |
-| ticket-015 | Add VERSIONS to newave SectionFile classes                                     | epic-03 | pending   | Outline      |
-| ticket-016 | Add VERSIONS to nwlistop BlockFile classes                                     | epic-03 | pending   | Outline      |
-| ticket-017 | Add validate() integration to versioned files                                  | epic-03 | pending   | Outline      |
-| ticket-018 | Write version-aware tests for versioned files                                  | epic-03 | pending   | Outline      |
+| ticket-014 | Survey and catalog version-dependent formats                                   | epic-03 | completed | Refined      |
+| ticket-015 | Add VERSIONS to newave SectionFile classes                                     | epic-03 | completed | Refined      |
+| ticket-016 | Add VERSIONS to nwlistop BlockFile classes                                     | epic-03 | completed | Refined      |
+| ticket-017 | Add validate() integration to versioned files                                  | epic-03 | completed | Refined      |
+| ticket-018 | Write version-aware tests for versioned files                                  | epic-03 | completed | Refined      |
 | ticket-019 | Profile inewave read operations                                                | epic-04 | pending   | Outline      |
 | ticket-020 | Optimize DataFrame creation in archive bases                                   | epic-04 | pending   | Outline      |
 | ticket-021 | Implement lazy imports for nwlistop                                            | epic-04 | pending   | Outline      |

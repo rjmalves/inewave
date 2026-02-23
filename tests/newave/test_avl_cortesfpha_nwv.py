@@ -14,8 +14,7 @@ ARQ_TESTE = "./tests/mocks/arquivos/__init__.py"
 def test_atributos_encontrados_avl_nwv_cortesfpha_nwv():
     m: MagicMock = mock_open(read_data="".join(MockAvlCortesFphaNwv))
     with patch("builtins.open", m):
-        AvlCortesFpha.set_version("28.16")
-        rel = AvlCortesFpha.read(ARQ_TESTE)
+        rel = AvlCortesFpha.read(ARQ_TESTE, version="28.16")
         assert rel.versao == "28.16_CPAMP"
         assert rel.tabela.at[0, "codigo_usina"] == 4
         assert rel.tabela.at[0, "periodo"] == 5
@@ -25,8 +24,7 @@ def test_atributos_encontrados_avl_nwv_cortesfpha_nwv():
         assert rel.tabela.at[0, "rhs_energia"] == 0.0
         assert rel.tabela.at[0, "coeficiente_volume_util_MW_hm3"] == 0.0
         assert (
-            rel.tabela.at[0, "coeficiente_vazao_turbinada_MW_m3s"]
-            == 0.35607775
+            rel.tabela.at[0, "coeficiente_vazao_turbinada_MW_m3s"] == 0.35607775
         )
         assert rel.tabela.at[0, "coeficiente_vazao_vertida_MW_m3s"] == 0.0
         assert rel.tabela.at[0, "coeficiente_vazao_lateral_MW_m3s"] == 0.0
@@ -35,8 +33,7 @@ def test_atributos_encontrados_avl_nwv_cortesfpha_nwv():
 def test_atributos_encontrados_avl_nwv_cortesfpha_nwv28():
     m: MagicMock = mock_open(read_data="".join(MockAvlCortesFphaNwv28))
     with patch("builtins.open", m):
-        AvlCortesFpha.set_version("28")
-        rel = AvlCortesFpha.read(ARQ_TESTE)
+        rel = AvlCortesFpha.read(ARQ_TESTE, version="28")
         assert rel.versao == "FPHA_NEWAVE"
         assert rel.tabela.at[0, "codigo_usina"] == 4
         assert rel.tabela.at[0, "periodo"] == 1
@@ -46,8 +43,7 @@ def test_atributos_encontrados_avl_nwv_cortesfpha_nwv28():
         assert rel.tabela.at[0, "rhs_energia"] == 0.0
         assert rel.tabela.at[0, "coeficiente_volume_util_MW_hm3"] == 0.0
         assert (
-            rel.tabela.at[0, "coeficiente_vazao_turbinada_MW_m3s"]
-            == 0.35607775
+            rel.tabela.at[0, "coeficiente_vazao_turbinada_MW_m3s"] == 0.35607775
         )
         assert rel.tabela.at[0, "coeficiente_vazao_vertida_MW_m3s"] == 0.0
         assert rel.tabela.at[0, "coeficiente_vazao_lateral_MW_m3s"] == 0.0
@@ -56,17 +52,15 @@ def test_atributos_encontrados_avl_nwv_cortesfpha_nwv28():
 def test_eq_avl_nwv_cortesfpha_nwv():
     m: MagicMock = mock_open(read_data="".join(MockAvlCortesFphaNwv))
     with patch("builtins.open", m):
-        AvlCortesFpha.set_version("28.16")
-        rel1 = AvlCortesFpha.read(ARQ_TESTE)
-        rel2 = AvlCortesFpha.read(ARQ_TESTE)
+        rel1 = AvlCortesFpha.read(ARQ_TESTE, version="28.16")
+        rel2 = AvlCortesFpha.read(ARQ_TESTE, version="28.16")
         assert rel1 == rel2
 
 
 def test_neq_avl_nwv_cortesfpha_nwv():
     m: MagicMock = mock_open(read_data="".join(MockAvlCortesFphaNwv))
     with patch("builtins.open", m):
-        AvlCortesFpha.set_version("28.16")
-        rel1 = AvlCortesFpha.read(ARQ_TESTE)
-        rel2 = AvlCortesFpha.read(ARQ_TESTE)
+        rel1 = AvlCortesFpha.read(ARQ_TESTE, version="28.16")
+        rel2 = AvlCortesFpha.read(ARQ_TESTE, version="28.16")
         rel1.tabela.iloc[0, 0] = -1
         assert rel1 != rel2
