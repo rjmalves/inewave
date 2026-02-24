@@ -11,3 +11,5 @@ def test_eq_mediasmerc():
     leitor2 = Mediasmerc.read(ARQ_TESTE)
     assert leitor == leitor2
     assert leitor.valores.shape == (228, 54)
+
+# NOTE: MEDIAS CSV file, SectionFile with pd.read_csv, no write path

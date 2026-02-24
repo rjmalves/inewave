@@ -1,3 +1,6 @@
+import os
+import tempfile
+
 from inewave.newave.modelos.engnat import SecaoDadosEngnat
 from inewave.newave.engnat import Engnat
 from inewave.config import MAX_ANOS_HISTORICO
@@ -64,3 +67,25 @@ def test_eq_engnat():
         numero_configuracoes=NUM_CONFIGURACOES,
     )
     assert h1 == h2
+
+
+def test_leitura_escrita_engnat():
+    h1 = Engnat.read(
+        ARQ_TESTE,
+        numero_rees=NUM_REES,
+        ano_inicio_historico=ANO_INICIO_HISTORICO,
+        numero_configuracoes=NUM_CONFIGURACOES,
+    )
+    with tempfile.NamedTemporaryFile(delete=False, suffix=".dat") as f:
+        tmp = f.name
+    try:
+        h1.write(tmp)
+        h2 = Engnat.read(
+            tmp,
+            numero_rees=NUM_REES,
+            ano_inicio_historico=ANO_INICIO_HISTORICO,
+            numero_configuracoes=NUM_CONFIGURACOES,
+        )
+        assert h1 == h2
+    finally:
+        os.unlink(tmp)

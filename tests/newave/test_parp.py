@@ -50,9 +50,7 @@ def test_series_energia_ree():
 
 
 def test_correlacao_series_energia_ree():
-    m: MagicMock = mock_open(
-        read_data="".join(MockCorrelacaoSeriesEnergiasREE)
-    )
+    m: MagicMock = mock_open(read_data="".join(MockCorrelacaoSeriesEnergiasREE))
     b = BlocoCorrelEnergiasREE()
     with patch("builtins.open", m):
         with open("", "") as fp:
@@ -236,3 +234,6 @@ def test_neq_parp():
         parp2 = Parp.read(ARQ_TESTE)
         parp2.series_energia_ree.iloc[0, 0] = "teste"
         assert parp1 != parp2
+
+
+# NOTE: Output-only file, round-trip test not applicable

@@ -143,3 +143,6 @@ def test_neq_parpeol():
         parp2 = Parpeol.read(ARQ_TESTE)
         parp2.series_ventos_uee.iloc[0, 0] = "teste"
         assert parp1 != parp2
+
+
+# NOTE: Output-only file, round-trip test not applicable

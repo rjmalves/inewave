@@ -186,3 +186,6 @@ def test_neq_parpvaz():
         parp2 = Parpvaz.read(ARQ_TESTE)
         parp2.series_vazoes_uhe.iloc[0, 0] = "teste"
         assert parp1 != parp2
+
+
+# NOTE: Output-only file, round-trip test not applicable

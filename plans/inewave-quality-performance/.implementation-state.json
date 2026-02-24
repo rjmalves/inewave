@@ -134,20 +134,24 @@
       "agent": "python-task-automation-developer"
     },
     "ticket-027-roundtrip-tests-newave.md": {
-      "status": "pending",
-      "detail_level": "outline"
+      "status": "completed",
+      "detail_level": "refined",
+      "agent": "python-task-automation-developer"
     },
     "ticket-028-roundtrip-tests-nwlistop.md": {
-      "status": "pending",
-      "detail_level": "outline"
+      "status": "completed",
+      "detail_level": "refined",
+      "agent": "python-task-automation-developer"
     },
     "ticket-029-version-and-validation-tests.md": {
-      "status": "pending",
-      "detail_level": "outline"
+      "status": "completed",
+      "detail_level": "refined",
+      "agent": "python-task-automation-developer"
     },
     "ticket-030-optimize-test-execution.md": {
-      "status": "pending",
-      "detail_level": "outline"
+      "status": "completed",
+      "detail_level": "refined",
+      "agent": "python-task-automation-developer"
     },
     "ticket-031-write-migration-guide.md": {
       "status": "pending",
@@ -184,8 +188,8 @@
       "learning_extracted": true
     },
     "epic-06-testing-improvements": {
-      "phase": "outline",
-      "learning_extracted": false
+      "phase": "completed",
+      "learning_extracted": true
     },
     "epic-07-documentation": {
       "phase": "outline",

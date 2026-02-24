@@ -126,3 +126,6 @@ def test_atributos_cortesh():
     assert h1.ultimo_registro_cortes_estagio.shape == (120, 3)
     assert h1.dados_uhes.shape == (164, 10)
     assert h1.dados_submercados.shape == (5, 3)
+
+
+# NOTE: Binary file with parametrized read, round-trip requires external dimensions

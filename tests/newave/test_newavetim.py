@@ -70,3 +70,6 @@ def test_neq_newavetim():
         nt2 = Newavetim.read(ARQ_TESTE)
         nt2.tempos_etapas.iloc[0, 0] = ""
         assert nt1 != nt2
+
+
+# NOTE: Output-only file, round-trip test not applicable

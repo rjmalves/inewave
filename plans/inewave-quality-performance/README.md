@@ -21,7 +21,7 @@ Progressive plan to upgrade inewave (v1.12.0 -> v1.13.0) to leverage cfinterface
 | 03   | Schema Versioning                    | 5 (refined)   | completed |
 | 04   | Performance Optimization             | 4 (refined)   | completed |
 | 05   | Quality and Type Safety              | 4 (refined)   | completed |
-| 06   | Testing Improvements                 | 4 (outline)   | pending   |
+| 06   | Testing Improvements                 | 4 (refined)   | completed |
 | 07   | Documentation                        | 3 (outline)   | pending   |
 
 ## Progress Tracking
@@ -54,10 +54,10 @@ Progressive plan to upgrade inewave (v1.12.0 -> v1.13.0) to leverage cfinterface
 | ticket-024 | Fix mypy strict mode errors in nwlistop                                        | epic-05 | completed | Refined      |
 | ticket-025 | Reduce code duplication in nwlistop archives                                   | epic-05 | completed | Refined      |
 | ticket-026 | Clean up type ignore comments                                                  | epic-05 | completed | Refined      |
-| ticket-027 | Add round-trip tests for newave handlers                                       | epic-06 | pending   | Outline      |
-| ticket-028 | Add round-trip tests for nwlistop handlers                                     | epic-06 | pending   | Outline      |
-| ticket-029 | Add version-aware and validation tests                                         | epic-06 | pending   | Outline      |
-| ticket-030 | Optimize test execution                                                        | epic-06 | pending   | Outline      |
+| ticket-027 | Add round-trip tests for newave handlers                                       | epic-06 | completed | Refined      |
+| ticket-028 | Add round-trip tests for nwlistop handlers                                     | epic-06 | completed | Refined      |
+| ticket-029 | Add version-aware and validation tests                                         | epic-06 | completed | Refined      |
+| ticket-030 | Optimize test execution                                                        | epic-06 | completed | Refined      |
 | ticket-031 | Write migration guide for downstream users                                     | epic-07 | pending   | Outline      |
 | ticket-032 | Update API documentation and docstrings                                        | epic-07 | pending   | Outline      |
 | ticket-033 | Add performance benchmarks to documentation                                    | epic-07 | pending   | Outline      |

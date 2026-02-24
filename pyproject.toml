@@ -29,6 +29,7 @@ classifiers = [
 dev = [
     "pytest",
     "pytest-cov",
+    "pytest-xdist",
     "ruff",
     "mypy",
     "sphinx-rtd-theme",
@@ -95,6 +96,12 @@ warn_return_any = false
 module = "inewave.libs.*"
 strict = true
 warn_return_any = false
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+filterwarnings = [
+    "ignore::DeprecationWarning:inewave.nwlistop",
+]
 
 [tool.ruff]
 line-length = 80

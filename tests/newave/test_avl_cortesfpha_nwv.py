@@ -64,3 +64,6 @@ def test_neq_avl_nwv_cortesfpha_nwv():
         rel2 = AvlCortesFpha.read(ARQ_TESTE, version="28.16")
         rel1.tabela.iloc[0, 0] = -1
         assert rel1 != rel2
+
+
+# NOTE: Read-only report file (write() not implemented), round-trip test not applicable

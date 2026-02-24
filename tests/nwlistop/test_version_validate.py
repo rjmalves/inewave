@@ -19,17 +19,27 @@ from inewave.newave.modelos.blocos.versaomodelo import (
     VersaoModeloLibs,
 )
 from inewave.nwlistop.cmarg import Cmarg
+from inewave.nwlistop.cmargmed import Cmargmed
 from inewave.nwlistop.modelos.blocos.submercado import Submercado
 from inewave.nwlistop.modelos.cmarg import CmargsAnos, CmargsAnos27
+from inewave.nwlistop.modelos.cmargmed import CmargsAnos28 as CmargmedAnos28
+from inewave.nwlistop.modelos.cmargmed import CmargsAnos as CmargmedAnos
 from inewave.nwlistop.modelos.blocos.usina import Usina
 from inewave.nwlistop.modelos.pivarm import PivarmAnos, PivarmAnos_v29_2
+from inewave.nwlistop.modelos.pivarmincr import (
+    PivarmAnos as PivarmIncrAnos,
+    PivarmAnos_v29_2 as PivarmIncrAnos_v29_2,
+)
 from inewave.nwlistop.pivarm import Pivarm
+from inewave.nwlistop.pivarmincr import Pivarmincr
 from tests.mocks.arquivos.avl_cortesfpha_nwv import (
     MockAvlCortesFphaNwv,
     MockAvlCortesFphaNwv28,
 )
 from tests.mocks.arquivos.cmarg import MockCmarg27
+from tests.mocks.arquivos.cmargmed import MockCmargmed28
 from tests.mocks.arquivos.pivarm import MockPivarm
+from tests.mocks.arquivos.pivarmincr import MockPivarmincr
 from tests.mocks.mock_open import mock_open
 
 ARQ_TESTE = "./tests/mocks/arquivos/__init__.py"
@@ -161,3 +171,63 @@ def test_validate_avl_cortesfpha_mismatch_version_2816_to_28():
     # v28.16 blocks are unexpected from v28's perspective
     assert TabelaAvlCortesFpha in result.unexpected_types
     assert VersaoModeloLibs in result.unexpected_types
+
+
+def test_validate_cmargmed_correct_version():
+    """Cmargmed read with version='28' validates cleanly against version '28'."""
+    m: MagicMock = mock_open(read_data="".join(MockCmargmed28))
+    with patch("builtins.open", m):
+        n = Cmargmed.read(ARQ_TESTE, version="28")
+
+    result: VersionMatchResult = n.validate(version="28")
+
+    assert isinstance(result, VersionMatchResult)
+    assert result.missing_types == []
+    assert result.unexpected_types == []
+    assert Submercado in result.found_types
+    assert CmargmedAnos28 in result.found_types
+
+
+def test_validate_cmargmed_mismatch_version():
+    """Cmargmed read with version='28' detects mismatch when validated against '29.4.1'."""
+    m: MagicMock = mock_open(read_data="".join(MockCmargmed28))
+    with patch("builtins.open", m):
+        n = Cmargmed.read(ARQ_TESTE, version="28")
+
+    result: VersionMatchResult = n.validate(version="29.4.1")
+
+    assert isinstance(result, VersionMatchResult)
+    # CmargmedAnos (v29.4.1 block) was not found because data was parsed with v28
+    assert CmargmedAnos in result.missing_types
+    # CmargmedAnos28 (v28 block) should appear as unexpected for v29.4.1
+    assert CmargmedAnos28 in result.unexpected_types
+
+
+def test_validate_pivarmincr_correct_version():
+    """Pivarmincr read with version='28.12' validates cleanly against version '28.12'."""
+    m: MagicMock = mock_open(read_data="".join(MockPivarmincr))
+    with patch("builtins.open", m):
+        n = Pivarmincr.read(ARQ_TESTE, version="28.12")
+
+    result: VersionMatchResult = n.validate(version="28.12")
+
+    assert isinstance(result, VersionMatchResult)
+    assert result.missing_types == []
+    assert result.unexpected_types == []
+    assert Usina in result.found_types
+    assert PivarmIncrAnos in result.found_types
+
+
+def test_validate_pivarmincr_mismatch_version():
+    """Pivarmincr read with version='28.12' detects mismatch when validated against '29.2'."""
+    m: MagicMock = mock_open(read_data="".join(MockPivarmincr))
+    with patch("builtins.open", m):
+        n = Pivarmincr.read(ARQ_TESTE, version="28.12")
+
+    result: VersionMatchResult = n.validate(version="29.2")
+
+    assert isinstance(result, VersionMatchResult)
+    # PivarmIncrAnos_v29_2 expected for v29.2 but data was parsed with v28.12 blocks
+    assert PivarmIncrAnos_v29_2 in result.missing_types
+    # PivarmIncrAnos (v28.12 block) is unexpected when validating against v29.2
+    assert PivarmIncrAnos in result.unexpected_types
