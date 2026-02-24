@@ -1,6 +1,6 @@
 {
   "plan": "inewave-quality-performance",
-  "last_updated": "2026-02-23T23:59:00Z",
+  "last_updated": "2026-02-23T22:00:00Z",
   "progressive": true,
   "tickets": {
     "ticket-001-bump-cfinterface-dependency.md": {
@@ -154,16 +154,19 @@
       "agent": "python-task-automation-developer"
     },
     "ticket-031-write-migration-guide.md": {
-      "status": "pending",
-      "detail_level": "outline"
+      "status": "completed",
+      "detail_level": "refined",
+      "agent": "open-source-documentation-writer"
     },
     "ticket-032-update-api-documentation.md": {
-      "status": "pending",
-      "detail_level": "outline"
+      "status": "removed",
+      "detail_level": "refined",
+      "merged_into": "ticket-031-write-migration-guide.md"
     },
     "ticket-033-add-performance-benchmarks.md": {
-      "status": "pending",
-      "detail_level": "outline"
+      "status": "completed",
+      "detail_level": "refined",
+      "agent": "open-source-documentation-writer"
     }
   },
   "epics": {
@@ -192,8 +195,8 @@
       "learning_extracted": true
     },
     "epic-07-documentation": {
-      "phase": "outline",
-      "learning_extracted": false
+      "phase": "completed",
+      "learning_extracted": true
     }
   }
 }

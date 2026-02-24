@@ -35,7 +35,7 @@ cmarg_v28_erro = Cmargmed.read("./nwlistop/cmarg001-med_v28.out")
 cmarg_v28_erro.valores
 
 # %%
-# Todavia, se é atribuída a versão correta, os valores são lidos correamente
-Cmargmed.set_version(versao)
-cmarg_v28 = Cmargmed.read("./nwlistop/cmarg001-med_v28.out")
+# A partir da v1.13.0 é possível informar a versão diretamente no argumento
+# nomeado version= do método read (deve ser uma chave de VERSIONS da classe).
+cmarg_v28 = Cmargmed.read("./nwlistop/cmarg001-med_v28.out", version=versao)
 cmarg_v28.valores

@@ -22,7 +22,7 @@ Progressive plan to upgrade inewave (v1.12.0 -> v1.13.0) to leverage cfinterface
 | 04   | Performance Optimization             | 4 (refined)   | completed |
 | 05   | Quality and Type Safety              | 4 (refined)   | completed |
 | 06   | Testing Improvements                 | 4 (refined)   | completed |
-| 07   | Documentation                        | 3 (outline)   | pending   |
+| 07   | Documentation                        | 2 (refined)   | completed |
 
 ## Progress Tracking
 
@@ -58,6 +58,6 @@ Progressive plan to upgrade inewave (v1.12.0 -> v1.13.0) to leverage cfinterface
 | ticket-028 | Add round-trip tests for nwlistop handlers                                     | epic-06 | completed | Refined      |
 | ticket-029 | Add version-aware and validation tests                                         | epic-06 | completed | Refined      |
 | ticket-030 | Optimize test execution                                                        | epic-06 | completed | Refined      |
-| ticket-031 | Write migration guide for downstream users                                     | epic-07 | pending   | Outline      |
-| ticket-032 | Update API documentation and docstrings                                        | epic-07 | pending   | Outline      |
-| ticket-033 | Add performance benchmarks to documentation                                    | epic-07 | pending   | Outline      |
+| ticket-031 | Write migration guide and update changelog for v1.13.0                         | epic-07 | completed | Refined      |
+| ticket-032 | ~~Update API documentation and docstrings~~ (REMOVED - merged into ticket-031) | epic-07 | removed   | Refined      |
+| ticket-033 | Add performance benchmarks to documentation                                    | epic-07 | completed | Refined      |

@@ -1,3 +1,17 @@
+# 1.13.0
+
+- Suporte ao argumento `version=` no método `read` das classes com múltiplos formatos (`Cmarg`, `Cmargmed`, `Pivarm`, `Pivarmincr`, `AvlCortesFpha`), eliminando a necessidade de chamar `set_version` separadamente.
+- Novo método `validate(version=...)` para verificar se os blocos encontrados em um arquivo correspondem ao conjunto esperado para uma dada versão, retornando um `VersionMatchResult` com diagnóstico de tipos ausentes e inesperados.
+- Introdução das classes base `TabelaSerieAnual` e `TabelaSeriePatamarAnual` para blocos de dados tabulares do NWLISTOP, substituindo a implementação manual linha a linha com uso de `TabularParser` do `cfinterface`.
+- Introdução das classes base `_ArquivoSerieBase` e `_ArquivoSeriePatamarBase` para centralizar a lógica de montagem da propriedade `valores` em todos os arquivos de série do NWLISTOP.
+- Classes `ValoresSerie` e `ValoresSeriePatamar` marcadas como descontinuadas com emissão de `DeprecationWarning` na instanciação.
+- Adoção de importações lazy via `__getattr__` e `importlib` em `inewave.newave` e `inewave.nwlistop`, reduzindo o custo de importação inicial dos submódulos.
+- Ativação de `mypy --strict` para todos os submódulos do pacote (`inewave.newave`, `inewave.nwlistop`, `inewave.nwlistcf`, `inewave._utils`, `inewave.libs`).
+- Suíte de benchmarks em `benchmarks/` para medição de tempo de importação e leitura de arquivos representativos, com resultados registrados em `benchmarks/benchmark_results.md`.
+- Suporte à execução paralela de testes com `pytest-xdist` (`pytest -n auto`).
+- Total de 1140 testes cobrindo leitura, escrita, round-trip e validação de versão para todos os arquivos suportados.
+- Atualização das dependências mínimas: `cfinterface >= 1.9.0`, `numpy >= 2.2.1`, `pandas >= 2.2.3`.
+
 # 1.12.0
 
 - Atualização no processamento dos `parp.dat`, `parpeol.dat`, `parpvaz.dat` e `penalid.dat` para compatibilização com pandas `>=3.0.0`.

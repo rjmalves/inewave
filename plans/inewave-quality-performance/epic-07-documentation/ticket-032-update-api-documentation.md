@@ -1,27 +1,21 @@
 # ticket-032 Update API documentation and docstrings
 
-> **[OUTLINE]** This ticket requires refinement before execution.
-> It will be refined with learnings from earlier epics.
+> **[REMOVED]** This ticket has been absorbed into ticket-031.
+>
+> During refinement, codebase investigation revealed that:
+>
+> 1. The existing sphinx RST reference pages use `.. autoclass::` with `:members:` and auto-generate from class docstrings. No RST file content changes are needed.
+> 2. All new base classes (`TabelaSerieAnual`, `TabelaSeriePatamarAnual`, `_ArquivoSerieBase`, `_ArquivoSeriePatamarBase`) already have accurate docstrings from earlier epics.
+> 3. All handler-level classes (e.g., `Earmf`, `Cmarg`) retain their original docstrings which are still accurate.
+> 4. The only documentation updates needed (tutorial `set_version()` -> `read(version=...)`, versioning example update, CHANGELOG entry) are naturally part of the migration guide scope.
+>
+> The substantive work has been merged into ticket-031. This file is preserved for audit trail purposes.
 
-## Objective
+## Original Objective
 
-Update all sphinx docstrings and API reference documentation to reflect the changes made in epics 01-05. This includes: new base classes (TabelaSerieAnual, TabelaSeriePatamarAnual), updated archive base classes, version-aware read API, and validation API. Ensure the sphinx build produces clean HTML documentation.
+Update all sphinx docstrings and API reference documentation to reflect the changes made in epics 01-05.
 
-## Anticipated Scope
+## Disposition
 
-- **Files likely to be modified**: All production files modified in earlier epics (docstring updates), `docs/source/` RST files (API reference), `docs/source/conf.py` (if sphinx configuration changes needed)
-- **Key decisions needed**: Docstring format (numpydoc vs. Google style -- existing code uses numpydoc/RST); whether to auto-generate API docs with sphinx-apidoc
-- **Open questions**:
-  - Are the existing docs up-to-date with the pre-migration codebase?
-  - Do the new base classes need dedicated documentation pages?
-  - Should the docs include architecture diagrams showing the new class hierarchy?
-
-## Dependencies
-
-- **Blocked By**: ticket-013
-- **Blocks**: None
-
-## Effort Estimate
-
-**Points**: 3
-**Confidence**: Low (will be re-estimated during refinement)
+**Merged into**: ticket-031-write-migration-guide.md
+**Reason**: No standalone docstring or RST work is needed. The sphinx autodoc pages regenerate from existing (already-updated) docstrings. The tutorial and example updates are small enough to include in ticket-031.
