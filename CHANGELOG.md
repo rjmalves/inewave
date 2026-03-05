@@ -12,6 +12,11 @@
 - Total de 1140 testes cobrindo leitura, escrita, round-trip e validação de versão para todos os arquivos suportados.
 - Atualização das dependências mínimas: `cfinterface >= 1.9.0`, `numpy >= 2.2.1`, `pandas >= 2.2.3`.
 
+# 1.12.1
+
+- Correção na leitura do arquivo `hidr.dat` com campos vazios (@beralbdom)
+- Restrição da dependência `cfinterface` para versões `<=1.8.3`
+
 # 1.12.0
 
 - Atualização no processamento dos `parp.dat`, `parpeol.dat`, `parpvaz.dat` e `penalid.dat` para compatibilização com pandas `>=3.0.0`.
