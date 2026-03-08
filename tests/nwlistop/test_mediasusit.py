@@ -10,3 +10,6 @@ def test_eq_mediasusit():
     leitor2 = Mediasusit.read(ARQ_TESTE)
     assert leitor == leitor2
     assert leitor.valores.shape == (7680, 5)
+
+
+# NOTE: MEDIAS CSV file, SectionFile with pd.read_csv, no write path

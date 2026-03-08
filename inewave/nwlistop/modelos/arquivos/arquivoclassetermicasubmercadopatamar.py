@@ -1,59 +1,31 @@
+from typing import Optional
+
+from inewave.nwlistop.modelos.arquivos._base_serie_patamar import (
+    _ArquivoSeriePatamarBase,
+)
 from inewave.nwlistop.modelos.blocos.submercado import Submercado
+from inewave.nwlistop.modelos.blocos.tabela_serie_patamar_anual import (
+    TabelaSeriePatamarAnual,
+)
 from inewave.nwlistop.modelos.blocos.valoresclassetermicaseriepatamar import (
     ValoresClasseTermicaSeriePatamar,
 )
 
-from cfinterface.files.blockfile import BlockFile
-import pandas as pd  # type: ignore
-from typing import TypeVar, Optional
 
-
-class ArquivoClasseTermicaSubmercadoPatamar(BlockFile):
+class ArquivoClasseTermicaSubmercadoPatamar(_ArquivoSeriePatamarBase):
     """
     Armazena os dados das saídas por patamar, por submercado e por
     classe térmica.
     """
 
-    __slots__ = ["__valores"]
+    __slots__: list[str] = []
 
-    T = TypeVar("T")
+    _DATA_BLOCK_TYPES = (
+        ValoresClasseTermicaSeriePatamar,
+        TabelaSeriePatamarAnual,
+    )
 
     BLOCKS = [Submercado, ValoresClasseTermicaSeriePatamar]
-
-    def __init__(self, data=...) -> None:
-        super().__init__(data)
-        self.__valores = None
-
-    def __monta_tabela(self) -> pd.DataFrame:
-        df = None
-        for b in self.data.of_type(ValoresClasseTermicaSeriePatamar):
-            dados = b.data
-            if dados is None:
-                continue
-            elif df is None:
-                df = b.data
-            else:
-                df = pd.concat([df, b.data], ignore_index=True)
-        return df
-
-    @property
-    def valores(self) -> Optional[pd.DataFrame]:
-        """
-        Tabela com os valores por classe térmica, por patamar, por série e
-        por mês/ano de estudo.
-
-        - classe (`str`)
-        - data (`datetime`)
-        - patamar (`str`)
-        - serie (`str`)
-        - valor (`float`)
-
-        :return: A tabela dos valores por patamar.
-        :rtype: pd.DataFrame | None
-        """
-        if self.__valores is None:
-            self.__valores = self.__monta_tabela()
-        return self.__valores
 
     @property
     def submercado(self) -> Optional[str]:

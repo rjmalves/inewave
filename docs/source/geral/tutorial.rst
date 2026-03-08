@@ -123,8 +123,31 @@ para que a leitura seja feita corretamente. Por exemplo, para o :ref:`energiaf.d
 
 
 Alguns arquivos do modelo NEWAVE podem sofrer alterações de sintaxe conforme são feitas atualizações no modelo.
-Desta forma, poderia ser necessário criar mais de uma classe para dar suporte ao mesmo arquivo. Todavia, o framework
+Desta forma, poderia ser necessário criar mais de uma classe para dar suporte ao mesmo arquivo. O framework
 `cfinterface <https://github.com/rjmalves/cfi>`_ possui uma modelagem para dar suporte a mais de uma
-versão do mesmo arquivo fazendo uso do método `set_version` de cada uma das classes.
-Entretanto, até o momento o uso deste método não foi necessário para nenhum arquivo do modelo NEWAVE, visto
-que as implementações feitas pelo desenvolvedor tendem a ser retrocompatíveis.
+versão do mesmo arquivo, e a partir da v1.13.0 do *inewave* é possível especificar a versão diretamente
+no método `read` por meio do argumento nomeado `version=`. As classes que possuem múltiplos formatos
+suportados expõem um atributo de classe `VERSIONS` com as chaves válidas.
+
+Por exemplo, os arquivos `cmargXXX.out` e `cmargXXX-med.out` do NWLISTOP tiveram seu formato alterado
+na versão 29.4.1 do modelo NEWAVE. Para realizar a leitura de um arquivo gerado com a versão 28, deve-se
+passar `version="28"` diretamente ao `read`:
+
+.. code-block:: python
+
+    from inewave.newave import Pmo
+    from inewave.nwlistop import Cmargmed
+
+    arq_pmo = Pmo.read("./newave/pmo.dat")
+    versao = arq_pmo.versao_modelo
+
+    # Leitura com a versão correta informada diretamente no read
+    cmarg_v28 = Cmargmed.read("./nwlistop/cmarg001-med_v28.out", version="28")
+    cmarg_v28.valores
+
+    # Para arquivos na versão mais recente (29.4.1), omitir version= ou informar explicitamente
+    cmarg_atual = Cmargmed.read("./nwlistop/cmarg001-med.out", version="29.4.1")
+    cmarg_atual.valores
+
+O método `set_version` ainda funciona para compatibilidade retroativa, mas o uso de `version=` no
+`read` é o idioma preferencial a partir da v1.13.0.

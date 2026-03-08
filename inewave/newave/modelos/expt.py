@@ -4,9 +4,9 @@ from cfinterface.components.integerfield import IntegerField
 from cfinterface.components.literalfield import LiteralField
 from cfinterface.components.floatfield import FloatField
 from cfinterface.components.datetimefield import DatetimeField
-from typing import List, IO, Optional
+from typing import Any, IO, List, Optional
 from datetime import datetime
-import pandas as pd  # type: ignore
+import pandas as pd  # type: ignore[import-untyped]  # no pandas-stubs package
 
 
 class BlocoUTEExpt(Section):
@@ -18,7 +18,12 @@ class BlocoUTEExpt(Section):
 
     FIM_BLOCO = ""
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         self.__linha_uhe = Line(
             [
@@ -47,8 +52,8 @@ class BlocoUTEExpt(Section):
             return self.data.equals(bloco.data)
 
     # Override
-    def read(self, file: IO, *args, **kwargs):
-        def converte_tabela_em_df():
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
+        def converte_tabela_em_df() -> pd.DataFrame:
             df = pd.DataFrame()
             df["codigo_usina"] = codigos
             df["tipo"] = tipos
@@ -86,7 +91,7 @@ class BlocoUTEExpt(Section):
             nomes.append(dados[5])
 
     # Override
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         for linha in self.__cabecalhos:
             file.write(linha)
         if not isinstance(self.data, pd.DataFrame):

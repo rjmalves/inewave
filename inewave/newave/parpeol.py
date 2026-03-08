@@ -8,7 +8,7 @@ from inewave.newave.modelos.parpeol import BlocoCorrelEspacialMensalConfig
 from cfinterface.components.block import Block
 from cfinterface.files.blockfile import BlockFile
 from typing import Type, TypeVar, Optional, Any, List
-import pandas as pd  # type: ignore
+import pandas as pd  # type: ignore[import-untyped]  # no pandas-stubs package
 from datetime import datetime
 
 
@@ -34,7 +34,7 @@ class Parpeol(BlockFile):
         BlocoCorrelEspacialMensalConfig,
     ]
 
-    def __init__(self, data=...) -> None:
+    def __init__(self, data: Any = ...) -> None:
         super().__init__(data)
         self.__series_ventos = None
         self.__correl_series_ventos = None
@@ -204,7 +204,7 @@ class Parpeol(BlockFile):
             novo_vetor_anos += converte_vetor_anos(
                 df.loc[i_i:i_f, "ano"].tolist(), n_series
             )
-        df["ano"] = novo_vetor_anos  
+        df["ano"] = novo_vetor_anos
         return df[["uee"] + cols]
 
     def __converte_ano_mes_data(
@@ -269,10 +269,8 @@ class Parpeol(BlockFile):
         """
         if self.__series_ruido is None:
             self.__series_ruido = self.__concatena_dados(BlocoSerieRuidosUEE)
-            self.__series_ruido = (
-                self.__adiciona_coluna_uee_corrigindo_pre_pos(
-                    self.__series_ruido
-                )
+            self.__series_ruido = self.__adiciona_coluna_uee_corrigindo_pre_pos(
+                self.__series_ruido
             )
             self.__series_ruido = self.__converte_ano_mes_data(
                 self.__series_ruido

@@ -100,15 +100,17 @@ cadastro_modificado["volume_minimo"] = (
 )
 
 print("Comparação dos volumes mínimos (original vs modificado):")
-comparacao = pd.DataFrame({
-    "original": cadastro["volume_minimo"],
-    "modificado": cadastro_modificado["volume_minimo"],
-    "diferenca_pct": (
-        (cadastro_modificado["volume_minimo"] - cadastro["volume_minimo"])
-        / cadastro["volume_minimo"]
-        * 100
-    ),
-})
+comparacao = pd.DataFrame(
+    {
+        "original": cadastro["volume_minimo"],
+        "modificado": cadastro_modificado["volume_minimo"],
+        "diferenca_pct": (
+            (cadastro_modificado["volume_minimo"] - cadastro["volume_minimo"])
+            / cadastro["volume_minimo"]
+            * 100
+        ),
+    }
+)
 print(comparacao.head())
 
 # %%

@@ -2,8 +2,8 @@ from inewave.newave.modelos.blocos.versaomodelo import VersaoModelo
 from inewave.newave.modelos.avl_desvfpha_s import TabelaAvlDesvFphaS
 
 from cfinterface.files.blockfile import BlockFile
-from typing import Optional, TypeVar
-import pandas as pd  # type: ignore
+from typing import Optional, TypeVar, Any
+import pandas as pd  # type: ignore[import-untyped]  # no pandas-stubs package
 
 from warnings import warn
 
@@ -19,7 +19,7 @@ class AvlDesvFphaS(BlockFile):
 
     T = TypeVar("T")
 
-    def __init__(self, data=...) -> None:
+    def __init__(self, data: Any = ...) -> None:
         warn(
             "Esta classe é relativa a um arquivo que não é mais suportado."
             + " Utilize a classe FphaAvlDesvS no lugar.",

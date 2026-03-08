@@ -2,8 +2,8 @@ from inewave.nwlistop.modelos.cdef import CdefAnos
 
 from inewave.nwlistop.modelos.arquivos.arquivosubmercado import (
     ArquivoSubmercado,
-    Submercado,
 )
+from inewave.nwlistop.modelos.blocos.submercado import Submercado
 
 
 class Cdef(ArquivoSubmercado):

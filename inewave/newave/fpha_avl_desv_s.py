@@ -2,8 +2,8 @@ from inewave.newave.modelos.blocos.versaomodelo import VersaoModelo
 from inewave.newave.modelos.avl_desvfpha_s import TabelaAvlDesvFphaS
 
 from cfinterface.files.blockfile import BlockFile
-from typing import Optional, TypeVar
-import pandas as pd  # type: ignore
+from typing import Optional, TypeVar, Any
+import pandas as pd  # type: ignore[import-untyped]  # no pandas-stubs package
 
 
 class FphaAvlDesvS(BlockFile):
@@ -17,7 +17,7 @@ class FphaAvlDesvS(BlockFile):
 
     T = TypeVar("T")
 
-    def __init__(self, data=...) -> None:
+    def __init__(self, data: Any = ...) -> None:
         super().__init__(data)
         self.__df_completo: Optional[pd.DataFrame] = None
 

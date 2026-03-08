@@ -2,7 +2,7 @@ from inewave.newave.modelos.dsvagua import BlocoDsvUHE
 
 from cfinterface.files.sectionfile import SectionFile
 from typing import TypeVar, Optional
-import pandas as pd  # type: ignore
+import pandas as pd  # type: ignore[import-untyped]  # no pandas-stubs package
 
 
 class Dsvagua(SectionFile):
@@ -39,7 +39,7 @@ class Dsvagua(SectionFile):
         return None
 
     @desvios.setter
-    def desvios(self, valor: pd.DataFrame):
+    def desvios(self, valor: pd.DataFrame) -> None:
         b = self.data.get_sections_of_type(BlocoDsvUHE)
         if isinstance(b, BlocoDsvUHE):
             b.data = valor

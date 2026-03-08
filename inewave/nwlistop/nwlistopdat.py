@@ -31,7 +31,7 @@ class Nwlistopdat(SectionFile):
         return None
 
     @opcao.setter
-    def opcao(self, v: int):
+    def opcao(self, v: int) -> None:
         b = self.data.get_sections_of_type(BlocoDadosNwlistop)
         if isinstance(b, BlocoDadosNwlistop):
             b.data["opcao"] = v
@@ -53,7 +53,7 @@ class Nwlistopdat(SectionFile):
             raise ValueError("Períodos só são suportados nas opções [1, 2, 4]")
 
     @periodo_inicial_impressao.setter
-    def periodo_inicial_impressao(self, v: int):
+    def periodo_inicial_impressao(self, v: int) -> None:
         if self.opcao in [1, 2, 4]:
             b = self.data.get_sections_of_type(BlocoDadosNwlistop)
             if isinstance(b, BlocoDadosNwlistop):
@@ -78,7 +78,7 @@ class Nwlistopdat(SectionFile):
             raise ValueError("Períodos só são suportados nas opções [1, 2, 4]")
 
     @periodo_final_impressao.setter
-    def periodo_final_impressao(self, v: int):
+    def periodo_final_impressao(self, v: int) -> None:
         if self.opcao in [1, 2, 4]:
             b = self.data.get_sections_of_type(BlocoDadosNwlistop)
             if isinstance(b, BlocoDadosNwlistop):
@@ -103,7 +103,7 @@ class Nwlistopdat(SectionFile):
             raise ValueError("Séries só são suportadas na opção [1]")
 
     @serie_inicial_impressao.setter
-    def serie_inicial_impressao(self, v: int):
+    def serie_inicial_impressao(self, v: int) -> None:
         if self.opcao in [1]:
             b = self.data.get_sections_of_type(BlocoDadosNwlistop)
             if isinstance(b, BlocoDadosNwlistop):
@@ -128,7 +128,7 @@ class Nwlistopdat(SectionFile):
             raise ValueError("Séries só são suportadas na opção [1]")
 
     @serie_final_impressao.setter
-    def serie_final_impressao(self, v: int):
+    def serie_final_impressao(self, v: int) -> None:
         if self.opcao in [1]:
             b = self.data.get_sections_of_type(BlocoDadosNwlistop)
             if isinstance(b, BlocoDadosNwlistop):
@@ -154,7 +154,7 @@ class Nwlistopdat(SectionFile):
             raise ValueError("Variáveis só são suportadas na opção [2]")
 
     @variaveis_impressao_estagios_agregados.setter
-    def variaveis_impressao_estagios_agregados(self, v: List[int]):
+    def variaveis_impressao_estagios_agregados(self, v: List[int]) -> None:
         if self.opcao in [2]:
             b = self.data.get_sections_of_type(BlocoDadosNwlistop)
             if isinstance(b, BlocoDadosNwlistop):
@@ -182,7 +182,9 @@ class Nwlistopdat(SectionFile):
             raise ValueError("Variáveis só são suportadas na opção [2]")
 
     @variaveis_impressao_estagios_individualizados.setter
-    def variaveis_impressao_estagios_individualizados(self, v: List[int]):
+    def variaveis_impressao_estagios_individualizados(
+        self, v: List[int]
+    ) -> None:
         if self.opcao in [2]:
             b = self.data.get_sections_of_type(BlocoDadosNwlistop)
             if isinstance(b, BlocoDadosNwlistop):
@@ -209,7 +211,7 @@ class Nwlistopdat(SectionFile):
             raise ValueError("UHEs só são suportadas na opção [2]")
 
     @uhes_impressao_estagios_individualizados.setter
-    def uhes_impressao_estagios_individualizados(self, v: List[int]):
+    def uhes_impressao_estagios_individualizados(self, v: List[int]) -> None:
         if self.opcao in [2]:
             b = self.data.get_sections_of_type(BlocoDadosNwlistop)
             if isinstance(b, BlocoDadosNwlistop):

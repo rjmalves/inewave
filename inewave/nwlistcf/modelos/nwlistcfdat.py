@@ -1,7 +1,7 @@
 from cfinterface.components.section import Section
 from cfinterface.components.line import Line
 from cfinterface.components.integerfield import IntegerField
-from typing import List, IO
+from typing import IO, Any, List, Optional
 
 
 class PeriodoImpressaoCortesEstados(Section):
@@ -12,7 +12,12 @@ class PeriodoImpressaoCortesEstados(Section):
 
     __slots__ = ["__linha", "__cabecalhos"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line(
             [IntegerField(3, 1), IntegerField(3, 5), IntegerField(1, 9)]
@@ -34,7 +39,7 @@ class PeriodoImpressaoCortesEstados(Section):
             return self.data == bloco.data
 
     # Override
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         # Lê as linhas de cabeçalho
         for _ in range(2):
             self.__cabecalhos.append(file.readline())
@@ -42,7 +47,7 @@ class PeriodoImpressaoCortesEstados(Section):
         self.data = self.__linha.read(file.readline())
 
     # Override
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         # Escreve as linhas de cabeçalho
         for c in self.__cabecalhos:
             file.write(c)
@@ -56,7 +61,12 @@ class OpcoesImpressao(Section):
     de impressão selecionadas.
     """
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line(
             [IntegerField(2, 1), IntegerField(2, 4), IntegerField(2, 7)]
@@ -78,7 +88,7 @@ class OpcoesImpressao(Section):
             return self.data == bloco.data
 
     # Override
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         # Lê as linhas de cabeçalho
         for _ in range(2):
             self.__cabecalhos.append(file.readline())
@@ -86,7 +96,7 @@ class OpcoesImpressao(Section):
         self.data = self.__linha.read(file.readline())
 
     # Override
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         # Escreve as linhas de cabeçalho
         for c in self.__cabecalhos:
             file.write(c)

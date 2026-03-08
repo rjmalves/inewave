@@ -4,7 +4,6 @@ from tests.mocks.mock_open import mock_open
 from unittest.mock import MagicMock, patch
 
 from tests.mocks.arquivos.avl_cortesfpha_nwv import (
-    MockAvlCortesFphaNwv28,
     MockAvlCortesFphaNwv,
 )
 
@@ -24,8 +23,7 @@ def test_atributos_encontrados_fpha_cortes():
         assert rel.tabela.at[0, "rhs_energia"] == 0.0
         assert rel.tabela.at[0, "coeficiente_volume_util_MW_hm3"] == 0.0
         assert (
-            rel.tabela.at[0, "coeficiente_vazao_turbinada_MW_m3s"]
-            == 0.35607775
+            rel.tabela.at[0, "coeficiente_vazao_turbinada_MW_m3s"] == 0.35607775
         )
         assert rel.tabela.at[0, "coeficiente_vazao_vertida_MW_m3s"] == 0.0
         assert rel.tabela.at[0, "coeficiente_vazao_lateral_MW_m3s"] == 0.0
@@ -46,3 +44,6 @@ def test_neq_fpha_cortes():
         rel2 = FphaCortes.read(ARQ_TESTE)
         rel1.tabela.iloc[0, 0] = -1
         assert rel1 != rel2
+
+
+# NOTE: Read-only report file (write() not implemented), round-trip test not applicable

@@ -1,8 +1,8 @@
 from cfinterface.components.block import Block
 from cfinterface.components.line import Line
 
-from typing import IO, List, Dict
-import pandas as pd  # type: ignore
+from typing import Any, Dict, IO, List
+import pandas as pd  # type: ignore[import-untyped]  # no pandas-stubs package
 
 
 class TabelaCSV(Block):
@@ -18,7 +18,7 @@ class TabelaCSV(Block):
     COLUMN_NAMES: List[str] = []
     END_PATTERN = ""
 
-    def _monta_df(self, dados: dict) -> pd.DataFrame:
+    def _monta_df(self, dados: dict[str, Any]) -> pd.DataFrame:
         return pd.DataFrame(data=dados, columns=self.__class__.COLUMN_NAMES)
 
     def __eq__(self, o: object) -> bool:
@@ -32,7 +32,7 @@ class TabelaCSV(Block):
             else:
                 return self.data.equals(o.data)
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         if len(self.__class__.LINE_MODEL.fields) != len(
             self.__class__.COLUMN_NAMES
         ):
@@ -51,7 +51,9 @@ class TabelaCSV(Block):
             elif len(linha) < 3:
                 return
         # Lê a tabela
-        dados: Dict[str, List] = {c: [] for c in self.__class__.COLUMN_NAMES}
+        dados: Dict[str, List[Any]] = {
+            c: [] for c in self.__class__.COLUMN_NAMES
+        }
         while True:
             linha = file.readline()
             if (self.__class__.BEGIN_PATTERN in linha) or (len(linha) < 3):

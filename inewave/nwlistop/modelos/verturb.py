@@ -1,14 +1,14 @@
 from inewave.config import MESES_DF
 
-from cfinterface.components.line import Line
 from cfinterface.components.integerfield import IntegerField
 from cfinterface.components.floatfield import FloatField
+from cfinterface.components.tabular import ColumnDef
+from inewave.nwlistop.modelos.blocos.tabela_serie_anual import (
+    TabelaSerieAnual,
+)
 
 
-from inewave.nwlistop.modelos.blocos.valoresserie import ValoresSerie
-
-
-class VertAnos(ValoresSerie):
+class VertAnos(TabelaSerieAnual):
     """
     Bloco com as informações das tabelas de energia vertida
     por série e por mês/ano de estudo.
@@ -16,10 +16,9 @@ class VertAnos(ValoresSerie):
 
     __slots__ = []
 
-    HEADER_LINE = Line([IntegerField(4, 10)])
-    DATA_LINE = Line(
-        [  # type: ignore
-            IntegerField(4, 2),
-        ]
-        + [FloatField(8, 7 + 9 * i, 1) for i in range(len(MESES_DF))]  # type: ignore
-    )
+    COLUMNS = [
+        ColumnDef("serie", IntegerField(4, 2)),
+    ] + [
+        ColumnDef(MESES_DF[i], FloatField(8, 7 + 9 * i, 1))
+        for i in range(len(MESES_DF))
+    ]

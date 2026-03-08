@@ -1,7 +1,7 @@
-from typing import IO, List
+from typing import Any, IO, List, Optional
 
-import numpy as np  # type: ignore
-import pandas as pd  # type: ignore
+import numpy as np
+import pandas as pd  # type: ignore[import-untyped]  # no pandas-stubs package
 from cfinterface.components.block import Block
 from cfinterface.components.field import Field
 from cfinterface.components.floatfield import FloatField
@@ -25,34 +25,43 @@ class BlocoValoresConstantesCVAR(Block):
     BEGIN_PATTERN = "VALORES CONSTANTE NO TEMPO"
     END_PATTERN = ""
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            FloatField(5, 7, 1),
-            FloatField(5, 14, 1),
-        ])
+        self.__linha = Line(
+            [
+                FloatField(5, 7, 1),
+                FloatField(5, 14, 1),
+            ]
+        )
         self.__cabecalhos: List[str] = []
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoValoresConstantesCVAR):
             return False
         bloco: BlocoValoresConstantesCVAR = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
     # Override
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         for _ in range(2):
             self.__cabecalhos.append(file.readline())
         self.data = self.__linha.read(file.readline())
 
     # Override
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         for linha in self.__cabecalhos:
             file.write(linha)
         if not isinstance(self.data, list):
@@ -69,7 +78,12 @@ class BlocoAlfaVariavelNoTempo(Block):
     BEGIN_PATTERN = "VALORES DE ALFA VARIAVEIS NO TEMPO"
     END_PATTERN = "VALORES DE LAMBDA VARIAVEIS NO TEMPO"
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         campo_ano: List[Field] = [LiteralField(5, 0)]
         campos_valores: List[Field] = [
@@ -82,17 +96,19 @@ class BlocoAlfaVariavelNoTempo(Block):
         if not isinstance(o, BlocoAlfaVariavelNoTempo):
             return False
         bloco: BlocoAlfaVariavelNoTempo = o
-        if not all([
-            isinstance(self.data, pd.DataFrame),
-            isinstance(o.data, pd.DataFrame),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
             return False
         else:
             return self.data.equals(bloco.data)
 
     # Override
-    def read(self, file: IO, *args, **kwargs):
-        def converte_tabela_em_df():
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
+        def converte_tabela_em_df() -> pd.DataFrame:
             df = pd.DataFrame(
                 data={
                     "data": prepara_vetor_anos_tabela(anos),
@@ -116,7 +132,7 @@ class BlocoAlfaVariavelNoTempo(Block):
             # Confere se terminaram
             if self.ends(linha):
                 file.seek(ultima_linha)
-                tabela = tabela[:i, :]  # type: ignore
+                tabela = tabela[:i, :]
                 self.data = converte_tabela_em_df()
                 return linha
             dados = self.__linha.read(linha)
@@ -125,7 +141,7 @@ class BlocoAlfaVariavelNoTempo(Block):
             i += 1
 
     # Override
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         for linha in self.__cabecalhos:
             file.write(linha)
         if not isinstance(self.data, pd.DataFrame):
@@ -153,7 +169,12 @@ class BlocoLambdaVariavelNoTempo(Block):
     BEGIN_PATTERN = "VALORES DE LAMBDA VARIAVEIS NO TEMPO"
     END_PATTERN = ""
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         campo_ano: List[Field] = [LiteralField(5, 0)]
         campos_valores: List[Field] = [
@@ -166,17 +187,19 @@ class BlocoLambdaVariavelNoTempo(Block):
         if not isinstance(o, BlocoLambdaVariavelNoTempo):
             return False
         bloco: BlocoLambdaVariavelNoTempo = o
-        if not all([
-            isinstance(self.data, pd.DataFrame),
-            isinstance(o.data, pd.DataFrame),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
             return False
         else:
             return self.data.equals(bloco.data)
 
     # Override
-    def read(self, file: IO, *args, **kwargs):
-        def converte_tabela_em_df():
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
+        def converte_tabela_em_df() -> pd.DataFrame:
             df = pd.DataFrame(
                 data={
                     "data": prepara_vetor_anos_tabela(anos),
@@ -197,7 +220,7 @@ class BlocoLambdaVariavelNoTempo(Block):
             # Confere se terminaram
             if len(linha) < 3:
                 if i > 0:
-                    tabela = tabela[:i, :]  # type: ignore
+                    tabela = tabela[:i, :]
                     self.data = converte_tabela_em_df()
                 break
             dados = self.__linha.read(linha)
@@ -206,7 +229,7 @@ class BlocoLambdaVariavelNoTempo(Block):
             i += 1
 
     # Override
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         for linha in self.__cabecalhos:
             file.write(linha)
         if not isinstance(self.data, pd.DataFrame):

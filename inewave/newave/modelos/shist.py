@@ -1,7 +1,7 @@
 from cfinterface.components.section import Section
 from cfinterface.components.line import Line
 from cfinterface.components.integerfield import IntegerField
-from typing import List, IO
+from typing import Any, IO, List, Optional
 
 
 class BlocoVarreduraShist(Section):
@@ -11,7 +11,12 @@ class BlocoVarreduraShist(Section):
 
     __slots__ = ["__linha", "__cabecalhos"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line(
             [
@@ -36,7 +41,7 @@ class BlocoVarreduraShist(Section):
             return self.data == bloco.data
 
     # Override
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         # Salta as linhas de cabeçalhos
         for _ in range(2):
             self.__cabecalhos.append(file.readline())
@@ -44,7 +49,7 @@ class BlocoVarreduraShist(Section):
         self.data = self.__linha.read(file.readline())
 
     # Override
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         for linha in self.__cabecalhos:
             file.write(linha)
         if not isinstance(self.data, list):
@@ -63,7 +68,12 @@ class BlocoSeriesSimulacaoShist(Section):
 
     END_PATTERN = "9999"
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line(
             [
@@ -87,7 +97,7 @@ class BlocoSeriesSimulacaoShist(Section):
             return self.data == bloco.data
 
     # Override
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         # Salta as linhas de cabeçalhos
         for _ in range(2):
             self.__cabecalhos.append(file.readline())
@@ -104,7 +114,7 @@ class BlocoSeriesSimulacaoShist(Section):
             self.data.append(self.__linha.read(linha)[0])
 
     # Override
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         for linha in self.__cabecalhos:
             file.write(linha)
         if not isinstance(self.data, list):

@@ -6,7 +6,7 @@ from inewave.newave.modelos.blocos.tabelacsv import TabelaCSV
 
 from cfinterface.components.block import Block
 from cfinterface.files.blockfile import BlockFile
-import pandas as pd  # type: ignore
+import pandas as pd  # type: ignore[import-untyped]  # no pandas-stubs package
 from typing import List, Type, TypeVar, Optional
 
 

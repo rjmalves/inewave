@@ -1,7 +1,7 @@
-from typing import IO, List
+from typing import Any, IO, List, Optional
 
-import numpy as np  # type: ignore
-import pandas as pd  # type: ignore
+import numpy as np
+import pandas as pd  # type: ignore[import-untyped]  # no pandas-stubs package
 from cfinterface.components.field import Field
 from cfinterface.components.floatfield import FloatField
 from cfinterface.components.integerfield import IntegerField
@@ -31,13 +31,20 @@ class BlocoCargasAdicionais(Section):
 
     FIM_BLOCO = " 999"
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha_subsis = Line([
-            IntegerField(3, 1),
-            LiteralField(10, 5),
-            LiteralField(12, 21),
-        ])
+        self.__linha_subsis = Line(
+            [
+                IntegerField(3, 1),
+                LiteralField(10, 5),
+                LiteralField(12, 21),
+            ]
+        )
         campo_ano: List[Field] = [LiteralField(4, 0)]
         campos_cargas: List[Field] = [
             FloatField(8, 6 + 8 * i, 0) for i in range(len(MESES_DF))
@@ -49,17 +56,19 @@ class BlocoCargasAdicionais(Section):
         if not isinstance(o, BlocoCargasAdicionais):
             return False
         bloco: BlocoCargasAdicionais = o
-        if not all([
-            isinstance(self.data, pd.DataFrame),
-            isinstance(o.data, pd.DataFrame),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
             return False
         else:
             return self.data.equals(bloco.data)
 
     # Override
-    def read(self, file: IO, *args, **kwargs):
-        def converte_tabela_em_df():
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
+        def converte_tabela_em_df() -> pd.DataFrame:
             df = pd.DataFrame(
                 data={
                     "codigo_submercado": repete_vetor(codigo_subsis),
@@ -91,7 +100,7 @@ class BlocoCargasAdicionais(Section):
             if len(linha) < 3:
                 break
             if BlocoCargasAdicionais.FIM_BLOCO in linha:
-                tabela = tabela[:i, :]  # type: ignore
+                tabela = tabela[:i, :]
                 self.data = converte_tabela_em_df()
                 break
             if len(linha.strip()) < 80:
@@ -110,7 +119,7 @@ class BlocoCargasAdicionais(Section):
                 i += 1
 
     # Override
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         for linha in self.__cabecalhos:
             file.write(linha)
         ultimo_codigo = 0
@@ -133,11 +142,13 @@ class BlocoCargasAdicionais(Section):
                 & (df["ano"] == linha_razao["ano"])
             ]
             df_razao = df_razao.sort_values(["data"])
-            if any([
-                linha_razao["codigo_submercado"] != ultimo_codigo,
-                linha_razao["nome_submercado"] != ultimo_subsis,
-                linha_razao["razao"] != ultima_razao,
-            ]):
+            if any(
+                [
+                    linha_razao["codigo_submercado"] != ultimo_codigo,
+                    linha_razao["nome_submercado"] != ultimo_subsis,
+                    linha_razao["razao"] != ultima_razao,
+                ]
+            ):
                 ultimo_codigo = linha_razao["codigo_submercado"]
                 ultimo_subsis = linha_razao["nome_submercado"]
                 ultima_razao = linha_razao["razao"]

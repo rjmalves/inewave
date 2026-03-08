@@ -45,3 +45,6 @@ def test_neq_fpha_eco():
         rel2 = FphaEco.read(ARQ_TESTE)
         rel1.tabela.iloc[0, 0] = -1
         assert rel1 != rel2
+
+
+# NOTE: Read-only report file (write() not implemented), round-trip test not applicable

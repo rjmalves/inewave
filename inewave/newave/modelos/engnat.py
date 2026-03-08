@@ -1,11 +1,11 @@
 from cfinterface.components.section import Section
 from cfinterface.components.line import Line
 from cfinterface.components.floatfield import FloatField
-from typing import IO
+from typing import Any, IO, Optional
 from datetime import datetime
 from inewave.config import MAX_ANOS_HISTORICO
-import pandas as pd  # type: ignore
-import numpy as np  # type: ignore
+import pandas as pd  # type: ignore[import-untyped]  # no pandas-stubs package
+import numpy as np
 
 
 class SecaoDadosEngnat(Section):
@@ -16,7 +16,12 @@ class SecaoDadosEngnat(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
 
     def __eq__(self, o: object) -> bool:
@@ -33,15 +38,15 @@ class SecaoDadosEngnat(Section):
         else:
             return self.data.equals(bloco.data)
 
-    def read(
+    def read(  # type: ignore[override]  # signature extends base class
         self,
-        file: IO,
+        file: IO[Any],
         numero_rees: int = 12,
         numero_configuracoes: int = 60,
         ano_inicio_historico: int = 1931,
-        *args,
-        **kwargs,
-    ):
+        *args: Any,
+        **kwargs: Any,
+    ) -> None:
         numero_registros = (
             MAX_ANOS_HISTORICO * 12 * numero_rees * numero_configuracoes
         )
@@ -82,7 +87,7 @@ class SecaoDadosEngnat(Section):
         )
         self.data = df
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         dados = self.data["valor"].to_numpy()
         linha = Line(
             [

@@ -36,7 +36,7 @@ class Shist(SectionFile):
         return None
 
     @varredura.setter
-    def varredura(self, valor: int):
+    def varredura(self, valor: int) -> None:
         b = self.data.get_sections_of_type(BlocoVarreduraShist)
         if isinstance(b, BlocoVarreduraShist):
             b.data[0] = valor
@@ -57,7 +57,7 @@ class Shist(SectionFile):
         return None
 
     @ano_inicio_varredura.setter
-    def ano_inicio_varredura(self, valor: int):
+    def ano_inicio_varredura(self, valor: int) -> None:
         b = self.data.get_sections_of_type(BlocoVarreduraShist)
         if isinstance(b, BlocoVarreduraShist):
             b.data[1] = valor
@@ -78,7 +78,7 @@ class Shist(SectionFile):
         return None
 
     @anos_inicio_simulacoes.setter
-    def anos_inicio_simulacoes(self, valor: List[int]):
+    def anos_inicio_simulacoes(self, valor: List[int]) -> None:
         b = self.data.get_sections_of_type(BlocoSeriesSimulacaoShist)
         if isinstance(b, BlocoSeriesSimulacaoShist):
             b.data = valor

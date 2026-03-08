@@ -1,7 +1,7 @@
-from typing import IO, List
+from typing import Any, IO, List, Optional
 
-import numpy as np  # type: ignore
-import pandas as pd  # type: ignore
+import numpy as np
+import pandas as pd  # type: ignore[import-untyped]  # no pandas-stubs package
 from cfinterface.components.field import Field
 from cfinterface.components.floatfield import FloatField
 from cfinterface.components.integerfield import IntegerField
@@ -24,35 +24,44 @@ class BlocoConfiguracoesPenalizacaoCurva(Section):
 
     __slots__ = ["__linha", "__cabecalhos"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            IntegerField(3, 1),
-            IntegerField(3, 5),
-            IntegerField(3, 9),
-        ])
+        self.__linha = Line(
+            [
+                IntegerField(3, 1),
+                IntegerField(3, 5),
+                IntegerField(3, 9),
+            ]
+        )
         self.__cabecalhos: List[str] = []
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoConfiguracoesPenalizacaoCurva):
             return False
         bloco: BlocoConfiguracoesPenalizacaoCurva = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
     # Override
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.__cabecalhos.append(file.readline())
 
         self.data = self.__linha.read(file.readline())
 
     # Override
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         for linha in self.__cabecalhos:
             file.write(linha)
         if not isinstance(self.data, list):
@@ -68,29 +77,38 @@ class BlocoPenalidadesViolacaoREECurva(Section):
 
     FIM_BLOCO = " 999"
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            IntegerField(3, 1),
-            FloatField(7, 11, 2),
-        ])
+        self.__linha = Line(
+            [
+                IntegerField(3, 1),
+                FloatField(7, 11, 2),
+            ]
+        )
         self.__cabecalhos: List[str] = []
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoPenalidadesViolacaoREECurva):
             return False
         bloco: BlocoPenalidadesViolacaoREECurva = o
-        if not all([
-            isinstance(self.data, pd.DataFrame),
-            isinstance(o.data, pd.DataFrame),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
             return False
         else:
             return self.data.equals(bloco.data)
 
     # Override
-    def read(self, file: IO, *args, **kwargs):
-        def converte_tabela_em_df():
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
+        def converte_tabela_em_df() -> pd.DataFrame:
             df = pd.DataFrame(tabela, columns=["codigo_ree", "penalidade"])
             df = df.astype({"codigo_ree": "int64"})
             return df
@@ -110,14 +128,14 @@ class BlocoPenalidadesViolacaoREECurva(Section):
             ):
                 # Converte para df e salva na variável
                 if i > 0:
-                    tabela = tabela[:i, :]  # type: ignore
+                    tabela = tabela[:i, :]
                     self.data = converte_tabela_em_df()
                 break
             tabela[i, :] = self.__linha.read(linha)
             i += 1
 
     # Override
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         for linha in self.__cabecalhos:
             file.write(linha)
         if not isinstance(self.data, pd.DataFrame):
@@ -140,7 +158,12 @@ class BlocoCurvaSegurancaREE(Section):
 
     FIM_BLOCO = "9999"
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         self.__linha_ree = Line([IntegerField(3, 1)])
         campo_ano: List[Field] = [IntegerField(4, 0)]
@@ -154,21 +177,23 @@ class BlocoCurvaSegurancaREE(Section):
         if not isinstance(o, BlocoCurvaSegurancaREE):
             return False
         bloco: BlocoCurvaSegurancaREE = o
-        if not all([
-            isinstance(self.data, pd.DataFrame),
-            isinstance(o.data, pd.DataFrame),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
             return False
         else:
             return self.data.equals(bloco.data)
 
     # Override
-    def read(self, file: IO, *args, **kwargs):
-        def converte_tabela_em_df():
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
+        def converte_tabela_em_df() -> pd.DataFrame:
             df = pd.DataFrame(
                 data={
                     "codigo_ree": repete_vetor(codigo_ree),
-                    "data": prepara_vetor_anos_tabela(anos),
+                    "data": prepara_vetor_anos_tabela(anos),  # type: ignore[arg-type]  # numpy array passed where List[str] expected
                     "valor": tabela.flatten(),
                 }
             )
@@ -189,7 +214,7 @@ class BlocoCurvaSegurancaREE(Section):
             if len(linha) < 3 or BlocoCurvaSegurancaREE.FIM_BLOCO in linha:
                 # Converte para df e salva na variável
                 if i > 0:
-                    tabela = tabela[:i, :]  # type: ignore
+                    tabela = tabela[:i, :]
                     self.data = converte_tabela_em_df()
                 break
             # Confere se é uma linha de ree ou tabela
@@ -203,7 +228,7 @@ class BlocoCurvaSegurancaREE(Section):
                 i += 1
 
     # Override
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         for linha in self.__cabecalhos:
             file.write(linha)
         if not isinstance(self.data, pd.DataFrame):
@@ -239,13 +264,20 @@ class BlocoMaximoIteracoesProcessoIterativoEtapa2(Section):
     segunda etapa do processo iterativo no cálculo da curva de aversão.
     """
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(26, 0),
-            IntegerField(6, 28),
-            LiteralField(46, 39),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(26, 0),
+                IntegerField(6, 28),
+                LiteralField(46, 39),
+            ]
+        )
         self.__cabecalhos: List[str] = []
         self.__campo: str = ""
         self.__comentario: str = ""
@@ -254,16 +286,18 @@ class BlocoMaximoIteracoesProcessoIterativoEtapa2(Section):
         if not isinstance(o, BlocoMaximoIteracoesProcessoIterativoEtapa2):
             return False
         bloco: BlocoMaximoIteracoesProcessoIterativoEtapa2 = o
-        if not all([
-            isinstance(self.data, int),
-            isinstance(o.data, int),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, int),
+                isinstance(o.data, int),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
     # Override
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         # Salta as linhas adicionais
         self.__cabecalhos.append(file.readline())
 
@@ -272,7 +306,7 @@ class BlocoMaximoIteracoesProcessoIterativoEtapa2(Section):
         )
 
     # Override
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         for linha in self.__cabecalhos:
             file.write(linha)
         if not isinstance(self.data, int):
@@ -289,13 +323,20 @@ class BlocoIteracaoAPartirProcessoIterativoEtapa2(Section):
     segunda etapa do processo iterativo no cálculo da curva de aversão.
     """
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(26, 0),
-            IntegerField(6, 28),
-            LiteralField(46, 39),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(26, 0),
+                IntegerField(6, 28),
+                LiteralField(46, 39),
+            ]
+        )
         self.__campo: str = ""
         self.__comentario: str = ""
 
@@ -303,22 +344,24 @@ class BlocoIteracaoAPartirProcessoIterativoEtapa2(Section):
         if not isinstance(o, BlocoIteracaoAPartirProcessoIterativoEtapa2):
             return False
         bloco: BlocoIteracaoAPartirProcessoIterativoEtapa2 = o
-        if not all([
-            isinstance(self.data, int),
-            isinstance(o.data, int),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, int),
+                isinstance(o.data, int),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
     # Override
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.__campo, self.data, self.__comentario = self.__linha.read(
             file.readline()
         )
 
     # Override
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         if not isinstance(self.data, int):
             raise ValueError("Dados do curva.dat não foram lidos com sucesso")
 
@@ -333,13 +376,20 @@ class BlocoToleranciaProcessoIterativoEtapa2(Section):
     segunda etapa do processo iterativo no cálculo da curva de aversão.
     """
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(26, 0),
-            FloatField(6, 28, 3),
-            LiteralField(46, 39),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(26, 0),
+                FloatField(6, 28, 3),
+                LiteralField(46, 39),
+            ]
+        )
         self.__campo: str = ""
         self.__comentario: str = ""
 
@@ -347,22 +397,24 @@ class BlocoToleranciaProcessoIterativoEtapa2(Section):
         if not isinstance(o, BlocoToleranciaProcessoIterativoEtapa2):
             return False
         bloco: BlocoToleranciaProcessoIterativoEtapa2 = o
-        if not all([
-            isinstance(self.data, float),
-            isinstance(o.data, float),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, float),
+                isinstance(o.data, float),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
     # Override
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.__campo, self.data, self.__comentario = self.__linha.read(
             file.readline()
         )
 
     # Override
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         if not isinstance(self.data, float):
             raise ValueError("Dados do curva.dat não foram lidos com sucesso")
 
@@ -377,13 +429,20 @@ class BlocoImpressaoRelatorioProcessoIterativoEtapa2(Section):
     segunda etapa do processo iterativo no cálculo da curva de aversão.
     """
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(26, 0),
-            IntegerField(6, 28),
-            LiteralField(46, 39),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(26, 0),
+                IntegerField(6, 28),
+                LiteralField(46, 39),
+            ]
+        )
         self.__campo: str = ""
         self.__comentario: str = ""
 
@@ -391,22 +450,24 @@ class BlocoImpressaoRelatorioProcessoIterativoEtapa2(Section):
         if not isinstance(o, BlocoImpressaoRelatorioProcessoIterativoEtapa2):
             return False
         bloco: BlocoImpressaoRelatorioProcessoIterativoEtapa2 = o
-        if not all([
-            isinstance(self.data, int),
-            isinstance(o.data, int),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, int),
+                isinstance(o.data, int),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
     # Override
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.__campo, self.data, self.__comentario = self.__linha.read(
             file.readline()
         )
 
     # Override
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         if not isinstance(self.data, int):
             raise ValueError("Dados do curva.dat não foram lidos com sucesso")
 

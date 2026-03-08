@@ -249,7 +249,7 @@ def test_neq_eolica():
     with patch("builtins.open", m):
         cf1 = Eolica.read(ARQ_TESTE)
         cf2 = Eolica.read(ARQ_TESTE)
-        cf2.data.remove(cf1.pee_cad()[0])
+        cf2.data.remove(cf2.pee_cad()[0])
         assert cf1 != cf2
 
 

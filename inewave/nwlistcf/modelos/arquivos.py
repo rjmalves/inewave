@@ -1,8 +1,8 @@
 from cfinterface.components.section import Section
 from cfinterface.components.line import Line
 from cfinterface.components.literalfield import LiteralField
-from typing import IO, List
-import pandas as pd  # type: ignore
+from typing import IO, Any, List, Optional
+import pandas as pd  # type: ignore[import-untyped]  # no pandas-stubs package
 
 
 class BlocoNomesArquivos(Section):
@@ -13,7 +13,12 @@ class BlocoNomesArquivos(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([LiteralField(30, 0), LiteralField(40, 30)])
 
@@ -29,11 +34,11 @@ class BlocoNomesArquivos(Section):
         ):
             return False
         else:
-            return self.data.equals(bloco.data)
+            return bool(self.data.equals(bloco.data))
 
     # Override
-    def read(self, file: IO, *args, **kwargs):
-        def converte_tabela_em_df():
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
+        def _converte() -> pd.DataFrame:
             df = pd.DataFrame(data={"Legenda": legendas, "Nome": nomes})
             return df
 
@@ -42,14 +47,14 @@ class BlocoNomesArquivos(Section):
         while True:
             linha = file.readline()
             if len(linha) < 3:
-                self.data = converte_tabela_em_df()
+                self.data = _converte()
                 break
             dados = self.__linha.read(linha)
             legendas.append(dados[0])
             nomes.append(dados[1])
 
     # Override
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         if not isinstance(self.data, pd.DataFrame):
             raise ValueError("Dados do arquivos.dat não foram lidos")
         for _, linha in self.data.iterrows():

@@ -1,6 +1,5 @@
 from inewave.nwlistop.gtert import Gtert
 
-from datetime import datetime
 from tests.mocks.mock_open import mock_open
 from unittest.mock import MagicMock, patch
 

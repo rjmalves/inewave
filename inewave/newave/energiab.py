@@ -1,6 +1,7 @@
 from cfinterface.files.sectionfile import SectionFile
+from cfinterface.storage import StorageType
 from inewave.newave.modelos.energiab import SecaoDadosEnergiab
-import pandas as pd  # type: ignore
+import pandas as pd  # type: ignore[import-untyped]  # no pandas-stubs package
 
 from typing import TypeVar, Optional
 
@@ -14,7 +15,7 @@ class Energiab(SectionFile):
     T = TypeVar("T")
 
     SECTIONS = [SecaoDadosEnergiab]
-    STORAGE = "BINARY"
+    STORAGE = StorageType.BINARY
 
     @property
     def series(self) -> Optional[pd.DataFrame]:
@@ -38,7 +39,7 @@ class Energiab(SectionFile):
             return None
 
     @series.setter
-    def series(self, df: pd.DataFrame):
+    def series(self, df: pd.DataFrame) -> None:
         sections = [r for r in self.data.of_type(SecaoDadosEnergiab)]
         if len(sections) > 0:
             sections[0].data = df

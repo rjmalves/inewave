@@ -1,9 +1,10 @@
 from cfinterface.files.sectionfile import SectionFile
+from cfinterface.storage import StorageType
 from inewave.newave.modelos.forward import VariavelOperacao, SecaoDadosForward
 
 
 from typing import TypeVar, Optional
-import pandas as pd  # type: ignore
+import pandas as pd  # type: ignore[import-untyped]  # no pandas-stubs package
 
 
 class Forward(SectionFile):
@@ -15,7 +16,7 @@ class Forward(SectionFile):
     T = TypeVar("T")
 
     SECTIONS = [SecaoDadosForward]
-    STORAGE = "BINARY"
+    STORAGE = StorageType.BINARY
 
     def __bloco_dados(self) -> Optional[SecaoDadosForward]:
         dados = [r for r in self.data.of_type(SecaoDadosForward)]
@@ -27,13 +28,8 @@ class Forward(SectionFile):
     def __dados_variavel(self, variavel: VariavelOperacao) -> pd.DataFrame:
         dados = self.__bloco_dados()
         if dados is not None:
-            return (
-                dados.data.get(variavel)
-                if dados is not None
-                else pd.DataFrame()
-            )
-        else:
-            return pd.DataFrame()
+            return dados.data.get(variavel)
+        return pd.DataFrame()
 
     @property
     def mercado_liquido(self) -> pd.DataFrame:
@@ -382,9 +378,7 @@ class Forward(SectionFile):
         :return: A tabela como um DataFrame.
         :rtype: pd.DataFrame
         """
-        return self.__dados_variavel(
-            VariavelOperacao.GERACAO_HIDRAULICA_MAXIMA
-        )
+        return self.__dados_variavel(VariavelOperacao.GERACAO_HIDRAULICA_MAXIMA)
 
     @property
     def energia_afluente_controlavel_desvio(self) -> pd.DataFrame:
@@ -495,9 +489,7 @@ class Forward(SectionFile):
         :return: A tabela como um DataFrame.
         :rtype: pd.DataFrame
         """
-        return self.__dados_variavel(
-            VariavelOperacao.ACIONAMENTO_CURVA_AVERSAO
-        )
+        return self.__dados_variavel(VariavelOperacao.ACIONAMENTO_CURVA_AVERSAO)
 
     @property
     def penalidade_curva_aversao(
@@ -1273,9 +1265,7 @@ class Forward(SectionFile):
         :return: A tabela como um DataFrame.
         :rtype: pd.DataFrame
         """
-        return self.__dados_variavel(
-            VariavelOperacao.RHS_LPP_DEFLUENCIA_MAXIMA
-        )
+        return self.__dados_variavel(VariavelOperacao.RHS_LPP_DEFLUENCIA_MAXIMA)
 
     @property
     def rhs_lpp_turbinamento_maximo_usina(
@@ -1475,6 +1465,4 @@ class Forward(SectionFile):
         :return: A tabela como um DataFrame.
         :rtype: pd.DataFrame
         """
-        return self.__dados_variavel(
-            VariavelOperacao.VOLUME_CANAL_DESVIO_USINA
-        )
+        return self.__dados_variavel(VariavelOperacao.VOLUME_CANAL_DESVIO_USINA)

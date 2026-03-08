@@ -4,10 +4,8 @@ Geração de sensibilidades de mercado no sistema.dat
 =====================================================
 """
 
-
 # %%
 # Para realizar a análise do sistema.dat, será utilizado o módulo plotly
-from datetime import datetime
 import pandas as pd
 import plotly.graph_objects as go
 import plotly.io as pio

@@ -9,7 +9,7 @@ from inewave.newave.modelos.sistema import (
 
 from cfinterface.files.sectionfile import SectionFile
 from typing import TypeVar, Optional
-import pandas as pd  # type: ignore
+import pandas as pd  # type: ignore[import-untyped]  # no pandas-stubs package
 
 
 class Sistema(SectionFile):
@@ -43,7 +43,7 @@ class Sistema(SectionFile):
         return None
 
     @numero_patamares_deficit.setter
-    def numero_patamares_deficit(self, n: int):
+    def numero_patamares_deficit(self, n: int) -> None:
         b = self.data.get_sections_of_type(BlocoNumeroPatamaresDeficit)
         if isinstance(b, BlocoNumeroPatamaresDeficit):
             b.data = n
@@ -70,7 +70,7 @@ class Sistema(SectionFile):
         return None
 
     @custo_deficit.setter
-    def custo_deficit(self, df: pd.DataFrame):
+    def custo_deficit(self, df: pd.DataFrame) -> None:
         b = self.data.get_sections_of_type(BlocoCustosDeficit)
         if isinstance(b, BlocoCustosDeficit):
             b.data = df
@@ -96,7 +96,7 @@ class Sistema(SectionFile):
         return None
 
     @limites_intercambio.setter
-    def limites_intercambio(self, df: pd.DataFrame):
+    def limites_intercambio(self, df: pd.DataFrame) -> None:
         b = self.data.get_sections_of_type(BlocoIntercambioSubsistema)
         if isinstance(b, BlocoIntercambioSubsistema):
             b.data = df
@@ -119,7 +119,7 @@ class Sistema(SectionFile):
         return None
 
     @mercado_energia.setter
-    def mercado_energia(self, df: pd.DataFrame):
+    def mercado_energia(self, df: pd.DataFrame) -> None:
         b = self.data.get_sections_of_type(BlocoMercadoEnergiaSistema)
         if isinstance(b, BlocoMercadoEnergiaSistema):
             b.data = df
@@ -145,7 +145,7 @@ class Sistema(SectionFile):
         return None
 
     @geracao_usinas_nao_simuladas.setter
-    def geracao_usinas_nao_simuladas(self, df: pd.DataFrame):
+    def geracao_usinas_nao_simuladas(self, df: pd.DataFrame) -> None:
         b = self.data.get_sections_of_type(BlocoGeracaoUsinasNaoSimuladas)
         if isinstance(b, BlocoGeracaoUsinasNaoSimuladas):
             b.data = df

@@ -1,5 +1,4 @@
 # Rotinas de testes associadas ao arquivo term.dat do NEWAVE
-from inewave.config import MESES_DF
 from inewave.newave.modelos.term import BlocoTermUTE
 
 from inewave.newave import Term

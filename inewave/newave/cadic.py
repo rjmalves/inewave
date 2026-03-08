@@ -2,7 +2,7 @@ from inewave.newave.modelos.cadic import BlocoCargasAdicionais
 
 from cfinterface.files.sectionfile import SectionFile
 from typing import TypeVar, Optional
-import pandas as pd  # type: ignore
+import pandas as pd  # type: ignore[import-untyped]  # no pandas-stubs package
 
 
 class Cadic(SectionFile):
@@ -40,7 +40,7 @@ class Cadic(SectionFile):
         return None
 
     @cargas.setter
-    def cargas(self, valor: pd.DataFrame):
+    def cargas(self, valor: pd.DataFrame) -> None:
         b = self.data.get_sections_of_type(BlocoCargasAdicionais)
         if isinstance(b, BlocoCargasAdicionais):
             b.data = valor

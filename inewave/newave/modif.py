@@ -20,7 +20,7 @@ from inewave.newave.modelos.modif import (
 
 from datetime import datetime
 from typing import TypeVar, List, Optional, Union
-import pandas as pd  # type: ignore
+import pandas as pd  # type: ignore[import-untyped]  # no pandas-stubs package
 
 
 class Modif(RegisterFile):

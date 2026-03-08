@@ -1,79 +1,98 @@
 # Inclui os membros
 
-# Deprecated
-from .avl_cortesfpha_nwv import AvlCortesFpha  # noqa
-from .avl_desvfpha_s import AvlDesvFphaS  # noqa
-from .avl_desvfpha_v_q import AvlDesvFphaVQ  # noqa
-from .eco_fpha import EcoFpha  # noqa
-from .nwv_avl_evap import NwvAvlEvap  # noqa
-from .nwv_cortes_evap import NwvCortesEvap  # noqa
-from .nwv_eco_evap import NwvEcoEvap  # noqa
+import importlib
+from typing import Any
 
-from .abertura import Abertura  # noqa
-from .adterm import Adterm  # noqa
-from .agrint import Agrint  # noqa
-from .arquivos import Arquivos  # noqa
-from .bid import BID  # noqa
-from .cadic import Cadic  # noqa
-from .caso import Caso  # noqa
-from .clasgas import Clasgas  # noqa
-from .clast import Clast  # noqa
-from .confhd import Confhd  # noqa
-from .conft import Conft  # noqa
-from .cortes import Cortes  # noqa
-from .cortesh import Cortesh  # noqa
-from .curva import Curva  # noqa
-from .cvar import Cvar  # noqa
-from .dger import Dger  # noqa
-from .dsvagua import Dsvagua  # noqa
-from .eafpast import Eafpast  # noqa
-from .eliminacao_cortes import EliminacaoCortes  # noqa
-from .elnino import ElNino  # noqa
-from .ensoaux import ENSOAux  # noqa
-from .exph import Exph  # noqa
-from .expt import Expt  # noqa
-from .forward import Forward  # noqa
-from .forwarh import Forwarh  # noqa
-from .gee import GEE  # noqa
-from .ghmin import Ghmin  # noqa
-from .gtminpat import Gtminpat  # noqa
-from .hidr import Hidr  # noqa
-from .itaipu import Itaipu  # noqa
-from .manutt import Manutt  # noqa
-from .modif import Modif  # noqa
-from .newavetim import Newavetim  # noqa
-from .parp import Parp  # noqa
-from .parpvaz import Parpvaz  # noqa
-from .parpeol import Parpeol  # noqa
-from .patamar import Patamar  # noqa
-from .penalid import Penalid  # noqa
-from .perda import Perda  # noqa
-from .pmo import Pmo  # noqa
-from .re import Re  # noqa
-from .ree import Ree  # noqa
-from .sar import Sar  # noqa
-from .shist import Shist  # noqa
-from .selcor import Selcor  # noqa
-from .sistema import Sistema  # noqa
-from .tecno import Tecno  # noqa
-from .term import Term  # noqa
-from .vazoes import Vazoes  # noqa
-from .vazpast import Vazpast  # noqa
-from .volref_saz import VolrefSaz  # noqa
-from .fpha_cortes import FphaCortes  # noqa
-from .fpha_avl_desv_s import FphaAvlDesvS  # noqa
-from .fpha_avl_desv_v_q import FphaAvlDesvVQ  # noqa
-from .fpha_eco import FphaEco  # noqa
-from .evap_avl_desv import EvapAvlDesv  # noqa
-from .evap_cortes import EvapCortes  # noqa
-from .evap_eco import EvapEco  # noqa
-from .energiaf import Energiaf  # noqa
-from .energiab import Energiab  # noqa
-from .energias import Energias  # noqa
-from .enavazf import Enavazf  # noqa
-from .enavazb import Enavazb  # noqa
-from .engnat import Engnat  # noqa
-from .vazaof import Vazaof  # noqa
-from .vazaob import Vazaob  # noqa
-from .vazaos import Vazaos  # noqa
-from .vazinat import Vazinat  # noqa
+_LAZY_IMPORTS: dict[str, str] = {
+    # Deprecated
+    "AvlCortesFpha": "avl_cortesfpha_nwv",
+    "AvlDesvFphaS": "avl_desvfpha_s",
+    "AvlDesvFphaVQ": "avl_desvfpha_v_q",
+    "EcoFpha": "eco_fpha",
+    "NwvAvlEvap": "nwv_avl_evap",
+    "NwvCortesEvap": "nwv_cortes_evap",
+    "NwvEcoEvap": "nwv_eco_evap",
+    "Abertura": "abertura",
+    "Adterm": "adterm",
+    "Agrint": "agrint",
+    "Arquivos": "arquivos",
+    "BID": "bid",
+    "Cadic": "cadic",
+    "Caso": "caso",
+    "Clasgas": "clasgas",
+    "Clast": "clast",
+    "Confhd": "confhd",
+    "Conft": "conft",
+    "Cortes": "cortes",
+    "Cortesh": "cortesh",
+    "Curva": "curva",
+    "Cvar": "cvar",
+    "Dger": "dger",
+    "Dsvagua": "dsvagua",
+    "Eafpast": "eafpast",
+    "EliminacaoCortes": "eliminacao_cortes",
+    "ElNino": "elnino",
+    "ENSOAux": "ensoaux",
+    "Exph": "exph",
+    "Expt": "expt",
+    "Forward": "forward",
+    "Forwarh": "forwarh",
+    "GEE": "gee",
+    "Ghmin": "ghmin",
+    "Gtminpat": "gtminpat",
+    "Hidr": "hidr",
+    "Itaipu": "itaipu",
+    "Manutt": "manutt",
+    "Modif": "modif",
+    "Newavetim": "newavetim",
+    "Parp": "parp",
+    "Parpvaz": "parpvaz",
+    "Parpeol": "parpeol",
+    "Patamar": "patamar",
+    "Penalid": "penalid",
+    "Perda": "perda",
+    "Pmo": "pmo",
+    "Re": "re",
+    "Ree": "ree",
+    "Sar": "sar",
+    "Shist": "shist",
+    "Selcor": "selcor",
+    "Sistema": "sistema",
+    "Tecno": "tecno",
+    "Term": "term",
+    "Vazoes": "vazoes",
+    "Vazpast": "vazpast",
+    "VolrefSaz": "volref_saz",
+    "FphaCortes": "fpha_cortes",
+    "FphaAvlDesvS": "fpha_avl_desv_s",
+    "FphaAvlDesvVQ": "fpha_avl_desv_v_q",
+    "FphaEco": "fpha_eco",
+    "EvapAvlDesv": "evap_avl_desv",
+    "EvapCortes": "evap_cortes",
+    "EvapEco": "evap_eco",
+    "Energiaf": "energiaf",
+    "Energiab": "energiab",
+    "Energias": "energias",
+    "Enavazf": "enavazf",
+    "Enavazb": "enavazb",
+    "Engnat": "engnat",
+    "Vazaof": "vazaof",
+    "Vazaob": "vazaob",
+    "Vazaos": "vazaos",
+    "Vazinat": "vazinat",
+}
+
+__all__ = sorted(_LAZY_IMPORTS.keys())
+
+
+def __getattr__(name: str) -> Any:
+    if name in _LAZY_IMPORTS:
+        module = importlib.import_module(f".{_LAZY_IMPORTS[name]}", __name__)
+        value = getattr(module, name)
+        globals()[name] = value  # cache for subsequent access
+        return value
+    raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
+
+
+def __dir__() -> list[str]:
+    return __all__

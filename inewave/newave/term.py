@@ -2,7 +2,7 @@ from inewave.newave.modelos.term import BlocoTermUTE
 
 from cfinterface.files.sectionfile import SectionFile
 from typing import TypeVar, Optional
-import pandas as pd  # type: ignore
+import pandas as pd  # type: ignore[import-untyped]  # no pandas-stubs package
 
 
 class Term(SectionFile):
@@ -42,7 +42,7 @@ class Term(SectionFile):
         return None
 
     @usinas.setter
-    def usinas(self, df: pd.DataFrame):
+    def usinas(self, df: pd.DataFrame) -> None:
         b = self.data.get_sections_of_type(BlocoTermUTE)
         if isinstance(b, BlocoTermUTE):
             b.data = df

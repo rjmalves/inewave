@@ -35,7 +35,7 @@ class RegistroRE(Register):
         return self.data[0]
 
     @codigo_restricao.setter
-    def codigo_restricao(self, c: int):
+    def codigo_restricao(self, c: int) -> None:
         self.data[0] = c
 
     @property
@@ -49,7 +49,7 @@ class RegistroRE(Register):
         return self.data[1]
 
     @formula.setter
-    def formula(self, n: str):
+    def formula(self, n: str) -> None:
         self.data[1] = n
 
 
@@ -81,7 +81,7 @@ class RegistroREHorizPer(Register):
         return self.data[0]
 
     @codigo_restricao.setter
-    def codigo_restricao(self, c: int):
+    def codigo_restricao(self, c: int) -> None:
         self.data[0] = c
 
     @property
@@ -95,7 +95,7 @@ class RegistroREHorizPer(Register):
         return self.data[1]
 
     @data_inicio.setter
-    def data_inicio(self, c: datetime):
+    def data_inicio(self, c: datetime) -> None:
         self.data[1] = c
 
     @property
@@ -109,7 +109,7 @@ class RegistroREHorizPer(Register):
         return self.data[2]
 
     @data_fim.setter
-    def data_fim(self, n: datetime):
+    def data_fim(self, n: datetime) -> None:
         self.data[2] = n
 
 
@@ -144,7 +144,7 @@ class RegistroRELimFormPer(Register):
         return self.data[0]
 
     @codigo_restricao.setter
-    def codigo_restricao(self, c: int):
+    def codigo_restricao(self, c: int) -> None:
         self.data[0] = c
 
     @property
@@ -158,7 +158,7 @@ class RegistroRELimFormPer(Register):
         return self.data[1]
 
     @data_inicio.setter
-    def data_inicio(self, c: datetime):
+    def data_inicio(self, c: datetime) -> None:
         self.data[1] = c
 
     @property
@@ -172,7 +172,7 @@ class RegistroRELimFormPer(Register):
         return self.data[2]
 
     @data_fim.setter
-    def data_fim(self, v: datetime):
+    def data_fim(self, v: datetime) -> None:
         self.data[2] = v
 
     @property
@@ -186,7 +186,7 @@ class RegistroRELimFormPer(Register):
         return self.data[3]
 
     @patamar.setter
-    def patamar(self, v: int):
+    def patamar(self, v: int) -> None:
         self.data[3] = v
 
     @property
@@ -200,7 +200,7 @@ class RegistroRELimFormPer(Register):
         return self.data[4]
 
     @limite_inferior.setter
-    def limite_inferior(self, v: str):
+    def limite_inferior(self, v: str) -> None:
         self.data[4] = v
 
     @property
@@ -214,7 +214,7 @@ class RegistroRELimFormPer(Register):
         return self.data[5]
 
     @limite_superior.setter
-    def limite_superior(self, v: str):
+    def limite_superior(self, v: str) -> None:
         self.data[5] = v
 
 
@@ -245,7 +245,7 @@ class RegistroRHE(Register):
         return self.data[0]
 
     @codigo_restricao.setter
-    def codigo_restricao(self, c: int):
+    def codigo_restricao(self, c: int) -> None:
         self.data[0] = c
 
     @property
@@ -259,7 +259,7 @@ class RegistroRHE(Register):
         return self.data[1]
 
     @formula.setter
-    def formula(self, n: str):
+    def formula(self, n: str) -> None:
         self.data[1] = n
 
 
@@ -291,7 +291,7 @@ class RegistroRHEHorizPer(Register):
         return self.data[0]
 
     @codigo_restricao.setter
-    def codigo_restricao(self, c: int):
+    def codigo_restricao(self, c: int) -> None:
         self.data[0] = c
 
     @property
@@ -305,7 +305,7 @@ class RegistroRHEHorizPer(Register):
         return self.data[1]
 
     @data_inicio.setter
-    def data_inicio(self, c: datetime):
+    def data_inicio(self, c: datetime) -> None:
         self.data[1] = c
 
     @property
@@ -319,7 +319,7 @@ class RegistroRHEHorizPer(Register):
         return self.data[2]
 
     @data_fim.setter
-    def data_fim(self, n: datetime):
+    def data_fim(self, n: datetime) -> None:
         self.data[2] = n
 
 
@@ -352,7 +352,7 @@ class RegistroRHELsLPPEarmi(Register):
         return self.data[0]
 
     @codigo_restricao.setter
-    def codigo_restricao(self, c: int):
+    def codigo_restricao(self, c: int) -> None:
         self.data[0] = c
 
     @property
@@ -366,7 +366,7 @@ class RegistroRHELsLPPEarmi(Register):
         return self.data[1]
 
     @indice_reta.setter
-    def indice_reta(self, c: int):
+    def indice_reta(self, c: int) -> None:
         self.data[1] = c
 
     @property
@@ -380,7 +380,7 @@ class RegistroRHELsLPPEarmi(Register):
         return self.data[2]
 
     @coeficiente_angular.setter
-    def coeficiente_angular(self, v: float):
+    def coeficiente_angular(self, v: float) -> None:
         self.data[2] = v
 
     @property
@@ -394,7 +394,7 @@ class RegistroRHELsLPPEarmi(Register):
         return self.data[3]
 
     @coeficiente_linear.setter
-    def coeficiente_linear(self, v: float):
+    def coeficiente_linear(self, v: float) -> None:
         self.data[3] = v
 
 
@@ -425,7 +425,7 @@ class RegistroRHQ(Register):
         return self.data[0]
 
     @codigo_restricao.setter
-    def codigo_restricao(self, c: int):
+    def codigo_restricao(self, c: int) -> None:
         self.data[0] = c
 
     @property
@@ -439,7 +439,7 @@ class RegistroRHQ(Register):
         return self.data[1]
 
     @formula.setter
-    def formula(self, n: str):
+    def formula(self, n: str) -> None:
         self.data[1] = n
 
 
@@ -471,7 +471,7 @@ class RegistroRHQHorizPer(Register):
         return self.data[0]
 
     @codigo_restricao.setter
-    def codigo_restricao(self, c: int):
+    def codigo_restricao(self, c: int) -> None:
         self.data[0] = c
 
     @property
@@ -485,7 +485,7 @@ class RegistroRHQHorizPer(Register):
         return self.data[1]
 
     @data_inicio.setter
-    def data_inicio(self, c: datetime):
+    def data_inicio(self, c: datetime) -> None:
         self.data[1] = c
 
     @property
@@ -499,7 +499,7 @@ class RegistroRHQHorizPer(Register):
         return self.data[2]
 
     @data_fim.setter
-    def data_fim(self, n: datetime):
+    def data_fim(self, n: datetime) -> None:
         self.data[2] = n
 
 
@@ -532,7 +532,7 @@ class RegistroRHQLsLPPVoli(Register):
         return self.data[0]
 
     @codigo_restricao.setter
-    def codigo_restricao(self, c: int):
+    def codigo_restricao(self, c: int) -> None:
         self.data[0] = c
 
     @property
@@ -546,7 +546,7 @@ class RegistroRHQLsLPPVoli(Register):
         return self.data[1]
 
     @indice_reta.setter
-    def indice_reta(self, c: int):
+    def indice_reta(self, c: int) -> None:
         self.data[1] = c
 
     @property
@@ -560,7 +560,7 @@ class RegistroRHQLsLPPVoli(Register):
         return self.data[2]
 
     @coeficiente_angular.setter
-    def coeficiente_angular(self, v: float):
+    def coeficiente_angular(self, v: float) -> None:
         self.data[2] = v
 
     @property
@@ -574,7 +574,7 @@ class RegistroRHQLsLPPVoli(Register):
         return self.data[3]
 
     @coeficiente_linear.setter
-    def coeficiente_linear(self, v: float):
+    def coeficiente_linear(self, v: float) -> None:
         self.data[3] = v
 
 
@@ -609,7 +609,7 @@ class RegistroRHQLimFormPerPat(Register):
         return self.data[0]
 
     @codigo_restricao.setter
-    def codigo_restricao(self, c: int):
+    def codigo_restricao(self, c: int) -> None:
         self.data[0] = c
 
     @property
@@ -623,7 +623,7 @@ class RegistroRHQLimFormPerPat(Register):
         return self.data[1]
 
     @data_inicio.setter
-    def data_inicio(self, c: datetime):
+    def data_inicio(self, c: datetime) -> None:
         self.data[1] = c
 
     @property
@@ -637,7 +637,7 @@ class RegistroRHQLimFormPerPat(Register):
         return self.data[2]
 
     @data_fim.setter
-    def data_fim(self, n: datetime):
+    def data_fim(self, n: datetime) -> None:
         self.data[2] = n
 
     @property
@@ -651,7 +651,7 @@ class RegistroRHQLimFormPerPat(Register):
         return self.data[3]
 
     @patamar.setter
-    def patamar(self, c: int):
+    def patamar(self, c: int) -> None:
         self.data[3] = c
 
     @property
@@ -665,7 +665,7 @@ class RegistroRHQLimFormPerPat(Register):
         return self.data[4]
 
     @limite_inferior.setter
-    def limite_inferior(self, v: float):
+    def limite_inferior(self, v: float) -> None:
         self.data[4] = v
 
     @property
@@ -679,7 +679,7 @@ class RegistroRHQLimFormPerPat(Register):
         return self.data[5]
 
     @limite_superior.setter
-    def limite_superior(self, v: float):
+    def limite_superior(self, v: float) -> None:
         self.data[5] = v
 
 
@@ -710,7 +710,7 @@ class RegistroRHV(Register):
         return self.data[0]
 
     @codigo_restricao.setter
-    def codigo_restricao(self, c: int):
+    def codigo_restricao(self, c: int) -> None:
         self.data[0] = c
 
     @property
@@ -724,7 +724,7 @@ class RegistroRHV(Register):
         return self.data[1]
 
     @formula.setter
-    def formula(self, n: str):
+    def formula(self, n: str) -> None:
         self.data[1] = n
 
 
@@ -756,7 +756,7 @@ class RegistroRHVHorizPer(Register):
         return self.data[0]
 
     @codigo_restricao.setter
-    def codigo_restricao(self, c: int):
+    def codigo_restricao(self, c: int) -> None:
         self.data[0] = c
 
     @property
@@ -770,7 +770,7 @@ class RegistroRHVHorizPer(Register):
         return self.data[1]
 
     @data_inicio.setter
-    def data_inicio(self, c: datetime):
+    def data_inicio(self, c: datetime) -> None:
         self.data[1] = c
 
     @property
@@ -784,7 +784,7 @@ class RegistroRHVHorizPer(Register):
         return self.data[2]
 
     @data_fim.setter
-    def data_fim(self, n: datetime):
+    def data_fim(self, n: datetime) -> None:
         self.data[2] = n
 
 
@@ -818,7 +818,7 @@ class RegistroRHVLimFormPer(Register):
         return self.data[0]
 
     @codigo_restricao.setter
-    def codigo_restricao(self, c: int):
+    def codigo_restricao(self, c: int) -> None:
         self.data[0] = c
 
     @property
@@ -832,7 +832,7 @@ class RegistroRHVLimFormPer(Register):
         return self.data[1]
 
     @data_inicio.setter
-    def data_inicio(self, c: datetime):
+    def data_inicio(self, c: datetime) -> None:
         self.data[1] = c
 
     @property
@@ -846,7 +846,7 @@ class RegistroRHVLimFormPer(Register):
         return self.data[2]
 
     @data_fim.setter
-    def data_fim(self, n: datetime):
+    def data_fim(self, n: datetime) -> None:
         self.data[2] = n
 
     @property
@@ -860,7 +860,7 @@ class RegistroRHVLimFormPer(Register):
         return self.data[3]
 
     @limite_inferior.setter
-    def limite_inferior(self, v: float):
+    def limite_inferior(self, v: float) -> None:
         self.data[3] = v
 
     @property
@@ -874,5 +874,5 @@ class RegistroRHVLimFormPer(Register):
         return self.data[4]
 
     @limite_superior.setter
-    def limite_superior(self, v: float):
+    def limite_superior(self, v: float) -> None:
         self.data[4] = v

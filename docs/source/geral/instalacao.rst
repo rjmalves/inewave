@@ -1,43 +1,71 @@
 Instalação
 ============
 
-O *inewave* é compatível com versões de Python >= 3.8. 
+O *inewave* é compatível com versões de Python >= 3.10 (testado em 3.10, 3.11 e 3.12).
 
 Em posse de uma instalação local de Python, é recomendado que se use um ambiente virtual para instalação de módulos de terceiros, sendo que o *inewave* não é uma exceção.
 Para mais detalhes sobre o uso de ambientes virtuais, recomenda-se a leitura do recurso oficial de Python para ambientes virtuais: `venv <https://docs.python.org/3/library/venv.html>`_.
 
-Antes de prosseguir, é necessário verificar se está instalada a última versão do ``pip``, o gerenciador de pacotes de Python. Isso pode ser feito com, por exemplo::
+Instalando com pip
+------------------
 
-    $ python -m pip install ---upgrade pip
+É possível instalar a versão distribuída oficialmente com ``pip``:
 
-
-Instalando a versão distribuída oficialmente
----------------------------------------------
-
-É possível instalar a versão distribuída oficialmente com ``pip``::
+.. code-block:: bash
 
     $ pip install inewave
 
-Para atualizar para uma versão mais recente, basta adicionar a flag ``--upgrade``::
+Para atualizar para uma versão mais recente, basta adicionar a flag ``--upgrade``:
+
+.. code-block:: bash
 
     $ pip install --upgrade inewave
 
-Para instalar uma versão específica::
+Para instalar uma versão específica:
 
-    $ pip install --upgrade inewave==x.y.z
+.. code-block:: bash
+
+    $ pip install inewave==x.y.z
+
+Instalando com uv
+-----------------
+
+Caso utilize o `uv <https://docs.astral.sh/uv/>`_ como gerenciador de pacotes, é possível adicionar o *inewave* a um projeto com:
+
+.. code-block:: bash
+
+    $ uv add inewave
+
+Ou instalar diretamente no ambiente ativo com:
+
+.. code-block:: bash
+
+    $ uv pip install inewave
 
 Instalando a versão de desenvolvimento
 ---------------------------------------
 
-É possível realizar a instalação desta versão fazendo o uso do `Git <https://git-scm.com/>`_. Para instalar a versão de desenvolvimento, é necessário
-primeiramente desinstalar a versão instalada (se houve), com::
+Para contribuir com o projeto ou experimentar funcionalidades ainda não distribuídas, é possível instalar a partir do repositório. Primeiro, clone o repositório com `Git <https://git-scm.com/>`_:
 
-    $ pip uninstall inewave
+.. code-block:: bash
 
-Em seguida, basta fazer::
+    $ git clone https://github.com/rjmalves/inewave
+    $ cd inewave
 
-    $ pip install git+https://github.com/rjmalves/inewave
+Em seguida, instale as dependências de desenvolvimento com ``uv``:
 
-Também é possível selecionar um branch ou release específicos::
+.. code-block:: bash
 
-    $ pip install git+https://github.com/rjmalves/inewave@v1.0.0
+    $ uv sync --extra dev
+
+Para o guia completo de configuração do ambiente de desenvolvimento, consulte o `CONTRIBUTING.md <https://github.com/rjmalves/inewave/blob/main/CONTRIBUTING.md>`_.
+
+Verificando a instalação
+------------------------
+
+Para confirmar que a instalação foi realizada com sucesso, execute:
+
+.. code-block:: python
+
+    import inewave
+    print(inewave.__version__)

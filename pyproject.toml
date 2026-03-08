@@ -6,7 +6,7 @@ build-backend = "hatchling.build"
 name = "inewave"
 dynamic = ["version"]
 dependencies = [
-    "cfinterface>=1.8.0,<=1.8.3",
+    "cfinterface>=1.9.0",
     "numpy>=2.2.1",
     "pandas>=2.2.3",
 ]
@@ -14,29 +14,41 @@ requires-python = ">= 3.10"
 authors = [
   {name = "Rogerio Alves", email = "rogerioalves.ee@gmail.com"},
 ]
-description = "inewave"
+description = "Pacote Python para manipulação dos arquivos de entrada e saída do NEWAVE"
 readme = "README.md"
 license = {file = "LICENSE.md"}
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Developers",
     "License :: OSI Approved :: MIT License",
-    "Programming Language :: Python :: 3.10",
     "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Typing :: Typed",
 ]
 
 [project.optional-dependencies]
-dev = [
+test = [
     "pytest",
     "pytest-cov",
-    "ruff",
+    "pytest-xdist",
+]
+lint = [
     "mypy",
-    "sphinx-rtd-theme",
-    "sphinx-gallery",
-    "sphinx",
+    "pre-commit",
+    "ruff",
+]
+docs = [
+    "matplotlib",
     "numpydoc",
     "plotly",
-    "matplotlib",
+    "sphinx",
+    "sphinx-gallery",
+    "furo",
+]
+dev = [
+    "inewave[test,lint,docs]",
 ]
 
 [project.urls]
@@ -51,5 +63,23 @@ include = [
   "inewave/",
 ]
 
+[tool.mypy]
+warn_return_any = false
+warn_unused_ignores = true
+
+[[tool.mypy.overrides]]
+module = ["inewave", "inewave.newave", "inewave.newave.*", "inewave.nwlistop", "inewave.nwlistop.*", "inewave.nwlistcf.*", "inewave._utils.*", "inewave.libs.*"]
+strict = true
+warn_return_any = false
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+filterwarnings = [
+    "ignore::DeprecationWarning:inewave.nwlistop",
+]
+
 [tool.ruff]
 line-length = 80
+
+[tool.ruff.lint]
+per-file-ignores = { "examples/*.py" = ["E402"] }

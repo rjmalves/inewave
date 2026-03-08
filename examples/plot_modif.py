@@ -4,7 +4,6 @@ Análise de modificações do modif.dat
 ========================================
 """
 
-
 # %%
 # Para realizar a análise do modif.dat será utilizado o módulo plotly
 import plotly.express as px

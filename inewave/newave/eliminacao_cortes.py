@@ -1,7 +1,9 @@
-from inewave.newave.modelos.eliminacao_cortes import BlocoParametrosEliminacaoCortes
+from inewave.newave.modelos.eliminacao_cortes import (
+    BlocoParametrosEliminacaoCortes,
+)
 
 from cfinterface.files.sectionfile import SectionFile
-from typing import TypeVar, Optional, List
+from typing import TypeVar, Optional, List, Any
 
 
 class EliminacaoCortes(SectionFile):
@@ -21,13 +23,19 @@ class EliminacaoCortes(SectionFile):
     SECTIONS = [BlocoParametrosEliminacaoCortes]
 
     @property
-    def _parametros(self) -> Optional[List[List]]:
+    def _parametros(self) -> Optional[List[List[Any]]]:
         b = self.data.get_sections_of_type(BlocoParametrosEliminacaoCortes)
-        if isinstance(b, BlocoParametrosEliminacaoCortes) and isinstance(b.data, list) and len(b.data) > 0:
+        if (
+            isinstance(b, BlocoParametrosEliminacaoCortes)
+            and isinstance(b.data, list)
+            and len(b.data) > 0
+        ):
             return b.data
         return None
-    
-    def _get_parametro_por_indice(self, indice: int, coluna: int) -> Optional[int]:
+
+    def _get_parametro_por_indice(
+        self, indice: int, coluna: int
+    ) -> Optional[int]:
         params = self._parametros
         if params and len(params) > indice and len(params[indice]) > coluna:
             return params[indice][coluna]
@@ -41,7 +49,7 @@ class EliminacaoCortes(SectionFile):
         :return: O valor do parâmetro
         :rtype: int | None
         """
-        valor = self._get_parametro_por_indice(0, 0)    
+        valor = self._get_parametro_por_indice(0, 0)
         return int(valor) if valor is not None else None
 
     @property

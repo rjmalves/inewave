@@ -1,7 +1,7 @@
 from cfinterface.components.section import Section
 from cfinterface.components.line import Line
 from cfinterface.components.literalfield import LiteralField
-from typing import IO
+from typing import Any, IO, Optional
 
 
 class NomeCaso(Section):
@@ -12,7 +12,12 @@ class NomeCaso(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([LiteralField(40, 0)])
 
@@ -31,11 +36,11 @@ class NomeCaso(Section):
             return self.data == bloco.data
 
     # Override
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())[0]
 
     # Override
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write([self.data]))
 
 
@@ -47,7 +52,12 @@ class CaminhoGerenciadorProcessos(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([LiteralField(120, 0)])
 
@@ -66,9 +76,9 @@ class CaminhoGerenciadorProcessos(Section):
             return self.data == bloco.data
 
     # Override
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())[0]
 
     # Override
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write([self.data]))

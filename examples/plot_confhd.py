@@ -192,11 +192,13 @@ if len(postos_multiplos) > 0:
 # Análise detalhada por REE
 analise_ree = (
     usinas.groupby("ree")
-    .agg({
-        "codigo_usina": "count",
-        "volume_inicial_percentual": ["mean", "std", "min", "max"],
-        "usina_modificada": "sum",
-    })
+    .agg(
+        {
+            "codigo_usina": "count",
+            "volume_inicial_percentual": ["mean", "std", "min", "max"],
+            "usina_modificada": "sum",
+        }
+    )
     .round(2)
 )
 

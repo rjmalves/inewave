@@ -1,9 +1,10 @@
 from cfinterface.files.registerfile import RegisterFile
+from cfinterface.storage import StorageType
 from inewave.newave.modelos.vazoes import RegistroVazoesPostos
-import pandas as pd  # type: ignore
+import pandas as pd  # type: ignore[import-untyped]  # no pandas-stubs package
 
 
-from typing import TypeVar, List, Optional, Union, IO
+from typing import TypeVar, List, Optional, Union, IO, Any
 
 
 class Vazoes(RegisterFile):
@@ -18,14 +19,14 @@ class Vazoes(RegisterFile):
 
     REGISTERS = [RegistroVazoesPostos]
     POSTOS = 320
-    STORAGE = "BINARY"
+    STORAGE = StorageType.BINARY
 
-    def __init__(self, data=...) -> None:
+    def __init__(self, data: Any = ...) -> None:
         super().__init__(data)
         self.__df: Optional[pd.DataFrame] = None
         RegistroVazoesPostos.set_postos(self.POSTOS)
 
-    def write(self, to: Union[str, IO], *args, **kwargs):
+    def write(self, to: Union[str, IO[Any]], *args: Any, **kwargs: Any) -> None:
         self.__atualiza_registros()
         super().write(to, *args, **kwargs)
 
@@ -42,8 +43,8 @@ class Vazoes(RegisterFile):
         df = df.astype({i: int for i in range(1, self.__class__.POSTOS + 1)})
         return df
 
-    def __atualiza_registros(self):
-        registros: List[RegistroVazoesPostos] = [r for r in self.data][1:]
+    def __atualiza_registros(self) -> None:
+        registros: List[RegistroVazoesPostos] = [r for r in self.data][1:]  # type: ignore[assignment]
         n_registros = len(registros)
         n_meses = self.vazoes.shape[0]
         # Deleta os registros que sobraram
@@ -72,5 +73,5 @@ class Vazoes(RegisterFile):
         return self.__df
 
     @vazoes.setter
-    def vazoes(self, df: pd.DataFrame):
+    def vazoes(self, df: pd.DataFrame) -> None:
         self.__df = df

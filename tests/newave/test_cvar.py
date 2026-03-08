@@ -43,9 +43,7 @@ def test_bloco_alfa_variavel_cvar():
 
 
 def test_bloco_lambda_variavel_cvar():
-    m: MagicMock = mock_open(
-        read_data="".join(MockBlocoValoresLambdaVariaveis)
-    )
+    m: MagicMock = mock_open(read_data="".join(MockBlocoValoresLambdaVariaveis))
     b = BlocoLambdaVariavelNoTempo()
     with patch("builtins.open", m):
         with open("", "") as fp:

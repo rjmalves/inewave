@@ -2,7 +2,7 @@ from cfinterface.components.block import Block
 from cfinterface.components.line import Line
 from cfinterface.components.integerfield import IntegerField
 
-from typing import IO
+from typing import IO, Any, Optional
 
 
 class Restricao(Block):
@@ -15,7 +15,12 @@ class Restricao(Block):
     BEGIN_PATTERN = r"RESTRICAO:"
     END_PATTERN = ""
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([IntegerField(4, 69)])
 
@@ -34,5 +39,5 @@ class Restricao(Block):
             return self.data == bloco.data
 
     # Override
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())[0]

@@ -1,4 +1,4 @@
-from typing import IO, List, Optional
+from typing import Any, IO, List, Optional
 
 from cfinterface.components.field import Field
 from cfinterface.components.floatfield import FloatField
@@ -16,7 +16,12 @@ class BlocoNomeCaso(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([LiteralField(80, 0)])
 
@@ -24,18 +29,20 @@ class BlocoNomeCaso(Section):
         if not isinstance(o, BlocoNomeCaso):
             return False
         bloco: BlocoNomeCaso = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -49,7 +56,7 @@ class BlocoNomeCaso(Section):
         return self.data[0]
 
     @valor.setter
-    def valor(self, v: str):
+    def valor(self, v: str) -> None:
         self.data[0] = v
 
 
@@ -61,30 +68,39 @@ class BlocoTipoExecucao(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(24, 0),
-            IntegerField(1, 24),
-            LiteralField(43, 25),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(24, 0),
+                IntegerField(1, 24),
+                LiteralField(43, 25),
+            ]
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoTipoExecucao):
             return False
         bloco: BlocoTipoExecucao = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -98,7 +114,7 @@ class BlocoTipoExecucao(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -110,7 +126,12 @@ class BlocoDuracaoPeriodo(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([LiteralField(24, 0), IntegerField(2, 23)])
 
@@ -118,18 +139,20 @@ class BlocoDuracaoPeriodo(Section):
         if not isinstance(o, BlocoDuracaoPeriodo):
             return False
         bloco: BlocoDuracaoPeriodo = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -143,7 +166,7 @@ class BlocoDuracaoPeriodo(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -155,7 +178,12 @@ class BlocoNumAnosEstudo(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([LiteralField(24, 0), IntegerField(2, 23)])
 
@@ -163,18 +191,20 @@ class BlocoNumAnosEstudo(Section):
         if not isinstance(o, BlocoNumAnosEstudo):
             return False
         bloco: BlocoNumAnosEstudo = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -188,7 +218,7 @@ class BlocoNumAnosEstudo(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -200,7 +230,12 @@ class BlocoMesInicioPreEstudo(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([LiteralField(24, 0), IntegerField(2, 23)])
 
@@ -208,18 +243,20 @@ class BlocoMesInicioPreEstudo(Section):
         if not isinstance(o, BlocoMesInicioPreEstudo):
             return False
         bloco: BlocoMesInicioPreEstudo = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -233,7 +270,7 @@ class BlocoMesInicioPreEstudo(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -245,7 +282,12 @@ class BlocoMesInicioEstudo(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([LiteralField(24, 0), IntegerField(2, 23)])
 
@@ -253,18 +295,20 @@ class BlocoMesInicioEstudo(Section):
         if not isinstance(o, BlocoMesInicioEstudo):
             return False
         bloco: BlocoMesInicioEstudo = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -278,7 +322,7 @@ class BlocoMesInicioEstudo(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -292,24 +336,31 @@ class BlocoAnoInicioEstudo(Section):
         if not isinstance(o, BlocoAnoInicioEstudo):
             return False
         bloco: BlocoAnoInicioEstudo = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([LiteralField(24, 0), IntegerField(4, 21)])
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -323,7 +374,7 @@ class BlocoAnoInicioEstudo(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -335,7 +386,12 @@ class BlocoNumAnosPreEstudo(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([LiteralField(24, 0), IntegerField(2, 23)])
 
@@ -343,18 +399,20 @@ class BlocoNumAnosPreEstudo(Section):
         if not isinstance(o, BlocoNumAnosPreEstudo):
             return False
         bloco: BlocoNumAnosPreEstudo = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -368,7 +426,7 @@ class BlocoNumAnosPreEstudo(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -380,7 +438,12 @@ class BlocoNumAnosPosEstudo(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([LiteralField(24, 0), IntegerField(2, 23)])
 
@@ -388,18 +451,20 @@ class BlocoNumAnosPosEstudo(Section):
         if not isinstance(o, BlocoNumAnosPosEstudo):
             return False
         bloco: BlocoNumAnosPosEstudo = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -413,7 +478,7 @@ class BlocoNumAnosPosEstudo(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -425,7 +490,12 @@ class BlocoNumAnosPosEstudoSimFinal(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([LiteralField(24, 0), IntegerField(2, 23)])
 
@@ -433,18 +503,20 @@ class BlocoNumAnosPosEstudoSimFinal(Section):
         if not isinstance(o, BlocoNumAnosPosEstudoSimFinal):
             return False
         bloco: BlocoNumAnosPosEstudoSimFinal = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -458,7 +530,7 @@ class BlocoNumAnosPosEstudoSimFinal(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -470,7 +542,12 @@ class BlocoImprimeDados(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([LiteralField(24, 0), IntegerField(1, 24)])
 
@@ -478,18 +555,20 @@ class BlocoImprimeDados(Section):
         if not isinstance(o, BlocoImprimeDados):
             return False
         bloco: BlocoImprimeDados = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -503,7 +582,7 @@ class BlocoImprimeDados(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -515,7 +594,12 @@ class BlocoImprimeMercados(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([LiteralField(24, 0), IntegerField(1, 24)])
 
@@ -523,18 +607,20 @@ class BlocoImprimeMercados(Section):
         if not isinstance(o, BlocoImprimeMercados):
             return False
         bloco: BlocoImprimeMercados = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -548,7 +634,7 @@ class BlocoImprimeMercados(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -560,7 +646,12 @@ class BlocoImprimeEnergias(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([LiteralField(24, 0), IntegerField(1, 24)])
 
@@ -568,18 +659,20 @@ class BlocoImprimeEnergias(Section):
         if not isinstance(o, BlocoImprimeEnergias):
             return False
         bloco: BlocoImprimeEnergias = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -593,7 +686,7 @@ class BlocoImprimeEnergias(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -605,7 +698,12 @@ class BlocoImprimeModeloEstocastico(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([LiteralField(24, 0), IntegerField(1, 24)])
 
@@ -613,18 +711,20 @@ class BlocoImprimeModeloEstocastico(Section):
         if not isinstance(o, BlocoImprimeModeloEstocastico):
             return False
         bloco: BlocoImprimeModeloEstocastico = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -638,7 +738,7 @@ class BlocoImprimeModeloEstocastico(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -650,7 +750,12 @@ class BlocoImprimeSubsistema(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([LiteralField(24, 0), IntegerField(1, 24)])
 
@@ -658,18 +763,20 @@ class BlocoImprimeSubsistema(Section):
         if not isinstance(o, BlocoImprimeSubsistema):
             return False
         bloco: BlocoImprimeSubsistema = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -683,7 +790,7 @@ class BlocoImprimeSubsistema(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -695,7 +802,12 @@ class BlocoNumMaxIteracoes(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([LiteralField(24, 0), IntegerField(4, 21)])
 
@@ -703,18 +815,20 @@ class BlocoNumMaxIteracoes(Section):
         if not isinstance(o, BlocoNumMaxIteracoes):
             return False
         bloco: BlocoNumMaxIteracoes = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -728,7 +842,7 @@ class BlocoNumMaxIteracoes(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -740,7 +854,12 @@ class BlocoNumForwards(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([LiteralField(24, 0), IntegerField(4, 21)])
 
@@ -748,18 +867,20 @@ class BlocoNumForwards(Section):
         if not isinstance(o, BlocoNumForwards):
             return False
         bloco: BlocoNumForwards = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -773,7 +894,7 @@ class BlocoNumForwards(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -785,30 +906,39 @@ class BlocoNumAberturas(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(24, 0),
-            IntegerField(4, 21),
-            IntegerField(4, 26),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(24, 0),
+                IntegerField(4, 21),
+                IntegerField(4, 26),
+            ]
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoNumAberturas):
             return False
         bloco: BlocoNumAberturas = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -822,7 +952,7 @@ class BlocoNumAberturas(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
     @property
@@ -836,7 +966,7 @@ class BlocoNumAberturas(Section):
         return self.data[2]
 
     @variaveis.setter
-    def variaveis(self, v: int):
+    def variaveis(self, v: int) -> None:
         self.data[2] = v
 
 
@@ -848,7 +978,12 @@ class BlocoNumSeriesSinteticas(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([LiteralField(24, 0), IntegerField(4, 21)])
 
@@ -856,18 +991,20 @@ class BlocoNumSeriesSinteticas(Section):
         if not isinstance(o, BlocoNumSeriesSinteticas):
             return False
         bloco: BlocoNumSeriesSinteticas = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -881,7 +1018,7 @@ class BlocoNumSeriesSinteticas(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -893,7 +1030,12 @@ class BlocoOrdemMaximaPARp(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([LiteralField(24, 0), IntegerField(2, 23)])
 
@@ -901,18 +1043,20 @@ class BlocoOrdemMaximaPARp(Section):
         if not isinstance(o, BlocoOrdemMaximaPARp):
             return False
         bloco: BlocoOrdemMaximaPARp = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -926,7 +1070,7 @@ class BlocoOrdemMaximaPARp(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -938,30 +1082,39 @@ class BlocoAnoInicialHistorico(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(24, 0),
-            IntegerField(4, 21),
-            IntegerField(1, 28),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(24, 0),
+                IntegerField(4, 21),
+                IntegerField(1, 28),
+            ]
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoAnoInicialHistorico):
             return False
         bloco: BlocoAnoInicialHistorico = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -975,7 +1128,7 @@ class BlocoAnoInicialHistorico(Section):
         return self.data[1]
 
     @ano_inicial.setter
-    def ano_inicial(self, v: int):
+    def ano_inicial(self, v: int) -> None:
         self.data[1] = v
 
     @property
@@ -990,7 +1143,7 @@ class BlocoAnoInicialHistorico(Section):
         return self.data[2]
 
     @tamanho_registro_arquivo.setter
-    def tamanho_registro_arquivo(self, v: int):
+    def tamanho_registro_arquivo(self, v: int) -> None:
         self.data[2] = v
 
 
@@ -1003,30 +1156,39 @@ class BlocoCalculaVolInicial(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(24, 0),
-            IntegerField(1, 24),
-            LiteralField(43, 28),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(24, 0),
+                IntegerField(1, 24),
+                LiteralField(43, 28),
+            ]
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoCalculaVolInicial):
             return False
         bloco: BlocoCalculaVolInicial = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -1040,7 +1202,7 @@ class BlocoCalculaVolInicial(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -1052,7 +1214,12 @@ class BlocoVolInicialSubsistema(Section):
 
     __slots__ = ["__linha", "__cabecalho"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         campo_nome: List[Field] = [LiteralField(21, 0)]
         campos_volumes: List[Field] = [
@@ -1065,19 +1232,21 @@ class BlocoVolInicialSubsistema(Section):
         if not isinstance(o, BlocoVolInicialSubsistema):
             return False
         bloco: BlocoVolInicialSubsistema = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.__cabecalho = file.readline()
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__cabecalho)
         file.write(self.__linha.write(self.data))
 
@@ -1092,7 +1261,7 @@ class BlocoVolInicialSubsistema(Section):
         return self.data[1:]
 
     @valores.setter
-    def valores(self, v: List[Optional[float]]):
+    def valores(self, v: List[Optional[float]]) -> None:
         self.data = [self.data[0]] + v
 
 
@@ -1104,7 +1273,12 @@ class BlocoTolerancia(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([LiteralField(21, 0), FloatField(5, 21, 1)])
 
@@ -1112,18 +1286,20 @@ class BlocoTolerancia(Section):
         if not isinstance(o, BlocoTolerancia):
             return False
         bloco: BlocoTolerancia = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -1137,7 +1313,7 @@ class BlocoTolerancia(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: float):
+    def valor(self, v: float) -> None:
         self.data[1] = v
 
 
@@ -1149,7 +1325,12 @@ class BlocoTaxaDesconto(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([LiteralField(21, 0), FloatField(5, 21, 1)])
 
@@ -1157,18 +1338,20 @@ class BlocoTaxaDesconto(Section):
         if not isinstance(o, BlocoTaxaDesconto):
             return False
         bloco: BlocoTaxaDesconto = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -1182,7 +1365,7 @@ class BlocoTaxaDesconto(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: float):
+    def valor(self, v: float) -> None:
         self.data[1] = v
 
 
@@ -1194,31 +1377,40 @@ class BlocoTipoSimFinal(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(24, 0),
-            IntegerField(1, 24),
-            IntegerField(1, 28),
-            LiteralField(76, 31),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(24, 0),
+                IntegerField(1, 24),
+                IntegerField(1, 28),
+                LiteralField(76, 31),
+            ]
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoTipoSimFinal):
             return False
         bloco: BlocoTipoSimFinal = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -1232,7 +1424,7 @@ class BlocoTipoSimFinal(Section):
         return self.data[1:3]
 
     @valor.setter
-    def valor(self, v: List[int]):
+    def valor(self, v: List[int]) -> None:
         self.data[1:3] = v
 
 
@@ -1244,30 +1436,39 @@ class BlocoImpressaoOperacao(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(24, 0),
-            IntegerField(1, 24),
-            LiteralField(30, 28),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(24, 0),
+                IntegerField(1, 24),
+                LiteralField(30, 28),
+            ]
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoImpressaoOperacao):
             return False
         bloco: BlocoImpressaoOperacao = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -1281,7 +1482,7 @@ class BlocoImpressaoOperacao(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -1293,30 +1494,39 @@ class BlocoImpressaoConvergencia(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(24, 0),
-            IntegerField(1, 24),
-            LiteralField(40, 28),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(24, 0),
+                IntegerField(1, 24),
+                LiteralField(40, 28),
+            ]
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoImpressaoConvergencia):
             return False
         bloco: BlocoImpressaoConvergencia = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -1330,7 +1540,7 @@ class BlocoImpressaoConvergencia(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -1342,30 +1552,39 @@ class BlocoIntervaloGravar(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(24, 0),
-            IntegerField(1, 24),
-            LiteralField(40, 28),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(24, 0),
+                IntegerField(1, 24),
+                LiteralField(40, 28),
+            ]
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoIntervaloGravar):
             return False
         bloco: BlocoIntervaloGravar = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -1379,7 +1598,7 @@ class BlocoIntervaloGravar(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -1391,7 +1610,12 @@ class BlocoMinIteracoes(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([LiteralField(24, 0), IntegerField(3, 22)])
 
@@ -1399,18 +1623,20 @@ class BlocoMinIteracoes(Section):
         if not isinstance(o, BlocoMinIteracoes):
             return False
         bloco: BlocoMinIteracoes = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -1424,7 +1650,7 @@ class BlocoMinIteracoes(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -1436,30 +1662,39 @@ class BlocoRacionamentoPreventivo(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(24, 0),
-            IntegerField(1, 24),
-            LiteralField(50, 28),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(24, 0),
+                IntegerField(1, 24),
+                LiteralField(50, 28),
+            ]
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoRacionamentoPreventivo):
             return False
         bloco: BlocoRacionamentoPreventivo = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -1473,7 +1708,7 @@ class BlocoRacionamentoPreventivo(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -1485,30 +1720,39 @@ class BlocoNumAnosManutUTE(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(24, 0),
-            IntegerField(1, 24),
-            LiteralField(35, 28),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(24, 0),
+                IntegerField(1, 24),
+                LiteralField(35, 28),
+            ]
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoNumAnosManutUTE):
             return False
         bloco: BlocoNumAnosManutUTE = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -1522,7 +1766,7 @@ class BlocoNumAnosManutUTE(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -1534,31 +1778,40 @@ class BlocoTendenciaHidrologica(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(24, 0),
-            IntegerField(1, 24),
-            IntegerField(1, 29),
-            LiteralField(62, 33),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(24, 0),
+                IntegerField(1, 24),
+                IntegerField(1, 29),
+                LiteralField(62, 33),
+            ]
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoTendenciaHidrologica):
             return False
         bloco: BlocoTendenciaHidrologica = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -1575,7 +1828,7 @@ class BlocoTendenciaHidrologica(Section):
         return self.data[1]
 
     @considera_tendencia_hidrologica_calculo_politica.setter
-    def considera_tendencia_hidrologica_calculo_politica(self, v: int):
+    def considera_tendencia_hidrologica_calculo_politica(self, v: int) -> None:
         self.data[1] = v
 
     @property
@@ -1590,7 +1843,7 @@ class BlocoTendenciaHidrologica(Section):
         return self.data[2]
 
     @considera_tendencia_hidrologica_sim_final.setter
-    def considera_tendencia_hidrologica_sim_final(self, v: int):
+    def considera_tendencia_hidrologica_sim_final(self, v: int) -> None:
         self.data[2] = v
 
 
@@ -1602,30 +1855,39 @@ class BlocoRestricaoItaipu(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(24, 0),
-            IntegerField(1, 24),
-            LiteralField(32, 28),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(24, 0),
+                IntegerField(1, 24),
+                LiteralField(32, 28),
+            ]
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoRestricaoItaipu):
             return False
         bloco: BlocoRestricaoItaipu = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -1639,7 +1901,7 @@ class BlocoRestricaoItaipu(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -1651,30 +1913,39 @@ class BlocoBid(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(24, 0),
-            IntegerField(1, 24),
-            LiteralField(32, 28),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(24, 0),
+                IntegerField(1, 24),
+                LiteralField(32, 28),
+            ]
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoBid):
             return False
         bloco: BlocoBid = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -1688,7 +1959,7 @@ class BlocoBid(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -1700,30 +1971,39 @@ class BlocoPerdasTransmissao(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(24, 0),
-            IntegerField(1, 24),
-            LiteralField(32, 28),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(24, 0),
+                IntegerField(1, 24),
+                LiteralField(32, 28),
+            ]
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoPerdasTransmissao):
             return False
         bloco: BlocoPerdasTransmissao = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -1737,7 +2017,7 @@ class BlocoPerdasTransmissao(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -1749,30 +2029,39 @@ class BlocoElNino(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(24, 0),
-            IntegerField(1, 24),
-            LiteralField(32, 28),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(24, 0),
+                IntegerField(1, 24),
+                LiteralField(32, 28),
+            ]
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoElNino):
             return False
         bloco: BlocoElNino = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -1786,7 +2075,7 @@ class BlocoElNino(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -1798,30 +2087,39 @@ class BlocoEnso(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(24, 0),
-            IntegerField(1, 24),
-            LiteralField(25, 28),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(24, 0),
+                IntegerField(1, 24),
+                LiteralField(25, 28),
+            ]
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoEnso):
             return False
         bloco: BlocoEnso = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -1835,7 +2133,7 @@ class BlocoEnso(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -1847,30 +2145,39 @@ class BlocoDuracaoPorPatamar(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(24, 0),
-            IntegerField(1, 24),
-            LiteralField(33, 28),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(24, 0),
+                IntegerField(1, 24),
+                LiteralField(33, 28),
+            ]
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoDuracaoPorPatamar):
             return False
         bloco: BlocoDuracaoPorPatamar = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -1884,7 +2191,7 @@ class BlocoDuracaoPorPatamar(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -1896,30 +2203,39 @@ class BlocoOutrosUsosAgua(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(24, 0),
-            IntegerField(1, 24),
-            LiteralField(33, 28),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(24, 0),
+                IntegerField(1, 24),
+                LiteralField(33, 28),
+            ]
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoOutrosUsosAgua):
             return False
         bloco: BlocoOutrosUsosAgua = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -1933,7 +2249,7 @@ class BlocoOutrosUsosAgua(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -1945,30 +2261,39 @@ class BlocoCorrecaoDesvio(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(24, 0),
-            IntegerField(1, 24),
-            LiteralField(47, 28),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(24, 0),
+                IntegerField(1, 24),
+                LiteralField(47, 28),
+            ]
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoCorrecaoDesvio):
             return False
         bloco: BlocoCorrecaoDesvio = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -1982,7 +2307,7 @@ class BlocoCorrecaoDesvio(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -1994,30 +2319,39 @@ class BlocoCurvaAversao(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(24, 0),
-            IntegerField(1, 24),
-            LiteralField(40, 28),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(24, 0),
+                IntegerField(1, 24),
+                LiteralField(40, 28),
+            ]
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoCurvaAversao):
             return False
         bloco: BlocoCurvaAversao = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -2031,7 +2365,7 @@ class BlocoCurvaAversao(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -2043,30 +2377,39 @@ class BlocoTipoGeracaoENA(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(24, 0),
-            IntegerField(1, 24),
-            LiteralField(95, 28),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(24, 0),
+                IntegerField(1, 24),
+                LiteralField(95, 28),
+            ]
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoTipoGeracaoENA):
             return False
         bloco: BlocoTipoGeracaoENA = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -2080,7 +2423,7 @@ class BlocoTipoGeracaoENA(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -2092,30 +2435,39 @@ class BlocoRiscoDeficit(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(21, 0),
-            FloatField(4, 21, 1),
-            FloatField(4, 27, 1),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(21, 0),
+                FloatField(4, 21, 1),
+                FloatField(4, 27, 1),
+            ]
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoRiscoDeficit):
             return False
         bloco: BlocoRiscoDeficit = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -2130,7 +2482,7 @@ class BlocoRiscoDeficit(Section):
         return self.data[1]
 
     @primeira_profundidade_risco_deficit.setter
-    def primeira_profundidade_risco_deficit(self, v: float):
+    def primeira_profundidade_risco_deficit(self, v: float) -> None:
         self.data[1] = v
 
     @property
@@ -2145,7 +2497,7 @@ class BlocoRiscoDeficit(Section):
         return self.data[2]
 
     @segunda_profundidade_risco_deficit.setter
-    def segunda_profundidade_risco_deficit(self, v: float):
+    def segunda_profundidade_risco_deficit(self, v: float) -> None:
         self.data[2] = v
 
 
@@ -2157,30 +2509,39 @@ class BlocoIteracaoParaSimFinal(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(24, 0),
-            IntegerField(3, 22),
-            LiteralField(33, 28),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(24, 0),
+                IntegerField(3, 22),
+                LiteralField(33, 28),
+            ]
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoIteracaoParaSimFinal):
             return False
         bloco: BlocoIteracaoParaSimFinal = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -2194,7 +2555,7 @@ class BlocoIteracaoParaSimFinal(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -2206,30 +2567,39 @@ class BlocoAgrupamentoLivre(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(24, 0),
-            IntegerField(1, 24),
-            LiteralField(33, 28),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(24, 0),
+                IntegerField(1, 24),
+                LiteralField(33, 28),
+            ]
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoAgrupamentoLivre):
             return False
         bloco: BlocoAgrupamentoLivre = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -2243,7 +2613,7 @@ class BlocoAgrupamentoLivre(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -2255,30 +2625,39 @@ class BlocoEqualizacaoPenalInt(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(24, 0),
-            IntegerField(1, 24),
-            LiteralField(19, 28),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(24, 0),
+                IntegerField(1, 24),
+                LiteralField(19, 28),
+            ]
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoEqualizacaoPenalInt):
             return False
         bloco: BlocoEqualizacaoPenalInt = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -2292,7 +2671,7 @@ class BlocoEqualizacaoPenalInt(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -2304,30 +2683,39 @@ class BlocoRepresentacaoSubmot(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(24, 0),
-            IntegerField(1, 24),
-            LiteralField(64, 28),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(24, 0),
+                IntegerField(1, 24),
+                LiteralField(64, 28),
+            ]
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoRepresentacaoSubmot):
             return False
         bloco: BlocoRepresentacaoSubmot = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -2341,7 +2729,7 @@ class BlocoRepresentacaoSubmot(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -2353,30 +2741,39 @@ class BlocoOrdenacaoAutomatica(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(24, 0),
-            IntegerField(1, 24),
-            LiteralField(32, 28),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(24, 0),
+                IntegerField(1, 24),
+                LiteralField(32, 28),
+            ]
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoOrdenacaoAutomatica):
             return False
         bloco: BlocoOrdenacaoAutomatica = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -2390,7 +2787,7 @@ class BlocoOrdenacaoAutomatica(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -2402,30 +2799,39 @@ class BlocoConsideraCargaAdicional(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(24, 0),
-            IntegerField(1, 24),
-            LiteralField(32, 28),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(24, 0),
+                IntegerField(1, 24),
+                LiteralField(32, 28),
+            ]
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoConsideraCargaAdicional):
             return False
         bloco: BlocoConsideraCargaAdicional = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -2439,7 +2845,7 @@ class BlocoConsideraCargaAdicional(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -2451,30 +2857,39 @@ class BlocoDeltaZSUP(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(21, 0),
-            FloatField(4, 21, 0),
-            LiteralField(21, 28),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(21, 0),
+                FloatField(4, 21, 0),
+                LiteralField(21, 28),
+            ]
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoDeltaZSUP):
             return False
         bloco: BlocoDeltaZSUP = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -2488,7 +2903,7 @@ class BlocoDeltaZSUP(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: float):
+    def valor(self, v: float) -> None:
         self.data[1] = v
 
 
@@ -2500,30 +2915,39 @@ class BlocoDeltaZINF(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(21, 0),
-            FloatField(4, 21, 1),
-            LiteralField(21, 28),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(21, 0),
+                FloatField(4, 21, 1),
+                LiteralField(21, 28),
+            ]
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoDeltaZINF):
             return False
         bloco: BlocoDeltaZINF = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -2537,7 +2961,7 @@ class BlocoDeltaZINF(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: float):
+    def valor(self, v: float) -> None:
         self.data[1] = v
 
 
@@ -2549,7 +2973,12 @@ class BlocoDeltasConsecutivos(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([LiteralField(24, 0), IntegerField(1, 24)])
 
@@ -2557,18 +2986,20 @@ class BlocoDeltasConsecutivos(Section):
         if not isinstance(o, BlocoDeltasConsecutivos):
             return False
         bloco: BlocoDeltasConsecutivos = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -2582,7 +3013,7 @@ class BlocoDeltasConsecutivos(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -2594,30 +3025,39 @@ class BlocoDespachoAntecipadoGNL(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(24, 0),
-            IntegerField(1, 24),
-            LiteralField(33, 28),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(24, 0),
+                IntegerField(1, 24),
+                LiteralField(33, 28),
+            ]
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoDespachoAntecipadoGNL):
             return False
         bloco: BlocoDespachoAntecipadoGNL = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -2631,7 +3071,7 @@ class BlocoDespachoAntecipadoGNL(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -2643,30 +3083,39 @@ class BlocoModifAutomaticaAdTerm(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(24, 0),
-            IntegerField(1, 24),
-            LiteralField(33, 28),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(24, 0),
+                IntegerField(1, 24),
+                LiteralField(33, 28),
+            ]
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoModifAutomaticaAdTerm):
             return False
         bloco: BlocoModifAutomaticaAdTerm = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -2680,7 +3129,7 @@ class BlocoModifAutomaticaAdTerm(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -2692,30 +3141,39 @@ class BlocoGeracaoHidraulicaMin(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(24, 0),
-            IntegerField(1, 24),
-            LiteralField(33, 28),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(24, 0),
+                IntegerField(1, 24),
+                LiteralField(33, 28),
+            ]
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoGeracaoHidraulicaMin):
             return False
         bloco: BlocoGeracaoHidraulicaMin = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -2729,7 +3187,7 @@ class BlocoGeracaoHidraulicaMin(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -2741,30 +3199,39 @@ class BlocoSimFinalComData(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(24, 0),
-            IntegerField(1, 24),
-            LiteralField(33, 28),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(24, 0),
+                IntegerField(1, 24),
+                LiteralField(33, 28),
+            ]
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoSimFinalComData):
             return False
         bloco: BlocoSimFinalComData = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -2778,7 +3245,7 @@ class BlocoSimFinalComData(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -2790,34 +3257,43 @@ class BlocoGerenciamentoPLs(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(24, 0),
-            IntegerField(1, 24),
-            IntegerField(1, 29),
-            IntegerField(1, 34),
-            IntegerField(1, 39),
-            IntegerField(1, 44),
-            LiteralField(33, 49),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(24, 0),
+                IntegerField(1, 24),
+                IntegerField(1, 29),
+                IntegerField(1, 34),
+                IntegerField(1, 39),
+                IntegerField(1, 44),
+                LiteralField(33, 49),
+            ]
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoGerenciamentoPLs):
             return False
         bloco: BlocoGerenciamentoPLs = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -2831,7 +3307,7 @@ class BlocoGerenciamentoPLs(Section):
         return self.data[1]
 
     @utiliza_gerenciamento_pls.setter
-    def utiliza_gerenciamento_pls(self, v: int):
+    def utiliza_gerenciamento_pls(self, v: int) -> None:
         self.data[1] = v
 
     @property
@@ -2846,7 +3322,7 @@ class BlocoGerenciamentoPLs(Section):
         return self.data[2]
 
     @comunicacao_dois_niveis.setter
-    def comunicacao_dois_niveis(self, v: int):
+    def comunicacao_dois_niveis(self, v: int) -> None:
         self.data[2] = v
 
     @property
@@ -2861,7 +3337,7 @@ class BlocoGerenciamentoPLs(Section):
         return self.data[3]
 
     @armazenamento_local_arquivos_temporarios.setter
-    def armazenamento_local_arquivos_temporarios(self, v: int):
+    def armazenamento_local_arquivos_temporarios(self, v: int) -> None:
         self.data[3] = v
 
     @property
@@ -2875,7 +3351,7 @@ class BlocoGerenciamentoPLs(Section):
         return self.data[4]
 
     @alocacao_memoria_ena.setter
-    def alocacao_memoria_ena(self, v: int):
+    def alocacao_memoria_ena(self, v: int) -> None:
         self.data[4] = v
 
     @property
@@ -2889,7 +3365,7 @@ class BlocoGerenciamentoPLs(Section):
         return self.data[5]
 
     @alocacao_memoria_cortes.setter
-    def alocacao_memoria_cortes(self, v: int):
+    def alocacao_memoria_cortes(self, v: int) -> None:
         self.data[5] = v
 
 
@@ -2901,30 +3377,39 @@ class BlocoSAR(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(24, 0),
-            IntegerField(1, 24),
-            LiteralField(33, 28),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(24, 0),
+                IntegerField(1, 24),
+                LiteralField(33, 28),
+            ]
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoSAR):
             return False
         bloco: BlocoSAR = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -2938,7 +3423,7 @@ class BlocoSAR(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -2950,30 +3435,39 @@ class BlocoCVAR(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(24, 0),
-            IntegerField(1, 24),
-            LiteralField(74, 28),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(24, 0),
+                IntegerField(1, 24),
+                LiteralField(74, 28),
+            ]
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoCVAR):
             return False
         bloco: BlocoCVAR = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -2987,7 +3481,7 @@ class BlocoCVAR(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -2999,30 +3493,39 @@ class BlocoZSUPMinConvergencia(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(24, 0),
-            IntegerField(1, 24),
-            LiteralField(33, 28),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(24, 0),
+                IntegerField(1, 24),
+                LiteralField(33, 28),
+            ]
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoZSUPMinConvergencia):
             return False
         bloco: BlocoZSUPMinConvergencia = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -3036,7 +3539,7 @@ class BlocoZSUPMinConvergencia(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -3048,30 +3551,39 @@ class BlocoDesconsideraVazaoMinima(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(24, 0),
-            IntegerField(1, 24),
-            LiteralField(33, 28),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(24, 0),
+                IntegerField(1, 24),
+                LiteralField(33, 28),
+            ]
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoDesconsideraVazaoMinima):
             return False
         bloco: BlocoDesconsideraVazaoMinima = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -3085,7 +3597,7 @@ class BlocoDesconsideraVazaoMinima(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -3097,30 +3609,39 @@ class BlocoRestricoesEletricas(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(24, 0),
-            IntegerField(1, 24),
-            LiteralField(33, 28),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(24, 0),
+                IntegerField(1, 24),
+                LiteralField(33, 28),
+            ]
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoRestricoesEletricas):
             return False
         bloco: BlocoRestricoesEletricas = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -3134,7 +3655,7 @@ class BlocoRestricoesEletricas(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -3146,31 +3667,40 @@ class BlocoSelecaoCortes(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(24, 0),
-            IntegerField(1, 24),
-            IntegerField(1, 29),
-            LiteralField(134, 34),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(24, 0),
+                IntegerField(1, 24),
+                IntegerField(1, 29),
+                LiteralField(134, 34),
+            ]
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoSelecaoCortes):
             return False
         bloco: BlocoSelecaoCortes = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -3184,7 +3714,7 @@ class BlocoSelecaoCortes(Section):
         return self.data[1]
 
     @considera_na_backward.setter
-    def considera_na_backward(self, v: int):
+    def considera_na_backward(self, v: int) -> None:
         self.data[1] = v
 
     @property
@@ -3198,7 +3728,7 @@ class BlocoSelecaoCortes(Section):
         return self.data[2]
 
     @considera_na_forward.setter
-    def considera_na_forward(self, v: int):
+    def considera_na_forward(self, v: int) -> None:
         self.data[2] = v
 
 
@@ -3210,30 +3740,39 @@ class BlocoJanelaCortes(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(24, 0),
-            IntegerField(1, 24),
-            LiteralField(33, 28),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(24, 0),
+                IntegerField(1, 24),
+                LiteralField(33, 28),
+            ]
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoJanelaCortes):
             return False
         bloco: BlocoJanelaCortes = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -3247,7 +3786,7 @@ class BlocoJanelaCortes(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -3259,32 +3798,41 @@ class BlocoReamostragemCenarios(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(21, 0),
-            IntegerField(4, 21),
-            IntegerField(4, 26),
-            IntegerField(4, 31),
-            LiteralField(87, 37),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(21, 0),
+                IntegerField(4, 21),
+                IntegerField(4, 26),
+                IntegerField(4, 31),
+                LiteralField(87, 37),
+            ]
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoReamostragemCenarios):
             return False
         bloco: BlocoReamostragemCenarios = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -3298,7 +3846,7 @@ class BlocoReamostragemCenarios(Section):
         return self.data[1]
 
     @considera_reamostragem_cenarios.setter
-    def considera_reamostragem_cenarios(self, v: int):
+    def considera_reamostragem_cenarios(self, v: int) -> None:
         self.data[1] = v
 
     @property
@@ -3312,7 +3860,7 @@ class BlocoReamostragemCenarios(Section):
         return self.data[2]
 
     @tipo_reamostragem_cenarios.setter
-    def tipo_reamostragem_cenarios(self, v: int):
+    def tipo_reamostragem_cenarios(self, v: int) -> None:
         self.data[2] = v
 
     @property
@@ -3326,7 +3874,7 @@ class BlocoReamostragemCenarios(Section):
         return self.data[3]
 
     @passo_reamostragem_cenarios.setter
-    def passo_reamostragem_cenarios(self, v: int):
+    def passo_reamostragem_cenarios(self, v: int) -> None:
         self.data[3] = v
 
 
@@ -3338,30 +3886,39 @@ class BlocoConvergeNoZero(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(24, 0),
-            IntegerField(1, 24),
-            LiteralField(64, 28),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(24, 0),
+                IntegerField(1, 24),
+                LiteralField(64, 28),
+            ]
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoConvergeNoZero):
             return False
         bloco: BlocoConvergeNoZero = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -3375,7 +3932,7 @@ class BlocoConvergeNoZero(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -3387,30 +3944,39 @@ class BlocoConsultaFCF(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(24, 0),
-            IntegerField(1, 24),
-            LiteralField(33, 28),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(24, 0),
+                IntegerField(1, 24),
+                LiteralField(33, 28),
+            ]
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoConsultaFCF):
             return False
         bloco: BlocoConsultaFCF = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -3424,7 +3990,7 @@ class BlocoConsultaFCF(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -3436,30 +4002,39 @@ class BlocoImpressaoENA(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(21, 0),
-            IntegerField(4, 21),
-            LiteralField(29, 139),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(21, 0),
+                IntegerField(4, 21),
+                LiteralField(29, 139),
+            ]
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoImpressaoENA):
             return False
         bloco: BlocoImpressaoENA = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -3473,7 +4048,7 @@ class BlocoImpressaoENA(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -3485,30 +4060,39 @@ class BlocoImpressaoCortesAtivosSimFinal(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(21, 0),
-            IntegerField(4, 21),
-            LiteralField(29, 28),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(21, 0),
+                IntegerField(4, 21),
+                LiteralField(29, 28),
+            ]
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoImpressaoCortesAtivosSimFinal):
             return False
         bloco: BlocoImpressaoCortesAtivosSimFinal = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -3522,7 +4106,7 @@ class BlocoImpressaoCortesAtivosSimFinal(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -3534,30 +4118,39 @@ class BlocoRepresentacaoAgregacao(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(21, 0),
-            IntegerField(4, 21),
-            LiteralField(31, 28),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(21, 0),
+                IntegerField(4, 21),
+                LiteralField(31, 28),
+            ]
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoRepresentacaoAgregacao):
             return False
         bloco: BlocoRepresentacaoAgregacao = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -3571,7 +4164,7 @@ class BlocoRepresentacaoAgregacao(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -3583,30 +4176,39 @@ class BlocoMatrizCorrelacaoEspacial(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(21, 0),
-            IntegerField(4, 21),
-            LiteralField(21, 28),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(21, 0),
+                IntegerField(4, 21),
+                LiteralField(21, 28),
+            ]
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoMatrizCorrelacaoEspacial):
             return False
         bloco: BlocoMatrizCorrelacaoEspacial = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -3620,7 +4222,7 @@ class BlocoMatrizCorrelacaoEspacial(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -3632,30 +4234,39 @@ class BlocoDesconsideraConvEstatistica(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(21, 0),
-            IntegerField(4, 21),
-            LiteralField(16, 28),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(21, 0),
+                IntegerField(4, 21),
+                LiteralField(16, 28),
+            ]
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoDesconsideraConvEstatistica):
             return False
         bloco: BlocoDesconsideraConvEstatistica = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -3669,7 +4280,7 @@ class BlocoDesconsideraConvEstatistica(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -3681,30 +4292,39 @@ class BlocoMomentoReamostragem(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(21, 0),
-            IntegerField(4, 21),
-            LiteralField(25, 28),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(21, 0),
+                IntegerField(4, 21),
+                LiteralField(25, 28),
+            ]
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoMomentoReamostragem):
             return False
         bloco: BlocoMomentoReamostragem = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -3718,7 +4338,7 @@ class BlocoMomentoReamostragem(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -3730,30 +4350,39 @@ class BlocoMantemArquivosEnergias(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(21, 0),
-            IntegerField(4, 21),
-            LiteralField(35, 28),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(21, 0),
+                IntegerField(4, 21),
+                LiteralField(35, 28),
+            ]
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoMantemArquivosEnergias):
             return False
         bloco: BlocoMantemArquivosEnergias = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -3767,7 +4396,7 @@ class BlocoMantemArquivosEnergias(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -3779,30 +4408,39 @@ class BlocoInicioTesteConvergencia(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(24, 0),
-            IntegerField(1, 24),
-            LiteralField(42, 28),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(24, 0),
+                IntegerField(1, 24),
+                LiteralField(42, 28),
+            ]
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoInicioTesteConvergencia):
             return False
         bloco: BlocoInicioTesteConvergencia = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -3816,7 +4454,7 @@ class BlocoInicioTesteConvergencia(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -3828,30 +4466,39 @@ class BlocoSazonalizarVminT(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(24, 0),
-            IntegerField(1, 24),
-            LiteralField(50, 28),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(24, 0),
+                IntegerField(1, 24),
+                LiteralField(50, 28),
+            ]
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoSazonalizarVminT):
             return False
         bloco: BlocoSazonalizarVminT = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -3865,7 +4512,7 @@ class BlocoSazonalizarVminT(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -3877,30 +4524,39 @@ class BlocoSazonalizarVmaxT(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(24, 0),
-            IntegerField(1, 24),
-            LiteralField(50, 28),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(24, 0),
+                IntegerField(1, 24),
+                LiteralField(50, 28),
+            ]
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoSazonalizarVmaxT):
             return False
         bloco: BlocoSazonalizarVmaxT = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -3914,7 +4570,7 @@ class BlocoSazonalizarVmaxT(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -3926,30 +4582,39 @@ class BlocoSazonalizarVminP(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(24, 0),
-            IntegerField(1, 24),
-            LiteralField(50, 28),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(24, 0),
+                IntegerField(1, 24),
+                LiteralField(50, 28),
+            ]
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoSazonalizarVminP):
             return False
         bloco: BlocoSazonalizarVminP = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -3963,7 +4628,7 @@ class BlocoSazonalizarVminP(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -3975,30 +4640,39 @@ class BlocoSazonalizarCfugaCmont(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(24, 0),
-            IntegerField(1, 24),
-            LiteralField(50, 28),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(24, 0),
+                IntegerField(1, 24),
+                LiteralField(50, 28),
+            ]
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoSazonalizarCfugaCmont):
             return False
         bloco: BlocoSazonalizarCfugaCmont = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -4012,7 +4686,7 @@ class BlocoSazonalizarCfugaCmont(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -4024,30 +4698,39 @@ class BlocoRestricoesEmissaoGEE(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(24, 0),
-            IntegerField(1, 24),
-            LiteralField(33, 28),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(24, 0),
+                IntegerField(1, 24),
+                LiteralField(33, 28),
+            ]
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoRestricoesEmissaoGEE):
             return False
         bloco: BlocoRestricoesEmissaoGEE = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -4061,7 +4744,7 @@ class BlocoRestricoesEmissaoGEE(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -4073,31 +4756,40 @@ class BlocoAfluenciaAnualPARp(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(24, 0),
-            IntegerField(1, 24),
-            IntegerField(1, 29),
-            LiteralField(325, 33),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(24, 0),
+                IntegerField(1, 24),
+                IntegerField(1, 29),
+                LiteralField(325, 33),
+            ]
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoAfluenciaAnualPARp):
             return False
         bloco: BlocoAfluenciaAnualPARp = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -4112,7 +4804,7 @@ class BlocoAfluenciaAnualPARp(Section):
         return self.data[1]
 
     @consideracao_media_anual_afluencias.setter
-    def consideracao_media_anual_afluencias(self, v: int):
+    def consideracao_media_anual_afluencias(self, v: int) -> None:
         self.data[1] = v
 
     @property
@@ -4127,7 +4819,7 @@ class BlocoAfluenciaAnualPARp(Section):
         return self.data[2]
 
     @reducao_automatica_ordem.setter
-    def reducao_automatica_ordem(self, v: int):
+    def reducao_automatica_ordem(self, v: int) -> None:
         self.data[2] = v
 
 
@@ -4139,30 +4831,39 @@ class BlocoRestricoesFornecGas(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(24, 0),
-            IntegerField(1, 24),
-            LiteralField(33, 28),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(24, 0),
+                IntegerField(1, 24),
+                LiteralField(33, 28),
+            ]
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoRestricoesFornecGas):
             return False
         bloco: BlocoRestricoesFornecGas = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -4177,7 +4878,7 @@ class BlocoRestricoesFornecGas(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -4189,30 +4890,39 @@ class BlocoMemCalculoCortes(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(24, 0),
-            IntegerField(1, 24),
-            LiteralField(79, 28),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(24, 0),
+                IntegerField(1, 24),
+                LiteralField(79, 28),
+            ]
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoMemCalculoCortes):
             return False
         bloco: BlocoMemCalculoCortes = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -4226,7 +4936,7 @@ class BlocoMemCalculoCortes(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -4239,31 +4949,40 @@ class BlocoGeracaoEolica(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(24, 0),
-            IntegerField(1, 24),
-            FloatField(6, 26, 4),
-            LiteralField(71, 39),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(24, 0),
+                IntegerField(1, 24),
+                FloatField(6, 26, 4),
+                LiteralField(71, 39),
+            ]
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoGeracaoEolica):
             return False
         bloco: BlocoGeracaoEolica = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -4277,7 +4996,7 @@ class BlocoGeracaoEolica(Section):
         return self.data[1]
 
     @considera.setter
-    def considera(self, v: int):
+    def considera(self, v: int) -> None:
         self.data[1] = v
 
     @property
@@ -4291,7 +5010,7 @@ class BlocoGeracaoEolica(Section):
         return self.data[2]
 
     @penalidade.setter
-    def penalidade(self, v: float):
+    def penalidade(self, v: float) -> None:
         self.data[2] = v
 
 
@@ -4303,30 +5022,39 @@ class BlocoCompensacaoCorrelacaoCruzada(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(24, 0),
-            IntegerField(1, 24),
-            LiteralField(62, 28),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(24, 0),
+                IntegerField(1, 24),
+                LiteralField(62, 28),
+            ]
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoCompensacaoCorrelacaoCruzada):
             return False
         bloco: BlocoCompensacaoCorrelacaoCruzada = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -4341,7 +5069,7 @@ class BlocoCompensacaoCorrelacaoCruzada(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -4353,30 +5081,39 @@ class BlocoConsideracaoTurbinamentoMinimoMaximo(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(24, 0),
-            IntegerField(1, 24),
-            LiteralField(120, 28),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(24, 0),
+                IntegerField(1, 24),
+                LiteralField(120, 28),
+            ]
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoConsideracaoTurbinamentoMinimoMaximo):
             return False
         bloco: BlocoConsideracaoTurbinamentoMinimoMaximo = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -4390,7 +5127,7 @@ class BlocoConsideracaoTurbinamentoMinimoMaximo(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -4402,30 +5139,39 @@ class BlocoConsideracaoDefluenciaMaxima(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(24, 0),
-            IntegerField(1, 24),
-            LiteralField(33, 28),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(24, 0),
+                IntegerField(1, 24),
+                LiteralField(33, 28),
+            ]
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoConsideracaoDefluenciaMaxima):
             return False
         bloco: BlocoConsideracaoDefluenciaMaxima = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -4439,7 +5185,7 @@ class BlocoConsideracaoDefluenciaMaxima(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -4451,30 +5197,39 @@ class BlocoAproveitamentoBasePLsBackward(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(24, 0),
-            IntegerField(1, 24),
-            LiteralField(41, 28),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(24, 0),
+                IntegerField(1, 24),
+                LiteralField(41, 28),
+            ]
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoAproveitamentoBasePLsBackward):
             return False
         bloco: BlocoAproveitamentoBasePLsBackward = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -4488,7 +5243,7 @@ class BlocoAproveitamentoBasePLsBackward(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -4500,30 +5255,39 @@ class BlocoImpressaoEstadosGeracaoCortes(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(21, 0),
-            IntegerField(1, 24),
-            LiteralField(52, 28),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(21, 0),
+                IntegerField(1, 24),
+                LiteralField(52, 28),
+            ]
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoImpressaoEstadosGeracaoCortes):
             return False
         bloco: BlocoImpressaoEstadosGeracaoCortes = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -4537,7 +5301,7 @@ class BlocoImpressaoEstadosGeracaoCortes(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -4549,30 +5313,39 @@ class BlocoSementeForward(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(21, 0),
-            IntegerField(4, 21),
-            LiteralField(25, 28),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(21, 0),
+                IntegerField(4, 21),
+                LiteralField(25, 28),
+            ]
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoSementeForward):
             return False
         bloco: BlocoSementeForward = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -4586,7 +5359,7 @@ class BlocoSementeForward(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -4598,30 +5371,39 @@ class BlocoSementeBackward(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(21, 0),
-            IntegerField(4, 21),
-            LiteralField(25, 28),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(21, 0),
+                IntegerField(4, 21),
+                LiteralField(25, 28),
+            ]
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoSementeBackward):
             return False
         bloco: BlocoSementeBackward = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -4635,7 +5417,7 @@ class BlocoSementeBackward(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -4647,30 +5429,39 @@ class BlocoRestricaoLPPTurbinamentoMaximoREE(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(24, 0),
-            IntegerField(1, 24),
-            LiteralField(33, 28),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(24, 0),
+                IntegerField(1, 24),
+                LiteralField(33, 28),
+            ]
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoRestricaoLPPTurbinamentoMaximoREE):
             return False
         bloco: BlocoRestricaoLPPTurbinamentoMaximoREE = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -4684,7 +5475,7 @@ class BlocoRestricaoLPPTurbinamentoMaximoREE(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -4696,30 +5487,39 @@ class BlocoRestricaoLPPDefluenciaMaximaREE(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(24, 0),
-            IntegerField(1, 24),
-            LiteralField(33, 28),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(24, 0),
+                IntegerField(1, 24),
+                LiteralField(33, 28),
+            ]
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoRestricaoLPPDefluenciaMaximaREE):
             return False
         bloco: BlocoRestricaoLPPDefluenciaMaximaREE = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -4733,7 +5533,7 @@ class BlocoRestricaoLPPDefluenciaMaximaREE(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -4745,30 +5545,39 @@ class BlocoRestricaoLPPTurbinamentoMaximoUHE(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(24, 0),
-            IntegerField(1, 24),
-            LiteralField(33, 28),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(24, 0),
+                IntegerField(1, 24),
+                LiteralField(33, 28),
+            ]
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoRestricaoLPPTurbinamentoMaximoUHE):
             return False
         bloco: BlocoRestricaoLPPTurbinamentoMaximoUHE = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -4782,7 +5591,7 @@ class BlocoRestricaoLPPTurbinamentoMaximoUHE(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -4794,30 +5603,39 @@ class BlocoRestricaoLPPDefluenciaMaximaUHE(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(24, 0),
-            IntegerField(1, 24),
-            LiteralField(33, 28),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(24, 0),
+                IntegerField(1, 24),
+                LiteralField(33, 28),
+            ]
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoRestricaoLPPDefluenciaMaximaUHE):
             return False
         bloco: BlocoRestricaoLPPDefluenciaMaximaUHE = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -4831,7 +5649,7 @@ class BlocoRestricaoLPPDefluenciaMaximaUHE(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -4843,30 +5661,39 @@ class BlocoRestricoesEletricasEspeciais(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(24, 0),
-            IntegerField(1, 24),
-            LiteralField(33, 28),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(24, 0),
+                IntegerField(1, 24),
+                LiteralField(33, 28),
+            ]
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoRestricoesEletricasEspeciais):
             return False
         bloco: BlocoRestricoesEletricasEspeciais = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -4880,7 +5707,7 @@ class BlocoRestricoesEletricasEspeciais(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -4892,30 +5719,39 @@ class BlocoFuncaoProducaoUHE(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(24, 0),
-            IntegerField(1, 24),
-            LiteralField(33, 28),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(24, 0),
+                IntegerField(1, 24),
+                LiteralField(33, 28),
+            ]
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoFuncaoProducaoUHE):
             return False
         bloco: BlocoFuncaoProducaoUHE = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -4929,7 +5765,7 @@ class BlocoFuncaoProducaoUHE(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -4941,30 +5777,39 @@ class BlocoFCFPosEstudo(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(24, 0),
-            IntegerField(1, 24),
-            LiteralField(14, 28),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(24, 0),
+                IntegerField(1, 24),
+                LiteralField(14, 28),
+            ]
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoFCFPosEstudo):
             return False
         bloco: BlocoFCFPosEstudo = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -4978,7 +5823,7 @@ class BlocoFCFPosEstudo(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -4990,30 +5835,39 @@ class BlocoEstacoesBombeamento(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(24, 0),
-            IntegerField(1, 24),
-            LiteralField(33, 28),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(24, 0),
+                IntegerField(1, 24),
+                LiteralField(33, 28),
+            ]
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoEstacoesBombeamento):
             return False
         bloco: BlocoEstacoesBombeamento = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -5027,7 +5881,7 @@ class BlocoEstacoesBombeamento(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -5039,30 +5893,39 @@ class BlocoCanalDesvio(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(24, 0),
-            IntegerField(1, 24),
-            LiteralField(33, 28),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(24, 0),
+                IntegerField(1, 24),
+                LiteralField(33, 28),
+            ]
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoCanalDesvio):
             return False
         bloco: BlocoCanalDesvio = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -5076,7 +5939,7 @@ class BlocoCanalDesvio(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -5088,30 +5951,39 @@ class BlocoRHQ(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(24, 0),
-            IntegerField(1, 24),
-            LiteralField(33, 28),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(24, 0),
+                IntegerField(1, 24),
+                LiteralField(33, 28),
+            ]
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoRHQ):
             return False
         bloco: BlocoRHQ = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -5125,7 +5997,7 @@ class BlocoRHQ(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -5137,30 +6009,39 @@ class BlocoRHV(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(24, 0),
-            IntegerField(1, 24),
-            LiteralField(33, 28),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(24, 0),
+                IntegerField(1, 24),
+                LiteralField(33, 28),
+            ]
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoRHV):
             return False
         bloco: BlocoRHV = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -5174,7 +6055,7 @@ class BlocoRHV(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -5186,34 +6067,43 @@ class BlocoTratamentoCortes(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(24, 0),
-            IntegerField(1, 24),
-            IntegerField(1, 29),
-            IntegerField(2, 33),
-            IntegerField(2, 38),
-            IntegerField(2, 43),
-            LiteralField(148, 48),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(24, 0),
+                IntegerField(1, 24),
+                IntegerField(1, 29),
+                IntegerField(2, 33),
+                IntegerField(2, 38),
+                IntegerField(2, 43),
+                LiteralField(148, 48),
+            ]
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoTratamentoCortes):
             return False
         bloco: BlocoTratamentoCortes = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -5227,7 +6117,7 @@ class BlocoTratamentoCortes(Section):
         return self.data[1]
 
     @gera_arquivo_unico.setter
-    def gera_arquivo_unico(self, v: int):
+    def gera_arquivo_unico(self, v: int) -> None:
         self.data = [self.data[0]] + [v] + self.data[2:]
 
     @property
@@ -5241,7 +6131,7 @@ class BlocoTratamentoCortes(Section):
         return self.data[2]
 
     @mantem_arquivos_por_periodo.setter
-    def mantem_arquivos_por_periodo(self, v: int):
+    def mantem_arquivos_por_periodo(self, v: int) -> None:
         self.data = self.data[0:2] + [v] + self.data[3:]
 
     @property
@@ -5255,7 +6145,7 @@ class BlocoTratamentoCortes(Section):
         return self.data[3:6]
 
     @periodos_cortes.setter
-    def periodos_cortes(self, v: List[Optional[int]]):
+    def periodos_cortes(self, v: List[Optional[int]]) -> None:
         if len(v) > 3:
             v = v[:3]
         elif len(v) < 3:
@@ -5270,30 +6160,39 @@ class BlocoEliminacaoCortes(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(24, 0),
-            IntegerField(1, 24),
-            LiteralField(148, 28),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(24, 0),
+                IntegerField(1, 24),
+                LiteralField(148, 28),
+            ]
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoEliminacaoCortes):
             return False
         bloco: BlocoEliminacaoCortes = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -5307,7 +6206,7 @@ class BlocoEliminacaoCortes(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v
 
 
@@ -5319,30 +6218,39 @@ class BlocoCalculaProdtMediaSin(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(24, 0),
-            IntegerField(1, 24),
-            LiteralField(148, 28),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(24, 0),
+                IntegerField(1, 24),
+                LiteralField(148, 28),
+            ]
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoCalculaProdtMediaSin):
             return False
         bloco: BlocoCalculaProdtMediaSin = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())
 
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         file.write(self.__linha.write(self.data))
 
     @property
@@ -5356,5 +6264,5 @@ class BlocoCalculaProdtMediaSin(Section):
         return self.data[1]
 
     @valor.setter
-    def valor(self, v: int):
+    def valor(self, v: int) -> None:
         self.data[1] = v

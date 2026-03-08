@@ -1,8 +1,5 @@
 from inewave.newave.cortes import Cortes
 
-from tests.mocks.mock_open import mock_open
-from unittest.mock import MagicMock, patch
-import pytest
 import pandas as pd
 
 ARQ_TESTE_REE = "./tests/mocks/arquivos/cortes_ree.dat"
@@ -100,3 +97,6 @@ def test_atributos_cortes_hib():
     assert h.cortes.at[0, "pi_varm_uhe0"] == -6.74723
     assert h.cortes.at[0, "pi_varm_uhe153"] == -0.37228
     assert h.cortes.at[0, "pi_qafl_uhe0_lag12"] == 0.53852
+
+
+# NOTE: Binary file with parametrized read, round-trip requires external dimensions

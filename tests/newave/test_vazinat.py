@@ -1,3 +1,6 @@
+import os
+import tempfile
+
 from inewave.newave.modelos.vazinat import SecaoDadosVazinat
 from inewave.newave.vazinat import Vazinat
 from inewave.config import MAX_ANOS_HISTORICO
@@ -64,3 +67,25 @@ def test_eq_vazinat():
         numero_configuracoes=NUM_CONFIGURACOES,
     )
     assert h1 == h2
+
+
+def test_leitura_escrita_vazinat():
+    h1 = Vazinat.read(
+        ARQ_TESTE,
+        numero_uhes=NUM_UHES,
+        ano_inicio_historico=ANO_INICIO_HISTORICO,
+        numero_configuracoes=NUM_CONFIGURACOES,
+    )
+    with tempfile.NamedTemporaryFile(delete=False, suffix=".dat") as f:
+        tmp = f.name
+    try:
+        h1.write(tmp)
+        h2 = Vazinat.read(
+            tmp,
+            numero_uhes=NUM_UHES,
+            ano_inicio_historico=ANO_INICIO_HISTORICO,
+            numero_configuracoes=NUM_CONFIGURACOES,
+        )
+        assert h1 == h2
+    finally:
+        os.unlink(tmp)

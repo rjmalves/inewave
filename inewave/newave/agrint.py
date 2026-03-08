@@ -5,7 +5,7 @@ from inewave.newave.modelos.agrint import (
 
 from cfinterface.files.sectionfile import SectionFile
 from typing import TypeVar, Optional
-import pandas as pd  # type: ignore
+import pandas as pd  # type: ignore[import-untyped]  # no pandas-stubs package
 
 
 class Agrint(SectionFile):
@@ -41,7 +41,7 @@ class Agrint(SectionFile):
         return None
 
     @agrupamentos.setter
-    def agrupamentos(self, df: pd.DataFrame):
+    def agrupamentos(self, df: pd.DataFrame) -> None:
         b = self.data.get_sections_of_type(BlocoGruposAgrint)
         if isinstance(b, BlocoGruposAgrint):
             b.data = df
@@ -68,7 +68,7 @@ class Agrint(SectionFile):
         return None
 
     @limites_agrupamentos.setter
-    def limites_agrupamentos(self, df: pd.DataFrame):
+    def limites_agrupamentos(self, df: pd.DataFrame) -> None:
         b = self.data.get_sections_of_type(BlocoLimitesPorGrupoAgrint)
         if isinstance(b, BlocoLimitesPorGrupoAgrint):
             b.data = df

@@ -1,7 +1,8 @@
 from cfinterface.files.sectionfile import SectionFile
+from cfinterface.storage import StorageType
 from inewave.newave.modelos.cortesh import SecaoDadosCortesh
 
-import pandas as pd  # type: ignore
+import pandas as pd  # type: ignore[import-untyped]  # no pandas-stubs package
 from typing import TypeVar
 
 
@@ -14,7 +15,7 @@ class Cortesh(SectionFile):
     T = TypeVar("T")
 
     SECTIONS = [SecaoDadosCortesh]
-    STORAGE = "BINARY"
+    STORAGE = StorageType.BINARY
 
     def __obtem_dados(self) -> SecaoDadosCortesh:
         dados = [r for r in self.data.of_type(SecaoDadosCortesh)]
@@ -31,7 +32,7 @@ class Cortesh(SectionFile):
         return self.__obtem_dados().versao_newave
 
     @versao_newave.setter
-    def versao_newave(self, v: int):
+    def versao_newave(self, v: int) -> None:
         self.__obtem_dados().versao_newave = v
 
     @property
@@ -46,7 +47,7 @@ class Cortesh(SectionFile):
         return self.__obtem_dados().tamanho_corte
 
     @tamanho_corte.setter
-    def tamanho_corte(self, v: int):
+    def tamanho_corte(self, v: int) -> None:
         self.__obtem_dados().tamanho_corte = v
 
     @property
@@ -61,7 +62,7 @@ class Cortesh(SectionFile):
         return self.__obtem_dados().tamanho_estado
 
     @tamanho_estado.setter
-    def tamanho_estado(self, v: int):
+    def tamanho_estado(self, v: int) -> None:
         self.__obtem_dados().tamanho_estado = v
 
     @property
@@ -75,7 +76,7 @@ class Cortesh(SectionFile):
         return self.__obtem_dados().numero_rees
 
     @numero_rees.setter
-    def numero_rees(self, v: int):
+    def numero_rees(self, v: int) -> None:
         self.__obtem_dados().numero_rees = v
 
     @property
@@ -89,7 +90,7 @@ class Cortesh(SectionFile):
         return self.__obtem_dados().numero_estagios_pre
 
     @numero_estagios_pre.setter
-    def numero_estagios_pre(self, v: int):
+    def numero_estagios_pre(self, v: int) -> None:
         self.__obtem_dados().numero_estagios_pre = v
 
     @property
@@ -103,7 +104,7 @@ class Cortesh(SectionFile):
         return self.__obtem_dados().numero_estagios_estudo
 
     @numero_estagios_estudo.setter
-    def numero_estagios_estudo(self, v: int):
+    def numero_estagios_estudo(self, v: int) -> None:
         self.__obtem_dados().numero_estagios_estudo = v
 
     @property
@@ -117,7 +118,7 @@ class Cortesh(SectionFile):
         return self.__obtem_dados().numero_estagios_pos
 
     @numero_estagios_pos.setter
-    def numero_estagios_pos(self, v: int):
+    def numero_estagios_pos(self, v: int) -> None:
         self.__obtem_dados().numero_estagios_pos = v
 
     @property
@@ -132,7 +133,7 @@ class Cortesh(SectionFile):
         return self.__obtem_dados().numero_estagios_ano
 
     @numero_estagios_ano.setter
-    def numero_estagios_ano(self, v: int):
+    def numero_estagios_ano(self, v: int) -> None:
         self.__obtem_dados().numero_estagios_ano = v
 
     @property
@@ -146,7 +147,7 @@ class Cortesh(SectionFile):
         return self.__obtem_dados().numero_configuracoes
 
     @numero_configuracoes.setter
-    def numero_configuracoes(self, v: int):
+    def numero_configuracoes(self, v: int) -> None:
         self.__obtem_dados().numero_configuracoes = v
 
     @property
@@ -161,7 +162,7 @@ class Cortesh(SectionFile):
         return self.__obtem_dados().numero_forwards
 
     @numero_forwards.setter
-    def numero_forwards(self, v: int):
+    def numero_forwards(self, v: int) -> None:
         self.__obtem_dados().numero_forwards = v
 
     @property
@@ -175,7 +176,7 @@ class Cortesh(SectionFile):
         return self.__obtem_dados().numero_patamares
 
     @numero_patamares.setter
-    def numero_patamares(self, v: int):
+    def numero_patamares(self, v: int) -> None:
         self.__obtem_dados().numero_patamares = v
 
     @property
@@ -189,7 +190,7 @@ class Cortesh(SectionFile):
         return self.__obtem_dados().ano_inicio_estudo
 
     @ano_inicio_estudo.setter
-    def ano_inicio_estudo(self, v: int):
+    def ano_inicio_estudo(self, v: int) -> None:
         self.__obtem_dados().ano_inicio_estudo = v
 
     @property
@@ -204,7 +205,7 @@ class Cortesh(SectionFile):
         return self.__obtem_dados().mes_inicio_estudo
 
     @mes_inicio_estudo.setter
-    def mes_inicio_estudo(self, v: int):
+    def mes_inicio_estudo(self, v: int) -> None:
         self.__obtem_dados().mes_inicio_estudo = v
 
     @property
@@ -219,7 +220,7 @@ class Cortesh(SectionFile):
         return self.__obtem_dados().lag_maximo_gnl
 
     @lag_maximo_gnl.setter
-    def lag_maximo_gnl(self, v: int):
+    def lag_maximo_gnl(self, v: int) -> None:
         self.__obtem_dados().lag_maximo_gnl = v
 
     @property
@@ -234,7 +235,7 @@ class Cortesh(SectionFile):
         return self.__obtem_dados().numero_submercados
 
     @numero_submercados.setter
-    def numero_submercados(self, v: int):
+    def numero_submercados(self, v: int) -> None:
         self.__obtem_dados().numero_submercados = v
 
     @property
@@ -249,7 +250,7 @@ class Cortesh(SectionFile):
         return self.__obtem_dados().numero_total_submercados
 
     @numero_total_submercados.setter
-    def numero_total_submercados(self, v: int):
+    def numero_total_submercados(self, v: int) -> None:
         self.__obtem_dados().numero_total_submercados = v
 
     @property
@@ -266,7 +267,7 @@ class Cortesh(SectionFile):
         return self.__obtem_dados().mes_agregacao
 
     @mes_agregacao.setter
-    def mes_agregacao(self, v: int):
+    def mes_agregacao(self, v: int) -> None:
         self.__obtem_dados().mes_agregacao = v
 
     @property
@@ -281,7 +282,7 @@ class Cortesh(SectionFile):
         return self.__obtem_dados().numero_maximo_uhes
 
     @numero_maximo_uhes.setter
-    def numero_maximo_uhes(self, v: int):
+    def numero_maximo_uhes(self, v: int) -> None:
         self.__obtem_dados().numero_maximo_uhes = v
 
     @property
@@ -296,7 +297,7 @@ class Cortesh(SectionFile):
         return self.__obtem_dados().considera_afluencia_anual
 
     @considera_afluencia_anual.setter
-    def considera_afluencia_anual(self, v: int):
+    def considera_afluencia_anual(self, v: int) -> None:
         self.__obtem_dados().considera_afluencia_anual = v
 
     @property
@@ -311,7 +312,7 @@ class Cortesh(SectionFile):
         return self.__obtem_dados().tipo_agregacao_caso
 
     @tipo_agregacao_caso.setter
-    def tipo_agregacao_caso(self, v: int):
+    def tipo_agregacao_caso(self, v: int) -> None:
         self.__obtem_dados().tipo_agregacao_caso = v
 
     @property
@@ -326,7 +327,7 @@ class Cortesh(SectionFile):
         return self.__obtem_dados().estagio_individualizado_inicial
 
     @estagio_individualizado_inicial.setter
-    def estagio_individualizado_inicial(self, v: int):
+    def estagio_individualizado_inicial(self, v: int) -> None:
         self.__obtem_dados().estagio_individualizado_inicial = v
 
     @property
@@ -341,7 +342,7 @@ class Cortesh(SectionFile):
         return self.__obtem_dados().estagio_individualizado_final
 
     @estagio_individualizado_final.setter
-    def estagio_individualizado_final(self, v: int):
+    def estagio_individualizado_final(self, v: int) -> None:
         self.__obtem_dados().estagio_individualizado_final = v
 
     @property
@@ -356,7 +357,7 @@ class Cortesh(SectionFile):
         return self.__obtem_dados().tamanho_registro_individualizado
 
     @tamanho_registro_individualizado.setter
-    def tamanho_registro_individualizado(self, v: int):
+    def tamanho_registro_individualizado(self, v: int) -> None:
         self.__obtem_dados().tamanho_registro_individualizado = v
 
     @property
@@ -371,7 +372,7 @@ class Cortesh(SectionFile):
         return self.__obtem_dados().estagio_agregado_inicial
 
     @estagio_agregado_inicial.setter
-    def estagio_agregado_inicial(self, v: int):
+    def estagio_agregado_inicial(self, v: int) -> None:
         self.__obtem_dados().estagio_agregado_inicial = v
 
     @property
@@ -386,7 +387,7 @@ class Cortesh(SectionFile):
         return self.__obtem_dados().estagio_agregado_final
 
     @estagio_agregado_final.setter
-    def estagio_agregado_final(self, v: int):
+    def estagio_agregado_final(self, v: int) -> None:
         self.__obtem_dados().estagio_agregado_final = v
 
     @property
@@ -401,7 +402,7 @@ class Cortesh(SectionFile):
         return self.__obtem_dados().tamanho_registro_agregado
 
     @tamanho_registro_agregado.setter
-    def tamanho_registro_agregado(self, v: int):
+    def tamanho_registro_agregado(self, v: int) -> None:
         self.__obtem_dados().tamanho_registro_agregado = v
 
     @property

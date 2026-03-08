@@ -291,9 +291,7 @@ def test_leitura_penalidades_violacao_vazao_minima():
 
 
 def test_leitura_penalidades_violacao_curva_seguranca():
-    m: MagicMock = mock_open(
-        read_data="".join(MockPenalidadeCurvaSegurancaPMO)
-    )
+    m: MagicMock = mock_open(read_data="".join(MockPenalidadeCurvaSegurancaPMO))
     b = BlocoPenalidadeViolacaoCurvaSegurancaPMO()
     with patch("builtins.open", m):
         with open("", "") as fp:
@@ -457,3 +455,6 @@ def test_neq_pmo():
         pmo2 = Pmo.read(ARQ_TESTE)
         pmo2.configuracoes_alteracao_potencia
         assert pmo1 == pmo2
+
+
+# NOTE: Output-only file, round-trip test not applicable

@@ -5,6 +5,7 @@ from inewave.nwlistop.modelos.arquivos.arquivousinapatamar import (
 from inewave.nwlistop.modelos.dtbmin import DtbminAnos
 
 from warnings import warn
+from typing import Any
 
 
 class Dtbmin(ArquivoUsinaPatamar):
@@ -23,7 +24,7 @@ class Dtbmin(ArquivoUsinaPatamar):
         DtbminAnos,
     ]
 
-    def __init__(self, data=...) -> None:
+    def __init__(self, data: Any = ...) -> None:
         warn(
             "Esta classe é relativa a um arquivo que não é mais suportado."
             + " Utilize a classe ViolTurbmin no lugar.",

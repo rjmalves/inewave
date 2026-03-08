@@ -2,7 +2,7 @@ from inewave.newave.modelos.adterm import BlocoUTEAdTerm
 
 from cfinterface.files.sectionfile import SectionFile
 from typing import TypeVar, Optional
-import pandas as pd  # type: ignore
+import pandas as pd  # type: ignore[import-untyped]  # no pandas-stubs package
 
 
 class Adterm(SectionFile):
@@ -36,7 +36,7 @@ class Adterm(SectionFile):
         return None
 
     @despachos.setter
-    def despachos(self, d: pd.DataFrame):
+    def despachos(self, d: pd.DataFrame) -> None:
         b = self.data.get_sections_of_type(BlocoUTEAdTerm)
         if isinstance(b, BlocoUTEAdTerm):
             b.data = d

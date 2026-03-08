@@ -1310,3 +1310,6 @@ def test_atributos_forward():
     assert f.volume_bombeado.shape == (0, 5)
     assert f.consumo_energia_estacao_bombeamento.shape == (0, 5)
     assert f.volume_canal_desvio_usina.shape == (972, 5)
+
+
+# NOTE: Binary file with parametrized read, round-trip requires external dimensions

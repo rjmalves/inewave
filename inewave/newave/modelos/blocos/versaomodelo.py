@@ -1,4 +1,4 @@
-from typing import IO, List
+from typing import Any, IO, List
 
 from cfinterface.components.block import Block
 
@@ -22,7 +22,7 @@ class VersaoModelo(Block):
                 return False
             return self.data == o.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         linha = file.readline()
         self.data = linha.split("Versao")[1].strip().split(" ")[0]
 
@@ -46,6 +46,6 @@ class VersaoModeloLibs(Block):
                 return False
             return self.data == o.data
 
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         linha = file.readline()
         self.data = linha.split("NEWAVE -")[1].strip().split(" ")[0]

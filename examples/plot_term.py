@@ -94,10 +94,12 @@ def analisar_inflexibilidade_temporal(df):
     # Agrupando por mês
     inflexibilidade_mensal = (
         df.groupby("mes")
-        .agg({
-            "geracao_minima": ["count", "sum", "mean"],
-            "codigo_usina": "nunique",
-        })
+        .agg(
+            {
+                "geracao_minima": ["count", "sum", "mean"],
+                "codigo_usina": "nunique",
+            }
+        )
         .round(2)
     )
 
@@ -165,11 +167,13 @@ usinas_modificadas = usinas.copy()
 usinas_modificadas["teif"] = usinas_modificadas["teif"] * 0.8
 
 print("Comparação do TEIF (original vs modificado):")
-comparacao_teif = pd.DataFrame({
-    "original": usinas["teif"],
-    "modificado": usinas_modificadas["teif"],
-    "melhoria_abs": usinas["teif"] - usinas_modificadas["teif"],
-})
+comparacao_teif = pd.DataFrame(
+    {
+        "original": usinas["teif"],
+        "modificado": usinas_modificadas["teif"],
+        "melhoria_abs": usinas["teif"] - usinas_modificadas["teif"],
+    }
+)
 print(comparacao_teif.describe())
 
 # %%

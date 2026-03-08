@@ -2,7 +2,7 @@ from cfinterface.components.section import Section
 from cfinterface.components.line import Line
 from cfinterface.components.literalfield import LiteralField
 from cfinterface.components.integerfield import IntegerField
-from typing import List, IO
+from typing import Any, IO, List, Optional
 
 
 class BlocoDadosSelcor(Section):
@@ -13,7 +13,12 @@ class BlocoDadosSelcor(Section):
 
     __slots__ = ["__linha", "__cabecalhos", "__comentarios", "data"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line(
             [
@@ -40,7 +45,7 @@ class BlocoDadosSelcor(Section):
             return self.data == bloco.data
 
     # Override
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         # Salta as linhas de cabeçalhos
         for _ in range(2):
             self.__cabecalhos.append(file.readline())
@@ -53,7 +58,7 @@ class BlocoDadosSelcor(Section):
             self.data.append(dados_linha[1:])
 
     # Override
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         for linha in self.__cabecalhos:
             file.write(linha)
         if not isinstance(self.data, list):

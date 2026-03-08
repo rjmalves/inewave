@@ -42,11 +42,13 @@ print(manutencoes.head())
 # Análise por empresa
 manut_por_empresa = (
     manutencoes.groupby("nome_empresa")
-    .agg({
-        "codigo_usina": "nunique",
-        "duracao": ["sum", "mean"],
-        "potencia": "sum",
-    })
+    .agg(
+        {
+            "codigo_usina": "nunique",
+            "duracao": ["sum", "mean"],
+            "potencia": "sum",
+        }
+    )
     .round(2)
 )
 manut_por_empresa.columns = [
@@ -219,12 +221,14 @@ print("Análise de sobreposições e conflitos:")
 timeline_data = []
 for _, manut in manut_temporal.iterrows():
     for dia in pd.date_range(manut["data_inicio"], manut["data_fim"]):
-        timeline_data.append({
-            "data": dia,
-            "usina": manut["nome_usina"],
-            "potencia": manut["potencia"],
-            "empresa": manut["nome_empresa"],
-        })
+        timeline_data.append(
+            {
+                "data": dia,
+                "usina": manut["nome_usina"],
+                "potencia": manut["potencia"],
+                "empresa": manut["nome_empresa"],
+            }
+        )
 
 if timeline_data:
     timeline_df = pd.DataFrame(timeline_data)

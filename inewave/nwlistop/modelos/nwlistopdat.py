@@ -1,4 +1,4 @@
-from typing import IO, Any, Dict, List
+from typing import IO, Any, Dict, List, Optional
 
 from cfinterface.components.integerfield import IntegerField
 from cfinterface.components.line import Line
@@ -23,18 +23,23 @@ class BlocoDadosNwlistop(Section):
         "__comentarios",
     ]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         self.__linha_opcao = Line([IntegerField(1, 1)])
         self.__linha_arquivo = Line([LiteralField(29, 0), LiteralField(40, 30)])
         self.__linha_series_op1 = Line([IntegerField(4, 1), IntegerField(4, 6)])
         self.__linha_periodos = Line([IntegerField(3, 1), IntegerField(3, 5)])
-        self.__linha_variaveis_op2 = Line([
-            IntegerField(2, 1 + 3 * i) for i in range(21)
-        ])
-        self.__linha_uhes_op2 = Line([
-            IntegerField(3, 1 + 4 * i) for i in range(16)
-        ])
+        self.__linha_variaveis_op2 = Line(
+            [IntegerField(2, 1 + 3 * i) for i in range(21)]
+        )
+        self.__linha_uhes_op2 = Line(
+            [IntegerField(3, 1 + 4 * i) for i in range(16)]
+        )
         self.data: Dict[str, Any] = {}
         self.__comentarios: List[List[str]] = []
 
@@ -42,15 +47,17 @@ class BlocoDadosNwlistop(Section):
         if not isinstance(o, BlocoDadosNwlistop):
             return False
         bloco: BlocoDadosNwlistop = o
-        if not all([
-            isinstance(self.data, dict),
-            isinstance(o.data, dict),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, dict),
+                isinstance(o.data, dict),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
 
-    def __read_op1(self, file: IO):
+    def __read_op1(self, file: IO[Any]) -> None:
         # Le os nomes dos arquivos
         self.data["arquivos"] = []
         for _ in range(3):
@@ -69,7 +76,7 @@ class BlocoDadosNwlistop(Section):
         # Le a serie inicial e final
         self.data["series"] = self.__linha_series_op1.read(file.readline())
 
-    def __read_op2(self, file: IO):
+    def __read_op2(self, file: IO[Any]) -> None:
         # Le os nomes dos arquivos
         self.data["arquivos"] = []
         for _ in range(3):
@@ -106,7 +113,7 @@ class BlocoDadosNwlistop(Section):
         # Le as usinas para os estágios individualizados
         self.data["uhes"] = self.__linha_uhes_op2.read(file.readline())
 
-    def __read_op4(self, file: IO):
+    def __read_op4(self, file: IO[Any]) -> None:
         # Le os nomes dos arquivos
         self.data["arquivos"] = []
         for _ in range(3):
@@ -122,7 +129,7 @@ class BlocoDadosNwlistop(Section):
             self.__comentarios.append(linha)
 
     # Override
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         opcao = self.__linha_opcao.read(file.readline())[0]
         self.data["opcao"] = opcao
         if opcao == 1:
@@ -133,7 +140,7 @@ class BlocoDadosNwlistop(Section):
             self.__read_op4(file)
 
     # Override
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         opcao = self.data["opcao"]
         file.write(self.__linha_opcao.write([opcao]))
         if opcao == 1:
@@ -143,8 +150,7 @@ class BlocoDadosNwlistop(Section):
         elif opcao == 4:
             self.__write_op4(file)
 
-    # Override
-    def __write_op1(self, file: IO, *args, **kwargs):
+    def __write_op1(self, file: IO[Any]) -> None:
         # Escreve os nomes de arquivos
         for c in self.data["arquivos"]:
             file.write(self.__linha_arquivo.write(c))
@@ -159,8 +165,7 @@ class BlocoDadosNwlistop(Section):
         # Escreve as séries
         file.write(self.__linha_series_op1.write(self.data["series"]))
 
-    # Override
-    def __write_op2(self, file: IO, *args, **kwargs):
+    def __write_op2(self, file: IO[Any]) -> None:
         # Escreve os nomes de arquivos
         for c in self.data["arquivos"]:
             file.write(self.__linha_arquivo.write(c))
@@ -185,8 +190,7 @@ class BlocoDadosNwlistop(Section):
         # Escreve as séries
         file.write(self.__linha_uhes_op2.write(self.data["uhes"]))
 
-    # Override
-    def __write_op4(self, file: IO, *args, **kwargs):
+    def __write_op4(self, file: IO[Any]) -> None:
         # Escreve os nomes de arquivos
         for c in self.data["arquivos"]:
             file.write(self.__linha_arquivo.write(c))

@@ -7,7 +7,7 @@ from cfinterface.components.floatfield import FloatField
 from cfinterface.adapters.components.repository import factory
 from copy import deepcopy
 from datetime import datetime
-from typing import Optional, IO, List
+from typing import Any, IO, List, Optional
 
 
 class ModifRegister(Register):
@@ -28,9 +28,9 @@ class ModifRegister(Register):
 
     def __init__(
         self,
-        previous=None,
-        next=None,
-        data=None,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
     ) -> None:
         self.__identifier_field: Field = LiteralField(
             self.__class__.IDENTIFIER_DIGITS, 0
@@ -43,7 +43,9 @@ class ModifRegister(Register):
             self.__data = data
         super().__init__(previous, next, data)
 
-    def read(self, file: IO, storage: str = "", *args, **kwargs) -> bool:
+    def read(
+        self, file: IO[Any], storage: str = "", *args: Any, **kwargs: Any
+    ) -> bool:
         delimited_fields = [deepcopy(f) for f in self.__class__.LINE.fields]
         line = Line(
             [self.__identifier_field] + delimited_fields,
@@ -56,7 +58,9 @@ class ModifRegister(Register):
         self.data = line.read(line_simple_spaces)[1:]
         return True
 
-    def write(self, file: IO, storage: str = "", *args, **kwargs) -> bool:
+    def write(
+        self, file: IO[Any], storage: str = "", *args: Any, **kwargs: Any
+    ) -> bool:
         if not self.empty:
             line = Line(
                 [self.__identifier_field] + self.__class__.LINE.fields,
@@ -90,7 +94,7 @@ class USINA(Register):
         return self.data[0]
 
     @codigo.setter
-    def codigo(self, t: int):
+    def codigo(self, t: int) -> None:
         self.data[0] = t
 
     @property
@@ -104,7 +108,7 @@ class USINA(Register):
         return self.data[1]
 
     @nome.setter
-    def nome(self, t: str):
+    def nome(self, t: str) -> None:
         self.data[1] = t
 
 
@@ -131,7 +135,7 @@ class VOLMIN(ModifRegister):
         return self.data[0]
 
     @volume.setter
-    def volume(self, t: float):
+    def volume(self, t: float) -> None:
         self.data[0] = t
 
     @property
@@ -145,7 +149,7 @@ class VOLMIN(ModifRegister):
         return self.data[1]
 
     @unidade.setter
-    def unidade(self, t: str):
+    def unidade(self, t: str) -> None:
         self.data[1] = t
 
 
@@ -172,7 +176,7 @@ class VOLMAX(ModifRegister):
         return self.data[0]
 
     @volume.setter
-    def volume(self, t: float):
+    def volume(self, t: float) -> None:
         self.data[0] = t
 
     @property
@@ -186,7 +190,7 @@ class VOLMAX(ModifRegister):
         return self.data[1]
 
     @unidade.setter
-    def unidade(self, t: str):
+    def unidade(self, t: str) -> None:
         self.data[1] = t
 
 
@@ -213,7 +217,7 @@ class NUMCNJ(ModifRegister):
         return self.data[0]
 
     @numero.setter
-    def numero(self, t: int):
+    def numero(self, t: int) -> None:
         self.data[0] = t
 
 
@@ -240,7 +244,7 @@ class NUMMAQ(ModifRegister):
         return self.data[0]
 
     @conjunto.setter
-    def conjunto(self, t: int):
+    def conjunto(self, t: int) -> None:
         self.data[0] = t
 
     @property
@@ -254,7 +258,7 @@ class NUMMAQ(ModifRegister):
         return self.data[1]
 
     @numero_maquinas.setter
-    def numero_maquinas(self, t: int):
+    def numero_maquinas(self, t: int) -> None:
         self.data[1] = t
 
 
@@ -280,7 +284,7 @@ class VAZMIN(ModifRegister):
         return self.data[0]
 
     @vazao.setter
-    def vazao(self, t: int):
+    def vazao(self, t: int) -> None:
         self.data[0] = t
 
 
@@ -308,7 +312,7 @@ class CFUGA(ModifRegister):
         return datetime(self.data[1], self.data[0], 1)
 
     @data_inicio.setter
-    def data_inicio(self, t: datetime):
+    def data_inicio(self, t: datetime) -> None:
         self.data[0] = t.month
         self.data[1] = t.year
 
@@ -323,7 +327,7 @@ class CFUGA(ModifRegister):
         return self.data[2]
 
     @nivel.setter
-    def nivel(self, t: float):
+    def nivel(self, t: float) -> None:
         self.data[2] = t
 
 
@@ -351,7 +355,7 @@ class CMONT(ModifRegister):
         return datetime(self.data[1], self.data[0], 1)
 
     @data_inicio.setter
-    def data_inicio(self, t: datetime):
+    def data_inicio(self, t: datetime) -> None:
         self.data[0] = t.month
         self.data[1] = t.year
 
@@ -366,7 +370,7 @@ class CMONT(ModifRegister):
         return self.data[2]
 
     @nivel.setter
-    def nivel(self, t: float):
+    def nivel(self, t: float) -> None:
         self.data[2] = t
 
 
@@ -400,7 +404,7 @@ class VMAXT(Register):
         return datetime(self.data[1], self.data[0], 1)
 
     @data_inicio.setter
-    def data_inicio(self, t: datetime):
+    def data_inicio(self, t: datetime) -> None:
         self.data[0] = t.month
         self.data[1] = t.year
 
@@ -415,7 +419,7 @@ class VMAXT(Register):
         return self.data[2]
 
     @volume.setter
-    def volume(self, t: float):
+    def volume(self, t: float) -> None:
         self.data[2] = t
 
     @property
@@ -429,7 +433,7 @@ class VMAXT(Register):
         return self.data[3]
 
     @unidade.setter
-    def unidade(self, t: str):
+    def unidade(self, t: str) -> None:
         self.data[3] = t
 
 
@@ -463,7 +467,7 @@ class VMINT(Register):
         return datetime(self.data[1], self.data[0], 1)
 
     @data_inicio.setter
-    def data_inicio(self, t: datetime):
+    def data_inicio(self, t: datetime) -> None:
         self.data[0] = t.month
         self.data[1] = t.year
 
@@ -478,7 +482,7 @@ class VMINT(Register):
         return self.data[2]
 
     @volume.setter
-    def volume(self, t: float):
+    def volume(self, t: float) -> None:
         self.data[2] = t
 
     @property
@@ -492,7 +496,7 @@ class VMINT(Register):
         return self.data[3]
 
     @unidade.setter
-    def unidade(self, t: str):
+    def unidade(self, t: str) -> None:
         self.data[3] = t
 
 
@@ -526,7 +530,7 @@ class VMINP(Register):
         return datetime(self.data[1], self.data[0], 1)
 
     @data_inicio.setter
-    def data_inicio(self, t: datetime):
+    def data_inicio(self, t: datetime) -> None:
         self.data[0] = t.month
         self.data[1] = t.year
 
@@ -541,7 +545,7 @@ class VMINP(Register):
         return self.data[2]
 
     @volume.setter
-    def volume(self, t: float):
+    def volume(self, t: float) -> None:
         self.data[2] = t
 
     @property
@@ -555,7 +559,7 @@ class VMINP(Register):
         return self.data[3]
 
     @unidade.setter
-    def unidade(self, t: str):
+    def unidade(self, t: str) -> None:
         self.data[3] = t
 
 
@@ -588,7 +592,7 @@ class VAZMINT(Register):
         return datetime(self.data[1], self.data[0], 1)
 
     @data_inicio.setter
-    def data_inicio(self, t: datetime):
+    def data_inicio(self, t: datetime) -> None:
         self.data[0] = t.month
         self.data[1] = t.year
 
@@ -603,7 +607,7 @@ class VAZMINT(Register):
         return self.data[2]
 
     @vazao.setter
-    def vazao(self, t: float):
+    def vazao(self, t: float) -> None:
         self.data[2] = t
 
 
@@ -636,7 +640,7 @@ class VAZMAXT(Register):
         return datetime(self.data[1], self.data[0], 1)
 
     @data_inicio.setter
-    def data_inicio(self, t: datetime):
+    def data_inicio(self, t: datetime) -> None:
         self.data[0] = t.month
         self.data[1] = t.year
 
@@ -651,7 +655,7 @@ class VAZMAXT(Register):
         return self.data[2]
 
     @vazao.setter
-    def vazao(self, t: float):
+    def vazao(self, t: float) -> None:
         self.data[2] = t
 
 
@@ -684,7 +688,7 @@ class TURBMAXT(Register):
         return datetime(self.data[1], self.data[0], 1)
 
     @data_inicio.setter
-    def data_inicio(self, t: datetime):
+    def data_inicio(self, t: datetime) -> None:
         self.data[0] = t.month
         self.data[1] = t.year
 
@@ -699,7 +703,7 @@ class TURBMAXT(Register):
         return self.data[2]
 
     @turbinamento.setter
-    def turbinamento(self, t: float):
+    def turbinamento(self, t: float) -> None:
         self.data[2] = t
 
 
@@ -732,7 +736,7 @@ class TURBMINT(Register):
         return datetime(self.data[1], self.data[0], 1)
 
     @data_inicio.setter
-    def data_inicio(self, t: datetime):
+    def data_inicio(self, t: datetime) -> None:
         self.data[0] = t.month
         self.data[1] = t.year
 
@@ -747,5 +751,5 @@ class TURBMINT(Register):
         return self.data[2]
 
     @turbinamento.setter
-    def turbinamento(self, t: float):
+    def turbinamento(self, t: float) -> None:
         self.data[2] = t

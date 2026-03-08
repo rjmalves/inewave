@@ -1,8 +1,8 @@
-from typing import Type, TypeVar, Optional, List, Union
+from typing import Type, TypeVar, Optional, List, Union, Any
 from cfinterface.components.register import Register
 from cfinterface.files.registerfile import RegisterFile
 from datetime import datetime
-import pandas as pd  # type: ignore
+import pandas as pd  # type: ignore[import-untyped]  # no pandas-stubs package
 from inewave.libs.modelos.usinas_hidreletricas import (
     HidreletricaCurvaJusante,
     HidreletricaCurvaJusantePolinomioPorPartes,
@@ -43,7 +43,7 @@ class UsinasHidreletricas(RegisterFile):
     ]
 
     def __registros_ou_df(
-        self, t: Type[T], **kwargs
+        self, t: Type[T], **kwargs: Any
     ) -> Optional[Union[T, List[T], pd.DataFrame]]:
         if kwargs.get("df"):
             return self._as_df(t)

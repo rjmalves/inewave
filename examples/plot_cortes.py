@@ -11,9 +11,6 @@ Análise dos cortes de Benders e política operativa
 # do sistema hidrotérmico, representando o valor futuro da água em função
 # do estado do sistema.
 
-import numpy as np
-import pandas as pd
-import plotly.express as px
 import plotly.io as pio
 
 from inewave.newave import Cortes
@@ -34,9 +31,9 @@ indice_ultimo_corte = 1
 numero_total_cortes = 1
 codigos_rees = [1, 6, 7, 5, 10, 12, 2, 11, 3, 4, 8, 9]
 codigos_uhes = list(range(154))
-codigos_submercados = [1, 2, 3, 4] 
-ordem_maxima_parp = 12 
-lag_maximo_gnl = 2 
+codigos_submercados = [1, 2, 3, 4]
+ordem_maxima_parp = 12
+lag_maximo_gnl = 2
 
 print("Configuração da leitura dos cortes:")
 print(f"- Tamanho do registro: {tamanho_registro} bytes")
@@ -94,25 +91,19 @@ if len(colunas_pi) > 0:
     # Analisando coeficientes de EARM (valor da água armazenada)
     colunas_earm = [col for col in colunas_pi if "earm" in col.lower()]
     if len(colunas_earm) > 0:
-        print(
-            f"\nAnálise dos coeficientes de EARM ({len(colunas_earm)} REEs):"
-        )
+        print(f"\nAnálise dos coeficientes de EARM ({len(colunas_earm)} REEs):")
 
         for col in colunas_earm[:5]:  # Primeiros 5 para não sobrecarregar
             ree_num = col.split("_")[-1] if "_" in col else "N/A"
             valores = cortes[col]
             print(f"- {col} (REE {ree_num}):")
-            print(
-                f"  Média: {valores.mean():.4f}"
-            )
+            print(f"  Média: {valores.mean():.4f}")
             print(f"  Min: {valores.min():.4f}, Max: {valores.max():.4f}")
 
     # Analisando coeficientes de ENA (valor da energia afluente)
     colunas_ena = [col for col in colunas_pi if "ena" in col.lower()]
     if len(colunas_ena) > 0:
-        print(
-            f"\nAnálise dos coeficientes de ENA ({len(colunas_ena)} termos):"
-        )
+        print(f"\nAnálise dos coeficientes de ENA ({len(colunas_ena)} termos):")
 
         # Agrupando por lag
         ena_por_lag = {}
@@ -127,6 +118,4 @@ if len(colunas_pi) > 0:
             valores_lag = cortes[cols].mean(
                 axis=1
             )  # Média entre REEs para cada corte
-            print(
-                f"- Lag {lag}: Média: {valores_lag.mean():.6f}"
-            )
+            print(f"- Lag {lag}: Média: {valores_lag.mean():.6f}")

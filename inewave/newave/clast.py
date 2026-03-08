@@ -5,7 +5,7 @@ from inewave.newave.modelos.clast import (
 
 from cfinterface.files.sectionfile import SectionFile
 from typing import TypeVar, Optional
-import pandas as pd  # type: ignore
+import pandas as pd  # type: ignore[import-untyped]  # no pandas-stubs package
 
 
 class Clast(SectionFile):
@@ -39,7 +39,7 @@ class Clast(SectionFile):
         return None
 
     @usinas.setter
-    def usinas(self, valor: pd.DataFrame):
+    def usinas(self, valor: pd.DataFrame) -> None:
         b = self.data.get_sections_of_type(BlocoUTEClasT)
         if isinstance(b, BlocoUTEClasT):
             b.data = valor
@@ -67,7 +67,7 @@ class Clast(SectionFile):
         return None
 
     @modificacoes.setter
-    def modificacoes(self, valor: pd.DataFrame):
+    def modificacoes(self, valor: pd.DataFrame) -> None:
         b = self.data.get_sections_of_type(BlocoModificacaoUTEClasT)
         if isinstance(b, BlocoModificacaoUTEClasT):
             b.data = valor

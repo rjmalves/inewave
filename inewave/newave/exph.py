@@ -3,7 +3,7 @@ from inewave.newave.modelos.exph import BlocoUHEExph
 from cfinterface.files.sectionfile import SectionFile
 from cfinterface.components.section import Section
 from typing import TypeVar, List, Type, Optional
-import pandas as pd  # type: ignore
+import pandas as pd  # type: ignore[import-untyped]  # no pandas-stubs package
 
 
 class Exph(SectionFile):
@@ -41,7 +41,7 @@ class Exph(SectionFile):
         return None
 
     @expansoes.setter
-    def expansoes(self, d: pd.DataFrame):
+    def expansoes(self, d: pd.DataFrame) -> None:
         b = self.data.get_sections_of_type(BlocoUHEExph)
         if isinstance(b, BlocoUHEExph):
             b.data = d

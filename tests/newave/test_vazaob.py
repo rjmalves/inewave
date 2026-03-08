@@ -70,3 +70,6 @@ def test_eq_vazao():
         numero_estagios=NUM_ESTAGIOS,
     )
     assert h1 == h2
+
+
+# NOTE: Binary file with parametrized read, round-trip requires external dimensions

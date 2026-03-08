@@ -20,7 +20,7 @@ def test_atributos_nao_encontrados_forwarh():
     m: MagicMock = mock_open(read_data=b"")
     with pytest.raises(ValueError):
         with patch("builtins.open", m):
-            h = Forwarh.read(ARQ_TESTE)
+            h = Forwarh.read(ARQ_TESTE)  # noqa: F841
 
 
 def test_eq_forwarh():
@@ -60,3 +60,6 @@ def test_atributos_forwarh():
     assert h1.numero_anos_historico_vazoes == 89
     assert h1.numero_patamares_carga == 3
     assert h1.simulacao_final_individualizada == 1
+
+
+# NOTE: Binary file with parametrized read, round-trip requires external dimensions

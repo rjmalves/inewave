@@ -2,7 +2,7 @@ from cfinterface.components.block import Block
 from cfinterface.components.line import Line
 from cfinterface.components.literalfield import LiteralField
 
-from typing import IO
+from typing import IO, Any, Optional
 
 
 class Usina(Block):
@@ -15,7 +15,12 @@ class Usina(Block):
     BEGIN_PATTERN = r"USINA:"
     END_PATTERN = ""
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([LiteralField(12, 65)])
 
@@ -34,5 +39,5 @@ class Usina(Block):
             return self.data == bloco.data
 
     # Override
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         self.data = self.__linha.read(file.readline())[0]

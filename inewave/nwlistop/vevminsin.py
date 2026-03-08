@@ -4,6 +4,7 @@ from inewave.nwlistop.modelos.arquivos.arquivosin import (
 from inewave.nwlistop.modelos.vevminsin import VevminAnos
 
 from warnings import warn
+from typing import Any
 
 
 class Vevminsin(ArquivoSIN):
@@ -20,7 +21,7 @@ class Vevminsin(ArquivoSIN):
         VevminAnos,
     ]
 
-    def __init__(self, data=...) -> None:
+    def __init__(self, data: Any = ...) -> None:
         warn(
             "Esta classe é relativa a um arquivo que não é mais suportado."
             + " Utilize a classe ViolEvminsin no lugar.",

@@ -334,16 +334,18 @@ if consistencia["completude_pct"] < 95:
 # Resumo estatístico por UHE
 resumo_uhe = (
     series.groupby("uhe")["valor"]
-    .agg([
-        "count",
-        "mean",
-        "std",
-        "min",
-        "max",
-        lambda x: x.quantile(0.1),  # P10
-        lambda x: x.quantile(0.5),  # P50
-        lambda x: x.quantile(0.9),  # P90
-    ])
+    .agg(
+        [
+            "count",
+            "mean",
+            "std",
+            "min",
+            "max",
+            lambda x: x.quantile(0.1),  # P10
+            lambda x: x.quantile(0.5),  # P50
+            lambda x: x.quantile(0.9),  # P90
+        ]
+    )
     .round(2)
 )
 resumo_uhe.columns = [

@@ -56,9 +56,7 @@ def test_neq_vazpast():
 
 
 def test_leitura_escrita_vazpast():
-    m_leitura: MagicMock = mock_open(
-        read_data="".join(MockBlocoVazoesPassadas)
-    )
+    m_leitura: MagicMock = mock_open(read_data="".join(MockBlocoVazoesPassadas))
     with patch("builtins.open", m_leitura):
         cf1 = Vazpast.read(ARQ_TESTE)
     m_escrita: MagicMock = mock_open(read_data="")

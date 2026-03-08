@@ -1,4 +1,5 @@
 from cfinterface.files.sectionfile import SectionFile
+from cfinterface.storage import StorageType
 from inewave.newave.modelos.forwarh import SecaoDadosForwarh
 
 
@@ -14,7 +15,7 @@ class Forwarh(SectionFile):
     T = TypeVar("T")
 
     SECTIONS = [SecaoDadosForwarh]
-    STORAGE = "BINARY"
+    STORAGE = StorageType.BINARY
 
     def __bloco_dados(self) -> Optional[SecaoDadosForwarh]:
         dados = [r for r in self.data.of_type(SecaoDadosForwarh)]
@@ -300,9 +301,7 @@ class Forwarh(SectionFile):
         :rtype: int | None
         """
         dados = self.__bloco_dados()
-        return (
-            dados.numero_anos_historico_vazoes if dados is not None else None
-        )
+        return dados.numero_anos_historico_vazoes if dados is not None else None
 
     @property
     def numero_total_submercados(self) -> Optional[int]:
@@ -326,7 +325,5 @@ class Forwarh(SectionFile):
         """
         dados = self.__bloco_dados()
         return (
-            dados.simulacao_final_individualizada
-            if dados is not None
-            else None
+            dados.simulacao_final_individualizada if dados is not None else None
         )

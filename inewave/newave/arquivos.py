@@ -3,7 +3,7 @@ from inewave.newave.modelos.arquivos import BlocoNomesArquivos
 from cfinterface.files.sectionfile import SectionFile
 
 from typing import List, TypeVar, Optional
-import pandas as pd  # type: ignore
+import pandas as pd  # type: ignore[import-untyped]  # no pandas-stubs package
 
 
 class Arquivos(SectionFile):
@@ -30,7 +30,7 @@ class Arquivos(SectionFile):
                     return dado
         return None
 
-    def __atualiza_nome_por_indice(self, indice: int, nome: str):
+    def __atualiza_nome_por_indice(self, indice: int, nome: str) -> None:
         b = self.data.get_sections_of_type(BlocoNomesArquivos)
         if isinstance(b, BlocoNomesArquivos):
             dif = indice - b.data.shape[0] + 1
@@ -71,7 +71,7 @@ class Arquivos(SectionFile):
         return self.__le_nome_por_indice(0)
 
     @dger.setter
-    def dger(self, arq: str):
+    def dger(self, arq: str) -> None:
         self.__atualiza_nome_por_indice(0, arq)
 
     @property
@@ -82,7 +82,7 @@ class Arquivos(SectionFile):
         return self.__le_nome_por_indice(1)
 
     @sistema.setter
-    def sistema(self, arq: str):
+    def sistema(self, arq: str) -> None:
         self.__atualiza_nome_por_indice(1, arq)
 
     @property
@@ -93,7 +93,7 @@ class Arquivos(SectionFile):
         return self.__le_nome_por_indice(2)
 
     @confhd.setter
-    def confhd(self, arq: str):
+    def confhd(self, arq: str) -> None:
         self.__atualiza_nome_por_indice(2, arq)
 
     @property
@@ -104,7 +104,7 @@ class Arquivos(SectionFile):
         return self.__le_nome_por_indice(3)
 
     @modif.setter
-    def modif(self, arq: str):
+    def modif(self, arq: str) -> None:
         self.__atualiza_nome_por_indice(3, arq)
 
     @property
@@ -115,7 +115,7 @@ class Arquivos(SectionFile):
         return self.__le_nome_por_indice(4)
 
     @conft.setter
-    def conft(self, arq: str):
+    def conft(self, arq: str) -> None:
         self.__atualiza_nome_por_indice(4, arq)
 
     @property
@@ -126,7 +126,7 @@ class Arquivos(SectionFile):
         return self.__le_nome_por_indice(5)
 
     @term.setter
-    def term(self, arq: str):
+    def term(self, arq: str) -> None:
         self.__atualiza_nome_por_indice(5, arq)
 
     @property
@@ -137,7 +137,7 @@ class Arquivos(SectionFile):
         return self.__le_nome_por_indice(6)
 
     @clast.setter
-    def clast(self, arq: str):
+    def clast(self, arq: str) -> None:
         self.__atualiza_nome_por_indice(6, arq)
 
     @property
@@ -148,7 +148,7 @@ class Arquivos(SectionFile):
         return self.__le_nome_por_indice(7)
 
     @exph.setter
-    def exph(self, arq: str):
+    def exph(self, arq: str) -> None:
         self.__atualiza_nome_por_indice(7, arq)
 
     @property
@@ -159,7 +159,7 @@ class Arquivos(SectionFile):
         return self.__le_nome_por_indice(8)
 
     @expt.setter
-    def expt(self, arq: str):
+    def expt(self, arq: str) -> None:
         self.__atualiza_nome_por_indice(8, arq)
 
     @property
@@ -170,7 +170,7 @@ class Arquivos(SectionFile):
         return self.__le_nome_por_indice(9)
 
     @patamar.setter
-    def patamar(self, arq: str):
+    def patamar(self, arq: str) -> None:
         self.__atualiza_nome_por_indice(9, arq)
 
     @property
@@ -181,7 +181,7 @@ class Arquivos(SectionFile):
         return self.__le_nome_por_indice(10)
 
     @cortes.setter
-    def cortes(self, arq: str):
+    def cortes(self, arq: str) -> None:
         self.__atualiza_nome_por_indice(10, arq)
 
     @property
@@ -192,7 +192,7 @@ class Arquivos(SectionFile):
         return self.__le_nome_por_indice(11)
 
     @cortesh.setter
-    def cortesh(self, arq: str):
+    def cortesh(self, arq: str) -> None:
         self.__atualiza_nome_por_indice(11, arq)
 
     @property
@@ -203,7 +203,7 @@ class Arquivos(SectionFile):
         return self.__le_nome_por_indice(12)
 
     @pmo.setter
-    def pmo(self, arq: str):
+    def pmo(self, arq: str) -> None:
         self.__atualiza_nome_por_indice(12, arq)
 
     @property
@@ -214,7 +214,7 @@ class Arquivos(SectionFile):
         return self.__le_nome_por_indice(13)
 
     @parp.setter
-    def parp(self, arq: str):
+    def parp(self, arq: str) -> None:
         self.__atualiza_nome_por_indice(13, arq)
 
     @property
@@ -225,7 +225,7 @@ class Arquivos(SectionFile):
         return self.__le_nome_por_indice(14)
 
     @forward.setter
-    def forward(self, arq: str):
+    def forward(self, arq: str) -> None:
         self.__atualiza_nome_por_indice(14, arq)
 
     @property
@@ -236,7 +236,7 @@ class Arquivos(SectionFile):
         return self.__le_nome_por_indice(15)
 
     @forwardh.setter
-    def forwardh(self, arq: str):
+    def forwardh(self, arq: str) -> None:
         self.__atualiza_nome_por_indice(15, arq)
 
     @property
@@ -247,7 +247,7 @@ class Arquivos(SectionFile):
         return self.__le_nome_por_indice(16)
 
     @shist.setter
-    def shist(self, arq: str):
+    def shist(self, arq: str) -> None:
         self.__atualiza_nome_por_indice(16, arq)
 
     @property
@@ -259,7 +259,7 @@ class Arquivos(SectionFile):
         return self.__le_nome_por_indice(17)
 
     @manutt.setter
-    def manutt(self, arq: str):
+    def manutt(self, arq: str) -> None:
         self.__atualiza_nome_por_indice(17, arq)
 
     @property
@@ -270,7 +270,7 @@ class Arquivos(SectionFile):
         return self.__le_nome_por_indice(18)
 
     @newdesp.setter
-    def newdesp(self, arq: str):
+    def newdesp(self, arq: str) -> None:
         self.__atualiza_nome_por_indice(18, arq)
 
     @property
@@ -281,7 +281,7 @@ class Arquivos(SectionFile):
         return self.__le_nome_por_indice(19)
 
     @vazpast.setter
-    def vazpast(self, arq: str):
+    def vazpast(self, arq: str) -> None:
         self.__atualiza_nome_por_indice(19, arq)
 
     @property
@@ -292,7 +292,7 @@ class Arquivos(SectionFile):
         return self.__le_nome_por_indice(20)
 
     @itaipu.setter
-    def itaipu(self, arq: str):
+    def itaipu(self, arq: str) -> None:
         self.__atualiza_nome_por_indice(20, arq)
 
     @property
@@ -303,7 +303,7 @@ class Arquivos(SectionFile):
         return self.__le_nome_por_indice(21)
 
     @bid.setter
-    def bid(self, arq: str):
+    def bid(self, arq: str) -> None:
         self.__atualiza_nome_por_indice(21, arq)
 
     @property
@@ -314,7 +314,7 @@ class Arquivos(SectionFile):
         return self.__le_nome_por_indice(22)
 
     @c_adic.setter
-    def c_adic(self, arq: str):
+    def c_adic(self, arq: str) -> None:
         self.__atualiza_nome_por_indice(22, arq)
 
     @property
@@ -325,7 +325,7 @@ class Arquivos(SectionFile):
         return self.__le_nome_por_indice(23)
 
     @perda.setter
-    def perda(self, arq: str):
+    def perda(self, arq: str) -> None:
         self.__atualiza_nome_por_indice(23, arq)
 
     @property
@@ -337,7 +337,7 @@ class Arquivos(SectionFile):
         return self.__le_nome_por_indice(24)
 
     @gtminpat.setter
-    def gtminpat(self, arq: str):
+    def gtminpat(self, arq: str) -> None:
         self.__atualiza_nome_por_indice(24, arq)
 
     @property
@@ -348,7 +348,7 @@ class Arquivos(SectionFile):
         return self.__le_nome_por_indice(25)
 
     @elnino.setter
-    def elnino(self, arq: str):
+    def elnino(self, arq: str) -> None:
         self.__atualiza_nome_por_indice(25, arq)
 
     @property
@@ -359,7 +359,7 @@ class Arquivos(SectionFile):
         return self.__le_nome_por_indice(26)
 
     @ensoaux.setter
-    def ensoaux(self, arq: str):
+    def ensoaux(self, arq: str) -> None:
         self.__atualiza_nome_por_indice(26, arq)
 
     @property
@@ -370,7 +370,7 @@ class Arquivos(SectionFile):
         return self.__le_nome_por_indice(27)
 
     @dsvagua.setter
-    def dsvagua(self, arq: str):
+    def dsvagua(self, arq: str) -> None:
         self.__atualiza_nome_por_indice(27, arq)
 
     @property
@@ -381,7 +381,7 @@ class Arquivos(SectionFile):
         return self.__le_nome_por_indice(28)
 
     @penalid.setter
-    def penalid(self, arq: str):
+    def penalid(self, arq: str) -> None:
         self.__atualiza_nome_por_indice(28, arq)
 
     @property
@@ -393,7 +393,7 @@ class Arquivos(SectionFile):
         return self.__le_nome_por_indice(29)
 
     @curva.setter
-    def curva(self, arq: str):
+    def curva(self, arq: str) -> None:
         self.__atualiza_nome_por_indice(29, arq)
 
     @property
@@ -405,7 +405,7 @@ class Arquivos(SectionFile):
         return self.__le_nome_por_indice(30)
 
     @agrint.setter
-    def agrint(self, arq: str):
+    def agrint(self, arq: str) -> None:
         self.__atualiza_nome_por_indice(30, arq)
 
     @property
@@ -417,7 +417,7 @@ class Arquivos(SectionFile):
         return self.__le_nome_por_indice(31)
 
     @adterm.setter
-    def adterm(self, arq: str):
+    def adterm(self, arq: str) -> None:
         self.__atualiza_nome_por_indice(31, arq)
 
     @property
@@ -428,7 +428,7 @@ class Arquivos(SectionFile):
         return self.__le_nome_por_indice(32)
 
     @ghmin.setter
-    def ghmin(self, arq: str):
+    def ghmin(self, arq: str) -> None:
         self.__atualiza_nome_por_indice(32, arq)
 
     @property
@@ -439,7 +439,7 @@ class Arquivos(SectionFile):
         return self.__le_nome_por_indice(33)
 
     @sar.setter
-    def sar(self, arq: str):
+    def sar(self, arq: str) -> None:
         self.__atualiza_nome_por_indice(33, arq)
 
     @property
@@ -450,7 +450,7 @@ class Arquivos(SectionFile):
         return self.__le_nome_por_indice(34)
 
     @cvar.setter
-    def cvar(self, arq: str):
+    def cvar(self, arq: str) -> None:
         self.__atualiza_nome_por_indice(34, arq)
 
     @property
@@ -461,7 +461,7 @@ class Arquivos(SectionFile):
         return self.__le_nome_por_indice(35)
 
     @ree.setter
-    def ree(self, arq: str):
+    def ree(self, arq: str) -> None:
         self.__atualiza_nome_por_indice(35, arq)
 
     @property
@@ -472,7 +472,7 @@ class Arquivos(SectionFile):
         return self.__le_nome_por_indice(36)
 
     @re.setter
-    def re(self, arq: str):
+    def re(self, arq: str) -> None:
         self.__atualiza_nome_por_indice(36, arq)
 
     @property
@@ -483,7 +483,7 @@ class Arquivos(SectionFile):
         return self.__le_nome_por_indice(37)
 
     @tecno.setter
-    def tecno(self, arq: str):
+    def tecno(self, arq: str) -> None:
         self.__atualiza_nome_por_indice(37, arq)
 
     @property
@@ -494,7 +494,7 @@ class Arquivos(SectionFile):
         return self.__le_nome_por_indice(38)
 
     @abertura.setter
-    def abertura(self, arq: str):
+    def abertura(self, arq: str) -> None:
         self.__atualiza_nome_por_indice(38, arq)
 
     @property
@@ -505,7 +505,7 @@ class Arquivos(SectionFile):
         return self.__le_nome_por_indice(39)
 
     @gee.setter
-    def gee(self, arq: str):
+    def gee(self, arq: str) -> None:
         self.__atualiza_nome_por_indice(39, arq)
 
     @property
@@ -516,7 +516,7 @@ class Arquivos(SectionFile):
         return self.__le_nome_por_indice(40)
 
     @clasgas.setter
-    def clasgas(self, arq: str):
+    def clasgas(self, arq: str) -> None:
         self.__atualiza_nome_por_indice(40, arq)
 
     @property
@@ -528,7 +528,7 @@ class Arquivos(SectionFile):
         return self.__le_nome_por_indice(41)
 
     @dados_simulacao_final.setter
-    def dados_simulacao_final(self, arq: str):
+    def dados_simulacao_final(self, arq: str) -> None:
         self.__atualiza_nome_por_indice(41, arq)
 
     @property
@@ -540,7 +540,7 @@ class Arquivos(SectionFile):
         return self.__le_nome_por_indice(42)
 
     @cortes_pos_estudo.setter
-    def cortes_pos_estudo(self, arq: str):
+    def cortes_pos_estudo(self, arq: str) -> None:
         self.__atualiza_nome_por_indice(42, arq)
 
     @property
@@ -552,7 +552,7 @@ class Arquivos(SectionFile):
         return self.__le_nome_por_indice(43)
 
     @cortesh_pos_estudo.setter
-    def cortesh_pos_estudo(self, arq: str):
+    def cortesh_pos_estudo(self, arq: str) -> None:
         self.__atualiza_nome_por_indice(43, arq)
 
     @property
@@ -563,7 +563,7 @@ class Arquivos(SectionFile):
         return self.__le_nome_por_indice(44)
 
     @volume_referencia_sazonal.setter
-    def volume_referencia_sazonal(self, arq: str):
+    def volume_referencia_sazonal(self, arq: str) -> None:
         self.__atualiza_nome_por_indice(44, arq)
 
     @property
@@ -574,5 +574,5 @@ class Arquivos(SectionFile):
         return self.__le_nome_por_indice(45)
 
     @eliminacao_cortes.setter
-    def eliminacao_cortes(self, arq: str):
+    def eliminacao_cortes(self, arq: str) -> None:
         self.__atualiza_nome_por_indice(45, arq)

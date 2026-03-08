@@ -3,8 +3,8 @@ from cfinterface.components.line import Line
 from cfinterface.components.integerfield import IntegerField
 from cfinterface.components.floatfield import FloatField
 from cfinterface.components.literalfield import LiteralField
-from typing import List, IO, Optional
-import pandas as pd  # type: ignore
+from typing import Any, IO, List, Optional
+import pandas as pd  # type: ignore[import-untyped]  # no pandas-stubs package
 
 from inewave._utils.formatacao import (
     prepara_valor_ano,
@@ -21,7 +21,12 @@ class BlocoUHEGhmin(Section):
 
     FIM_BLOCO = "999"
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         self.__linha_uhe = Line(
             [
@@ -49,11 +54,11 @@ class BlocoUHEGhmin(Section):
             return self.data.equals(bloco.data)
 
     # Override
-    def read(self, file: IO, *args, **kwargs):
-        def converte_tabela_em_df():
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
+        def converte_tabela_em_df() -> pd.DataFrame:
             df = pd.DataFrame()
             df["codigo_usina"] = codigos
-            df["data"] = prepara_vetor_ano_mes_tabela(anos, meses)
+            df["data"] = prepara_vetor_ano_mes_tabela(anos, meses)  # type: ignore[arg-type]  # numpy array passed where List[str] expected
             df["patamar"] = patamares
             df["geracao"] = geracoes
             return df
@@ -84,17 +89,21 @@ class BlocoUHEGhmin(Section):
             geracoes.append(dados[4])
 
     # Override
-    def write(self, file: IO, *args, **kwargs):
+    def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         for linha in self.__cabecalhos:
             file.write(linha)
         if not isinstance(self.data, pd.DataFrame):
             raise ValueError("Dados do ghmin.dat não foram lidos com sucesso")
         df_aux = self.data.copy()
-        df_aux['ano'] = df_aux['data'].apply(lambda x: prepara_valor_ano(x.year))
-        df_aux['mes'] = df_aux['data'].apply(lambda x: f"{x.month:2d}")
+        df_aux["ano"] = df_aux["data"].apply(
+            lambda x: prepara_valor_ano(x.year)
+        )
+        df_aux["mes"] = df_aux["data"].apply(lambda x: f"{x.month:2d}")
         df_aux.drop("data", inplace=True, axis=1)
 
-        for _, linha in df_aux[['codigo_usina','mes','ano','patamar','geracao']].iterrows():
+        for _, linha in df_aux[
+            ["codigo_usina", "mes", "ano", "patamar", "geracao"]
+        ].iterrows():
             linha_lida: pd.Series = linha
             dados_linha = linha_lida.tolist()
             file.write(self.__linha_uhe.write(dados_linha))

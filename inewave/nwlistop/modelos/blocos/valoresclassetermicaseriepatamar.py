@@ -1,7 +1,7 @@
-from typing import IO, List
+from typing import IO, Any, List, Optional
 
-import numpy as np  # type: ignore
-import pandas as pd  # type: ignore
+import numpy as np
+import pandas as pd  # type: ignore[import-untyped]  # no pandas-stubs package
 from cfinterface.components.block import Block
 from cfinterface.components.line import Line
 
@@ -33,7 +33,12 @@ class ValoresClasseTermicaSeriePatamar(Block):
     HEADER_LINE = Line([])
     DATA_LINE = Line([])
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         self.__linha_ano = self.__class__.HEADER_LINE
         self.__linha = self.__class__.DATA_LINE
@@ -42,27 +47,31 @@ class ValoresClasseTermicaSeriePatamar(Block):
         if not isinstance(o, ValoresClasseTermicaSeriePatamar):
             return False
         bloco: ValoresClasseTermicaSeriePatamar = o
-        if not all([
-            isinstance(self.data, pd.DataFrame),
-            isinstance(o.data, pd.DataFrame),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
             return False
         else:
-            return self.data.equals(bloco.data)
+            return bool(self.data.equals(bloco.data))
 
     # Override
-    def read(self, file: IO, *args, **kwargs):
-        def converte_tabela_em_df():
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
+        def converte_tabela_em_df() -> pd.DataFrame:
             cols = MESES_DF
             df = pd.DataFrame(tabela, columns=["classe", "serie"] + cols)
             df["ano"] = self.__ano
             df["patamar"] = patamares
             df = df[["ano", "classe", "serie", "patamar"] + cols]
-            df = df.astype({
-                "classe": "int64",
-                "serie": "int64",
-                "ano": "int64",
-            })
+            df = df.astype(
+                {
+                    "classe": "int64",
+                    "serie": "int64",
+                    "ano": "int64",
+                }
+            )
             return formata_df_meses_para_datas_nwlistop(df)
 
         self.__ano = self.__linha_ano.read(file.readline())[0]
@@ -71,17 +80,19 @@ class ValoresClasseTermicaSeriePatamar(Block):
         # Variáveis auxiliares
         self.__classe_atual = 0
         self.__serie_atual = 0
-        tabela = np.zeros((
-            MAX_PATAMARES * MAX_SERIES_SINTETICAS * MAX_UTES,
-            len(MESES_DF) + 2,
-        ))
+        tabela = np.zeros(
+            (
+                MAX_PATAMARES * MAX_SERIES_SINTETICAS * MAX_UTES,
+                len(MESES_DF) + 2,
+            )
+        )
         patamares: List[str] = []
         i = 0
         intervalo_classes = False
         while True:
             linha = file.readline()
             if self.ends(linha) or len(linha) <= 1:
-                tabela = tabela[:i, :]  # type: ignore
+                tabela = tabela[:i, :]
                 self.data = converte_tabela_em_df()
                 break
 

@@ -8,7 +8,7 @@ from inewave.newave.modelos.patamar import (
 
 from cfinterface.files.sectionfile import SectionFile
 from typing import TypeVar, Optional
-import pandas as pd  # type: ignore
+import pandas as pd  # type: ignore[import-untyped]  # no pandas-stubs package
 
 
 class Patamar(SectionFile):
@@ -42,7 +42,7 @@ class Patamar(SectionFile):
         return None
 
     @numero_patamares.setter
-    def numero_patamares(self, n: int):
+    def numero_patamares(self, n: int) -> None:
         b = self.data.get_sections_of_type(BlocoNumeroPatamares)
         if isinstance(b, BlocoNumeroPatamares):
             b.data = n
@@ -66,7 +66,7 @@ class Patamar(SectionFile):
         return None
 
     @duracao_mensal_patamares.setter
-    def duracao_mensal_patamares(self, df: pd.DataFrame):
+    def duracao_mensal_patamares(self, df: pd.DataFrame) -> None:
         b = self.data.get_sections_of_type(BlocoDuracaoPatamar)
         if isinstance(b, BlocoDuracaoPatamar):
             b.data = df
@@ -90,7 +90,7 @@ class Patamar(SectionFile):
         return None
 
     @carga_patamares.setter
-    def carga_patamares(self, df: pd.DataFrame):
+    def carga_patamares(self, df: pd.DataFrame) -> None:
         b = self.data.get_sections_of_type(BlocoCargaPatamar)
         if isinstance(b, BlocoCargaPatamar):
             b.data = df
@@ -115,7 +115,7 @@ class Patamar(SectionFile):
         return None
 
     @intercambio_patamares.setter
-    def intercambio_patamares(self, df: pd.DataFrame):
+    def intercambio_patamares(self, df: pd.DataFrame) -> None:
         b = self.data.get_sections_of_type(BlocoIntercambioPatamarSubsistemas)
         if isinstance(b, BlocoIntercambioPatamarSubsistemas):
             b.data = df
@@ -140,7 +140,7 @@ class Patamar(SectionFile):
         return None
 
     @usinas_nao_simuladas.setter
-    def usinas_nao_simuladas(self, df: pd.DataFrame):
+    def usinas_nao_simuladas(self, df: pd.DataFrame) -> None:
         b = self.data.get_sections_of_type(BlocoUsinasNaoSimuladas)
         if isinstance(b, BlocoUsinasNaoSimuladas):
             b.data = df

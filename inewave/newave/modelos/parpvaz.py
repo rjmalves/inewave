@@ -1,10 +1,10 @@
 # Imports do próprio módulo
 
 from datetime import date
-from typing import IO, List
+from typing import Any, IO, List, Optional
 
-import numpy as np  # type: ignore
-import pandas as pd  # type: ignore
+import numpy as np
+import pandas as pd  # type: ignore[import-untyped]  # no pandas-stubs package
 
 # Imports de módulos externos
 from cfinterface.components.block import Block
@@ -42,7 +42,12 @@ class BlocoSerieVazoesUHE(Block):
     BEGIN_PATTERN = "SERIE  DE VAZOES   DA USINA"
     END_PATTERN = ""
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         self.__campo_uhe = LiteralField(14, 57)
         self.__campo_cfg = IntegerField(5, 88)
@@ -56,20 +61,22 @@ class BlocoSerieVazoesUHE(Block):
         if not isinstance(o, BlocoSerieVazoesUHE):
             return False
         bloco: BlocoSerieVazoesUHE = o
-        if not all([
-            isinstance(self.data, pd.DataFrame),
-            isinstance(o.data, pd.DataFrame),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
             return False
         else:
             return self.data.equals(bloco.data)
 
     # Override
-    def read(self, file: IO, *args, **kwargs):
-        def converte_tabela_em_df():
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
+        def converte_tabela_em_df() -> pd.DataFrame:
             df = pd.DataFrame(
                 data={
-                    "data": prepara_vetor_anos_tabela(anos),
+                    "data": prepara_vetor_anos_tabela(anos),  # type: ignore[arg-type]  # numpy array passed where List[str] expected
                     "valor": tabela.flatten(),
                 }
             )
@@ -94,7 +101,7 @@ class BlocoSerieVazoesUHE(Block):
             linha = file.readline()
             # Confere se acabou
             if len(linha) < 4:
-                tabela = tabela[:i, :]  # type: ignore
+                tabela = tabela[:i, :]
                 self.data = converte_tabela_em_df()
                 break
             # Senão, processa os dados
@@ -118,7 +125,12 @@ class BlocoCorrelVazoesUHE(Block):
     BEGIN_PATTERN = "CORRELOGRAMO DA SERIE DE VAZOES"
     END_PATTERN = ""
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         campo_mes: List[Field] = [LiteralField(3, 1)]
         campo_ano: List[Field] = [LiteralField(4, 5)]
@@ -129,16 +141,18 @@ class BlocoCorrelVazoesUHE(Block):
         if not isinstance(o, BlocoCorrelVazoesUHE):
             return False
         bloco: BlocoCorrelVazoesUHE = o
-        if not all([
-            isinstance(self.data, pd.DataFrame),
-            isinstance(o.data, pd.DataFrame),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
             return False
         else:
             return self.data.equals(bloco.data)
 
     # Override
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         def converte_vetor_anos(anos: List[str]) -> List[int]:
             # Descobre os anos pré e pós estudo
             numero_anos_pre = len([p for p in anos if p == "PRE"]) // 12
@@ -170,7 +184,7 @@ class BlocoCorrelVazoesUHE(Block):
         def converte_vetor_meses(meses: List[str]) -> List[int]:
             return [MESES_ABREV.index(m) + 1 for m in meses]
 
-        def converte_tabela_em_df():
+        def converte_tabela_em_df() -> pd.DataFrame:
             anos_conv = converte_vetor_anos(anos)
             meses_conv = converte_vetor_meses(meses)
             datas = [
@@ -199,7 +213,7 @@ class BlocoCorrelVazoesUHE(Block):
             linha = file.readline()
             # Confere se acabou
             if len(linha) < 4:
-                tabela = tabela[:i, :]  # type: ignore
+                tabela = tabela[:i, :]
                 self.data = converte_tabela_em_df()
                 break
             # Senão, processa os dados
@@ -224,7 +238,12 @@ class BlocoCorrelParcialVazoesUHE(Block):
     BEGIN_PATTERN = "CORRELOGRAMO PARCIAL DA SERIE DE VAZOES"
     END_PATTERN = ""
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         campo_mes: List[Field] = [LiteralField(3, 1)]
         campo_ano: List[Field] = [LiteralField(4, 5)]
@@ -235,16 +254,18 @@ class BlocoCorrelParcialVazoesUHE(Block):
         if not isinstance(o, BlocoCorrelParcialVazoesUHE):
             return False
         bloco: BlocoCorrelParcialVazoesUHE = o
-        if not all([
-            isinstance(self.data, pd.DataFrame),
-            isinstance(o.data, pd.DataFrame),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
             return False
         else:
             return self.data.equals(bloco.data)
 
     # Override
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         def converte_vetor_anos(anos: List[str]) -> List[int]:
             # Descobre os anos pré e pós estudo
             numero_anos_pre = len([p for p in anos if p == "PRE"]) // 12
@@ -276,7 +297,7 @@ class BlocoCorrelParcialVazoesUHE(Block):
         def converte_vetor_meses(meses: List[str]) -> List[int]:
             return [MESES_ABREV.index(m) + 1 for m in meses]
 
-        def converte_tabela_em_df():
+        def converte_tabela_em_df() -> pd.DataFrame:
             anos_conv = converte_vetor_anos(anos)
             meses_conv = converte_vetor_meses(meses)
             datas = [
@@ -305,7 +326,7 @@ class BlocoCorrelParcialVazoesUHE(Block):
             linha = file.readline()
             # Confere se acabou
             if len(linha) < 4:
-                tabela = tabela[:i, :]  # type: ignore
+                tabela = tabela[:i, :]
                 self.data = converte_tabela_em_df()
                 break
             # Senão, processa os dados
@@ -331,7 +352,12 @@ class BlocoOrdemModeloUHE(Block):
     BEGIN_PATTERN = "DO MODELO AUTORREGRESSIVO PARA CADA PERIODO"
     END_PATTERN = ""
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         campo_ano: List[Field] = [LiteralField(4, 32)]
         orders: List[Field] = [
@@ -343,16 +369,18 @@ class BlocoOrdemModeloUHE(Block):
         if not isinstance(o, BlocoOrdemModeloUHE):
             return False
         bloco: BlocoOrdemModeloUHE = o
-        if not all([
-            isinstance(self.data, pd.DataFrame),
-            isinstance(o.data, pd.DataFrame),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
             return False
         else:
             return self.data.equals(bloco.data)
 
     # Override
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         def converte_vetor_anos(anos: List[str]) -> List[int]:
             # Descobre os anos pré e pós estudo
             numero_anos_pre = len([p for p in anos if p == "PRE"])
@@ -379,11 +407,11 @@ class BlocoOrdemModeloUHE(Block):
                 anos[idx] = str(ano)
             return [int(a) for a in anos]
 
-        def converte_tabela_em_df():
+        def converte_tabela_em_df() -> pd.DataFrame:
             df = pd.DataFrame(
                 data={
                     "data": prepara_vetor_anos_tabela(
-                        converte_vetor_anos(anos)
+                        converte_vetor_anos(anos)  # type: ignore[arg-type]  # numpy array passed where List[str] expected
                     ),
                     "valor": tabela.flatten(),
                 }
@@ -405,7 +433,7 @@ class BlocoOrdemModeloUHE(Block):
             linha = file.readline()
             # Confere se acabou
             if len(linha) < 4:
-                tabela = tabela[:i, :]  # type: ignore
+                tabela = tabela[:i, :]
                 self.data = converte_tabela_em_df()
                 break
             # Senão, processa os dados
@@ -427,7 +455,12 @@ class BlocoCoeficientesModeloUHE(Block):
     BEGIN_PATTERN = " COEFICIENTES DA EQUACAO DE REGRESSAO DE UM PROCESSO"
     END_PATTERN = ""
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         coefs: List[Field] = [
             FloatField(9, 11 * i, 3, format="E") for i in range(11)
@@ -438,17 +471,19 @@ class BlocoCoeficientesModeloUHE(Block):
         if not isinstance(o, BlocoCoeficientesModeloUHE):
             return False
         bloco: BlocoCoeficientesModeloUHE = o
-        if not all([
-            isinstance(self.data, pd.DataFrame),
-            isinstance(o.data, pd.DataFrame),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
             return False
         else:
             return self.data.equals(bloco.data)
 
     # Override
-    def read(self, file: IO, *args, **kwargs):
-        def converte_tabela_em_df():
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
+        def converte_tabela_em_df() -> pd.DataFrame:
             df = pd.DataFrame(
                 data={
                     "tipo": repete_vetor(["psi", "psi_norm"], len(MESES_DF)),
@@ -493,7 +528,12 @@ class BlocoSerieRuidosUHE(Block):
     BEGIN_PATTERN = "SERIE DE RUIDOS  - ANO:"
     END_PATTERN = ""
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         self.__campo_ano = LiteralField(5, 81)
         campos: List[Field] = [
@@ -506,17 +546,19 @@ class BlocoSerieRuidosUHE(Block):
         if not isinstance(o, BlocoSerieRuidosUHE):
             return False
         bloco: BlocoSerieRuidosUHE = o
-        if not all([
-            isinstance(self.data, pd.DataFrame),
-            isinstance(o.data, pd.DataFrame),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
             return False
         else:
             return self.data.equals(bloco.data)
 
     # Override
-    def read(self, file: IO, *args, **kwargs):
-        def converte_tabela_em_df():
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
+        def converte_tabela_em_df() -> pd.DataFrame:
             df = pd.DataFrame(
                 data={
                     "valor": tabela.flatten(),
@@ -544,7 +586,7 @@ class BlocoSerieRuidosUHE(Block):
             linha = file.readline()
             # Confere se acabou
             if len(linha) < 4:
-                tabela = tabela[:i, :]  # type: ignore
+                tabela = tabela[:i, :]
                 self.data = converte_tabela_em_df()
                 break
             # Senão, processa os dados
@@ -566,7 +608,12 @@ class BlocoCorrelRuidosUHE(Block):
     BEGIN_PATTERN = "CORRELOGRAMO DA SERIE DE RUIDOS"
     END_PATTERN = ""
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         campo_mes: List[Field] = [LiteralField(3, 1)]
         campo_ano: List[Field] = [LiteralField(4, 5)]
@@ -577,16 +624,18 @@ class BlocoCorrelRuidosUHE(Block):
         if not isinstance(o, BlocoCorrelRuidosUHE):
             return False
         bloco: BlocoCorrelRuidosUHE = o
-        if not all([
-            isinstance(self.data, pd.DataFrame),
-            isinstance(o.data, pd.DataFrame),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
             return False
         else:
             return self.data.equals(bloco.data)
 
     # Override
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         def converte_vetor_anos(anos: List[str]) -> List[int]:
             # Descobre os anos pré e pós estudo
             numero_anos_pre = len([p for p in anos if p == "PRE"]) // 12
@@ -618,7 +667,7 @@ class BlocoCorrelRuidosUHE(Block):
         def converte_vetor_meses(meses: List[str]) -> List[int]:
             return [MESES_ABREV.index(m) + 1 for m in meses]
 
-        def converte_tabela_em_df():
+        def converte_tabela_em_df() -> pd.DataFrame:
             anos_conv = converte_vetor_anos(anos)
             meses_conv = converte_vetor_meses(meses)
             datas = [
@@ -647,7 +696,7 @@ class BlocoCorrelRuidosUHE(Block):
             linha = file.readline()
             # Confere se acabou
             if len(linha) < 4:
-                tabela = tabela[:i, :]  # type: ignore
+                tabela = tabela[:i, :]
                 self.data = converte_tabela_em_df()
                 break
             # Senão, processa os dados
@@ -672,7 +721,12 @@ class BlocoCorrelEspacialAnualMensalUHE(Block):
     BEGIN_PATTERN = "CORRELACAO ESPACIAL HISTORICA MENSAL/ANUAL ENTRE AS UHEs"
     END_PATTERN = ""
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         campo_uhe_1: List[Field] = [LiteralField(12, 1)]
         campo_uhe_2: List[Field] = [LiteralField(12, 15)]
@@ -683,17 +737,19 @@ class BlocoCorrelEspacialAnualMensalUHE(Block):
         if not isinstance(o, BlocoCorrelEspacialAnualMensalUHE):
             return False
         bloco: BlocoCorrelEspacialAnualMensalUHE = o
-        if not all([
-            isinstance(self.data, pd.DataFrame),
-            isinstance(bloco.data, pd.DataFrame),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(bloco.data, pd.DataFrame),
+            ]
+        ):
             return False
         else:
             return self.data.equals(bloco.data)
 
     # Override
-    def read(self, file: IO, *args, **kwargs):
-        def converte_tabela_em_df():
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
+        def converte_tabela_em_df() -> pd.DataFrame:
             df = pd.DataFrame(tabela, columns=MESES_DF + ["anual"])
             df["uhe_1"] = uhes1
             df["uhe_2"] = uhes2
@@ -711,7 +767,7 @@ class BlocoCorrelEspacialAnualMensalUHE(Block):
             linha = file.readline()
             # Confere se acabou
             if len(linha) < 4:
-                tabela = tabela[:i, :]  # type: ignore
+                tabela = tabela[:i, :]
                 self.data = converte_tabela_em_df()
                 break
             # Senão, processa os dados

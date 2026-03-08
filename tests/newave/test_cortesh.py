@@ -86,7 +86,7 @@ def test_atributos_nao_encontrados_cortesh():
     m: MagicMock = mock_open(read_data=b"")
     with pytest.raises(ValueError):
         with patch("builtins.open", m):
-            h = Cortesh.read(ARQ_TESTE)
+            h = Cortesh.read(ARQ_TESTE)  # noqa: F841
 
 
 def test_eq_cortesh():
@@ -126,3 +126,6 @@ def test_atributos_cortesh():
     assert h1.ultimo_registro_cortes_estagio.shape == (120, 3)
     assert h1.dados_uhes.shape == (164, 10)
     assert h1.dados_submercados.shape == (5, 3)
+
+
+# NOTE: Binary file with parametrized read, round-trip requires external dimensions

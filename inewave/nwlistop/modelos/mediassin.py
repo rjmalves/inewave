@@ -1,7 +1,7 @@
 # Imports de módulos externos
 from cfinterface.components.section import Section
-from typing import IO
-import pandas as pd  # type: ignore
+from typing import IO, Any, Optional
+import pandas as pd  # type: ignore[import-untyped]  # no pandas-stubs package
 
 
 class TabelaMediassin(Section):
@@ -11,7 +11,12 @@ class TabelaMediassin(Section):
 
     __slots__ = ["data"]
 
-    def __init__(self, previous=None, next=None, data=None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
 
     def __eq__(self, o: object) -> bool:
@@ -26,10 +31,10 @@ class TabelaMediassin(Section):
         ):
             return False
         else:
-            return self.data.equals(bloco.data)
+            return bool(self.data.equals(bloco.data))
 
     # Override
-    def read(self, file: IO, *args, **kwargs):
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         tabela = pd.read_csv(file, skipinitialspace=True)
         col_sin = "SIN"
         tabela = tabela.rename(columns={col_sin: "codigo_sin"})

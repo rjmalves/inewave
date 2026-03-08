@@ -10,7 +10,7 @@ from inewave.newave.modelos.parpvaz import BlocoCorrelEspacialAnualMensalUHE
 from cfinterface.components.block import Block
 from cfinterface.files.blockfile import BlockFile
 from typing import Type, TypeVar, Optional, Any, List
-import pandas as pd  # type: ignore
+import pandas as pd  # type: ignore[import-untyped]  # no pandas-stubs package
 from datetime import datetime
 
 
@@ -39,7 +39,7 @@ class Parpvaz(BlockFile):
         BlocoCorrelEspacialAnualMensalUHE,
     ]
 
-    def __init__(self, data=...) -> None:
+    def __init__(self, data: Any = ...) -> None:
         super().__init__(data)
         self.__series_vazoes = None
         self.__correl_series_vazoes = None
@@ -282,10 +282,8 @@ class Parpvaz(BlockFile):
         """
         if self.__series_ruido is None:
             self.__series_ruido = self.__concatena_dados(BlocoSerieRuidosUHE)
-            self.__series_ruido = (
-                self.__adiciona_coluna_uhe_corrigindo_pre_pos(
-                    self.__series_ruido
-                )
+            self.__series_ruido = self.__adiciona_coluna_uhe_corrigindo_pre_pos(
+                self.__series_ruido
             )
             self.__series_ruido = self.__converte_ano_mes_data(
                 self.__series_ruido

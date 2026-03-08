@@ -26,9 +26,7 @@ ARQ_TESTE = "./tests/mocks/arquivos/__init__.py"
 
 
 def test_bloco_numero_patamares_deficit_sistema():
-    m: MagicMock = mock_open(
-        read_data="".join(MockBlocoNumeroPatamaresDeficit)
-    )
+    m: MagicMock = mock_open(read_data="".join(MockBlocoNumeroPatamaresDeficit))
     b = BlocoNumeroPatamaresDeficit()
     with patch("builtins.open", m):
         with open("", "") as fp:

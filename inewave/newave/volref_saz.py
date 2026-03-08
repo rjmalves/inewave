@@ -2,7 +2,7 @@ from inewave.newave.modelos.volref_saz import BlocoVolrefSaz
 
 from cfinterface.files.sectionfile import SectionFile
 from typing import TypeVar, Optional
-import pandas as pd  # type: ignore
+import pandas as pd  # type: ignore[import-untyped]  # no pandas-stubs package
 
 
 class VolrefSaz(SectionFile):
@@ -39,7 +39,7 @@ class VolrefSaz(SectionFile):
         return None
 
     @volumes.setter
-    def volumes(self, df: pd.DataFrame):
+    def volumes(self, df: pd.DataFrame) -> None:
         b = self.data.get_sections_of_type(BlocoVolrefSaz)
         if isinstance(b, BlocoVolrefSaz):
             b.data = df

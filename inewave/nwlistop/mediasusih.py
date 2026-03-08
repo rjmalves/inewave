@@ -1,4 +1,4 @@
-import pandas as pd  # type: ignore
+import pandas as pd  # type: ignore[import-untyped]  # no pandas-stubs package
 
 from cfinterface.files.sectionfile import SectionFile
 
