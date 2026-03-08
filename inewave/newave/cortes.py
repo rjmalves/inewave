@@ -32,7 +32,7 @@ class Cortes(SectionFile):
         *args: Any,
         **kwargs: Any,
     ) -> "Cortes":
-        return super().read(
+        return super().read(  # type: ignore[return-value]
             content,
             tamanho_registro=tamanho_registro,
             indice_ultimo_corte=indice_ultimo_corte,

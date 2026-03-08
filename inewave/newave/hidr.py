@@ -169,7 +169,7 @@ class Hidr(RegisterFile):
         return df
 
     def __atualiza_registros(self) -> None:
-        registros: List[RegistroUHEHidr] = [r for r in self.data][1:]
+        registros: List[RegistroUHEHidr] = [r for r in self.data][1:]  # type: ignore[assignment]
         for (_, linha), r in zip(self.cadastro.iterrows(), registros):
             r.nome = linha["nome_usina"]
             r.posto = linha["posto"]

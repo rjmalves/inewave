@@ -60,13 +60,13 @@ class BlocoUTEAdTerm(Section):
             return self.data.equals(bloco.data)
 
     # Override
-    def read(
+    def read(  # type: ignore[override]
         self,
         file: IO[Any],
         numero_patamares: int = 3,
         *args: Any,
         **kwargs: Any,
-    ) -> None:  # type: ignore[override]  # signature extends base class
+    ) -> None:
         def converte_tabela_em_df() -> pd.DataFrame:
             df = pd.DataFrame(
                 data={

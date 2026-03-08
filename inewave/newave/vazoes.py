@@ -44,7 +44,7 @@ class Vazoes(RegisterFile):
         return df
 
     def __atualiza_registros(self) -> None:
-        registros: List[RegistroVazoesPostos] = [r for r in self.data][1:]
+        registros: List[RegistroVazoesPostos] = [r for r in self.data][1:]  # type: ignore[assignment]
         n_registros = len(registros)
         n_meses = self.vazoes.shape[0]
         # Deleta os registros que sobraram
