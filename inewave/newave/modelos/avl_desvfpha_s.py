@@ -73,7 +73,9 @@ class TabelaAvlDesvFphaS(Block):
         # Ignora a segunda linha de cabeçalho
         file.readline()
         # Lê a tabela
-        dados: Dict[str, List[Any]] = {c: [] for c in self.__class__.COLUMN_NAMES}
+        dados: Dict[str, List[Any]] = {
+            c: [] for c in self.__class__.COLUMN_NAMES
+        }
         while True:
             linha = file.readline()
             if len(linha) < 3 or "-----;--------------;------;" in linha:

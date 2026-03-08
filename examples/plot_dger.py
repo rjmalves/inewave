@@ -4,7 +4,6 @@ Alteração no dger.dat
 ========================================
 """
 
-
 # %%
 # O dger.dat é um dos principais arquivos de entrada do modelo NEWAVE. É
 # comum desejar realizar alterações automáticas neste arquivo, para fins de

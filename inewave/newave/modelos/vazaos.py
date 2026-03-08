@@ -14,7 +14,12 @@ class SecaoDadosVazaos(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
 
     def __eq__(self, o: object) -> bool:
@@ -42,9 +47,7 @@ class SecaoDadosVazaos(Section):
         **kwargs: Any,
     ) -> None:
         numero_registros = (
-            (numero_estagios + numero_estagios_th)
-            * numero_uhes
-            * numero_series
+            (numero_estagios + numero_estagios_th) * numero_uhes * numero_series
         )
         self.__linha = Line(
             [

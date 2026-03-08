@@ -23,7 +23,12 @@ class BlocoEafPast(Section):
 
     __slots__ = ["__linha", "__cabecalhos"]
 
-    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line(
             [IntegerField(4, 0), LiteralField(10, 5)]
@@ -35,10 +40,12 @@ class BlocoEafPast(Section):
         if not isinstance(o, BlocoEafPast):
             return False
         bloco: BlocoEafPast = o
-        if not all([
-            isinstance(self.data, pd.DataFrame),
-            isinstance(o.data, pd.DataFrame),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
             return False
         else:
             return self.data.equals(bloco.data)

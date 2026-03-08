@@ -17,7 +17,12 @@ class BlocoManutencaoUTE(Section):
 
     __slots__ = ["__linha_uhe", "__cabecalhos"]
 
-    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         self.__linha_uhe = Line(
             [

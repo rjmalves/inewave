@@ -282,10 +282,8 @@ class Parpvaz(BlockFile):
         """
         if self.__series_ruido is None:
             self.__series_ruido = self.__concatena_dados(BlocoSerieRuidosUHE)
-            self.__series_ruido = (
-                self.__adiciona_coluna_uhe_corrigindo_pre_pos(
-                    self.__series_ruido
-                )
+            self.__series_ruido = self.__adiciona_coluna_uhe_corrigindo_pre_pos(
+                self.__series_ruido
             )
             self.__series_ruido = self.__converte_ano_mes_data(
                 self.__series_ruido

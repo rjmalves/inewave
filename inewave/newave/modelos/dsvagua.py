@@ -26,7 +26,12 @@ class BlocoDsvUHE(Section):
 
     FIM_BLOCO = "9999"
 
-    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         campos_iniciais: List[Field] = [IntegerField(4, 0), IntegerField(3, 6)]
         campos_desvios: List[Field] = [
@@ -45,10 +50,12 @@ class BlocoDsvUHE(Section):
         if not isinstance(o, BlocoDsvUHE):
             return False
         bloco: BlocoDsvUHE = o
-        if not all([
-            isinstance(self.data, pd.DataFrame),
-            isinstance(o.data, pd.DataFrame),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
             return False
         else:
             return self.data.equals(bloco.data)

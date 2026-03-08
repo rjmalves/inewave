@@ -4,7 +4,6 @@ from tests.mocks.mock_open import mock_open
 from unittest.mock import MagicMock, patch
 
 from tests.mocks.arquivos.avl_cortesfpha_nwv import (
-    MockAvlCortesFphaNwv28,
     MockAvlCortesFphaNwv,
 )
 

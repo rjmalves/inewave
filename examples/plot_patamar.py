@@ -43,12 +43,14 @@ print(duracao.head())
 
 # Análise estatística das durações
 print("\nEstatísticas das durações por patamar:")
-duracao_stats = duracao.groupby("patamar")["valor"].agg([
-    "mean",
-    "std",
-    "min",
-    "max",
-])
+duracao_stats = duracao.groupby("patamar")["valor"].agg(
+    [
+        "mean",
+        "std",
+        "min",
+        "max",
+    ]
+)
 print(duracao_stats.round(2))
 
 # Verificação da soma das durações (deve ser próximo a 744 horas/mês em média)
@@ -198,20 +200,24 @@ if len(carga_duracao_energia["patamar"].unique()) > 1:
 intercambio = arq_patamar.intercambio_patamares
 print(f"Registros de intercâmbio por patamares: {len(intercambio)}")
 print("Pares de submercados com intercâmbio:")
-pares_intercambio = intercambio.groupby([
-    "submercado_de",
-    "submercado_para",
-]).size()
+pares_intercambio = intercambio.groupby(
+    [
+        "submercado_de",
+        "submercado_para",
+    ]
+).size()
 print(pares_intercambio)
 
 # Análise dos fatores de intercâmbio
 print("\nEstatísticas dos fatores de intercâmbio:")
-intercambio_stats = intercambio.groupby("patamar")["valor"].agg([
-    "mean",
-    "std",
-    "min",
-    "max",
-])
+intercambio_stats = intercambio.groupby("patamar")["valor"].agg(
+    [
+        "mean",
+        "std",
+        "min",
+        "max",
+    ]
+)
 print(intercambio_stats.round(4))
 
 # Verificando se há assimetrias significativas
@@ -247,19 +253,23 @@ print(f"Blocos de usinas: {sorted(usinas_nao_sim['indice_bloco'].unique())}")
 
 # Análise dos fatores por patamar
 print("\nFatores médios das usinas não simuladas por patamar:")
-uns_por_patamar = usinas_nao_sim.groupby("patamar")["valor"].agg([
-    "mean",
-    "std",
-    "count",
-])
+uns_por_patamar = usinas_nao_sim.groupby("patamar")["valor"].agg(
+    [
+        "mean",
+        "std",
+        "count",
+    ]
+)
 print(uns_por_patamar.round(4))
 
 # Análise por submercado
 print("\nFatores médios por submercado:")
-uns_por_subm = usinas_nao_sim.groupby("codigo_submercado")["valor"].agg([
-    "mean",
-    "std",
-])
+uns_por_subm = usinas_nao_sim.groupby("codigo_submercado")["valor"].agg(
+    [
+        "mean",
+        "std",
+    ]
+)
 print(uns_por_subm.round(4))
 
 # Variabilidade temporal

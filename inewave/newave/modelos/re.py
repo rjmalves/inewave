@@ -25,7 +25,12 @@ class BlocoUsinasConjuntoRE(Section):
 
     FIM_BLOCO = "999"
 
-    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         campo_conjunto: List[Field] = [IntegerField(3, 0)]
         campos_usinas: List[Field] = [
@@ -38,10 +43,12 @@ class BlocoUsinasConjuntoRE(Section):
         if not isinstance(o, BlocoUsinasConjuntoRE):
             return False
         bloco: BlocoUsinasConjuntoRE = o
-        if not all([
-            isinstance(self.data, pd.DataFrame),
-            isinstance(o.data, pd.DataFrame),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
             return False
         else:
             return self.data.equals(bloco.data)
@@ -105,28 +112,37 @@ class BlocoConfiguracaoRestricoesRE(Section):
 
     FIM_BLOCO = "999"
 
-    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            IntegerField(3, 0),
-            IntegerField(2, 4),
-            IntegerField(4, 7),
-            IntegerField(2, 12),
-            IntegerField(4, 15),
-            IntegerField(1, 20),
-            FloatField(10, 22, 2),
-            LiteralField(23, 38),
-        ])
+        self.__linha = Line(
+            [
+                IntegerField(3, 0),
+                IntegerField(2, 4),
+                IntegerField(4, 7),
+                IntegerField(2, 12),
+                IntegerField(4, 15),
+                IntegerField(1, 20),
+                FloatField(10, 22, 2),
+                LiteralField(23, 38),
+            ]
+        )
         self.__cabecalhos: List[str] = []
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoConfiguracaoRestricoesRE):
             return False
         bloco: BlocoConfiguracaoRestricoesRE = o
-        if not all([
-            isinstance(self.data, pd.DataFrame),
-            isinstance(o.data, pd.DataFrame),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
             return False
         else:
             return self.data.equals(bloco.data)
@@ -145,14 +161,16 @@ class BlocoConfiguracaoRestricoesRE(Section):
             ]
             df = pd.DataFrame(tabela, columns=cols)
             df["motivo"] = motivos
-            df = df.astype({
-                "conjunto": "int64",
-                "mes_inicio": "int64",
-                "ano_inicio": "int64",
-                "mes_fim": "int64",
-                "ano_fim": "int64",
-                "patamar": "int64",
-            })
+            df = df.astype(
+                {
+                    "conjunto": "int64",
+                    "mes_inicio": "int64",
+                    "ano_inicio": "int64",
+                    "mes_fim": "int64",
+                    "ano_fim": "int64",
+                    "patamar": "int64",
+                }
+            )
             return df
 
         # Salta as linhas adicionais

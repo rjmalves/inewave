@@ -14,14 +14,19 @@ class BlocoParametrosEliminacaoCortes(Section):
 
     __slots__ = ["__linha", "__cabecalhos", "__comentarios", "data"]
 
-    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line(
             [
-                LiteralField(60, 0),     # Descrição do parâmetro
-                FloatField(6, 61, 2),     # Valor PARAL (coluna 1)
-                IntegerField(6, 68),     # Valor A.P.P (coluna 2)  
-                IntegerField(6, 75),     # Valor S.M. (coluna 3)
+                LiteralField(60, 0),  # Descrição do parâmetro
+                FloatField(6, 61, 2),  # Valor PARAL (coluna 1)
+                IntegerField(6, 68),  # Valor A.P.P (coluna 2)
+                IntegerField(6, 75),  # Valor S.M. (coluna 3)
             ]
         )
         self.__cabecalhos: List[str] = []
@@ -49,8 +54,8 @@ class BlocoParametrosEliminacaoCortes(Section):
 
         # Lê as linhas de parâmetros
         self.data: List[List[Any]] = []
-        
-        for _ in range(4):  
+
+        for _ in range(4):
             linha = file.readline()
             if not linha:
                 break
@@ -59,7 +64,7 @@ class BlocoParametrosEliminacaoCortes(Section):
             self.__comentarios.append(dados[0].strip())
             self.data.append(dados[1:])
 
-        for _ in range(3):  
+        for _ in range(3):
             linha = file.readline()
             if not linha:
                 break
@@ -68,12 +73,14 @@ class BlocoParametrosEliminacaoCortes(Section):
             self.__comentarios.append(dados[0].strip())
             self.data.append([dados[1]])
 
-    # Override  
+    # Override
     def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         for linha in self.__cabecalhos:
             file.write(linha)
         if not isinstance(self.data, list):
-            raise ValueError("Dados do eliminacao_cortes.dat não foram lidos com sucesso")
+            raise ValueError(
+                "Dados do eliminacao_cortes.dat não foram lidos com sucesso"
+            )
 
         for c, s in zip(self.__comentarios, self.data):
             file.write(self.__linha.write([c] + s))

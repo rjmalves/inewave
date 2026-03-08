@@ -1,6 +1,4 @@
-MockUSINA = (
-    " USINA    1                                 CAMARGOS            \n"
-)
+MockUSINA = " USINA    1                                 CAMARGOS            \n"
 
 MockVAZMIN = " VAZMIN       34\n"
 

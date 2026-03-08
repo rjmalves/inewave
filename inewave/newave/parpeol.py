@@ -204,7 +204,7 @@ class Parpeol(BlockFile):
             novo_vetor_anos += converte_vetor_anos(
                 df.loc[i_i:i_f, "ano"].tolist(), n_series
             )
-        df["ano"] = novo_vetor_anos  
+        df["ano"] = novo_vetor_anos
         return df[["uee"] + cols]
 
     def __converte_ano_mes_data(
@@ -269,10 +269,8 @@ class Parpeol(BlockFile):
         """
         if self.__series_ruido is None:
             self.__series_ruido = self.__concatena_dados(BlocoSerieRuidosUEE)
-            self.__series_ruido = (
-                self.__adiciona_coluna_uee_corrigindo_pre_pos(
-                    self.__series_ruido
-                )
+            self.__series_ruido = self.__adiciona_coluna_uee_corrigindo_pre_pos(
+                self.__series_ruido
             )
             self.__series_ruido = self.__converte_ano_mes_data(
                 self.__series_ruido

@@ -12,7 +12,12 @@ class NomeCaso(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([LiteralField(40, 0)])
 
@@ -47,7 +52,12 @@ class CaminhoGerenciadorProcessos(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([LiteralField(120, 0)])
 

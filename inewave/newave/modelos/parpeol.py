@@ -43,7 +43,12 @@ class BlocoSerieVentosUEE(Block):
     BEGIN_PATTERN = "SERIE  DE VENTOS   DA USINA"
     END_PATTERN = ""
 
-    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         self.__campo_uee = LiteralField(14, 57)
         self.__campo_cfg = IntegerField(5, 88)
@@ -57,10 +62,12 @@ class BlocoSerieVentosUEE(Block):
         if not isinstance(o, BlocoSerieVentosUEE):
             return False
         bloco: BlocoSerieVentosUEE = o
-        if not all([
-            isinstance(self.data, pd.DataFrame),
-            isinstance(o.data, pd.DataFrame),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
             return False
         else:
             return self.data.equals(bloco.data)
@@ -119,7 +126,12 @@ class BlocoCorrelVentosUEE(Block):
     BEGIN_PATTERN = "CORRELOGRAMO DA SERIE DE VENTOS"
     END_PATTERN = ""
 
-    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         campo_mes: List[Field] = [LiteralField(3, 1)]
         campo_ano: List[Field] = [LiteralField(4, 5)]
@@ -130,10 +142,12 @@ class BlocoCorrelVentosUEE(Block):
         if not isinstance(o, BlocoCorrelVentosUEE):
             return False
         bloco: BlocoCorrelVentosUEE = o
-        if not all([
-            isinstance(self.data, pd.DataFrame),
-            isinstance(o.data, pd.DataFrame),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
             return False
         else:
             return self.data.equals(bloco.data)
@@ -220,7 +234,12 @@ class BlocoSerieRuidosUEE(Block):
     BEGIN_PATTERN = "SERIE DE RUIDOS  - ANO:"
     END_PATTERN = ""
 
-    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         self.__campo_ano = LiteralField(5, 81)
         campos: List[Field] = [
@@ -233,10 +252,12 @@ class BlocoSerieRuidosUEE(Block):
         if not isinstance(o, BlocoSerieRuidosUEE):
             return False
         bloco: BlocoSerieRuidosUEE = o
-        if not all([
-            isinstance(self.data, pd.DataFrame),
-            isinstance(o.data, pd.DataFrame),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
             return False
         else:
             return self.data.equals(bloco.data)
@@ -293,7 +314,12 @@ class BlocoCorrelRuidosUEE(Block):
     BEGIN_PATTERN = "CORRELOGRAMO DA SERIE DE RUIDOS"
     END_PATTERN = ""
 
-    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         campo_mes: List[Field] = [LiteralField(3, 1)]
         campo_ano: List[Field] = [LiteralField(4, 5)]
@@ -304,10 +330,12 @@ class BlocoCorrelRuidosUEE(Block):
         if not isinstance(o, BlocoCorrelRuidosUEE):
             return False
         bloco: BlocoCorrelRuidosUEE = o
-        if not all([
-            isinstance(self.data, pd.DataFrame),
-            isinstance(o.data, pd.DataFrame),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
             return False
         else:
             return self.data.equals(bloco.data)
@@ -392,7 +420,12 @@ class BlocoCorrelEspacialAnualConfig(Block):
     BEGIN_PATTERN = "CORRELACAO ESPACIAL HISTORICA ANUAL"
     END_PATTERN = ""
 
-    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         self.__campo_cfg = IntegerField(4, 68)
 
@@ -400,10 +433,12 @@ class BlocoCorrelEspacialAnualConfig(Block):
         if not isinstance(o, BlocoCorrelEspacialAnualConfig):
             return False
         bloco: BlocoCorrelEspacialAnualConfig = o
-        if not all([
-            isinstance(self.data, pd.DataFrame),
-            isinstance(o.data, pd.DataFrame),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
             return False
         else:
             return self.data.equals(bloco.data)
@@ -460,7 +495,12 @@ class BlocoCorrelEspacialMensalConfig(Block):
     BEGIN_PATTERN = "CORRELACAO ESPACIAL HISTORICA MENSAL"
     END_PATTERN = ""
 
-    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         self.__campo_cfg = IntegerField(4, 69)
 
@@ -468,10 +508,12 @@ class BlocoCorrelEspacialMensalConfig(Block):
         if not isinstance(o, BlocoCorrelEspacialMensalConfig):
             return False
         bloco: BlocoCorrelEspacialMensalConfig = o
-        if not all([
-            isinstance(self.data, pd.DataFrame),
-            isinstance(o.data, pd.DataFrame),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
             return False
         else:
             return self.data.equals(bloco.data)
@@ -502,10 +544,12 @@ class BlocoCorrelEspacialMensalConfig(Block):
         self.__linha = Line(campo_uee + campo_mes + campo_correl)
 
         # Variáveis auxiliares
-        tabela = np.zeros((
-            MAX_CONFIGURACOES * (MAX_UEES + MAX_REES) * len(MESES_DF),
-            len(uees_rees),
-        ))
+        tabela = np.zeros(
+            (
+                MAX_CONFIGURACOES * (MAX_UEES + MAX_REES) * len(MESES_DF),
+                len(uees_rees),
+            )
+        )
         uees: List[str] = []
         i = 0
         while True:

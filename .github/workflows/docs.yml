@@ -1,13 +1,25 @@
 name: Docs
+
 on:
   push:
     branches:
       - main
   workflow_dispatch:
 
+permissions:
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
 jobs:
   docs:
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
       - name: Install uv
@@ -15,19 +27,13 @@ jobs:
       - name: Set up Python
         run: uv python install 3.12
       - name: Install the project
-        run: |
-          uv sync --all-extras --dev
-      - name: Runs tests
-        run: |
-          uv run pytest ./tests
+        run: uv sync --extra docs
       - name: Sphinx build
-        run: |
-          uv run sphinx-build -M html docs/source docs/build
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
-        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+        run: uv run sphinx-build -M html docs/source docs/build
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          publish_branch: gh-pages
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: docs/build/html
-          force_orphan: true
+          path: docs/build/html
+      - name: Deploy to GitHub Pages
+        id: deploy
+        uses: actions/deploy-pages@v4

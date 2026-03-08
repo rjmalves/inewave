@@ -19,7 +19,12 @@ class BlocoTemposEtapasTim(Block):
     BEGIN_PATTERN = "Leitura de Dados:"
     END_PATTERN = ""
 
-    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         # Cria a estrutura de uma linha da tabela
         etapa_field: List[Field] = [LiteralField(25, 0)]
@@ -64,6 +69,7 @@ class BlocoTemposEtapasTim(Block):
 
         self.data = converte_tabela_em_df()
 
+
 class BlocoVersaoModeloTim(Block):
     """
     Bloco com a versão do NEWAVE obtida no
@@ -75,7 +81,12 @@ class BlocoVersaoModeloTim(Block):
     BEGIN_PATTERN = r"            Versao "
     END_PATTERN = ""
 
-    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([LiteralField(16, 78)])
 

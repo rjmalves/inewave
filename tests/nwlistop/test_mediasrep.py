@@ -11,4 +11,5 @@ def test_eq_mediasrep():
     assert leitor == leitor2
     assert leitor.valores.shape == (0, 2)
 
+
 # NOTE: MEDIAS CSV file, SectionFile with pd.read_csv, no write path

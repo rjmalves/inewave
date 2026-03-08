@@ -1,4 +1,7 @@
-from inewave.newave.modelos.newavetim import BlocoTemposEtapasTim, BlocoVersaoModeloTim
+from inewave.newave.modelos.newavetim import (
+    BlocoTemposEtapasTim,
+    BlocoVersaoModeloTim,
+)
 
 from cfinterface.files.blockfile import BlockFile
 from typing import TypeVar, Optional

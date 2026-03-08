@@ -30,24 +30,33 @@ class BlocoGruposAgrint(Section):
 
     FIM_BLOCO = " 999"
 
-    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            IntegerField(3, 1),
-            IntegerField(3, 5),
-            IntegerField(3, 9),
-            FloatField(7, 13, 4),
-        ])
+        self.__linha = Line(
+            [
+                IntegerField(3, 1),
+                IntegerField(3, 5),
+                IntegerField(3, 9),
+                FloatField(7, 13, 4),
+            ]
+        )
         self.__cabecalhos: List[str] = []
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoGruposAgrint):
             return False
         bloco: BlocoGruposAgrint = o
-        if not all([
-            isinstance(self.data, pd.DataFrame),
-            isinstance(o.data, pd.DataFrame),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
             return False
         else:
             return self.data.equals(bloco.data)
@@ -62,11 +71,13 @@ class BlocoGruposAgrint(Section):
                 "coeficiente",
             ]
             df = pd.DataFrame(tabela, columns=cols)
-            df = df.astype({
-                "agrupamento": "int64",
-                "submercado_de": "int64",
-                "submercado_para": "int64",
-            })
+            df = df.astype(
+                {
+                    "agrupamento": "int64",
+                    "submercado_de": "int64",
+                    "submercado_para": "int64",
+                }
+            )
             return df
 
         # Salta as linhas adicionais
@@ -113,27 +124,36 @@ class BlocoLimitesPorGrupoAgrint(Section):
 
     FIM_BLOCO = " 999"
 
-    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            IntegerField(3, 1),
-            DatetimeField(7, 6, format="%m %Y"),
-            DatetimeField(7, 14, format="%m %Y"),
-            FloatField(7, 22, 0),
-            FloatField(7, 30, 0),
-            FloatField(7, 38, 0),
-            LiteralField(40, 50),
-        ])
+        self.__linha = Line(
+            [
+                IntegerField(3, 1),
+                DatetimeField(7, 6, format="%m %Y"),
+                DatetimeField(7, 14, format="%m %Y"),
+                FloatField(7, 22, 0),
+                FloatField(7, 30, 0),
+                FloatField(7, 38, 0),
+                LiteralField(40, 50),
+            ]
+        )
         self.__cabecalhos: List[str] = []
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoLimitesPorGrupoAgrint):
             return False
         bloco: BlocoLimitesPorGrupoAgrint = o
-        if not all([
-            isinstance(self.data, pd.DataFrame),
-            isinstance(o.data, pd.DataFrame),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
             return False
         else:
             return self.data.equals(bloco.data)

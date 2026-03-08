@@ -28,13 +28,20 @@ class BlocoUTEAdTerm(Section):
 
     FIM_BLOCO = " 9999"
 
-    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha_ute = Line([
-            IntegerField(4, 1),
-            LiteralField(12, 7),
-            IntegerField(1, 21),
-        ])
+        self.__linha_ute = Line(
+            [
+                IntegerField(4, 1),
+                LiteralField(12, 7),
+                IntegerField(1, 21),
+            ]
+        )
         self.__linha_despachos = Line([])
         self.__cabecalhos: List[str] = []
 
@@ -42,16 +49,24 @@ class BlocoUTEAdTerm(Section):
         if not isinstance(o, BlocoUTEAdTerm):
             return False
         bloco: BlocoUTEAdTerm = o
-        if not all([
-            isinstance(self.data, pd.DataFrame),
-            isinstance(o.data, pd.DataFrame),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
             return False
         else:
             return self.data.equals(bloco.data)
 
     # Override
-    def read(self, file: IO[Any], numero_patamares: int = 3, *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
+    def read(
+        self,
+        file: IO[Any],
+        numero_patamares: int = 3,
+        *args: Any,
+        **kwargs: Any,
+    ) -> None:  # type: ignore[override]  # signature extends base class
         def converte_tabela_em_df() -> pd.DataFrame:
             df = pd.DataFrame(
                 data={
@@ -76,10 +91,12 @@ class BlocoUTEAdTerm(Section):
             self.__cabecalhos.append(file.readline())
 
         self.__numero_patamares = numero_patamares
-        self.__linha_despachos = Line([
-            FloatField(12, 22 + 12 * i, 2)
-            for i in range(self.__numero_patamares)
-        ])
+        self.__linha_despachos = Line(
+            [
+                FloatField(12, 22 + 12 * i, 2)
+                for i in range(self.__numero_patamares)
+            ]
+        )
 
         # Variáveis auxiliares
         codigo_utes: List[int] = []

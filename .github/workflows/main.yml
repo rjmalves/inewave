@@ -1,4 +1,4 @@
-name: tests
+name: CI
 
 on:
   push:
@@ -9,6 +9,32 @@ on:
       - main
 
 jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install uv
+        uses: astral-sh/setup-uv@v3
+      - name: Set up Python 3.12
+        run: uv python install 3.12
+      - name: Install lint dependencies
+        run: uv sync --extra lint
+      - name: Run ruff linter
+        run: uv run ruff check ./inewave
+
+  typecheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install uv
+        uses: astral-sh/setup-uv@v3
+      - name: Set up Python 3.12
+        run: uv python install 3.12
+      - name: Install lint dependencies
+        run: uv sync --extra lint
+      - name: Run mypy type checker
+        run: uv run mypy ./inewave
+
   test:
     runs-on: ubuntu-latest
     strategy:
@@ -20,12 +46,10 @@ jobs:
         uses: astral-sh/setup-uv@v3
       - name: Set up Python ${{ matrix.python-version }}
         run: uv python install ${{ matrix.python-version }}
-      - name: Install the project
-        run: |
-          uv sync --all-extras --dev
-      - name: Runs tests
-        run: |
-          uv run pytest  --cov-report=xml --cov=inewave ./tests
+      - name: Install test dependencies
+        run: uv sync --extra test
+      - name: Run tests
+        run: uv run pytest --cov-report=xml --cov=inewave ./tests
       - uses: codecov/codecov-action@v4
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
@@ -35,12 +59,16 @@ jobs:
           name: codecov-inewave
           fail_ci_if_error: true
           verbose: true
-      - name: Static type check
-        run: |
-          uv run mypy ./inewave
-      - name: Linter code check
-        run: |
-          uv run ruff check ./inewave
-      - name: Sphinx build
-        run: |
-          uv run sphinx-build -M html docs/source docs/build
+
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install uv
+        uses: astral-sh/setup-uv@v3
+      - name: Set up Python 3.12
+        run: uv python install 3.12
+      - name: Install docs dependencies
+        run: uv sync --extra docs
+      - name: Build Sphinx documentation
+        run: uv run sphinx-build -M html docs/source docs/build

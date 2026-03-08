@@ -51,7 +51,9 @@ class TabelaCSV(Block):
             elif len(linha) < 3:
                 return
         # Lê a tabela
-        dados: Dict[str, List[Any]] = {c: [] for c in self.__class__.COLUMN_NAMES}
+        dados: Dict[str, List[Any]] = {
+            c: [] for c in self.__class__.COLUMN_NAMES
+        }
         while True:
             linha = file.readline()
             if (self.__class__.BEGIN_PATTERN in linha) or (len(linha) < 3):

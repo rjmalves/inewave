@@ -1,6 +1,5 @@
 from inewave.nwlistop.dnegevap import Dnegevap
 
-import numpy as np
 from datetime import datetime
 from tests.mocks.mock_open import mock_open
 from unittest.mock import MagicMock, patch

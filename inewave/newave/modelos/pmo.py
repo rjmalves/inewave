@@ -41,7 +41,12 @@ class BlocoVersaoModeloPMO(Block):
     )
     END_PATTERN = ""
 
-    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
 
         self.__line = Line([LiteralField(18, 109)])
@@ -50,10 +55,12 @@ class BlocoVersaoModeloPMO(Block):
         if not isinstance(o, BlocoVersaoModeloPMO):
             return False
         bloco: BlocoVersaoModeloPMO = o
-        if not all([
-            isinstance(self.data, str),
-            isinstance(o.data, str),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, str),
+                isinstance(o.data, str),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
@@ -76,7 +83,12 @@ class BlocoEafPastTendenciaHidrolPMO(Block):
     BEGIN_PATTERN = "ENERGIAS AFLUENTES PASSADAS PARA A TENDENCIA HIDROLOGICA"
     END_PATTERN = ""
 
-    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         ree_field: List[Field] = [LiteralField(10, 1)]
         ena_fields: List[Field] = [
@@ -88,10 +100,12 @@ class BlocoEafPastTendenciaHidrolPMO(Block):
         if not isinstance(o, BlocoEafPastTendenciaHidrolPMO):
             return False
         bloco: BlocoEafPastTendenciaHidrolPMO = o
-        if not all([
-            isinstance(self.data, pd.DataFrame),
-            isinstance(o.data, pd.DataFrame),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
             return False
         else:
             return self.data.equals(bloco.data)
@@ -143,7 +157,12 @@ class BlocoEafPastCfugaMedioPMO(Block):
     )
     END_PATTERN = ""
 
-    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         ree_field: List[Field] = [LiteralField(10, 1)]
         ena_fields: List[Field] = [
@@ -155,10 +174,12 @@ class BlocoEafPastCfugaMedioPMO(Block):
         if not isinstance(o, BlocoEafPastCfugaMedioPMO):
             return False
         bloco: BlocoEafPastCfugaMedioPMO = o
-        if not all([
-            isinstance(self.data, pd.DataFrame),
-            isinstance(o.data, pd.DataFrame),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
             return False
         else:
             return self.data.equals(bloco.data)
@@ -206,17 +227,24 @@ class BlocoEnergiaArmazenadaMaximaPMO(Block):
     BEGIN_PATTERN = "ENERGIA ARMAZENAVEL MAXIMA POR REE"
     END_PATTERN = ""
 
-    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoEnergiaArmazenadaMaximaPMO):
             return False
         bloco: BlocoEnergiaArmazenadaMaximaPMO = o
-        if not all([
-            isinstance(self.data, pd.DataFrame),
-            isinstance(o.data, pd.DataFrame),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
             return False
         else:
             return self.data.equals(bloco.data)
@@ -274,17 +302,24 @@ class BlocoEnergiaArmazenadaInicialPMO(Block):
     BEGIN_PATTERN = r"ENERGIA ARMAZENADA INICIAL \(MWmes"
     END_PATTERN = ""
 
-    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoEnergiaArmazenadaInicialPMO):
             return False
         bloco: BlocoEnergiaArmazenadaInicialPMO = o
-        if not all([
-            isinstance(self.data, pd.DataFrame),
-            isinstance(o.data, pd.DataFrame),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
             return False
         else:
             return self.data.equals(bloco.data)
@@ -308,9 +343,9 @@ class BlocoEnergiaArmazenadaInicialPMO(Block):
         linha_nomes = file.readline()
         nomes = [n.strip() for n in linha_nomes.split(" ") if len(n) > 2]
         num_rees = len(nomes)
-        linha_valores = Line([
-            FloatField(11, 13 * i, 1) for i in range(num_rees)
-        ])
+        linha_valores = Line(
+            [FloatField(11, 13 * i, 1) for i in range(num_rees)]
+        )
         valores_MWmes: List[float] = linha_valores.read(file.readline())
         valores_percentual: List[float] = linha_valores.read(file.readline())
         self.data = converte_tabela_em_df()
@@ -327,23 +362,32 @@ class BlocoVolumeArmazenadoInicialPMO(Block):
     BEGIN_PATTERN = r" VOLUME ARMAZENADO INICIAL"
     END_PATTERN = "X-----X------------X"
 
-    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            IntegerField(5, 2),
-            LiteralField(12, 8),
-            FloatField(14, 21, 1),
-            FloatField(12, 36, 1),
-        ])
+        self.__linha = Line(
+            [
+                IntegerField(5, 2),
+                LiteralField(12, 8),
+                FloatField(14, 21, 1),
+                FloatField(12, 36, 1),
+            ]
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoVolumeArmazenadoInicialPMO):
             return False
         bloco: BlocoVolumeArmazenadoInicialPMO = o
-        if not all([
-            isinstance(self.data, pd.DataFrame),
-            isinstance(o.data, pd.DataFrame),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
             return False
         else:
             return self.data.equals(bloco.data)
@@ -396,7 +440,12 @@ class BlocoGeracaoMinimaUsinasTermicasPMO(Block):
     BEGIN_PATTERN = "GERACAO TERMICA MINIMA POR USINA"
     END_PATTERN = ""
 
-    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         # Cria a estrutura de uma linha da tabela
         self.__line = Line(
@@ -408,10 +457,12 @@ class BlocoGeracaoMinimaUsinasTermicasPMO(Block):
         if not isinstance(o, BlocoGeracaoMinimaUsinasTermicasPMO):
             return False
         bloco: BlocoGeracaoMinimaUsinasTermicasPMO = o
-        if not all([
-            isinstance(self.data, pd.DataFrame),
-            isinstance(o.data, pd.DataFrame),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
             return False
         else:
             return self.data.equals(bloco.data)
@@ -480,7 +531,12 @@ class BlocoGeracaoMaximaUsinasTermicasPMO(Block):
     BEGIN_PATTERN = "GERACAO TERMICA MAXIMA POR USINA"
     END_PATTERN = ""
 
-    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         # Cria a estrutura de uma linha da tabela
         self.__line = Line(
@@ -492,10 +548,12 @@ class BlocoGeracaoMaximaUsinasTermicasPMO(Block):
         if not isinstance(o, BlocoGeracaoMaximaUsinasTermicasPMO):
             return False
         bloco: BlocoGeracaoMaximaUsinasTermicasPMO = o
-        if not all([
-            isinstance(self.data, pd.DataFrame),
-            isinstance(o.data, pd.DataFrame),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
             return False
         else:
             return self.data.equals(bloco.data)
@@ -564,7 +622,12 @@ class BlocoConvergenciaPMO(Block):
     BEGIN_PATTERN = "    ITER               LIM.INF.        "
     END_PATTERN = ""
 
-    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         # Cria a estrutura de uma linha da tabela
         iter_field: List[Field] = [IntegerField(4, 4)]
@@ -577,10 +640,12 @@ class BlocoConvergenciaPMO(Block):
         if not isinstance(o, BlocoConvergenciaPMO):
             return False
         bloco: BlocoConvergenciaPMO = o
-        if not all([
-            isinstance(self.data, pd.DataFrame),
-            isinstance(o.data, pd.DataFrame),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
             return False
         else:
             return self.data.equals(bloco.data)
@@ -645,7 +710,12 @@ class BlocoConfiguracoesExpansaoPMO(Block):
     BEGIN_PATTERN = "CONFIGURACOES POR"
     END_PATTERN = ""
 
-    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         # Cria a estrutura de uma linha da tabela
         self.__line = Line([IntegerField(6, 5 + 6 * i) for i in range(13)])
@@ -654,10 +724,12 @@ class BlocoConfiguracoesExpansaoPMO(Block):
         if not isinstance(o, BlocoConfiguracoesExpansaoPMO):
             return False
         bloco: BlocoConfiguracoesExpansaoPMO = o
-        if not all([
-            isinstance(self.data, pd.DataFrame),
-            isinstance(o.data, pd.DataFrame),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
             return False
         else:
             return self.data.equals(bloco.data)
@@ -708,24 +780,33 @@ class BlocoMARSPMO(Block):
 
     MAX_RETAS_MARS = 3
 
-    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         # Cria a estrutura de uma linha da tabela
-        self.__line = Line([
-            IntegerField(12, 1),
-            FloatField(12, 14, 5, format="E"),
-            FloatField(12, 27, 5, format="E"),
-        ])
+        self.__line = Line(
+            [
+                IntegerField(12, 1),
+                FloatField(12, 14, 5, format="E"),
+                FloatField(12, 27, 5, format="E"),
+            ]
+        )
         self.__ree_field = LiteralField(10, 6)
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoMARSPMO):
             return False
         bloco: BlocoMARSPMO = o
-        if not all([
-            isinstance(self.data, pd.DataFrame),
-            isinstance(o.data, pd.DataFrame),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
             return False
         else:
             return self.data.equals(bloco.data)
@@ -779,10 +860,12 @@ class BlocoRiscoDeficitENSPMO(Block):
         if not isinstance(o, BlocoRiscoDeficitENSPMO):
             return False
         bloco: BlocoRiscoDeficitENSPMO = o
-        if not all([
-            isinstance(self.data, pd.DataFrame),
-            isinstance(o.data, pd.DataFrame),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
             return False
         else:
             return self.data.equals(bloco.data)
@@ -844,24 +927,33 @@ class BlocoCustoOperacaoPMO(Block):
     BEGIN_PATTERN = "PARCELA           V.ESPERADO"
     END_PATTERN = ""
 
-    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         # Cria a estrutura de uma linha da tabela
-        self.__line = Line([
-            LiteralField(18, 13),
-            FloatField(13, 32, 2),
-            FloatField(13, 46, 2),
-            FloatField(7, 60, 2),
-        ])
+        self.__line = Line(
+            [
+                LiteralField(18, 13),
+                FloatField(13, 32, 2),
+                FloatField(13, 46, 2),
+                FloatField(7, 60, 2),
+            ]
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoCustoOperacaoPMO):
             return False
         bloco: BlocoCustoOperacaoPMO = o
-        if not all([
-            isinstance(self.data, pd.DataFrame),
-            isinstance(o.data, pd.DataFrame),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
             return False
         else:
             return self.data.equals(bloco.data)
@@ -904,7 +996,12 @@ class BlocoCustoOperacaoTotalPMO(Block):
     BEGIN_PATTERN = "           VALOR ESPERADO TOTAL:"
     END_PATTERN = ""
 
-    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         # Cria a estrutura de uma linha da tabela
         self.__line = Line([FloatField(24, 50, 2)])
@@ -913,10 +1010,12 @@ class BlocoCustoOperacaoTotalPMO(Block):
         if not isinstance(o, BlocoCustoOperacaoTotalPMO):
             return False
         bloco: BlocoCustoOperacaoTotalPMO = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return all([sd == d for sd, d in zip(self.data, bloco.data)])
@@ -945,7 +1044,12 @@ class BlocoProdutibilidadesConfiguracaoPMO(Block):
     BEGIN_PATTERN = r"PRODUTIBILIDADES \(MW/m3/s\)"
     END_PATTERN = ""
 
-    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         # Cria a estrutura de uma linha da tabela
         self.__cfg_line = Line([IntegerField(4, 16)])
@@ -963,10 +1067,12 @@ class BlocoProdutibilidadesConfiguracaoPMO(Block):
         if not isinstance(o, BlocoProdutibilidadesConfiguracaoPMO):
             return False
         bloco: BlocoProdutibilidadesConfiguracaoPMO = o
-        if not all([
-            isinstance(self.data, pd.DataFrame),
-            isinstance(bloco.data, pd.DataFrame),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(bloco.data, pd.DataFrame),
+            ]
+        ):
             return False
         else:
             return self.data.equals(bloco.data)
@@ -1155,7 +1261,12 @@ class BlocoPenalidadeViolacaoOutrosUsosPMO(Block):
     BEGIN_PATTERN = "PENALIDADE POR VIOLACAO DOS OUTROS USOS DA AGUA "
     END_PATTERN = ""
 
-    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         ree_field: List[Field] = [LiteralField(10, 7)]
         pen_fields: List[Field] = [LiteralField(4, 2)] + [
@@ -1168,10 +1279,12 @@ class BlocoPenalidadeViolacaoOutrosUsosPMO(Block):
         if not isinstance(o, BlocoPenalidadeViolacaoOutrosUsosPMO):
             return False
         bloco: BlocoPenalidadeViolacaoOutrosUsosPMO = o
-        if not all([
-            isinstance(self.data, pd.DataFrame),
-            isinstance(o.data, pd.DataFrame),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
             return False
         else:
             return self.data.equals(bloco.data)
@@ -1242,7 +1355,12 @@ class BlocoPenalidadeViolacaoVazaoMinimaPMO(Block):
     BEGIN_PATTERN = "PENALIDADE POR VIOLACAO DE VAZAO MINIMA "
     END_PATTERN = ""
 
-    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         ree_field: List[Field] = [LiteralField(10, 7)]
         patamar_field: List[Field] = [IntegerField(1, 14)]
@@ -1257,10 +1375,12 @@ class BlocoPenalidadeViolacaoVazaoMinimaPMO(Block):
         if not isinstance(o, BlocoPenalidadeViolacaoVazaoMinimaPMO):
             return False
         bloco: BlocoPenalidadeViolacaoVazaoMinimaPMO = o
-        if not all([
-            isinstance(self.data, pd.DataFrame),
-            isinstance(o.data, pd.DataFrame),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
             return False
         else:
             return self.data.equals(bloco.data)
@@ -1340,7 +1460,12 @@ class BlocoPenalidadeViolacaoCurvaSegurancaPMO(Block):
     BEGIN_PATTERN = "PENALIDADE POR VIOLACAO DA CURVA GUIA DE SEGURANCA "
     END_PATTERN = ""
 
-    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         ree_field: List[Field] = [LiteralField(10, 7)]
         pen_fields: List[Field] = [LiteralField(4, 2)] + [
@@ -1353,10 +1478,12 @@ class BlocoPenalidadeViolacaoCurvaSegurancaPMO(Block):
         if not isinstance(o, BlocoPenalidadeViolacaoCurvaSegurancaPMO):
             return False
         bloco: BlocoPenalidadeViolacaoCurvaSegurancaPMO = o
-        if not all([
-            isinstance(self.data, pd.DataFrame),
-            isinstance(o.data, pd.DataFrame),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
             return False
         else:
             return self.data.equals(bloco.data)
@@ -1426,7 +1553,12 @@ class BlocoPenalidadeViolacaoFphaPMO(Block):
     BEGIN_PATTERN = "PENALIDADE POR VIOLACAO DA FPHA "
     END_PATTERN = ""
 
-    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         ree_field: List[Field] = [LiteralField(10, 7)]
         pen_fields: List[Field] = [LiteralField(4, 2)] + [
@@ -1439,10 +1571,12 @@ class BlocoPenalidadeViolacaoFphaPMO(Block):
         if not isinstance(o, BlocoPenalidadeViolacaoFphaPMO):
             return False
         bloco: BlocoPenalidadeViolacaoFphaPMO = o
-        if not all([
-            isinstance(self.data, pd.DataFrame),
-            isinstance(o.data, pd.DataFrame),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
             return False
         else:
             return self.data.equals(bloco.data)
@@ -1512,7 +1646,12 @@ class BlocoPenalidadeViolacaoEvaporacaoPMO(Block):
     BEGIN_PATTERN = "PENALIDADE POR VIOLACAO DA EVAPORACAO "
     END_PATTERN = ""
 
-    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         ree_field: List[Field] = [LiteralField(10, 7)]
         pen_fields: List[Field] = [LiteralField(4, 2)] + [
@@ -1525,10 +1664,12 @@ class BlocoPenalidadeViolacaoEvaporacaoPMO(Block):
         if not isinstance(o, BlocoPenalidadeViolacaoEvaporacaoPMO):
             return False
         bloco: BlocoPenalidadeViolacaoEvaporacaoPMO = o
-        if not all([
-            isinstance(self.data, pd.DataFrame),
-            isinstance(o.data, pd.DataFrame),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
             return False
         else:
             return self.data.equals(bloco.data)
@@ -1597,7 +1738,12 @@ class BlocoPenalidadeViolacaoTurbinamentoMaximoPMO(Block):
     BEGIN_PATTERN = "PENALIDADE POR VIOLACAO DE TURBINAMENTO MAXIMO "
     END_PATTERN = ""
 
-    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         pen_fields: List[Field] = [LiteralField(4, 2)] + [
             FloatField(10, 9 + 10 * i, 2) for i in range(len(MESES_DF))
@@ -1608,10 +1754,12 @@ class BlocoPenalidadeViolacaoTurbinamentoMaximoPMO(Block):
         if not isinstance(o, BlocoPenalidadeViolacaoTurbinamentoMaximoPMO):
             return False
         bloco: BlocoPenalidadeViolacaoTurbinamentoMaximoPMO = o
-        if not all([
-            isinstance(self.data, pd.DataFrame),
-            isinstance(o.data, pd.DataFrame),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
             return False
         else:
             return self.data.equals(bloco.data)
@@ -1663,7 +1811,12 @@ class BlocoPenalidadeViolacaoTurbinamentoMinimoPMO(Block):
     BEGIN_PATTERN = "PENALIDADE POR VIOLACAO DE TURBINAMENTO MINIMO "
     END_PATTERN = ""
 
-    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         pen_fields: List[Field] = [LiteralField(4, 2)] + [
             FloatField(10, 9 + 10 * i, 2) for i in range(len(MESES_DF))
@@ -1674,10 +1827,12 @@ class BlocoPenalidadeViolacaoTurbinamentoMinimoPMO(Block):
         if not isinstance(o, BlocoPenalidadeViolacaoTurbinamentoMinimoPMO):
             return False
         bloco: BlocoPenalidadeViolacaoTurbinamentoMinimoPMO = o
-        if not all([
-            isinstance(self.data, pd.DataFrame),
-            isinstance(o.data, pd.DataFrame),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
             return False
         else:
             return self.data.equals(bloco.data)

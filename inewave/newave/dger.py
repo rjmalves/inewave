@@ -910,7 +910,9 @@ class Dger(SectionFile):
         return None
 
     @considera_tendencia_hidrologica_calculo_politica.setter
-    def considera_tendencia_hidrologica_calculo_politica(self, dado: int) -> None:
+    def considera_tendencia_hidrologica_calculo_politica(
+        self, dado: int
+    ) -> None:
         b = self.data.get_sections_of_type(BlocoTendenciaHidrologica)
         if isinstance(b, BlocoTendenciaHidrologica):
             b.considera_tendencia_hidrologica_calculo_politica = dado

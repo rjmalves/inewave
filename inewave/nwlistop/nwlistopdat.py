@@ -182,7 +182,9 @@ class Nwlistopdat(SectionFile):
             raise ValueError("Variáveis só são suportadas na opção [2]")
 
     @variaveis_impressao_estagios_individualizados.setter
-    def variaveis_impressao_estagios_individualizados(self, v: List[int]) -> None:
+    def variaveis_impressao_estagios_individualizados(
+        self, v: List[int]
+    ) -> None:
         if self.opcao in [2]:
             b = self.data.get_sections_of_type(BlocoDadosNwlistop)
             if isinstance(b, BlocoDadosNwlistop):

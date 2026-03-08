@@ -110,9 +110,7 @@ def test_df_hidreletrica_curvajusante_polinomio_segmento():
         )
         assert df_curvajusante_polinomio_segmento.at[0, "codigo_usina"] == 1
         assert df_curvajusante_polinomio_segmento.at[0, "indice_familia"] == 1
-        assert (
-            df_curvajusante_polinomio_segmento.at[0, "indice_polinomio"] == 1
-        )
+        assert df_curvajusante_polinomio_segmento.at[0, "indice_polinomio"] == 1
         assert (
             df_curvajusante_polinomio_segmento.at[
                 0, "limite_inferior_vazao_jusante"
@@ -130,27 +128,19 @@ def test_df_hidreletrica_curvajusante_polinomio_segmento():
             == 885.3052
         )
         assert (
-            round(
-                df_curvajusante_polinomio_segmento.at[0, "coeficiente_a1"], 4
-            )
+            round(df_curvajusante_polinomio_segmento.at[0, "coeficiente_a1"], 4)
             == 0.0000
         )
         assert (
-            round(
-                df_curvajusante_polinomio_segmento.at[0, "coeficiente_a2"], 4
-            )
+            round(df_curvajusante_polinomio_segmento.at[0, "coeficiente_a2"], 4)
             == 0.0000
         )
         assert (
-            round(
-                df_curvajusante_polinomio_segmento.at[0, "coeficiente_a3"], 4
-            )
+            round(df_curvajusante_polinomio_segmento.at[0, "coeficiente_a3"], 4)
             == 0.0000
         )
         assert (
-            round(
-                df_curvajusante_polinomio_segmento.at[0, "coeficiente_a4"], 4
-            )
+            round(df_curvajusante_polinomio_segmento.at[0, "coeficiente_a4"], 4)
             == 0.0000
         )
 
@@ -250,9 +240,7 @@ def test_registro_polinjus_hidreletrica_curvajusante_afogamentoexplicito_usina()
 
 def test_registro_polinjus_hidreletrica_curvajusante_afogamentoexplicito_padrao():
     m: MagicMock = mock_open(
-        read_data="".join(
-            MockHidreletricaCurvaJusanteAfogamentoExplicitoPadrao
-        )
+        read_data="".join(MockHidreletricaCurvaJusanteAfogamentoExplicitoPadrao)
     )
     r = HidreletricaCurvaJusanteAfogamentoExplicitoPadrao()
     with patch("builtins.open", m):
@@ -458,16 +446,12 @@ def test_neq():
     with patch("builtins.open", m):
         log1 = UsinasHidreletricas.read(ARQ_TESTE)
         log2 = UsinasHidreletricas.read(ARQ_TESTE)
-        log1.hidreletrica_curvajusante_polinomio_segmento()[
-            0
-        ].codigo_usina = -1
+        log1.hidreletrica_curvajusante_polinomio_segmento()[0].codigo_usina = -1
         assert log1 != log2
 
 
 def test_leitura_escrita_usinas_hidreletricas():
-    m_leitura: MagicMock = mock_open(
-        read_data="".join(MockUsinasHidreletricas)
-    )
+    m_leitura: MagicMock = mock_open(read_data="".join(MockUsinasHidreletricas))
     with patch("builtins.open", m_leitura):
         cf1 = UsinasHidreletricas.read(ARQ_TESTE)
     m_escrita: MagicMock = mock_open(read_data="")

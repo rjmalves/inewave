@@ -14,30 +14,41 @@ requires-python = ">= 3.10"
 authors = [
   {name = "Rogerio Alves", email = "rogerioalves.ee@gmail.com"},
 ]
-description = "inewave"
+description = "Pacote Python para manipulação dos arquivos de entrada e saída do NEWAVE"
 readme = "README.md"
 license = {file = "LICENSE.md"}
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Developers",
     "License :: OSI Approved :: MIT License",
-    "Programming Language :: Python :: 3.10",
     "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Typing :: Typed",
 ]
 
 [project.optional-dependencies]
-dev = [
+test = [
     "pytest",
     "pytest-cov",
     "pytest-xdist",
-    "ruff",
+]
+lint = [
     "mypy",
-    "sphinx-rtd-theme",
-    "sphinx-gallery",
-    "sphinx",
+    "pre-commit",
+    "ruff",
+]
+docs = [
+    "matplotlib",
     "numpydoc",
     "plotly",
-    "matplotlib",
+    "sphinx",
+    "sphinx-gallery",
+    "sphinx-rtd-theme",
+]
+dev = [
+    "inewave[test,lint,docs]",
 ]
 
 [project.urls]
@@ -58,42 +69,7 @@ warn_return_any = false
 warn_unused_ignores = true
 
 [[tool.mypy.overrides]]
-module = "inewave.newave.*"
-strict = true
-warn_return_any = false
-
-[[tool.mypy.overrides]]
-module = "inewave.newave"
-strict = true
-warn_return_any = false
-
-[[tool.mypy.overrides]]
-module = "inewave"
-strict = true
-warn_return_any = false
-
-[[tool.mypy.overrides]]
-module = "inewave.nwlistop.*"
-strict = true
-warn_return_any = false
-
-[[tool.mypy.overrides]]
-module = "inewave.nwlistop"
-strict = true
-warn_return_any = false
-
-[[tool.mypy.overrides]]
-module = "inewave.nwlistcf.*"
-strict = true
-warn_return_any = false
-
-[[tool.mypy.overrides]]
-module = "inewave._utils.*"
-strict = true
-warn_return_any = false
-
-[[tool.mypy.overrides]]
-module = "inewave.libs.*"
+module = ["inewave", "inewave.newave", "inewave.newave.*", "inewave.nwlistop", "inewave.nwlistop.*", "inewave.nwlistcf.*", "inewave._utils.*", "inewave.libs.*"]
 strict = true
 warn_return_any = false
 
@@ -106,5 +82,6 @@ filterwarnings = [
 [tool.ruff]
 line-length = 80
 
-[tool.uv.sources]
-cfinterface = { path = "/home/rogerio/git/cfinterface" }
+[tool.ruff.lint]
+per-file-ignores = { "examples/*.py" = ["E402"] }
+

@@ -20,7 +20,7 @@ def test_atributos_nao_encontrados_forwarh():
     m: MagicMock = mock_open(read_data=b"")
     with pytest.raises(ValueError):
         with patch("builtins.open", m):
-            h = Forwarh.read(ARQ_TESTE)
+            h = Forwarh.read(ARQ_TESTE)  # noqa: F841
 
 
 def test_eq_forwarh():

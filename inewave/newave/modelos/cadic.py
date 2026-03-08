@@ -31,13 +31,20 @@ class BlocoCargasAdicionais(Section):
 
     FIM_BLOCO = " 999"
 
-    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha_subsis = Line([
-            IntegerField(3, 1),
-            LiteralField(10, 5),
-            LiteralField(12, 21),
-        ])
+        self.__linha_subsis = Line(
+            [
+                IntegerField(3, 1),
+                LiteralField(10, 5),
+                LiteralField(12, 21),
+            ]
+        )
         campo_ano: List[Field] = [LiteralField(4, 0)]
         campos_cargas: List[Field] = [
             FloatField(8, 6 + 8 * i, 0) for i in range(len(MESES_DF))
@@ -49,10 +56,12 @@ class BlocoCargasAdicionais(Section):
         if not isinstance(o, BlocoCargasAdicionais):
             return False
         bloco: BlocoCargasAdicionais = o
-        if not all([
-            isinstance(self.data, pd.DataFrame),
-            isinstance(o.data, pd.DataFrame),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
             return False
         else:
             return self.data.equals(bloco.data)
@@ -133,11 +142,13 @@ class BlocoCargasAdicionais(Section):
                 & (df["ano"] == linha_razao["ano"])
             ]
             df_razao = df_razao.sort_values(["data"])
-            if any([
-                linha_razao["codigo_submercado"] != ultimo_codigo,
-                linha_razao["nome_submercado"] != ultimo_subsis,
-                linha_razao["razao"] != ultima_razao,
-            ]):
+            if any(
+                [
+                    linha_razao["codigo_submercado"] != ultimo_codigo,
+                    linha_razao["nome_submercado"] != ultimo_subsis,
+                    linha_razao["razao"] != ultima_razao,
+                ]
+            ):
                 ultimo_codigo = linha_razao["codigo_submercado"]
                 ultimo_subsis = linha_razao["nome_submercado"]
                 ultima_razao = linha_razao["razao"]

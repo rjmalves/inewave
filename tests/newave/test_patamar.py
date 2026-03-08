@@ -36,9 +36,7 @@ def test_bloco_numero_patamares_patamar():
 
 
 def test_bloco_duracao_patamares_patamar():
-    m: MagicMock = mock_open(
-        read_data="".join(MockBlocoDuracaoMensalPatamares)
-    )
+    m: MagicMock = mock_open(read_data="".join(MockBlocoDuracaoMensalPatamares))
     b = BlocoDuracaoPatamar()
     with patch("builtins.open", m):
         with open("", "") as fp:
@@ -85,9 +83,7 @@ def test_bloco_carga_subsistema_patamar():
 
 
 def test_bloco_intercambio_patamar():
-    m: MagicMock = mock_open(
-        read_data="".join(MockBlocoIntercambioSubsistemas)
-    )
+    m: MagicMock = mock_open(read_data="".join(MockBlocoIntercambioSubsistemas))
     b = BlocoIntercambioPatamarSubsistemas()
     with patch("builtins.open", m):
         with open("", "") as fp:

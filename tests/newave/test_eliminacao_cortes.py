@@ -1,7 +1,9 @@
 # Rotinas de testes associadas ao arquivo eliminacao_cortes.dat do NEWAVE
 from unittest.mock import MagicMock, patch
 
-from inewave.newave.modelos.eliminacao_cortes import BlocoParametrosEliminacaoCortes
+from inewave.newave.modelos.eliminacao_cortes import (
+    BlocoParametrosEliminacaoCortes,
+)
 from inewave.newave import EliminacaoCortes
 from tests.mocks.arquivos.eliminacao_cortes import MockEliminacaoCortes
 from tests.mocks.mock_open import mock_open
@@ -18,12 +20,12 @@ def test_bloco_parametros_eliminacao_cortes():
 
     assert len(b.data) == 7
     assert len(b.data[0]) == 3
-    
-    assert b.data[0][0] == 1 
-    assert b.data[0][1] == 1  
+
+    assert b.data[0][0] == 1
+    assert b.data[0][1] == 1
     assert b.data[0][2] == 0
-    
-    assert b.data[4][0] == 5.00 
+
+    assert b.data[4][0] == 5.00
 
 
 def test_atributos_nao_encontrados_eliminacao_cortes():
@@ -71,10 +73,10 @@ def test_atributos_encontrados_eliminacao_cortes():
 
         # Teste do fator de afluências
         assert ec.fator_limites_afluencias == 5.00
-        
+
         # Teste da configuração de afluências da simulação final
         assert ec.afluencias_sim_final_calculo_limites == 1
-        
+
         # Teste da impressão de relatórios
         assert ec.impressao_relatorios == 0
 

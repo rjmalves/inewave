@@ -4,7 +4,6 @@ from inewave.newave import Ghmin
 
 from tests.mocks.mock_open import mock_open
 from unittest.mock import MagicMock, patch
-from datetime import datetime
 from tests.mocks.arquivos.ghmin import MockGhmin
 
 ARQ_TESTE = "./tests/mocks/arquivos/__init__.py"

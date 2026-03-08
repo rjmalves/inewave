@@ -259,16 +259,18 @@ print("Colunas (REE, Série):", energia_pivot.columns[:5].tolist())
 # Resumo estatístico por REE
 resumo_ree = (
     series.groupby("ree")["valor"]
-    .agg([
-        "count",
-        "mean",
-        "std",
-        "min",
-        "max",
-        lambda x: x.quantile(0.1),  # P10
-        lambda x: x.quantile(0.5),  # P50
-        lambda x: x.quantile(0.9),  # P90
-    ])
+    .agg(
+        [
+            "count",
+            "mean",
+            "std",
+            "min",
+            "max",
+            lambda x: x.quantile(0.1),  # P10
+            lambda x: x.quantile(0.5),  # P50
+            lambda x: x.quantile(0.9),  # P90
+        ]
+    )
     .round(2)
 )
 resumo_ree.columns = [

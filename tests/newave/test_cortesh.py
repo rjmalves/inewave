@@ -86,7 +86,7 @@ def test_atributos_nao_encontrados_cortesh():
     m: MagicMock = mock_open(read_data=b"")
     with pytest.raises(ValueError):
         with patch("builtins.open", m):
-            h = Cortesh.read(ARQ_TESTE)
+            h = Cortesh.read(ARQ_TESTE)  # noqa: F841
 
 
 def test_eq_cortesh():

@@ -22,34 +22,47 @@ class BlocoPenalidades(Section):
 
     __slots__ = ["__linha", "__cabecalhos", "__numero_patamares_penalidade"]
 
-    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(6, 1),
-            FloatField(8, 14, 2),
-            FloatField(8, 24, 2),
-            IntegerField(3, 36),
-            IntegerField(2, 42),
-            FloatField(8, 46, 2),
-            FloatField(8, 56, 2),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(6, 1),
+                FloatField(8, 14, 2),
+                FloatField(8, 24, 2),
+                IntegerField(3, 36),
+                IntegerField(2, 42),
+                FloatField(8, 46, 2),
+                FloatField(8, 56, 2),
+            ]
+        )
         self.__cabecalhos: List[str] = []
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoPenalidades):
             return False
         bloco: BlocoPenalidades = o
-        if not all([
-            isinstance(self.data, pd.DataFrame),
-            isinstance(o.data, pd.DataFrame),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
             return False
         else:
             return self.data.equals(bloco.data)
 
     # Override
     def read(  # type: ignore[override]  # signature extends base class
-        self, file: IO[Any], numero_patamares_penalidade: int = 2, *args: Any, **kwargs: Any
+        self,
+        file: IO[Any],
+        numero_patamares_penalidade: int = 2,
+        *args: Any,
+        **kwargs: Any,
     ) -> None:
         def converte_tabela_em_df() -> pd.DataFrame:
             df = pd.DataFrame(

@@ -24,23 +24,32 @@ class BlocoConfiguracoesPenalizacaoCurva(Section):
 
     __slots__ = ["__linha", "__cabecalhos"]
 
-    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            IntegerField(3, 1),
-            IntegerField(3, 5),
-            IntegerField(3, 9),
-        ])
+        self.__linha = Line(
+            [
+                IntegerField(3, 1),
+                IntegerField(3, 5),
+                IntegerField(3, 9),
+            ]
+        )
         self.__cabecalhos: List[str] = []
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoConfiguracoesPenalizacaoCurva):
             return False
         bloco: BlocoConfiguracoesPenalizacaoCurva = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
@@ -68,22 +77,31 @@ class BlocoPenalidadesViolacaoREECurva(Section):
 
     FIM_BLOCO = " 999"
 
-    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            IntegerField(3, 1),
-            FloatField(7, 11, 2),
-        ])
+        self.__linha = Line(
+            [
+                IntegerField(3, 1),
+                FloatField(7, 11, 2),
+            ]
+        )
         self.__cabecalhos: List[str] = []
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoPenalidadesViolacaoREECurva):
             return False
         bloco: BlocoPenalidadesViolacaoREECurva = o
-        if not all([
-            isinstance(self.data, pd.DataFrame),
-            isinstance(o.data, pd.DataFrame),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
             return False
         else:
             return self.data.equals(bloco.data)
@@ -140,7 +158,12 @@ class BlocoCurvaSegurancaREE(Section):
 
     FIM_BLOCO = "9999"
 
-    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         self.__linha_ree = Line([IntegerField(3, 1)])
         campo_ano: List[Field] = [IntegerField(4, 0)]
@@ -154,10 +177,12 @@ class BlocoCurvaSegurancaREE(Section):
         if not isinstance(o, BlocoCurvaSegurancaREE):
             return False
         bloco: BlocoCurvaSegurancaREE = o
-        if not all([
-            isinstance(self.data, pd.DataFrame),
-            isinstance(o.data, pd.DataFrame),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
             return False
         else:
             return self.data.equals(bloco.data)
@@ -239,13 +264,20 @@ class BlocoMaximoIteracoesProcessoIterativoEtapa2(Section):
     segunda etapa do processo iterativo no cálculo da curva de aversão.
     """
 
-    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(26, 0),
-            IntegerField(6, 28),
-            LiteralField(46, 39),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(26, 0),
+                IntegerField(6, 28),
+                LiteralField(46, 39),
+            ]
+        )
         self.__cabecalhos: List[str] = []
         self.__campo: str = ""
         self.__comentario: str = ""
@@ -254,10 +286,12 @@ class BlocoMaximoIteracoesProcessoIterativoEtapa2(Section):
         if not isinstance(o, BlocoMaximoIteracoesProcessoIterativoEtapa2):
             return False
         bloco: BlocoMaximoIteracoesProcessoIterativoEtapa2 = o
-        if not all([
-            isinstance(self.data, int),
-            isinstance(o.data, int),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, int),
+                isinstance(o.data, int),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
@@ -289,13 +323,20 @@ class BlocoIteracaoAPartirProcessoIterativoEtapa2(Section):
     segunda etapa do processo iterativo no cálculo da curva de aversão.
     """
 
-    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(26, 0),
-            IntegerField(6, 28),
-            LiteralField(46, 39),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(26, 0),
+                IntegerField(6, 28),
+                LiteralField(46, 39),
+            ]
+        )
         self.__campo: str = ""
         self.__comentario: str = ""
 
@@ -303,10 +344,12 @@ class BlocoIteracaoAPartirProcessoIterativoEtapa2(Section):
         if not isinstance(o, BlocoIteracaoAPartirProcessoIterativoEtapa2):
             return False
         bloco: BlocoIteracaoAPartirProcessoIterativoEtapa2 = o
-        if not all([
-            isinstance(self.data, int),
-            isinstance(o.data, int),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, int),
+                isinstance(o.data, int),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
@@ -333,13 +376,20 @@ class BlocoToleranciaProcessoIterativoEtapa2(Section):
     segunda etapa do processo iterativo no cálculo da curva de aversão.
     """
 
-    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(26, 0),
-            FloatField(6, 28, 3),
-            LiteralField(46, 39),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(26, 0),
+                FloatField(6, 28, 3),
+                LiteralField(46, 39),
+            ]
+        )
         self.__campo: str = ""
         self.__comentario: str = ""
 
@@ -347,10 +397,12 @@ class BlocoToleranciaProcessoIterativoEtapa2(Section):
         if not isinstance(o, BlocoToleranciaProcessoIterativoEtapa2):
             return False
         bloco: BlocoToleranciaProcessoIterativoEtapa2 = o
-        if not all([
-            isinstance(self.data, float),
-            isinstance(o.data, float),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, float),
+                isinstance(o.data, float),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data
@@ -377,13 +429,20 @@ class BlocoImpressaoRelatorioProcessoIterativoEtapa2(Section):
     segunda etapa do processo iterativo no cálculo da curva de aversão.
     """
 
-    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            LiteralField(26, 0),
-            IntegerField(6, 28),
-            LiteralField(46, 39),
-        ])
+        self.__linha = Line(
+            [
+                LiteralField(26, 0),
+                IntegerField(6, 28),
+                LiteralField(46, 39),
+            ]
+        )
         self.__campo: str = ""
         self.__comentario: str = ""
 
@@ -391,10 +450,12 @@ class BlocoImpressaoRelatorioProcessoIterativoEtapa2(Section):
         if not isinstance(o, BlocoImpressaoRelatorioProcessoIterativoEtapa2):
             return False
         bloco: BlocoImpressaoRelatorioProcessoIterativoEtapa2 = o
-        if not all([
-            isinstance(self.data, int),
-            isinstance(o.data, int),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, int),
+                isinstance(o.data, int),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data

@@ -14,7 +14,12 @@ class SecaoDadosVazaof(Section):
 
     __slots__ = ["__linha"]
 
-    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
 
     def __eq__(self, o: object) -> bool:
@@ -57,9 +62,7 @@ class SecaoDadosVazaof(Section):
         indices_estagios = np.arange(
             1 - numero_estagios_th, numero_estagios + 1
         )
-        estagios_df = np.repeat(
-            indices_estagios, numero_forwards * numero_uhes
-        )
+        estagios_df = np.repeat(indices_estagios, numero_forwards * numero_uhes)
         uhes_df = np.tile(
             np.repeat(np.arange(1, numero_uhes + 1), numero_forwards),
             numero_estagios + numero_estagios_th,

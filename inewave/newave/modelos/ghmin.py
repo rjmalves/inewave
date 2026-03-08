@@ -21,7 +21,12 @@ class BlocoUHEGhmin(Section):
 
     FIM_BLOCO = "999"
 
-    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         self.__linha_uhe = Line(
             [
@@ -90,11 +95,15 @@ class BlocoUHEGhmin(Section):
         if not isinstance(self.data, pd.DataFrame):
             raise ValueError("Dados do ghmin.dat não foram lidos com sucesso")
         df_aux = self.data.copy()
-        df_aux['ano'] = df_aux['data'].apply(lambda x: prepara_valor_ano(x.year))
-        df_aux['mes'] = df_aux['data'].apply(lambda x: f"{x.month:2d}")
+        df_aux["ano"] = df_aux["data"].apply(
+            lambda x: prepara_valor_ano(x.year)
+        )
+        df_aux["mes"] = df_aux["data"].apply(lambda x: f"{x.month:2d}")
         df_aux.drop("data", inplace=True, axis=1)
 
-        for _, linha in df_aux[['codigo_usina','mes','ano','patamar','geracao']].iterrows():
+        for _, linha in df_aux[
+            ["codigo_usina", "mes", "ano", "patamar", "geracao"]
+        ].iterrows():
             linha_lida: pd.Series = linha
             dados_linha = linha_lida.tolist()
             file.write(self.__linha_uhe.write(dados_linha))

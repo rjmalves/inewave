@@ -27,7 +27,12 @@ class BlocoUTEClasT(Section):
 
     FIM_BLOCO = " 9999"
 
-    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         campos_ute: List[Field] = [
             IntegerField(4, 1),
@@ -44,17 +49,23 @@ class BlocoUTEClasT(Section):
         if not isinstance(o, BlocoUTEClasT):
             return False
         bloco: BlocoUTEClasT = o
-        if not all([
-            isinstance(self.data, pd.DataFrame),
-            isinstance(o.data, pd.DataFrame),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
             return False
         else:
             return self.data.equals(bloco.data)
 
     # Override
     def read(  # type: ignore[override]  # signature extends base class
-        self, file: IO[Any], numero_anos_planejamento: int = 5, *args: Any, **kwargs: Any
+        self,
+        file: IO[Any],
+        numero_anos_planejamento: int = 5,
+        *args: Any,
+        **kwargs: Any,
     ) -> None:
         def converte_tabela_em_df() -> pd.DataFrame:
             df = pd.DataFrame(
@@ -138,7 +149,12 @@ class BlocoModificacaoUTEClasT(Section):
     usinas cadastradas no arquivo do NEWAVE `clast.dat`.
     """
 
-    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         campos_modificacao: List[Field] = [
             IntegerField(4, 1),
@@ -154,10 +170,12 @@ class BlocoModificacaoUTEClasT(Section):
         if not isinstance(o, BlocoModificacaoUTEClasT):
             return False
         bloco: BlocoModificacaoUTEClasT = o
-        if not all([
-            isinstance(self.data, pd.DataFrame),
-            isinstance(o.data, pd.DataFrame),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
             return False
         else:
             return self.data.equals(bloco.data)

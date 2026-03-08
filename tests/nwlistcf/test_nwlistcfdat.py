@@ -62,7 +62,7 @@ def test_eq_nwlistcfdat():
         assert n1 == n2
 
 
-def test_eq_nwlistcfdat():
+def test_eq_nwlistcfdat():  # noqa: F811
     m: MagicMock = mock_open(read_data="".join(MockNwlistcfdat))
     with patch("builtins.open", m):
         n1 = Nwlistcfdat.read(ARQ_TESTE)

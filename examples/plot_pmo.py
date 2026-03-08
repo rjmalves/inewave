@@ -4,7 +4,6 @@ Análise do pmo.dat
 ========================================
 """
 
-
 # %%
 # Para realizar a análise do pmo.dat, será utilizado o módulo plotly
 from inewave.newave import Pmo

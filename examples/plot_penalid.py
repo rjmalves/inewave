@@ -87,11 +87,13 @@ print("Análise por submercado/REE:")
 # Penalidades médias por submercado
 pen_por_submercado = (
     penalidades.groupby("codigo_ree_submercado")
-    .agg({
-        "valor_R$_MWh": ["mean", "std", "min", "max"],
-        "valor_R$_hm3": ["mean", "std", "min", "max"],
-        "variavel": "count",
-    })
+    .agg(
+        {
+            "valor_R$_MWh": ["mean", "std", "min", "max"],
+            "valor_R$_hm3": ["mean", "std", "min", "max"],
+            "variavel": "count",
+        }
+    )
     .round(2)
 )
 pen_por_submercado.columns = [
@@ -133,11 +135,13 @@ print("Análise das variáveis penalizadas:")
 # Agrupando por variável
 pen_por_variavel = (
     penalidades.groupby("variavel")
-    .agg({
-        "valor_R$_MWh": ["mean", "std", "count"],
-        "valor_R$_hm3": ["mean", "std"],
-        "codigo_ree_submercado": "nunique",
-    })
+    .agg(
+        {
+            "valor_R$_MWh": ["mean", "std", "count"],
+            "valor_R$_hm3": ["mean", "std"],
+            "codigo_ree_submercado": "nunique",
+        }
+    )
     .round(2)
 )
 pen_por_variavel.columns = [

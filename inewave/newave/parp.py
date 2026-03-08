@@ -266,9 +266,7 @@ class Parp(BlockFile):
         :rtype: pd.DataFrame | None
         """
         if self.__series_energia is None:
-            self.__series_energia = self.__concatena_dados(
-                BlocoSerieEnergiaREE
-            )
+            self.__series_energia = self.__concatena_dados(BlocoSerieEnergiaREE)
         return self.__series_energia
 
     @property
@@ -287,10 +285,8 @@ class Parp(BlockFile):
         """
         if self.__series_ruido is None:
             self.__series_ruido = self.__concatena_dados(BlocoSerieRuidosREE)
-            self.__series_ruido = (
-                self.__adiciona_coluna_ree_corrigindo_pre_pos(
-                    self.__series_ruido
-                )
+            self.__series_ruido = self.__adiciona_coluna_ree_corrigindo_pre_pos(
+                self.__series_ruido
             )
             self.__series_ruido = self.__converte_ano_mes_data(
                 self.__series_ruido
@@ -313,10 +309,8 @@ class Parp(BlockFile):
         """
         if self.__series_media is None:
             self.__series_media = self.__concatena_dados(BlocoSerieMediasREE)
-            self.__series_media = (
-                self.__adiciona_coluna_ree_corrigindo_pre_pos(
-                    self.__series_media
-                )
+            self.__series_media = self.__adiciona_coluna_ree_corrigindo_pre_pos(
+                self.__series_media
             )
             self.__series_media = self.__converte_ano_mes_data(
                 self.__series_media

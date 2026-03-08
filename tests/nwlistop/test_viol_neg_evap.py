@@ -1,6 +1,5 @@
 from inewave.nwlistop.viol_neg_evap import ViolNegEvap
 
-import numpy as np
 from datetime import datetime
 from tests.mocks.mock_open import mock_open
 from unittest.mock import MagicMock, patch

@@ -20,25 +20,34 @@ class BlocoReesSubmercados(Section):
 
     FIM_BLOCO = " 999"
 
-    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
-        self.__linha = Line([
-            IntegerField(3, 1),
-            LiteralField(10, 5),
-            IntegerField(3, 18),
-            IntegerField(2, 23),
-            IntegerField(4, 26),
-        ])
+        self.__linha = Line(
+            [
+                IntegerField(3, 1),
+                LiteralField(10, 5),
+                IntegerField(3, 18),
+                IntegerField(2, 23),
+                IntegerField(4, 26),
+            ]
+        )
         self.__cabecalhos: List[str] = []
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoReesSubmercados):
             return False
         bloco: BlocoReesSubmercados = o
-        if not all([
-            isinstance(self.data, pd.DataFrame),
-            isinstance(o.data, pd.DataFrame),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, pd.DataFrame),
+                isinstance(o.data, pd.DataFrame),
+            ]
+        ):
             return False
         else:
             return self.data.equals(bloco.data)
@@ -110,7 +119,12 @@ class BlocoFicticiasIndividualizado(Section):
     períodos individualizados.
     """
 
-    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([LiteralField(20, 0), IntegerField(4, 21)])
 
@@ -118,10 +132,12 @@ class BlocoFicticiasIndividualizado(Section):
         if not isinstance(o, BlocoFicticiasIndividualizado):
             return False
         bloco: BlocoFicticiasIndividualizado = o
-        if not all([
-            isinstance(self.data, list),
-            isinstance(o.data, list),
-        ]):
+        if not all(
+            [
+                isinstance(self.data, list),
+                isinstance(o.data, list),
+            ]
+        ):
             return False
         else:
             return self.data == bloco.data

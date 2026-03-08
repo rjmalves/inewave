@@ -12,7 +12,7 @@ class SecaoDadosCortesh(Section):
     """
 
     __slots__ = [
-        "data" "__df_ultimo_corte_por_estagio",
+        "data__df_ultimo_corte_por_estagio",
         "__df_dados_submercado",
         "__df_dados_uhes",
         "__tamanho_segundo_registro",
@@ -33,7 +33,12 @@ class SecaoDadosCortesh(Section):
 
     REGISTER_SIZE = 46080
 
-    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         self.__df_ultimo_corte_por_estagio = pd.DataFrame()
         self.__df_dados_submercado = pd.DataFrame()
@@ -923,9 +928,7 @@ class SecaoDadosCortesh(Section):
             )
             rees_submercado = np.array(self.rees_por_submercado).cumsum()
             codigos_internos = self.codigos_internos_rees_por_submercado
-            codigos_externos = self.codigos_rees_submercados[
-                : self.numero_rees
-            ]
+            codigos_externos = self.codigos_rees_submercados[: self.numero_rees]
             nomes = self.nomes_rees_submercados[: self.numero_rees]
             codigos_submercados = self.codigos_rees_submercados[
                 self.numero_rees :
@@ -951,9 +954,9 @@ class SecaoDadosCortesh(Section):
             )
             df["codigo_submercado"] = df.apply(
                 lambda linha: codigos_submercados[
-                    np.where(rees_submercado >= linha["codigo_interno_ree"])[
+                    np.where(rees_submercado >= linha["codigo_interno_ree"])[0][
                         0
-                    ][0]
+                    ]
                 ],
                 axis=1,
             )

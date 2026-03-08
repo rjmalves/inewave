@@ -14,7 +14,12 @@ class BlocoConfUTE(Section):
 
     __slots__ = ["__linha_ute", "__cabecalhos"]
 
-    def __init__(self, previous: Optional[Any] = None, next: Optional[Any] = None, data: Optional[Any] = None) -> None:
+    def __init__(
+        self,
+        previous: Optional[Any] = None,
+        next: Optional[Any] = None,
+        data: Optional[Any] = None,
+    ) -> None:
         super().__init__(previous, next, data)
         self.__linha_ute = Line(
             [
@@ -43,7 +48,9 @@ class BlocoConfUTE(Section):
 
     # Override
     def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
-        def extrai_coluna_de_listas(listas: List[list[Any]], coluna: int) -> list[Any]:
+        def extrai_coluna_de_listas(
+            listas: List[list[Any]], coluna: int
+        ) -> list[Any]:
             return [lista[coluna] for lista in listas]
 
         def transforma_utes_em_tabela() -> pd.DataFrame:
