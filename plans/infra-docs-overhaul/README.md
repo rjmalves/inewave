@@ -15,7 +15,7 @@ Modernize inewave's packaging metadata, CI/CD pipelines, documentation infrastru
 | ------- | ------------------------------- | ------- | ------------ |
 | epic-01 | Packaging & CI Modernization    | 5       | Detailed     |
 | epic-02 | Sphinx Modernization            | 2       | Detailed     |
-| epic-03 | Documentation Content Expansion | 5       | Outline      |
+| epic-03 | Documentation Content Expansion | 5       | Refined      |
 | epic-04 | Repository Polish               | 4       | Outline      |
 
 ## Progress
@@ -29,11 +29,11 @@ Modernize inewave's packaging metadata, CI/CD pipelines, documentation infrastru
 | ticket-005 | Add pre-commit hooks for ruff and mypy                    | epic-01 | completed | Detailed     | 0.97      | 0.93    | EXCELLENT |
 | ticket-006 | Migrate Sphinx theme from sphinx-rtd-theme to Furo        | epic-02 | completed | Detailed     | 0.97      | 0.90    | EXCELLENT |
 | ticket-007 | Update sphinx-gallery examples for current API patterns   | epic-02 | completed | Detailed     | 0.92      | 0.90    | EXCELLENT |
-| ticket-008 | Create architecture documentation page                    | epic-03 | pending   | Outline      | --        | --      | --        |
-| ticket-009 | Create FAQ documentation page                             | epic-03 | pending   | Outline      | --        | --      | --        |
-| ticket-010 | Create performance guide documentation page               | epic-03 | pending   | Outline      | --        | --      | --        |
-| ticket-011 | Improve API reference with autosummary                    | epic-03 | pending   | Outline      | --        | --      | --        |
-| ticket-012 | Update index.rst toctree for new pages                    | epic-03 | pending   | Outline      | --        | --      | --        |
+| ticket-008 | Create architecture documentation page                    | epic-03 | completed | Refined      | 1.00      | 0.95    | EXCELLENT |
+| ticket-009 | Create FAQ documentation page                             | epic-03 | completed | Refined      | 1.00      | 1.00    | EXCELLENT |
+| ticket-010 | Create performance guide documentation page               | epic-03 | completed | Refined      | 1.00      | 0.90    | EXCELLENT |
+| ticket-011 | Improve API reference with autosummary                    | epic-03 | completed | Refined      | 0.98      | 1.00    | EXCELLENT |
+| ticket-012 | Update index.rst toctree for new pages                    | epic-03 | completed | Refined      | 1.00      | 0.98    | EXCELLENT |
 | ticket-013 | Expand README with badges and structured sections         | epic-04 | pending   | Outline      | --        | --      | --        |
 | ticket-014 | Create CONTRIBUTING.md                                    | epic-04 | pending   | Outline      | --        | --      | --        |
 | ticket-015 | Reformat CHANGELOG to Keep a Changelog standard           | epic-04 | pending   | Outline      | --        | --      | --        |

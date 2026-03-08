@@ -3,6 +3,79 @@
 NEWAVE
 ===========
 
+O módulo ``inewave.newave`` contém as classes para leitura e escrita dos
+arquivos de entrada e saída do modelo NEWAVE. Cada classe representa um
+arquivo específico e oferece métodos para leitura, escrita e acesso aos
+dados armazenados nos respectivos registros.
+
+.. currentmodule:: inewave.newave
+
+.. autosummary::
+   :nosignatures:
+
+   Adterm
+   Agrint
+   Arquivos
+   AvlCortesFpha
+   AvlDesvFphaS
+   AvlDesvFphaVQ
+   Cadic
+   Caso
+   Clast
+   Confhd
+   Conft
+   Cortes
+   Cortesh
+   Curva
+   Cvar
+   Dger
+   Dsvagua
+   Eafpast
+   EcoFpha
+   Enavazb
+   Enavazf
+   Energiab
+   Energiaf
+   Energias
+   Engnat
+   EvapAvlDesv
+   EvapCortes
+   EvapEco
+   Exph
+   Expt
+   Forward
+   Forwarh
+   FphaAvlDesvS
+   FphaAvlDesvVQ
+   FphaCortes
+   FphaEco
+   Ghmin
+   Hidr
+   Manutt
+   Modif
+   Newavetim
+   NwvAvlEvap
+   NwvCortesEvap
+   NwvEcoEvap
+   Parp
+   Parpeol
+   Parpvaz
+   Patamar
+   Penalid
+   Pmo
+   Re
+   Ree
+   Selcor
+   Shist
+   Sistema
+   Vazaob
+   Vazaof
+   Vazaos
+   Vazinat
+   Vazoes
+   Vazpast
+   VolrefSaz
+
 .. toctree::
    :maxdepth: 2
 

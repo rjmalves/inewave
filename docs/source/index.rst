@@ -9,19 +9,27 @@ Interface de Programação para o NEWAVE
 **Data:** |today|
 
 .. toctree::
-   :caption: Apresentação 
+   :caption: Apresentação
    :maxdepth: 3
 
    apresentacao/apresentacao.rst
 
 .. toctree::
-   :caption: Geral 
+   :caption: Geral
    :maxdepth: 3
 
    geral/instalacao
    geral/tutorial
    examples/index.rst
    geral/contribuicao
+
+.. toctree::
+   :caption: Guias
+   :maxdepth: 2
+
+   geral/arquitetura
+   geral/desempenho
+   geral/faq
 
 .. toctree::
    :caption: Referência
