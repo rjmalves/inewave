@@ -23,7 +23,7 @@ jobs:
       - name: Validate version matches tag
         run: |
           TAG_VERSION="${GITHUB_REF#refs/tags/v}"
-          PKG_VERSION=$(python -c "import re; print(re.search(r'__version__ = \"(.+?)\"', open('inewave/__init__.py').read()).group(1))")
+          PKG_VERSION=$(uv run python -c "import re; print(re.search(r'__version__ = \"(.+?)\"', open('inewave/__init__.py').read()).group(1))")
           if [ "$TAG_VERSION" != "$PKG_VERSION" ]; then
             echo "::error::Tag version ($TAG_VERSION) does not match package version ($PKG_VERSION)"
             exit 1

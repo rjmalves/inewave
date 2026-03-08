@@ -23,13 +23,13 @@ Instalação
 
 A forma recomendada é instalar a versão distribuída no PyPI com ``pip``:
 
-.. code-block:: python
+.. code-block:: bash
 
    pip install inewave
 
 Para garantir que está usando a versão mais recente, adicione a flag ``--upgrade``:
 
-.. code-block:: python
+.. code-block:: bash
 
    pip install --upgrade inewave
 
@@ -42,7 +42,7 @@ Para garantir que está usando a versão mais recente, adicione a flag ``--upgra
 
 Informe o número da versão desejada diretamente no comando de instalação:
 
-.. code-block:: python
+.. code-block:: bash
 
    pip install inewave==1.12.0
 
@@ -58,7 +58,7 @@ O projeto é testado com Python 3.10, 3.11 e 3.12.
 Se ao tentar instalar você receber um erro indicando que a versão do Python é
 incompatível, verifique a versão instalada com:
 
-.. code-block:: python
+.. code-block:: bash
 
    python --version
 
@@ -68,13 +68,13 @@ incompatível, verifique a versão instalada com:
 O `uv <https://github.com/astral-sh/uv>`_ é um gerenciador de pacotes Python de alta
 performance e pode ser usado como alternativa ao ``pip``:
 
-.. code-block:: python
+.. code-block:: bash
 
    uv pip install inewave
 
 Para criar um projeto novo e adicionar o *inewave* como dependência:
 
-.. code-block:: python
+.. code-block:: bash
 
    uv init meu-projeto
    cd meu-projeto
@@ -223,7 +223,7 @@ O *inewave* declara a dependência ``cfinterface>=1.9.0`` para garantir que essa
 funcionalidade esteja sempre disponível. Se você vir erros relacionados ao atributo
 ``VERSIONS`` ou ao argumento ``version=``, verifique a versão instalada do cfinterface:
 
-.. code-block:: python
+.. code-block:: bash
 
    pip show cfinterface
 
@@ -235,7 +235,7 @@ Resolução de Problemas
 
 Verifique se o *inewave* está corretamente instalado no ambiente Python ativo:
 
-.. code-block:: python
+.. code-block:: bash
 
    pip show inewave
 
@@ -244,13 +244,13 @@ Se o pacote não for encontrado, instale-o com ``pip install inewave``.
 Caso o erro mencione ``cfinterface``, pode haver um conflito de versão. Verifique a
 versão instalada do cfinterface:
 
-.. code-block:: python
+.. code-block:: bash
 
    pip show cfinterface
 
 A versão instalada deve satisfazer ``cfinterface>=1.9.0``. Se for menor, atualize com:
 
-.. code-block:: python
+.. code-block:: bash
 
    pip install --upgrade cfinterface
 

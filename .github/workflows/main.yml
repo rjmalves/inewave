@@ -21,6 +21,8 @@ jobs:
         run: uv sync --extra lint
       - name: Run ruff linter
         run: uv run ruff check ./inewave
+      - name: Run ruff formatter (check only)
+        run: uv run ruff format --check ./inewave
 
   typecheck:
     runs-on: ubuntu-latest
