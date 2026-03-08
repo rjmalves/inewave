@@ -1,6 +1,6 @@
 {
   "plan": "infra-docs-overhaul",
-  "last_updated": "2026-03-08T20:00:00Z",
+  "last_updated": "2026-03-08T17:45:51Z",
   "progressive": true,
   "tickets": {
     "ticket-001-modernize-pyproject-toml.md": {
@@ -124,7 +124,7 @@
       "agent": "python-task-automation-developer"
     },
     "ticket-006-migrate-sphinx-theme.md": {
-      "status": "pending",
+      "status": "completed",
       "detail_level": "detailed",
       "scores": {
         "readiness": 0.97,
@@ -134,11 +134,21 @@
           "boundary": 1.0,
           "dependency_clarity": 1.0,
           "atomicity": 1.0
+        },
+        "quality": 0.90,
+        "quality_breakdown": {
+          "conformance": 0.80,
+          "scope_adherence": 1.00,
+          "lint_cleanliness": 1.00,
+          "type_safety": 1.00,
+          "test_delta": 1.00
         }
-      }
+      },
+      "workflow_step": null,
+      "agent": "open-source-documentation-writer"
     },
     "ticket-007-update-sphinx-gallery-examples.md": {
-      "status": "pending",
+      "status": "completed",
       "detail_level": "detailed",
       "scores": {
         "readiness": 0.92,
@@ -148,8 +158,18 @@
           "boundary": 0.88,
           "dependency_clarity": 1.0,
           "atomicity": 0.8
+        },
+        "quality": 0.90,
+        "quality_breakdown": {
+          "conformance": 0.80,
+          "scope_adherence": 1.00,
+          "lint_cleanliness": 1.00,
+          "type_safety": 1.00,
+          "test_delta": 1.00
         }
-      }
+      },
+      "workflow_step": null,
+      "agent": "open-source-documentation-writer"
     },
     "ticket-008-create-architecture-page.md": {
       "status": "pending",
@@ -194,8 +214,8 @@
       "learning_extracted": true
     },
     "epic-02-sphinx-modernization": {
-      "phase": "executing",
-      "learning_extracted": false
+      "phase": "completed",
+      "learning_extracted": true
     },
     "epic-03-documentation-content-expansion": {
       "phase": "outline",

@@ -45,7 +45,7 @@ docs = [
     "plotly",
     "sphinx",
     "sphinx-gallery",
-    "sphinx-rtd-theme",
+    "furo",
 ]
 dev = [
     "inewave[test,lint,docs]",
@@ -84,4 +84,3 @@ line-length = 80
 
 [tool.ruff.lint]
 per-file-ignores = { "examples/*.py" = ["E402"] }
-

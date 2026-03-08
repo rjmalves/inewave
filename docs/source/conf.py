@@ -47,7 +47,6 @@ extensions = [
     "sphinx.ext.viewcode",
     "sphinx_gallery.gen_gallery",
     "numpydoc",
-    "sphinx_rtd_theme",
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -78,7 +77,8 @@ master_doc = "index"
 exclude_patterns: List[str] = []
 
 add_module_names = False
-pygments_style = "sphinx"
+pygments_style = "default"
+pygments_dark_style = "monokai"
 modindex_common_prefix = ["inewave."]
 
 # -- Options for HTML output -------------------------------------------------
@@ -86,15 +86,10 @@ modindex_common_prefix = ["inewave."]
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = "sphinx_rtd_theme"
+html_theme = "furo"
 html_theme_options = {
-    "logo_only": True,
-    # Toc options
-    "collapse_navigation": False,
-    "sticky_navigation": True,
-    "navigation_depth": 4,
-    "includehidden": True,
-    "titles_only": False,
+    "sidebar_hide_name": True,
+    "navigation_with_keys": True,
 }
 
 # Add any paths that contain custom static files (such as style sheets) here,

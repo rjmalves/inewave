@@ -9,8 +9,10 @@ Leitura dos binários forwarh.dat e forward.dat
 # .. warning::
 #
 #     Estes arquivos podem mudar de formato com frequência mediante o versionamento
-#     do modelo. Recomenda-se atenção com o uso da propriedade `set_version` para a
-#     versão correta e, caso esta não seja suportada, a abertura de uma `issue <https://github.com/rjmalves/inewave/issues>`_.
+#     do modelo. Para arquivos que suportam múltiplas versões, utilize o argumento
+#     nomeado ``version=`` no método ``read()`` para garantir a leitura correta. Caso
+#     a versão necessária não seja suportada, abra uma
+#     `issue <https://github.com/rjmalves/inewave/issues>`_.
 #
 
 # %%

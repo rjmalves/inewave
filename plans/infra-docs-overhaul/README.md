@@ -27,8 +27,8 @@ Modernize inewave's packaging metadata, CI/CD pipelines, documentation infrastru
 | ticket-003 | Migrate docs deployment to official GitHub Pages actions  | epic-01 | completed | Detailed     | 0.97      | 0.95    | EXCELLENT |
 | ticket-004 | Create release workflow with trusted publishing           | epic-01 | completed | Detailed     | 0.97      | 0.93    | EXCELLENT |
 | ticket-005 | Add pre-commit hooks for ruff and mypy                    | epic-01 | completed | Detailed     | 0.97      | 0.93    | EXCELLENT |
-| ticket-006 | Migrate Sphinx theme from sphinx-rtd-theme to Furo        | epic-02 | pending   | Detailed     | 0.97      | --      | --        |
-| ticket-007 | Update sphinx-gallery examples for current API patterns   | epic-02 | pending   | Detailed     | 0.92      | --      | --        |
+| ticket-006 | Migrate Sphinx theme from sphinx-rtd-theme to Furo        | epic-02 | completed | Detailed     | 0.97      | 0.90    | EXCELLENT |
+| ticket-007 | Update sphinx-gallery examples for current API patterns   | epic-02 | completed | Detailed     | 0.92      | 0.90    | EXCELLENT |
 | ticket-008 | Create architecture documentation page                    | epic-03 | pending   | Outline      | --        | --      | --        |
 | ticket-009 | Create FAQ documentation page                             | epic-03 | pending   | Outline      | --        | --      | --        |
 | ticket-010 | Create performance guide documentation page               | epic-03 | pending   | Outline      | --        | --      | --        |
