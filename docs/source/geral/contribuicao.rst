@@ -1,8 +1,15 @@
 Como contribuir?
 =================
 
-O framework `cfinterface` e dependências de desenvolvimento
-------------------------------------------------------------
+.. note::
+
+   O guia completo para contribuidores — incluindo configuração do ambiente, ferramentas de qualidade de código, execução de testes e fluxo de pull request — está disponível no arquivo `CONTRIBUTING.md <https://github.com/rjmalves/inewave/blob/main/CONTRIBUTING.md>`_ na raiz do repositório.
+
+   Esta página descreve as convenções de modelagem específicas do *inewave* e as referências ao framework *cfinterface*, que utilizam recursos de marcação próprios do Sphinx.
+
+
+O framework `cfinterface` e a modelagem de arquivos
+----------------------------------------------------
 
 O módulo *inewave* é desenvolvido considerando o framework proposto no módulo `cfinterface <https://github.com/rjmalves/cfi>`_.
 
@@ -35,19 +42,6 @@ Registros podem ser vistos como blocos de uma só linha mas, devido à sua simpl
 :obj:`~cfinterface.components.register.Register`. A implementação de um registro consiste apenas na sua definição, visto que
 a leitura e a escrita deste são inteiramente obtidas do formato dos seus campos. No *inewave*, apenas o arquivo :ref:`modif.dat <modif>` é modelado
 seguindo esta abordagem.
-
-
-
-Para instalar as dependências de desenvolvimento, incluindo as necessárias para a geração automática do site::
-    
-    $ git clone https://github.com/rjmalves/inewave.git
-    $ cd inewave
-    $ pip install -r dev-requirements.txt
-
-.. warning::
-
-    O conteúdo da documentação não deve ser movido para o repositório. Isto é feito
-    automaticamente pelos scripts de CI no caso de qualquer modificação no branch `main`.
 
 
 Diretrizes de modelagem para o módulo `inewave`
@@ -97,7 +91,7 @@ para uma das séries utilizadas na simulação final realizada no modelo:
     P95             0.0      0.0      0.0   3738.4   4180.8   4957.9   5781.1   6001.8   6130.4   6335.6   6203.7   5292.0
     MAX             0.0      0.0      0.0   3868.6   4822.5   5242.2   6699.3   6902.6   6922.1   7138.0  10175.4   9677.2
 
-Quando processado, as informações contidas nste arquivo são convertidas para um formato normal, com uma coluna para representar `data`, `patamar`, `serie` e `valor`.
+Quando processado, as informações contidas neste arquivo são convertidas para um formato normal, com uma coluna para representar `data`, `patamar`, `serie` e `valor`.
 Quando as informações contidas nos arquivos não forem representadas em formato semelhante, é recomendado que seja feita uma transformação
 semelhante, visto que a maioria das informações armazenadas em bancos de dados estão em formato semelhante.
 
@@ -134,38 +128,24 @@ das colunas. Alguns pontos recorrentes onde são encontradas ambiguidades e deve
   ao se referir a REE.
 
 
-Convenções de código
----------------------
+Configuracao do ambiente e procedimentos de qualidade
+------------------------------------------------------
 
-O *inewave* considera critérios de qualidade de código em seus scripts de Integração Contínua (CI), além de uma bateria de testes unitários.
-Desta forma, não é possível realizar uma *release* de uma versão que não passe em todos os testes estabelecidos ou não
-atenda aos critérios de qualidade de código impostos.
+Para instalar as dependências de desenvolvimento::
 
-A primeira convenção é que sejam seguidas as diretrizes de sintaxe `PEP8 <https://peps.python.org/pep-0008/>`_, provenientes do guia de estilo
-do autor da linguagem. Além disso, não é recomendado que existam funções muito complexas, com uma quantidade
-excessiva de *branches* e *loops*, o que piora e legibilidade do código. Isto pode ser garantido através de módulos
-específicos para análise de qualidade de código, como será mencionado a seguir. A única exceção é a regra `E203 <https://www.flake8rules.com/rules/E203.html>`_.
+    $ git clone https://github.com/rjmalves/inewave.git
+    $ cd inewave
+    $ uv sync --extra dev
+    $ uv run pre-commit install
 
-Para garantir a formatação é recomendado utilizar o módulo `black <https://github.com/psf/black>`_, que realiza formatação automática e possui
-integração nativa com alguns editores de texto no formato de *plugins* ou extensões. 
+.. warning::
 
-A segunda convenção é que seja utilizada tipagem estática. Isto é, não deve ser uitilizada uma variável em código a qual possua
-tipo de dados que possa mudar durante a execução do mesmo. Além disso, não deve ser declarada uma variável cujo tipo não é possível de
-ser inferido em qualquer situação, permanencendo incerto para o leitor o tipo de dados da variável a menos que seja feita uma
-execução de teste do programa.
+   O conteúdo da documentação não deve ser movido para o repositório. Isto é feito
+   automaticamente pelos scripts de CI no caso de qualquer modificação no branch `main`.
 
+Antes de realizar um ``git push`` é recomendado executar os procedimentos de qualidade que serão novamente executados pelo ambiente de CI::
 
-Procedimentos de teste
------------------------
-
-O *inewave* realiza testes utilizando o pacote de testes de Python `pytest <https://pytest.org>`_
-e controle da qualidade de código com `pylama <https://pylama.readthedocs.io/en/latest//>`_.
-A tipagem estática é garantida através do uso de `mypy <http://mypy-lang.org/>`_
-, que é sempre executado nos scripts de Integração Contínua (CI).
-
-Antes de realizar um ``git push`` é recomendado que se realize estes três procedimentos
-descritos, que serão novamente executados pelo ambiente de CI::
-
-    $ pytest ./tests
-    $ mypy ./inewave
-    $ pylama ./inewave --ignore E203
+    $ uv run ruff check ./inewave
+    $ uv run ruff format ./inewave
+    $ uv run mypy ./inewave
+    $ uv run pytest ./tests
