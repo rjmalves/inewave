@@ -5,6 +5,13 @@ Todas as mudancas notaveis neste projeto serao documentadas neste arquivo.
 O formato e baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/),
 e este projeto adere ao [Versionamento Semantico](https://semver.org/lang/pt-BR/).
 
+## [1.13.1] - 2026-03-08
+
+### Modificado
+
+- Requisito mínimo de Python atualizado de `>= 3.10` para `>= 3.11`, acompanhando o fim de suporte do pandas para Python 3.10.
+- Requisito mínimo de pandas atualizado de `>= 2.2.3` para `>= 3.0.0`.
+
 ## [1.13.0] - 2026-03-08
 
 ### Adicionado
@@ -369,7 +376,8 @@ e este projeto adere ao [Versionamento Semantico](https://semver.org/lang/pt-BR/
 - Arquivos do NWLISTOP processados para formato normal de séries temporais
 - Dependência da cfinterface atualizada para [v1.5.2](https://github.com/rjmalves/cfi/releases/tag/v1.5.2)
 
-[1.13.0]: https://github.com/rjmalves/inewave/compare/v1.12.1...HEAD
+[1.13.1]: https://github.com/rjmalves/inewave/compare/v1.13.0...v1.13.1
+[1.13.0]: https://github.com/rjmalves/inewave/compare/v1.12.1...v1.13.0
 [1.12.1]: https://github.com/rjmalves/inewave/compare/v1.12.0...v1.12.1
 [1.12.0]: https://github.com/rjmalves/inewave/compare/v1.11.2...v1.12.0
 [1.11.2]: https://github.com/rjmalves/inewave/compare/v1.11.1...v1.11.2

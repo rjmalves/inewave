@@ -1,20 +1,20 @@
-# Guia de Migração para v1.13.0
+# Guia de Migração para v1.13.x
 
-Este documento descreve as mudanças introduzidas no _inewave_ v1.13.0 e orienta
+Este documento descreve as mudanças introduzidas no _inewave_ v1.13.x e orienta
 consumidores da biblioteca sobre o que deve ser atualizado em projetos existentes.
 
 ---
 
 ## 1. Requisitos de dependências
 
-A v1.13.0 eleva os requisitos mínimos de todas as dependências diretas:
+A v1.13.1 eleva os requisitos mínimos de todas as dependências diretas:
 
-| Dependência | Versão mínima anterior | Versão mínima em v1.13.0 |
+| Dependência | Versão mínima anterior | Versão mínima em v1.13.1 |
 | ----------- | ---------------------- | ------------------------ |
-| Python      | >= 3.10                | >= 3.10 (sem mudança)    |
+| Python      | >= 3.10                | **>= 3.11**              |
 | cfinterface | >= 1.8.x               | **>= 1.9.0**             |
 | numpy       | >= 1.x                 | **>= 2.2.1**             |
-| pandas      | >= 2.x                 | **>= 2.2.3**             |
+| pandas      | >= 2.x                 | **>= 3.0.0**             |
 
 A exigência de `cfinterface >= 1.9.0` é necessária para o suporte ao argumento
 `version=` no método `read` e ao método `validate()`, ambos introduzidos nesta

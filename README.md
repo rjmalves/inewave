@@ -46,7 +46,7 @@ arq_vazoes.write("./vazoes_sensibilidade.dat")
 
 ## Instalacao
 
-O `inewave` é compatível com Python 3.10, 3.11 e 3.12.
+O `inewave` é compatível com Python 3.11, 3.12, 3.13 e 3.14.
 
 Instalação a partir do PyPI:
 

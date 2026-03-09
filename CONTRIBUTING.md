@@ -6,7 +6,7 @@ Obrigado pelo interesse em contribuir com o _inewave_! Este guia descreve o flux
 
 ### Pré-requisitos
 
-- Python 3.10 ou superior
+- Python 3.11 ou superior
 - [uv](https://docs.astral.sh/uv/) (gerenciador de pacotes e ambientes)
 - Git
 
@@ -118,7 +118,7 @@ Para gerar um relatório XML (formato utilizado no CI para envio ao Codecov):
 $ uv run pytest --cov-report=xml --cov=inewave ./tests
 ```
 
-O CI executa os testes em matriz para Python 3.10, 3.11 e 3.12. Recomenda-se testar localmente na versão mais antiga suportada (3.10) caso haja dúvidas sobre compatibilidade.
+O CI executa os testes em matriz para Python 3.11, 3.12, 3.13 e 3.14. Recomenda-se testar localmente na versão mais antiga suportada (3.11) caso haja dúvidas sobre compatibilidade.
 
 ---
 

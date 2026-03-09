@@ -52,8 +52,8 @@ Versões disponíveis podem ser consultadas na página do projeto no
 
 **Qual é a versão mínima do Python necessária para usar o inewave?**
 
-O *inewave* requer **Python >= 3.10**. Versões anteriores não são suportadas.
-O projeto é testado com Python 3.10, 3.11 e 3.12.
+O *inewave* requer **Python >= 3.11**. Versões anteriores não são suportadas.
+O projeto é testado com Python 3.11, 3.12, 3.13 e 3.14.
 
 Se ao tentar instalar você receber um erro indicando que a versão do Python é
 incompatível, verifique a versão instalada com:
