@@ -194,6 +194,8 @@ class BlocoDadosNwlistop(Section):
         # Escreve os nomes de arquivos
         for c in self.data["arquivos"]:
             file.write(self.__linha_arquivo.write(c))
-        # Escreve as linhas de comentários
-        for c in self.__comentarios:
+        # Escreve as linhas de cabeçalho para períodos
+        for c in self.__comentarios[0]:
             file.write(c)
+        # Escreve os períodos
+        file.write(self.__linha_periodos.write(self.data["periodos"]))
