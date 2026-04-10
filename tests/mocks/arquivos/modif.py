@@ -28,6 +28,13 @@ MockTURBMAXT = " TURBMAXT  1 2020    0.00"
 
 MockTURBMINT = " TURBMINT  1 2020    0.00"
 
+# PDE deck format mocks (different column spacing than NEWAVE)
+MockUSINA_PDE_3DIGIT = " USINA     228                 COLIDER\n"
+MockUSINA_PDE_MULTIWORD = " USINA     4                   FUNIL GRANDE\n"
+MockVMAXT_PDE = " VMAXT     1 2024     80.7 '%'\n"
+MockVMINT_PDE = " VMINT     1 2024    13.23 '%'\n"
+MockVAZMINT_PDE = " VAZMINT   1 2024       79    \n"
+
 MockModif = [
     " P.CHAVE  MODIFICACOES E INDICES\n",
     " XXXXXXXX XXXXXXXXXXXXXXXXXXXXX\n",

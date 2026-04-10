@@ -83,6 +83,16 @@ class USINA(Register):
     IDENTIFIER_DIGITS = 8
     LINE = Line([IntegerField(4, 9), LiteralField(20, 44)])
 
+    def read(
+        self, file: IO[Any], storage: str = "", *args: Any, **kwargs: Any
+    ) -> bool:
+        line_str = file.readline()
+        parts = line_str.split()
+        codigo = int(parts[1]) if len(parts) > 1 else None
+        nome = " ".join(parts[2:]) if len(parts) > 2 else None
+        self.data = [codigo, nome]
+        return True
+
     @property
     def codigo(self) -> Optional[int]:
         """
@@ -241,11 +251,11 @@ class NUMMAQ(ModifRegister):
         :return: O índice do conjunto de máquinas
         :rtype: Optional[int]
         """
-        return self.data[0]
+        return self.data[1]
 
     @conjunto.setter
     def conjunto(self, t: int) -> None:
-        self.data[0] = t
+        self.data[1] = t
 
     @property
     def numero_maquinas(self) -> Optional[int]:
@@ -255,11 +265,11 @@ class NUMMAQ(ModifRegister):
         :return: O número de máquinas do conjunto
         :rtype: Optional[int]
         """
-        return self.data[1]
+        return self.data[0]
 
     @numero_maquinas.setter
     def numero_maquinas(self, t: int) -> None:
-        self.data[1] = t
+        self.data[0] = t
 
 
 class VAZMIN(ModifRegister):
@@ -374,13 +384,13 @@ class CMONT(ModifRegister):
         self.data[2] = t
 
 
-class VMAXT(Register):
+class VMAXT(ModifRegister):
     """
     Registro que contém uma modificação do volume máximo
     com data.
     """
 
-    __slots__: List[str] = []
+    __slots__ = []
 
     IDENTIFIER = " VMAXT"
     IDENTIFIER_DIGITS = 8
@@ -437,13 +447,13 @@ class VMAXT(Register):
         self.data[3] = t
 
 
-class VMINT(Register):
+class VMINT(ModifRegister):
     """
     Registro que contém uma modificação do volume mínimo
     com data.
     """
 
-    __slots__: List[str] = []
+    __slots__ = []
 
     IDENTIFIER = " VMINT"
     IDENTIFIER_DIGITS = 8
@@ -500,13 +510,13 @@ class VMINT(Register):
         self.data[3] = t
 
 
-class VMINP(Register):
+class VMINP(ModifRegister):
     """
     Registro que contém uma modificação do volume mínimo
     com data para adoção de penalidade.
     """
 
-    __slots__: List[str] = []
+    __slots__ = []
 
     IDENTIFIER = " VMINP"
     IDENTIFIER_DIGITS = 8
@@ -563,13 +573,13 @@ class VMINP(Register):
         self.data[3] = t
 
 
-class VAZMINT(Register):
+class VAZMINT(ModifRegister):
     """
     Registro que contém uma modificação da vazão mínima
     com data.
     """
 
-    __slots__: List[str] = []
+    __slots__ = []
 
     IDENTIFIER = " VAZMINT"
     IDENTIFIER_DIGITS = 8
@@ -611,13 +621,13 @@ class VAZMINT(Register):
         self.data[2] = t
 
 
-class VAZMAXT(Register):
+class VAZMAXT(ModifRegister):
     """
     Registro que contém uma modificação da vazão máxima
     com data.
     """
 
-    __slots__: List[str] = []
+    __slots__ = []
 
     IDENTIFIER = " VAZMAXT"
     IDENTIFIER_DIGITS = 8
@@ -659,13 +669,13 @@ class VAZMAXT(Register):
         self.data[2] = t
 
 
-class TURBMAXT(Register):
+class TURBMAXT(ModifRegister):
     """
     Registro que contém uma modificação da turbinamento máximo
     com data.
     """
 
-    __slots__: List[str] = []
+    __slots__ = []
 
     IDENTIFIER = " TURBMAXT"
     IDENTIFIER_DIGITS = 9
@@ -707,13 +717,13 @@ class TURBMAXT(Register):
         self.data[2] = t
 
 
-class TURBMINT(Register):
+class TURBMINT(ModifRegister):
     """
     Registro que contém uma modificação da turbinamento mínimo
     com data.
     """
 
-    __slots__: List[str] = []
+    __slots__ = []
 
     IDENTIFIER = " TURBMINT"
     IDENTIFIER_DIGITS = 9

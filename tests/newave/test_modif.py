@@ -1,46 +1,49 @@
 # Rotinas de testes associadas ao arquivo modif.dat do NEWAVE
-from inewave.newave.modelos.modif import (
-    USINA,
-    VOLMIN,
-    VOLMAX,
-    NUMCNJ,
-    NUMMAQ,
-    VAZMIN,
-    CFUGA,
-    CMONT,
-    VMAXT,
-    VMINT,
-    VMINP,
-    VAZMINT,
-    VAZMAXT,
-    TURBMAXT,
-    TURBMINT,
-)
-
-from inewave.newave import Modif
-
 from datetime import datetime
-from tests.mocks.mock_open import mock_open
 from unittest.mock import MagicMock, patch
 
+from inewave.newave import Modif
+from inewave.newave.modelos.modif import (
+    CFUGA,
+    CMONT,
+    NUMCNJ,
+    NUMMAQ,
+    TURBMAXT,
+    TURBMINT,
+    USINA,
+    VAZMAXT,
+    VAZMIN,
+    VAZMINT,
+    VMAXT,
+    VMINP,
+    VMINT,
+    VOLMAX,
+    VOLMIN,
+)
 from tests.mocks.arquivos.modif import (
-    MockModif,
-    MockUSINA,
-    MockVOLMIN,
-    MockVOLMAX,
-    MockNUMCNJ,
-    MockNUMMAQ,
-    MockVAZMIN,
     MockCFUGA,
     MockCMONT,
-    MockVMAXT,
-    MockVMINT,
-    MockVMINP,
-    MockVAZMINT,
-    MockVAZMAXT,
+    MockModif,
+    MockNUMCNJ,
+    MockNUMMAQ,
     MockTURBMAXT,
     MockTURBMINT,
+    MockUSINA,
+    MockUSINA_PDE_3DIGIT,
+    MockUSINA_PDE_MULTIWORD,
+    MockVAZMAXT,
+    MockVAZMIN,
+    MockVAZMINT,
+    MockVAZMINT_PDE,
+    MockVMAXT,
+    MockVMAXT_PDE,
+    MockVMINP,
+    MockVMINT,
+    MockVMINT_PDE,
+    MockVOLMAX,
+    MockVOLMIN,
 )
+from tests.mocks.mock_open import mock_open
 
 ARQ_TESTE = "./tests/mocks/arquivos/__init__.py"
 
@@ -48,9 +51,8 @@ ARQ_TESTE = "./tests/mocks/arquivos/__init__.py"
 def test_registro_usina_modif():
     m: MagicMock = mock_open(read_data="".join(MockUSINA))
     r = USINA()
-    with patch("builtins.open", m):
-        with open("", "") as fp:
-            r.read(fp)
+    with patch("builtins.open", m), open("", "") as fp:
+        r.read(fp)
 
     assert r.data == [1, "CAMARGOS"]
     assert r.codigo == 1
@@ -64,9 +66,8 @@ def test_registro_usina_modif():
 def test_registro_vazmin_modif():
     m: MagicMock = mock_open(read_data="".join(MockVAZMIN))
     r = VAZMIN()
-    with patch("builtins.open", m):
-        with open("", "") as fp:
-            r.read(fp)
+    with patch("builtins.open", m), open("", "") as fp:
+        r.read(fp)
 
     assert r.data == [34]
     assert r.vazao == 34
@@ -77,9 +78,8 @@ def test_registro_vazmin_modif():
 def test_registro_vmaxt_modif():
     m: MagicMock = mock_open(read_data="".join(MockVMAXT))
     r = VMAXT()
-    with patch("builtins.open", m):
-        with open("", "") as fp:
-            r.read(fp)
+    with patch("builtins.open", m), open("", "") as fp:
+        r.read(fp)
 
     assert r.data == [12, 2021, 61.310, "'%'"]
     assert r.data_inicio == datetime(2021, 12, 1)
@@ -96,9 +96,8 @@ def test_registro_vmaxt_modif():
 def test_registro_vazmint_modif():
     m: MagicMock = mock_open(read_data="".join(MockVAZMINT))
     r = VAZMINT()
-    with patch("builtins.open", m):
-        with open("", "") as fp:
-            r.read(fp)
+    with patch("builtins.open", m), open("", "") as fp:
+        r.read(fp)
 
     assert r.data == [10, 2021, 10.00]
     assert r.data_inicio == datetime(2021, 10, 1)
@@ -112,9 +111,8 @@ def test_registro_vazmint_modif():
 def test_registro_volmin_modif():
     m: MagicMock = mock_open(read_data="".join(MockVOLMIN))
     r = VOLMIN()
-    with patch("builtins.open", m):
-        with open("", "") as fp:
-            r.read(fp)
+    with patch("builtins.open", m), open("", "") as fp:
+        r.read(fp)
 
     assert r.data == [15563.63, "'h'"]
     assert r.volume == 15563.63
@@ -128,9 +126,8 @@ def test_registro_volmin_modif():
 def test_registro_volmax_modif():
     m: MagicMock = mock_open(read_data="".join(MockVOLMAX))
     r = VOLMAX()
-    with patch("builtins.open", m):
-        with open("", "") as fp:
-            r.read(fp)
+    with patch("builtins.open", m), open("", "") as fp:
+        r.read(fp)
 
     assert r.data == [55.0, "'%'"]
     assert r.volume == 55.0
@@ -144,9 +141,8 @@ def test_registro_volmax_modif():
 def test_registro_numcnj_modif():
     m: MagicMock = mock_open(read_data="".join(MockNUMCNJ))
     r = NUMCNJ()
-    with patch("builtins.open", m):
-        with open("", "") as fp:
-            r.read(fp)
+    with patch("builtins.open", m), open("", "") as fp:
+        r.read(fp)
 
     assert r.data == [2]
     assert r.numero == 2
@@ -157,25 +153,23 @@ def test_registro_numcnj_modif():
 def test_registro_nummaq_modif():
     m: MagicMock = mock_open(read_data="".join(MockNUMMAQ))
     r = NUMMAQ()
-    with patch("builtins.open", m):
-        with open("", "") as fp:
-            r.read(fp)
+    with patch("builtins.open", m), open("", "") as fp:
+        r.read(fp)
 
     assert r.data == [2, 5]
-    assert r.conjunto == 2
-    r.conjunto = 1
-    assert r.conjunto == 1
-    assert r.numero_maquinas == 5
+    assert r.numero_maquinas == 2
     r.numero_maquinas = 10
     assert r.numero_maquinas == 10
+    assert r.conjunto == 5
+    r.conjunto = 1
+    assert r.conjunto == 1
 
 
 def test_registro_vmint_modif():
     m: MagicMock = mock_open(read_data="".join(MockVMINT))
     r = VMINT()
-    with patch("builtins.open", m):
-        with open("", "") as fp:
-            r.read(fp)
+    with patch("builtins.open", m), open("", "") as fp:
+        r.read(fp)
 
     assert r.data == [10, 2021, 20.0, "'%'"]
     assert r.data_inicio == datetime(2021, 10, 1)
@@ -192,9 +186,8 @@ def test_registro_vmint_modif():
 def test_registro_vminp_modif():
     m: MagicMock = mock_open(read_data="".join(MockVMINP))
     r = VMINP()
-    with patch("builtins.open", m):
-        with open("", "") as fp:
-            r.read(fp)
+    with patch("builtins.open", m), open("", "") as fp:
+        r.read(fp)
 
     assert r.data == [10, 2021, 20.0, "'%'"]
     assert r.data_inicio == datetime(2021, 10, 1)
@@ -211,9 +204,8 @@ def test_registro_vminp_modif():
 def test_registro_cfuga_modif():
     m: MagicMock = mock_open(read_data="".join(MockCFUGA))
     r = CFUGA()
-    with patch("builtins.open", m):
-        with open("", "") as fp:
-            r.read(fp)
+    with patch("builtins.open", m), open("", "") as fp:
+        r.read(fp)
 
     assert r.data == [10, 2021, 5.60]
     assert r.data_inicio == datetime(2021, 10, 1)
@@ -227,9 +219,8 @@ def test_registro_cfuga_modif():
 def test_registro_cmont_modif():
     m: MagicMock = mock_open(read_data="".join(MockCMONT))
     r = CMONT()
-    with patch("builtins.open", m):
-        with open("", "") as fp:
-            r.read(fp)
+    with patch("builtins.open", m), open("", "") as fp:
+        r.read(fp)
 
     assert r.data == [10, 2021, 71.30]
     assert r.data_inicio == datetime(2021, 10, 1)
@@ -243,9 +234,8 @@ def test_registro_cmont_modif():
 def test_registro_vazmaxt_modif():
     m: MagicMock = mock_open(read_data="".join(MockVAZMAXT))
     r = VAZMAXT()
-    with patch("builtins.open", m):
-        with open("", "") as fp:
-            r.read(fp)
+    with patch("builtins.open", m), open("", "") as fp:
+        r.read(fp)
 
     assert r.data == [1, 2020, 0.00]
     assert r.data_inicio == datetime(2020, 1, 1)
@@ -259,9 +249,8 @@ def test_registro_vazmaxt_modif():
 def test_registro_turbmaxt_modif():
     m: MagicMock = mock_open(read_data="".join(MockTURBMAXT))
     r = TURBMAXT()
-    with patch("builtins.open", m):
-        with open("", "") as fp:
-            r.read(fp)
+    with patch("builtins.open", m), open("", "") as fp:
+        r.read(fp)
 
     assert r.data == [1, 2020, 0.00]
     assert r.data_inicio == datetime(2020, 1, 1)
@@ -275,9 +264,8 @@ def test_registro_turbmaxt_modif():
 def test_registro_turbmint_modif():
     m: MagicMock = mock_open(read_data="".join(MockTURBMINT))
     r = TURBMINT()
-    with patch("builtins.open", m):
-        with open("", "") as fp:
-            r.read(fp)
+    with patch("builtins.open", m), open("", "") as fp:
+        r.read(fp)
 
     assert r.data == [1, 2020, 0.00]
     assert r.data_inicio == datetime(2020, 1, 1)
@@ -326,3 +314,55 @@ def test_leitura_escrita_modif():
     with patch("builtins.open", m_releitura):
         cf2 = Modif.read(ARQ_TESTE)
         assert cf1 == cf2
+
+
+def test_registro_usina_pde_3digit():
+    m: MagicMock = mock_open(read_data="".join(MockUSINA_PDE_3DIGIT))
+    r = USINA()
+    with patch("builtins.open", m), open("", "") as fp:
+        r.read(fp)
+
+    assert r.codigo == 228
+    assert r.nome == "COLIDER"
+
+
+def test_registro_usina_pde_multiword_name():
+    m: MagicMock = mock_open(read_data="".join(MockUSINA_PDE_MULTIWORD))
+    r = USINA()
+    with patch("builtins.open", m), open("", "") as fp:
+        r.read(fp)
+
+    assert r.codigo == 4
+    assert r.nome == "FUNIL GRANDE"
+
+
+def test_registro_vmaxt_pde_spacing():
+    m: MagicMock = mock_open(read_data="".join(MockVMAXT_PDE))
+    r = VMAXT()
+    with patch("builtins.open", m), open("", "") as fp:
+        r.read(fp)
+
+    assert r.data_inicio == datetime(2024, 1, 1)
+    assert r.volume == 80.7
+    assert r.unidade == "'%'"
+
+
+def test_registro_vmint_pde_spacing():
+    m: MagicMock = mock_open(read_data="".join(MockVMINT_PDE))
+    r = VMINT()
+    with patch("builtins.open", m), open("", "") as fp:
+        r.read(fp)
+
+    assert r.data_inicio == datetime(2024, 1, 1)
+    assert r.volume == 13.23
+    assert r.unidade == "'%'"
+
+
+def test_registro_vazmint_pde_spacing():
+    m: MagicMock = mock_open(read_data="".join(MockVAZMINT_PDE))
+    r = VAZMINT()
+    with patch("builtins.open", m), open("", "") as fp:
+        r.read(fp)
+
+    assert r.data_inicio == datetime(2024, 1, 1)
+    assert r.vazao == 79.0
