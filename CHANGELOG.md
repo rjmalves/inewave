@@ -5,6 +5,17 @@ Todas as mudancas notaveis neste projeto serao documentadas neste arquivo.
 O formato e baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/),
 e este projeto adere ao [Versionamento Semantico](https://semver.org/lang/pt-BR/).
 
+
+## [1.13.2] - 2026-04-10
+
+### Modificado
+
+- Escrita explícita dos períodos na opção 4 do arquivo nwlistop.dat [#117](https://github.com/rjmalves/inewave/pull/117) (@saulo1305).
+
+### Corrigido
+
+- Correção na modelagem da classe `Modif` para processar corretamente campos livres com número de espaços variáveis [#116](https://github.com/rjmalves/inewave/issues/116) 
+
 ## [1.13.1] - 2026-03-08
 
 ### Modificado
