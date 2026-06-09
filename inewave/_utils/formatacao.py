@@ -218,3 +218,19 @@ def prepara_valor_ano(ano: int) -> str:
         return "POS"
     else:
         return str(ano)
+
+
+def compara_dataframes_sem_ordem(df1: Any, df2: Any, chaves: List[str]) -> bool:
+    """
+    Compara dois DataFrames pelo conteúdo, ignorando a ordem das linhas e os
+    rótulos de índice. Ambos são ordenados pelas colunas-chave informadas e
+    têm o índice reposicionado antes da comparação, de forma que a igualdade
+    reflita o conteúdo e não a ordem de serialização.
+    """
+    if not (isinstance(df1, pd.DataFrame) and isinstance(df2, pd.DataFrame)):
+        return False
+    if list(df1.columns) != list(df2.columns):
+        return False
+    df1_ordenado = df1.sort_values(chaves).reset_index(drop=True)
+    df2_ordenado = df2.sort_values(chaves).reset_index(drop=True)
+    return bool(df1_ordenado.equals(df2_ordenado))

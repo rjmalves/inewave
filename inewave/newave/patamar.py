@@ -127,6 +127,7 @@ class Patamar(SectionFile):
 
         - codigo_submercado (`int`)
         - indice_bloco (`int`)
+        - fonte (`str`)
         - data (`datetime`)
         - patamar (`int`)
         - valor (`float`)

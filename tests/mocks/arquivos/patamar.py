@@ -559,6 +559,29 @@ MockBlocoUsinasNaoSimuladas = [
     "",
 ]
 
+# Variante do bloco de usinas não simuladas com cabeçalhos contendo rótulo
+# textual da fonte (formato encontrado em decks de PDE), p.ex.
+# "   1   1 SUDESTE BIO". Regressão para o issue #119.
+MockBlocoUsinasNaoSimuladasNomeada = [
+    " SUB BLOCO\n",
+    " XXX XXX\n",
+    "    ANO                 BLOCO DE USINAS NAO SIMULADAS (P.U. MONTANTE MED.)\n",
+    "   XXXX X.XXXX X.XXXX X.XXXX X.XXXX X.XXXX X.XXXX X.XXXX X.XXXX X.XXXX X.XXXX X.XXXX X.XXXX\n",
+    "   1   1 SUDESTE BIO\n",
+    "   2024 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000\n",
+    "        1.0100 1.0100 1.0100 1.0100 1.0100 1.0100 1.0100 1.0100 1.0100 1.0100 1.0100 1.0100\n",
+    "        1.0200 1.0200 1.0200 1.0200 1.0200 1.0200 1.0200 1.0200 1.0200 1.0200 1.0200 1.0200\n",
+    "   1   2 SUDESTE EOL\n",
+    "   2024 0.9000 0.9000 0.9000 0.9000 0.9000 0.9000 0.9000 0.9000 0.9000 0.9000 0.9000 0.9000\n",
+    "        0.9100 0.9100 0.9100 0.9100 0.9100 0.9100 0.9100 0.9100 0.9100 0.9100 0.9100 0.9100\n",
+    "        0.9200 0.9200 0.9200 0.9200 0.9200 0.9200 0.9200 0.9200 0.9200 0.9200 0.9200 0.9200\n",
+    "   3   1 NORDESTE PCH\n",
+    "   2024 1.0500 1.0500 1.0500 1.0500 1.0500 1.0500 1.0500 1.0500 1.0500 1.0500 1.0500 1.0500\n",
+    "        1.0600 1.0600 1.0600 1.0600 1.0600 1.0600 1.0600 1.0600 1.0600 1.0600 1.0600 1.0600\n",
+    "        1.0700 1.0700 1.0700 1.0700 1.0700 1.0700 1.0700 1.0700 1.0700 1.0700 1.0700 1.0700\n",
+    "9999\n",
+]
+
 MockPatamar = (
     MockBlocoNumeroPatamares
     + MockBlocoDuracaoMensalPatamares[:-1]
