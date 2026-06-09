@@ -141,6 +141,8 @@ class RegistroUHEHidr(Register):
         storage="BINARY",
     )
 
+    TAMANHO_REGISTRO = 792
+
     @property
     def nome(self) -> str:
         return self.data[0]
@@ -452,3 +454,143 @@ class RegistroUHEHidr(Register):
     @tipo_regulacao.setter
     def tipo_regulacao(self, v: str) -> None:
         self.data[110] = v
+
+
+class RegistroUHEHidrF64(RegistroUHEHidr):
+    """
+    Registro com os dados associados a uma UHE, existentes no
+    arquivo HIDR, no formato em que os coeficientes dos polinômios
+    volume-cota e cota-área são armazenados em ponto flutuante
+    de 64 bits (registros de 832 bytes).
+    """
+
+    __slots__: List[str] = []
+
+    TAMANHO_REGISTRO = 832
+
+    LINE = Line(
+        [
+            LiteralField(size=12, starting_position=0),  # Nome
+            IntegerField(size=4, starting_position=12),  # Posto
+            IntegerField(size=8, starting_position=16),  # Posto BDH
+            IntegerField(size=4, starting_position=24),  # Subsistema
+            IntegerField(size=4, starting_position=28),  # Empresa
+            IntegerField(size=4, starting_position=32),  # Jusante
+            IntegerField(size=4, starting_position=36),  # Desvio
+            FloatField(size=4, starting_position=40),  # Volume Mínimo
+            FloatField(size=4, starting_position=44),  # Volume Máximo
+            FloatField(size=4, starting_position=48),  # Volume Vertedouro
+            FloatField(size=4, starting_position=52),  # Volume Desvio
+            FloatField(size=4, starting_position=56),  # Cota Mínima
+            FloatField(size=4, starting_position=60),  # Cota Máxima
+            FloatField(size=8, starting_position=64),  # Pol VC 0
+            FloatField(size=8, starting_position=72),  # Pol VC 1
+            FloatField(size=8, starting_position=80),  # Pol VC 2
+            FloatField(size=8, starting_position=88),  # Pol VC 3
+            FloatField(size=8, starting_position=96),  # Pol VC 4
+            FloatField(size=8, starting_position=104),  # Pol CA 0
+            FloatField(size=8, starting_position=112),  # Pol CA 1
+            FloatField(size=8, starting_position=120),  # Pol CA 2
+            FloatField(size=8, starting_position=128),  # Pol CA 3
+            FloatField(size=8, starting_position=136),  # Pol CA 4
+            IntegerField(size=4, starting_position=144),  # Evap JAN
+            IntegerField(size=4, starting_position=148),  # Evap FEV
+            IntegerField(size=4, starting_position=152),  # Evap MAR
+            IntegerField(size=4, starting_position=156),  # Evap ABR
+            IntegerField(size=4, starting_position=160),  # Evap MAI
+            IntegerField(size=4, starting_position=164),  # Evap JUN
+            IntegerField(size=4, starting_position=168),  # Evap JUL
+            IntegerField(size=4, starting_position=172),  # Evap AGO
+            IntegerField(size=4, starting_position=176),  # Evap SET
+            IntegerField(size=4, starting_position=180),  # Evap OUT
+            IntegerField(size=4, starting_position=184),  # Evap NOV
+            IntegerField(size=4, starting_position=188),  # Evap DEZ
+            IntegerField(size=4, starting_position=192),  # Num. Conj. Máquinas
+            IntegerField(
+                size=4, starting_position=196
+            ),  # Num. Máquinas Conj. 1
+            IntegerField(
+                size=4, starting_position=200
+            ),  # Num. Máquinas Conj. 2
+            IntegerField(
+                size=4, starting_position=204
+            ),  # Num. Máquinas Conj. 3
+            IntegerField(
+                size=4, starting_position=208
+            ),  # Num. Máquinas Conj. 4
+            IntegerField(
+                size=4, starting_position=212
+            ),  # Num. Máquinas Conj. 5
+            FloatField(size=4, starting_position=216),  # Potência Conj. 1
+            FloatField(size=4, starting_position=220),  # Potência Conj. 2
+            FloatField(size=4, starting_position=224),  # Potência Conj. 3
+            FloatField(size=4, starting_position=228),  # Potência Conj. 4
+            FloatField(size=4, starting_position=232),  # Potência Conj. 5
+            LiteralField(size=300, starting_position=236),  # Campos ignorados
+            FloatField(size=4, starting_position=536),  # H Nominal 1
+            FloatField(size=4, starting_position=540),  # H Nominal 2
+            FloatField(size=4, starting_position=544),  # H Nominal 3
+            FloatField(size=4, starting_position=548),  # H Nominal 4
+            FloatField(size=4, starting_position=552),  # H Nominal 5
+            IntegerField(size=4, starting_position=556),  # Q Nominal 1
+            IntegerField(size=4, starting_position=560),  # Q Nominal 2
+            IntegerField(size=4, starting_position=564),  # Q Nominal 3
+            IntegerField(size=4, starting_position=568),  # Q Nominal 4
+            IntegerField(size=4, starting_position=572),  # Q Nominal 5
+            FloatField(size=4, starting_position=576),  # Produtibilidade
+            FloatField(size=4, starting_position=580),  # Perdas
+            IntegerField(size=4, starting_position=584),  # Núm. Pol. Jus.
+            FloatField(size=4, starting_position=588),  # Pol. Jus. 1 - 0
+            FloatField(size=4, starting_position=592),  # Pol. Jus. 1 - 1
+            FloatField(size=4, starting_position=596),  # Pol. Jus. 1 - 2
+            FloatField(size=4, starting_position=600),  # Pol. Jus. 1 - 3
+            FloatField(size=4, starting_position=604),  # Pol. Jus. 1 - 4
+            FloatField(size=4, starting_position=608),  # Pol. Jus. 2 - 0
+            FloatField(size=4, starting_position=612),  # Pol. Jus. 2 - 1
+            FloatField(size=4, starting_position=616),  # Pol. Jus. 2 - 2
+            FloatField(size=4, starting_position=620),  # Pol. Jus. 2 - 3
+            FloatField(size=4, starting_position=624),  # Pol. Jus. 2 - 4
+            FloatField(size=4, starting_position=628),  # Pol. Jus. 3 - 0
+            FloatField(size=4, starting_position=632),  # Pol. Jus. 3 - 1
+            FloatField(size=4, starting_position=636),  # Pol. Jus. 3 - 2
+            FloatField(size=4, starting_position=640),  # Pol. Jus. 3 - 3
+            FloatField(size=4, starting_position=644),  # Pol. Jus. 3 - 4
+            FloatField(size=4, starting_position=648),  # Pol. Jus. 4 - 0
+            FloatField(size=4, starting_position=652),  # Pol. Jus. 4 - 1
+            FloatField(size=4, starting_position=656),  # Pol. Jus. 4 - 2
+            FloatField(size=4, starting_position=660),  # Pol. Jus. 4 - 3
+            FloatField(size=4, starting_position=664),  # Pol. Jus. 4 - 4
+            FloatField(size=4, starting_position=668),  # Pol. Jus. 5 - 0
+            FloatField(size=4, starting_position=672),  # Pol. Jus. 5 - 1
+            FloatField(size=4, starting_position=676),  # Pol. Jus. 5 - 2
+            FloatField(size=4, starting_position=680),  # Pol. Jus. 5 - 3
+            FloatField(size=4, starting_position=684),  # Pol. Jus. 5 - 4
+            FloatField(size=4, starting_position=688),  # Pol. Jus. 6 - 0
+            FloatField(size=4, starting_position=692),  # Pol. Jus. 6 - 1
+            FloatField(size=4, starting_position=696),  # Pol. Jus. 6 - 2
+            FloatField(size=4, starting_position=700),  # Pol. Jus. 6 - 3
+            FloatField(size=4, starting_position=704),  # Pol. Jus. 6 - 4
+            FloatField(size=4, starting_position=708),  # Pol. Jus. REF - 1
+            FloatField(size=4, starting_position=712),  # Pol. Jus. REF - 2
+            FloatField(size=4, starting_position=716),  # Pol. Jus. REF - 3
+            FloatField(size=4, starting_position=720),  # Pol. Jus. REF - 4
+            FloatField(size=4, starting_position=724),  # Pol. Jus. REF - 5
+            FloatField(size=4, starting_position=728),  # Pol. Jus. REF - 6
+            FloatField(size=4, starting_position=732),  # Canal Fuga Médio
+            IntegerField(size=4, starting_position=736),  # Influência no vert
+            FloatField(size=4, starting_position=740),  # Fator de Carga Máximo
+            FloatField(size=4, starting_position=744),  # Fator de Carga Mínimo
+            IntegerField(size=4, starting_position=748),  # Vazão Mínima Hist.
+            IntegerField(size=4, starting_position=752),  # Núm. de Unid. Base
+            IntegerField(size=4, starting_position=756),  # Tipo de Turbina
+            IntegerField(size=4, starting_position=760),  # Repr. Conjunto
+            FloatField(size=4, starting_position=764),  # TEIF
+            FloatField(size=4, starting_position=768),  # IP
+            IntegerField(size=4, starting_position=772),  # Tipo Perda
+            LiteralField(size=12, starting_position=776),  # Data
+            LiteralField(size=39, starting_position=788),  # Observação
+            FloatField(size=4, starting_position=827),  # Volume de Referência
+            LiteralField(size=1, starting_position=831),  # Tipo de Regular.
+        ],
+        storage="BINARY",
+    )
