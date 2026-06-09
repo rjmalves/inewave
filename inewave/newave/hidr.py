@@ -1,34 +1,152 @@
+from pathlib import Path
+from typing import IO, Any, TypeVar
+from warnings import warn
+
+import pandas as pd  # type: ignore[import-untyped]  # no pandas-stubs package
 from cfinterface.files.registerfile import RegisterFile
 from cfinterface.storage import StorageType
-from inewave.newave.modelos.hidr import RegistroUHEHidr
+
 from inewave.config import MESES_ABREV
-import pandas as pd  # type: ignore[import-untyped]  # no pandas-stubs package
-
-
-from typing import TypeVar, List, Optional, Union, IO, Any
+from inewave.newave.modelos.hidr import RegistroUHEHidr, RegistroUHEHidrF64
 
 
 class Hidr(RegisterFile):
     """
     Armazena os dados de entrada do NEWAVE referentes ao cadastro das
     usinas hidroelétricas.
+
+    Suporta os dois formatos do arquivo binário: o formato com
+    registros de 792 bytes (coeficientes dos polinômios volume-cota e
+    cota-área em 32 bits) e o formato com registros de 832 bytes
+    (coeficientes em 64 bits). Na leitura, o formato é detectado
+    automaticamente pelo tamanho do arquivo, podendo ser forçado com
+    `version="f32"` ou `version="f64"`. A escrita é feita sempre no
+    mesmo formato lido, a menos que seja feita uma conversão explícita
+    com :meth:`converte_tamanho_registro`.
     """
 
     T = TypeVar("T")
 
     REGISTERS = [RegistroUHEHidr]
+    VERSIONS = {
+        "f32": [RegistroUHEHidr],
+        "f64": [RegistroUHEHidrF64],
+    }
     STORAGE = StorageType.BINARY
+
+    __REGISTROS_POR_TAMANHO: dict[int, type[RegistroUHEHidr]] = {
+        RegistroUHEHidr.TAMANHO_REGISTRO: RegistroUHEHidr,
+        RegistroUHEHidrF64.TAMANHO_REGISTRO: RegistroUHEHidrF64,
+    }
 
     def __init__(self, data: Any = ...) -> None:
         super().__init__(data)
-        self.__df: Optional[pd.DataFrame] = None
+        self.__df: pd.DataFrame | None = None
 
-    def write(self, to: Union[str, IO[Any]], *args: Any, **kwargs: Any) -> None:
+    @staticmethod
+    def __detecta_versao(content: str | bytes) -> str | None:
+        """
+        Detecta o formato do arquivo a partir do tamanho do seu
+        conteúdo, que é sempre um múltiplo do tamanho do registro
+        (792 ou 832 bytes).
+        """
+        if isinstance(content, bytes):
+            num_bytes = len(content)
+        elif isinstance(content, str) and Path(content).is_file():
+            num_bytes = Path(content).stat().st_size
+        else:
+            return None
+        formato_f32 = num_bytes % RegistroUHEHidr.TAMANHO_REGISTRO == 0
+        formato_f64 = num_bytes % RegistroUHEHidrF64.TAMANHO_REGISTRO == 0
+        if formato_f32 and not formato_f64:
+            return "f32"
+        elif formato_f64 and not formato_f32:
+            return "f64"
+        elif formato_f32 and formato_f64:
+            warn(
+                "Não foi possível distinguir o formato do arquivo"
+                + f" hidr pelo tamanho ({num_bytes} bytes). Assumindo"
+                + " registros de"
+                + f" {RegistroUHEHidr.TAMANHO_REGISTRO} bytes."
+                + ' Use o argumento version="f32" ou version="f64"'
+                + " para forçar o formato.",
+                stacklevel=3,
+            )
+            return "f32"
+        else:
+            warn(
+                f"O tamanho do arquivo hidr ({num_bytes} bytes) não é"
+                + " múltiplo de nenhum tamanho de registro conhecido"
+                + " (792 ou 832 bytes). Assumindo registros de"
+                + f" {RegistroUHEHidr.TAMANHO_REGISTRO} bytes.",
+                stacklevel=3,
+            )
+            return None
+
+    @classmethod
+    def read(
+        cls,
+        content: str | bytes,
+        *args: Any,
+        version: str | None = None,
+        **kwargs: Any,
+    ) -> "Hidr":
+        if version is None:
+            version = cls.__detecta_versao(content)
+        h = super().read(content, *args, version=version, **kwargs)
+        assert isinstance(h, Hidr)
+        return h
+
+    @property
+    def tamanho_registro(self) -> int:
+        """
+        O tamanho em bytes dos registros do arquivo: 792 para o
+        formato com coeficientes dos polinômios em 32 bits ou 832
+        para o formato em 64 bits.
+
+        :return: O tamanho do registro em bytes
+        :rtype: int
+        """
+        for r in self.data.of_type(RegistroUHEHidr):
+            return type(r).TAMANHO_REGISTRO
+        return RegistroUHEHidr.TAMANHO_REGISTRO
+
+    def converte_tamanho_registro(self, precisao: str) -> None:
+        """
+        Converte os registros do arquivo para o formato com o tamanho
+        de registro dado, de modo que a próxima escrita seja feita
+        neste formato. A conversão de 832 para 792 bytes implica em
+        perda de precisão nos coeficientes dos polinômios volume-cota
+        e cota-área.
+
+        :param precisao: A precisão dos coeficients dos polinômios
+            ('f32' ou 'f64')
+        """
+
+        mapa_tamanhos = {"f32": 792, "f64": 832}
+
+        tamanho_registro = mapa_tamanhos.get(precisao)
+        if tamanho_registro is None:
+            raise ValueError(
+                f"Precisão inválida: '{precisao}'. Os valores"
+                + " suportados são 'f32' e 'f64'."
+            )
+        classe_registro = self.__class__.__REGISTROS_POR_TAMANHO[
+            tamanho_registro
+        ]
+        for r in list(self.data.of_type(RegistroUHEHidr)):
+            if type(r) is classe_registro:
+                continue
+            novo = classe_registro(data=list(r.data))
+            self.data.add_after(r, novo)
+            self.data.remove(r)
+
+    def write(self, to: str | IO[Any], *args: Any, **kwargs: Any) -> None:
         self.__atualiza_registros()
         super().write(to, *args, **kwargs)
 
-    def __monta_df_de_registros(self) -> Optional[pd.DataFrame]:
-        registros: List[RegistroUHEHidr] = [
+    def __monta_df_de_registros(self) -> pd.DataFrame | None:
+        registros: list[RegistroUHEHidr] = [
             r for r in self.data.of_type(RegistroUHEHidr)
         ]
         if len(registros) == 0:
@@ -169,7 +287,7 @@ class Hidr(RegisterFile):
         return df
 
     def __atualiza_registros(self) -> None:
-        registros: List[RegistroUHEHidr] = [r for r in self.data][1:]  # type: ignore[assignment]
+        registros: list[RegistroUHEHidr] = [r for r in self.data][1:]  # type: ignore[assignment]
         for (_, linha), r in zip(self.cadastro.iterrows(), registros):
             r.nome = linha["nome_usina"]
             r.posto = linha["posto"]

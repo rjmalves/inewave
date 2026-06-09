@@ -10,6 +10,7 @@ from cfinterface.components.literalfield import LiteralField
 from cfinterface.components.section import Section
 
 from inewave._utils.formatacao import (
+    compara_dataframes_sem_ordem,
     prepara_valor_ano,
     prepara_vetor_anos_tabela,
     repete_vetor,
@@ -116,7 +117,11 @@ class BlocoCustosDeficit(Section):
         ):
             return False
         else:
-            return self.data.equals(bloco.data)
+            return compara_dataframes_sem_ordem(
+                self.data,
+                bloco.data,
+                ["codigo_submercado", "patamar_deficit"],
+            )
 
     # Override
     def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
@@ -183,8 +188,11 @@ class BlocoCustosDeficit(Section):
         if not isinstance(self.data, pd.DataFrame):
             raise ValueError("Dados do sistema.dat não foram lidos com sucesso")
         df = self.data.copy()
+        # Ordena pelas chaves de agrupamento para que a saída independa da
+        # ordem das linhas no DataFrame de entrada.
+        df = df.sort_values(["codigo_submercado", "patamar_deficit"])
         for _, linha_submercado in (
-            self.data[
+            df[
                 [
                     "codigo_submercado",
                     "nome_submercado",
@@ -265,7 +273,11 @@ class BlocoIntercambioSubsistema(Section):
         ):
             return False
         else:
-            return self.data.equals(bloco.data)
+            return compara_dataframes_sem_ordem(
+                self.data,
+                bloco.data,
+                ["submercado_de", "submercado_para", "sentido", "data"],
+            )
 
     # Override
     def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
@@ -311,20 +323,24 @@ class BlocoIntercambioSubsistema(Section):
                     tabela = tabela[:i, :]
                     self.data = converte_tabela_em_df()
                 break
-            # Confere se é uma linha de subsistema ou tabela
-            if len(linha.strip()) < 30:
-                dados = self.__linha_subsis.read(linha)
+            # Distingue cabeçalho de subsistemas de linha de tabela pelo
+            # conteúdo: a linha de tabela possui valores nas colunas mensais,
+            # enquanto a linha de cabeçalho (submercados/sentido) não.
+            dados = self.__linha.read(linha)
+            if all(valor is None for valor in dados[1:]):
+                cabecalho = self.__linha_subsis.read(linha)
                 subsis_de_atual = (
-                    subsis_de_atual if dados[0] is None else dados[0]
+                    subsis_de_atual if cabecalho[0] is None else cabecalho[0]
                 )
                 subsis_para_atual = (
-                    subsis_para_atual if dados[1] is None else dados[1]
+                    subsis_para_atual if cabecalho[1] is None else cabecalho[1]
                 )
                 sentido_atual = (
-                    dados[2] if dados[2] is not None else int(not sentido_atual)
+                    cabecalho[2]
+                    if cabecalho[2] is not None
+                    else int(not sentido_atual)
                 )
             else:
-                dados = self.__linha.read(linha)
                 if isinstance(dados[0], int) and dados[0] != ano_atual:
                     ano_atual = dados[0]
                 anos.append(ano_atual)
@@ -348,6 +364,12 @@ class BlocoIntercambioSubsistema(Section):
         # Separa os valores de cada submercado, razao, ano
         df = self.data.copy()
         df["ano"] = df.apply(lambda linha: linha["data"].year, axis=1)
+        # Ordena pelas chaves de agrupamento para que a escrita do cabeçalho
+        # (emitido quando a chave muda) independa da ordem das linhas no
+        # DataFrame de entrada.
+        df = df.sort_values(
+            ["submercado_de", "submercado_para", "sentido", "ano", "data"]
+        )
         for _, linha_submercados_sentido in (
             df[["submercado_de", "submercado_para", "sentido", "ano"]]
             .drop_duplicates()
@@ -437,7 +459,9 @@ class BlocoMercadoEnergiaSistema(Section):
         ):
             return False
         else:
-            return self.data.equals(bloco.data)
+            return compara_dataframes_sem_ordem(
+                self.data, bloco.data, ["codigo_submercado", "data"]
+            )
 
     # Override
     def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
@@ -478,12 +502,12 @@ class BlocoMercadoEnergiaSistema(Section):
                     tabela = tabela[:i, :]
                     self.data = converte_tabela_em_df()
                 break
-            # Confere se é uma linha de subsistema ou tabela
-            if len(linha) < 12:
-                dados = self.__linha_subsis.read(linha)
-                subsis_atual = dados[0]
+            # Distingue cabeçalho de subsistema de linha de tabela pelo
+            # conteúdo: a linha de tabela possui valores nas colunas mensais.
+            dados = self.__linha.read(linha)
+            if all(valor is None for valor in dados[1:]):
+                subsis_atual = self.__linha_subsis.read(linha)[0]
             else:
-                dados = self.__linha.read(linha)
                 if isinstance(dados[0], str) and dados[0] != ano_atual:
                     ano_atual = dados[0]
                 anos.append(ano_atual)
@@ -502,6 +526,10 @@ class BlocoMercadoEnergiaSistema(Section):
 
         df = self.data.copy()
         df["ano"] = df.apply(lambda linha: linha["data"].year, axis=1)
+        # Ordena pelas chaves de agrupamento para que a escrita do cabeçalho de
+        # subsistema (emitido quando a chave muda) independa da ordem das
+        # linhas no DataFrame de entrada.
+        df = df.sort_values(["codigo_submercado", "ano", "data"])
         for _, linha_submercado in (
             df[["codigo_submercado", "ano"]].drop_duplicates().iterrows()
         ):
@@ -578,7 +606,11 @@ class BlocoGeracaoUsinasNaoSimuladas(Section):
         ):
             return False
         else:
-            return self.data.equals(bloco.data)
+            return compara_dataframes_sem_ordem(
+                self.data,
+                bloco.data,
+                ["codigo_submercado", "indice_bloco", "fonte", "data"],
+            )
 
     # Override
     def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
@@ -625,7 +657,10 @@ class BlocoGeracaoUsinasNaoSimuladas(Section):
                     tabela = tabela[:i, :]
                     self.data = converte_tabela_em_df()
                 break
-            # Confere se é uma linha de subsistema ou tabela
+            # Distingue cabeçalho de linha de tabela pelo tamanho da linha:
+            # o cabeçalho (submercado/bloco/fonte) já é curto por construção e
+            # a coluna do bloco se sobrepõe à primeira coluna mensal, o que
+            # torna a classificação por conteúdo ambígua neste bloco.
             if len(linha.strip()) < 30:
                 dados = self.__linha_subsis.read(linha)
                 subsis_atual = dados[0]
@@ -655,6 +690,12 @@ class BlocoGeracaoUsinasNaoSimuladas(Section):
 
         df = self.data.copy()
         df["ano"] = df.apply(lambda linha: linha["data"].year, axis=1)
+        # Ordena pelas chaves de agrupamento para que a escrita do cabeçalho
+        # (submercado/bloco/fonte, emitido quando a chave muda) independa da
+        # ordem das linhas no DataFrame de entrada.
+        df = df.sort_values(
+            ["codigo_submercado", "indice_bloco", "fonte", "ano", "data"]
+        )
         for _, linha_submercado_fonte in (
             df[["codigo_submercado", "indice_bloco", "fonte", "ano"]]
             .drop_duplicates()

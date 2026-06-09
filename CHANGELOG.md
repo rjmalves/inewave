@@ -5,6 +5,22 @@ Todas as mudancas notaveis neste projeto serao documentadas neste arquivo.
 O formato e baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/),
 e este projeto adere ao [Versionamento Semantico](https://semver.org/lang/pt-BR/).
 
+## [1.14.0] - 2026-06-09
+
+### Adicionado
+
+- Suporte ao formato estendido do arquivo `hidr.dat`, com os coeficientes dos polinômios cota-volume e cota-área em precisão dupla (registros de 832 bytes), através do novo registro `RegistroUHEHidrF64`. A classe `Hidr` detecta o formato automaticamente pelo tamanho do arquivo (792 ou 832 bytes), com possibilidade de forçar via `version="f32"` ou `version="f64"`.
+- Propriedade `tamanho_registro` e método `converte_tamanho_registro` na classe `Hidr`, permitindo inspecionar e converter entre os formatos de precisão simples e dupla.
+- Coluna `fonte` na propriedade `usinas_nao_simuladas` da classe `Patamar`, preservando o rótulo textual do bloco de usinas não simuladas (consistente com `Sistema.geracao_usinas_nao_simuladas`).
+
+### Corrigido
+
+- Correção na leitura da classe `Patamar` para decks de PDE, em que os cabeçalhos do bloco de usinas não simuladas contêm um rótulo textual da fonte (p.ex. `1 1 SUDESTE BIO`), antes interpretados incorretamente como linhas de dados [#119](https://github.com/rjmalves/inewave/issues/119) (@saulo1305).
+
+### Modificado
+
+- Identificação de linhas de cabeçalho de subsistema/bloco por conteúdo (ausência de valores nas colunas mensais) em vez de tamanho da linha, nos blocos das classes `Patamar` e `Sistema`, tornando a leitura robusta a rótulos textuais opcionais nos cabeçalhos.
+- Escrita determinística (ordenada pelas chaves de agrupamento) e comparação de blocos (`__eq__`) independente da ordem das linhas nas classes `Patamar` e `Sistema`.
 
 ## [1.13.2] - 2026-04-10
 
@@ -14,7 +30,7 @@ e este projeto adere ao [Versionamento Semantico](https://semver.org/lang/pt-BR/
 
 ### Corrigido
 
-- Correção na modelagem da classe `Modif` para processar corretamente campos livres com número de espaços variáveis [#116](https://github.com/rjmalves/inewave/issues/116) 
+- Correção na modelagem da classe `Modif` para processar corretamente campos livres com número de espaços variáveis [#116](https://github.com/rjmalves/inewave/issues/116)
 
 ## [1.13.1] - 2026-03-08
 

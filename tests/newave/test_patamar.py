@@ -9,6 +9,7 @@ from inewave.newave.modelos.patamar import (
 
 from inewave.newave import Patamar
 from datetime import datetime
+import io
 
 from tests.mocks.mock_open import mock_open
 from unittest.mock import MagicMock, patch
@@ -19,6 +20,7 @@ from tests.mocks.arquivos.patamar import (
     MockBlocoCargaSubsistema,
     MockBlocoIntercambioSubsistemas,
     MockBlocoUsinasNaoSimuladas,
+    MockBlocoUsinasNaoSimuladasNomeada,
     MockPatamar,
 )
 
@@ -117,21 +119,56 @@ def test_bloco_usinas_nao_simuladas_patamar():
 
     assert b.data.iloc[0, 0] == 1
     assert b.data.iloc[0, 1] == 1
-    assert b.data.iloc[0, 2] == datetime(1995, 1, 1)
-    assert b.data.iloc[0, 3] == 1
-    assert b.data.iloc[0, 4] == 1.0000
-    assert b.data.iloc[1, 4] == 1.0000
-    assert b.data.iloc[2, 4] == 1.0000
-    assert b.data.iloc[3, 4] == 1.0000
-    assert b.data.iloc[4, 4] == 1.0118
-    assert b.data.iloc[5, 4] == 1.0152
-    assert b.data.iloc[6, 4] == 1.0206
-    assert b.data.iloc[7, 4] == 1.0222
-    assert b.data.iloc[8, 4] == 1.0150
-    assert b.data.iloc[9, 4] == 1.0108
-    assert b.data.iloc[10, 4] == 1.0020
-    assert b.data.iloc[11, 4] == 0.9965
+    assert b.data.iloc[0, 2] == ""
+    assert b.data.iloc[0, 3] == datetime(1995, 1, 1)
+    assert b.data.iloc[0, 4] == 1
+    assert b.data.iloc[0, 5] == 1.0000
+    assert b.data.iloc[1, 5] == 1.0000
+    assert b.data.iloc[2, 5] == 1.0000
+    assert b.data.iloc[3, 5] == 1.0000
+    assert b.data.iloc[4, 5] == 1.0118
+    assert b.data.iloc[5, 5] == 1.0152
+    assert b.data.iloc[6, 5] == 1.0206
+    assert b.data.iloc[7, 5] == 1.0222
+    assert b.data.iloc[8, 5] == 1.0150
+    assert b.data.iloc[9, 5] == 1.0108
+    assert b.data.iloc[10, 5] == 1.0020
+    assert b.data.iloc[11, 5] == 0.9965
     assert b.data.iloc[-1, -1] == 1.0
+
+
+def test_bloco_usinas_nao_simuladas_cabecalho_nomeado_patamar():
+    # Regressão para o issue #119: cabeçalhos de subsistema/bloco com rótulo
+    # textual da fonte (p.ex. "   1   1 SUDESTE BIO", presente em decks de
+    # PDE) não devem ser interpretados como linha de dados.
+    m: MagicMock = mock_open(
+        read_data="".join(MockBlocoUsinasNaoSimuladasNomeada)
+    )
+    b = BlocoUsinasNaoSimuladas()
+    with patch("builtins.open", m):
+        with open("", "") as fp:
+            b.read(fp)
+
+    assert b.data["valor"].isna().sum() == 0
+    assert b.data["codigo_submercado"].unique().tolist() == [1, 3]
+    assert sorted(b.data["indice_bloco"].unique().tolist()) == [1, 2]
+    assert sorted(b.data["fonte"].unique().tolist()) == [
+        "NORDESTE PCH",
+        "SUDESTE BIO",
+        "SUDESTE EOL",
+    ]
+    assert b.data["data"].min() == datetime(2024, 1, 1)
+    primeiro_bio = b.data[
+        (b.data["fonte"] == "SUDESTE BIO") & (b.data["patamar"] == 1)
+    ]
+    assert primeiro_bio["valor"].iloc[0] == 1.0
+
+    # O rótulo da fonte deve ser preservado na escrita (round-trip).
+    saida = io.StringIO()
+    b.write(saida)
+    b2 = BlocoUsinasNaoSimuladas()
+    b2.read(io.StringIO(saida.getvalue()))
+    assert b == b2
 
 
 def test_atributos_encontrados_patamar():
@@ -188,10 +225,6 @@ def test_leitura_escrita_patamar():
     m_releitura: MagicMock = mock_open(read_data="".join(linhas_escritas))
     with patch("builtins.open", m_releitura):
         cf2 = Patamar.read(ARQ_TESTE)
-        cf1.intercambio_patamares = cf1.intercambio_patamares.sort_values(
-            ["submercado_de", "submercado_para", "patamar", "data"]
-        )
-        cf2.intercambio_patamares = cf2.intercambio_patamares.sort_values(
-            ["submercado_de", "submercado_para", "patamar", "data"]
-        )
+        # A comparação é robusta à ordem das linhas (ver __eq__ dos blocos),
+        # de modo que a escrita determinística não exige reordenação manual.
         assert cf1 == cf2
