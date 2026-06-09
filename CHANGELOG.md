@@ -5,15 +5,17 @@ Todas as mudancas notaveis neste projeto serao documentadas neste arquivo.
 O formato e baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/),
 e este projeto adere ao [Versionamento Semantico](https://semver.org/lang/pt-BR/).
 
-## [1.13.3] - 2026-06-09
+## [1.14.0] - 2026-06-09
+
+### Adicionado
+
+- Suporte ao formato estendido do arquivo `hidr.dat`, com os coeficientes dos polinômios cota-volume e cota-área em precisão dupla (registros de 832 bytes), através do novo registro `RegistroUHEHidrF64`. A classe `Hidr` detecta o formato automaticamente pelo tamanho do arquivo (792 ou 832 bytes), com possibilidade de forçar via `version="f32"` ou `version="f64"`.
+- Propriedade `tamanho_registro` e método `converte_tamanho_registro` na classe `Hidr`, permitindo inspecionar e converter entre os formatos de precisão simples e dupla.
+- Coluna `fonte` na propriedade `usinas_nao_simuladas` da classe `Patamar`, preservando o rótulo textual do bloco de usinas não simuladas (consistente com `Sistema.geracao_usinas_nao_simuladas`).
 
 ### Corrigido
 
 - Correção na leitura da classe `Patamar` para decks de PDE, em que os cabeçalhos do bloco de usinas não simuladas contêm um rótulo textual da fonte (p.ex. `1 1 SUDESTE BIO`), antes interpretados incorretamente como linhas de dados [#119](https://github.com/rjmalves/inewave/issues/119) (@saulo1305).
-
-### Adicionado
-
-- Coluna `fonte` na propriedade `usinas_nao_simuladas` da classe `Patamar`, preservando o rótulo textual do bloco de usinas não simuladas (consistente com `Sistema.geracao_usinas_nao_simuladas`).
 
 ### Modificado
 
