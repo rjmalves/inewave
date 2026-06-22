@@ -1643,23 +1643,30 @@ class SecaoDadosForward(Section):
         )
 
     def __converte_array_ute_patamar(self, variavel: np.ndarray) -> Any:
+        usinas_por_submercado: List[np.ndarray] = []
+        patamares_por_submercado: List[np.ndarray] = []
+        inicio_classes = 0
+        for numero_classes in self.numero_classes_termicas_submercados:
+            nomes_submercado = self.nomes_classes_termicas[
+                inicio_classes : inicio_classes + numero_classes
+            ]
+            usinas_por_submercado.append(
+                np.tile(nomes_submercado, self.numero_patamares_carga)
+            )
+            patamares_por_submercado.append(
+                np.repeat(
+                    np.arange(1, self.numero_patamares_carga + 1),
+                    numero_classes,
+                )
+            )
+            inicio_classes += numero_classes
+        usinas = np.concatenate(usinas_por_submercado)
+        patamares = np.concatenate(patamares_por_submercado)
         return self.__converte_array_em_dataframe(
             variavel,
             {
-                "usina": np.tile(
-                    np.tile(
-                        self.nomes_classes_termicas,
-                        self.numero_patamares_carga,
-                    ),
-                    self.__num_simulacoes,
-                ),
-                "patamar": np.tile(
-                    np.repeat(
-                        np.arange(1, self.numero_patamares_carga + 1),
-                        self.total_classes_termicas,
-                    ),
-                    self.__num_simulacoes,
-                ),
+                "usina": np.tile(usinas, self.__num_simulacoes),
+                "patamar": np.tile(patamares, self.__num_simulacoes),
             },
             self.total_classes_termicas * self.numero_patamares_carga,
         )
@@ -2461,6 +2468,7 @@ class SecaoDadosForward(Section):
         for estagio in range(numero_estagios):
             for serie in range(numero_forwards):
                 indice = estagio * numero_forwards + serie
-                offset = tamanho_registro * indice
+                # offset = tamanho_registro * indice
+                offset = int(tamanho_registro) * int(indice)
                 self.__le_registro(file, offset, indice)
         self.__converte_arrays_em_dataframes()
