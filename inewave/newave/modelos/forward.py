@@ -2468,7 +2468,6 @@ class SecaoDadosForward(Section):
         for estagio in range(numero_estagios):
             for serie in range(numero_forwards):
                 indice = estagio * numero_forwards + serie
-                # offset = tamanho_registro * indice
-                offset = int(tamanho_registro) * int(indice)
+                offset = tamanho_registro * indice
                 self.__le_registro(file, offset, indice)
         self.__converte_arrays_em_dataframes()
