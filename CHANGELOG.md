@@ -5,6 +5,16 @@ Todas as mudancas notaveis neste projeto serao documentadas neste arquivo.
 O formato e baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/),
 e este projeto adere ao [Versionamento Semantico](https://semver.org/lang/pt-BR/).
 
+## [1.14.1] - 2026-07-01
+
+### Corrigido
+
+- Correção na leitura da geração térmica por submercado e patamar de carga na classe `Forward` (propriedade `geracao_termica`): os rótulos de usina e patamar agora respeitam o agrupamento das classes térmicas por submercado, corrigindo o desalinhamento que ocorria quando os submercados possuíam quantidades diferentes de classes térmicas [#121](https://github.com/rjmalves/inewave/pull/121) (@beralbdom).
+
+### Modificado
+
+- Detecção do formato do arquivo `hidr.dat` na classe `Hidr` por correspondência exata do tamanho do arquivo (320 ou 600 registros de 792 ou 832 bytes), em vez de divisibilidade pelo tamanho do registro. A mudança elimina a ambiguidade entre os formatos e passa a sinalizar com aviso os arquivos truncados ou de tamanho não padronizado, antes lidos silenciosamente com um número incorreto de registros.
+
 ## [1.14.0] - 2026-06-09
 
 ### Adicionado

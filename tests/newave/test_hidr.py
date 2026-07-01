@@ -119,6 +119,30 @@ def test_deteccao_formato_832():
     assert len(h.cadastro) == NUM_REGISTROS
 
 
+def test_deteccao_formato_f32_600():
+    # O cadastro do hidr pode conter 320 ou 600 usinas. O mock f32 tem
+    # 320 registros; replicamos um registro para obter um conteúdo de
+    # 600 registros de 792 bytes e validar a detecção desse formato.
+    with open(ARQ_TESTE, "rb") as fp:
+        registro = fp.read(RegistroUHEHidr.TAMANHO_REGISTRO)
+    conteudo = registro * 600
+    h = Hidr.read(conteudo)
+    assert h.tamanho_registro == RegistroUHEHidr.TAMANHO_REGISTRO
+    assert len(h.cadastro) == 600
+
+
+def test_deteccao_formato_f64_600():
+    # Idem para o formato f64: replicamos um registro de 832 bytes para
+    # obter 600 registros e validar a detecção do formato de precisão
+    # dupla no cadastro estendido.
+    with open(ARQ_TESTE_F64, "rb") as fp:
+        registro = fp.read(RegistroUHEHidrF64.TAMANHO_REGISTRO)
+    conteudo = registro * 600
+    h = Hidr.read(conteudo)
+    assert h.tamanho_registro == RegistroUHEHidrF64.TAMANHO_REGISTRO
+    assert len(h.cadastro) == 600
+
+
 def test_leitura_com_versao_explicita():
     h32 = Hidr.read(ARQ_TESTE, version="f32")
     assert h32.tamanho_registro == RegistroUHEHidr.TAMANHO_REGISTRO
@@ -179,12 +203,13 @@ def test_conversao_precisao_invalida():
         h.converte_tamanho_registro("f16")
 
 
-def test_deteccao_formato_ambiguo():
-    # 82368 bytes = 104 registros de 792 bytes = 99 registros de 832
-    # bytes (mínimo múltiplo comum dos dois tamanhos)
+def test_deteccao_formato_desconhecido():
+    # 82368 bytes não corresponde a 320 nem a 600 registros de 792 ou
+    # 832 bytes, então o tamanho não é reconhecido: a leitura emite um
+    # aviso e assume o formato f32 (792 bytes).
     with open(ARQ_TESTE, "rb") as fp:
         conteudo = fp.read(82368)
-    with pytest.warns(UserWarning, match="Não foi possível distinguir"):
+    with pytest.warns(UserWarning, match="não corresponde a nenhum formato"):
         h = Hidr.read(conteudo)
     assert h.tamanho_registro == RegistroUHEHidr.TAMANHO_REGISTRO
     assert len(h.cadastro) == 104
