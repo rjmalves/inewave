@@ -19,7 +19,8 @@ class Hidr(RegisterFile):
     registros de 792 bytes (coeficientes dos polinômios volume-cota e
     cota-área em 32 bits) e o formato com registros de 832 bytes
     (coeficientes em 64 bits). Na leitura, o formato é detectado
-    automaticamente pelo tamanho do arquivo, podendo ser forçado com
+    automaticamente pelo tamanho do arquivo, que corresponde a 320 ou
+    600 registros em um dos dois tamanhos, podendo ser forçado com
     `version="f32"` ou `version="f64"`. A escrita é feita sempre no
     mesmo formato lido, a menos que seja feita uma conversão explícita
     com :meth:`converte_tamanho_registro`.
@@ -39,16 +40,37 @@ class Hidr(RegisterFile):
         RegistroUHEHidrF64.TAMANHO_REGISTRO: RegistroUHEHidrF64,
     }
 
+    # Quantidades de registros (usinas) que o cadastro do hidr pode
+    # conter. O arquivo é um vetor de tamanho fixo, idêntico nos dois
+    # formatos de precisão.
+    __NUMEROS_REGISTROS_SUPORTADOS = (320, 600)
+
+    # Tamanhos de arquivo (em bytes) reconhecidos, mapeando cada tamanho
+    # válido para a respectiva versão. Derivado das combinações de
+    # número de registros e tamanho de registro; as quatro combinações
+    # geram tamanhos distintos, sem ambiguidade entre os formatos.
+    __TAMANHOS_VALIDOS: dict[int, str] = {
+        num * tamanho: versao
+        for num in __NUMEROS_REGISTROS_SUPORTADOS
+        for versao, tamanho in (
+            ("f32", RegistroUHEHidr.TAMANHO_REGISTRO),
+            ("f64", RegistroUHEHidrF64.TAMANHO_REGISTRO),
+        )
+    }
+
     def __init__(self, data: Any = ...) -> None:
         super().__init__(data)
         self.__df: pd.DataFrame | None = None
 
-    @staticmethod
-    def __detecta_versao(content: str | bytes) -> str | None:
+    @classmethod
+    def __detecta_versao(cls, content: str | bytes) -> str | None:
         """
         Detecta o formato do arquivo a partir do tamanho do seu
-        conteúdo, que é sempre um múltiplo do tamanho do registro
-        (792 ou 832 bytes).
+        conteúdo. Um arquivo hidr válido contém 320 ou 600 registros,
+        de 792 bytes (coeficientes em 32 bits) ou de 832 bytes
+        (coeficientes em 64 bits), resultando em um dos tamanhos
+        reconhecidos. Tamanhos diferentes geram um aviso e a leitura
+        assume o formato de 792 bytes.
         """
         if isinstance(content, bytes):
             num_bytes = len(content)
@@ -56,32 +78,19 @@ class Hidr(RegisterFile):
             num_bytes = Path(content).stat().st_size
         else:
             return None
-        formato_f32 = num_bytes % RegistroUHEHidr.TAMANHO_REGISTRO == 0
-        formato_f64 = num_bytes % RegistroUHEHidrF64.TAMANHO_REGISTRO == 0
-        if formato_f32 and not formato_f64:
-            return "f32"
-        elif formato_f64 and not formato_f32:
-            return "f64"
-        elif formato_f32 and formato_f64:
-            warn(
-                "Não foi possível distinguir o formato do arquivo"
-                + f" hidr pelo tamanho ({num_bytes} bytes). Assumindo"
-                + " registros de"
-                + f" {RegistroUHEHidr.TAMANHO_REGISTRO} bytes."
-                + ' Use o argumento version="f32" ou version="f64"'
-                + " para forçar o formato.",
-                stacklevel=3,
-            )
-            return "f32"
-        else:
-            warn(
-                f"O tamanho do arquivo hidr ({num_bytes} bytes) não é"
-                + " múltiplo de nenhum tamanho de registro conhecido"
-                + " (792 ou 832 bytes). Assumindo registros de"
-                + f" {RegistroUHEHidr.TAMANHO_REGISTRO} bytes.",
-                stacklevel=3,
-            )
-            return None
+        versao = cls.__TAMANHOS_VALIDOS.get(num_bytes)
+        if versao is not None:
+            return versao
+        warn(
+            f"O tamanho do arquivo hidr ({num_bytes} bytes) não"
+            + " corresponde a nenhum formato conhecido (320 ou 600"
+            + " registros de 792 ou 832 bytes). Assumindo registros de"
+            + f" {RegistroUHEHidr.TAMANHO_REGISTRO} bytes. Use o"
+            + ' argumento version="f32" ou version="f64" para forçar o'
+            + " formato.",
+            stacklevel=3,
+        )
+        return None
 
     @classmethod
     def read(
