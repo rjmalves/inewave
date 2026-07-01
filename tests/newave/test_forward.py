@@ -1312,4 +1312,53 @@ def test_atributos_forward():
     assert f.volume_canal_desvio_usina.shape == (972, 5)
 
 
+def test_geracao_termica_agrupada_por_submercado():
+    # NEWAVE escreve geração térmica agrupada por submercado. a implementação
+    # original assumia um agrupamento global das calsses por patamar
+
+    numero_patamares = 3
+    total_classes = sum(NUMERO_CLASSES_TERMICAS_SUBMERCADOS)
+    nomes_classes = [f"UTE{i}" for i in range(total_classes)]
+    nomes_usinas = [f"UHE{i}" for i in range(162)]
+    f = Forward.read(
+        ARQ_FORWARD,
+        tamanho_registro=TAMANHO_REGISTRO,
+        numero_estagios=1,
+        numero_forwards=2,
+        numero_rees=12,
+        numero_submercados=4,
+        numero_total_submercados=5,
+        numero_patamares_carga=numero_patamares,
+        numero_patamares_deficit=1,
+        numero_agrupamentos_intercambio=6,
+        numero_classes_termicas_submercados=NUMERO_CLASSES_TERMICAS_SUBMERCADOS,
+        numero_usinas_hidreletricas=162,
+        lag_maximo_usinas_gnl=2,
+        numero_parques_eolicos_equivalentes=0,
+        numero_estacoes_bombeamento=0,
+        nomes_classes_termicas=nomes_classes,
+        nomes_usinas_hidreletricas=nomes_usinas,
+    )
+
+    # rotulos esperados
+    usinas_esperadas: list = []
+    patamares_esperados: list = []
+    inicio = 0
+    for numero_classes in NUMERO_CLASSES_TERMICAS_SUBMERCADOS:
+        nomes_submercado = nomes_classes[inicio : inicio + numero_classes]
+        for patamar in range(1, numero_patamares + 1):
+            usinas_esperadas.extend(nomes_submercado)
+            patamares_esperados.extend([patamar] * numero_classes)
+        inicio += numero_classes
+
+    bloco = f.geracao_termica.iloc[: total_classes * numero_patamares]
+    assert bloco["usina"].tolist() == usinas_esperadas
+    assert bloco["patamar"].tolist() == patamares_esperados
+
+    # no layout global antigo (patamar variando sobre todas as classes), as
+    # primeiras linhas seriam todas do patamar 1. com o fix, o primeiro 
+    # submercado cobre os demais patamares dentro do intervalo
+    assert not (bloco["patamar"].iloc[:total_classes] == 1).all()
+
+
 # NOTE: Binary file with parametrized read, round-trip requires external dimensions
