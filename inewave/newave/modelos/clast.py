@@ -37,7 +37,11 @@ class BlocoUTEClasT(Section):
         campos_ute: List[Field] = [
             IntegerField(4, 1),
             LiteralField(12, 6),
-            LiteralField(12, 19),
+            # O template do arquivo reserva 10 caracteres para TIPO COMB.
+            # (colunas 20-29). Com largura 12 o campo invadia os dois
+            # primeiros caracteres do primeiro campo de custo, corrompendo
+            # o combustivel de usinas com CVU >= 1000.
+            LiteralField(10, 19),
         ]
         campos_custos: List[Field] = [
             FloatField(8, 29 + 8 * i, 2) for i in range(5)

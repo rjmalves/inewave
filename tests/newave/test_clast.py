@@ -98,3 +98,18 @@ def test_leitura_escrita_clast():
     with patch("builtins.open", m_releitura):
         ct2 = Clast.read(ARQ_TESTE)
         assert ct1 == ct2
+
+
+def test_tipo_combustivel_nao_invade_campo_custo():
+    # Usinas com CVU >= 1000 tinham o primeiro digito do custo capturado
+    # pelo campo de combustivel (largura 12 em vez de 10).
+    m: MagicMock = mock_open(read_data="".join(MockBlocoUTEClasT))
+    with patch("builtins.open", m):
+        ct = Clast.read(ARQ_TESTE)
+
+    combustiveis = set(ct.usinas["tipo_combustivel"].unique())
+    assert all(not c.strip()[-1].isdigit() for c in combustiveis)
+
+    daia = ct.usinas.loc[ct.usinas["codigo_usina"] == 153]
+    assert daia["tipo_combustivel"].iloc[0].strip() == "Diesel"
+    assert daia["valor"].iloc[0] == 1178.85
