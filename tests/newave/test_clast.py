@@ -166,6 +166,14 @@ def test_leitura_escrita_clast_4_colunas_custo():
     # o cabecalho preservado nao deve ganhar colunas de custo extras
     assert linhas_escritas[1].count("XXXX.XX") == 4
 
+    # round-trip completo: sem a deteccao de colunas, o deck de 4 anos era
+    # lido com uma 5a coluna fantasma e a releitura a perpetuava.
+    m_releitura: MagicMock = mock_open(read_data="".join(linhas_escritas))
+    with patch("builtins.open", m_releitura):
+        ct2 = Clast.read(ARQ_TESTE)
+    assert sorted(ct2.usinas["indice_ano_estudo"].unique()) == [1, 2, 3, 4]
+    assert ct1 == ct2
+
 
 def test_escrita_clast_ajusta_cabecalho_ao_estender_horizonte():
     # Ao acrescentar um ano ao DataFrame, o cabecalho precisa ganhar a
