@@ -1,3 +1,4 @@
+import re
 from datetime import datetime
 from typing import Any, IO, List, Optional
 
@@ -34,6 +35,16 @@ class BlocoUTEClasT(Section):
         data: Optional[Any] = None,
     ) -> None:
         super().__init__(previous, next, data)
+        self.__numero_anos_planejamento = 5
+        self.__linha = self.__monta_linha(self.__numero_anos_planejamento)
+        self.__cabecalhos: List[str] = []
+
+    # Layout posicional dos campos de custo no clast.dat
+    INICIO_CUSTOS = 29
+    LARGURA_CUSTO = 8
+
+    @classmethod
+    def __monta_linha(cls, numero_anos: int) -> Line:
         campos_ute: List[Field] = [
             IntegerField(4, 1),
             LiteralField(12, 6),
@@ -44,10 +55,35 @@ class BlocoUTEClasT(Section):
             LiteralField(10, 19),
         ]
         campos_custos: List[Field] = [
-            FloatField(8, 29 + 8 * i, 2) for i in range(5)
+            FloatField(
+                cls.LARGURA_CUSTO,
+                cls.INICIO_CUSTOS + cls.LARGURA_CUSTO * i,
+                2,
+            )
+            for i in range(numero_anos)
         ]
-        self.__linha = Line(campos_ute + campos_custos)
-        self.__cabecalhos: List[str] = []
+        return Line(campos_ute + campos_custos)
+
+    @staticmethod
+    def __conta_colunas_custo(template: str) -> Optional[int]:
+        """Conta as colunas de custo na linha de template (` XXXX.XX ...`),
+        que e a fonte de verdade do layout dentro do proprio arquivo."""
+        n = len(re.findall(r"X+\.X+", template))
+        return n if n > 0 else None
+
+    @classmethod
+    def __ajusta_cabecalho(cls, texto: str, n_antigo: int, n_novo: int) -> str:
+        """Replica ou remove colunas do cabecalho para refletir o numero de
+        anos presente nos dados, preservando a quebra de linha original."""
+        corpo = texto.rstrip("\n\r")
+        quebra = texto[len(corpo) :]
+        fim = cls.INICIO_CUSTOS + cls.LARGURA_CUSTO * n_antigo
+        if len(corpo) < fim:
+            return texto
+        unidade = corpo[fim - cls.LARGURA_CUSTO : fim]
+        return (
+            corpo[: cls.INICIO_CUSTOS] + unidade * n_novo + corpo[fim:] + quebra
+        )
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoUTEClasT):
@@ -96,7 +132,16 @@ class BlocoUTEClasT(Section):
         for _ in range(2):
             self.__cabecalhos.append(file.readline())
 
-        self.__numero_anos_planejamento = numero_anos_planejamento
+        # O numero de colunas de custo varia com o horizonte do estudo. A
+        # linha de template (` XXXX.XX ...`) e a fonte de verdade dentro do
+        # proprio arquivo; o argumento so vale como fallback.
+        colunas_template = self.__conta_colunas_custo(self.__cabecalhos[-1])
+        self.__numero_anos_planejamento = (
+            colunas_template
+            if colunas_template is not None
+            else numero_anos_planejamento
+        )
+        self.__linha = self.__monta_linha(self.__numero_anos_planejamento)
 
         # Variáveis auxiliares
         codigo_ute: List[int] = []
@@ -122,10 +167,25 @@ class BlocoUTEClasT(Section):
 
     # Override
     def write(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
-        for linha in self.__cabecalhos:
-            file.write(linha)
         if not isinstance(self.data, pd.DataFrame):
             raise ValueError("Dados do clast.dat não foram lidos com sucesso")
+
+        # O DataFrame pode ter ganhado ou perdido anos desde a leitura
+        # (extensao de horizonte). O cabecalho precisa acompanhar, senao a
+        # releitura trunca os dados de volta ao layout antigo.
+        numero_anos_dados = int(self.data["indice_ano_estudo"].max())
+        if numero_anos_dados != self.__numero_anos_planejamento:
+            self.__cabecalhos = [
+                self.__ajusta_cabecalho(
+                    c, self.__numero_anos_planejamento, numero_anos_dados
+                )
+                for c in self.__cabecalhos
+            ]
+            self.__linha = self.__monta_linha(numero_anos_dados)
+            self.__numero_anos_planejamento = numero_anos_dados
+
+        for linha in self.__cabecalhos:
+            file.write(linha)
 
         df = self.data.copy()
         for _, linha_usina in (
