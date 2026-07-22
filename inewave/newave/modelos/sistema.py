@@ -388,15 +388,18 @@ class BlocoIntercambioSubsistema(Section):
                 & (df["ano"] == linha_submercados_sentido["ano"])
             ]
             df_interc = df_interc.sort_values(["data"])
-            if any(
+            mudou_par = any(
                 [
                     linha_submercados_sentido["submercado_de"]
                     != ultimo_subsistema_de,
                     linha_submercados_sentido["submercado_para"]
                     != ultimo_subsistema_para,
-                    linha_submercados_sentido["sentido"] != ultimo_sentido,
                 ]
-            ):
+            )
+            mudou_sentido = (
+                linha_submercados_sentido["sentido"] != ultimo_sentido
+            )
+            if mudou_par:
                 ultimo_subsistema_de = linha_submercados_sentido[
                     "submercado_de"
                 ]
@@ -415,6 +418,12 @@ class BlocoIntercambioSubsistema(Section):
                         ].tolist()
                     )
                 )
+            elif mudou_sentido:
+                # Manual do NEWAVE, secao 3.7, Bloco 3: os grupos de
+                # registros tipo 2 (A->B) e tipo 3 (B->A) sao separados por
+                # um registro em branco, de existencia obrigatoria.
+                ultimo_sentido = linha_submercados_sentido["sentido"]
+                file.write("\n")
             ano = prepara_valor_ano(linha_submercados_sentido["ano"])
             valores = df_interc["valor"].tolist()
             file.write(self.__linha.write([ano] + valores))
