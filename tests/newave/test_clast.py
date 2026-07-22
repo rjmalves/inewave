@@ -110,7 +110,9 @@ def test_tipo_combustivel_nao_invade_campo_custo():
         ct = Clast.read(ARQ_TESTE)
 
     combustiveis = set(ct.usinas["tipo_combustivel"].unique())
-    assert all(not c.strip()[-1].isdigit() for c in combustiveis)
+    assert all(
+        not c.strip() or not c.strip()[-1].isdigit() for c in combustiveis
+    )
 
     daia = ct.usinas.loc[ct.usinas["codigo_usina"] == 153]
     assert daia["tipo_combustivel"].iloc[0].strip() == "Diesel"
