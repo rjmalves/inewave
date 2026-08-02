@@ -1,6 +1,8 @@
 from inewave.newave.forward import Forward
 import pandas as pd
 
+from tests.mocks.binarios import bytes_gz
+
 ARQ_FORWARD = "./tests/mocks/arquivos/forward.dat"
 
 TAMANHO_REGISTRO = 41264
@@ -9,7 +11,7 @@ NUMERO_CLASSES_TERMICAS_SUBMERCADOS = [34, 19, 43, 24]
 
 def test_atributos_encontrados_forward():
     f = Forward.read(
-        ARQ_FORWARD,
+        bytes_gz(ARQ_FORWARD),
         tamanho_registro=TAMANHO_REGISTRO,
         numero_estagios=1,
         numero_forwards=2,
@@ -316,7 +318,7 @@ def test_atributos_encontrados_forward():
 
 def test_eq_forward():
     f1 = Forward.read(
-        ARQ_FORWARD,
+        bytes_gz(ARQ_FORWARD),
         tamanho_registro=TAMANHO_REGISTRO,
         numero_estagios=1,
         numero_forwards=2,
@@ -619,7 +621,7 @@ def test_eq_forward():
         ],
     )
     f2 = Forward.read(
-        ARQ_FORWARD,
+        bytes_gz(ARQ_FORWARD),
         tamanho_registro=TAMANHO_REGISTRO,
         numero_estagios=1,
         numero_forwards=2,
@@ -926,7 +928,7 @@ def test_eq_forward():
 
 def test_atributos_forward():
     f = Forward.read(
-        ARQ_FORWARD,
+        bytes_gz(ARQ_FORWARD),
         tamanho_registro=TAMANHO_REGISTRO,
         numero_estagios=1,
         numero_forwards=2,
@@ -1321,7 +1323,7 @@ def test_geracao_termica_agrupada_por_submercado():
     nomes_classes = [f"UTE{i}" for i in range(total_classes)]
     nomes_usinas = [f"UHE{i}" for i in range(162)]
     f = Forward.read(
-        ARQ_FORWARD,
+        bytes_gz(ARQ_FORWARD),
         tamanho_registro=TAMANHO_REGISTRO,
         numero_estagios=1,
         numero_forwards=2,
@@ -1356,7 +1358,7 @@ def test_geracao_termica_agrupada_por_submercado():
     assert bloco["patamar"].tolist() == patamares_esperados
 
     # no layout global antigo (patamar variando sobre todas as classes), as
-    # primeiras linhas seriam todas do patamar 1. com o fix, o primeiro 
+    # primeiras linhas seriam todas do patamar 1. com o fix, o primeiro
     # submercado cobre os demais patamares dentro do intervalo
     assert not (bloco["patamar"].iloc[:total_classes] == 1).all()
 

@@ -5,8 +5,7 @@ from inewave.newave.modelos.engnat import SecaoDadosEngnat
 from inewave.newave.engnat import Engnat
 from inewave.config import MAX_ANOS_HISTORICO
 
-from tests.mocks.mock_open import mock_open
-from unittest.mock import MagicMock, patch
+from tests.mocks.binarios import bytes_gz, fp_gz
 
 
 ARQ_TESTE = "./tests/mocks/arquivos/engnat.dat"
@@ -19,20 +18,19 @@ NUM_ENTRADAS = NUM_CONFIGURACOES * NUM_REES * 12 * MAX_ANOS_HISTORICO
 
 def test_secao_engnat():
     r = SecaoDadosEngnat()
-    with open(ARQ_TESTE, "rb") as fp:
-        r.read(
-            fp,
-            numero_rees=NUM_REES,
-            ano_inicio_historico=ANO_INICIO_HISTORICO,
-            numero_configuracoes=NUM_CONFIGURACOES,
-        )
+    r.read(
+        fp_gz(ARQ_TESTE),
+        numero_rees=NUM_REES,
+        ano_inicio_historico=ANO_INICIO_HISTORICO,
+        numero_configuracoes=NUM_CONFIGURACOES,
+    )
 
     assert len(r.data) == NUM_ENTRADAS
 
 
 def test_atributos_encontrados_engnat():
     h = Engnat.read(
-        ARQ_TESTE,
+        bytes_gz(ARQ_TESTE),
         numero_rees=NUM_REES,
         ano_inicio_historico=ANO_INICIO_HISTORICO,
         numero_configuracoes=NUM_CONFIGURACOES,
@@ -42,26 +40,24 @@ def test_atributos_encontrados_engnat():
 
 
 def test_atributos_nao_encontrados_engnat():
-    m: MagicMock = mock_open(read_data="")
-    with patch("builtins.open", m):
-        h = Engnat.read(
-            ARQ_TESTE,
-            numero_rees=NUM_REES,
-            ano_inicio_historico=ANO_INICIO_HISTORICO,
-            numero_configuracoes=NUM_CONFIGURACOES,
-        )
-        assert h.series.isna().sum().sum() == NUM_ENTRADAS
+    h = Engnat.read(
+        b"",
+        numero_rees=NUM_REES,
+        ano_inicio_historico=ANO_INICIO_HISTORICO,
+        numero_configuracoes=NUM_CONFIGURACOES,
+    )
+    assert h.series.isna().sum().sum() == NUM_ENTRADAS
 
 
 def test_eq_engnat():
     h1 = Engnat.read(
-        ARQ_TESTE,
+        bytes_gz(ARQ_TESTE),
         numero_rees=NUM_REES,
         ano_inicio_historico=ANO_INICIO_HISTORICO,
         numero_configuracoes=NUM_CONFIGURACOES,
     )
     h2 = Engnat.read(
-        ARQ_TESTE,
+        bytes_gz(ARQ_TESTE),
         numero_rees=NUM_REES,
         ano_inicio_historico=ANO_INICIO_HISTORICO,
         numero_configuracoes=NUM_CONFIGURACOES,
@@ -71,7 +67,7 @@ def test_eq_engnat():
 
 def test_leitura_escrita_engnat():
     h1 = Engnat.read(
-        ARQ_TESTE,
+        bytes_gz(ARQ_TESTE),
         numero_rees=NUM_REES,
         ano_inicio_historico=ANO_INICIO_HISTORICO,
         numero_configuracoes=NUM_CONFIGURACOES,

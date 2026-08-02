@@ -24,6 +24,7 @@ _LAZY_IMPORTS: dict[str, str] = {
     "Confhd": "confhd",
     "Conft": "conft",
     "Cortes": "cortes",
+    "Cortese": "cortese",
     "Cortesh": "cortesh",
     "Curva": "curva",
     "Cvar": "cvar",

@@ -97,6 +97,7 @@ dados armazenados nos respectivos registros.
    arquivos/forward
    arquivos/cortesh
    arquivos/cortes
+   arquivos/cortese
    arquivos/newavetim
    arquivos/confhd
    arquivos/conft

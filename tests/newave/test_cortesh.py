@@ -1,8 +1,7 @@
 from inewave.newave.modelos.cortesh import SecaoDadosCortesh
 from inewave.newave.cortesh import Cortesh
 
-from tests.mocks.mock_open import mock_open
-from unittest.mock import MagicMock, patch
+from tests.mocks.binarios import bytes_gz, fp_gz
 import pytest
 
 ARQ_TESTE = "./tests/mocks/arquivos/cortesh.dat"
@@ -10,8 +9,7 @@ ARQ_TESTE = "./tests/mocks/arquivos/cortesh.dat"
 
 def test_secao_dados_cortesh():
     r = SecaoDadosCortesh()
-    with open(ARQ_TESTE, "rb") as fp:
-        r.read(fp, storage="BINARY")
+    r.read(fp_gz(ARQ_TESTE), storage="BINARY")
 
     assert len(r.data) == 23865
     assert r.versao_newave == 281200
@@ -78,25 +76,23 @@ def test_secao_dados_cortesh():
 
 
 def test_atributos_encontrados_cortesh():
-    h = Cortesh.read(ARQ_TESTE)
+    h = Cortesh.read(bytes_gz(ARQ_TESTE))
     assert h.versao_newave is not None
 
 
 def test_atributos_nao_encontrados_cortesh():
-    m: MagicMock = mock_open(read_data=b"")
     with pytest.raises(ValueError):
-        with patch("builtins.open", m):
-            h = Cortesh.read(ARQ_TESTE)  # noqa: F841
+        Cortesh.read(b"")
 
 
 def test_eq_cortesh():
-    h1 = Cortesh.read(ARQ_TESTE)
-    h2 = Cortesh.read(ARQ_TESTE)
+    h1 = Cortesh.read(bytes_gz(ARQ_TESTE))
+    h2 = Cortesh.read(bytes_gz(ARQ_TESTE))
     assert h1 == h2
 
 
 def test_atributos_cortesh():
-    h1 = Cortesh.read(ARQ_TESTE)
+    h1 = Cortesh.read(bytes_gz(ARQ_TESTE))
     assert h1.versao_newave == 281200
     assert h1.tamanho_corte == 17568
     assert h1.tamanho_estado == 0

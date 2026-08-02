@@ -2,6 +2,7 @@ from inewave.newave.modelos.vazoes import RegistroVazoesPostos
 from inewave.newave.vazoes import Vazoes
 
 
+from tests.mocks.binarios import bytes_gz, fp_gz
 from tests.mocks.mock_open import mock_open
 from unittest.mock import MagicMock, patch
 
@@ -11,33 +12,30 @@ ARQ_TESTE = "./tests/mocks/arquivos/vazoes.dat"
 
 def test_registro_vazoesposto_vazoes():
     r = RegistroVazoesPostos()
-    with open(ARQ_TESTE, "rb") as fp:
-        r.read(fp, storage="BINARY")
+    r.read(fp_gz(ARQ_TESTE), storage="BINARY")
 
     assert len(r.data) == 320
 
 
 def test_atributos_encontrados_vazoes():
-    h = Vazoes.read(ARQ_TESTE)
+    h = Vazoes.read(bytes_gz(ARQ_TESTE))
     assert h.vazoes is not None
 
 
 def test_atributos_nao_encontrados_vazoes():
-    m: MagicMock = mock_open(read_data="")
-    with patch("builtins.open", m):
-        ad = Vazoes.read(ARQ_TESTE)
-        assert ad.vazoes is None
+    ad = Vazoes.read(b"")
+    assert ad.vazoes is None
 
 
 def test_eq_vazoes():
-    h1 = Vazoes.read(ARQ_TESTE)
-    h2 = Vazoes.read(ARQ_TESTE)
+    h1 = Vazoes.read(bytes_gz(ARQ_TESTE))
+    h2 = Vazoes.read(bytes_gz(ARQ_TESTE))
     assert h1 == h2
 
 
 def test_neq_vazoes():
-    h1 = Vazoes.read(ARQ_TESTE)
-    h2 = Vazoes.read(ARQ_TESTE)
+    h1 = Vazoes.read(bytes_gz(ARQ_TESTE))
+    h2 = Vazoes.read(bytes_gz(ARQ_TESTE))
     h2.vazoes.iloc[0, 0] = -1
     m: MagicMock = mock_open(read_data="")
     with patch("builtins.open", m):
@@ -46,7 +44,7 @@ def test_neq_vazoes():
 
 
 def test_leitura_escrita_vazoes():
-    h1 = Vazoes.read(ARQ_TESTE)
+    h1 = Vazoes.read(bytes_gz(ARQ_TESTE))
     m_escrita: MagicMock = mock_open(read_data="")
     with patch("builtins.open", m_escrita):
         h1.write(ARQ_TESTE)
@@ -55,14 +53,12 @@ def test_leitura_escrita_vazoes():
         linhas_escritas = [
             chamadas[i].args[0] for i in range(1, len(chamadas) - 1)
         ]
-    m_releitura: MagicMock = mock_open(read_data=b"".join(linhas_escritas))
-    with patch("builtins.open", m_releitura):
-        h2 = Vazoes.read(ARQ_TESTE)
-        assert h1 == h2
+    h2 = Vazoes.read(b"".join(linhas_escritas))
+    assert h1 == h2
 
 
 def test_leitura_escrita_editando_vazoes():
-    h1 = Vazoes.read(ARQ_TESTE)
+    h1 = Vazoes.read(bytes_gz(ARQ_TESTE))
     vaz = h1.vazoes
     num_vazoes_original = vaz.shape[0]
     h1.vazoes.loc[vaz.shape[0]] = 0

@@ -1,9 +1,7 @@
 from inewave.newave.modelos.enavazb import SecaoDadosEnavazb
 from inewave.newave.enavazb import Enavazb
 
-
-from tests.mocks.mock_open import mock_open
-from unittest.mock import MagicMock, patch
+from tests.mocks.binarios import bytes_gz, fp_gz
 
 
 ARQ_TESTE = "./tests/mocks/arquivos/enavazb.dat"
@@ -17,21 +15,20 @@ NUM_ENTRADAS = NUM_FORWARDS * NUM_ABERTURAS * NUM_REES * NUM_ESTAGIOS
 
 def test_secao_enavaz():
     r = SecaoDadosEnavazb()
-    with open(ARQ_TESTE, "rb") as fp:
-        r.read(
-            fp,
-            numero_forwards=NUM_FORWARDS,
-            numero_aberturas=NUM_ABERTURAS,
-            numero_rees=NUM_REES,
-            numero_estagios=NUM_ESTAGIOS,
-        )
+    r.read(
+        fp_gz(ARQ_TESTE),
+        numero_forwards=NUM_FORWARDS,
+        numero_aberturas=NUM_ABERTURAS,
+        numero_rees=NUM_REES,
+        numero_estagios=NUM_ESTAGIOS,
+    )
 
     assert len(r.data) == NUM_ENTRADAS
 
 
 def test_atributos_encontrados_enavaz():
     h = Enavazb.read(
-        ARQ_TESTE,
+        bytes_gz(ARQ_TESTE),
         numero_forwards=NUM_FORWARDS,
         numero_aberturas=NUM_ABERTURAS,
         numero_rees=NUM_REES,
@@ -42,28 +39,26 @@ def test_atributos_encontrados_enavaz():
 
 
 def test_atributos_nao_encontrados_enavaz():
-    m: MagicMock = mock_open(read_data="")
-    with patch("builtins.open", m):
-        h = Enavazb.read(
-            ARQ_TESTE,
-            numero_forwards=NUM_FORWARDS,
-            numero_aberturas=NUM_ABERTURAS,
-            numero_rees=NUM_REES,
-            numero_estagios=NUM_ESTAGIOS,
-        )
-        assert h.series.isna().sum().sum() == NUM_ENTRADAS
+    h = Enavazb.read(
+        b"",
+        numero_forwards=NUM_FORWARDS,
+        numero_aberturas=NUM_ABERTURAS,
+        numero_rees=NUM_REES,
+        numero_estagios=NUM_ESTAGIOS,
+    )
+    assert h.series.isna().sum().sum() == NUM_ENTRADAS
 
 
 def test_eq_enavaz():
     h1 = Enavazb.read(
-        ARQ_TESTE,
+        bytes_gz(ARQ_TESTE),
         numero_forwards=NUM_FORWARDS,
         numero_aberturas=NUM_ABERTURAS,
         numero_rees=NUM_REES,
         numero_estagios=NUM_ESTAGIOS,
     )
     h2 = Enavazb.read(
-        ARQ_TESTE,
+        bytes_gz(ARQ_TESTE),
         numero_forwards=NUM_FORWARDS,
         numero_aberturas=NUM_ABERTURAS,
         numero_rees=NUM_REES,
