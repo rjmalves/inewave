@@ -38,7 +38,10 @@ test = [
 lint = [
     "mypy",
     "pre-commit",
-    "ruff",
+    # Fixado: uv.lock é gitignored, então a CI resolve o ruff a cada run.
+    # Sem o teto, uma release nova do ruff reordena imports em todo o repo
+    # e quebra o lint sem relação com a mudança em revisão.
+    "ruff<0.16",
 ]
 docs = [
     "matplotlib",

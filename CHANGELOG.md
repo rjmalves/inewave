@@ -5,6 +5,18 @@ Todas as mudancas notaveis neste projeto serao documentadas neste arquivo.
 O formato e baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/),
 e este projeto adere ao [Versionamento Semantico](https://semver.org/lang/pt-BR/).
 
+## [Não lançado]
+
+### Corrigido
+
+- `clast.dat`: a largura do campo `tipo_combustivel` foi corrigida de 12 para 10 caracteres. Com 12 o campo invadia a primeira coluna de custo e corrompia o combustível de usinas com CVU ≥ 1000 (o dano ficava restrito ao DataFrame, pois a escrita mascarava o defeito) [#123](https://github.com/rjmalves/inewave/pull/123) (@dcpirex).
+- `clast.dat`: o número de colunas de custo passa a ser detectado da linha de template do próprio arquivo, em vez de fixo em 5, com fallback para o argumento `numero_anos_planejamento`. Suporta decks com 4 colunas e horizontes estendidos (6 anos), ajustando o cabeçalho na escrita quando o número de anos muda [#123](https://github.com/rjmalves/inewave/pull/123) (@dcpirex).
+- `sistema.dat`: a escrita do bloco de intercâmbio passa a emitir o registro em branco obrigatório entre os grupos de sentido (registros tipo 2 e 3), conforme o manual do NEWAVE (seção 3.7, Bloco 3), em vez de repetir o cabeçalho tipo 1 [#123](https://github.com/rjmalves/inewave/pull/123) (@dcpirex).
+
+### Modificado
+
+- Fixada a versão do `ruff` (`ruff<0.16`) nas dependências de lint para estabilizar a CI, já que o `uv.lock` não é versionado e o lint era resolvido para a release mais recente a cada execução.
+
 ## [1.14.1] - 2026-07-01
 
 ### Corrigido

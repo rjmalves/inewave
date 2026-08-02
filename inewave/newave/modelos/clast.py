@@ -28,6 +28,10 @@ class BlocoUTEClasT(Section):
 
     FIM_BLOCO = " 9999"
 
+    # Layout posicional dos campos de custo no clast.dat
+    INICIO_CUSTOS = 29
+    LARGURA_CUSTO = 8
+
     def __init__(
         self,
         previous: Optional[Any] = None,
@@ -38,10 +42,6 @@ class BlocoUTEClasT(Section):
         self.__numero_anos_planejamento = 5
         self.__linha = self.__monta_linha(self.__numero_anos_planejamento)
         self.__cabecalhos: List[str] = []
-
-    # Layout posicional dos campos de custo no clast.dat
-    INICIO_CUSTOS = 29
-    LARGURA_CUSTO = 8
 
     @classmethod
     def __monta_linha(cls, numero_anos: int) -> Line:
