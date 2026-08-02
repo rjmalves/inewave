@@ -169,3 +169,21 @@ MockBlocoModificacaoClasT = [
 ]
 
 MockClasT = MockBlocoUTEClasT + MockBlocoModificacaoClasT
+
+# Deck com 4 colunas de custo (caso do PMO NW202701)
+MockBlocoUTEClasT4Anos = [
+    " NUM  NOME CLASSE  TIPO COMB.  CUSTO   CUSTO   CUSTO   CUSTO   \n",
+    " XXXX XXXXXXXXXXXX XXXXXXXXXX XXXX.XX XXXX.XX XXXX.XX XXXX.XX \n",
+    "    1 ANGRA 1      Nuclear      31.17   31.17   31.17   31.17 \n",
+    "  491 CAMPO GRANDE Gas        1314.04 1053.57  949.33  904.59 \n",
+    " 9999\n",
+]
+
+# Deck estendido para 6 anos de horizonte
+MockBlocoUTEClasT6Anos = [
+    " NUM  NOME CLASSE  TIPO COMB.  CUSTO   CUSTO   CUSTO   CUSTO   CUSTO   CUSTO   \n",
+    " XXXX XXXXXXXXXXXX XXXXXXXXXX XXXX.XX XXXX.XX XXXX.XX XXXX.XX XXXX.XX XXXX.XX \n",
+    "    1 ANGRA 1      Nuclear      31.17   31.17   31.17   31.17   31.17   31.17 \n",
+    "  491 CAMPO GRANDE Gas        1314.04 1053.57  949.33  904.59  904.59  904.59 \n",
+    " 9999\n",
+]

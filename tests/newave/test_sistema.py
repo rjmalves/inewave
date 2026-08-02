@@ -1,4 +1,5 @@
 # Rotinas de testes associadas ao arquivo sistema.dat do NEWAVE
+import re
 from inewave.newave.modelos.sistema import (
     BlocoNumeroPatamaresDeficit,
     BlocoCustosDeficit,
@@ -137,3 +138,33 @@ def test_leitura_escrita_sistema():
     with patch("builtins.open", m_releitura):
         cf2 = Sistema.read(ARQ_TESTE)
         assert cf1 == cf2
+
+
+def test_escrita_intercambio_usa_registro_em_branco():
+    # Manual do NEWAVE v30.0.2, secao 3.7, Bloco 3: os grupos de registros
+    # tipo 2 (A->B) e tipo 3 (B->A) sao "separados por um registro em
+    # branco, de existencia obrigatoria". O cabecalho tipo 1 nao deve ser
+    # repetido nessa virada.
+    m_leitura: MagicMock = mock_open(read_data="".join(MockSistema))
+    with patch("builtins.open", m_leitura):
+        sist = Sistema.read(ARQ_TESTE)
+
+    m_escrita: MagicMock = mock_open(read_data="")
+    with patch("builtins.open", m_escrita):
+        sist.write(ARQ_TESTE)
+        chamadas = m_escrita.mock_calls
+        linhas = [
+            chamadas[i].args[0] for i in range(1, len(chamadas) - 1)
+        ]
+
+    # Um cabecalho tipo 1 por par de submercados, nao um por sentido.
+    cabecalhos = [
+        line for line in linhas if re.match(r"^\s*\d+\s+\d+\s+\d\s*$", line)
+    ]
+    pares = [tuple(line.split()[:2]) for line in cabecalhos]
+    assert len(pares) == len(set(pares)), (
+        f"cabecalho tipo 1 repetido para o mesmo par: {pares}"
+    )
+
+    # E deve existir ao menos um registro em branco separando os grupos.
+    assert any(line == "\n" for line in linhas)
