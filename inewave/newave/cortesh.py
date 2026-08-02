@@ -3,7 +3,7 @@ from cfinterface.storage import StorageType
 from inewave.newave.modelos.cortesh import SecaoDadosCortesh
 
 import pandas as pd  # type: ignore[import-untyped]  # no pandas-stubs package
-from typing import TypeVar
+from typing import List, TypeVar
 
 
 class Cortesh(SectionFile):
@@ -404,6 +404,84 @@ class Cortesh(SectionFile):
     @tamanho_registro_agregado.setter
     def tamanho_registro_agregado(self, v: int) -> None:
         self.__obtem_dados().tamanho_registro_agregado = v
+
+    @property
+    def ordens_modelos_parp(self) -> List[int]:
+        """
+        As ordens do modelo PAR(p) ajustado por estágio e REE.
+
+        .. note::
+            Este campo pode vir zerado em algumas versões do NEWAVE. Para a
+            ordem máxima usada no dimensionamento dos registros de corte
+            prefira :meth:`ordem_maxima_parp`.
+
+        :return: As ordens do PAR(p)
+        :rtype: list[int]
+        """
+        return self.__obtem_dados().ordens_modelos_parp
+
+    @property
+    def constante_numero_maximo_uhes(self) -> int:
+        """
+        Constante com o número máximo de UHEs, usada no dimensionamento dos
+        registros de corte individualizados.
+
+        :rtype: int
+        """
+        return self.__obtem_dados().constante_numero_maximo_uhes
+
+    @property
+    def constante_numero_maximo_uhes_ordem_maxima_parp(self) -> int:
+        """
+        Constante ``numero_maximo_uhes * ordem_maxima_parp`` (individualizado).
+
+        :rtype: int
+        """
+        return (
+            self.__obtem_dados().constante_numero_maximo_uhes_ordem_maxima_parp
+        )
+
+    @property
+    def constante_numero_rees(self) -> int:
+        """
+        Constante com o número de REEs, usada no dimensionamento dos
+        registros de corte agregados.
+
+        :rtype: int
+        """
+        return self.__obtem_dados().constante_numero_rees
+
+    @property
+    def constante_numero_rees_ordem_maxima_parp(self) -> int:
+        """
+        Constante ``numero_rees * ordem_maxima_parp`` (agregado em REE).
+
+        :rtype: int
+        """
+        return self.__obtem_dados().constante_numero_rees_ordem_maxima_parp
+
+    def ordem_maxima_parp(self) -> int:
+        """
+        A ordem máxima do modelo PAR(p) usada no dimensionamento dos registros
+        de corte, derivada das constantes do cabeçalho
+        (``numero_maximo_uhes * ordem_maxima_parp`` para o caso individualizado,
+        ``numero_rees * ordem_maxima_parp`` para o agregado). Robusta mesmo
+        quando ``ordens_modelos_parp`` vem zerado.
+
+        :rtype: int
+        """
+        if self.constante_numero_maximo_uhes > 0:
+            return (
+                self.constante_numero_maximo_uhes_ordem_maxima_parp
+                // self.constante_numero_maximo_uhes
+            )
+        if self.constante_numero_rees > 0:
+            return (
+                self.constante_numero_rees_ordem_maxima_parp
+                // self.constante_numero_rees
+            )
+        ordens = self.ordens_modelos_parp
+        return max(ordens) if len(ordens) > 0 else 0
 
     @property
     def ultimo_registro_cortes_estagio(self) -> pd.DataFrame:

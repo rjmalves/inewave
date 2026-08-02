@@ -9,10 +9,17 @@ e este projeto adere ao [Versionamento Semantico](https://semver.org/lang/pt-BR/
 
 ### Adicionado
 
+- Suporte à leitura dos arquivos de cortes particionados por estágio (`cortes-<estagio>.dat`) na classe `Cortes` através do parâmetro `por_estagio=True`, que deriva os índices locais e o número de cortes do próprio arquivo (descontando o registro sentinela final), ignorando o índice global do cabeçalho.
+- Atalho `Cortes.from_cortesh`, que deriva automaticamente as dimensões de leitura (códigos das UHEs na ordem de `dados_uhes`, ordem máxima do PAR(p), patamares e lag GNL) a partir de um `Cortesh`.
+- Mapeamento do bloco `PIMX_SAR` (multiplicadores da restrição de aversão a risco por UHE, colunas `pi_mx_sar_uheX`) nos cortes individualizados, antes descartado silenciosamente.
+- Nova classe `Cortese` para leitura dos estados visitados que geraram os cortes (`cortese.dat` consolidado e `cortese-<estagio>.dat` particionado), o par binário do relatório `estados.rel`, com os blocos de função objetivo, EARM por REE, VARM por UHE e SGT (geração térmica antecipada).
+- Método `Cortesh.ordem_maxima_parp` e constantes de dimensionamento (`constante_numero_maximo_uhes[_ordem_maxima_parp]`, `constante_numero_rees[_ordem_maxima_parp]`), robustos mesmo quando `ordens_modelos_parp` vem zerado.
 - `sistema.dat`: a tabela de limites de intercâmbio (`Sistema.limites_intercambio`) passa a expor a coluna `flag` (campo 3 do registro tipo 1: `0` = limite, `1` = intercâmbio mínimo obrigatório). Antes essa informação era fundida na coluna `sentido` e se perdia na leitura; agora o par de submercados é representado sem perdas. A coluna `sentido` mantém exatamente os valores anteriores (`flag XOR direção`), então decks apenas com limites não sofrem alteração.
 
 ### Corrigido
 
+- Validação explícita do layout de coeficientes dos cortes: o número de coeficientes nomeados é conferido contra `(tamanho_registro - 16) / 8`, levantando erro com mensagem acionável em vez de desalinhar silenciosamente os coeficientes quando `ordem_maxima_parp` / `lag_maximo_gnl` estão incorretos.
+- Guardas na leitura de cortes contra `indice_ultimo_corte <= 0` e offsets fora do arquivo, que antes produziam `OSError`/`ValueError` crus de `seek`/`frombuffer` (por exemplo, ao usar índices globais do consolidado em uma partição).
 - `sistema.dat`: a escrita do bloco de intercâmbio de decks com intercâmbio mínimo obrigatório (`flag` = 1) deixa de inverter os grupos A->B / B->A e de gravar o campo 3 errado. Com a direção derivada de `sentido XOR flag`, o round-trip volta a ser fiel para `flag` = 0 e = 1.
 - `clast.dat`: a largura do campo `tipo_combustivel` foi corrigida de 12 para 10 caracteres. Com 12 o campo invadia a primeira coluna de custo e corrompia o combustível de usinas com CVU ≥ 1000 (o dano ficava restrito ao DataFrame, pois a escrita mascarava o defeito) [#123](https://github.com/rjmalves/inewave/pull/123) (@dcpirex).
 - `clast.dat`: o número de colunas de custo passa a ser detectado da linha de template do próprio arquivo, em vez de fixo em 5, com fallback para o argumento `numero_anos_planejamento`. Suporta decks com 4 colunas e horizontes estendidos (6 anos), ajustando o cabeçalho na escrita quando o número de anos muda [#123](https://github.com/rjmalves/inewave/pull/123) (@dcpirex).
