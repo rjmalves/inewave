@@ -7,8 +7,13 @@ e este projeto adere ao [Versionamento Semantico](https://semver.org/lang/pt-BR/
 
 ## [Não lançado]
 
+### Adicionado
+
+- `sistema.dat`: a tabela de limites de intercâmbio (`Sistema.limites_intercambio`) passa a expor a coluna `flag` (campo 3 do registro tipo 1: `0` = limite, `1` = intercâmbio mínimo obrigatório). Antes essa informação era fundida na coluna `sentido` e se perdia na leitura; agora o par de submercados é representado sem perdas. A coluna `sentido` mantém exatamente os valores anteriores (`flag XOR direção`), então decks apenas com limites não sofrem alteração.
+
 ### Corrigido
 
+- `sistema.dat`: a escrita do bloco de intercâmbio de decks com intercâmbio mínimo obrigatório (`flag` = 1) deixa de inverter os grupos A->B / B->A e de gravar o campo 3 errado. Com a direção derivada de `sentido XOR flag`, o round-trip volta a ser fiel para `flag` = 0 e = 1.
 - `clast.dat`: a largura do campo `tipo_combustivel` foi corrigida de 12 para 10 caracteres. Com 12 o campo invadia a primeira coluna de custo e corrompia o combustível de usinas com CVU ≥ 1000 (o dano ficava restrito ao DataFrame, pois a escrita mascarava o defeito) [#123](https://github.com/rjmalves/inewave/pull/123) (@dcpirex).
 - `clast.dat`: o número de colunas de custo passa a ser detectado da linha de template do próprio arquivo, em vez de fixo em 5, com fallback para o argumento `numero_anos_planejamento`. Suporta decks com 4 colunas e horizontes estendidos (6 anos), ajustando o cabeçalho na escrita quando o número de anos muda [#123](https://github.com/rjmalves/inewave/pull/123) (@dcpirex).
 - `sistema.dat`: a escrita do bloco de intercâmbio passa a emitir o registro em branco obrigatório entre os grupos de sentido (registros tipo 2 e 3), conforme o manual do NEWAVE (seção 3.7, Bloco 3), em vez de repetir o cabeçalho tipo 1 [#123](https://github.com/rjmalves/inewave/pull/123) (@dcpirex).
