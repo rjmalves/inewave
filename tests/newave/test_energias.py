@@ -1,9 +1,7 @@
 from inewave.newave.modelos.energias import SecaoDadosEnergias
 from inewave.newave.energias import Energias
 
-
-from tests.mocks.mock_open import mock_open
-from unittest.mock import MagicMock, patch
+from tests.mocks.binarios import bytes_gz, fp_gz
 
 
 ARQ_TESTE = "./tests/mocks/arquivos/energias.dat"
@@ -17,21 +15,20 @@ NUM_ENTRADAS = NUM_SERIES * NUM_REES * (NUM_ESTAGIOS_TH + NUM_ESTAGIOS)
 
 def test_secao_energia():
     r = SecaoDadosEnergias()
-    with open(ARQ_TESTE, "rb") as fp:
-        r.read(
-            fp,
-            numero_series=NUM_SERIES,
-            numero_rees=NUM_REES,
-            numero_estagios=NUM_ESTAGIOS,
-            numero_estagios_th=NUM_ESTAGIOS_TH,
-        )
+    r.read(
+        fp_gz(ARQ_TESTE),
+        numero_series=NUM_SERIES,
+        numero_rees=NUM_REES,
+        numero_estagios=NUM_ESTAGIOS,
+        numero_estagios_th=NUM_ESTAGIOS_TH,
+    )
 
     assert len(r.data) == NUM_ENTRADAS
 
 
 def test_atributos_encontrados_energia():
     h = Energias.read(
-        ARQ_TESTE,
+        bytes_gz(ARQ_TESTE),
         numero_series=NUM_SERIES,
         numero_rees=NUM_REES,
         numero_estagios=NUM_ESTAGIOS,
@@ -42,28 +39,26 @@ def test_atributos_encontrados_energia():
 
 
 def test_atributos_nao_encontrados_energia():
-    m: MagicMock = mock_open(read_data="")
-    with patch("builtins.open", m):
-        h = Energias.read(
-            ARQ_TESTE,
-            numero_series=NUM_SERIES,
-            numero_rees=NUM_REES,
-            numero_estagios=NUM_ESTAGIOS,
-            numero_estagios_th=NUM_ESTAGIOS_TH,
-        )
-        assert h.series.isna().sum().sum() == NUM_ENTRADAS
+    h = Energias.read(
+        b"",
+        numero_series=NUM_SERIES,
+        numero_rees=NUM_REES,
+        numero_estagios=NUM_ESTAGIOS,
+        numero_estagios_th=NUM_ESTAGIOS_TH,
+    )
+    assert h.series.isna().sum().sum() == NUM_ENTRADAS
 
 
 def test_eq_energia():
     h1 = Energias.read(
-        ARQ_TESTE,
+        bytes_gz(ARQ_TESTE),
         numero_series=NUM_SERIES,
         numero_rees=NUM_REES,
         numero_estagios=NUM_ESTAGIOS,
         numero_estagios_th=NUM_ESTAGIOS_TH,
     )
     h2 = Energias.read(
-        ARQ_TESTE,
+        bytes_gz(ARQ_TESTE),
         numero_series=NUM_SERIES,
         numero_rees=NUM_REES,
         numero_estagios=NUM_ESTAGIOS,

@@ -2,6 +2,8 @@ from inewave.newave.cortes import Cortes
 
 import pandas as pd
 
+from tests.mocks.binarios import bytes_gz
+
 ARQ_TESTE_REE = "./tests/mocks/arquivos/cortes_ree.dat"
 ARQ_TESTE_HIB = "./tests/mocks/arquivos/cortes_hib.dat"
 
@@ -14,7 +16,7 @@ TAMANHO_CORTE_HIB = 17568
 
 def test_atributos_encontrados_cortes_ree():
     h = Cortes.read(
-        ARQ_TESTE_REE,
+        bytes_gz(ARQ_TESTE_REE),
         tamanho_registro=TAMANHO_CORTE_REE,
         indice_ultimo_corte=1,
         numero_total_cortes=1,
@@ -26,7 +28,7 @@ def test_atributos_encontrados_cortes_ree():
 
 def test_atributos_encontrados_cortes_hib():
     h = Cortes.read(
-        ARQ_TESTE_HIB,
+        bytes_gz(ARQ_TESTE_HIB),
         tamanho_registro=TAMANHO_CORTE_HIB,
         indice_ultimo_corte=1,
         numero_total_cortes=1,
@@ -38,7 +40,7 @@ def test_atributos_encontrados_cortes_hib():
 
 def test_eq_cortes():
     h1 = Cortes.read(
-        ARQ_TESTE_HIB,
+        bytes_gz(ARQ_TESTE_HIB),
         tamanho_registro=TAMANHO_CORTE_HIB,
         indice_ultimo_corte=1,
         numero_total_cortes=1,
@@ -46,7 +48,7 @@ def test_eq_cortes():
         codigos_submercados=SUBMERCADOS_CORTE,
     )
     h2 = Cortes.read(
-        ARQ_TESTE_HIB,
+        bytes_gz(ARQ_TESTE_HIB),
         tamanho_registro=TAMANHO_CORTE_HIB,
         indice_ultimo_corte=1,
         numero_total_cortes=1,
@@ -58,7 +60,7 @@ def test_eq_cortes():
 
 def test_atributos_cortes_ree():
     h = Cortes.read(
-        ARQ_TESTE_REE,
+        bytes_gz(ARQ_TESTE_REE),
         tamanho_registro=TAMANHO_CORTE_REE,
         indice_ultimo_corte=1,
         numero_total_cortes=1,
@@ -80,7 +82,7 @@ def test_atributos_cortes_ree():
 
 def test_atributos_cortes_hib():
     h = Cortes.read(
-        ARQ_TESTE_HIB,
+        bytes_gz(ARQ_TESTE_HIB),
         tamanho_registro=TAMANHO_CORTE_HIB,
         indice_ultimo_corte=1,
         numero_total_cortes=1,
