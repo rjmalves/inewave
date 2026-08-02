@@ -84,8 +84,14 @@ class Sistema(SectionFile):
         - submercado_de (`int`)
         - submercado_para (`int`)
         - sentido (`int`)
+        - flag (`int`)
         - data (`datetime`)
         - valor (`float`)
+
+        A coluna ``flag`` é o campo 3 do registro tipo 1 (`0` = limite,
+        `1` = intercâmbio mínimo obrigatório), constante por par de
+        submercados. A coluna ``sentido`` mantém o valor histórico
+        (`flag XOR direção`); a direção A->B / B->A é ``sentido XOR flag``.
 
         :return: A duração por mês em um DataFrame.
         :rtype: pd.DataFrame | None

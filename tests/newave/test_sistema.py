@@ -1,4 +1,5 @@
 # Rotinas de testes associadas ao arquivo sistema.dat do NEWAVE
+import io
 import re
 from inewave.newave.modelos.sistema import (
     BlocoNumeroPatamaresDeficit,
@@ -153,9 +154,7 @@ def test_escrita_intercambio_usa_registro_em_branco():
     with patch("builtins.open", m_escrita):
         sist.write(ARQ_TESTE)
         chamadas = m_escrita.mock_calls
-        linhas = [
-            chamadas[i].args[0] for i in range(1, len(chamadas) - 1)
-        ]
+        linhas = [chamadas[i].args[0] for i in range(1, len(chamadas) - 1)]
 
     # Um cabecalho tipo 1 por par de submercados, nao um por sentido.
     cabecalhos = [
@@ -168,3 +167,62 @@ def test_escrita_intercambio_usa_registro_em_branco():
 
     # E deve existir ao menos um registro em branco separando os grupos.
     assert any(line == "\n" for line in linhas)
+
+
+def test_bloco_intercambio_flag_e_sentido():
+    # A coluna `flag` (campo 3 do registro tipo 1: 0 = limite,
+    # 1 = intercâmbio mínimo obrigatório) é exposta sem alterar o `sentido`
+    # histórico. Este deck só tem limites, então flag == 0 em todo lugar.
+    m: MagicMock = mock_open(read_data="".join(MockBlocoLimitesIntercambio))
+    b = BlocoIntercambioSubsistema()
+    with patch("builtins.open", m):
+        with open("", "") as fp:
+            b.read(fp)
+
+    df = b.data
+    assert "flag" in df.columns
+    assert set(df["flag"].unique()) == {0}
+    # sentido preservado: no par (1, 2) o grupo A->B (10280) tem sentido 0 e
+    # o grupo B->A (6694) tem sentido 1, exatamente como antes da mudança.
+    p12 = df[(df["submercado_de"] == 1) & (df["submercado_para"] == 2)]
+    assert set(p12[p12["valor"] == 10280.0]["sentido"]) == {0}
+    assert set(p12[p12["valor"] == 6694.0]["sentido"]) == {1}
+
+
+def test_bloco_intercambio_flag_minimo_roundtrip():
+    # Par (1, 2) com campo 3 = 1 (intercâmbio mínimo obrigatório). O flag deve
+    # ser capturado, a direção A->B/B->A (posicional) preservada e o
+    # round-trip estável — cenário que a coluna única `sentido` não cobria.
+    mock_flag1 = [
+        linha.replace("   1   2               0", "   1   2               1")
+        for linha in MockBlocoLimitesIntercambio
+    ]
+    m: MagicMock = mock_open(read_data="".join(mock_flag1))
+    b = BlocoIntercambioSubsistema()
+    with patch("builtins.open", m):
+        with open("", "") as fp:
+            b.read(fp)
+
+    df = b.data
+    p12 = df[(df["submercado_de"] == 1) & (df["submercado_para"] == 2)]
+    assert set(p12["flag"]) == {1}
+    # os demais pares continuam com flag 0
+    outros = df[(df["submercado_de"] != 1) | (df["submercado_para"] != 2)]
+    assert set(outros["flag"]) == {0}
+
+    # Escrita: campo 3 = 1 e grupo A->B (10280) antes do B->A (6694).
+    buf = io.StringIO()
+    b.write(buf)
+    saida = buf.getvalue()
+    assert "   1   2               1" in saida
+    assert 0 < saida.find("10280") < saida.find("6694")
+
+    # Round-trip estável: reler a saída reproduz o mesmo DataFrame.
+    b2 = BlocoIntercambioSubsistema()
+    b2.read(io.StringIO(saida))
+    colunas = list(df.columns)
+    assert (
+        df.sort_values(colunas)
+        .reset_index(drop=True)
+        .equals(b2.data.sort_values(colunas).reset_index(drop=True))
+    )
