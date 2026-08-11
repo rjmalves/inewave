@@ -78,7 +78,12 @@ class Cortes(SectionFile):
         Lê um arquivo de cortes INDIVIDUALIZADO derivando todas as dimensões
         de um :class:`Cortesh`:
 
-        - ``codigos_uhes`` na mesma ordem de ``cortesh.dados_uhes``;
+        - ``codigos_uhes`` na ordem de ``cortesh.dados_uhes`` (por
+          ``indice_usina``), considerando APENAS as UHEs não-fictícias
+          (``ficticia == 0``): o registro individualizado carrega apenas essas,
+          de forma que ``n_coef == 2 + G + U*(2+P)`` com ``U`` = número de UHEs
+          não-fictícias. Contar as fictícias produziria um ``ValueError`` de
+          layout inconsistente;
         - ``ordem_maxima_parp`` a partir das ordens do PAR(p) do cabeçalho;
         - ``numero_patamares`` e ``lag_maximo_gnl`` do cabeçalho;
         - ``tamanho_registro`` = ``cortesh.tamanho_registro_individualizado``.
@@ -92,7 +97,10 @@ class Cortes(SectionFile):
         """
         submercados = list(range(1, cortesh.numero_submercados + 1))
         ordem_maxima_parp = cortesh.ordem_maxima_parp()
-        codigos_uhes = cortesh.dados_uhes["codigo_usina"].tolist()
+        dados_uhes = cortesh.dados_uhes
+        codigos_uhes = dados_uhes.loc[
+            dados_uhes["ficticia"] == 0, "codigo_usina"
+        ].tolist()
         return cls.read(
             content,
             tamanho_registro=cortesh.tamanho_registro_individualizado,
@@ -128,6 +136,10 @@ class Cortes(SectionFile):
         - pi_earm_ree2 (`float`)
         - ...
         - pi_ena_reeR_lagN (`float`)
+        - ... (pi_gnl, veja abaixo) ...
+        - pi_mx_sar_ree1 (`float`)
+        - ...
+        - pi_mx_sar_reeR (`float`)
 
         Se o estágio em questão for individualizado:
 
@@ -138,6 +150,10 @@ class Cortes(SectionFile):
         - pi_varm_uhe2 (`float`)
         - ...
         - pi_qafl_uheU_lagN (`float`)
+        - ... (pi_gnl, veja abaixo) ...
+        - pi_mx_sar_uhe1 (`float`)
+        - ...
+        - pi_mx_sar_uheU (`float`)
 
         Para todos os estágios:
 
@@ -150,6 +166,13 @@ class Cortes(SectionFile):
         - pi_gnl_sbm2_pat1_lag1 (`float`)
         - ...
         - pi_gnl_sbmS_patP_lagL (`float`)
+
+        Os coeficientes ``pi_mx_sar_*`` (multiplicadores da restrição de aversão
+        a risco / SAR) formam sempre o último bloco do registro — por UHE no caso
+        individualizado, por REE no agregado. Em alguns casos híbridos o registro
+        pode conter coeficientes extras entre ``pi_qafl`` e ``pi_mx_sar`` que o
+        NEWAVE não expõe no `nwlistcf.rel`; esses são descartados sem
+        desalinhar os blocos nomeados (veja o CHANGELOG da versão 1.15.1).
 
         R é o número de REEs.
 

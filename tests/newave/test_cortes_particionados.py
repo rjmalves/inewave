@@ -12,7 +12,9 @@ from inewave.newave.cortes import Cortes
 from inewave.newave.cortese import Cortese
 from tests.mocks.arquivos.cortes_particionados import (
     coeficientes_individualizado,
+    coeficientes_individualizado_hibrido,
     coeficientes_ree,
+    coeficientes_ree_completo,
     estado,
     gera_consolidado_cortes,
     gera_estados,
@@ -121,6 +123,103 @@ def test_individualizado_gnl_zero_sem_pi_gnl(tmp_path):
     assert np.isclose(r["pi_qafl_uhe3_lag2"], 132.0)
 
 
+def test_individualizado_bloco_extra_hibrido_pimx_sar_ancorado(tmp_path):
+    """
+    Layout híbrido: há um bloco extra não-nomeado entre PIAFL e PIMX_SAR.
+    PIMX_SAR deve ser lido do FIM do registro (ancorado pela cauda), sem
+    desalinhar, e o bloco extra fica sem mapeamento.
+    """
+    n_extra = 4  # bloco extra (ex.: acoplamento por REE) de tamanho arbitrário
+    # n = 2 + G + U*(2+P) + n_extra
+    tam = 16 + (2 + G2 + len(UHES) * (2 + PARP) + n_extra) * 8
+    registros = []
+    for c in (1, 2, 3):
+        gnl = [-1.0 * c - 0.1 * i for i in range(G2)]
+        varm = [10.0 * c + u for u in UHES]
+        qafl = [
+            100.0 * c + 10 * u + lag for u in UHES for lag in range(1, PARP + 1)
+        ]
+        extra = [7.0 * c + 0.5 * i for i in range(n_extra)]
+        sar = [0.5 * c + 0.01 * u for u in UHES]
+        registros.append(
+            coeficientes_individualizado_hibrido(
+                1000.0 * c, gnl, varm, qafl, extra, sar
+            )
+        )
+    particao = tmp_path / "cortes-010.dat"
+    particao.write_bytes(gera_particao_cortes(registros, tam))
+    df = _le(str(particao), por_estagio=True, tamanho_registro=tam).cortes
+
+    r = df[np.isclose(df["rhs"], 2000.0)].iloc[0]  # corte c=2
+    # pi_varm / pi_qafl permanecem corretos
+    assert np.isclose(r["pi_varm_uhe1"], 21.0)
+    assert np.isclose(r["pi_qafl_uhe3_lag2"], 232.0)
+    # PIMX_SAR lido do fim do registro (não do bloco extra)
+    assert np.isclose(r["pi_mx_sar_uhe1"], 1.01)
+    assert np.isclose(r["pi_mx_sar_uhe3"], 1.03)
+    # o bloco extra não vira coluna nomeada
+    assert all("extra" not in c for c in df.columns)
+
+
+def test_from_cortesh_exclui_uhes_ficticias(tmp_path):
+    """
+    `from_cortesh` deve dimensionar o registro apenas com as UHEs
+    NÃO-FICTÍCIAS (``ficticia == 0``). O registro em disco carrega só essas;
+    contar as fictícias levantaria ``ValueError`` de layout inconsistente.
+    """
+
+    class _CorteshStub:
+        # 5 UHEs, 2 fictícias -> 3 não-fictícias (codigos 4, 20, 27),
+        # em ordem de indice_usina.
+        dados_uhes = pd.DataFrame(
+            {
+                "codigo_usina": [4, 20, 21, 27, 28],
+                "indice_usina": [1, 2, 3, 4, 5],
+                "ficticia": [0, 0, 1, 0, 1],
+            }
+        )
+        numero_submercados = len(SUBMERCADOS)
+        numero_patamares = NPAT
+        lag_maximo_gnl = LAG
+        # registro dimensionado para as 3 UHEs reais:
+        # n = 2 + G + U*(2+P) = 2 + 2 + 3*4 = 16
+        tamanho_registro_individualizado = 16 + (2 + G2 + 3 * (2 + PARP)) * 8
+
+        def ordem_maxima_parp(self) -> int:
+            return PARP
+
+    codigos_reais = [4, 20, 27]
+    registros = []
+    for c in (1, 2):
+        gnl = [-1.0 * c - 0.1 * i for i in range(G2)]
+        varm = [10.0 * c + u for u in codigos_reais]
+        qafl = [
+            100.0 * c + u + lag
+            for u in codigos_reais
+            for lag in range(1, PARP + 1)
+        ]
+        sar = [0.0] * len(codigos_reais)
+        registros.append(
+            coeficientes_individualizado(1000.0 * c, gnl, varm, qafl, sar)
+        )
+    tam = _CorteshStub.tamanho_registro_individualizado
+    particao = tmp_path / "cortes-010.dat"
+    particao.write_bytes(gera_particao_cortes(registros, tam))
+
+    df = Cortes.from_cortesh(
+        str(particao), _CorteshStub(), por_estagio=True
+    ).cortes
+
+    # só as UHEs reais viram colunas; as fictícias (21, 28) não aparecem
+    assert "pi_varm_uhe4" in df.columns
+    assert "pi_varm_uhe27" in df.columns
+    assert "pi_varm_uhe21" not in df.columns
+    assert "pi_varm_uhe28" not in df.columns
+    r = df[np.isclose(df["rhs"], 2000.0)].iloc[0]
+    assert np.isclose(r["pi_varm_uhe4"], 24.0)
+    assert np.isclose(r["pi_varm_uhe27"], 47.0)
+
+
 def test_agregado_ree(tmp_path):
     rees = [1, 2]
     parp = 2
@@ -152,6 +251,50 @@ def test_agregado_ree(tmp_path):
     assert np.isclose(r["pi_earm_ree1"], -1.1)
     assert np.isclose(r["pi_ena_ree1_lag1"], 1.11)
     assert np.isclose(r["pi_gnl_sbm1_pat1_lag1"], -1.0)
+
+
+def test_agregado_ree_completo_com_pimx_sar(tmp_path):
+    """
+    Layout REE COMPLETO: rhs · PIEARM · PIH · PIGTAD · reservado · PIMX_SAR(R).
+    O leitor deve mapear o bloco PIMX_SAR(R) ancorado pela cauda.
+    """
+    rees = [1, 2]
+    parp = 2
+    g = len(SUBMERCADOS) * NPAT * LAG
+    # n = 1 + R*(1+P) + G + reservado(1) + R = 1 + 6 + 2 + 1 + 2 = 12
+    tam = 16 + (1 + len(rees) * (1 + parp) + g + 1 + len(rees)) * 8
+    registros = []
+    for c in (1, 2):
+        earm = [-0.1 * c - r for r in rees]
+        ena = [
+            0.01 * c + r + 0.1 * lag for r in rees for lag in range(1, parp + 1)
+        ]
+        gnl = [-1.0 * c - 0.1 * i for i in range(g)]
+        mx_sar = [0.7 * c + r for r in rees]
+        registros.append(
+            coeficientes_ree_completo(500.0 * c, earm, ena, gnl, mx_sar)
+        )
+    particao = tmp_path / "cortes-010.dat"
+    particao.write_bytes(gera_particao_cortes(registros, tam))
+    df = Cortes.read(
+        str(particao),
+        tamanho_registro=tam,
+        codigos_rees=rees,
+        codigos_submercados=SUBMERCADOS,
+        ordem_maxima_parp=parp,
+        numero_patamares=NPAT,
+        lag_maximo_gnl=LAG,
+        por_estagio=True,
+    ).cortes
+    r = df[np.isclose(df["rhs"], 1000.0)].iloc[0]  # corte c=2
+    assert np.isclose(r["pi_earm_ree1"], -1.2)
+    assert np.isclose(r["pi_ena_ree2_lag2"], 2.22)
+    assert np.isclose(r["pi_gnl_sbm1_pat1_lag1"], -2.0)
+    # bloco PIMX_SAR(R) lido corretamente da cauda
+    assert np.isclose(r["pi_mx_sar_ree1"], 2.4)
+    assert np.isclose(r["pi_mx_sar_ree2"], 3.4)
+    # todos os coeficientes nomeados presentes (só o reservado fica de fora)
+    assert {"pi_mx_sar_ree1", "pi_mx_sar_ree2"} <= set(df.columns)
 
 
 def test_parp_incorreto_levanta(tmp_path):

@@ -25,12 +25,16 @@ class SecaoDadosCortes(Section):
 
         rhs · PIGTAD(G) · reservado(1, sempre 0.0) · PIVARM(U) · PIAFL(U·P) · PIMX_SAR(U)
 
-    com ``G = n_submercados · n_patamares · lag_maximo_gnl``, ``U = n_uhes`` e
+    com ``G = n_submercados · n_patamares · lag_maximo_gnl``, ``U = n_uhes``
+    (apenas UHEs NÃO-FICTÍCIAS — o registro não carrega as fictícias) e
     ``P = ordem_maxima_parp``, de forma que ``n == 2 + G + U · (2 + P)``.
+    ``PIMX_SAR`` é sempre o último bloco (``U`` coeficientes); em casos híbridos
+    o registro pode trazer coeficientes extras não-nomeados entre ``PIAFL`` e
+    ``PIMX_SAR``, por isso o leitor ancora ``PIMX_SAR`` pelo FIM do registro.
 
-    Para um estágio agregado em REE o bloco é::
+    Para um estágio agregado em REE o bloco é (``R = n_rees``)::
 
-        rhs · PIEARM(R) · PIH(R·P) · PIGTAD(G) · [PIMX_SAR, PIMX_VMN ...]
+        rhs · PIEARM(R) · PIH(R·P) · PIGTAD(G) · reservado(1) · PIMX_SAR(R)
 
     Sobre os arquivos particionados: o cabeçalho (`cortesh.dat`) descreve o
     estudo COMPLETO em índices globais; uma partição carrega seus próprios
@@ -259,11 +263,32 @@ class SecaoDadosCortes(Section):
             for j in range(1, self.__numero_patamares_carga + 1)
             for k in range(1, self.__lag_maximo_gnl + 1)
         ]
+        cols_mx_sar = [f"pi_mx_sar_ree{i}" for i in self.__codigos_rees]
 
-        num_cols = 1 + len(cols_earm) + len(cols_ena) + len(cols_gnl)
+        # Layout físico: rhs[0] · earm · ena · gnl (contíguos) ·
+        #                reservado(1) · mx_sar[tail]
+        num_rees = len(self.__codigos_rees)
+        num_cols_front = 1 + len(cols_earm) + len(cols_ena) + len(cols_gnl)
+        # PIMX_SAR é o último bloco (R coeficientes); ancoramos pela cauda,
+        # simétrico ao layout individualizado (o slot reservado após PIGTAD
+        # e eventuais coeficientes extras ficam sem mapeamento).
+        offset_inicio_cols_mx_sar = self.__numero_coeficientes - num_rees
+        indices_cols_df_float = list(range(num_cols_front))
+        colunas = ["rhs"] + cols_earm + cols_ena + cols_gnl
+        # Só mapeia PIMX_SAR quando não invade o bloco front (evita ler além
+        # do fim em registros de versões sem o bloco).
+        if offset_inicio_cols_mx_sar >= num_cols_front:
+            indices_cols_df_float += list(
+                range(
+                    offset_inicio_cols_mx_sar,
+                    offset_inicio_cols_mx_sar + num_rees,
+                )
+            )
+            colunas += cols_mx_sar
+
         df_float = pd.DataFrame(
-            self.__tabela_float[:, :num_cols],
-            columns=["rhs"] + cols_earm + cols_ena + cols_gnl,
+            self.__tabela_float[:, indices_cols_df_float],
+            columns=colunas,
         )
         return pd.concat([df_int, df_float], axis=1)
 
@@ -301,23 +326,25 @@ class SecaoDadosCortes(Section):
         num_cols_gnl = len(cols_gnl)
         num_cols_varm_qafl = num_uhes * (self.__ordem_maxima_parp + 1)
         # Layout físico: rhs[0] · gnl[1..G] · reservado[G+1] ·
-        #                varm+qafl[G+2 ..] · mx_sar[...]
+        #                varm+qafl[G+2 ..] · [reservado_hibrido] · mx_sar[tail]
         offset_inicio_cols_varm = num_cols_gnl + 2
-        offset_inicio_cols_mx_sar = offset_inicio_cols_varm + num_cols_varm_qafl
+        fim_cols_varm_qafl = offset_inicio_cols_varm + num_cols_varm_qafl
+        # PIMX_SAR é sempre o ÚLTIMO bloco (U coeficientes) do registro, tanto
+        # no layout individualizado quanto no agregado. Ancoramos pelo fim do
+        # registro em vez de assumir que segue imediatamente PIAFL: alguns
+        # registros híbridos trazem coeficientes extras não-nomeados entre
+        # PIAFL e PIMX_SAR, que ficam sem mapeamento sem desalinhar o resto.
+        offset_inicio_cols_mx_sar = self.__numero_coeficientes - num_uhes
         indices_cols_df_float = (
             [0]
             + list(range(1, num_cols_gnl + 1))
-            + list(
-                range(
-                    offset_inicio_cols_varm,
-                    offset_inicio_cols_varm + num_cols_varm_qafl,
-                )
-            )
+            + list(range(offset_inicio_cols_varm, fim_cols_varm_qafl))
         )
         colunas = ["rhs"] + cols_gnl + cols_varm + cols_qafl
-        # O bloco PIMX_SAR só é mapeado quando cabe no registro (evita ler
-        # além do fim em registros com layout de outra versão do NEWAVE).
-        if offset_inicio_cols_mx_sar + num_uhes <= self.__numero_coeficientes:
+        # O bloco PIMX_SAR só é mapeado quando não invade o bloco varm/qafl
+        # (evita ler além do fim em registros com layout de outra versão do
+        # NEWAVE, em que o bloco pode estar ausente).
+        if offset_inicio_cols_mx_sar >= fim_cols_varm_qafl:
             indices_cols_df_float += list(
                 range(
                     offset_inicio_cols_mx_sar,

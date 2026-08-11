@@ -11,7 +11,8 @@ real do NEWAVE (verificado byte a byte com `nwlistcf.rel`/`estados.rel`):
                     indice_forward, iteracao_desativacao]
       float64[n] = rhs · PIGTAD(G) · reservado(1) · PIVARM(U) ·
                    PIAFL(U·P) · PIMX_SAR(U)            (individualizado)
-      float64[n] = rhs · PIEARM(R) · PIH(R·P) · PIGTAD(G)   (agregado em REE)
+      float64[n] = rhs · PIEARM(R) · PIH(R·P) · PIGTAD(G) ·
+                   reservado(1) · PIMX_SAR(R)          (agregado em REE)
 
 - partição por estágio: ``N`` cortes reais (lista ligada ``rec_k.next = k-1``,
   ``rec_1.next = 0``) seguidos de UM registro sentinela (``rhs == 0``).
@@ -58,6 +59,32 @@ def coeficientes_individualizado(
     return [rhs] + list(gnl) + [0.0] + list(varm) + list(qafl) + list(mx_sar)
 
 
+def coeficientes_individualizado_hibrido(
+    rhs: float,
+    gnl: List[float],
+    varm: List[float],
+    qafl: List[float],
+    extra: List[float],
+    mx_sar: List[float],
+) -> List[float]:
+    """
+    Como :func:`coeficientes_individualizado`, mas com um bloco ``extra`` de
+    coeficientes não-nomeados entre ``PIAFL`` e ``PIMX_SAR`` — reproduz o layout
+    híbrido observado em campo, em que ``PIMX_SAR`` permanece o ÚLTIMO bloco do
+    registro e o leitor o ancora pelo fim (o bloco ``extra`` fica sem
+    mapeamento, sem desalinhar ``PIMX_SAR``).
+    """
+    return (
+        [rhs]
+        + list(gnl)
+        + [0.0]
+        + list(varm)
+        + list(qafl)
+        + list(extra)
+        + list(mx_sar)
+    )
+
+
 def coeficientes_ree(
     rhs: float,
     earm: List[float],
@@ -65,10 +92,24 @@ def coeficientes_ree(
     gnl: List[float],
 ) -> List[float]:
     """
-    Monta o vetor físico de um corte agregado em REE:
+    Monta o vetor físico de um corte agregado em REE (front, sem cauda):
     ``rhs · PIEARM(R) · PIH(R·P) · PIGTAD(G)``.
     """
     return [rhs] + list(earm) + list(ena) + list(gnl)
+
+
+def coeficientes_ree_completo(
+    rhs: float,
+    earm: List[float],
+    ena: List[float],
+    gnl: List[float],
+    mx_sar: List[float],
+) -> List[float]:
+    """
+    Layout REE completo (validado contra `nwlistcf.rel`, estágio agregado):
+    ``rhs · PIEARM(R) · PIH(R·P) · PIGTAD(G) · reservado(1, =0.0) · PIMX_SAR(R)``.
+    """
+    return [rhs] + list(earm) + list(ena) + list(gnl) + [0.0] + list(mx_sar)
 
 
 def gera_particao_cortes(

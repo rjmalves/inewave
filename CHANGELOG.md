@@ -5,6 +5,21 @@ Todas as mudancas notaveis neste projeto serao documentadas neste arquivo.
 O formato e baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/),
 e este projeto adere ao [Versionamento Semantico](https://semver.org/lang/pt-BR/).
 
+## [1.15.1] - 2026-08-11
+
+### Adicionado
+
+- Mapeamento do bloco `PIMX_SAR` por REE (colunas `pi_mx_sar_reeX`) nos cortes agregados em REE, completando a leitura do registro agregado (`rhs · PIEARM · PIH · PIGTAD · reservado · PIMX_SAR`), antes truncada após o bloco `PIGTAD`. Validado byte a byte contra o `nwlistcf.rel` de um caso híbrido real (estágios agregados).
+
+### Corrigido
+
+- `Cortes.from_cortesh`: os `codigos_uhes` passam a ser derivados apenas das UHEs **não-fictícias** (`dados_uhes.ficticia == 0`), na ordem de `indice_usina`. O registro individualizado carrega somente essas usinas, de modo que contar também as fictícias inflava o número de coeficientes esperados e levantava `ValueError` de layout inconsistente em casos híbridos (individualizado + agregado) — a configuração comum de um PMO. A leitura de casos sem usinas fictícias não é afetada.
+- Leitura do bloco `PIMX_SAR` (individualizado e agregado) ancorada pelo **fim** do registro (`n_coef - U` / `n_coef - R`) em vez de logo após `PIAFL`/`PIGTAD`. Assim o bloco permanece corretamente alinhado mesmo quando o registro traz coeficientes extras não-nomeados antes da cauda. Em decks padrão (sem esses extras) o comportamento é idêntico ao anterior.
+
+### Observações
+
+- Alguns registros individualizados híbridos exportados podem conter um bloco extra de largura `numero_rees`, entre `PIAFL` e `PIMX_SAR`, com valores estritamente não-negativos (característicos de multiplicadores de restrição por REE). Esse bloco **não** é exposto no `nwlistcf.rel`, é descartado pelo próprio DECOMP (`fcfnwi.rv2`) e não aparece em execuções limpas do NEWAVE da mesma versão. Como sua semântica não pôde ser confirmada contra uma fonte oficial, o leitor o **descarta** (sem desalinhar os blocos nomeados) em vez de rotulá-lo incorretamente. Todos os demais coeficientes (`rhs`, `pi_gnl`, `pi_varm`, `pi_qafl`, `pi_mx_sar`) foram conferidos contra o `nwlistcf.rel` e contra a leitura independente do DECOMP.
+
 ## [1.15.0] - 2026-08-02
 
 ### Adicionado
