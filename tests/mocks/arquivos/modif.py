@@ -14,6 +14,18 @@ MockNUMCNJ = " NUMCNJ     2\n"
 
 MockNUMMAQ = " NUMMAQ     2  5\n"
 
+MockPOTEFE = " POTEFE    1347.2  2\n"
+
+MockVOLCOTA = " VOLCOTA  256.72 0.00 0.00 0.00 0.00\n"
+
+MockCOTAREA = " COTAREA  -1.002796D7 9.198078D4 -2.812294D2 2.866181D-1 0.\n"
+
+MockVOLCOTA_D = " VOLCOTA  2.5672D2 0.D0 0.D0 0.D0 0.D0\n"
+
+MockCOTAREA_E = (
+    " COTAREA  -1.002796E+07 9.198078E+04 -2.812294E+02 2.866181E-01 0.\n"
+)
+
 MockVMINT = " VMINT    10 2021  20.000 '%'\n"
 
 MockVMINP = " VMINP    10 2021  20.000 '%'\n"
@@ -48,6 +60,9 @@ MockModif = [
     " TURBMINT  2 2020    0.00\n",
     " NUMCNJ     2\n",
     " NUMMAQ     2  5\n",
+    " POTEFE    1347.2  2\n",
+    " VOLCOTA  256.72 0.00 0.00 0.00 0.00\n",
+    " COTAREA  -1.002796D7 9.198078D4 -2.812294D2 2.866181D-1 0.\n",
     " VMAXT    11 2021  92.560 '%'\n",
     " VMAXT    12 2021  61.310 '%'\n",
     " VMAXT     1 2022  70.240 '%'\n",

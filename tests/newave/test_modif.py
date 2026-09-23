@@ -6,8 +6,10 @@ from inewave.newave import Modif
 from inewave.newave.modelos.modif import (
     CFUGA,
     CMONT,
+    COTAREA,
     NUMCNJ,
     NUMMAQ,
+    POTEFE,
     TURBMAXT,
     TURBMINT,
     USINA,
@@ -17,15 +19,19 @@ from inewave.newave.modelos.modif import (
     VMAXT,
     VMINP,
     VMINT,
+    VOLCOTA,
     VOLMAX,
     VOLMIN,
 )
 from tests.mocks.arquivos.modif import (
     MockCFUGA,
     MockCMONT,
+    MockCOTAREA,
+    MockCOTAREA_E,
     MockModif,
     MockNUMCNJ,
     MockNUMMAQ,
+    MockPOTEFE,
     MockTURBMAXT,
     MockTURBMINT,
     MockUSINA,
@@ -40,6 +46,8 @@ from tests.mocks.arquivos.modif import (
     MockVMINP,
     MockVMINT,
     MockVMINT_PDE,
+    MockVOLCOTA,
+    MockVOLCOTA_D,
     MockVOLMAX,
     MockVOLMIN,
 )
@@ -165,6 +173,78 @@ def test_registro_nummaq_modif():
     assert r.conjunto == 1
 
 
+def test_registro_potefe_modif():
+    m: MagicMock = mock_open(read_data="".join(MockPOTEFE))
+    r = POTEFE()
+    with patch("builtins.open", m), open("", "") as fp:
+        r.read(fp)
+
+    assert r.data == [1347.2, 2]
+    assert r.potencia == 1347.2
+    r.potencia = 1400.0
+    assert r.potencia == 1400.0
+    assert r.conjunto == 2
+    r.conjunto = 1
+    assert r.conjunto == 1
+
+
+def test_registro_volcota_modif():
+    m: MagicMock = mock_open(read_data="".join(MockVOLCOTA))
+    r = VOLCOTA()
+    with patch("builtins.open", m), open("", "") as fp:
+        r.read(fp)
+
+    assert r.data == [256.72, 0.0, 0.0, 0.0, 0.0]
+    assert r.polinomio_volume_cota == [256.72, 0.0, 0.0, 0.0, 0.0]
+    r.polinomio_volume_cota = [1.0, 2.0, 3.0, 4.0, 5.0]
+    assert r.polinomio_volume_cota == [1.0, 2.0, 3.0, 4.0, 5.0]
+
+
+def test_registro_cotarea_modif():
+    m: MagicMock = mock_open(read_data="".join(MockCOTAREA))
+    r = COTAREA()
+    with patch("builtins.open", m), open("", "") as fp:
+        r.read(fp)
+
+    # O deck escreve o expoente em notação Fortran (D), lida como float.
+    assert r.data == [-1.002796e7, 9.198078e4, -2.812294e2, 2.866181e-1, 0.0]
+    assert r.polinomio_cota_area == [
+        -1.002796e7,
+        9.198078e4,
+        -2.812294e2,
+        2.866181e-1,
+        0.0,
+    ]
+    r.polinomio_cota_area = [1.0, 2.0, 3.0, 4.0, 5.0]
+    assert r.polinomio_cota_area == [1.0, 2.0, 3.0, 4.0, 5.0]
+
+
+def test_registro_volcota_notacao_exponencial_modif():
+    """Os coeficientes valem o mesmo escritos em decimal ou com expoente D."""
+    m: MagicMock = mock_open(read_data="".join(MockVOLCOTA_D))
+    r = VOLCOTA()
+    with patch("builtins.open", m), open("", "") as fp:
+        r.read(fp)
+
+    assert r.polinomio_volume_cota == [256.72, 0.0, 0.0, 0.0, 0.0]
+
+
+def test_registro_cotarea_notacao_exponencial_modif():
+    """Os coeficientes valem o mesmo escritos com expoente D ou E."""
+    m: MagicMock = mock_open(read_data="".join(MockCOTAREA_E))
+    r = COTAREA()
+    with patch("builtins.open", m), open("", "") as fp:
+        r.read(fp)
+
+    assert r.polinomio_cota_area == [
+        -1.002796e7,
+        9.198078e4,
+        -2.812294e2,
+        2.866181e-1,
+        0.0,
+    ]
+
+
 def test_registro_vmint_modif():
     m: MagicMock = mock_open(read_data="".join(MockVMINT))
     r = VMINT()
@@ -288,6 +368,9 @@ def test_atributos_encontrados_modif():
         assert isinstance(ad.volmax(), VOLMAX)
         assert len(ad.numcnj()) > 0
         assert len(ad.nummaq()) > 0
+        assert isinstance(ad.potefe(), POTEFE)
+        assert isinstance(ad.volcota(), VOLCOTA)
+        assert isinstance(ad.cotarea(), COTAREA)
         assert len(ad.vmint()) > 0
         assert len(ad.vminp()) > 0
         assert len(ad.cfuga()) > 0

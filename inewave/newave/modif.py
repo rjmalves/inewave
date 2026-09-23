@@ -6,6 +6,9 @@ from inewave.newave.modelos.modif import (
     VOLMAX,
     NUMCNJ,
     NUMMAQ,
+    POTEFE,
+    VOLCOTA,
+    COTAREA,
     VAZMIN,
     CFUGA,
     CMONT,
@@ -39,6 +42,9 @@ class Modif(RegisterFile):
         VOLMAX,
         NUMCNJ,
         NUMMAQ,
+        POTEFE,
+        VOLCOTA,
+        COTAREA,
         VAZMIN,
         CFUGA,
         CMONT,
@@ -160,6 +166,70 @@ class Modif(RegisterFile):
         else:
             return self.data.get_registers_of_type(
                 NUMMAQ, conjunto=conjunto, numero_maquinas=numero_maquinas
+            )
+
+    def potefe(
+        self,
+        potencia: Optional[float] = None,
+        conjunto: Optional[int] = None,
+        df: bool = False,
+    ) -> Optional[Union[POTEFE, List[POTEFE], pd.DataFrame]]:
+        """
+        Obtém um registro que define a potência efetiva de um
+            conjunto de máquinas.
+
+        :param potencia: a potência efetiva em MW
+        :type potencia: float | None
+        :param conjunto: o conjunto
+        :type conjunto: int | None
+        :return: Um ou mais registros, se existirem.
+        :rtype: :class:`POTEFE` | list[:class:`POTEFE`] | :class:`pd.DataFrame` | None
+        """
+        if df:
+            return self._as_df(POTEFE)
+        else:
+            return self.data.get_registers_of_type(
+                POTEFE, potencia=potencia, conjunto=conjunto
+            )
+
+    def volcota(
+        self,
+        polinomio_volume_cota: Optional[List[float]] = None,
+        df: bool = False,
+    ) -> Optional[Union[VOLCOTA, List[VOLCOTA], pd.DataFrame]]:
+        """
+        Obtém um registro que define o polinômio volume-cota.
+
+        :param polinomio_volume_cota: os coeficientes a0 a a4
+        :type polinomio_volume_cota: list[float] | None
+        :return: Um ou mais registros, se existirem.
+        :rtype: :class:`VOLCOTA` | list[:class:`VOLCOTA`] | :class:`pd.DataFrame` | None
+        """
+        if df:
+            return self._as_df(VOLCOTA)
+        else:
+            return self.data.get_registers_of_type(
+                VOLCOTA, polinomio_volume_cota=polinomio_volume_cota
+            )
+
+    def cotarea(
+        self,
+        polinomio_cota_area: Optional[List[float]] = None,
+        df: bool = False,
+    ) -> Optional[Union[COTAREA, List[COTAREA], pd.DataFrame]]:
+        """
+        Obtém um registro que define o polinômio cota-área.
+
+        :param polinomio_cota_area: os coeficientes a0 a a4
+        :type polinomio_cota_area: list[float] | None
+        :return: Um ou mais registros, se existirem.
+        :rtype: :class:`COTAREA` | list[:class:`COTAREA`] | :class:`pd.DataFrame` | None
+        """
+        if df:
+            return self._as_df(COTAREA)
+        else:
+            return self.data.get_registers_of_type(
+                COTAREA, polinomio_cota_area=polinomio_cota_area
             )
 
     def vazmin(
