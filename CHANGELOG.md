@@ -5,6 +5,12 @@ Todas as mudancas notaveis neste projeto serao documentadas neste arquivo.
 O formato e baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/),
 e este projeto adere ao [Versionamento Semantico](https://semver.org/lang/pt-BR/).
 
+## [Não lançado]
+
+### Adicionado
+
+- Leitura dos registros `POTEFE`, `VOLCOTA` e `COTAREA` do `modif.dat`, antes lidos como `DefaultRegister` e descartados silenciosamente: a potência efetiva por conjunto de máquinas (`POTEFE.potencia`, `POTEFE.conjunto`) e os polinômios volume-cota e cota-área (`VOLCOTA.polinomio_volume_cota` e `COTAREA.polinomio_cota_area`, cinco coeficientes de a0 a a4, sob o mesmo nome de atributo que o registro do `hidr.dat` usa). Os coeficientes são aceitos com o expoente em notação Fortran (`-1.002796D7`), como o deck os escreve, em notação exponencial (`-1.002796E+07`) ou em decimal puro, e são reescritos na notação Fortran do deck (`-1.002796D+07`).
+
 ## [1.15.1] - 2026-08-11
 
 ### Adicionado
