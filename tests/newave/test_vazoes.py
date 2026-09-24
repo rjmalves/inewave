@@ -1,3 +1,5 @@
+import numpy as np
+
 from inewave.newave.modelos.vazoes import RegistroVazoesPostos
 from inewave.newave.vazoes import Vazoes
 
@@ -87,3 +89,24 @@ def test_leitura_escrita_editando_vazoes():
             chamadas[i].args[0] for i in range(1, len(chamadas) - 1)
         ]
         assert len(linhas_escritas) == num_vazoes_reduzidas
+
+
+def _conteudo_vazoes(meses: int, postos: int) -> bytes:
+    """Vazoes sinteticas no layout (meses x postos)."""
+    return np.arange(meses * postos, dtype="<i4").tobytes()
+
+
+def test_read_sem_postos_usa_320_vazoes():
+    v = Vazoes.read(_conteudo_vazoes(24, 320))
+    assert v.vazoes.shape == (24, 320)
+
+
+def test_read_com_postos_explicito_vazoes():
+    # A LINE do registro e a contagem sao atributos de classe: o padrao e
+    # restaurado para a ordem dos demais testes nao importar.
+    try:
+        v = Vazoes.read(_conteudo_vazoes(24, 600), postos=600)
+        assert v.vazoes.shape == (24, 600)
+    finally:
+        Vazoes.POSTOS = 320
+        RegistroVazoesPostos.set_postos(320)

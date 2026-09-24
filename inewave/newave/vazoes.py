@@ -26,6 +26,26 @@ class Vazoes(RegisterFile):
         self.__df: Optional[pd.DataFrame] = None
         RegistroVazoesPostos.set_postos(self.POSTOS)
 
+    @classmethod
+    def read(
+        cls, content: Any, *args: Any, postos: int = 320, **kwargs: Any
+    ) -> "Vazoes":
+        """
+        Lê o arquivo de vazões.
+
+        :param postos: quantidade de postos do arquivo. O vetor de vazões
+            tem largura fixa, que varia entre versões do modelo e não é
+            declarada em cabeçalho.
+        :type postos: int
+        :return: O arquivo lido
+        :rtype: :class:`Vazoes`
+        """
+        RegistroVazoesPostos.set_postos(postos)
+        cls.POSTOS = postos
+        v = super().read(content, *args, **kwargs)
+        assert isinstance(v, Vazoes)
+        return v
+
     def write(self, to: Union[str, IO[Any]], *args: Any, **kwargs: Any) -> None:
         self.__atualiza_registros()
         super().write(to, *args, **kwargs)
