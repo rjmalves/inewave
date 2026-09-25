@@ -33,6 +33,7 @@ from tests.mocks.arquivos.modif import (
     MockUSINA_PDE_MULTIWORD,
     MockVAZMAXT,
     MockVAZMIN,
+    MockVAZMIN_DECIMAL,
     MockVAZMINT,
     MockVAZMINT_PDE,
     MockVMAXT,
@@ -73,6 +74,18 @@ def test_registro_vazmin_modif():
     assert r.vazao == 34
     r.vazao = 50
     assert r.vazao == 50
+
+
+def test_registro_vazmin_decimal_modif():
+    m: MagicMock = mock_open(read_data="".join(MockVAZMIN_DECIMAL))
+    r = VAZMIN()
+    with patch("builtins.open", m), open("", "") as fp:
+        r.read(fp)
+
+    assert r.data == [34.0]
+    assert r.vazao == 34.0
+    r.vazao = 50.5
+    assert r.vazao == 50.5
 
 
 def test_registro_vmaxt_modif():

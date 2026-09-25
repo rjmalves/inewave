@@ -281,20 +281,20 @@ class VAZMIN(ModifRegister):
 
     IDENTIFIER = " VAZMIN "
     IDENTIFIER_DIGITS = 8
-    LINE = Line([IntegerField(8, 10)])
+    LINE = Line([FloatField(8, 10, 2)])
 
     @property
-    def vazao(self) -> Optional[int]:
+    def vazao(self) -> Optional[float]:
         """
         O valor de vazão mínima
 
         :return: A nova vazão
-        :rtype: Optional[int]
+        :rtype: Optional[float]
         """
         return self.data[0]
 
     @vazao.setter
-    def vazao(self, t: int) -> None:
+    def vazao(self, t: float) -> None:
         self.data[0] = t
 
 
