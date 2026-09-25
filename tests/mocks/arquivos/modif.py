@@ -8,6 +8,10 @@ MockVMAXT = " VMAXT    12 2021  61.310 '%'\n"
 
 MockVAZMINT = " VAZMINT  10 2021   10.00 \n"
 
+# Pre-study (PRE) and post-study (POS) period markers in the year field.
+MockVAZMINT_PRE = " VAZMINT  01  PRE 330.000\n"
+MockVAZMINT_POS = " VAZMINT  06  POS 300.000\n"
+
 MockVOLMIN = " VOLMIN   15563.63 'h' \n"
 
 MockVOLMAX = " VOLMAX   55.000 '%'\n"

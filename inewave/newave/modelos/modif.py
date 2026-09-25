@@ -72,6 +72,87 @@ class ModifRegister(Register):
         return True
 
 
+class ModifRegisterComData(ModifRegister):
+    """Base para o registro VAZMINT do modif.dat, cujo campo de ano aceita,
+    além de um ano numérico, os marcadores textuais ``PRE`` (período
+    pré-estudo) e ``POS`` (período pós-estudo).
+
+    Por isso o ano é lido como texto (``LiteralField``) e ``data_inicio`` só
+    devolve um ``datetime`` quando o ano é numérico; para ``PRE``/``POS``
+    devolve ``None`` e o marcador fica disponível em :attr:`periodo`.
+
+    Convenção compartilhada: ``self.data[0]`` é o mês e ``self.data[1]`` é o
+    ano/marcador.
+    """
+
+    __slots__ = []
+
+    def read(
+        self, file: IO[Any], storage: str = "", *args: Any, **kwargs: Any
+    ) -> bool:
+        # O ano é lido como texto (LiteralField) para aceitar os marcadores
+        # PRE/POS. Um ano numérico é normalizado de volta para int, preservando
+        # o tipo histórico de ``data[1]`` (int) para os períodos do estudo; só
+        # PRE/POS permanecem como string.
+        result = super().read(file, storage, *args, **kwargs)
+        ano = self.data[1]
+        if ano is not None:
+            ano_txt = str(ano).strip()
+            if ano_txt.isdigit():
+                self.data[1] = int(ano_txt)
+            else:
+                self.data[1] = ano_txt.upper()
+        return result
+
+    @property
+    def periodo(self) -> Optional[str]:
+        """O marcador de período (``"PRE"`` ou ``"POS"``), ou ``None``.
+
+        Devolve ``None`` quando o ano é numérico (um período do estudo).
+
+        :return: ``"PRE"``, ``"POS"`` ou ``None``
+        :rtype: Optional[str]
+        """
+        ano = self.data[1]
+        if ano is None:
+            return None
+        ano_txt = str(ano).strip().upper()
+        return ano_txt if ano_txt in ("PRE", "POS") else None
+
+    @property
+    def mes(self) -> Optional[int]:
+        """O mês da modificação (válido inclusive para ``PRE``/``POS``).
+
+        :return: O mês, ou ``None`` se ausente
+        :rtype: Optional[int]
+        """
+        return None if self.data[0] is None else int(self.data[0])
+
+    @property
+    def data_inicio(self) -> Optional[datetime]:
+        """A data de início da modificação, quando o ano é numérico.
+
+        Devolve ``None`` para registros de período ``PRE``/``POS`` (veja
+        :attr:`periodo`) ou quando mês/ano estão ausentes.
+
+        :return: A data de início da modificação
+        :rtype: Optional[datetime]
+        """
+        mes = self.data[0]
+        ano = self.data[1]
+        if mes is None or ano is None:
+            return None
+        ano_txt = str(ano).strip()
+        if not ano_txt.isdigit():
+            return None
+        return datetime(int(ano_txt), int(mes), 1)
+
+    @data_inicio.setter
+    def data_inicio(self, t: datetime) -> None:
+        self.data[0] = t.month
+        self.data[1] = t.year
+
+
 class USINA(Register):
     """
     Registro que contém a usina modificada.
@@ -682,10 +763,14 @@ class VMINP(ModifRegister):
         self.data[3] = t
 
 
-class VAZMINT(ModifRegister):
+class VAZMINT(ModifRegisterComData):
     """
     Registro que contém uma modificação da vazão mínima
     com data.
+
+    O campo de ano aceita, além de um ano numérico, os marcadores ``PRE``
+    (período pré-estudo) e ``POS`` (período pós-estudo) — o único registro do
+    modif.dat em que o modelo NEWAVE admite esses marcadores.
     """
 
     __slots__ = []
@@ -695,25 +780,10 @@ class VAZMINT(ModifRegister):
     LINE = Line(
         [
             IntegerField(2, 10),
-            IntegerField(4, 13),
+            LiteralField(4, 13),
             FloatField(7, 18, 2),
         ]
     )
-
-    @property
-    def data_inicio(self) -> datetime:
-        """
-        A data de início da modificação
-
-        :return: A data de início da modificação
-        :rtype: Optional[datetime]
-        """
-        return datetime(self.data[1], self.data[0], 1)
-
-    @data_inicio.setter
-    def data_inicio(self, t: datetime) -> None:
-        self.data[0] = t.month
-        self.data[1] = t.year
 
     @property
     def vazao(self) -> Optional[float]:

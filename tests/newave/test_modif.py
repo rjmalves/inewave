@@ -42,6 +42,8 @@ from tests.mocks.arquivos.modif import (
     MockVAZMIN_DECIMAL,
     MockVAZMINT,
     MockVAZMINT_PDE,
+    MockVAZMINT_POS,
+    MockVAZMINT_PRE,
     MockVMAXT,
     MockVMAXT_PDE,
     MockVMINP,
@@ -127,6 +129,48 @@ def test_registro_vazmint_modif():
     assert r.vazao == 10.00
     r.vazao = 5.0
     assert r.vazao == 5.0
+
+
+def test_registro_vazmint_pre_modif():
+    """Registro com marcador PRE (período pré-estudo) no campo do ano:
+    é lido sem erro, ``data_inicio`` é None, ``periodo`` == 'PRE', e o mês e o
+    valor continuam disponíveis."""
+    m: MagicMock = mock_open(read_data="".join(MockVAZMINT_PRE))
+    r = VAZMINT()
+    with patch("builtins.open", m), open("", "") as fp:
+        r.read(fp)
+
+    assert r.data == [1, "PRE", 330.000]
+    assert r.data_inicio is None
+    assert r.periodo == "PRE"
+    assert r.mes == 1
+    assert r.vazao == 330.000
+
+
+def test_registro_vazmint_pos_modif():
+    """Registro com marcador POS (período pós-estudo) no campo do ano."""
+    m: MagicMock = mock_open(read_data="".join(MockVAZMINT_POS))
+    r = VAZMINT()
+    with patch("builtins.open", m), open("", "") as fp:
+        r.read(fp)
+
+    assert r.data == [6, "POS", 300.000]
+    assert r.data_inicio is None
+    assert r.periodo == "POS"
+    assert r.mes == 6
+    assert r.vazao == 300.000
+
+
+def test_registro_vazmint_ano_numerico_periodo_none():
+    """Um ano numérico normal tem ``periodo`` None e ``data_inicio`` válido."""
+    m: MagicMock = mock_open(read_data="".join(MockVAZMINT))
+    r = VAZMINT()
+    with patch("builtins.open", m), open("", "") as fp:
+        r.read(fp)
+
+    assert r.periodo is None
+    assert r.data_inicio == datetime(2021, 10, 1)
+    assert r.mes == 10
 
 
 def test_registro_volmin_modif():
