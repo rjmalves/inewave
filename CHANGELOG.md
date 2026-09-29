@@ -5,18 +5,17 @@ Todas as mudancas notaveis neste projeto serao documentadas neste arquivo.
 O formato e baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/),
 e este projeto adere ao [Versionamento Semantico](https://semver.org/lang/pt-BR/).
 
-## [Nao lancado]
+## [1.16.0] - 2026-09-29
 
 ### Corrigido
 
-- `modif.dat`: o registro `VAZMIN` (vazão mínima permanente por usina) passa a ser lido como campo de ponto flutuante (`FloatField`) em vez de inteiro. Com o campo inteiro, qualquer valor com casa decimal (por exemplo `34.00`, `12.71`, escritos por decks no formato `.eas`) era decodificado como `None`, descartando silenciosamente a modificação. A leitura de valores inteiros permanece idêntica. O tipo de retorno de `VAZMIN.vazao` muda de `int` para `float`.
-## [Não lançado]
+- `modif.dat`: o registro `VAZMIN` (vazão mínima permanente por usina) passa a ser lido como campo de ponto flutuante (`FloatField`) em vez de inteiro. Com o campo inteiro, qualquer valor com casa decimal (por exemplo `34.00`, `12.71`, escritos por decks no formato `.eas`) era decodificado como `None`, descartando silenciosamente a modificação (@anadcruz).
 
 ### Adicionado
 
-- Parâmetro `postos` no `Vazoes.read`, para informar a quantidade de postos do `vazoes.dat`. O vetor de vazões tem largura fixa, que varia entre versões do modelo e não é declarada em cabeçalho; com a largura presa em 320, um arquivo de 600 postos era fatiado a cada 320 valores, de modo que as colunas passavam a misturar postos e meses diferentes, e a sobra de bytes ainda levantava `IntCastingNaNError` na conversão para inteiro. O padrão continua 320, então a leitura sem o parâmetro é idêntica à anterior.
+- Parâmetro `postos` no `Vazoes.read`, para informar a quantidade de postos do `vazoes.dat` (@jhuliamacedo).
 
-- Leitura dos registros `POTEFE`, `VOLCOTA` e `COTAREA` do `modif.dat`, antes lidos como `DefaultRegister` e descartados silenciosamente: a potência efetiva por conjunto de máquinas (`POTEFE.potencia`, `POTEFE.conjunto`) e os polinômios volume-cota e cota-área (`VOLCOTA.polinomio_volume_cota` e `COTAREA.polinomio_cota_area`, cinco coeficientes de a0 a a4, sob o mesmo nome de atributo que o registro do `hidr.dat` usa). Os coeficientes são aceitos com o expoente em notação Fortran (`-1.002796D7`), como o deck os escreve, em notação exponencial (`-1.002796E+07`) ou em decimal puro, e são reescritos na notação Fortran do deck (`-1.002796D+07`).
+- Leitura dos registros `POTEFE`, `VOLCOTA` e `COTAREA` do `modif.dat`, antes lidos como `DefaultRegister` e descartados silenciosamente (@jhuliamacedo).
 
 ## [1.15.1] - 2026-08-11
 
