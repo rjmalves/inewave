@@ -2,6 +2,8 @@ MockUSINA = " USINA    1                                 CAMARGOS            \n"
 
 MockVAZMIN = " VAZMIN       34\n"
 
+MockVAZMIN_DECIMAL = " VAZMIN   34.00\n"
+
 MockVMAXT = " VMAXT    12 2021  61.310 '%'\n"
 
 MockVAZMINT = " VAZMINT  10 2021   10.00 \n"

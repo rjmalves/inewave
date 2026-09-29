@@ -5,6 +5,11 @@ Todas as mudancas notaveis neste projeto serao documentadas neste arquivo.
 O formato e baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/),
 e este projeto adere ao [Versionamento Semantico](https://semver.org/lang/pt-BR/).
 
+## [Nao lancado]
+
+### Corrigido
+
+- `modif.dat`: o registro `VAZMIN` (vazão mínima permanente por usina) passa a ser lido como campo de ponto flutuante (`FloatField`) em vez de inteiro. Com o campo inteiro, qualquer valor com casa decimal (por exemplo `34.00`, `12.71`, escritos por decks no formato `.eas`) era decodificado como `None`, descartando silenciosamente a modificação. A leitura de valores inteiros permanece idêntica. O tipo de retorno de `VAZMIN.vazao` muda de `int` para `float`.
 ## [Não lançado]
 
 ### Adicionado
