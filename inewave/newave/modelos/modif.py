@@ -272,6 +272,115 @@ class NUMMAQ(ModifRegister):
         self.data[0] = t
 
 
+class POTEFE(ModifRegister):
+    """
+    Registro que contém uma modificação da potência efetiva de um
+    conjunto de máquinas (MW).
+    """
+
+    __slots__ = []
+
+    IDENTIFIER = " POTEFE"
+    IDENTIFIER_DIGITS = 7
+    LINE = Line([FloatField(8, 10, 2), IntegerField(3, 19)])
+
+    @property
+    def potencia(self) -> Optional[float]:
+        """
+        A nova potência efetiva do conjunto de máquinas
+
+        :return: A potência efetiva em MW
+        :rtype: Optional[float]
+        """
+        return self.data[0]
+
+    @potencia.setter
+    def potencia(self, p: float) -> None:
+        self.data[0] = p
+
+    @property
+    def conjunto(self) -> Optional[int]:
+        """
+        O conjunto de máquinas que terá a potência alterada
+
+        :return: O índice do conjunto de máquinas
+        :rtype: Optional[int]
+        """
+        return self.data[1]
+
+    @conjunto.setter
+    def conjunto(self, t: int) -> None:
+        self.data[1] = t
+
+
+class VOLCOTA(ModifRegister):
+    """
+    Registro que contém uma modificação do polinômio volume-cota.
+    """
+
+    __slots__ = []
+
+    IDENTIFIER = " VOLCOTA"
+    IDENTIFIER_DIGITS = 8
+    LINE = Line(
+        [
+            FloatField(14, 10, 6, format="D"),
+            FloatField(14, 25, 6, format="D"),
+            FloatField(14, 40, 6, format="D"),
+            FloatField(14, 55, 6, format="D"),
+            FloatField(14, 70, 6, format="D"),
+        ]
+    )
+
+    @property
+    def polinomio_volume_cota(self) -> List[float]:
+        """
+        Os cinco coeficientes do novo polinômio volume-cota, de a0 a a4
+
+        :return: Os coeficientes do polinômio
+        :rtype: List[float]
+        """
+        return self.data[0:5]
+
+    @polinomio_volume_cota.setter
+    def polinomio_volume_cota(self, v: List[float]) -> None:
+        self.data[0:5] = v
+
+
+class COTAREA(ModifRegister):
+    """
+    Registro que contém uma modificação do polinômio cota-área.
+    """
+
+    __slots__ = []
+
+    IDENTIFIER = " COTAREA"
+    IDENTIFIER_DIGITS = 8
+    LINE = Line(
+        [
+            FloatField(14, 10, 6, format="D"),
+            FloatField(14, 25, 6, format="D"),
+            FloatField(14, 40, 6, format="D"),
+            FloatField(14, 55, 6, format="D"),
+            FloatField(14, 70, 6, format="D"),
+        ]
+    )
+
+    @property
+    def polinomio_cota_area(self) -> List[float]:
+        """
+        Os cinco coeficientes do novo polinômio cota-área, de a0 a a4
+
+        :return: Os coeficientes do polinômio
+        :rtype: List[float]
+        """
+        return self.data[0:5]
+
+    @polinomio_cota_area.setter
+    def polinomio_cota_area(self, v: List[float]) -> None:
+        self.data[0:5] = v
+
+
 class VAZMIN(ModifRegister):
     """
     Registro que contém uma modificação de vazão mínima (m3/s).
