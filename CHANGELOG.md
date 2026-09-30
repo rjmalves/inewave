@@ -7,6 +7,8 @@ e este projeto adere ao [Versionamento Semantico](https://semver.org/lang/pt-BR/
 
 ## [Não lançado]
 
+## [1.16.1] - 2026-09-30
+
 ### Corrigido
 
 - `modif.dat`: o registro `VAZMINT` (vazão mínima com data) passa a aceitar os marcadores `PRE` (período pré-estudo) e `POS` (período pós-estudo) no campo do ano — o único registro do modif.dat em que o modelo NEWAVE admite esses marcadores. Antes eram decodificados como ano nulo e faziam `data_inicio` levantar erro ao construir a data. O campo do ano agora é lido como texto e normalizado para inteiro quando numérico; `data_inicio` devolve `Optional[datetime]` (``None`` para `PRE`/`POS`) e o marcador fica exposto na nova propriedade `periodo` (`"PRE"`/`"POS"`/`None`), com a propriedade auxiliar `mes`. Anos numéricos mantêm o comportamento anterior (@anadcruz).
