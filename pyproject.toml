@@ -6,7 +6,7 @@ build-backend = "hatchling.build"
 name = "inewave"
 dynamic = ["version"]
 dependencies = [
-    "cfinterface>=1.9.0",
+    "cfinterface>=1.10.2",
     "numpy>=2.2.1",
     "pandas>=3.0.0",
 ]

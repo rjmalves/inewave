@@ -14,6 +14,10 @@ e este projeto adere ao [Versionamento Semantico](https://semver.org/lang/pt-BR/
 - `modif.dat`: `Modif.modificacoes_usina` descartava o último registro do arquivo, de modo que a última usina listada perdia sua modificação final (por exemplo, o `CMONT` de dezembro do último ano), e retornava `None` para arquivos com um único registro `USINA`. Agora todos os registros até o próximo `USINA` ou o fim do arquivo são retornados, e um arquivo com uma única usina retorna sua lista de modificações (#131).
 - `modif.dat`: os acessores `volmin`, `volmax`, `numcnj`, `nummaq`, `vazmin`, `cfuga`, `cmont`, `vmaxt`, `vmint`, `vminp`, `vazmint`, `vazmaxt`, `turbmaxt` e `turbmint` retornavam a tabela de registros `USINA` quando chamados com `df=True`. Cada acessor passa a retornar o `DataFrame` do próprio tipo de registro.
 
+### Modificado
+
+- Atualização da dependência mínima para `cfinterface >= 1.10.2`, versão em que `read()` passa a retornar o tipo da própria subclasse. Com isso, as supressões de tipo em `Cortes.read` e `Cortese.read` deixam de ser necessárias e foram removidas.
+
 ## [1.16.1] - 2026-09-30
 
 ### Corrigido
