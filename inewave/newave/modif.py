@@ -97,7 +97,7 @@ class Modif(RegisterFile):
         :rtype: :class:`VOLMIN` | list[:class:`VOLMIN`] | :class:`pd.DataFrame` | None
         """
         if df:
-            return self._as_df(USINA)
+            return self._as_df(VOLMIN)
         else:
             return self.data.get_registers_of_type(
                 VOLMIN, volume=volume, unidade=unidade
@@ -120,7 +120,7 @@ class Modif(RegisterFile):
         :rtype: :class:`VOLMAX` | list[:class:`VOLMAX`] | :class:`pd.DataFrame` | None
         """
         if df:
-            return self._as_df(USINA)
+            return self._as_df(VOLMAX)
         else:
             return self.data.get_registers_of_type(
                 VOLMAX, volume=volume, unidade=unidade
@@ -140,7 +140,7 @@ class Modif(RegisterFile):
         :rtype: :class:`NUMCNJ` | list[:class:`NUMCNJ`] | :class:`pd.DataFrame` | None
         """
         if df:
-            return self._as_df(USINA)
+            return self._as_df(NUMCNJ)
         else:
             return self.data.get_registers_of_type(NUMCNJ, numero=numero)
 
@@ -162,7 +162,7 @@ class Modif(RegisterFile):
         :rtype: :class:`NUMMAQ` | list[:class:`NUMMAQ`] | :class:`pd.DataFrame` | None
         """
         if df:
-            return self._as_df(USINA)
+            return self._as_df(NUMMAQ)
         else:
             return self.data.get_registers_of_type(
                 NUMMAQ, conjunto=conjunto, numero_maquinas=numero_maquinas
@@ -246,7 +246,7 @@ class Modif(RegisterFile):
         :rtype: :class:`VAZMIN` | list[:class:`VAZMIN`] | :class:`pd.DataFrame` | None
         """
         if df:
-            return self._as_df(USINA)
+            return self._as_df(VAZMIN)
         else:
             return self.data.get_registers_of_type(VAZMIN, vazao=vazao)
 
@@ -267,7 +267,7 @@ class Modif(RegisterFile):
         :rtype: :class:`CFUGA` | list[:class:`CFUGA`] | :class:`pd.DataFrame` | None
         """
         if df:
-            return self._as_df(USINA)
+            return self._as_df(CFUGA)
         else:
             return self.data.get_registers_of_type(
                 CFUGA, data_inicio=data_inicio, nivel=nivel
@@ -290,7 +290,7 @@ class Modif(RegisterFile):
         :rtype: :class:`CMONT` | list[:class:`CMONT`] | :class:`pd.DataFrame` | None
         """
         if df:
-            return self._as_df(USINA)
+            return self._as_df(CMONT)
         else:
             return self.data.get_registers_of_type(
                 CMONT, data_inicio=data_inicio, nivel=nivel
@@ -316,7 +316,7 @@ class Modif(RegisterFile):
         :rtype: :class:`VMAXT` | list[:class:`VMAXT`] | :class:`pd.DataFrame` | None
         """
         if df:
-            return self._as_df(USINA)
+            return self._as_df(VMAXT)
         else:
             return self.data.get_registers_of_type(
                 VMAXT, data_inicio=data_inicio, volume=volume, unidade=unidade
@@ -342,7 +342,7 @@ class Modif(RegisterFile):
         :rtype: :class:`VMINT` | list[:class:`VMINT`] | :class:`pd.DataFrame` | None
         """
         if df:
-            return self._as_df(USINA)
+            return self._as_df(VMINT)
         else:
             return self.data.get_registers_of_type(
                 VMINT, data_inicio=data_inicio, volume=volume, unidade=unidade
@@ -368,7 +368,7 @@ class Modif(RegisterFile):
         :rtype: :class:`VMINP` | list[:class:`VMINP`] | :class:`pd.DataFrame` | None
         """
         if df:
-            return self._as_df(USINA)
+            return self._as_df(VMINP)
         else:
             return self.data.get_registers_of_type(
                 VMINP, data_inicio=data_inicio, volume=volume, unidade=unidade
@@ -391,7 +391,7 @@ class Modif(RegisterFile):
         :rtype: :class:`VAZMINT` | list[:class:`VAZMINT`] | :class:`pd.DataFrame` | None
         """
         if df:
-            return self._as_df(USINA)
+            return self._as_df(VAZMINT)
         else:
             return self.data.get_registers_of_type(
                 VAZMINT, data_inicio=data_inicio, vazao=vazao
@@ -414,7 +414,7 @@ class Modif(RegisterFile):
         :rtype: :class:`VAZMAXT` | list[:class:`VAZMAXT`] | :class:`pd.DataFrame` | None
         """
         if df:
-            return self._as_df(USINA)
+            return self._as_df(VAZMAXT)
         else:
             return self.data.get_registers_of_type(
                 VAZMAXT, data_inicio=data_inicio, vazao=vazao
@@ -437,7 +437,7 @@ class Modif(RegisterFile):
         :rtype: :class:`TURBMAXT` | list[:class:`TURBMAXT`] | :class:`pd.DataFrame` | None
         """
         if df:
-            return self._as_df(USINA)
+            return self._as_df(TURBMAXT)
         else:
             return self.data.get_registers_of_type(
                 TURBMAXT, data_inicio=data_inicio, turbinamento=turbinamento
@@ -460,7 +460,7 @@ class Modif(RegisterFile):
         :rtype: :class:`TURBMINT` | list[:class:`TURBMINT`] | :class:`pd.DataFrame` | None
         """
         if df:
-            return self._as_df(USINA)
+            return self._as_df(TURBMINT)
         else:
             return self.data.get_registers_of_type(
                 TURBMINT, data_inicio=data_inicio, turbinamento=turbinamento
@@ -472,24 +472,21 @@ class Modif(RegisterFile):
 
         :param codigo: O código da usina
         :type codigo: int
-        :return: Os registros que modificam a usina
-        :rtype: List[Register]
+        :return: Os registros que modificam a usina, ou None se o
+            arquivo não possuir nenhum registro USINA
+        :rtype: List[Register] | None
         """
-        usinas = self.usina()
-        if usinas is None or isinstance(usinas, USINA):
+        usinas = self.data.get_registers_of_type(USINA)
+        if usinas is None:
             return None
-        reg_usina: List[USINA] = list(
-            filter(lambda r: r.codigo == codigo, usinas)
-        )
+        if isinstance(usinas, USINA):
+            usinas = [usinas]
+        reg_usina = next((u for u in usinas if u.codigo == codigo), None)
         modificacoes_usina: List[Register] = []
-        if len(reg_usina) > 0:
-            r = reg_usina[0].next
-            while True:
-                if r is None:
-                    break
-                elif isinstance(r, USINA) or r.is_last:
-                    break
-                modificacoes_usina.append(r)
-                r = r.next
-
+        if reg_usina is None:
+            return modificacoes_usina
+        r = reg_usina.next
+        while r is not None and not isinstance(r, USINA):
+            modificacoes_usina.append(r)
+            r = r.next
         return modificacoes_usina
