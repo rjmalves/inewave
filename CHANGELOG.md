@@ -7,6 +7,8 @@ e este projeto adere ao [Versionamento Semantico](https://semver.org/lang/pt-BR/
 
 ## [Não lançado]
 
+## [1.16.2] - 2026-10-19
+
 ### Corrigido
 
 - `modif.dat`: `Modif.modificacoes_usina` descartava o último registro do arquivo, de modo que a última usina listada perdia sua modificação final (por exemplo, o `CMONT` de dezembro do último ano), e retornava `None` para arquivos com um único registro `USINA`. Agora todos os registros até o próximo `USINA` ou o fim do arquivo são retornados, e um arquivo com uma única usina retorna sua lista de modificações (#131).
