@@ -49,7 +49,7 @@ class Cortes(SectionFile):
         dimensões (códigos de UHEs, ordem do PAR(p), patamares, lag GNL) a
         partir de um :class:`Cortesh`.
         """
-        return super().read(  # type: ignore[return-value]
+        return super().read(
             content,
             tamanho_registro=tamanho_registro,
             indice_ultimo_corte=indice_ultimo_corte,

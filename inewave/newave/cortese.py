@@ -42,7 +42,7 @@ class Cortese(SectionFile):
         arquivo); a partição não possui registro sentinela. Considere usar
         :meth:`from_cortesh`, que deriva as dimensões de um :class:`Cortesh`.
         """
-        return super().read(  # type: ignore[return-value]
+        return super().read(
             content,
             tamanho_estado=tamanho_estado,
             numero_rees=numero_rees,
