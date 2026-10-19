@@ -1454,3 +1454,32 @@ MockModif = [
     " VMAXT    12 2025  69.140 '%'\n",
     "",
 ]
+
+MockModif_ULTIMA_USINA_FIM_ARQUIVO = [
+    " P.CHAVE  MODIFICACOES E INDICES\n",
+    " XXXXXXXX XXXXXXXXXXXXXXXXXXXXX\n",
+    " USINA    1                                 CAMARGOS    \n",
+    " VOLMIN   10.0 %\n",
+    " USINA    2                                 ITUTINGA    \n",
+    " CMONT    11 2026   96.01\n",
+    " CMONT    12 2026   96.78\n",
+]
+
+MockModif_USINA_UNICA = [
+    " P.CHAVE  MODIFICACOES E INDICES\n",
+    " XXXXXXXX XXXXXXXXXXXXXXXXXXXXX\n",
+    " USINA    1                                 CAMARGOS    \n",
+    " VOLMIN   10.0 %\n",
+    " CFUGA     1 2026  900.00\n",
+]
+
+MockModif_USINA_UNICA_SEM_REGISTROS = [
+    " P.CHAVE  MODIFICACOES E INDICES\n",
+    " XXXXXXXX XXXXXXXXXXXXXXXXXXXXX\n",
+    " USINA    1                                 CAMARGOS    \n",
+]
+
+MockModif_SEM_USINA = [
+    " P.CHAVE  MODIFICACOES E INDICES\n",
+    " XXXXXXXX XXXXXXXXXXXXXXXXXXXXX\n",
+]

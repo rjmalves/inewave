@@ -1,6 +1,9 @@
 # Rotinas de testes associadas ao arquivo modif.dat do NEWAVE
 from datetime import datetime
+from typing import List, Optional
 from unittest.mock import MagicMock, patch
+
+from cfinterface.components.register import Register
 
 from inewave.newave import Modif
 from inewave.newave.modelos.modif import (
@@ -29,6 +32,10 @@ from tests.mocks.arquivos.modif import (
     MockCOTAREA,
     MockCOTAREA_E,
     MockModif,
+    MockModif_SEM_USINA,
+    MockModif_ULTIMA_USINA_FIM_ARQUIVO,
+    MockModif_USINA_UNICA,
+    MockModif_USINA_UNICA_SEM_REGISTROS,
     MockNUMCNJ,
     MockNUMMAQ,
     MockPOTEFE,
@@ -506,3 +513,86 @@ def test_registro_vazmint_pde_spacing():
 
     assert r.data_inicio == datetime(2024, 1, 1)
     assert r.vazao == 79.0
+
+
+def _modificacoes_usina(
+    conteudo: List[str], codigo: int
+) -> Optional[List[Register]]:
+    m: MagicMock = mock_open(read_data="".join(conteudo))
+    with patch("builtins.open", m):
+        modif = Modif.read(ARQ_TESTE)
+    return modif.modificacoes_usina(codigo)
+
+
+def test_modificacoes_usina_ultima_usina_fim_arquivo_inclui_ultimo_registro():
+    regs = _modificacoes_usina(MockModif_ULTIMA_USINA_FIM_ARQUIVO, 2)
+    assert regs is not None
+    assert [type(r) for r in regs] == [CMONT, CMONT]
+    assert [r.nivel for r in regs] == [96.01, 96.78]
+    assert regs[-1].data_inicio == datetime(2026, 12, 1)
+
+
+def test_modificacoes_usina_intermediaria_para_na_proxima_usina():
+    regs = _modificacoes_usina(MockModif_ULTIMA_USINA_FIM_ARQUIVO, 1)
+    assert regs is not None
+    assert [type(r) for r in regs] == [VOLMIN]
+    assert regs[0].volume == 10.0
+
+
+def test_modificacoes_usina_unica_retorna_registros():
+    regs = _modificacoes_usina(MockModif_USINA_UNICA, 1)
+    assert regs is not None
+    assert [type(r) for r in regs] == [VOLMIN, CFUGA]
+    assert regs[1].nivel == 900.0
+
+
+def test_modificacoes_usina_unica_sem_registros_retorna_lista_vazia():
+    assert _modificacoes_usina(MockModif_USINA_UNICA_SEM_REGISTROS, 1) == []
+
+
+def test_modificacoes_usina_codigo_inexistente_retorna_lista_vazia():
+    assert _modificacoes_usina(MockModif_ULTIMA_USINA_FIM_ARQUIVO, 99) == []
+
+
+def test_modificacoes_usina_arquivo_sem_usina_retorna_none():
+    assert _modificacoes_usina(MockModif_SEM_USINA, 1) is None
+
+
+def test_modificacoes_usina_mock_completo_ultima_usina():
+    regs = _modificacoes_usina(MockModif, 190)
+    assert regs is not None
+    assert len(regs) == 23
+    assert all(isinstance(r, VMAXT) for r in regs[-2:])
+    assert regs[-1].data_inicio == datetime(2025, 12, 1)
+    assert regs[-1].volume == 69.14
+
+
+def test_atributos_df_modif():
+    m: MagicMock = mock_open(read_data="".join(MockModif))
+    with patch("builtins.open", m):
+        ad = Modif.read(ARQ_TESTE)
+    acessores = {
+        ad.usina: USINA,
+        ad.volmin: VOLMIN,
+        ad.volmax: VOLMAX,
+        ad.numcnj: NUMCNJ,
+        ad.nummaq: NUMMAQ,
+        ad.potefe: POTEFE,
+        ad.volcota: VOLCOTA,
+        ad.cotarea: COTAREA,
+        ad.vazmin: VAZMIN,
+        ad.cfuga: CFUGA,
+        ad.cmont: CMONT,
+        ad.vmaxt: VMAXT,
+        ad.vmint: VMINT,
+        ad.vminp: VMINP,
+        ad.vazmint: VAZMINT,
+        ad.vazmaxt: VAZMAXT,
+        ad.turbmaxt: TURBMAXT,
+        ad.turbmint: TURBMINT,
+    }
+    for acessor, tipo in acessores.items():
+        registros = list(ad.data.of_type(tipo))
+        df = acessor(df=True)
+        assert list(df.columns) == registros[0].custom_properties, tipo
+        assert len(df) == len(registros), tipo
