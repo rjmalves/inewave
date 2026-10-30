@@ -10,6 +10,7 @@ from unittest.mock import MagicMock, patch
 
 from tests.mocks.arquivos.indices import (
     MockIndices,
+    MockIndicesLinhaCurta,
     MockIndicesNewave,
     MockIndicesRepetidos,
     MockRegistroIndice,
@@ -158,6 +159,16 @@ def test_indices_caso_newave_crlf_e_card_comentado():
         arq.indices(identificador="HIDRELETRICA-FPHA-METODO-REDUCAO-CORTES")
         is None
     )
+
+
+def test_linha_curta_indices():
+    m: MagicMock = mock_open(read_data="".join(MockIndicesLinhaCurta))
+    with patch("builtins.open", m):
+        indices = Indices.read(ARQ_TESTE)
+        curta = indices.indices("RESTRICAO-ELETRICA-ESPECIAL")
+        assert isinstance(curta, RegistroIndice)
+        assert curta.descricao == "Restricoes"
+        assert curta.arquivo is None
 
 
 def test_eq_indices():

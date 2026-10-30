@@ -22,7 +22,8 @@ class Indices(RegisterFile):
       contêm ``;``, e são reescritas sem alterações;
     - os espaços em torno dos valores são removidos e os identificadores
       não são convertidos para maiúsculas;
-    - um campo vazio é lido como ``""``, e não como ``None``;
+    - um campo vazio é lido como ``""``, e um campo que falta no fim
+      da linha, como ``None``;
     - identificadores repetidos são mantidos como registros separados,
       na ordem do arquivo, sem gerar erro;
     - na escrita, os registros são reescritos como
