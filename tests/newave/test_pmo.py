@@ -24,7 +24,8 @@ from inewave.newave.modelos.pmo import (
 )
 
 from inewave.newave import Pmo
-from datetime import datetime
+import pandas as pd
+from datetime import datetime, timedelta
 
 from tests.mocks.mock_open import mock_open
 from unittest.mock import MagicMock, patch
@@ -33,6 +34,7 @@ from tests.mocks.arquivos.pmo import MockVersaoModeloPMO
 from tests.mocks.arquivos.pmo import MockBlocoEafPastTendenciaHidrolPMO
 from tests.mocks.arquivos.pmo import MockBlocoEafPastCfugaMedioPMO
 from tests.mocks.arquivos.pmo import MockBlocoConvergenciaPMO
+from tests.mocks.arquivos.pmo import MockBlocoConvergenciaPMOv30
 from tests.mocks.arquivos.pmo import (
     MockBlocoConfiguracoesExpansaoEntradaReservatorioPMO,
 )
@@ -165,6 +167,37 @@ def test_convergencia():
             b.read(fp)
 
     assert len(list(b.data.index)) == 135
+    # Leiaute anterior à v30: cada linha impressa é uma linha da tabela.
+    primeira = b.data.iloc[0]
+    assert primeira["limite_inferior_zinf"] == 84283.82
+    assert primeira["zinf"] == 82573.81
+    assert primeira["tempo"] == timedelta(seconds=52)
+    assert b.data.iloc[2]["zsup_iteracao"] == 84537.78
+
+
+def test_convergencia_v30_uma_linha_por_iteracao():
+    m: MagicMock = mock_open(read_data="".join(MockBlocoConvergenciaPMOv30))
+    b = BlocoConvergenciaPMO()
+    with patch("builtins.open", m):
+        with open("", "") as fp:
+            b.read(fp)
+
+    assert b.data["iteracao"].tolist() == [1, 2, 100]
+    it1 = b.data.iloc[0]
+    assert it1["limite_inferior_zinf"] == 4016521.0626873286
+    assert it1["zinf"] == 214.9923938220
+    assert it1["limite_superior_zinf"] == 4016521.0626873286
+    assert it1["zsup"] == 4016521.0626873286
+    assert pd.isna(it1["delta_zinf"])
+    assert it1["zsup_iteracao"] == 4016521.0626873286
+    assert it1["tempo"] == timedelta(seconds=2)
+    it2 = b.data.iloc[1]
+    assert it2["delta_zinf"] == 776.202
+    assert it2["tempo"] == timedelta(seconds=4)
+    it100 = b.data.iloc[2]
+    assert it100["zinf"] == 321327.5652602618
+    assert it100["zsup_iteracao"] == 377935.3546004241
+    assert it100["tempo"] == timedelta(seconds=6)
 
 
 def test_leitura_configs():

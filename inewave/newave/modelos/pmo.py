@@ -1,7 +1,9 @@
 # Imports do próprio módulo
 
+import re
+from collections import Counter
 from datetime import datetime, timedelta
-from typing import Any, IO, List, Optional
+from typing import Any, IO, List, Optional, Tuple
 
 import numpy as np
 import pandas as pd  # type: ignore[import-untyped]  # no pandas-stubs package
@@ -20,7 +22,6 @@ from inewave._utils.formatacao import (
 )
 from inewave.config import (
     MAX_ANOS_ESTUDO,
-    MAX_ITERS,
     MAX_MESES_ESTUDO,
     MAX_REES,
     MAX_UTES,
@@ -615,9 +616,23 @@ class BlocoConvergenciaPMO(Block):
     """
     Bloco com as informações de convergência do NEWAVE obtidas
     no arquivo `pmo.dat`.
+
+    O relatório é impresso em dois leiautes:
+
+    - Versões anteriores à 30: três linhas por iteração, com valores
+      diferentes entre si (intervalos de confiança distintos e a linha
+      final com ``DZINF`` e ``ZSUP ITER.``). Os números ficam alinhados às
+      colunas do cabeçalho e cada linha impressa vira uma linha da tabela.
+    - Versão 30 em diante: duas linhas por iteração com os mesmos limites,
+      a primeira terminada pelo tempo da iteração e a segunda com ``DZINF``
+      e ``ZSUP ITER.``. Os números não respeitam as colunas do cabeçalho,
+      então cada linha é separada por espaços e as duas linhas de uma
+      iteração viram uma única linha da tabela.
     """
 
     __slots__ = ["__line"]
+
+    __PADRAO_TEMPO = re.compile(r"^\d+h\d+min[\d.]+s$")
 
     BEGIN_PATTERN = "    ITER               LIM.INF.        "
     END_PATTERN = ""
@@ -650,11 +665,89 @@ class BlocoConvergenciaPMO(Block):
         else:
             return self.data.equals(bloco.data)
 
+    @staticmethod
+    def __converte_tempo(tempo: str) -> timedelta:
+        h = int(tempo.split("h")[0])
+        min = int(tempo.split("h")[1].split("min")[0])
+        s = float(tempo.split("min")[1].split("s")[0])
+        return timedelta(hours=h, minutes=min, seconds=s)
+
+    @staticmethod
+    def __converte_valor(campo: str) -> float:
+        return np.nan if campo == "-" else float(campo)
+
+    @classmethod
+    def __leiaute_duas_linhas(cls, linhas: List[str]) -> bool:
+        """
+        Identifica o leiaute da versão 30, no qual toda iteração ocupa
+        exatamente duas linhas.
+        """
+        contagem = Counter(int(linha.split()[0]) for linha in linhas)
+        return len(contagem) > 0 and all(n == 2 for n in contagem.values())
+
+    def __le_linhas_colunas_fixas(
+        self, linhas: List[str]
+    ) -> Tuple[np.ndarray, List[Optional[timedelta]]]:
+        tabela = np.zeros((len(linhas), 7), dtype=np.float64)
+        tempos: List[Optional[timedelta]] = []
+        for i, linha in enumerate(linhas):
+            tabela[i, :] = self.__line.read(linha)
+            if "min" in linha[153:168]:
+                tempos.append(self.__converte_tempo(linha[153:168]))
+            else:
+                tempos.append(None)
+        return tabela, tempos
+
+    def __le_linhas_duas_por_iteracao(
+        self, linhas: List[str]
+    ) -> Tuple[np.ndarray, List[Optional[timedelta]]]:
+        valores: dict[int, List[float]] = {}
+        tempos_iteracao: dict[int, timedelta] = {}
+        for linha in linhas:
+            campos = linha.split()
+            iteracao = int(campos[0])
+            if self.__PADRAO_TEMPO.match(campos[-1]):
+                tempos_iteracao[iteracao] = self.__converte_tempo(campos[-1])
+                valores.setdefault(
+                    iteracao,
+                    [float(c) for c in campos[1:5]] + [np.nan, np.nan],
+                )
+            else:
+                extras = [self.__converte_valor(c) for c in campos[5:7]]
+                extras += [np.nan] * (2 - len(extras))
+                valores[iteracao] = [float(c) for c in campos[1:5]] + extras
+        iteracoes = list(valores.keys())
+        tabela = np.array(
+            [[float(i)] + valores[i] for i in iteracoes], dtype=np.float64
+        ).reshape(len(iteracoes), 7)
+        tempos: List[Optional[timedelta]] = [
+            tempos_iteracao.get(i) for i in iteracoes
+        ]
+        return tabela, tempos
+
     # Override
     def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
-        def converte_tabela_em_df() -> pd.DataFrame:
-            df = pd.DataFrame(tabela)
-            df.columns = [
+        # Salta as linhas de cabeçalho
+        for _ in range(3):
+            file.readline()
+        linhas: List[str] = []
+        while True:
+            linha: str = file.readline()
+            # Confere se já acabou
+            if len(linha) < 3:
+                break
+            # Se não tem nada na coluna de iteração, ignora a linha
+            if linha[4:9] == "     ":
+                continue
+            linhas.append(linha)
+
+        if self.__leiaute_duas_linhas(linhas):
+            tabela, tempos = self.__le_linhas_duas_por_iteracao(linhas)
+        else:
+            tabela, tempos = self.__le_linhas_colunas_fixas(linhas)
+        df = pd.DataFrame(
+            tabela,
+            columns=[
                 "iteracao",
                 "limite_inferior_zinf",
                 "zinf",
@@ -662,41 +755,11 @@ class BlocoConvergenciaPMO(Block):
                 "zsup",
                 "delta_zinf",
                 "zsup_iteracao",
-            ]
-            df = df.astype({"iteracao": "int64"})
-            df["tempo"] = tempos
-            return df
-
-        # Salta as duas linhas iniciais
-        for _ in range(3):
-            file.readline()
-        # Variáveis auxiliares
-        tabela = np.zeros((3 * MAX_ITERS, 7), dtype=np.float64)
-        tempos: List[Optional[timedelta]] = []
-        i = 0
-        while True:
-            linha: str = file.readline()
-            # Confere se já acabou
-            if len(linha) < 3:
-                tabela = tabela[:i, :]
-                self.data = converte_tabela_em_df()
-                break
-            # Se não tem nada na coluna de iteração, ignora a linha
-            if linha[4:9] == "     ":
-                continue
-            # Senão, lê a linha
-            tabela[i, :] = self.__line.read(linha)
-            # Lê o tempo, que tem formato personalizado
-            if "min" in linha[153:168]:
-                tempo = linha[153:168]
-                h = int(tempo.split("h")[0])
-                min = int(tempo.split("h")[1].split("min")[0])
-                s = float(tempo.split("min")[1].split("s")[0])
-                ts = timedelta(hours=h, minutes=min, seconds=s)
-                tempos.append(ts)
-            else:
-                tempos.append(None)
-            i += 1
+            ],
+        )
+        df = df.astype({"iteracao": "int64"})
+        df["tempo"] = tempos
+        self.data = df
 
 
 class BlocoConfiguracoesExpansaoPMO(Block):
