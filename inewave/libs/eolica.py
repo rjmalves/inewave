@@ -76,8 +76,8 @@ class Eolica(RegisterFile):
     def pee_pot_inst_per(
         self,
         codigo_pee: Optional[int] = None,
-        data_inicio: Optional[datetime] = None,
-        data_fim: Optional[datetime] = None,
+        periodo_inicial: Optional[datetime] = None,
+        periodo_final: Optional[datetime] = None,
         potencia_instalada: Optional[float] = None,
         df: bool = False,
     ) -> Optional[
@@ -93,10 +93,10 @@ class Eolica(RegisterFile):
 
         :param codigo_pee: código que especifica o PEE
         :type codigo_pee: int | None
-        :param data_inicio: período de início de operação
-        :type data_inicio: datetime | None
-        :param data_fim: período de fim de operação
-        :type data_fim: datetime | None
+        :param periodo_inicial: período inicial de validade do dado
+        :type periodo_inicial: datetime | None
+        :param periodo_final: período final de validade do dado
+        :type periodo_final: datetime | None
         :param potencia_instalada: potência efetiva do PEE
         :type potencia_instalada: float | None
         :return: Um ou mais registros, se existirem.
@@ -106,8 +106,8 @@ class Eolica(RegisterFile):
         return self.__registros_ou_df(
             RegistroPEEPotenciaInstaladaPeriodo,
             codigo_pee=codigo_pee,
-            data_inicio=data_inicio,
-            data_fim=data_fim,
+            periodo_inicial=periodo_inicial,
+            periodo_final=periodo_final,
             potencia_instalada=potencia_instalada,
             df=df,
         )
@@ -263,7 +263,7 @@ class Eolica(RegisterFile):
 
     def vento_hist(
         self,
-        codigo_eolica: Optional[int] = None,
+        codigo_posto: Optional[int] = None,
         data_inicio: Optional[datetime] = None,
         data_fim: Optional[datetime] = None,
         velocidade: Optional[float] = None,
@@ -278,8 +278,8 @@ class Eolica(RegisterFile):
         Obtém um registro que contém a o valor de vento para um
         intervalo do histórico.
 
-        :param codigo_eolica: código da usina eólica
-        :type codigo_eolica: int | None
+        :param codigo_posto: código do posto de medição do vento
+        :type codigo_posto: int | None
         :param data_inicio: data de início do registro histórico
         :type data_inicio: datetime | None
         :param data_fim: data de fim do registro histórico
@@ -294,7 +294,7 @@ class Eolica(RegisterFile):
         """
         return self.__registros_ou_df(
             RegistroHistoricoVento,
-            codigo_eolica=codigo_eolica,
+            codigo_posto=codigo_posto,
             data_inicio=data_inicio,
             data_fim=data_fim,
             velocidade=velocidade,
@@ -335,8 +335,8 @@ class Eolica(RegisterFile):
 
     def pee_posto(
         self,
-        codigo_pee: Optional[datetime] = None,
-        codigo_posto: Optional[datetime] = None,
+        codigo_pee: Optional[int] = None,
+        codigo_posto: Optional[int] = None,
         df: bool = False,
     ) -> Optional[
         Union[RegistroPEEPostoVento, List[RegistroPEEPostoVento], pd.DataFrame]
@@ -348,7 +348,7 @@ class Eolica(RegisterFile):
         :param codigo_pee: código que identifica o PEE
         :type codigo_pee: int | None
         :param codigo_posto: código que identifica o posto
-        :type codigo_posto: str | None
+        :type codigo_posto: int | None
         :return: Um ou mais registros, se existirem.
         :rtype: :class:`RegistroPEEPostoVento` |
             list[:class:`RegistroPEEPostoVento`] | None
