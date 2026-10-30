@@ -7,6 +7,14 @@ e este projeto adere ao [Versionamento Semantico](https://semver.org/lang/pt-BR/
 
 ## [Não lançado]
 
+### Modificado
+
+- Atualização da dependência mínima para `cfinterface >= 1.10.3`, versão em que os campos que faltam no fim de uma linha delimitada por `;` são lidos como `None`.
+
+### Corrigido
+
+- LIBS: uma linha com menos campos que o seu registro recebia, nos campos que faltavam, os valores da linha anterior do mesmo registro. No `indices.csv`, uma linha como `RESTRICAO-ELETRICA-ESPECIAL;Restricoes`, sem o arquivo, apontava para o arquivo da linha anterior, e uma linha `RE-LIM-FORM-PER-PAT` sem o limite superior ficava com o limite da linha anterior. Esses campos passam a ser lidos como `None`.
+
 ## [1.17.0] - 2026-10-29
 
 ### Adicionado

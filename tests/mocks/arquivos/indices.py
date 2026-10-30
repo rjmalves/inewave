@@ -22,6 +22,11 @@ MockIndicesRepetidos = [
     "RESTRICAO-ELETRICA-ESPECIAL;;restricao-eletrica-3.csv\n",
 ]
 
+MockIndicesLinhaCurta = [
+    "HIDRELETRICA-CADASTRO-RESERVATORIO;Volumes;volumes-referencia.csv\n",
+    "RESTRICAO-ELETRICA-ESPECIAL;Restricoes\n",
+]
+
 MockRegistroIndice = " RESTRICAO-ELETRICA-ESPECIAL                       ;Dados da funcionalidade restricao-eletrica-especial         ;lib_restricao-eletrica-especial.csv                                             \n"
 
 MockRegistroIndiceCampoVazio = (

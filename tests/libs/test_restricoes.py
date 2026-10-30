@@ -120,6 +120,20 @@ def test_registro_re_lim_form_per_limite_condicional_e_em_branco():
     assert relido.data == r.data
 
 
+def test_re_lim_form_per_linha_curta_nao_herda_limite():
+    linhas = (
+        "RE-LIM-FORM-PER-PAT ; 1 ; 2024/09 ; 2024/09 ; 1 ; 10 ; 500\n"
+        "RE-LIM-FORM-PER-PAT ; 1 ; 2024/09 ; 2024/09 ; 2 ; 20\n"
+    )
+    m: MagicMock = mock_open(read_data=linhas)
+    with patch("builtins.open", m):
+        e = Restricoes.read(ARQ_TESTE)
+    df = e.re_lim_form_per(df=True)
+    assert df["limite_inferior"].tolist() == ["10", "20"]
+    assert df["limite_superior"].tolist()[0] == "500"
+    assert df["limite_superior"].isna().tolist() == [False, True]
+
+
 def test_re_lim_form_per_filtra_limites_pelo_texto():
     linhas = [
         linha if linha.endswith("\n") else linha + "\n"
