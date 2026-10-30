@@ -78,6 +78,21 @@ def test_tabela_com_entidade_descarta_codigos_nao_positivos():
     assert df["EARMF"].tolist() == [10.0, 20.0, 30.0, 11.0, 21.0, 31.0]
 
 
+def test_tabela_sem_virgula_final_mantem_o_ultimo_estagio():
+    tabela = TabelaMediasmerc()
+    tabela.read(
+        io.StringIO(
+            "    SBM_ext, VAR,        9,       10\n"
+            "   1,      EARMF,  10.00,  11.00\n"
+            "   2,      EARMF,  20.00,  21.00\n"
+        )
+    )
+    df = tabela.data
+    assert df["indice_mes"].tolist() == [9, 9, 10, 10]
+    assert df["codigo_submercado"].tolist() == [1, 2, 1, 2]
+    assert df["EARMF"].tolist() == [10.0, 20.0, 11.0, 21.0]
+
+
 def test_tabela_sem_entidade_mantem_todas_as_linhas():
     tabela = TabelaMediassin()
     tabela.read(

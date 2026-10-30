@@ -14,7 +14,12 @@ class TabelaMedias(Section):
     (:attr:`NOME_ENTIDADE`). Sem :attr:`NOME_ENTIDADE`, a primeira coluna
     do arquivo é descartada e todas as linhas são mantidas, como no
     `MEDIAS-SIN.CSV`. Com ela, só são mantidas as linhas de código
-    positivo.
+    positivo: as linhas de código 0 do `MEDIAS-MERC.CSV` repetem os custos
+    do sistema (``COPER``, ``CUSTO_FUTURO``) que o `MEDIAS-SIN.CSV` também
+    traz e que são lidos por :class:`~inewave.nwlistop.mediassin.Mediassin`.
+
+    As linhas podem terminar ou não em vírgula. A coluna vazia que a
+    vírgula final deixa é descartada.
 
     O cabeçalho numera os estágios contando os meses a partir de janeiro do
     primeiro ano do estudo. A tabela lida guarda esse número em
@@ -42,8 +47,11 @@ class TabelaMedias(Section):
     def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
         tabela = pd.read_csv(file, skipinitialspace=True)
         cols = tabela.columns.tolist()
-        # A última coluna vem vazia, da vírgula no fim de cada linha.
-        descartadas = [cols[-1]]
+        descartadas: List[str] = []
+        if tabela[cols[-1]].isna().all() and str(cols[-1]).startswith(
+            "Unnamed:"
+        ):
+            descartadas.append(cols[-1])
         cols_id: List[str] = ["VAR"]
         entidade = self.__class__.NOME_ENTIDADE
         if entidade is None:
