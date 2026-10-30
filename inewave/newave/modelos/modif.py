@@ -10,6 +10,18 @@ from datetime import datetime
 from typing import Any, IO, List, Optional
 
 
+def _remove_aspas(valor: Optional[str]) -> Optional[str]:
+    """Retira as aspas que o modif.dat usa em torno da unidade (``'%'``)."""
+    if valor is None:
+        return None
+    return valor.strip().strip("'\"")
+
+
+def _adiciona_aspas(valor: str) -> str:
+    """Envolve a unidade em aspas simples, como o NEWAVE a escreve."""
+    return f"'{_remove_aspas(valor)}'"
+
+
 class ModifRegister(Register):
     """
     Registro base para o arquivo modif.dat, que contém
@@ -234,14 +246,18 @@ class VOLMIN(ModifRegister):
         """
         A unidade do volume informado
 
+        ``"h"``/``"H"`` para hm³ ou ``"%"`` para porcentagem do volume
+        útil, sem as aspas com que o arquivo a escreve. A escrita
+        mantém as aspas.
+
         :return: A unidade do volume
         :rtype: Optional[str]
         """
-        return self.data[1]
+        return _remove_aspas(self.data[1])
 
     @unidade.setter
     def unidade(self, t: str) -> None:
-        self.data[1] = t
+        self.data[1] = _adiciona_aspas(t)
 
 
 class VOLMAX(ModifRegister):
@@ -275,14 +291,18 @@ class VOLMAX(ModifRegister):
         """
         A unidade do volume informado
 
+        ``"h"``/``"H"`` para hm³ ou ``"%"`` para porcentagem do volume
+        útil, sem as aspas com que o arquivo a escreve. A escrita
+        mantém as aspas.
+
         :return: A unidade do volume
         :rtype: Optional[str]
         """
-        return self.data[1]
+        return _remove_aspas(self.data[1])
 
     @unidade.setter
     def unidade(self, t: str) -> None:
-        self.data[1] = t
+        self.data[1] = _adiciona_aspas(t)
 
 
 class NUMCNJ(ModifRegister):
@@ -627,14 +647,18 @@ class VMAXT(ModifRegister):
         """
         A unidade de fornecimento do volume
 
+        ``"h"``/``"H"`` para hm³ ou ``"%"`` para porcentagem do volume
+        útil, sem as aspas com que o arquivo a escreve. A escrita
+        mantém as aspas.
+
         :return: A unidade
         :rtype: Optional[str]
         """
-        return self.data[3]
+        return _remove_aspas(self.data[3])
 
     @unidade.setter
     def unidade(self, t: str) -> None:
-        self.data[3] = t
+        self.data[3] = _adiciona_aspas(t)
 
 
 class VMINT(ModifRegister):
@@ -690,14 +714,18 @@ class VMINT(ModifRegister):
         """
         A unidade de fornecimento do volume
 
+        ``"h"``/``"H"`` para hm³ ou ``"%"`` para porcentagem do volume
+        útil, sem as aspas com que o arquivo a escreve. A escrita
+        mantém as aspas.
+
         :return: A unidade
         :rtype: Optional[str]
         """
-        return self.data[3]
+        return _remove_aspas(self.data[3])
 
     @unidade.setter
     def unidade(self, t: str) -> None:
-        self.data[3] = t
+        self.data[3] = _adiciona_aspas(t)
 
 
 class VMINP(ModifRegister):
@@ -753,14 +781,18 @@ class VMINP(ModifRegister):
         """
         A unidade do volume fornecido
 
+        ``"h"``/``"H"`` para hm³ ou ``"%"`` para porcentagem do volume
+        útil, sem as aspas com que o arquivo a escreve. A escrita
+        mantém as aspas.
+
         :return: A unidade
         :rtype: Optional[str]
         """
-        return self.data[3]
+        return _remove_aspas(self.data[3])
 
     @unidade.setter
     def unidade(self, t: str) -> None:
-        self.data[3] = t
+        self.data[3] = _adiciona_aspas(t)
 
 
 class VAZMINT(ModifRegisterComData):

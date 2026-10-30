@@ -1,13 +1,17 @@
 # Rotinas de testes associadas ao arquivo modif.dat do NEWAVE
+import io
 from datetime import datetime
-from typing import List, Optional
+from typing import List, Optional, Type
 from unittest.mock import MagicMock, patch
+
+import pytest
 
 from cfinterface.components.register import Register
 
 from inewave.newave import Modif
 from inewave.newave.modelos.modif import (
     CFUGA,
+    ModifRegister,
     CMONT,
     COTAREA,
     NUMCNJ,
@@ -119,9 +123,9 @@ def test_registro_vmaxt_modif():
     assert r.volume == 61.310
     r.volume = 50.0
     assert r.volume == 50.0
-    assert r.unidade == "'%'"
-    r.unidade = "'h'"
-    assert r.unidade == "'h'"
+    assert r.unidade == "%"
+    r.unidade = "h"
+    assert r.unidade == "h"
 
 
 def test_registro_vazmint_modif():
@@ -191,9 +195,9 @@ def test_registro_volmin_modif():
     assert r.volume == 15563.63
     r.volume = 15
     assert r.volume == 15
-    assert r.unidade == "'h'"
-    r.unidade = "'%'"
-    assert r.unidade == "'%'"
+    assert r.unidade == "h"
+    r.unidade = "%"
+    assert r.unidade == "%"
 
 
 def test_registro_volmax_modif():
@@ -206,9 +210,9 @@ def test_registro_volmax_modif():
     assert r.volume == 55.0
     r.volume = 1000
     assert r.volume == 1000
-    assert r.unidade == "'%'"
-    r.unidade = "'h'"
-    assert r.unidade == "'h'"
+    assert r.unidade == "%"
+    r.unidade = "h"
+    assert r.unidade == "h"
 
 
 def test_registro_numcnj_modif():
@@ -323,9 +327,9 @@ def test_registro_vmint_modif():
     assert r.volume == 20.0
     r.volume = 10.0
     assert r.volume == 10.0
-    assert r.unidade == "'%'"
-    r.unidade = "'h'"
-    assert r.unidade == "'h'"
+    assert r.unidade == "%"
+    r.unidade = "h"
+    assert r.unidade == "h"
 
 
 def test_registro_vminp_modif():
@@ -341,9 +345,9 @@ def test_registro_vminp_modif():
     assert r.volume == 20.0
     r.volume = 10.0
     assert r.volume == 10.0
-    assert r.unidade == "'%'"
-    r.unidade = "'h'"
-    assert r.unidade == "'h'"
+    assert r.unidade == "%"
+    r.unidade = "h"
+    assert r.unidade == "h"
 
 
 def test_registro_cfuga_modif():
@@ -492,7 +496,7 @@ def test_registro_vmaxt_pde_spacing():
 
     assert r.data_inicio == datetime(2024, 1, 1)
     assert r.volume == 80.7
-    assert r.unidade == "'%'"
+    assert r.unidade == "%"
 
 
 def test_registro_vmint_pde_spacing():
@@ -503,7 +507,7 @@ def test_registro_vmint_pde_spacing():
 
     assert r.data_inicio == datetime(2024, 1, 1)
     assert r.volume == 13.23
-    assert r.unidade == "'%'"
+    assert r.unidade == "%"
 
 
 def test_registro_vazmint_pde_spacing():
@@ -604,3 +608,44 @@ def test_atributos_df_modif():
         df = acessor(df=True)
         assert list(df.columns) == registros[0].custom_properties, tipo
         assert len(df) == len(registros), tipo
+
+
+@pytest.mark.parametrize(
+    "registro, conteudo, unidade_lida",
+    [
+        (VOLMIN, MockVOLMIN, "h"),
+        (VOLMAX, MockVOLMAX, "%"),
+        (VMAXT, MockVMAXT, "%"),
+        (VMINT, MockVMINT, "%"),
+        (VMINP, MockVMINP, "%"),
+    ],
+)
+def test_unidade_sem_aspas_e_escrita_com_aspas(
+    registro: Type[ModifRegister], conteudo: str, unidade_lida: str
+) -> None:
+    m: MagicMock = mock_open(read_data=conteudo)
+    r = registro()
+    with patch("builtins.open", m), open("", "") as fp:
+        r.read(fp)
+    assert r.unidade == unidade_lida
+
+    # A escrita preserva as aspas lidas do arquivo.
+    escrita = io.StringIO()
+    r.write(escrita)
+    assert f"'{unidade_lida}'" in escrita.getvalue()
+
+    # Uma unidade atribuída sem aspas é escrita entre aspas.
+    r.unidade = "H"
+    assert r.unidade == "H"
+    escrita = io.StringIO()
+    r.write(escrita)
+    assert "'H'" in escrita.getvalue()
+
+
+def test_unidade_sem_aspas_no_dataframe_e_no_filtro():
+    m: MagicMock = mock_open(read_data="".join(MockModif))
+    with patch("builtins.open", m):
+        modif = Modif.read(ARQ_TESTE)
+    assert set(modif.vmaxt(df=True)["unidade"]) == {"%"}
+    filtrados = modif.vmaxt(unidade="%")
+    assert isinstance(filtrados, list) and len(filtrados) > 0
