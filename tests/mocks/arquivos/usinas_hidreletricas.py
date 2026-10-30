@@ -476,9 +476,29 @@ MockVolumeReferenciaFpha = [
     "CADH-VOL-REF-PER;   125 ;2023/04;       ;           6.00\n",
 ]
 
+MockHidreletricaFphaMetodoReducaoCortesAnguloPadrao = (
+    " HIDRELETRICA-FPHA-METODO-REDUCAO-CORTES-ANGULO-PADRAO;   1.0"
+)
+
+MockHidreletricaFphaMetodoReducaoCortesDistanciaPadrao = (
+    " HIDRELETRICA-FPHA-METODO-REDUCAO-CORTES-DISTANCIA-PADRAO;     0.005"
+)
+
+# Como no tratamento-fpha.csv de um caso real: o método do ângulo ativo e o
+# da distância desativado por comentário (só um método vale por vez).
+MockTratamentoFpha = [
+    "&********************************************************;******\n",
+    "&                                                        ;AngTol\n",
+    "&-                                                       ;º\n",
+    "&SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS;FFFFFF\n",
+    "HIDRELETRICA-FPHA-METODO-REDUCAO-CORTES-ANGULO-PADRAO; 1.0\r\n",
+    "&HIDRELETRICA-FPHA-METODO-REDUCAO-CORTES-DISTANCIA-PADRAO; 0.002\r\n",
+]
+
 MockUsinasHidreletricas = (
     MockPolinjus
     + MockProdutibilidadePerdas
     + MockEstacaoBombeamentoCompleto
     + MockVolumeReferenciaFpha
+    + MockTratamentoFpha
 )

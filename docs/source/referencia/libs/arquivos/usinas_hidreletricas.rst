@@ -46,6 +46,12 @@ para cada um.
 .. autoclass:: HidreletricaPerdaHidraulicaGrade
    :members:
 
+.. autoclass:: HidreletricaFphaMetodoReducaoCortesAnguloPadrao
+   :members:
+
+.. autoclass:: HidreletricaFphaMetodoReducaoCortesDistanciaPadrao
+   :members:
+
 .. autoclass:: VolumeReferencialTipoPadrao
    :members:
 

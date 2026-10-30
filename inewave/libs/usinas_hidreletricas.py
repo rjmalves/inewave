@@ -14,6 +14,8 @@ from inewave.libs.modelos.usinas_hidreletricas import (
     EstacaoBombeamento,
     HidreletricaProdutibilidadeEspecificaGrade,
     HidreletricaPerdaHidraulicaGrade,
+    HidreletricaFphaMetodoReducaoCortesAnguloPadrao,
+    HidreletricaFphaMetodoReducaoCortesDistanciaPadrao,
     VolumeReferencialTipoPadrao,
     VolumeReferencialPeriodo,
 )
@@ -35,6 +37,8 @@ class UsinasHidreletricas(RegisterFile):
         HidreletricaCurvaJusante,
         HidreletricaProdutibilidadeEspecificaGrade,
         HidreletricaPerdaHidraulicaGrade,
+        HidreletricaFphaMetodoReducaoCortesAnguloPadrao,
+        HidreletricaFphaMetodoReducaoCortesDistanciaPadrao,
         EstacaoBombeamentoLimitesPeriodoPatamar,
         EstacaoBombeamentoSubmercado,
         EstacaoBombeamento,
@@ -302,6 +306,52 @@ class UsinasHidreletricas(RegisterFile):
         return self.__registros_ou_df(
             HidreletricaPerdaHidraulicaGrade,
             codigo_usina=codigo_usina,
+            df=df,
+        )
+
+    def hidreletrica_fpha_metodo_reducao_cortes_angulo_padrao(
+        self, angulo_tolerancia: Optional[float] = None, df: bool = False
+    ) -> Optional[
+        Union[
+            HidreletricaFphaMetodoReducaoCortesAnguloPadrao,
+            List[HidreletricaFphaMetodoReducaoCortesAnguloPadrao],
+            pd.DataFrame,
+        ]
+    ]:
+        """
+        Obtém o card ativo que reduz os cortes da FPHA de todas as usinas
+        pelo ângulo entre os hiperplanos. Um card comentado com ``&`` não é
+        lido.
+
+        :param angulo_tolerancia: o ângulo de tolerância, em graus
+        :type angulo_tolerancia: float | None
+        """
+        return self.__registros_ou_df(
+            HidreletricaFphaMetodoReducaoCortesAnguloPadrao,
+            angulo_tolerancia=angulo_tolerancia,
+            df=df,
+        )
+
+    def hidreletrica_fpha_metodo_reducao_cortes_distancia_padrao(
+        self, distancia_tolerancia: Optional[float] = None, df: bool = False
+    ) -> Optional[
+        Union[
+            HidreletricaFphaMetodoReducaoCortesDistanciaPadrao,
+            List[HidreletricaFphaMetodoReducaoCortesDistanciaPadrao],
+            pd.DataFrame,
+        ]
+    ]:
+        """
+        Obtém o card ativo que reduz os cortes da FPHA de todas as usinas
+        pela distância entre os hiperplanos. Um card comentado com ``&``
+        não é lido.
+
+        :param distancia_tolerancia: a distância de tolerância, em %
+        :type distancia_tolerancia: float | None
+        """
+        return self.__registros_ou_df(
+            HidreletricaFphaMetodoReducaoCortesDistanciaPadrao,
+            distancia_tolerancia=distancia_tolerancia,
             df=df,
         )
 

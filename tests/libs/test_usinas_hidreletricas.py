@@ -7,6 +7,8 @@ from inewave.libs.usinas_hidreletricas import (
     HidreletricaCurvaJusanteAfogamentoExplicitoPadrao,
     HidreletricaProdutibilidadeEspecificaGrade,
     HidreletricaPerdaHidraulicaGrade,
+    HidreletricaFphaMetodoReducaoCortesAnguloPadrao,
+    HidreletricaFphaMetodoReducaoCortesDistanciaPadrao,
     EstacaoBombeamento,
     EstacaoBombeamentoLimitesPeriodoPatamar,
     EstacaoBombeamentoSubmercado,
@@ -24,6 +26,9 @@ from tests.mocks.arquivos.usinas_hidreletricas import (
     MockHidreletricaCurvaJusanteAfogamentoExplicitoPadrao,
     MockHidreletricaProdutibilidadeEspecificaGrade,
     MockHidreletricaPerdaHidraulicaGrade,
+    MockHidreletricaFphaMetodoReducaoCortesAnguloPadrao,
+    MockHidreletricaFphaMetodoReducaoCortesDistanciaPadrao,
+    MockTratamentoFpha,
     MockEstacaoBombeamento,
     MockEstacaoBombeamentoLimitesPeriodoPatamar,
     MockEstacaoBombeamentoSubmercado,
@@ -298,6 +303,68 @@ def test_registro_hidreletrica_perda_hidraulica_grade():
     assert r.perda_hidraulica == 1.5
 
 
+def test_registro_hidreletrica_fpha_metodo_reducao_cortes_angulo_padrao():
+    m: MagicMock = mock_open(
+        read_data=MockHidreletricaFphaMetodoReducaoCortesAnguloPadrao
+    )
+    r = HidreletricaFphaMetodoReducaoCortesAnguloPadrao()
+    with patch("builtins.open", m):
+        with open("", "") as fp:
+            r.read(fp)
+
+    assert r.data == [1.0]
+    assert r.angulo_tolerancia == 1.0
+    r.angulo_tolerancia = 2.5
+    assert r.angulo_tolerancia == 2.5
+
+
+def test_registro_hidreletrica_fpha_metodo_reducao_cortes_distancia_padrao():
+    m: MagicMock = mock_open(
+        read_data=MockHidreletricaFphaMetodoReducaoCortesDistanciaPadrao
+    )
+    r = HidreletricaFphaMetodoReducaoCortesDistanciaPadrao()
+    with patch("builtins.open", m):
+        with open("", "") as fp:
+            r.read(fp)
+
+    assert r.data == [0.005]
+    assert r.distancia_tolerancia == 0.005
+    r.distancia_tolerancia = 0.002
+    assert r.distancia_tolerancia == 0.002
+
+
+def test_cards_reducao_cortes_fpha_comentados_nao_sao_reconhecidos():
+    for registro in (
+        HidreletricaFphaMetodoReducaoCortesAnguloPadrao,
+        HidreletricaFphaMetodoReducaoCortesDistanciaPadrao,
+    ):
+        linha = f"{registro.IDENTIFIER}; 1.0\n"
+        assert registro.matches(linha)
+        assert registro.matches(" " + linha)
+        assert registro.matches((" " + linha).encode())
+        assert not registro.matches("&" + linha)
+        assert not registro.matches("  & " + linha)
+        assert not registro.matches(("&" + linha).encode())
+
+
+def test_tratamento_fpha_le_apenas_o_metodo_ativo():
+    m: MagicMock = mock_open(read_data="".join(MockTratamentoFpha))
+    with patch("builtins.open", m):
+        uhes = UsinasHidreletricas.read(ARQ_TESTE)
+    angulo = uhes.hidreletrica_fpha_metodo_reducao_cortes_angulo_padrao()
+    assert isinstance(angulo, HidreletricaFphaMetodoReducaoCortesAnguloPadrao)
+    assert angulo.angulo_tolerancia == 1.0
+    assert (
+        uhes.hidreletrica_fpha_metodo_reducao_cortes_distancia_padrao() is None
+    )
+    df = uhes.hidreletrica_fpha_metodo_reducao_cortes_angulo_padrao(df=True)
+    assert df.columns.tolist() == ["angulo_tolerancia"]
+    assert df["angulo_tolerancia"].tolist() == [1.0]
+    assert uhes.hidreletrica_fpha_metodo_reducao_cortes_distancia_padrao(
+        df=True
+    ).empty
+
+
 def test_registro_estacao_bombeamento():
     m: MagicMock = mock_open(read_data="".join(MockEstacaoBombeamento))
     r = EstacaoBombeamento()
@@ -426,6 +493,10 @@ def test_atributos_encontrados():
         )
         assert uhes.hidreletrica_produtibilidade_especifica_grade() is not None
         assert uhes.hidreletrica_perda_hidraulica_grade() is not None
+        assert (
+            uhes.hidreletrica_fpha_metodo_reducao_cortes_angulo_padrao()
+            is not None
+        )
         assert uhes.estacao_bombeamento() is not None
         assert uhes.estacao_bombeamento_limites_periodo_patamar() is not None
         assert uhes.estacao_bombeamento_submercado() is not None
