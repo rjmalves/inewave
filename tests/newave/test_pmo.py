@@ -167,7 +167,8 @@ def test_convergencia():
             b.read(fp)
 
     assert len(list(b.data.index)) == 135
-    # Leiaute anterior à v30: cada linha impressa é uma linha da tabela.
+    # Leiaute de três linhas por iteração: cada linha impressa é uma linha
+    # da tabela.
     primeira = b.data.iloc[0]
     assert primeira["limite_inferior_zinf"] == 84283.82
     assert primeira["zinf"] == 82573.81

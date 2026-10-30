@@ -617,17 +617,20 @@ class BlocoConvergenciaPMO(Block):
     Bloco com as informações de convergência do NEWAVE obtidas
     no arquivo `pmo.dat`.
 
-    O relatório é impresso em dois leiautes:
+    O relatório é impresso em dois leiautes, reconhecidos pela quantidade
+    de linhas por iteração:
 
-    - Versões anteriores à 30: três linhas por iteração, com valores
-      diferentes entre si (intervalos de confiança distintos e a linha
-      final com ``DZINF`` e ``ZSUP ITER.``). Os números ficam alinhados às
-      colunas do cabeçalho e cada linha impressa vira uma linha da tabela.
-    - Versão 30 em diante: duas linhas por iteração com os mesmos limites,
-      a primeira terminada pelo tempo da iteração e a segunda com ``DZINF``
-      e ``ZSUP ITER.``. Os números não respeitam as colunas do cabeçalho,
-      então cada linha é separada por espaços e as duas linhas de uma
-      iteração viram uma única linha da tabela.
+    - Três linhas por iteração, com valores diferentes entre si: a
+      primeira terminada pelo tempo da iteração, a segunda com o intervalo
+      de confiança de 99% e a última com ``DZINF`` e ``ZSUP ITER.``. Os
+      números ficam alinhados às colunas do cabeçalho e cada linha impressa
+      vira uma linha da tabela. Impresso pelas versões anteriores à 30 e
+      também pela versão 30.
+    - Duas linhas por iteração com os mesmos limites, a primeira terminada
+      pelo tempo da iteração e a segunda com ``DZINF`` e ``ZSUP ITER.``,
+      impresso pela versão 30. Os números não respeitam as colunas do
+      cabeçalho, então cada linha é separada por espaços e as duas linhas
+      de uma iteração viram uma única linha da tabela.
     """
 
     __slots__ = ["__line"]
