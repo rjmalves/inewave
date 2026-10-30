@@ -1,5 +1,6 @@
 from inewave.newave.modelos.newavetim import (
     BlocoTemposEtapasTim,
+    BlocoTemposIteracoesTim,
     BlocoVersaoModeloTim,
 )
 
@@ -17,7 +18,11 @@ class Newavetim(BlockFile):
 
     T = TypeVar("T")
 
-    BLOCKS = [BlocoVersaoModeloTim, BlocoTemposEtapasTim]
+    BLOCKS = [
+        BlocoVersaoModeloTim,
+        BlocoTemposEtapasTim,
+        BlocoTemposIteracoesTim,
+    ]
 
     @property
     def tempos_etapas(self) -> Optional[pd.DataFrame]:
@@ -32,6 +37,28 @@ class Newavetim(BlockFile):
         """
         b = self.data.get_blocks_of_type(BlocoTemposEtapasTim)
         if isinstance(b, BlocoTemposEtapasTim):
+            return b.data
+        return None
+
+    @property
+    def tempos_iteracoes(self) -> Optional[pd.DataFrame]:
+        """
+        Tempos de cada iteração do cálculo da política.
+
+        - iteracao (`int`)
+        - backward (`timedelta`)
+        - forward (`timedelta`)
+        - total (`timedelta`)
+
+        Os tempos são os escritos pelo NEWAVE, sem correção. Na primeira
+        iteração, o NEWAVE às vezes escreve no backward e no forward tempos
+        sem sentido, de centenas de horas.
+
+        :return: Os tempos em um DataFrame.
+        :rtype: pd.DataFrame | None
+        """
+        b = self.data.get_blocks_of_type(BlocoTemposIteracoesTim)
+        if isinstance(b, BlocoTemposIteracoesTim):
             return b.data
         return None
 

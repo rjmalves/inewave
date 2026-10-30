@@ -3,11 +3,14 @@ from unittest.mock import MagicMock, patch
 
 from inewave.newave.modelos.newavetim import (
     BlocoTemposEtapasTim,
+    BlocoTemposIteracoesTim,
     BlocoVersaoModeloTim,
 )
 from inewave.newave.newavetim import Newavetim
 from tests.mocks.arquivos.newavetim import (
     MockBlocoTemposEtapas,
+    MockBlocoTemposIteracoes,
+    MockBlocoTemposIteracoesIncompleto,
     MockBlocoVersaoModelo,
     MockNewaveTim,
 )
@@ -29,6 +32,44 @@ def test_tempos_etapas():
     assert b.data.iloc[-1, -1] == timedelta(hours=3, minutes=26, seconds=7)
 
 
+def test_tempos_iteracoes():
+    m: MagicMock = mock_open(read_data="".join(MockBlocoTemposIteracoes))
+    b = BlocoTemposIteracoesTim()
+    with patch("builtins.open", m):
+        with open("", "") as fp:
+            b.read(fp)
+
+    assert b.data.columns.tolist() == [
+        "iteracao",
+        "backward",
+        "forward",
+        "total",
+    ]
+    assert b.data["iteracao"].tolist() == [1, 2]
+    # Os tempos sem sentido da primeira iteração são mantidos como escritos
+    assert b.data.loc[0, "backward"] == timedelta(
+        hours=110, minutes=46, seconds=23
+    )
+    assert b.data.loc[0, "forward"] == timedelta(
+        hours=633, minutes=13, seconds=39
+    )
+    assert b.data.loc[0, "total"] == timedelta(seconds=2)
+    assert b.data.loc[1, "backward"] == timedelta(seconds=1.5)
+    assert b.data.loc[1, "total"] == timedelta(seconds=4.5)
+
+
+def test_tempos_iteracoes_ignora_iteracao_incompleta():
+    m: MagicMock = mock_open(
+        read_data="".join(MockBlocoTemposIteracoesIncompleto)
+    )
+    b = BlocoTemposIteracoesTim()
+    with patch("builtins.open", m):
+        with open("", "") as fp:
+            b.read(fp)
+
+    assert b.data["iteracao"].tolist() == [1]
+
+
 def test_versao_modelo():
     m: MagicMock = mock_open(read_data="".join(MockBlocoVersaoModelo))
     b = BlocoVersaoModeloTim()
@@ -45,6 +86,10 @@ def test_atributos_encontrados_newavetim():
         nt = Newavetim.read(ARQ_TESTE)
         assert nt.tempos_etapas is not None
         assert nt.versao_modelo is not None
+        tempos = nt.tempos_iteracoes
+        assert tempos is not None
+        assert tempos["iteracao"].tolist() == list(range(1, 51))
+        assert tempos.loc[49, "total"] == timedelta(minutes=6, seconds=25)
 
 
 def test_atributos_nao_encontrados_newavetim():
@@ -52,6 +97,7 @@ def test_atributos_nao_encontrados_newavetim():
     with patch("builtins.open", m):
         nt = Newavetim.read(ARQ_TESTE)
         assert nt.tempos_etapas is None
+        assert nt.tempos_iteracoes is None
         assert nt.versao_modelo is None
 
 
