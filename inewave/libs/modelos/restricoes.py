@@ -192,9 +192,16 @@ class RegistroRELimFormPer(Register):
     @property
     def limite_inferior(self) -> Optional[str]:
         """
-        A equação que da o limite inferior da restrição.
+        O limite inferior da restrição, como escrito no arquivo.
 
-        :return: A equação
+        O manual do NEWAVE (seção 3.45.2) admite um número ou um limite
+        condicional, como ``se(demanda(1) < 1000, 10000, 8500)``, que só
+        pode usar as grandezas ``disp_usih(X)``, ``demanda(X)`` e
+        ``demanda_sin``. Por isso o valor é mantido como texto, e quem
+        precisar de um número deve convertê-lo. Um campo em branco, lido
+        como ``""``, vale -infinito.
+
+        :return: O limite
         :rtype: Optional[str]
         """
         return self.data[4]
@@ -206,9 +213,16 @@ class RegistroRELimFormPer(Register):
     @property
     def limite_superior(self) -> Optional[str]:
         """
-        A equação que da o limite superior da restrição.
+        O limite superior da restrição, como escrito no arquivo.
 
-        :return: A equação
+        O manual do NEWAVE (seção 3.45.2) admite um número ou um limite
+        condicional, como ``se(demanda(1) < 1000, 10000, 8500)``, que só
+        pode usar as grandezas ``disp_usih(X)``, ``demanda(X)`` e
+        ``demanda_sin``. Por isso o valor é mantido como texto, e quem
+        precisar de um número deve convertê-lo. Um campo em branco, lido
+        como ``""``, vale +infinito.
+
+        :return: O limite
         :rtype: Optional[str]
         """
         return self.data[5]

@@ -1,3 +1,4 @@
+import io
 from datetime import datetime
 from inewave.libs.modelos.restricoes import (
     RegistroRE,
@@ -24,6 +25,7 @@ from tests.mocks.arquivos.restricoes import (
     MockRE,
     MockREHorizPer,
     MockRELimFormPer,
+    MockRestricaoEletrica,
     MockRHE,
     MockRHEHorizPer,
     MockRHELsLPPEarmi,
@@ -97,6 +99,41 @@ def test_registro_rhq_lim_form_per():
     assert r.limite_superior == "5000"
     r.limite_superior = "0"
     assert r.limite_superior == "0"
+
+
+def test_registro_re_lim_form_per_limite_condicional_e_em_branco():
+    # Manual do NEWAVE, seção 3.45.2: um limite em branco vale -infinito ou
+    # +infinito, e um limite pode ser condicional.
+    linha = (
+        "RE-LIM-FORM-PER-PAT ;   1 ; 2024/09 ; 2024/09 ; 1 ;  ;"
+        " se(demanda(1) < 1000, 10000, 8500)\n"
+    )
+    r = RegistroRELimFormPer()
+    r.read(io.StringIO(linha))
+    assert r.limite_inferior == ""
+    assert r.limite_superior == "se(demanda(1) < 1000, 10000, 8500)"
+
+    buf = io.StringIO()
+    r.write(buf)
+    relido = RegistroRELimFormPer()
+    relido.read(io.StringIO(buf.getvalue()))
+    assert relido.data == r.data
+
+
+def test_re_lim_form_per_filtra_limites_pelo_texto():
+    linhas = [
+        linha if linha.endswith("\n") else linha + "\n"
+        for linha in MockRestricaoEletrica
+    ]
+    m: MagicMock = mock_open(read_data="".join(linhas))
+    with patch("builtins.open", m):
+        e = Restricoes.read(ARQ_TESTE)
+    registros = e.re_lim_form_per(limite_superior="1000")
+    assert isinstance(registros, list)
+    assert [r.patamar for r in registros] == [1, 2, 3]
+    assert all(r.codigo_restricao == 2 for r in registros)
+    df = e.re_lim_form_per(df=True)
+    assert df["limite_superior"].tolist() == ["5000"] * 3 + ["1000"] * 3
 
 
 def test_registro_rhe():

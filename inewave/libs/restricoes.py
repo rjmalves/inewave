@@ -114,8 +114,8 @@ class Restricoes(RegisterFile):
         data_inicio: Optional[datetime] = None,
         data_fim: Optional[datetime] = None,
         patamar: Optional[int] = None,
-        limite_inferior: Optional[float] = None,
-        limite_superior: Optional[float] = None,
+        limite_inferior: Optional[str] = None,
+        limite_superior: Optional[str] = None,
         df: bool = False,
     ) -> Optional[
         Union[RegistroRELimFormPer, List[RegistroRELimFormPer], pd.DataFrame]
@@ -132,11 +132,16 @@ class Restricoes(RegisterFile):
         :type data_fim: datetime | None
         :param patamar: patamar de validade dos limites
         :type patamar: int | None
-        :param limite_inferior: limite inferior da restrição
-        :type limite_inferior: float | None
-        :param limite_superior: limite superior da restrição
-        :type limite_superior: float | None
-        :return: Um ou mais registros, se existirem.
+        :param limite_inferior: limite inferior da restrição, com o texto
+            escrito no arquivo
+        :type limite_inferior: str | None
+        :param limite_superior: limite superior da restrição, com o texto
+            escrito no arquivo
+        :type limite_superior: str | None
+        :return: Um ou mais registros, se existirem. Os limites são texto,
+            pois podem ser condicionais (ver
+            :attr:`RegistroRELimFormPer.limite_inferior`); com ``df=True``,
+            as colunas ``limite_inferior`` e ``limite_superior`` também.
         :rtype: :class:`RegistroRELimFormPer` |
             list[:class:`RegistroRELimFormPer`] | `pd.DataFrame` | None
         """

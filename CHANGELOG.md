@@ -45,6 +45,8 @@ e este projeto adere ao [Versionamento Semantico](https://semver.org/lang/pt-BR/
 
 - `sistema.dat`: o bloco de limites de intercâmbio volta a ler os arquivos em que o registro tipo 1 do par se repete, com o campo 3 igual a 1, no lugar do registro em branco que separa os grupos A->B e B->A, leiaute dos arquivos escritos pelo inewave até a v1.14 e do deck de exemplo. Desde a v1.15.0 esse registro repetido era lido como `flag = 1` (intercâmbio mínimo obrigatório) no grupo B->A, e a escrita misturava os valores dos dois grupos nas mesmas linhas. A escrita também passa a tratar como registros distintos os dois registros que um par pode ter, um de limite e outro de intercâmbio mínimo obrigatório, antes misturados da mesma forma. A coluna `sentido` não muda em nenhum dos casos.
 
+- LIBS (`restricao-eletrica.csv`): os filtros `limite_inferior` e `limite_superior` de `Restricoes.re_lim_form_per` passam a ser anotados como `Optional[str]`, o tipo dos valores comparados. Com a anotação anterior, `float`, o filtro nunca encontrava um registro. A documentação de `RegistroRELimFormPer.limite_inferior` e `limite_superior` passa a explicar por que os limites são texto: o manual do NEWAVE (seção 3.45.2) admite limites condicionais, como `se(demanda(1) < 1000, 10000, 8500)`, e um campo em branco, lido como `""`, vale -infinito ou +infinito.
+
 ## [1.16.2] - 2026-10-19
 
 ### Corrigido
