@@ -59,6 +59,11 @@ class Agrint(SectionFile):
         - patamar (`int`)
         - valor (`float`)
 
+        O número de patamares, até 5, é o de colunas de limite na linha de
+        template do cabeçalho. Sem colunas no template, vale o argumento
+        ``numero_patamares`` de :meth:`Agrint.read` (por padrão, 3). Na
+        escrita, o cabeçalho acompanha o número de patamares do DataFrame.
+
         :return: A tabela como um DataFrame.
         :rtype: pd.DataFrame | None
         """
