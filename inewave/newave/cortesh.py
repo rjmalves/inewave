@@ -180,6 +180,19 @@ class Cortesh(SectionFile):
         self.__obtem_dados().numero_patamares = v
 
     @property
+    def duracoes_patamares(self) -> List[float]:
+        """
+        As durações dos patamares de carga, em fração do estágio: um bloco
+        de :attr:`numero_patamares` valores por estágio do estudo, na ordem
+        dos estágios (``numero_estagios_estudo * numero_patamares``
+        valores).
+
+        :return: As durações dos patamares
+        :rtype: list[float]
+        """
+        return self.__obtem_dados().duracoes_patamares
+
+    @property
     def ano_inicio_estudo(self) -> int:
         """
         O ano de início do período de estudo.
@@ -535,3 +548,44 @@ class Cortesh(SectionFile):
         :rtype: pd.DataFrame
         """
         return self.__obtem_dados().dados_uhes
+
+    @property
+    def usa_cvar(self) -> int:
+        """
+        Indica se a política foi calculada com a medida de risco CVaR
+        (``1``) ou não (``0``).
+
+        :return: O indicador de uso do CVaR
+        :rtype: int
+        """
+        return self.__obtem_dados().usa_cvar
+
+    @usa_cvar.setter
+    def usa_cvar(self, v: int) -> None:
+        self.__obtem_dados().usa_cvar = v
+
+    @property
+    def alfa_cvar(self) -> List[float]:
+        """
+        O parâmetro alfa do CVaR por estágio, em fração (``0.15`` para
+        15%), com ``numero_estagios_estudo + 2 * numero_estagios_ano``
+        valores.
+
+        :return: Os valores de alfa, ou uma lista vazia se
+            :attr:`usa_cvar` é ``0``
+        :rtype: list[float]
+        """
+        return self.__obtem_dados().alfa_cvar
+
+    @property
+    def lambda_cvar(self) -> List[float]:
+        """
+        O parâmetro lambda do CVaR por estágio, em fração (``0.40`` para
+        40%), com ``numero_estagios_estudo + 2 * numero_estagios_ano``
+        valores.
+
+        :return: Os valores de lambda, ou uma lista vazia se
+            :attr:`usa_cvar` é ``0``
+        :rtype: list[float]
+        """
+        return self.__obtem_dados().lambda_cvar
