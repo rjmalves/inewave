@@ -1,3 +1,5 @@
+from typing import Optional
+
 import pandas as pd  # type: ignore[import-untyped]  # no pandas-stubs package
 
 from cfinterface.files.sectionfile import SectionFile
@@ -18,12 +20,14 @@ class Mediasrhv(SectionFile):
     SECTIONS = [TabelaMediasrhv]
 
     @property
-    def valores(self) -> pd.DataFrame:
+    def valores(self) -> Optional[pd.DataFrame]:
         """
         Tabela com os valores de médias para as variáveis das
         restrições hidráulicas de volume.
 
-        - estagio (`int`)
+        - estagio (`int`): numerado a partir de 1
+        - indice_mes (`int`): o número do estágio no arquivo, que conta
+          os meses a partir de janeiro do primeiro ano do estudo
         - codigo_restricao (`int`)
         - <variavel_1> (`float`)
         - ...

@@ -11,9 +11,13 @@ e este projeto adere ao [Versionamento Semantico](https://semver.org/lang/pt-BR/
 
 - `modif.dat`: registros para as palavras-chave do manual do NEWAVE (seção 3.12) que eram lidas como linhas não interpretadas: `PRODESP` (`produtibilidade`), `TEIF` (`teif`), `IP` (`ip`), `PERDHIDR` (`perdas`), `COEFEVAP` (`coeficiente` e `mes`), `NUMBAS` (`numero`) e `CDESVIO` (`codigo_usina_jusante` e `limite_vazao`, este `None` quando o arquivo não informa a vazão máxima do canal de desvio). `Modif` ganha os métodos `prodesp`, `teif`, `ip`, `perdhidr`, `coefevap`, `numbas` e `cdesvio`, com filtros por propriedade e `df=True`. As palavras-chave em minúsculas, que o manual também aceita, continuam sem suporte em todos os registros do arquivo.
 
+- `MEDIAS-*.CSV` (NWLISTOP): a propriedade `valores` de `Mediasmerc`, `Mediasree`, `Mediasrep`, `Mediasrhq`, `Mediasrhv`, `Mediassin`, `Mediasusie`, `Mediasusih` e `Mediasusit` ganha a coluna `indice_mes`, logo após `estagio`, com o número do estágio como o arquivo o escreve (os meses contados a partir de janeiro do primeiro ano do estudo; um estudo que começa em setembro tem estágios de 9 em diante). A coluna `estagio` continua numerada a partir de 1, e o `indice_mes` permite alinhar os valores ao calendário.
+
 ### Modificado
 
 - `modif.dat`: a documentação de `Modif.modificacoes_usina` passa a registrar a regra do manual do NEWAVE (seção 3.12) de no máximo um bloco de modificações por usina. Em um arquivo com mais de um bloco para a mesma usina, apenas o primeiro bloco é retornado, comportamento agora coberto por teste.
+
+- `MEDIAS-*.CSV` (NWLISTOP): as nove tabelas passam a compartilhar a leitura em `inewave.nwlistop.modelos.blocos.tabela_medias.TabelaMedias`, e a anotação de `valores` passa a ser `Optional[pd.DataFrame]`, já que a propriedade retorna `None` quando não há tabela. Um valor não numérico no arquivo passa a ser lido como `NaN` em todas as tabelas, como já acontecia no `MEDIAS-USIH.CSV`.
 
 ### Corrigido
 

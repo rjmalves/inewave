@@ -9,7 +9,7 @@ def test_eq_mediasrep():
     leitor = Mediasrep.read(ARQ_TESTE)
     leitor2 = Mediasrep.read(ARQ_TESTE)
     assert leitor == leitor2
-    assert leitor.valores.shape == (0, 2)
+    assert leitor.valores.shape == (0, 3)
 
 
 # NOTE: MEDIAS CSV file, SectionFile with pd.read_csv, no write path
