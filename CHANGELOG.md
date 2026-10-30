@@ -25,6 +25,8 @@ e este projeto adere ao [Versionamento Semantico](https://semver.org/lang/pt-BR/
 
 - LIBS (`indices.csv`): classe `Indices` em `inewave.libs`, que lê e escreve o arquivo de índices das LIBS (manual do NEWAVE, seção 3.4), que associa cada card das LIBS ao arquivo com os seus registros. Cada linha é um `RegistroIndice` (`identificador`, `descricao` e `arquivo`), e o método `Indices.indices` filtra por `identificador` e `arquivo` ou retorna um `DataFrame` com `df=True`. As linhas comentadas com `&` são reescritas sem alterações, um campo vazio é lido como `""` e identificadores repetidos são mantidos na ordem do arquivo. A API é a mesma de `idecomp.libs.Indices`.
 
+- NWLISTOP: protocolo `ArquivoComValores`, exportado por `inewave.nwlistop`, com a propriedade `valores -> Optional[pd.DataFrame]`. Todos os arquivos do módulo, exceto o `Nwlistopdat`, o satisfazem, inclusive os `MEDIAS-*.CSV`, o que permite anotar o código que trata esses arquivos da mesma forma sem depender das classes base privadas.
+
 ### Modificado
 
 - `modif.dat`: a documentação de `Modif.modificacoes_usina` passa a registrar a regra do manual do NEWAVE (seção 3.12) de no máximo um bloco de modificações por usina. Em um arquivo com mais de um bloco para a mesma usina, apenas o primeiro bloco é retornado, comportamento agora coberto por teste.
