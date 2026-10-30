@@ -9,7 +9,7 @@ def test_eq_mediassin():
     leitor = Mediassin.read(ARQ_TESTE)
     leitor2 = Mediassin.read(ARQ_TESTE)
     assert leitor == leitor2
-    assert leitor.valores.shape == (57, 55)
+    assert leitor.valores.shape == (57, 56)
 
 
 # NOTE: MEDIAS CSV file, SectionFile with pd.read_csv, no write path

@@ -12,7 +12,7 @@ def test_eq_mediasusih():
         leitor = Mediasusih.read(teste["file"])
         leitor2 = Mediasusih.read(teste["file"])
         assert leitor == leitor2
-        assert leitor.valores.shape == (teste["rows"], 30)
+        assert leitor.valores.shape == (teste["rows"], 31)
 
 
 # NOTE: MEDIAS CSV file, SectionFile with pd.read_csv, no write path
