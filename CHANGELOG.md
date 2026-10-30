@@ -7,6 +7,10 @@ e este projeto adere ao [Versionamento Semantico](https://semver.org/lang/pt-BR/
 
 ## [Não lançado]
 
+### Modificado
+
+- `modif.dat`: a documentação de `Modif.modificacoes_usina` passa a registrar a regra do manual do NEWAVE (seção 3.12) de no máximo um bloco de modificações por usina. Em um arquivo com mais de um bloco para a mesma usina, apenas o primeiro bloco é retornado, comportamento agora coberto por teste.
+
 ### Corrigido
 
 - `pmo.dat`: `Pmo.convergencia` lia o relatório de convergência da versão 30 com colunas fixas que não correspondem ao leiaute dessa versão, cortando os números nas fronteiras das colunas (o `zinf` recebia parte do `LIM.INF.`, a maior parte dos valores virava `NaN`) e deixando `tempo` sempre vazio. Agora o leiaute da versão 30 (duas linhas por iteração) é lido separando cada linha por espaços e retorna uma linha por iteração, com os valores da linha de `DZINF`/`ZSUP ITER.` e o `tempo` da outra linha. O leiaute das versões anteriores (três linhas por iteração, com valores diferentes) continua sendo lido como antes.

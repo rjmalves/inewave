@@ -1483,3 +1483,16 @@ MockModif_SEM_USINA = [
     " P.CHAVE  MODIFICACOES E INDICES\n",
     " XXXXXXXX XXXXXXXXXXXXXXXXXXXXX\n",
 ]
+
+# O manual admite no máximo um bloco por usina; este arquivo inválido repete
+# a usina 1 em um segundo bloco.
+MockModif_USINA_DOIS_BLOCOS = [
+    " P.CHAVE  MODIFICACOES E INDICES\n",
+    " XXXXXXXX XXXXXXXXXXXXXXXXXXXXX\n",
+    " USINA    1                                 CAMARGOS    \n",
+    " VOLMIN   10.0 %\n",
+    " USINA    2                                 ITUTINGA    \n",
+    " CMONT    11 2026   96.01\n",
+    " USINA    1                                 CAMARGOS    \n",
+    " CFUGA     1 2026  900.00\n",
+]
