@@ -1,6 +1,19 @@
 # Testes da tipagem estática exposta pelo pacote
+import ast
+import importlib
 import inspect
-from typing import Any, Callable, List, Literal, Type, get_args, get_overloads
+from pathlib import Path
+from typing import (
+    Any,
+    Callable,
+    Dict,
+    List,
+    Literal,
+    Optional,
+    Type,
+    get_args,
+    get_overloads,
+)
 
 import pandas as pd  # type: ignore[import-untyped]  # no pandas-stubs package
 import pytest
@@ -68,3 +81,45 @@ def test_acessores_df_tem_overloads(classe: Type[Any]) -> None:
             assert _parametros_sem_df(s) == _parametros_sem_df(f), (
                 f.__qualname__
             )
+
+
+PACOTES_LAZY = ["inewave.newave", "inewave.nwlistop"]
+
+
+@pytest.mark.parametrize("pacote", PACOTES_LAZY)
+def test_imports_de_tipagem_iguais_a_tabela_lazy(pacote: str) -> None:
+    # Os verificadores de tipo leem o bloco TYPE_CHECKING, e o tempo de
+    # execução lê _LAZY_IMPORTS: os dois precisam listar os mesmos nomes
+    modulo = importlib.import_module(pacote)
+    arvore = ast.parse(inspect.getsource(modulo))
+    blocos = [
+        n
+        for n in arvore.body
+        if isinstance(n, ast.If) and ast.unparse(n.test) == "TYPE_CHECKING"
+    ]
+    assert len(blocos) == 1
+    importados: Dict[str, Optional[str]] = {}
+    for n in blocos[0].body:
+        assert isinstance(n, ast.ImportFrom) and n.level == 1
+        for alias in n.names:
+            # "import X as X" marca a reexportação explícita
+            assert alias.asname == alias.name
+            importados[alias.name] = n.module
+    assert importados == modulo._LAZY_IMPORTS
+
+
+@pytest.mark.parametrize("pacote", PACOTES_LAZY)
+def test_tabela_lazy_cobre_todos_os_modulos(pacote: str) -> None:
+    modulo = importlib.import_module(pacote)
+    pasta = Path(inspect.getfile(modulo)).parent
+    modulos = {p.stem for p in pasta.glob("*.py") if p.stem != "__init__"}
+    assert modulos == set(modulo._LAZY_IMPORTS.values())
+
+
+@pytest.mark.parametrize("pacote", PACOTES_LAZY)
+def test_nomes_lazy_resolvem_para_as_classes(pacote: str) -> None:
+    modulo = importlib.import_module(pacote)
+    for nome, submodulo in modulo._LAZY_IMPORTS.items():
+        classe = getattr(modulo, nome)
+        assert inspect.isclass(classe), nome
+        assert classe.__module__ == f"{pacote}.{submodulo}", nome

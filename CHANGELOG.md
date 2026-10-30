@@ -37,6 +37,8 @@ e este projeto adere ao [Versionamento Semantico](https://semver.org/lang/pt-BR/
 
 - Tipagem: os acessores com o parâmetro `df` em `Modif`, `Restricoes`, `UsinasHidreletricas` e `Eolica` ganham `@overload`, como o novo `Indices` e os acessores do `idecomp`. Com `df=True`, passado por nome, o tipo de retorno é `pd.DataFrame`, que é vazio quando o arquivo não tem registros do tipo. Sem `df`, ou com `df=False`, o tipo é o registro, a lista de registros ou `None`. O comportamento em tempo de execução não muda.
 
+- Tipagem: `inewave.newave` e `inewave.nwlistop` passam a importar as suas classes em um bloco `if TYPE_CHECKING:`, e os verificadores de tipo passam a ver as classes reais em `from inewave.newave import Dger`, em vez de `Any`. Os imports continuam sob demanda em tempo de execução. Projetos que verificam tipos podem ver erros novos nas chamadas a essas classes, que antes não eram verificadas.
+
 ### Descontinuado
 
 - `vazpast.dat`: as colunas `codigo_usina` e `nome_usina` de `Vazpast.tendencia`, que sempre guardaram o número e o nome do posto, ficam ao fim da tabela, como cópias de `codigo_posto` e `nome_posto`, e serão removidas em uma versão futura. Na escrita, um DataFrame só com as colunas antigas ainda é aceito, com um `DeprecationWarning`, e um DataFrame com as duas versões de uma coluna e valores diferentes é recusado com `ValueError`, para que a edição feita só em uma delas não se perca.
@@ -54,6 +56,8 @@ e este projeto adere ao [Versionamento Semantico](https://semver.org/lang/pt-BR/
 - LIBS (`restricao-eletrica.csv`): os filtros `limite_inferior` e `limite_superior` de `Restricoes.re_lim_form_per` passam a ser anotados como `Optional[str]`, o tipo dos valores comparados. Com a anotação anterior, `float`, o filtro nunca encontrava um registro. A documentação de `RegistroRELimFormPer.limite_inferior` e `limite_superior` passa a explicar por que os limites são texto: o manual do NEWAVE (seção 3.45.2) admite limites condicionais, como `se(demanda(1) < 1000, 10000, 8500)`, e um campo em branco, lido como `""`, vale -infinito ou +infinito.
 
 - LIBS (`eolica-*.csv`): os filtros de `Eolica.pee_pot_inst_per` e `Eolica.vento_hist` passam a ter os nomes das propriedades dos registros, que são também as colunas do `DataFrame`: `periodo_inicial` e `periodo_final` no lugar de `data_inicio` e `data_fim` em `pee_pot_inst_per`, e `codigo_posto` (o posto de medição do vento, como diz o manual das LIBS) no lugar de `codigo_eolica` em `vento_hist`. Os nomes antigos levantavam `AttributeError` sempre que recebiam um valor, já que os registros não têm essas propriedades. Quem os passava por nome com `None` precisa removê-los ou trocar pelo nome novo. Os filtros `codigo_pee` e `codigo_posto` de `Eolica.pee_posto` passam a ser anotados como `int`, e não `datetime`.
+
+- `from inewave.nwlistop import GhFphexat` passa a funcionar: a classe do `gh_fphexat.out` faltava na tabela de imports do `inewave.nwlistop`.
 
 ## [1.16.2] - 2026-10-19
 
