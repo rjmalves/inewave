@@ -7,6 +7,8 @@ e este projeto adere ao [Versionamento Semantico](https://semver.org/lang/pt-BR/
 
 ## [Não lançado]
 
+## [1.17.0] - 2026-10-29
+
 ### Adicionado
 
 - `modif.dat`: registros para as palavras-chave do manual do NEWAVE (seção 3.12) que eram lidas como linhas não interpretadas: `PRODESP` (`produtibilidade`), `TEIF` (`teif`), `IP` (`ip`), `PERDHIDR` (`perdas`), `COEFEVAP` (`coeficiente` e `mes`), `NUMBAS` (`numero`) e `CDESVIO` (`codigo_usina_jusante` e `limite_vazao`, este `None` quando o arquivo não informa a vazão máxima do canal de desvio). `Modif` ganha os métodos `prodesp`, `teif`, `ip`, `perdhidr`, `coefevap`, `numbas` e `cdesvio`, com filtros por propriedade e `df=True`. As palavras-chave em minúsculas, que o manual também aceita, continuam sem suporte em todos os registros do arquivo.
@@ -537,6 +539,7 @@ e este projeto adere ao [Versionamento Semantico](https://semver.org/lang/pt-BR/
 - Arquivos do NWLISTOP processados para formato normal de séries temporais
 - Dependência da cfinterface atualizada para [v1.5.2](https://github.com/rjmalves/cfi/releases/tag/v1.5.2)
 
+[1.17.0]: https://github.com/rjmalves/inewave/compare/v1.16.2...v1.17.0
 [1.16.2]: https://github.com/rjmalves/inewave/compare/v1.16.1...v1.16.2
 [1.16.1]: https://github.com/rjmalves/inewave/compare/v1.16.0...v1.16.1
 [1.16.0]: https://github.com/rjmalves/inewave/compare/v1.15.1...v1.16.0
