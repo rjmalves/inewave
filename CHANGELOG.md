@@ -21,6 +21,8 @@ e este projeto adere ao [Versionamento Semantico](https://semver.org/lang/pt-BR/
 
 - `newave.tim`: propriedade `Newavetim.tempos_iteracoes`, com uma linha por iteração do cálculo da política e as colunas `iteracao`, `backward`, `forward` e `total` (`timedelta`). Os tempos são os escritos pelo NEWAVE, inclusive os valores sem sentido que ele às vezes escreve na primeira iteração.
 
+- `vazpast.dat`: colunas `codigo_posto` e `nome_posto` em `Vazpast.tendencia`, com o número e o nome do posto, que é o que o arquivo informa (manual do NEWAVE, seção 3.22.3). Elas ocupam as posições das antigas `codigo_usina` e `nome_usina`, e a escrita passa a usá-las.
+
 ### Modificado
 
 - `modif.dat`: a documentação de `Modif.modificacoes_usina` passa a registrar a regra do manual do NEWAVE (seção 3.12) de no máximo um bloco de modificações por usina. Em um arquivo com mais de um bloco para a mesma usina, apenas o primeiro bloco é retornado, comportamento agora coberto por teste.
@@ -28,6 +30,10 @@ e este projeto adere ao [Versionamento Semantico](https://semver.org/lang/pt-BR/
 - `MEDIAS-*.CSV` (NWLISTOP): as nove tabelas passam a compartilhar a leitura em `inewave.nwlistop.modelos.blocos.tabela_medias.TabelaMedias`, e a anotação de `valores` passa a ser `Optional[pd.DataFrame]`, já que a propriedade retorna `None` quando não há tabela. Um valor não numérico no arquivo passa a ser lido como `NaN` em todas as tabelas, como já acontecia no `MEDIAS-USIH.CSV`.
 
 - **Quebra de compatibilidade** — `sistema.dat`: a coluna `sentido` de `Sistema.limites_intercambio` passa a ser a direção do intercâmbio, dada pela posição no arquivo: `0` no grupo de `submercado_de` para `submercado_para` (registros tipo 2) e `1` no grupo inverso (registros tipo 3), qualquer que seja o `flag`. Antes ela guardava `flag XOR direção`, de modo que, em um registro de intercâmbio mínimo obrigatório (`flag = 1`), o grupo A->B tinha `sentido = 1`. Nos registros de limite (`flag = 0`), os únicos dos decks conhecidos, nada muda na leitura nem na escrita. Quem calculava a direção como `sentido ^ flag` deve passar a usar `sentido`. Resolve o item 1 da issue #124; ver `MIGRATION.md`.
+
+### Descontinuado
+
+- `vazpast.dat`: as colunas `codigo_usina` e `nome_usina` de `Vazpast.tendencia`, que sempre guardaram o número e o nome do posto, ficam ao fim da tabela, como cópias de `codigo_posto` e `nome_posto`, e serão removidas em uma versão futura. Na escrita, um DataFrame só com as colunas antigas ainda é aceito, com um `DeprecationWarning`, e um DataFrame com as duas versões de uma coluna e valores diferentes é recusado com `ValueError`, para que a edição feita só em uma delas não se perca.
 
 ### Corrigido
 
