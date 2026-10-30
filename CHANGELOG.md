@@ -35,6 +35,8 @@ e este projeto adere ao [Versionamento Semantico](https://semver.org/lang/pt-BR/
 
 - `modif.dat`: depois de qualquer escrita de um registro, a leitura de uma linha do mesmo tipo que omitia um campo opcional (por exemplo, `VOLMIN` sem a unidade) retornava nesse campo o valor da escrita anterior, em vez de `None`. A leitura agora sempre parte de campos vazios.
 
+- `sistema.dat`: o bloco de limites de intercâmbio volta a ler os arquivos em que o registro tipo 1 do par se repete, com o campo 3 igual a 1, no lugar do registro em branco que separa os grupos A->B e B->A, leiaute dos arquivos escritos pelo inewave até a v1.14 e do deck de exemplo. Desde a v1.15.0 esse registro repetido era lido como `flag = 1` (intercâmbio mínimo obrigatório) no grupo B->A, e a escrita misturava os valores dos dois grupos nas mesmas linhas. A escrita também passa a tratar como registros distintos os dois registros que um par pode ter, um de limite e outro de intercâmbio mínimo obrigatório, antes misturados da mesma forma. A coluna `sentido` não muda em nenhum dos casos.
+
 ## [1.16.2] - 2026-10-19
 
 ### Corrigido
