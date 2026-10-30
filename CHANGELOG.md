@@ -25,6 +25,8 @@ e este projeto adere ao [Versionamento Semantico](https://semver.org/lang/pt-BR/
 
 - `MEDIAS-*.CSV` (NWLISTOP): a leitura descartava sempre a última coluna, supondo uma vírgula no fim de cada linha, e um arquivo sem essa vírgula perdia o último estágio. A última coluna passa a ser descartada só quando vem vazia. A docstring também passa a dizer que as linhas de código 0 do `MEDIAS-MERC.CSV`, que continuam descartadas, repetem os custos do sistema (`COPER`, `CUSTO_FUTURO`) lidos por `Mediassin`.
 
+- LIBS (`restricao-eletrica.csv`): os registros de `Restricoes` casavam com qualquer linha que começasse pelo seu identificador, de modo que uma linha como `RESTRICAO-ELETRICA-FORMULA;1;...` era lida como um registro `RE`, com o código e a fórmula tirados dos campos dessa linha. Uma linha só passa a ser lida como registro quando o seu primeiro campo é exatamente o identificador; as demais são mantidas como texto e reescritas sem alterações. Os arquivos que só têm os registros conhecidos são lidos como antes.
+
 ## [1.17.0] - 2026-10-29
 
 ### Adicionado

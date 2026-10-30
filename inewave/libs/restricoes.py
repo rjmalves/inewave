@@ -26,9 +26,11 @@ class Restricoes(RegisterFile):
     das restrições do problema.
 
     Os identificadores dos registros só são reconhecidos como o manual
-    os escreve, em maiúsculas. Uma linha com o identificador em
-    minúsculas não é lida como registro: é mantida como texto e
-    reescrita sem alterações.
+    os escreve, em maiúsculas, e ocupando todo o primeiro campo da
+    linha. Uma linha com o identificador em minúsculas, ou com outro
+    identificador, ainda que comece como o de um registro (como
+    ``RESTRICAO-ELETRICA-FORMULA``, que começa com ``RE``), não é lida
+    como registro: é mantida como texto e reescrita sem alterações.
     """
 
     T = TypeVar("T", bound=Register)

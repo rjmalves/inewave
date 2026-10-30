@@ -363,6 +363,32 @@ def test_identificador_minusculo_restricoes():
     assert linha_minuscula in escritas
 
 
+def test_identificador_que_so_comeca_como_o_de_um_registro_restricoes():
+    linhas_longas = (
+        "RESTRICAO-ELETRICA-FORMULA;1;ger_usih(1)\n"
+        "RESTRICAO-ELETRICA-HORIZONTE-PERIODO;1;1;12\n"
+    )
+    m: MagicMock = mock_open(read_data=MockRE + linhas_longas)
+    with patch("builtins.open", m):
+        e = Restricoes.read(ARQ_TESTE)
+    registro = e.re()
+    assert isinstance(registro, RegistroRE)
+    assert registro.codigo_restricao == 1
+    m_escrita: MagicMock = mock_open(read_data="")
+    with patch("builtins.open", m_escrita):
+        e.write(ARQ_TESTE)
+    chamadas = m_escrita.mock_calls
+    escritas = [chamadas[i].args[0] for i in range(1, len(chamadas) - 1)]
+    assert "".join(escritas).endswith(linhas_longas)
+
+
+def test_identificador_em_bytes_restricoes():
+    assert RegistroRE.matches(b"RE ;1;ger_usih(1)\n")
+    assert not RegistroRE.matches(b"RESTRICAO-ELETRICA-FORMULA;1;ger_usih(1)\n")
+    assert RegistroREHorizPer.matches(b"RE-HORIZ-PER;1;2025/01;2025/12\n")
+    assert not RegistroREHorizPer.matches(b"RE;1;ger_usih(1)\n")
+
+
 def test_eq_restricoes():
     m: MagicMock = mock_open(read_data="".join(MockRestricoes))
     with patch("builtins.open", m):
