@@ -24,6 +24,11 @@ class Restricoes(RegisterFile):
     """
     Armazena os dados de entrada do NEWAVE referentes aos dados
     das restrições do problema.
+
+    Os identificadores dos registros só são reconhecidos como o manual
+    os escreve, em maiúsculas. Uma linha com o identificador em
+    minúsculas não é lida como registro: é mantida como texto e
+    reescrita sem alterações.
     """
 
     T = TypeVar("T", bound=Register)

@@ -11,6 +11,8 @@ e este projeto adere ao [Versionamento Semantico](https://semver.org/lang/pt-BR/
 
 - Atualização da dependência mínima para `cfinterface >= 1.10.3`, versão em que os campos que faltam no fim de uma linha delimitada por `;` são lidos como `None`.
 
+- Documentação: a docstring de `Restricoes` passa a registrar que os identificadores das LIBS só são reconhecidos em maiúsculas, como o manual os escreve: uma linha com o identificador em minúsculas é mantida como texto e reescrita sem alterações. O comportamento fica coberto por teste.
+
 ### Corrigido
 
 - LIBS: uma linha com menos campos que o seu registro recebia, nos campos que faltavam, os valores da linha anterior do mesmo registro. No `indices.csv`, uma linha como `RESTRICAO-ELETRICA-ESPECIAL;Restricoes`, sem o arquivo, apontava para o arquivo da linha anterior, e uma linha `RE-LIM-FORM-PER-PAT` sem o limite superior ficava com o limite da linha anterior. Esses campos passam a ser lidos como `None`.
