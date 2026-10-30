@@ -6,7 +6,8 @@ LIBS
 O módulo ``inewave.libs`` contém as classes para leitura e escrita dos
 arquivos de bibliotecas compartilhadas entre os modelos NEWAVE e NWLISTOP.
 Esses arquivos incluem dados cadastrais de usinas eólicas, usinas
-hidrelétricas e restrições operativas do sistema.
+hidrelétricas e restrições operativas do sistema, além do arquivo de
+índices (``indices.csv``), que indica o arquivo de cada card das LIBS.
 
 .. currentmodule:: inewave.libs
 
@@ -14,6 +15,7 @@ hidrelétricas e restrições operativas do sistema.
    :nosignatures:
 
    Eolica
+   Indices
    Restricoes
    UsinasHidreletricas
 
@@ -21,5 +23,6 @@ hidrelétricas e restrições operativas do sistema.
    :maxdepth: 2
 
    arquivos/eolica
+   arquivos/indices
    arquivos/restricoes
    arquivos/usinas_hidreletricas
