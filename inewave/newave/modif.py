@@ -470,6 +470,14 @@ class Modif(RegisterFile):
         """
         Filtra os registros que são associados a uma usina específica.
 
+        Retorna os registros entre o registro ``USINA`` da usina e o próximo
+        ``USINA`` (ou o fim do arquivo). O manual do NEWAVE (seção 3.12)
+        admite no máximo um bloco de modificações por usina; se o arquivo
+        tiver mais de um bloco para a mesma usina, apenas o primeiro é
+        considerado e os demais são ignorados. Para percorrer todos os
+        blocos, itere sobre ``self.data`` a partir de cada registro
+        ``USINA`` retornado por :meth:`usina`.
+
         :param codigo: O código da usina
         :type codigo: int
         :return: Os registros que modificam a usina, ou None se o

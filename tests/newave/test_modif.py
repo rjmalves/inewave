@@ -36,6 +36,7 @@ from tests.mocks.arquivos.modif import (
     MockModif_ULTIMA_USINA_FIM_ARQUIVO,
     MockModif_USINA_UNICA,
     MockModif_USINA_UNICA_SEM_REGISTROS,
+    MockModif_USINA_DOIS_BLOCOS,
     MockNUMCNJ,
     MockNUMMAQ,
     MockPOTEFE,
@@ -552,6 +553,13 @@ def test_modificacoes_usina_unica_sem_registros_retorna_lista_vazia():
 
 def test_modificacoes_usina_codigo_inexistente_retorna_lista_vazia():
     assert _modificacoes_usina(MockModif_ULTIMA_USINA_FIM_ARQUIVO, 99) == []
+
+
+def test_modificacoes_usina_dois_blocos_considera_apenas_o_primeiro():
+    regs = _modificacoes_usina(MockModif_USINA_DOIS_BLOCOS, 1)
+    assert regs is not None
+    assert [type(r) for r in regs] == [VOLMIN]
+    assert regs[0].volume == 10.0
 
 
 def test_modificacoes_usina_arquivo_sem_usina_retorna_none():
