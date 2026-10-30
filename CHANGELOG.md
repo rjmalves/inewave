@@ -19,6 +19,8 @@ e este projeto adere ao [Versionamento Semantico](https://semver.org/lang/pt-BR/
 
 - LIBS: uma linha com menos campos que o seu registro recebia, nos campos que faltavam, os valores da linha anterior do mesmo registro. No `indices.csv`, uma linha como `RESTRICAO-ELETRICA-ESPECIAL;Restricoes`, sem o arquivo, apontava para o arquivo da linha anterior, e uma linha `RE-LIM-FORM-PER-PAT` sem o limite superior ficava com o limite da linha anterior. Esses campos passam a ser lidos como `None`.
 
+- `MEDIAS-*.CSV` (NWLISTOP): a leitura descartava sempre a última coluna, supondo uma vírgula no fim de cada linha, e um arquivo sem essa vírgula perdia o último estágio. A última coluna passa a ser descartada só quando vem vazia. A docstring também passa a dizer que as linhas de código 0 do `MEDIAS-MERC.CSV`, que continuam descartadas, repetem os custos do sistema (`COPER`, `CUSTO_FUTURO`) lidos por `Mediassin`.
+
 ## [1.17.0] - 2026-10-29
 
 ### Adicionado
