@@ -88,12 +88,14 @@ class Sistema(SectionFile):
         - data (`datetime`)
         - valor (`float`)
 
-        A coluna ``flag`` é o campo 3 do registro tipo 1 (`0` = limite,
-        `1` = intercâmbio mínimo obrigatório), constante por par de
-        submercados. A coluna ``sentido`` mantém o valor histórico
-        (`flag XOR direção`); a direção A->B / B->A é ``sentido XOR flag``.
+        A coluna ``sentido`` é a direção do intercâmbio, dada pela posição
+        no arquivo: `0` no grupo de ``submercado_de`` para
+        ``submercado_para`` (registros tipo 2) e `1` no grupo inverso
+        (registros tipo 3). A coluna ``flag`` é o campo 3 do registro tipo 1
+        (`0` = limite, `1` = intercâmbio mínimo obrigatório), constante nos
+        dois sentidos. Um par pode ter um registro de cada tipo.
 
-        :return: A duração por mês em um DataFrame.
+        :return: Os limites por mês em um DataFrame.
         :rtype: pd.DataFrame | None
         """
         b = self.data.get_sections_of_type(BlocoIntercambioSubsistema)

@@ -172,9 +172,9 @@ def test_escrita_intercambio_usa_registro_em_branco():
 
 
 def test_bloco_intercambio_flag_e_sentido():
-    # A coluna `flag` (campo 3 do registro tipo 1: 0 = limite,
-    # 1 = intercâmbio mínimo obrigatório) é exposta sem alterar o `sentido`
-    # histórico. Este deck só tem limites, então flag == 0 em todo lugar.
+    # A coluna `flag` é o campo 3 do registro tipo 1 (0 = limite,
+    # 1 = intercâmbio mínimo obrigatório). Este deck só tem limites, então
+    # flag == 0 em todo lugar.
     m: MagicMock = mock_open(read_data="".join(MockBlocoLimitesIntercambio))
     b = BlocoIntercambioSubsistema()
     with patch("builtins.open", m):
@@ -184,8 +184,8 @@ def test_bloco_intercambio_flag_e_sentido():
     df = b.data
     assert "flag" in df.columns
     assert set(df["flag"].unique()) == {0}
-    # sentido preservado: no par (1, 2) o grupo A->B (10280) tem sentido 0 e
-    # o grupo B->A (6694) tem sentido 1, exatamente como antes da mudança.
+    # sentido posicional: no par (1, 2) o grupo A->B (10280) tem sentido 0
+    # e o grupo B->A (6694) tem sentido 1.
     p12 = df[(df["submercado_de"] == 1) & (df["submercado_para"] == 2)]
     assert set(p12[p12["valor"] == 10280.0]["sentido"]) == {0}
     assert set(p12[p12["valor"] == 6694.0]["sentido"]) == {1}
@@ -266,9 +266,7 @@ def test_bloco_intercambio_par_com_limite_e_minimo():
     # tem um registro de limite (campo 3 = 0) e outro de mínimo (campo 3 =
     # 1), cada um com os grupos A->B e B->A.
     b = _le_bloco_intercambio(MockBlocoParLimiteEMinimo)
-    df = b.data.copy()
-    df["direcao"] = df["sentido"] ^ df["flag"]
-    valores = df.groupby(["flag", "direcao"])["valor"].unique()
+    valores = b.data.groupby(["flag", "sentido"])["valor"].unique()
     assert valores.loc[(0, 0)].tolist() == [1000.0]
     assert valores.loc[(0, 1)].tolist() == [2000.0]
     assert valores.loc[(1, 0)].tolist() == [300.0]
@@ -282,8 +280,8 @@ def test_bloco_intercambio_par_com_limite_e_minimo():
 
 def test_bloco_intercambio_flag_minimo_roundtrip():
     # Par (1, 2) com campo 3 = 1 (intercâmbio mínimo obrigatório). O flag deve
-    # ser capturado, a direção A->B/B->A (posicional) preservada e o
-    # round-trip estável — cenário que a coluna única `sentido` não cobria.
+    # ser capturado, o sentido A->B/B->A continuar posicional e o round-trip
+    # estável.
     mock_flag1 = [
         linha.replace("   1   2               0", "   1   2               1")
         for linha in MockBlocoLimitesIntercambio
@@ -297,6 +295,9 @@ def test_bloco_intercambio_flag_minimo_roundtrip():
     df = b.data
     p12 = df[(df["submercado_de"] == 1) & (df["submercado_para"] == 2)]
     assert set(p12["flag"]) == {1}
+    # O flag não altera o sentido: o grupo A->B continua com sentido 0.
+    assert set(p12[p12["valor"] == 10280.0]["sentido"]) == {0}
+    assert set(p12[p12["valor"] == 6694.0]["sentido"]) == {1}
     # os demais pares continuam com flag 0
     outros = df[(df["submercado_de"] != 1) | (df["submercado_para"] != 2)]
     assert set(outros["flag"]) == {0}

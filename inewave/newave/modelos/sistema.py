@@ -303,12 +303,11 @@ class BlocoIntercambioSubsistema(Section):
         subsis_para_atual = 0
         # Campo 3 do registro tipo 1 (0 = limite, 1 = intercâmbio mínimo
         # obrigatório). É uma propriedade do registro, constante nos dois
-        # grupos de sentido. `sentido` guarda `flag XOR direção` por razões
-        # históricas; expor `flag` separadamente torna o par sem perdas.
+        # grupos de sentido.
         flag_atual = 0
-        # Direção posicional: 0 no grupo A->B (registros tipo 2), 1 no grupo
+        # Sentido posicional: 0 no grupo A->B (registros tipo 2), 1 no grupo
         # B->A (registros tipo 3), depois do separador.
-        direcao_atual = 0
+        sentido_atual = 0
         ano_atual = 0
         subsistemas_de: List[int] = []
         subsistemas_para: List[int] = []
@@ -340,8 +339,8 @@ class BlocoIntercambioSubsistema(Section):
                 de, para, flag = self.__linha_subsis.read(linha)
                 if de is None and para is None:
                     # Registro em branco que separa os grupos A->B e B->A.
-                    direcao_atual = 1
-                elif direcao_atual == 0 and (de, para) == (
+                    sentido_atual = 1
+                elif sentido_atual == 0 and (de, para) == (
                     subsis_de_atual,
                     subsis_para_atual,
                 ):
@@ -349,7 +348,7 @@ class BlocoIntercambioSubsistema(Section):
                     # como os escritos pelo inewave até a v1.14, repetem o
                     # registro tipo 1 do par com o campo 3 igual a 1. Nessa
                     # repetição, o campo 3 não é o flag.
-                    direcao_atual = 1
+                    sentido_atual = 1
                 else:
                     # Início de um novo registro. Um mesmo par pode ter dois
                     # registros completos, um de limite e outro de
@@ -359,14 +358,14 @@ class BlocoIntercambioSubsistema(Section):
                         subsis_para_atual if para is None else para
                     )
                     flag_atual = 0 if flag is None else flag
-                    direcao_atual = 0
+                    sentido_atual = 0
             else:
                 if isinstance(dados[0], int) and dados[0] != ano_atual:
                     ano_atual = dados[0]
                 anos.append(ano_atual)
                 subsistemas_de.append(subsis_de_atual)
                 subsistemas_para.append(subsis_para_atual)
-                sentidos.append(flag_atual ^ direcao_atual)
+                sentidos.append(sentido_atual)
                 flags.append(flag_atual)
                 tabela[i, :] = dados[1:]
                 i += 1
@@ -379,21 +378,15 @@ class BlocoIntercambioSubsistema(Section):
             raise ValueError("Dados do sistema.dat não foram lidos com sucesso")
 
         ultimo_registro: Optional[Tuple[int, int, int]] = None
-        ultima_direcao = -1
+        ultimo_sentido = -1
 
-        # Separa os valores de cada registro (par e flag), direção e ano
+        # Separa os valores de cada registro (par e flag), sentido e ano
         df = self.data.copy()
         df["ano"] = df.apply(lambda linha: linha["data"].year, axis=1)
-        # Direção A->B (0) / B->A (1): posicional no arquivo (grupo antes /
-        # depois do registro em branco). O `sentido` histórico equivale a
-        # `flag XOR direção`, então recuperamos a direção como `sentido XOR
-        # flag`. Para flag=0 (a maioria dos casos) direção == sentido e a
-        # escrita fica idêntica à anterior.
-        df["direcao"] = df["sentido"].astype(int) ^ df["flag"].astype(int)
         # Ordena pelas chaves de agrupamento para que a escrita do cabeçalho
         # (emitido quando a chave muda) independa da ordem das linhas no
-        # DataFrame de entrada.
-        chaves = ["submercado_de", "submercado_para", "flag", "direcao", "ano"]
+        # DataFrame de entrada. O grupo A->B (sentido 0) vem antes do B->A.
+        chaves = ["submercado_de", "submercado_para", "flag", "sentido", "ano"]
         df = df.sort_values(chaves + ["data"])
         for _, chave in df[chaves].drop_duplicates().iterrows():
             df_interc = df.loc[
@@ -404,10 +397,10 @@ class BlocoIntercambioSubsistema(Section):
                 chave["submercado_para"],
                 chave["flag"],
             )
-            mudou_direcao = chave["direcao"] != ultima_direcao
+            mudou_sentido = chave["sentido"] != ultimo_sentido
             if registro != ultimo_registro:
                 ultimo_registro = registro
-                ultima_direcao = chave["direcao"]
+                ultimo_sentido = chave["sentido"]
                 # Campo 3 do registro tipo 1: flag (limite / mínimo).
                 file.write(
                     self.__linha_subsis.write(
@@ -416,11 +409,11 @@ class BlocoIntercambioSubsistema(Section):
                         ].tolist()
                     )
                 )
-            elif mudou_direcao:
+            elif mudou_sentido:
                 # Manual do NEWAVE, secao 3.7, Bloco 3: os grupos de
                 # registros tipo 2 (A->B) e tipo 3 (B->A) sao separados por
                 # um registro em branco, de existencia obrigatoria.
-                ultima_direcao = chave["direcao"]
+                ultimo_sentido = chave["sentido"]
                 file.write("\n")
             ano = prepara_valor_ano(chave["ano"])
             valores = df_interc["valor"].tolist()
