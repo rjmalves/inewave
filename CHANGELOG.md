@@ -51,6 +51,8 @@ e este projeto adere ao [Versionamento Semantico](https://semver.org/lang/pt-BR/
 
 - LIBS (`restricao-eletrica.csv`): os filtros `limite_inferior` e `limite_superior` de `Restricoes.re_lim_form_per` passam a ser anotados como `Optional[str]`, o tipo dos valores comparados. Com a anotação anterior, `float`, o filtro nunca encontrava um registro. A documentação de `RegistroRELimFormPer.limite_inferior` e `limite_superior` passa a explicar por que os limites são texto: o manual do NEWAVE (seção 3.45.2) admite limites condicionais, como `se(demanda(1) < 1000, 10000, 8500)`, e um campo em branco, lido como `""`, vale -infinito ou +infinito.
 
+- LIBS (`eolica-*.csv`): os filtros de `Eolica.pee_pot_inst_per` e `Eolica.vento_hist` passam a ter os nomes das propriedades dos registros, que são também as colunas do `DataFrame`: `periodo_inicial` e `periodo_final` no lugar de `data_inicio` e `data_fim` em `pee_pot_inst_per`, e `codigo_posto` (o posto de medição do vento, como diz o manual das LIBS) no lugar de `codigo_eolica` em `vento_hist`. Os nomes antigos levantavam `AttributeError` sempre que recebiam um valor, já que os registros não têm essas propriedades. Quem os passava por nome com `None` precisa removê-los ou trocar pelo nome novo. Os filtros `codigo_pee` e `codigo_posto` de `Eolica.pee_posto` passam a ser anotados como `int`, e não `datetime`.
+
 ## [1.16.2] - 2026-10-19
 
 ### Corrigido

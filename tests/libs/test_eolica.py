@@ -1,5 +1,6 @@
 # Rotinas de testes associadas ao arquivo eolica-cadastro.csv do NEWAVE
 from datetime import datetime
+from typing import List
 from inewave.libs.modelos.eolica import (
     RegistroPEECadastro,
     RegistroPEEPotenciaInstaladaPeriodo,
@@ -269,3 +270,43 @@ def test_leitura_escrita_eolica():
     with patch("builtins.open", m_releitura):
         cf2 = Eolica.read(ARQ_TESTE)
         assert cf1 == cf2
+
+
+def _le_eolica(linhas: List[str]) -> Eolica:
+    m: MagicMock = mock_open(read_data="".join(linhas))
+    with patch("builtins.open", m):
+        return Eolica.read(ARQ_TESTE)
+
+
+def test_filtros_pee_pot_inst_per_por_periodo():
+    e = _le_eolica(
+        [
+            "PEE-POT-INST-PER  ;  1        ; 2021/01; 2030/12; 6058.890\n",
+            "PEE-POT-INST-PER  ;  1        ; 2031/01; 2040/12; 7000.000\n",
+        ]
+    )
+    r = e.pee_pot_inst_per(periodo_inicial=datetime(2031, 1, 1))
+    assert isinstance(r, RegistroPEEPotenciaInstaladaPeriodo)
+    assert r.potencia_instalada == 7000.0
+    r = e.pee_pot_inst_per(periodo_final=datetime(2030, 12, 1))
+    assert isinstance(r, RegistroPEEPotenciaInstaladaPeriodo)
+    assert r.potencia_instalada == 6058.89
+
+
+def test_filtro_vento_hist_por_posto():
+    e = _le_eolica(
+        [
+            "VENTO-HIST  ; 1  ; 1979/01     ; 1979/02   ;      4.05  ; 1.0\n",
+            "VENTO-HIST  ; 2  ; 1979/01     ; 1979/02   ;      5.10  ; 2.0\n",
+        ]
+    )
+    r = e.vento_hist(codigo_posto=2)
+    assert isinstance(r, RegistroHistoricoVento)
+    assert r.velocidade == 5.10
+
+
+def test_filtros_pee_posto():
+    e = _le_eolica(["PEE-POSTO  ; 1         ; 1\n", "PEE-POSTO  ; 2  ; 3\n"])
+    r = e.pee_posto(codigo_posto=3)
+    assert isinstance(r, RegistroPEEPostoVento)
+    assert r.codigo_pee == 2
