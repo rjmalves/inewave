@@ -1,7 +1,7 @@
-# Guia de Migração: mudanças ainda não lançadas
+# Guia de Migração para v1.17.x
 
-Mudanças da próxima versão que pedem ajuste em projetos que consomem o
-_inewave_. O detalhamento de cada uma está no `CHANGELOG.md`.
+Mudanças do _inewave_ v1.17.0 que pedem ajuste em projetos que consomem a
+biblioteca. O detalhamento de cada uma está no `CHANGELOG.md`.
 
 ## 1. `sistema.dat`: `sentido` passa a ser a direção do intercâmbio
 
