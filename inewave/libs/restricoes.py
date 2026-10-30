@@ -1,4 +1,4 @@
-from typing import Type, TypeVar, List, Optional, Union, Any
+from typing import Type, TypeVar, List, Optional, Union, Any, Literal, overload
 from datetime import datetime
 import pandas as pd  # type: ignore[import-untyped]  # no pandas-stubs package
 from cfinterface.components.register import Register
@@ -53,6 +53,28 @@ class Restricoes(RegisterFile):
             kwargs_sem_df = {k: v for k, v in kwargs.items() if k != "df"}
             return self.data.get_registers_of_type(t, **kwargs_sem_df)
 
+    @overload
+    def re(
+        self,
+        codigo_restricao: Optional[int] = None,
+        formula: Optional[str] = None,
+        *,
+        df: Literal[True],
+    ) -> pd.DataFrame: ...
+    @overload
+    def re(
+        self,
+        codigo_restricao: Optional[int] = None,
+        formula: Optional[str] = None,
+        df: Literal[False] = False,
+    ) -> Optional[Union[RegistroRE, List[RegistroRE]]]: ...
+    @overload
+    def re(
+        self,
+        codigo_restricao: Optional[int] = None,
+        formula: Optional[str] = None,
+        df: bool = False,
+    ) -> Optional[Union[RegistroRE, List[RegistroRE], pd.DataFrame]]: ...
     def re(
         self,
         codigo_restricao: Optional[int] = None,
@@ -77,6 +99,33 @@ class Restricoes(RegisterFile):
             df=df,
         )
 
+    @overload
+    def re_horiz_per(
+        self,
+        codigo_restricao: Optional[int] = None,
+        data_inicio: Optional[datetime] = None,
+        data_fim: Optional[datetime] = None,
+        *,
+        df: Literal[True],
+    ) -> pd.DataFrame: ...
+    @overload
+    def re_horiz_per(
+        self,
+        codigo_restricao: Optional[int] = None,
+        data_inicio: Optional[datetime] = None,
+        data_fim: Optional[datetime] = None,
+        df: Literal[False] = False,
+    ) -> Optional[Union[RegistroREHorizPer, List[RegistroREHorizPer]]]: ...
+    @overload
+    def re_horiz_per(
+        self,
+        codigo_restricao: Optional[int] = None,
+        data_inicio: Optional[datetime] = None,
+        data_fim: Optional[datetime] = None,
+        df: bool = False,
+    ) -> Optional[
+        Union[RegistroREHorizPer, List[RegistroREHorizPer], pd.DataFrame]
+    ]: ...
     def re_horiz_per(
         self,
         codigo_restricao: Optional[int] = None,
@@ -108,6 +157,42 @@ class Restricoes(RegisterFile):
             df=df,
         )
 
+    @overload
+    def re_lim_form_per(
+        self,
+        codigo_restricao: Optional[int] = None,
+        data_inicio: Optional[datetime] = None,
+        data_fim: Optional[datetime] = None,
+        patamar: Optional[int] = None,
+        limite_inferior: Optional[str] = None,
+        limite_superior: Optional[str] = None,
+        *,
+        df: Literal[True],
+    ) -> pd.DataFrame: ...
+    @overload
+    def re_lim_form_per(
+        self,
+        codigo_restricao: Optional[int] = None,
+        data_inicio: Optional[datetime] = None,
+        data_fim: Optional[datetime] = None,
+        patamar: Optional[int] = None,
+        limite_inferior: Optional[str] = None,
+        limite_superior: Optional[str] = None,
+        df: Literal[False] = False,
+    ) -> Optional[Union[RegistroRELimFormPer, List[RegistroRELimFormPer]]]: ...
+    @overload
+    def re_lim_form_per(
+        self,
+        codigo_restricao: Optional[int] = None,
+        data_inicio: Optional[datetime] = None,
+        data_fim: Optional[datetime] = None,
+        patamar: Optional[int] = None,
+        limite_inferior: Optional[str] = None,
+        limite_superior: Optional[str] = None,
+        df: bool = False,
+    ) -> Optional[
+        Union[RegistroRELimFormPer, List[RegistroRELimFormPer], pd.DataFrame]
+    ]: ...
     def re_lim_form_per(
         self,
         codigo_restricao: Optional[int] = None,
@@ -156,6 +241,28 @@ class Restricoes(RegisterFile):
             df=df,
         )
 
+    @overload
+    def rhe(
+        self,
+        codigo_restricao: Optional[int] = None,
+        formula: Optional[str] = None,
+        *,
+        df: Literal[True],
+    ) -> pd.DataFrame: ...
+    @overload
+    def rhe(
+        self,
+        codigo_restricao: Optional[int] = None,
+        formula: Optional[str] = None,
+        df: Literal[False] = False,
+    ) -> Optional[Union[RegistroRHE, List[RegistroRHE]]]: ...
+    @overload
+    def rhe(
+        self,
+        codigo_restricao: Optional[int] = None,
+        formula: Optional[str] = None,
+        df: bool = False,
+    ) -> Optional[Union[RegistroRHE, List[RegistroRHE], pd.DataFrame]]: ...
     def rhe(
         self,
         codigo_restricao: Optional[int] = None,
@@ -181,6 +288,33 @@ class Restricoes(RegisterFile):
             df=df,
         )
 
+    @overload
+    def rhe_horiz_per(
+        self,
+        codigo_restricao: Optional[int] = None,
+        data_inicio: Optional[datetime] = None,
+        data_fim: Optional[datetime] = None,
+        *,
+        df: Literal[True],
+    ) -> pd.DataFrame: ...
+    @overload
+    def rhe_horiz_per(
+        self,
+        codigo_restricao: Optional[int] = None,
+        data_inicio: Optional[datetime] = None,
+        data_fim: Optional[datetime] = None,
+        df: Literal[False] = False,
+    ) -> Optional[Union[RegistroRHEHorizPer, List[RegistroRHEHorizPer]]]: ...
+    @overload
+    def rhe_horiz_per(
+        self,
+        codigo_restricao: Optional[int] = None,
+        data_inicio: Optional[datetime] = None,
+        data_fim: Optional[datetime] = None,
+        df: bool = False,
+    ) -> Optional[
+        Union[RegistroRHEHorizPer, List[RegistroRHEHorizPer], pd.DataFrame]
+    ]: ...
     def rhe_horiz_per(
         self,
         codigo_restricao: Optional[int] = None,
@@ -212,6 +346,38 @@ class Restricoes(RegisterFile):
             df=df,
         )
 
+    @overload
+    def rhe_ls_lpp_earmi(
+        self,
+        codigo_restricao: Optional[int] = None,
+        indice_reta: Optional[int] = None,
+        coeficiente_angular: Optional[float] = None,
+        coeficiente_linear: Optional[float] = None,
+        *,
+        df: Literal[True],
+    ) -> pd.DataFrame: ...
+    @overload
+    def rhe_ls_lpp_earmi(
+        self,
+        codigo_restricao: Optional[int] = None,
+        indice_reta: Optional[int] = None,
+        coeficiente_angular: Optional[float] = None,
+        coeficiente_linear: Optional[float] = None,
+        df: Literal[False] = False,
+    ) -> Optional[
+        Union[RegistroRHELsLPPEarmi, List[RegistroRHELsLPPEarmi]]
+    ]: ...
+    @overload
+    def rhe_ls_lpp_earmi(
+        self,
+        codigo_restricao: Optional[int] = None,
+        indice_reta: Optional[int] = None,
+        coeficiente_angular: Optional[float] = None,
+        coeficiente_linear: Optional[float] = None,
+        df: bool = False,
+    ) -> Optional[
+        Union[RegistroRHELsLPPEarmi, List[RegistroRHELsLPPEarmi], pd.DataFrame]
+    ]: ...
     def rhe_ls_lpp_earmi(
         self,
         codigo_restricao: Optional[int] = None,
@@ -247,6 +413,28 @@ class Restricoes(RegisterFile):
             df=df,
         )
 
+    @overload
+    def rhq(
+        self,
+        codigo_restricao: Optional[int] = None,
+        formula: Optional[str] = None,
+        *,
+        df: Literal[True],
+    ) -> pd.DataFrame: ...
+    @overload
+    def rhq(
+        self,
+        codigo_restricao: Optional[int] = None,
+        formula: Optional[str] = None,
+        df: Literal[False] = False,
+    ) -> Optional[Union[RegistroRHQ, List[RegistroRHQ]]]: ...
+    @overload
+    def rhq(
+        self,
+        codigo_restricao: Optional[int] = None,
+        formula: Optional[str] = None,
+        df: bool = False,
+    ) -> Optional[Union[RegistroRHQ, List[RegistroRHQ], pd.DataFrame]]: ...
     def rhq(
         self,
         codigo_restricao: Optional[int] = None,
@@ -271,6 +459,33 @@ class Restricoes(RegisterFile):
             df=df,
         )
 
+    @overload
+    def rhq_horiz_per(
+        self,
+        codigo_restricao: Optional[int] = None,
+        data_inicio: Optional[datetime] = None,
+        data_fim: Optional[datetime] = None,
+        *,
+        df: Literal[True],
+    ) -> pd.DataFrame: ...
+    @overload
+    def rhq_horiz_per(
+        self,
+        codigo_restricao: Optional[int] = None,
+        data_inicio: Optional[datetime] = None,
+        data_fim: Optional[datetime] = None,
+        df: Literal[False] = False,
+    ) -> Optional[Union[RegistroRHQHorizPer, List[RegistroRHQHorizPer]]]: ...
+    @overload
+    def rhq_horiz_per(
+        self,
+        codigo_restricao: Optional[int] = None,
+        data_inicio: Optional[datetime] = None,
+        data_fim: Optional[datetime] = None,
+        df: bool = False,
+    ) -> Optional[
+        Union[RegistroRHQHorizPer, List[RegistroRHQHorizPer], pd.DataFrame]
+    ]: ...
     def rhq_horiz_per(
         self,
         codigo_restricao: Optional[int] = None,
@@ -302,6 +517,36 @@ class Restricoes(RegisterFile):
             df=df,
         )
 
+    @overload
+    def rhq_ls_lpp_voli(
+        self,
+        codigo_restricao: Optional[int] = None,
+        indice_reta: Optional[int] = None,
+        coeficiente_angular: Optional[float] = None,
+        coeficiente_linear: Optional[float] = None,
+        *,
+        df: Literal[True],
+    ) -> pd.DataFrame: ...
+    @overload
+    def rhq_ls_lpp_voli(
+        self,
+        codigo_restricao: Optional[int] = None,
+        indice_reta: Optional[int] = None,
+        coeficiente_angular: Optional[float] = None,
+        coeficiente_linear: Optional[float] = None,
+        df: Literal[False] = False,
+    ) -> Optional[Union[RegistroRHQLsLPPVoli, List[RegistroRHQLsLPPVoli]]]: ...
+    @overload
+    def rhq_ls_lpp_voli(
+        self,
+        codigo_restricao: Optional[int] = None,
+        indice_reta: Optional[int] = None,
+        coeficiente_angular: Optional[float] = None,
+        coeficiente_linear: Optional[float] = None,
+        df: bool = False,
+    ) -> Optional[
+        Union[RegistroRHQLsLPPVoli, List[RegistroRHQLsLPPVoli], pd.DataFrame]
+    ]: ...
     def rhq_ls_lpp_voli(
         self,
         codigo_restricao: Optional[int] = None,
@@ -337,6 +582,42 @@ class Restricoes(RegisterFile):
             df=df,
         )
 
+    @overload
+    def rhq_lim_form_per_pat(
+        self,
+        codigo_restricao: Optional[int] = None,
+        data_inicio: Optional[datetime] = None,
+        data_fim: Optional[datetime] = None,
+        patamar: Optional[int] = None,
+        *,
+        df: Literal[True],
+    ) -> pd.DataFrame: ...
+    @overload
+    def rhq_lim_form_per_pat(
+        self,
+        codigo_restricao: Optional[int] = None,
+        data_inicio: Optional[datetime] = None,
+        data_fim: Optional[datetime] = None,
+        patamar: Optional[int] = None,
+        df: Literal[False] = False,
+    ) -> Optional[
+        Union[RegistroRHQLimFormPerPat, List[RegistroRHQLimFormPerPat]]
+    ]: ...
+    @overload
+    def rhq_lim_form_per_pat(
+        self,
+        codigo_restricao: Optional[int] = None,
+        data_inicio: Optional[datetime] = None,
+        data_fim: Optional[datetime] = None,
+        patamar: Optional[int] = None,
+        df: bool = False,
+    ) -> Optional[
+        Union[
+            RegistroRHQLimFormPerPat,
+            List[RegistroRHQLimFormPerPat],
+            pd.DataFrame,
+        ]
+    ]: ...
     def rhq_lim_form_per_pat(
         self,
         codigo_restricao: Optional[int] = None,
@@ -375,6 +656,28 @@ class Restricoes(RegisterFile):
             df=df,
         )
 
+    @overload
+    def rhv(
+        self,
+        codigo_restricao: Optional[int] = None,
+        formula: Optional[str] = None,
+        *,
+        df: Literal[True],
+    ) -> pd.DataFrame: ...
+    @overload
+    def rhv(
+        self,
+        codigo_restricao: Optional[int] = None,
+        formula: Optional[str] = None,
+        df: Literal[False] = False,
+    ) -> Optional[Union[RegistroRHV, List[RegistroRHV]]]: ...
+    @overload
+    def rhv(
+        self,
+        codigo_restricao: Optional[int] = None,
+        formula: Optional[str] = None,
+        df: bool = False,
+    ) -> Optional[Union[RegistroRHV, List[RegistroRHV], pd.DataFrame]]: ...
     def rhv(
         self,
         codigo_restricao: Optional[int] = None,
@@ -399,6 +702,33 @@ class Restricoes(RegisterFile):
             df=df,
         )
 
+    @overload
+    def rhv_horiz_per(
+        self,
+        codigo_restricao: Optional[int] = None,
+        data_inicio: Optional[datetime] = None,
+        data_fim: Optional[datetime] = None,
+        *,
+        df: Literal[True],
+    ) -> pd.DataFrame: ...
+    @overload
+    def rhv_horiz_per(
+        self,
+        codigo_restricao: Optional[int] = None,
+        data_inicio: Optional[datetime] = None,
+        data_fim: Optional[datetime] = None,
+        df: Literal[False] = False,
+    ) -> Optional[Union[RegistroRHVHorizPer, List[RegistroRHVHorizPer]]]: ...
+    @overload
+    def rhv_horiz_per(
+        self,
+        codigo_restricao: Optional[int] = None,
+        data_inicio: Optional[datetime] = None,
+        data_fim: Optional[datetime] = None,
+        df: bool = False,
+    ) -> Optional[
+        Union[RegistroRHVHorizPer, List[RegistroRHVHorizPer], pd.DataFrame]
+    ]: ...
     def rhv_horiz_per(
         self,
         codigo_restricao: Optional[int] = None,
@@ -430,6 +760,35 @@ class Restricoes(RegisterFile):
             df=df,
         )
 
+    @overload
+    def rhv_lim_form_per(
+        self,
+        codigo_restricao: Optional[int] = None,
+        data_inicio: Optional[datetime] = None,
+        data_fim: Optional[datetime] = None,
+        *,
+        df: Literal[True],
+    ) -> pd.DataFrame: ...
+    @overload
+    def rhv_lim_form_per(
+        self,
+        codigo_restricao: Optional[int] = None,
+        data_inicio: Optional[datetime] = None,
+        data_fim: Optional[datetime] = None,
+        df: Literal[False] = False,
+    ) -> Optional[
+        Union[RegistroRHVLimFormPer, List[RegistroRHVLimFormPer]]
+    ]: ...
+    @overload
+    def rhv_lim_form_per(
+        self,
+        codigo_restricao: Optional[int] = None,
+        data_inicio: Optional[datetime] = None,
+        data_fim: Optional[datetime] = None,
+        df: bool = False,
+    ) -> Optional[
+        Union[RegistroRHVLimFormPer, List[RegistroRHVLimFormPer], pd.DataFrame]
+    ]: ...
     def rhv_lim_form_per(
         self,
         codigo_restricao: Optional[int] = None,

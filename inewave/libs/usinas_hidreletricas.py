@@ -1,4 +1,4 @@
-from typing import Type, TypeVar, Optional, List, Union, Any
+from typing import Type, TypeVar, Optional, List, Union, Any, Literal, overload
 from cfinterface.components.register import Register
 from cfinterface.files.registerfile import RegisterFile
 from datetime import datetime
@@ -55,6 +55,39 @@ class UsinasHidreletricas(RegisterFile):
             kwargs_sem_df = {k: v for k, v in kwargs.items() if k != "df"}
             return self.data.get_registers_of_type(t, **kwargs_sem_df)
 
+    @overload
+    def hidreletrica_curvajusante(
+        self,
+        codigo_usina: Optional[int] = None,
+        indice_familia: Optional[int] = None,
+        nivel_montante_referencia: Optional[float] = None,
+        *,
+        df: Literal[True],
+    ) -> pd.DataFrame: ...
+    @overload
+    def hidreletrica_curvajusante(
+        self,
+        codigo_usina: Optional[int] = None,
+        indice_familia: Optional[int] = None,
+        nivel_montante_referencia: Optional[float] = None,
+        df: Literal[False] = False,
+    ) -> Optional[
+        Union[HidreletricaCurvaJusante, List[HidreletricaCurvaJusante]]
+    ]: ...
+    @overload
+    def hidreletrica_curvajusante(
+        self,
+        codigo_usina: Optional[int] = None,
+        indice_familia: Optional[int] = None,
+        nivel_montante_referencia: Optional[float] = None,
+        df: bool = False,
+    ) -> Optional[
+        Union[
+            HidreletricaCurvaJusante,
+            List[HidreletricaCurvaJusante],
+            pd.DataFrame,
+        ]
+    ]: ...
     def hidreletrica_curvajusante(
         self,
         codigo_usina: Optional[int] = None,
@@ -96,6 +129,42 @@ class UsinasHidreletricas(RegisterFile):
             df=df,
         )
 
+    @overload
+    def hidreletrica_curvajusante_polinomio(
+        self,
+        codigo_usina: Optional[int] = None,
+        indice_familia: Optional[int] = None,
+        numero_polinomios: Optional[int] = None,
+        *,
+        df: Literal[True],
+    ) -> pd.DataFrame: ...
+    @overload
+    def hidreletrica_curvajusante_polinomio(
+        self,
+        codigo_usina: Optional[int] = None,
+        indice_familia: Optional[int] = None,
+        numero_polinomios: Optional[int] = None,
+        df: Literal[False] = False,
+    ) -> Optional[
+        Union[
+            HidreletricaCurvaJusantePolinomioPorPartes,
+            List[HidreletricaCurvaJusantePolinomioPorPartes],
+        ]
+    ]: ...
+    @overload
+    def hidreletrica_curvajusante_polinomio(
+        self,
+        codigo_usina: Optional[int] = None,
+        indice_familia: Optional[int] = None,
+        numero_polinomios: Optional[int] = None,
+        df: bool = False,
+    ) -> Optional[
+        Union[
+            HidreletricaCurvaJusantePolinomioPorPartes,
+            List[HidreletricaCurvaJusantePolinomioPorPartes],
+            pd.DataFrame,
+        ]
+    ]: ...
     def hidreletrica_curvajusante_polinomio(
         self,
         codigo_usina: Optional[int] = None,
@@ -136,6 +205,63 @@ class UsinasHidreletricas(RegisterFile):
             df=df,
         )
 
+    @overload
+    def hidreletrica_curvajusante_polinomio_segmento(
+        self,
+        codigo_usina: Optional[int] = None,
+        indice_familia: Optional[int] = None,
+        indice_polinomio: Optional[int] = None,
+        limite_inferior_vazao_jusante: Optional[float] = None,
+        limite_superior_vazao_jusante: Optional[float] = None,
+        coeficiente_a0: Optional[float] = None,
+        coeficiente_a1: Optional[float] = None,
+        coeficiente_a2: Optional[float] = None,
+        coeficiente_a3: Optional[float] = None,
+        coeficiente_a4: Optional[float] = None,
+        *,
+        df: Literal[True],
+    ) -> pd.DataFrame: ...
+    @overload
+    def hidreletrica_curvajusante_polinomio_segmento(
+        self,
+        codigo_usina: Optional[int] = None,
+        indice_familia: Optional[int] = None,
+        indice_polinomio: Optional[int] = None,
+        limite_inferior_vazao_jusante: Optional[float] = None,
+        limite_superior_vazao_jusante: Optional[float] = None,
+        coeficiente_a0: Optional[float] = None,
+        coeficiente_a1: Optional[float] = None,
+        coeficiente_a2: Optional[float] = None,
+        coeficiente_a3: Optional[float] = None,
+        coeficiente_a4: Optional[float] = None,
+        df: Literal[False] = False,
+    ) -> Optional[
+        Union[
+            HidreletricaCurvaJusantePolinomioPorPartesSegmento,
+            List[HidreletricaCurvaJusantePolinomioPorPartesSegmento],
+        ]
+    ]: ...
+    @overload
+    def hidreletrica_curvajusante_polinomio_segmento(
+        self,
+        codigo_usina: Optional[int] = None,
+        indice_familia: Optional[int] = None,
+        indice_polinomio: Optional[int] = None,
+        limite_inferior_vazao_jusante: Optional[float] = None,
+        limite_superior_vazao_jusante: Optional[float] = None,
+        coeficiente_a0: Optional[float] = None,
+        coeficiente_a1: Optional[float] = None,
+        coeficiente_a2: Optional[float] = None,
+        coeficiente_a3: Optional[float] = None,
+        coeficiente_a4: Optional[float] = None,
+        df: bool = False,
+    ) -> Optional[
+        Union[
+            HidreletricaCurvaJusantePolinomioPorPartesSegmento,
+            List[HidreletricaCurvaJusantePolinomioPorPartesSegmento],
+            pd.DataFrame,
+        ]
+    ]: ...
     def hidreletrica_curvajusante_polinomio_segmento(
         self,
         codigo_usina: Optional[int] = None,
@@ -207,6 +333,39 @@ class UsinasHidreletricas(RegisterFile):
             df=df,
         )
 
+    @overload
+    def hidreletrica_curvajusante_afogamentoexplicito_usina(
+        self,
+        codigo_usina: Optional[int] = None,
+        considera_afogamento: Optional[str] = None,
+        *,
+        df: Literal[True],
+    ) -> pd.DataFrame: ...
+    @overload
+    def hidreletrica_curvajusante_afogamentoexplicito_usina(
+        self,
+        codigo_usina: Optional[int] = None,
+        considera_afogamento: Optional[str] = None,
+        df: Literal[False] = False,
+    ) -> Optional[
+        Union[
+            HidreletricaCurvaJusanteAfogamentoExplicitoUsina,
+            List[HidreletricaCurvaJusanteAfogamentoExplicitoUsina],
+        ]
+    ]: ...
+    @overload
+    def hidreletrica_curvajusante_afogamentoexplicito_usina(
+        self,
+        codigo_usina: Optional[int] = None,
+        considera_afogamento: Optional[str] = None,
+        df: bool = False,
+    ) -> Optional[
+        Union[
+            HidreletricaCurvaJusanteAfogamentoExplicitoUsina,
+            List[HidreletricaCurvaJusanteAfogamentoExplicitoUsina],
+            pd.DataFrame,
+        ]
+    ]: ...
     def hidreletrica_curvajusante_afogamentoexplicito_usina(
         self,
         codigo_usina: Optional[int] = None,
@@ -241,6 +400,31 @@ class UsinasHidreletricas(RegisterFile):
             df=df,
         )
 
+    @overload
+    def hidreletrica_curvajusante_afogamentoexplicito_padrao(
+        self, considera_afogamento: Optional[str] = None, *, df: Literal[True]
+    ) -> pd.DataFrame: ...
+    @overload
+    def hidreletrica_curvajusante_afogamentoexplicito_padrao(
+        self,
+        considera_afogamento: Optional[str] = None,
+        df: Literal[False] = False,
+    ) -> Optional[
+        Union[
+            HidreletricaCurvaJusanteAfogamentoExplicitoPadrao,
+            List[HidreletricaCurvaJusanteAfogamentoExplicitoPadrao],
+        ]
+    ]: ...
+    @overload
+    def hidreletrica_curvajusante_afogamentoexplicito_padrao(
+        self, considera_afogamento: Optional[str] = None, df: bool = False
+    ) -> Optional[
+        Union[
+            HidreletricaCurvaJusanteAfogamentoExplicitoPadrao,
+            List[HidreletricaCurvaJusanteAfogamentoExplicitoPadrao],
+            pd.DataFrame,
+        ]
+    ]: ...
     def hidreletrica_curvajusante_afogamentoexplicito_padrao(
         self, considera_afogamento: Optional[str] = None, df: bool = False
     ) -> Optional[
@@ -265,6 +449,29 @@ class UsinasHidreletricas(RegisterFile):
 
     # -----------
 
+    @overload
+    def hidreletrica_produtibilidade_especifica_grade(
+        self, codigo_usina: Optional[int] = None, *, df: Literal[True]
+    ) -> pd.DataFrame: ...
+    @overload
+    def hidreletrica_produtibilidade_especifica_grade(
+        self, codigo_usina: Optional[int] = None, df: Literal[False] = False
+    ) -> Optional[
+        Union[
+            HidreletricaProdutibilidadeEspecificaGrade,
+            List[HidreletricaProdutibilidadeEspecificaGrade],
+        ]
+    ]: ...
+    @overload
+    def hidreletrica_produtibilidade_especifica_grade(
+        self, codigo_usina: Optional[int] = None, df: bool = False
+    ) -> Optional[
+        Union[
+            HidreletricaProdutibilidadeEspecificaGrade,
+            List[HidreletricaProdutibilidadeEspecificaGrade],
+            pd.DataFrame,
+        ]
+    ]: ...
     def hidreletrica_produtibilidade_especifica_grade(
         self, codigo_usina: Optional[int] = None, df: bool = False
     ) -> Optional[
@@ -287,6 +494,29 @@ class UsinasHidreletricas(RegisterFile):
             df=df,
         )
 
+    @overload
+    def hidreletrica_perda_hidraulica_grade(
+        self, codigo_usina: Optional[int] = None, *, df: Literal[True]
+    ) -> pd.DataFrame: ...
+    @overload
+    def hidreletrica_perda_hidraulica_grade(
+        self, codigo_usina: Optional[int] = None, df: Literal[False] = False
+    ) -> Optional[
+        Union[
+            HidreletricaPerdaHidraulicaGrade,
+            List[HidreletricaPerdaHidraulicaGrade],
+        ]
+    ]: ...
+    @overload
+    def hidreletrica_perda_hidraulica_grade(
+        self, codigo_usina: Optional[int] = None, df: bool = False
+    ) -> Optional[
+        Union[
+            HidreletricaPerdaHidraulicaGrade,
+            List[HidreletricaPerdaHidraulicaGrade],
+            pd.DataFrame,
+        ]
+    ]: ...
     def hidreletrica_perda_hidraulica_grade(
         self, codigo_usina: Optional[int] = None, df: bool = False
     ) -> Optional[
@@ -309,6 +539,31 @@ class UsinasHidreletricas(RegisterFile):
             df=df,
         )
 
+    @overload
+    def hidreletrica_fpha_metodo_reducao_cortes_angulo_padrao(
+        self, angulo_tolerancia: Optional[float] = None, *, df: Literal[True]
+    ) -> pd.DataFrame: ...
+    @overload
+    def hidreletrica_fpha_metodo_reducao_cortes_angulo_padrao(
+        self,
+        angulo_tolerancia: Optional[float] = None,
+        df: Literal[False] = False,
+    ) -> Optional[
+        Union[
+            HidreletricaFphaMetodoReducaoCortesAnguloPadrao,
+            List[HidreletricaFphaMetodoReducaoCortesAnguloPadrao],
+        ]
+    ]: ...
+    @overload
+    def hidreletrica_fpha_metodo_reducao_cortes_angulo_padrao(
+        self, angulo_tolerancia: Optional[float] = None, df: bool = False
+    ) -> Optional[
+        Union[
+            HidreletricaFphaMetodoReducaoCortesAnguloPadrao,
+            List[HidreletricaFphaMetodoReducaoCortesAnguloPadrao],
+            pd.DataFrame,
+        ]
+    ]: ...
     def hidreletrica_fpha_metodo_reducao_cortes_angulo_padrao(
         self, angulo_tolerancia: Optional[float] = None, df: bool = False
     ) -> Optional[
@@ -332,6 +587,31 @@ class UsinasHidreletricas(RegisterFile):
             df=df,
         )
 
+    @overload
+    def hidreletrica_fpha_metodo_reducao_cortes_distancia_padrao(
+        self, distancia_tolerancia: Optional[float] = None, *, df: Literal[True]
+    ) -> pd.DataFrame: ...
+    @overload
+    def hidreletrica_fpha_metodo_reducao_cortes_distancia_padrao(
+        self,
+        distancia_tolerancia: Optional[float] = None,
+        df: Literal[False] = False,
+    ) -> Optional[
+        Union[
+            HidreletricaFphaMetodoReducaoCortesDistanciaPadrao,
+            List[HidreletricaFphaMetodoReducaoCortesDistanciaPadrao],
+        ]
+    ]: ...
+    @overload
+    def hidreletrica_fpha_metodo_reducao_cortes_distancia_padrao(
+        self, distancia_tolerancia: Optional[float] = None, df: bool = False
+    ) -> Optional[
+        Union[
+            HidreletricaFphaMetodoReducaoCortesDistanciaPadrao,
+            List[HidreletricaFphaMetodoReducaoCortesDistanciaPadrao],
+            pd.DataFrame,
+        ]
+    ]: ...
     def hidreletrica_fpha_metodo_reducao_cortes_distancia_padrao(
         self, distancia_tolerancia: Optional[float] = None, df: bool = False
     ) -> Optional[
@@ -355,6 +635,45 @@ class UsinasHidreletricas(RegisterFile):
             df=df,
         )
 
+    @overload
+    def estacao_bombeamento_limites_periodo_patamar(
+        self,
+        codigo_estacao: Optional[int] = None,
+        data_inicio: Optional[datetime] = None,
+        data_fim: Optional[datetime] = None,
+        patamar: Optional[int] = None,
+        *,
+        df: Literal[True],
+    ) -> pd.DataFrame: ...
+    @overload
+    def estacao_bombeamento_limites_periodo_patamar(
+        self,
+        codigo_estacao: Optional[int] = None,
+        data_inicio: Optional[datetime] = None,
+        data_fim: Optional[datetime] = None,
+        patamar: Optional[int] = None,
+        df: Literal[False] = False,
+    ) -> Optional[
+        Union[
+            EstacaoBombeamentoLimitesPeriodoPatamar,
+            List[EstacaoBombeamentoLimitesPeriodoPatamar],
+        ]
+    ]: ...
+    @overload
+    def estacao_bombeamento_limites_periodo_patamar(
+        self,
+        codigo_estacao: Optional[int] = None,
+        data_inicio: Optional[datetime] = None,
+        data_fim: Optional[datetime] = None,
+        patamar: Optional[int] = None,
+        df: bool = False,
+    ) -> Optional[
+        Union[
+            EstacaoBombeamentoLimitesPeriodoPatamar,
+            List[EstacaoBombeamentoLimitesPeriodoPatamar],
+            pd.DataFrame,
+        ]
+    ]: ...
     def estacao_bombeamento_limites_periodo_patamar(
         self,
         codigo_estacao: Optional[int] = None,
@@ -391,6 +710,36 @@ class UsinasHidreletricas(RegisterFile):
             df=df,
         )
 
+    @overload
+    def estacao_bombeamento_submercado(
+        self,
+        codigo_estacao: Optional[int] = None,
+        codigo_submercado: Optional[int] = None,
+        *,
+        df: Literal[True],
+    ) -> pd.DataFrame: ...
+    @overload
+    def estacao_bombeamento_submercado(
+        self,
+        codigo_estacao: Optional[int] = None,
+        codigo_submercado: Optional[int] = None,
+        df: Literal[False] = False,
+    ) -> Optional[
+        Union[EstacaoBombeamentoSubmercado, List[EstacaoBombeamentoSubmercado]]
+    ]: ...
+    @overload
+    def estacao_bombeamento_submercado(
+        self,
+        codigo_estacao: Optional[int] = None,
+        codigo_submercado: Optional[int] = None,
+        df: bool = False,
+    ) -> Optional[
+        Union[
+            EstacaoBombeamentoSubmercado,
+            List[EstacaoBombeamentoSubmercado],
+            pd.DataFrame,
+        ]
+    ]: ...
     def estacao_bombeamento_submercado(
         self,
         codigo_estacao: Optional[int] = None,
@@ -419,6 +768,36 @@ class UsinasHidreletricas(RegisterFile):
             df=df,
         )
 
+    @overload
+    def estacao_bombeamento(
+        self,
+        codigo_estacao: Optional[int] = None,
+        nome_estacao: Optional[str] = None,
+        codigo_usina_origem: Optional[int] = None,
+        codigo_usina_destino: Optional[int] = None,
+        *,
+        df: Literal[True],
+    ) -> pd.DataFrame: ...
+    @overload
+    def estacao_bombeamento(
+        self,
+        codigo_estacao: Optional[int] = None,
+        nome_estacao: Optional[str] = None,
+        codigo_usina_origem: Optional[int] = None,
+        codigo_usina_destino: Optional[int] = None,
+        df: Literal[False] = False,
+    ) -> Optional[Union[EstacaoBombeamento, List[EstacaoBombeamento]]]: ...
+    @overload
+    def estacao_bombeamento(
+        self,
+        codigo_estacao: Optional[int] = None,
+        nome_estacao: Optional[str] = None,
+        codigo_usina_origem: Optional[int] = None,
+        codigo_usina_destino: Optional[int] = None,
+        df: bool = False,
+    ) -> Optional[
+        Union[EstacaoBombeamento, List[EstacaoBombeamento], pd.DataFrame]
+    ]: ...
     def estacao_bombeamento(
         self,
         codigo_estacao: Optional[int] = None,
@@ -448,6 +827,26 @@ class UsinasHidreletricas(RegisterFile):
             df=df,
         )
 
+    @overload
+    def volume_referencial_tipo_padrao(
+        self, *, df: Literal[True]
+    ) -> pd.DataFrame: ...
+    @overload
+    def volume_referencial_tipo_padrao(
+        self, df: Literal[False] = False
+    ) -> Optional[
+        Union[VolumeReferencialTipoPadrao, List[VolumeReferencialTipoPadrao]]
+    ]: ...
+    @overload
+    def volume_referencial_tipo_padrao(
+        self, df: bool = False
+    ) -> Optional[
+        Union[
+            VolumeReferencialTipoPadrao,
+            List[VolumeReferencialTipoPadrao],
+            pd.DataFrame,
+        ]
+    ]: ...
     def volume_referencial_tipo_padrao(
         self,
         df: bool = False,
@@ -466,6 +865,39 @@ class UsinasHidreletricas(RegisterFile):
             df=df,
         )
 
+    @overload
+    def volume_referencial_periodo(
+        self,
+        codigo_usina: Optional[int] = None,
+        data_inicio: Optional[datetime] = None,
+        data_fim: Optional[datetime] = None,
+        *,
+        df: Literal[True],
+    ) -> pd.DataFrame: ...
+    @overload
+    def volume_referencial_periodo(
+        self,
+        codigo_usina: Optional[int] = None,
+        data_inicio: Optional[datetime] = None,
+        data_fim: Optional[datetime] = None,
+        df: Literal[False] = False,
+    ) -> Optional[
+        Union[VolumeReferencialPeriodo, List[VolumeReferencialPeriodo]]
+    ]: ...
+    @overload
+    def volume_referencial_periodo(
+        self,
+        codigo_usina: Optional[int] = None,
+        data_inicio: Optional[datetime] = None,
+        data_fim: Optional[datetime] = None,
+        df: bool = False,
+    ) -> Optional[
+        Union[
+            VolumeReferencialPeriodo,
+            List[VolumeReferencialPeriodo],
+            pd.DataFrame,
+        ]
+    ]: ...
     def volume_referencial_periodo(
         self,
         codigo_usina: Optional[int] = None,

@@ -29,7 +29,7 @@ from inewave.newave.modelos.modif import (
 )
 
 from datetime import datetime
-from typing import TypeVar, List, Optional, Union
+from typing import TypeVar, List, Optional, Union, Literal, overload
 import pandas as pd  # type: ignore[import-untyped]  # no pandas-stubs package
 
 
@@ -71,6 +71,28 @@ class Modif(RegisterFile):
         CDESVIO,
     ]
 
+    @overload
+    def usina(
+        self,
+        codigo: Optional[int] = None,
+        nome: Optional[str] = None,
+        *,
+        df: Literal[True],
+    ) -> pd.DataFrame: ...
+    @overload
+    def usina(
+        self,
+        codigo: Optional[int] = None,
+        nome: Optional[str] = None,
+        df: Literal[False] = False,
+    ) -> Optional[Union[USINA, List[USINA]]]: ...
+    @overload
+    def usina(
+        self,
+        codigo: Optional[int] = None,
+        nome: Optional[str] = None,
+        df: bool = False,
+    ) -> Optional[Union[USINA, List[USINA], pd.DataFrame]]: ...
     def usina(
         self,
         codigo: Optional[int] = None,
@@ -94,6 +116,28 @@ class Modif(RegisterFile):
                 USINA, codigo=codigo, nome=nome
             )
 
+    @overload
+    def volmin(
+        self,
+        volume: Optional[float] = None,
+        unidade: Optional[str] = None,
+        *,
+        df: Literal[True],
+    ) -> pd.DataFrame: ...
+    @overload
+    def volmin(
+        self,
+        volume: Optional[float] = None,
+        unidade: Optional[str] = None,
+        df: Literal[False] = False,
+    ) -> Optional[Union[VOLMIN, List[VOLMIN]]]: ...
+    @overload
+    def volmin(
+        self,
+        volume: Optional[float] = None,
+        unidade: Optional[str] = None,
+        df: bool = False,
+    ) -> Optional[Union[VOLMIN, List[VOLMIN], pd.DataFrame]]: ...
     def volmin(
         self,
         volume: Optional[float] = None,
@@ -117,6 +161,28 @@ class Modif(RegisterFile):
                 VOLMIN, volume=volume, unidade=unidade
             )
 
+    @overload
+    def volmax(
+        self,
+        volume: Optional[float] = None,
+        unidade: Optional[str] = None,
+        *,
+        df: Literal[True],
+    ) -> pd.DataFrame: ...
+    @overload
+    def volmax(
+        self,
+        volume: Optional[float] = None,
+        unidade: Optional[str] = None,
+        df: Literal[False] = False,
+    ) -> Optional[Union[VOLMAX, List[VOLMAX]]]: ...
+    @overload
+    def volmax(
+        self,
+        volume: Optional[float] = None,
+        unidade: Optional[str] = None,
+        df: bool = False,
+    ) -> Optional[Union[VOLMAX, List[VOLMAX], pd.DataFrame]]: ...
     def volmax(
         self,
         volume: Optional[float] = None,
@@ -140,6 +206,18 @@ class Modif(RegisterFile):
                 VOLMAX, volume=volume, unidade=unidade
             )
 
+    @overload
+    def numcnj(
+        self, numero: Optional[int] = None, *, df: Literal[True]
+    ) -> pd.DataFrame: ...
+    @overload
+    def numcnj(
+        self, numero: Optional[int] = None, df: Literal[False] = False
+    ) -> Optional[Union[NUMCNJ, List[NUMCNJ]]]: ...
+    @overload
+    def numcnj(
+        self, numero: Optional[int] = None, df: bool = False
+    ) -> Optional[Union[NUMCNJ, List[NUMCNJ], pd.DataFrame]]: ...
     def numcnj(
         self,
         numero: Optional[int] = None,
@@ -158,6 +236,28 @@ class Modif(RegisterFile):
         else:
             return self.data.get_registers_of_type(NUMCNJ, numero=numero)
 
+    @overload
+    def nummaq(
+        self,
+        conjunto: Optional[int] = None,
+        numero_maquinas: Optional[int] = None,
+        *,
+        df: Literal[True],
+    ) -> pd.DataFrame: ...
+    @overload
+    def nummaq(
+        self,
+        conjunto: Optional[int] = None,
+        numero_maquinas: Optional[int] = None,
+        df: Literal[False] = False,
+    ) -> Optional[Union[NUMMAQ, List[NUMMAQ]]]: ...
+    @overload
+    def nummaq(
+        self,
+        conjunto: Optional[int] = None,
+        numero_maquinas: Optional[int] = None,
+        df: bool = False,
+    ) -> Optional[Union[NUMMAQ, List[NUMMAQ], pd.DataFrame]]: ...
     def nummaq(
         self,
         conjunto: Optional[int] = None,
@@ -182,6 +282,28 @@ class Modif(RegisterFile):
                 NUMMAQ, conjunto=conjunto, numero_maquinas=numero_maquinas
             )
 
+    @overload
+    def potefe(
+        self,
+        potencia: Optional[float] = None,
+        conjunto: Optional[int] = None,
+        *,
+        df: Literal[True],
+    ) -> pd.DataFrame: ...
+    @overload
+    def potefe(
+        self,
+        potencia: Optional[float] = None,
+        conjunto: Optional[int] = None,
+        df: Literal[False] = False,
+    ) -> Optional[Union[POTEFE, List[POTEFE]]]: ...
+    @overload
+    def potefe(
+        self,
+        potencia: Optional[float] = None,
+        conjunto: Optional[int] = None,
+        df: bool = False,
+    ) -> Optional[Union[POTEFE, List[POTEFE], pd.DataFrame]]: ...
     def potefe(
         self,
         potencia: Optional[float] = None,
@@ -206,6 +328,20 @@ class Modif(RegisterFile):
                 POTEFE, potencia=potencia, conjunto=conjunto
             )
 
+    @overload
+    def prodesp(
+        self, produtibilidade: Optional[float] = None, *, df: Literal[True]
+    ) -> pd.DataFrame: ...
+    @overload
+    def prodesp(
+        self,
+        produtibilidade: Optional[float] = None,
+        df: Literal[False] = False,
+    ) -> Optional[Union[PRODESP, List[PRODESP]]]: ...
+    @overload
+    def prodesp(
+        self, produtibilidade: Optional[float] = None, df: bool = False
+    ) -> Optional[Union[PRODESP, List[PRODESP], pd.DataFrame]]: ...
     def prodesp(
         self,
         produtibilidade: Optional[float] = None,
@@ -226,6 +362,18 @@ class Modif(RegisterFile):
                 PRODESP, produtibilidade=produtibilidade
             )
 
+    @overload
+    def teif(
+        self, teif: Optional[float] = None, *, df: Literal[True]
+    ) -> pd.DataFrame: ...
+    @overload
+    def teif(
+        self, teif: Optional[float] = None, df: Literal[False] = False
+    ) -> Optional[Union[TEIF, List[TEIF]]]: ...
+    @overload
+    def teif(
+        self, teif: Optional[float] = None, df: bool = False
+    ) -> Optional[Union[TEIF, List[TEIF], pd.DataFrame]]: ...
     def teif(
         self,
         teif: Optional[float] = None,
@@ -245,6 +393,18 @@ class Modif(RegisterFile):
         else:
             return self.data.get_registers_of_type(TEIF, teif=teif)
 
+    @overload
+    def ip(
+        self, ip: Optional[float] = None, *, df: Literal[True]
+    ) -> pd.DataFrame: ...
+    @overload
+    def ip(
+        self, ip: Optional[float] = None, df: Literal[False] = False
+    ) -> Optional[Union[IP, List[IP]]]: ...
+    @overload
+    def ip(
+        self, ip: Optional[float] = None, df: bool = False
+    ) -> Optional[Union[IP, List[IP], pd.DataFrame]]: ...
     def ip(
         self,
         ip: Optional[float] = None,
@@ -263,6 +423,18 @@ class Modif(RegisterFile):
         else:
             return self.data.get_registers_of_type(IP, ip=ip)
 
+    @overload
+    def perdhidr(
+        self, perdas: Optional[float] = None, *, df: Literal[True]
+    ) -> pd.DataFrame: ...
+    @overload
+    def perdhidr(
+        self, perdas: Optional[float] = None, df: Literal[False] = False
+    ) -> Optional[Union[PERDHIDR, List[PERDHIDR]]]: ...
+    @overload
+    def perdhidr(
+        self, perdas: Optional[float] = None, df: bool = False
+    ) -> Optional[Union[PERDHIDR, List[PERDHIDR], pd.DataFrame]]: ...
     def perdhidr(
         self,
         perdas: Optional[float] = None,
@@ -281,6 +453,25 @@ class Modif(RegisterFile):
         else:
             return self.data.get_registers_of_type(PERDHIDR, perdas=perdas)
 
+    @overload
+    def volcota(
+        self,
+        polinomio_volume_cota: Optional[List[float]] = None,
+        *,
+        df: Literal[True],
+    ) -> pd.DataFrame: ...
+    @overload
+    def volcota(
+        self,
+        polinomio_volume_cota: Optional[List[float]] = None,
+        df: Literal[False] = False,
+    ) -> Optional[Union[VOLCOTA, List[VOLCOTA]]]: ...
+    @overload
+    def volcota(
+        self,
+        polinomio_volume_cota: Optional[List[float]] = None,
+        df: bool = False,
+    ) -> Optional[Union[VOLCOTA, List[VOLCOTA], pd.DataFrame]]: ...
     def volcota(
         self,
         polinomio_volume_cota: Optional[List[float]] = None,
@@ -301,6 +492,25 @@ class Modif(RegisterFile):
                 VOLCOTA, polinomio_volume_cota=polinomio_volume_cota
             )
 
+    @overload
+    def cotarea(
+        self,
+        polinomio_cota_area: Optional[List[float]] = None,
+        *,
+        df: Literal[True],
+    ) -> pd.DataFrame: ...
+    @overload
+    def cotarea(
+        self,
+        polinomio_cota_area: Optional[List[float]] = None,
+        df: Literal[False] = False,
+    ) -> Optional[Union[COTAREA, List[COTAREA]]]: ...
+    @overload
+    def cotarea(
+        self,
+        polinomio_cota_area: Optional[List[float]] = None,
+        df: bool = False,
+    ) -> Optional[Union[COTAREA, List[COTAREA], pd.DataFrame]]: ...
     def cotarea(
         self,
         polinomio_cota_area: Optional[List[float]] = None,
@@ -321,6 +531,18 @@ class Modif(RegisterFile):
                 COTAREA, polinomio_cota_area=polinomio_cota_area
             )
 
+    @overload
+    def vazmin(
+        self, vazao: Optional[float] = None, *, df: Literal[True]
+    ) -> pd.DataFrame: ...
+    @overload
+    def vazmin(
+        self, vazao: Optional[float] = None, df: Literal[False] = False
+    ) -> Optional[Union[VAZMIN, List[VAZMIN]]]: ...
+    @overload
+    def vazmin(
+        self, vazao: Optional[float] = None, df: bool = False
+    ) -> Optional[Union[VAZMIN, List[VAZMIN], pd.DataFrame]]: ...
     def vazmin(
         self,
         vazao: Optional[float] = None,
@@ -339,6 +561,28 @@ class Modif(RegisterFile):
         else:
             return self.data.get_registers_of_type(VAZMIN, vazao=vazao)
 
+    @overload
+    def coefevap(
+        self,
+        coeficiente: Optional[int] = None,
+        mes: Optional[int] = None,
+        *,
+        df: Literal[True],
+    ) -> pd.DataFrame: ...
+    @overload
+    def coefevap(
+        self,
+        coeficiente: Optional[int] = None,
+        mes: Optional[int] = None,
+        df: Literal[False] = False,
+    ) -> Optional[Union[COEFEVAP, List[COEFEVAP]]]: ...
+    @overload
+    def coefevap(
+        self,
+        coeficiente: Optional[int] = None,
+        mes: Optional[int] = None,
+        df: bool = False,
+    ) -> Optional[Union[COEFEVAP, List[COEFEVAP], pd.DataFrame]]: ...
     def coefevap(
         self,
         coeficiente: Optional[int] = None,
@@ -363,6 +607,28 @@ class Modif(RegisterFile):
                 COEFEVAP, coeficiente=coeficiente, mes=mes
             )
 
+    @overload
+    def cfuga(
+        self,
+        data_inicio: Optional[datetime] = None,
+        nivel: Optional[float] = None,
+        *,
+        df: Literal[True],
+    ) -> pd.DataFrame: ...
+    @overload
+    def cfuga(
+        self,
+        data_inicio: Optional[datetime] = None,
+        nivel: Optional[float] = None,
+        df: Literal[False] = False,
+    ) -> Optional[Union[CFUGA, List[CFUGA]]]: ...
+    @overload
+    def cfuga(
+        self,
+        data_inicio: Optional[datetime] = None,
+        nivel: Optional[float] = None,
+        df: bool = False,
+    ) -> Optional[Union[CFUGA, List[CFUGA], pd.DataFrame]]: ...
     def cfuga(
         self,
         data_inicio: Optional[datetime] = None,
@@ -386,6 +652,28 @@ class Modif(RegisterFile):
                 CFUGA, data_inicio=data_inicio, nivel=nivel
             )
 
+    @overload
+    def cmont(
+        self,
+        data_inicio: Optional[datetime] = None,
+        nivel: Optional[float] = None,
+        *,
+        df: Literal[True],
+    ) -> pd.DataFrame: ...
+    @overload
+    def cmont(
+        self,
+        data_inicio: Optional[datetime] = None,
+        nivel: Optional[float] = None,
+        df: Literal[False] = False,
+    ) -> Optional[Union[CMONT, List[CMONT]]]: ...
+    @overload
+    def cmont(
+        self,
+        data_inicio: Optional[datetime] = None,
+        nivel: Optional[float] = None,
+        df: bool = False,
+    ) -> Optional[Union[CMONT, List[CMONT], pd.DataFrame]]: ...
     def cmont(
         self,
         data_inicio: Optional[datetime] = None,
@@ -409,6 +697,31 @@ class Modif(RegisterFile):
                 CMONT, data_inicio=data_inicio, nivel=nivel
             )
 
+    @overload
+    def vmaxt(
+        self,
+        data_inicio: Optional[datetime] = None,
+        volume: Optional[float] = None,
+        unidade: Optional[str] = None,
+        *,
+        df: Literal[True],
+    ) -> pd.DataFrame: ...
+    @overload
+    def vmaxt(
+        self,
+        data_inicio: Optional[datetime] = None,
+        volume: Optional[float] = None,
+        unidade: Optional[str] = None,
+        df: Literal[False] = False,
+    ) -> Optional[Union[VMAXT, List[VMAXT]]]: ...
+    @overload
+    def vmaxt(
+        self,
+        data_inicio: Optional[datetime] = None,
+        volume: Optional[float] = None,
+        unidade: Optional[str] = None,
+        df: bool = False,
+    ) -> Optional[Union[VMAXT, List[VMAXT], pd.DataFrame]]: ...
     def vmaxt(
         self,
         data_inicio: Optional[datetime] = None,
@@ -435,6 +748,31 @@ class Modif(RegisterFile):
                 VMAXT, data_inicio=data_inicio, volume=volume, unidade=unidade
             )
 
+    @overload
+    def vmint(
+        self,
+        data_inicio: Optional[datetime] = None,
+        volume: Optional[float] = None,
+        unidade: Optional[str] = None,
+        *,
+        df: Literal[True],
+    ) -> pd.DataFrame: ...
+    @overload
+    def vmint(
+        self,
+        data_inicio: Optional[datetime] = None,
+        volume: Optional[float] = None,
+        unidade: Optional[str] = None,
+        df: Literal[False] = False,
+    ) -> Optional[Union[VMINT, List[VMINT]]]: ...
+    @overload
+    def vmint(
+        self,
+        data_inicio: Optional[datetime] = None,
+        volume: Optional[float] = None,
+        unidade: Optional[str] = None,
+        df: bool = False,
+    ) -> Optional[Union[VMINT, List[VMINT], pd.DataFrame]]: ...
     def vmint(
         self,
         data_inicio: Optional[datetime] = None,
@@ -461,6 +799,18 @@ class Modif(RegisterFile):
                 VMINT, data_inicio=data_inicio, volume=volume, unidade=unidade
             )
 
+    @overload
+    def numbas(
+        self, numero: Optional[int] = None, *, df: Literal[True]
+    ) -> pd.DataFrame: ...
+    @overload
+    def numbas(
+        self, numero: Optional[int] = None, df: Literal[False] = False
+    ) -> Optional[Union[NUMBAS, List[NUMBAS]]]: ...
+    @overload
+    def numbas(
+        self, numero: Optional[int] = None, df: bool = False
+    ) -> Optional[Union[NUMBAS, List[NUMBAS], pd.DataFrame]]: ...
     def numbas(
         self,
         numero: Optional[int] = None,
@@ -479,6 +829,31 @@ class Modif(RegisterFile):
         else:
             return self.data.get_registers_of_type(NUMBAS, numero=numero)
 
+    @overload
+    def vminp(
+        self,
+        data_inicio: Optional[datetime] = None,
+        volume: Optional[float] = None,
+        unidade: Optional[str] = None,
+        *,
+        df: Literal[True],
+    ) -> pd.DataFrame: ...
+    @overload
+    def vminp(
+        self,
+        data_inicio: Optional[datetime] = None,
+        volume: Optional[float] = None,
+        unidade: Optional[str] = None,
+        df: Literal[False] = False,
+    ) -> Optional[Union[VMINP, List[VMINP]]]: ...
+    @overload
+    def vminp(
+        self,
+        data_inicio: Optional[datetime] = None,
+        volume: Optional[float] = None,
+        unidade: Optional[str] = None,
+        df: bool = False,
+    ) -> Optional[Union[VMINP, List[VMINP], pd.DataFrame]]: ...
     def vminp(
         self,
         data_inicio: Optional[datetime] = None,
@@ -505,6 +880,28 @@ class Modif(RegisterFile):
                 VMINP, data_inicio=data_inicio, volume=volume, unidade=unidade
             )
 
+    @overload
+    def vazmint(
+        self,
+        data_inicio: Optional[datetime] = None,
+        vazao: Optional[float] = None,
+        *,
+        df: Literal[True],
+    ) -> pd.DataFrame: ...
+    @overload
+    def vazmint(
+        self,
+        data_inicio: Optional[datetime] = None,
+        vazao: Optional[float] = None,
+        df: Literal[False] = False,
+    ) -> Optional[Union[VAZMINT, List[VAZMINT]]]: ...
+    @overload
+    def vazmint(
+        self,
+        data_inicio: Optional[datetime] = None,
+        vazao: Optional[float] = None,
+        df: bool = False,
+    ) -> Optional[Union[VAZMINT, List[VAZMINT], pd.DataFrame]]: ...
     def vazmint(
         self,
         data_inicio: Optional[datetime] = None,
@@ -528,6 +925,28 @@ class Modif(RegisterFile):
                 VAZMINT, data_inicio=data_inicio, vazao=vazao
             )
 
+    @overload
+    def vazmaxt(
+        self,
+        data_inicio: Optional[datetime] = None,
+        vazao: Optional[float] = None,
+        *,
+        df: Literal[True],
+    ) -> pd.DataFrame: ...
+    @overload
+    def vazmaxt(
+        self,
+        data_inicio: Optional[datetime] = None,
+        vazao: Optional[float] = None,
+        df: Literal[False] = False,
+    ) -> Optional[Union[VAZMAXT, List[VAZMAXT]]]: ...
+    @overload
+    def vazmaxt(
+        self,
+        data_inicio: Optional[datetime] = None,
+        vazao: Optional[float] = None,
+        df: bool = False,
+    ) -> Optional[Union[VAZMAXT, List[VAZMAXT], pd.DataFrame]]: ...
     def vazmaxt(
         self,
         data_inicio: Optional[datetime] = None,
@@ -551,6 +970,28 @@ class Modif(RegisterFile):
                 VAZMAXT, data_inicio=data_inicio, vazao=vazao
             )
 
+    @overload
+    def turbmaxt(
+        self,
+        data_inicio: Optional[datetime] = None,
+        turbinamento: Optional[float] = None,
+        *,
+        df: Literal[True],
+    ) -> pd.DataFrame: ...
+    @overload
+    def turbmaxt(
+        self,
+        data_inicio: Optional[datetime] = None,
+        turbinamento: Optional[float] = None,
+        df: Literal[False] = False,
+    ) -> Optional[Union[TURBMAXT, List[TURBMAXT]]]: ...
+    @overload
+    def turbmaxt(
+        self,
+        data_inicio: Optional[datetime] = None,
+        turbinamento: Optional[float] = None,
+        df: bool = False,
+    ) -> Optional[Union[TURBMAXT, List[TURBMAXT], pd.DataFrame]]: ...
     def turbmaxt(
         self,
         data_inicio: Optional[datetime] = None,
@@ -574,6 +1015,28 @@ class Modif(RegisterFile):
                 TURBMAXT, data_inicio=data_inicio, turbinamento=turbinamento
             )
 
+    @overload
+    def turbmint(
+        self,
+        data_inicio: Optional[datetime] = None,
+        turbinamento: Optional[float] = None,
+        *,
+        df: Literal[True],
+    ) -> pd.DataFrame: ...
+    @overload
+    def turbmint(
+        self,
+        data_inicio: Optional[datetime] = None,
+        turbinamento: Optional[float] = None,
+        df: Literal[False] = False,
+    ) -> Optional[Union[TURBMINT, List[TURBMINT]]]: ...
+    @overload
+    def turbmint(
+        self,
+        data_inicio: Optional[datetime] = None,
+        turbinamento: Optional[float] = None,
+        df: bool = False,
+    ) -> Optional[Union[TURBMINT, List[TURBMINT], pd.DataFrame]]: ...
     def turbmint(
         self,
         data_inicio: Optional[datetime] = None,
@@ -597,6 +1060,28 @@ class Modif(RegisterFile):
                 TURBMINT, data_inicio=data_inicio, turbinamento=turbinamento
             )
 
+    @overload
+    def cdesvio(
+        self,
+        codigo_usina_jusante: Optional[int] = None,
+        limite_vazao: Optional[float] = None,
+        *,
+        df: Literal[True],
+    ) -> pd.DataFrame: ...
+    @overload
+    def cdesvio(
+        self,
+        codigo_usina_jusante: Optional[int] = None,
+        limite_vazao: Optional[float] = None,
+        df: Literal[False] = False,
+    ) -> Optional[Union[CDESVIO, List[CDESVIO]]]: ...
+    @overload
+    def cdesvio(
+        self,
+        codigo_usina_jusante: Optional[int] = None,
+        limite_vazao: Optional[float] = None,
+        df: bool = False,
+    ) -> Optional[Union[CDESVIO, List[CDESVIO], pd.DataFrame]]: ...
     def cdesvio(
         self,
         codigo_usina_jusante: Optional[int] = None,
