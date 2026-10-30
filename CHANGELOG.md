@@ -7,6 +7,8 @@ e este projeto adere ao [Versionamento Semantico](https://semver.org/lang/pt-BR/
 
 ## [Não lançado]
 
+## [1.17.1] - 2026-10-30
+
 ### Modificado
 
 - Atualização da dependência mínima para `cfinterface >= 1.10.3`, versão em que os campos que faltam no fim de uma linha delimitada por `;` são lidos como `None`.
@@ -559,6 +561,7 @@ e este projeto adere ao [Versionamento Semantico](https://semver.org/lang/pt-BR/
 - Arquivos do NWLISTOP processados para formato normal de séries temporais
 - Dependência da cfinterface atualizada para [v1.5.2](https://github.com/rjmalves/cfi/releases/tag/v1.5.2)
 
+[1.17.1]: https://github.com/rjmalves/inewave/compare/v1.17.0...v1.17.1
 [1.17.0]: https://github.com/rjmalves/inewave/compare/v1.16.2...v1.17.0
 [1.16.2]: https://github.com/rjmalves/inewave/compare/v1.16.1...v1.16.2
 [1.16.1]: https://github.com/rjmalves/inewave/compare/v1.16.0...v1.16.1
