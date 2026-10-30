@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Optional
+from typing import Optional, Union
 
 from cfinterface.components.datetimefield import DatetimeField
 from cfinterface.components.floatfield import FloatField
@@ -7,9 +7,33 @@ from cfinterface.components.integerfield import IntegerField
 from cfinterface.components.line import Line
 from cfinterface.components.literalfield import LiteralField
 from cfinterface.components.register import Register
+from cfinterface.storage import StorageType
 
 
-class RegistroRE(Register):
+class RegistroRestricao(Register):
+    """
+    Base dos registros do arquivo de restrições das LIBS.
+
+    Uma linha só é lida como o registro quando o seu primeiro campo é
+    exatamente o identificador. Sem isso, o ``RE`` também casaria com as
+    linhas que apenas começam com ``RE``, como ``RESTRICAO-ELETRICA-FORMULA``.
+    """
+
+    __slots__ = []
+
+    @classmethod
+    def matches(
+        cls, line: Union[str, bytes], storage: Union[str, StorageType] = ""
+    ) -> bool:
+        identificador = cls.IDENTIFIER
+        if isinstance(line, bytes):
+            if isinstance(identificador, str):
+                identificador = identificador.encode()
+            return line.split(b";", 1)[0].rstrip() == identificador
+        return line.split(";", 1)[0].rstrip() == identificador
+
+
+class RegistroRE(RegistroRestricao):
     """
     Registro que contém um cadastro de restrição elétrica (RE).
     """
@@ -53,7 +77,7 @@ class RegistroRE(Register):
         self.data[1] = n
 
 
-class RegistroREHorizPer(Register):
+class RegistroREHorizPer(RegistroRestricao):
     """
     Registro que contém o cadastro do horizonte de validade
     da restrição RE.
@@ -113,7 +137,7 @@ class RegistroREHorizPer(Register):
         self.data[2] = n
 
 
-class RegistroRELimFormPer(Register):
+class RegistroRELimFormPer(RegistroRestricao):
     """
     Registro que contém os limites de cada restrição
     RE por patamar.
@@ -232,7 +256,7 @@ class RegistroRELimFormPer(Register):
         self.data[5] = v
 
 
-class RegistroRHE(Register):
+class RegistroRHE(RegistroRestricao):
     """
     Registro que contém um cadastro de restrição de
     energia (RHE).
@@ -277,7 +301,7 @@ class RegistroRHE(Register):
         self.data[1] = n
 
 
-class RegistroRHEHorizPer(Register):
+class RegistroRHEHorizPer(RegistroRestricao):
     """
     Registro que contém o cadastro do horizonte de validade
     da restrição RHE.
@@ -337,7 +361,7 @@ class RegistroRHEHorizPer(Register):
         self.data[2] = n
 
 
-class RegistroRHELsLPPEarmi(Register):
+class RegistroRHELsLPPEarmi(RegistroRestricao):
     """
     Registro que contém as retas de cada restrição
     RHE modelada como restrição linear por partes.
@@ -412,7 +436,7 @@ class RegistroRHELsLPPEarmi(Register):
         self.data[3] = v
 
 
-class RegistroRHQ(Register):
+class RegistroRHQ(RegistroRestricao):
     """
     Registro que contém um cadastro de restrição de
     vazão (RHQ).
@@ -457,7 +481,7 @@ class RegistroRHQ(Register):
         self.data[1] = n
 
 
-class RegistroRHQHorizPer(Register):
+class RegistroRHQHorizPer(RegistroRestricao):
     """
     Registro que contém o cadastro do horizonte de validade
     da restrição RHQ.
@@ -517,7 +541,7 @@ class RegistroRHQHorizPer(Register):
         self.data[2] = n
 
 
-class RegistroRHQLsLPPVoli(Register):
+class RegistroRHQLsLPPVoli(RegistroRestricao):
     """
     Registro que contém as retas de cada restrição
     RHQ modelada como restrição linear por partes.
@@ -592,7 +616,7 @@ class RegistroRHQLsLPPVoli(Register):
         self.data[3] = v
 
 
-class RegistroRHQLimFormPerPat(Register):
+class RegistroRHQLimFormPerPat(RegistroRestricao):
     """
     Registro que contém os limites inferiores e superiores
     para restrições RHQ.
@@ -697,7 +721,7 @@ class RegistroRHQLimFormPerPat(Register):
         self.data[5] = v
 
 
-class RegistroRHV(Register):
+class RegistroRHV(RegistroRestricao):
     """
     Registro que contém um cadastro de restrição de
     volume (RHV).
@@ -742,7 +766,7 @@ class RegistroRHV(Register):
         self.data[1] = n
 
 
-class RegistroRHVHorizPer(Register):
+class RegistroRHVHorizPer(RegistroRestricao):
     """
     Registro que contém o cadastro do horizonte de validade
     da restrição RHV.
@@ -802,7 +826,7 @@ class RegistroRHVHorizPer(Register):
         self.data[2] = n
 
 
-class RegistroRHVLimFormPer(Register):
+class RegistroRHVLimFormPer(RegistroRestricao):
     """
     Registro que contém os limites inferiores e superiores
     para restrições RHV.
