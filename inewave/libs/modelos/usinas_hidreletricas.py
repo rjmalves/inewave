@@ -1,4 +1,5 @@
 from cfinterface.components.register import Register
+from cfinterface.storage import StorageType
 from cfinterface.components.line import Line
 from cfinterface.components.integerfield import IntegerField
 from cfinterface.components.floatfield import FloatField
@@ -6,7 +7,7 @@ from cfinterface.components.literalfield import LiteralField
 from cfinterface.components.datetimefield import DatetimeField
 from datetime import datetime
 
-from typing import Optional
+from typing import Optional, Union
 
 
 class HidreletricaCurvaJusante(Register):
@@ -484,6 +485,86 @@ class HidreletricaPerdaHidraulicaGrade(Register):
     @perda_hidraulica.setter
     def perda_hidraulica(self, c: float) -> None:
         self.data[2] = c
+
+
+class _CardReducaoCortesFpha(Register):
+    """
+    Base dos cards de redução dos cortes da FPHA. Só reconhece um card
+    ativo: o arquivo desativa um card comentando a linha com ``&``, e só
+    um dos métodos pode estar ativo por vez.
+    """
+
+    @classmethod
+    def matches(
+        cls, line: Union[str, bytes], storage: Union[str, StorageType] = ""
+    ) -> bool:
+        if isinstance(line, bytes):
+            comentario = line.lstrip().startswith(b"&")
+        else:
+            comentario = line.lstrip().startswith("&")
+        return not comentario and super().matches(line, storage)
+
+
+class HidreletricaFphaMetodoReducaoCortesAnguloPadrao(_CardReducaoCortesFpha):
+    """
+    Card que reduz os cortes da FPHA de todas as usinas comparando o
+    ângulo entre os vetores normais dos hiperplanos.
+    """
+
+    IDENTIFIER = "HIDRELETRICA-FPHA-METODO-REDUCAO-CORTES-ANGULO-PADRAO"
+    IDENTIFIER_DIGITS = 54
+    LINE = Line(
+        [
+            FloatField(size=6, decimal_digits=2),
+        ],
+        delimiter=";",
+    )
+
+    @property
+    def angulo_tolerancia(self) -> Optional[float]:
+        """
+        O ângulo de tolerância para identificar cortes paralelos.
+
+        :return: O ângulo em graus
+        :rtype: float | None
+        """
+        return self.data[0]
+
+    @angulo_tolerancia.setter
+    def angulo_tolerancia(self, v: float) -> None:
+        self.data[0] = v
+
+
+class HidreletricaFphaMetodoReducaoCortesDistanciaPadrao(
+    _CardReducaoCortesFpha
+):
+    """
+    Card que reduz os cortes da FPHA de todas as usinas comparando a
+    distância entre os hiperplanos na região de atividade.
+    """
+
+    IDENTIFIER = "HIDRELETRICA-FPHA-METODO-REDUCAO-CORTES-DISTANCIA-PADRAO"
+    IDENTIFIER_DIGITS = 57
+    LINE = Line(
+        [
+            FloatField(size=10, decimal_digits=4),
+        ],
+        delimiter=";",
+    )
+
+    @property
+    def distancia_tolerancia(self) -> Optional[float]:
+        """
+        A distância de tolerância para identificar cortes distantes.
+
+        :return: A distância em %
+        :rtype: float | None
+        """
+        return self.data[0]
+
+    @distancia_tolerancia.setter
+    def distancia_tolerancia(self, v: float) -> None:
+        self.data[0] = v
 
 
 class EstacaoBombeamento(Register):
