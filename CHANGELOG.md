@@ -15,6 +15,8 @@ e este projeto adere ao [Versionamento Semantico](https://semver.org/lang/pt-BR/
 
 - Documentação: a docstring de `Pmo.convergencia` passa a descrever os leiautes do relatório de convergência pelo número de linhas por iteração, já que a versão 30 também imprime o leiaute de três linhas. A leitura já reconhecia os dois leiautes em qualquer versão.
 
+- Documentação: a docstring de `Modif` passa a registrar que as palavras-chave do `modif.dat` só são reconhecidas em maiúsculas: uma linha em minúsculas, que o manual também aceita, é mantida como texto e reescrita sem alterações. Também registra que um valor que não pode ser lido como número é lido como `None`, da mesma forma que um valor opcional não informado, como a vazão máxima do `CDESVIO`. Os dois comportamentos ficam cobertos por teste.
+
 ### Corrigido
 
 - LIBS: uma linha com menos campos que o seu registro recebia, nos campos que faltavam, os valores da linha anterior do mesmo registro. No `indices.csv`, uma linha como `RESTRICAO-ELETRICA-ESPECIAL;Restricoes`, sem o arquivo, apontava para o arquivo da linha anterior, e uma linha `RE-LIM-FORM-PER-PAT` sem o limite superior ficava com o limite da linha anterior. Esses campos passam a ser lidos como `None`.

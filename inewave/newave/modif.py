@@ -37,6 +37,15 @@ class Modif(RegisterFile):
     """
     Armazena os dados de entrada do NEWAVE referentes às alterações nas
     configurações das usinas hidroelétricas.
+
+    As palavras-chave só são reconhecidas em maiúsculas. O manual do
+    NEWAVE (seção 3.12) também admite palavras-chave em minúsculas, mas
+    uma linha assim não é lida como registro: é mantida como texto e
+    reescrita sem alterações.
+
+    Um valor que não pode ser lido como número é lido como ``None``, da
+    mesma forma que um valor opcional não informado, como a vazão máxima
+    do ``CDESVIO``.
     """
 
     __slots__: List[str] = []
