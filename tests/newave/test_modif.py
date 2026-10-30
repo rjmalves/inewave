@@ -523,6 +523,12 @@ def test_registro_cdesvio_sem_vazao_modif():
     assert r.limite_vazao is None
 
 
+def test_registro_cdesvio_vazao_ilegivel_modif():
+    r = _le_registro(CDESVIO, " CDESVIO   66   abc\n")
+    assert r.codigo_usina_jusante == 66
+    assert r.limite_vazao is None
+
+
 @pytest.mark.parametrize(
     "registro, conteudo",
     [
@@ -862,3 +868,19 @@ def test_registros_do_manual_leitura_escrita():
         cf2 = Modif.read(ARQ_TESTE)
     assert cf1 == cf2
     assert len(cf2.cdesvio()) == 2
+
+
+def test_palavra_chave_minuscula_modif():
+    linha_minuscula = MockCDESVIO.lower()
+    m: MagicMock = mock_open(
+        read_data="".join(MockModif_REGISTROS_MANUAL) + linha_minuscula
+    )
+    with patch("builtins.open", m):
+        ad = Modif.read(ARQ_TESTE)
+    assert len(ad.cdesvio()) == 2
+    m_escrita: MagicMock = mock_open(read_data="")
+    with patch("builtins.open", m_escrita):
+        ad.write(ARQ_TESTE)
+    chamadas = m_escrita.mock_calls
+    escritas = [chamadas[i].args[0] for i in range(1, len(chamadas) - 1)]
+    assert linha_minuscula in escritas
