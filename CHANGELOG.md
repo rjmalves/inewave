@@ -15,6 +15,8 @@ e este projeto adere ao [Versionamento Semantico](https://semver.org/lang/pt-BR/
 
 - `pmo.dat`: `Pmo.convergencia` lia o relatório de convergência da versão 30 com colunas fixas que não correspondem ao leiaute dessa versão, cortando os números nas fronteiras das colunas (o `zinf` recebia parte do `LIM.INF.`, a maior parte dos valores virava `NaN`) e deixando `tempo` sempre vazio. Agora o leiaute da versão 30 (duas linhas por iteração) é lido separando cada linha por espaços e retorna uma linha por iteração, com os valores da linha de `DZINF`/`ZSUP ITER.` e o `tempo` da outra linha. O leiaute das versões anteriores (três linhas por iteração, com valores diferentes) continua sendo lido como antes.
 
+- `modif.dat`: a propriedade `unidade` dos registros `VOLMIN`, `VOLMAX`, `VMAXT`, `VMINT` e `VMINP` retornava o texto com as aspas do arquivo (`"'%'"`). Agora retorna a unidade sem aspas (`"%"`, `"h"`), também nos `DataFrame` obtidos com `df=True` e nos filtros por `unidade`. A escrita continua emitindo a unidade entre aspas, e uma unidade atribuída sem aspas passa a ser escrita entre aspas.
+
 ## [1.16.2] - 2026-10-19
 
 ### Corrigido
