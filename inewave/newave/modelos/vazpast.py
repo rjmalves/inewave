@@ -1,3 +1,4 @@
+import warnings
 from typing import Any, IO, List, Optional
 
 import numpy as np
@@ -17,7 +18,7 @@ from inewave.config import MAX_UHES, MESES_DF
 class BlocoVazPast(Section):
     """
     Bloco de informações de vazões passadas
-    por usina, existentes no arquivo `vazpast.dat`
+    por posto, existentes no arquivo `vazpast.dat`
     do NEWAVE.
     """
 
@@ -55,12 +56,16 @@ class BlocoVazPast(Section):
         def converte_tabela_em_df() -> pd.DataFrame:
             df = pd.DataFrame(
                 data={
-                    "codigo_usina": repete_vetor(codigos_usinas),
-                    "nome_usina": repete_vetor(nomes_usinas),
-                    "mes": np.tile(np.arange(1, 13), len(nomes_usinas)),
+                    "codigo_posto": repete_vetor(codigos_postos),
+                    "nome_posto": repete_vetor(nomes_postos),
+                    "mes": np.tile(np.arange(1, 13), len(nomes_postos)),
                     "valor": tabela.flatten(),
                 }
             )
+            # Colunas descontinuadas, com os mesmos valores, mantidas por
+            # uma versão para quem ainda usa os nomes antigos.
+            df["codigo_usina"] = df["codigo_posto"]
+            df["nome_usina"] = df["nome_posto"]
             return df
 
         # Salta as linhas adicionais
@@ -69,11 +74,11 @@ class BlocoVazPast(Section):
 
         i = 0
         tabela = np.zeros((MAX_UHES, len(MESES_DF)))
-        codigos_usinas: List[int] = []
-        nomes_usinas: List[str] = []
+        codigos_postos: List[int] = []
+        nomes_postos: List[str] = []
         while True:
             linha = file.readline()
-            # Confere se terminaram as usinas
+            # Confere se terminaram os postos
             if len(linha) < 3:
                 # Converte para df e salva na variável
                 if i > 0:
@@ -81,8 +86,8 @@ class BlocoVazPast(Section):
                     self.data = converte_tabela_em_df()
                 break
             dados = self.__linha.read(linha)
-            codigos_usinas.append(dados[0])
-            nomes_usinas.append(dados[1])
+            codigos_postos.append(dados[0])
+            nomes_postos.append(dados[1])
             tabela[i, :] = dados[2:]
             i += 1
 
@@ -93,17 +98,51 @@ class BlocoVazPast(Section):
         if not isinstance(self.data, pd.DataFrame):
             raise ValueError("Dados do vazpast.dat não foram lidos com sucesso")
 
-        df = self.data.copy()
-        usinas = self.data["codigo_usina"].unique()
-        for usina in usinas:
-            df_usina = df.loc[(df["codigo_usina"] == usina)]
-            df_usina = df_usina.sort_values(["mes"])
+        df = self.data
+        codigo, nome = BlocoVazPast.__colunas_posto(df)
+        for posto in df[codigo].unique():
+            df_posto = df.loc[df[codigo] == posto].sort_values(["mes"])
             file.write(
                 self.__linha.write(
-                    [
-                        df_usina["codigo_usina"].iloc[0],
-                        df_usina["nome_usina"].iloc[0],
-                    ]
-                    + df_usina["valor"].tolist()
+                    [df_posto[codigo].iloc[0], df_posto[nome].iloc[0]]
+                    + df_posto["valor"].tolist()
                 )
             )
+
+    @staticmethod
+    def __colunas_posto(df: pd.DataFrame) -> List[str]:
+        """
+        Escolhe as colunas de código e nome do posto lidas na escrita. Um
+        DataFrame só com as colunas descontinuadas ainda é aceito, com
+        aviso. Com as duas versões de uma coluna, os valores precisam
+        coincidir, para que uma edição feita só em uma delas não seja
+        descartada sem aviso.
+        """
+        colunas: List[str] = []
+        descontinuadas: List[str] = []
+        for nova, descontinuada in [
+            ("codigo_posto", "codigo_usina"),
+            ("nome_posto", "nome_usina"),
+        ]:
+            if nova not in df.columns:
+                colunas.append(descontinuada)
+                descontinuadas.append(descontinuada)
+            elif descontinuada in df.columns and not df[nova].equals(
+                df[descontinuada]
+            ):
+                raise ValueError(
+                    f"As colunas {nova} e {descontinuada} (descontinuada) do"
+                    + " vazpast.dat têm valores diferentes. Edite apenas a"
+                    + f" coluna {nova} ou remova a coluna {descontinuada}."
+                )
+            else:
+                colunas.append(nova)
+        if descontinuadas:
+            warnings.warn(
+                f"As colunas {', '.join(descontinuadas)} do vazpast.dat estão"
+                + " descontinuadas. Utilize codigo_posto e nome_posto no"
+                + " lugar.",
+                DeprecationWarning,
+                stacklevel=2,
+            )
+        return colunas

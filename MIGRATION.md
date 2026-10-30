@@ -40,6 +40,32 @@ passa a acertar também os registros de intercâmbio mínimo obrigatório. Ao
 atribuir um DataFrame a `limites_intercambio` para escrita, as linhas com
 `flag = 1` devem trazer em `sentido` a direção, como as demais.
 
+## 2. `vazpast.dat`: `codigo_posto` e `nome_posto` em `Vazpast.tendencia`
+
+O `vazpast.dat` informa a tendência hidrológica por posto (manual do NEWAVE,
+seção 3.22.3), mas `Vazpast.tendencia` chamava as colunas de `codigo_usina` e
+`nome_usina`. A tabela passa a ter as colunas `codigo_posto`, `nome_posto`,
+`mes` e `valor`, nessa ordem, seguidas de `codigo_usina` e `nome_usina`, que
+repetem os valores das duas primeiras e estão descontinuadas.
+
+```python
+from inewave.newave import Vazpast
+
+df = Vazpast.read("./vazpast.dat").tendencia
+
+# Antes
+df.groupby("codigo_usina")
+
+# Agora
+df.groupby("codigo_posto")
+```
+
+Na escrita, a prioridade é das colunas novas. Um DataFrame só com
+`codigo_usina` e `nome_usina` ainda é escrito, com um `DeprecationWarning`.
+Um DataFrame com as duas versões de uma coluna e valores diferentes, como
+quando só a coluna antiga é editada depois da leitura, é recusado com
+`ValueError`: edite a coluna nova ou remova a antiga antes de escrever.
+
 ---
 
 # Guia de Migração para v1.13.x

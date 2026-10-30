@@ -23,12 +23,20 @@ class Vazpast(SectionFile):
     @property
     def tendencia(self) -> Optional[pd.DataFrame]:
         """
-        Tabela com a tendência hidrológica por UHE.
+        Tabela com a tendência hidrológica por posto.
 
         - codigo_posto (`int`)
-        - nome_usina (`str`)
+        - nome_posto (`str`)
         - mes (`int`)
         - valor (`float`)
+        - codigo_usina (`int`)
+        - nome_usina (`str`)
+
+        As colunas ``codigo_usina`` e ``nome_usina`` estão descontinuadas:
+        repetem ``codigo_posto`` e ``nome_posto``, que o arquivo sempre
+        conteve, e serão removidas em uma versão futura. Na escrita, um
+        DataFrame só com as colunas descontinuadas ainda é aceito, com um
+        `DeprecationWarning`.
 
         :return: A tabela como um DataFrame
         :rtype: pd.DataFrame | None
