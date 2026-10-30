@@ -37,6 +37,14 @@ def test_cortesh_real_dimensoes():
     assert h.ordem_maxima_parp() == 12
 
 
+def test_particao_cortes_real_datas_registro_final():
+    """O registro final da partição traz início do estudo e estágio."""
+    cortes = Cortes.from_cortesh(
+        _bytes("cortes-009.dat"), _cortesh(), por_estagio=True
+    )
+    assert cortes.datas_particao == (9, 2024, 9, 2024)
+
+
 def test_particao_cortes_real_valores_nwlistcf():
     """PIVARM/PIAFL/PIGTAD/PIMX_SAR do corte batem com o nwlistcf.rel."""
     h = _cortesh()

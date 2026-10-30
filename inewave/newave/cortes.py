@@ -4,7 +4,7 @@ from inewave.newave.modelos.cortes import SecaoDadosCortes
 from inewave.newave.cortesh import Cortesh
 
 import pandas as pd  # type: ignore[import-untyped]  # no pandas-stubs package
-from typing import TypeVar, Optional, Union, List, Any
+from typing import TypeVar, Optional, Union, List, Any, Tuple
 
 
 class Cortes(SectionFile):
@@ -194,3 +194,23 @@ class Cortes(SectionFile):
             return dados[0].data
         else:
             return None
+
+    @property
+    def datas_particao(self) -> Optional[Tuple[int, int, int, int]]:
+        """
+        As datas que uma partição por estágio (`cortes-<estagio>.dat`)
+        grava no seu registro final, que não é um corte:
+        ``(mes_inicio_estudo, ano_inicio_estudo, mes_estagio, ano_estagio)``.
+
+        O registro final é reconhecido pelo RHS nulo, em qualquer modo de
+        leitura. O arquivo consolidado (`cortes.dat`) termina em um corte
+        real e não tem essas datas.
+
+        :return: As quatro datas, ou ``None`` se o arquivo não termina no
+            registro final de uma partição.
+        :rtype: tuple[int, int, int, int] | None
+        """
+        dados = [r for r in self.data.of_type(SecaoDadosCortes)]
+        if len(dados) == 1:
+            return dados[0].datas_particao
+        return None

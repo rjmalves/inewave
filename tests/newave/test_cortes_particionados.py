@@ -108,6 +108,50 @@ def test_particao_sentinela_nao_e_lida(tmp_path):
     assert not np.any(np.isclose(df["rhs"], 0.0))
 
 
+def test_particao_datas_registro_final(tmp_path):
+    registros = _registros_indiv(LAG)
+    particao = tmp_path / "cortes-010.dat"
+    particao.write_bytes(
+        gera_particao_cortes(
+            registros, TAM_INDIV, datas_sentinela=(3, 2026, 4, 2026)
+        )
+    )
+    assert _le(str(particao), por_estagio=True).datas_particao == (
+        3,
+        2026,
+        4,
+        2026,
+    )
+
+
+def test_consolidado_sem_datas_registro_final(tmp_path):
+    registros = _registros_indiv(LAG)
+    consolidado = tmp_path / "cortes.dat"
+    consolidado.write_bytes(gera_consolidado_cortes(registros, TAM_INDIV))
+    cortes = _le(str(consolidado), indice_ultimo_corte=3, numero_total_cortes=3)
+    assert len(cortes.cortes) == 3
+    assert cortes.datas_particao is None
+
+
+def test_particao_lida_com_indice_global_tambem_traz_datas(tmp_path):
+    """O registro final é reconhecido pelo RHS nulo em qualquer modo."""
+    registros = _registros_indiv(LAG)
+    particao = tmp_path / "cortes-010.dat"
+    particao.write_bytes(gera_particao_cortes(registros, TAM_INDIV))
+    cortes = _le(str(particao), indice_ultimo_corte=3, numero_total_cortes=3)
+    assert cortes.datas_particao == (9, 2024, 10, 2024)
+
+
+def test_tamanho_nao_multiplo_sem_datas_no_consolidado(tmp_path):
+    registros = _registros_indiv(LAG)
+    consolidado = tmp_path / "cortes.dat"
+    consolidado.write_bytes(
+        gera_consolidado_cortes(registros, TAM_INDIV) + b"\x00" * 8
+    )
+    cortes = _le(str(consolidado), indice_ultimo_corte=3, numero_total_cortes=3)
+    assert cortes.datas_particao is None
+
+
 def test_individualizado_gnl_zero_sem_pi_gnl(tmp_path):
     registros = _registros_indiv(0)
     tam = 16 + (2 + 0 + len(UHES) * (2 + PARP)) * 8  # 128
