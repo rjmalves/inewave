@@ -1,4 +1,4 @@
-from typing import TypeVar, List, Optional, Union, Type, Any
+from typing import TypeVar, List, Optional, Union, Type, Any, Literal, overload
 from datetime import datetime
 import pandas as pd  # type: ignore[import-untyped]  # no pandas-stubs package
 from cfinterface.components.register import Register
@@ -47,6 +47,30 @@ class Eolica(RegisterFile):
             kwargs_sem_df = {k: v for k, v in kwargs.items() if k != "df"}
             return self.data.get_registers_of_type(t, **kwargs_sem_df)
 
+    @overload
+    def pee_cad(
+        self,
+        codigo_pee: Optional[int] = None,
+        nome_pee: Optional[str] = None,
+        *,
+        df: Literal[True],
+    ) -> pd.DataFrame: ...
+    @overload
+    def pee_cad(
+        self,
+        codigo_pee: Optional[int] = None,
+        nome_pee: Optional[str] = None,
+        df: Literal[False] = False,
+    ) -> Optional[Union[RegistroPEECadastro, List[RegistroPEECadastro]]]: ...
+    @overload
+    def pee_cad(
+        self,
+        codigo_pee: Optional[int] = None,
+        nome_pee: Optional[str] = None,
+        df: bool = False,
+    ) -> Optional[
+        Union[RegistroPEECadastro, List[RegistroPEECadastro], pd.DataFrame]
+    ]: ...
     def pee_cad(
         self,
         codigo_pee: Optional[int] = None,
@@ -73,6 +97,45 @@ class Eolica(RegisterFile):
             df=df,
         )
 
+    @overload
+    def pee_pot_inst_per(
+        self,
+        codigo_pee: Optional[int] = None,
+        periodo_inicial: Optional[datetime] = None,
+        periodo_final: Optional[datetime] = None,
+        potencia_instalada: Optional[float] = None,
+        *,
+        df: Literal[True],
+    ) -> pd.DataFrame: ...
+    @overload
+    def pee_pot_inst_per(
+        self,
+        codigo_pee: Optional[int] = None,
+        periodo_inicial: Optional[datetime] = None,
+        periodo_final: Optional[datetime] = None,
+        potencia_instalada: Optional[float] = None,
+        df: Literal[False] = False,
+    ) -> Optional[
+        Union[
+            RegistroPEEPotenciaInstaladaPeriodo,
+            List[RegistroPEEPotenciaInstaladaPeriodo],
+        ]
+    ]: ...
+    @overload
+    def pee_pot_inst_per(
+        self,
+        codigo_pee: Optional[int] = None,
+        periodo_inicial: Optional[datetime] = None,
+        periodo_final: Optional[datetime] = None,
+        potencia_instalada: Optional[float] = None,
+        df: bool = False,
+    ) -> Optional[
+        Union[
+            RegistroPEEPotenciaInstaladaPeriodo,
+            List[RegistroPEEPotenciaInstaladaPeriodo],
+            pd.DataFrame,
+        ]
+    ]: ...
     def pee_pot_inst_per(
         self,
         codigo_pee: Optional[int] = None,
@@ -112,6 +175,44 @@ class Eolica(RegisterFile):
             df=df,
         )
 
+    @overload
+    def pee_config_per(
+        self,
+        codigo_pee: Optional[int] = None,
+        data_inicio: Optional[datetime] = None,
+        data_fim: Optional[datetime] = None,
+        estado_operacao: Optional[str] = None,
+        *,
+        df: Literal[True],
+    ) -> pd.DataFrame: ...
+    @overload
+    def pee_config_per(
+        self,
+        codigo_pee: Optional[int] = None,
+        data_inicio: Optional[datetime] = None,
+        data_fim: Optional[datetime] = None,
+        estado_operacao: Optional[str] = None,
+        df: Literal[False] = False,
+    ) -> Optional[
+        Union[
+            RegistroPEEConfiguracaoPeriodo, List[RegistroPEEConfiguracaoPeriodo]
+        ]
+    ]: ...
+    @overload
+    def pee_config_per(
+        self,
+        codigo_pee: Optional[int] = None,
+        data_inicio: Optional[datetime] = None,
+        data_fim: Optional[datetime] = None,
+        estado_operacao: Optional[str] = None,
+        df: bool = False,
+    ) -> Optional[
+        Union[
+            RegistroPEEConfiguracaoPeriodo,
+            List[RegistroPEEConfiguracaoPeriodo],
+            pd.DataFrame,
+        ]
+    ]: ...
     def pee_config_per(
         self,
         codigo_pee: Optional[int] = None,
@@ -151,6 +252,39 @@ class Eolica(RegisterFile):
             df=df,
         )
 
+    @overload
+    def pee_fpvp_lin_pu_per(
+        self,
+        codigo_pee: Optional[int] = None,
+        data_inicio: Optional[datetime] = None,
+        data_fim: Optional[datetime] = None,
+        coeficiente_linear: Optional[float] = None,
+        coeficiente_angular: Optional[float] = None,
+        *,
+        df: Literal[True],
+    ) -> pd.DataFrame: ...
+    @overload
+    def pee_fpvp_lin_pu_per(
+        self,
+        codigo_pee: Optional[int] = None,
+        data_inicio: Optional[datetime] = None,
+        data_fim: Optional[datetime] = None,
+        coeficiente_linear: Optional[float] = None,
+        coeficiente_angular: Optional[float] = None,
+        df: Literal[False] = False,
+    ) -> Optional[Union[RegistroPEEFTE, List[RegistroPEEFTE]]]: ...
+    @overload
+    def pee_fpvp_lin_pu_per(
+        self,
+        codigo_pee: Optional[int] = None,
+        data_inicio: Optional[datetime] = None,
+        data_fim: Optional[datetime] = None,
+        coeficiente_linear: Optional[float] = None,
+        coeficiente_angular: Optional[float] = None,
+        df: bool = False,
+    ) -> Optional[
+        Union[RegistroPEEFTE, List[RegistroPEEFTE], pd.DataFrame]
+    ]: ...
     def pee_fpvp_lin_pu_per(
         self,
         codigo_pee: Optional[int] = None,
@@ -188,6 +322,45 @@ class Eolica(RegisterFile):
             df=df,
         )
 
+    @overload
+    def pee_ger_prof_per_pat(
+        self,
+        codigo_pee: Optional[int] = None,
+        data_inicio: Optional[datetime] = None,
+        data_fim: Optional[datetime] = None,
+        indice_patamar: Optional[int] = None,
+        profundidade: Optional[float] = None,
+        *,
+        df: Literal[True],
+    ) -> pd.DataFrame: ...
+    @overload
+    def pee_ger_prof_per_pat(
+        self,
+        codigo_pee: Optional[int] = None,
+        data_inicio: Optional[datetime] = None,
+        data_fim: Optional[datetime] = None,
+        indice_patamar: Optional[int] = None,
+        profundidade: Optional[float] = None,
+        df: Literal[False] = False,
+    ) -> Optional[
+        Union[RegistroPEEGeracaoPatamar, List[RegistroPEEGeracaoPatamar]]
+    ]: ...
+    @overload
+    def pee_ger_prof_per_pat(
+        self,
+        codigo_pee: Optional[int] = None,
+        data_inicio: Optional[datetime] = None,
+        data_fim: Optional[datetime] = None,
+        indice_patamar: Optional[int] = None,
+        profundidade: Optional[float] = None,
+        df: bool = False,
+    ) -> Optional[
+        Union[
+            RegistroPEEGeracaoPatamar,
+            List[RegistroPEEGeracaoPatamar],
+            pd.DataFrame,
+        ]
+    ]: ...
     def pee_ger_prof_per_pat(
         self,
         codigo_pee: Optional[int] = None,
@@ -231,6 +404,39 @@ class Eolica(RegisterFile):
             df=df,
         )
 
+    @overload
+    def vento_hist_horiz(
+        self,
+        data_inicio: Optional[datetime] = None,
+        data_fim: Optional[datetime] = None,
+        *,
+        df: Literal[True],
+    ) -> pd.DataFrame: ...
+    @overload
+    def vento_hist_horiz(
+        self,
+        data_inicio: Optional[datetime] = None,
+        data_fim: Optional[datetime] = None,
+        df: Literal[False] = False,
+    ) -> Optional[
+        Union[
+            RegistroHistoricoVentoHorizonte,
+            List[RegistroHistoricoVentoHorizonte],
+        ]
+    ]: ...
+    @overload
+    def vento_hist_horiz(
+        self,
+        data_inicio: Optional[datetime] = None,
+        data_fim: Optional[datetime] = None,
+        df: bool = False,
+    ) -> Optional[
+        Union[
+            RegistroHistoricoVentoHorizonte,
+            List[RegistroHistoricoVentoHorizonte],
+            pd.DataFrame,
+        ]
+    ]: ...
     def vento_hist_horiz(
         self,
         data_inicio: Optional[datetime] = None,
@@ -261,6 +467,43 @@ class Eolica(RegisterFile):
             df=df,
         )
 
+    @overload
+    def vento_hist(
+        self,
+        codigo_posto: Optional[int] = None,
+        data_inicio: Optional[datetime] = None,
+        data_fim: Optional[datetime] = None,
+        velocidade: Optional[float] = None,
+        direcao: Optional[float] = None,
+        *,
+        df: Literal[True],
+    ) -> pd.DataFrame: ...
+    @overload
+    def vento_hist(
+        self,
+        codigo_posto: Optional[int] = None,
+        data_inicio: Optional[datetime] = None,
+        data_fim: Optional[datetime] = None,
+        velocidade: Optional[float] = None,
+        direcao: Optional[float] = None,
+        df: Literal[False] = False,
+    ) -> Optional[
+        Union[RegistroHistoricoVento, List[RegistroHistoricoVento]]
+    ]: ...
+    @overload
+    def vento_hist(
+        self,
+        codigo_posto: Optional[int] = None,
+        data_inicio: Optional[datetime] = None,
+        data_fim: Optional[datetime] = None,
+        velocidade: Optional[float] = None,
+        direcao: Optional[float] = None,
+        df: bool = False,
+    ) -> Optional[
+        Union[
+            RegistroHistoricoVento, List[RegistroHistoricoVento], pd.DataFrame
+        ]
+    ]: ...
     def vento_hist(
         self,
         codigo_posto: Optional[int] = None,
@@ -302,6 +545,36 @@ class Eolica(RegisterFile):
             df=df,
         )
 
+    @overload
+    def posto_vento_cad(
+        self,
+        codigo_posto: Optional[int] = None,
+        nome_posto: Optional[str] = None,
+        *,
+        df: Literal[True],
+    ) -> pd.DataFrame: ...
+    @overload
+    def posto_vento_cad(
+        self,
+        codigo_posto: Optional[int] = None,
+        nome_posto: Optional[str] = None,
+        df: Literal[False] = False,
+    ) -> Optional[
+        Union[RegistroPostoVentoCadastro, List[RegistroPostoVentoCadastro]]
+    ]: ...
+    @overload
+    def posto_vento_cad(
+        self,
+        codigo_posto: Optional[int] = None,
+        nome_posto: Optional[str] = None,
+        df: bool = False,
+    ) -> Optional[
+        Union[
+            RegistroPostoVentoCadastro,
+            List[RegistroPostoVentoCadastro],
+            pd.DataFrame,
+        ]
+    ]: ...
     def posto_vento_cad(
         self,
         codigo_posto: Optional[int] = None,
@@ -333,6 +606,32 @@ class Eolica(RegisterFile):
             df=df,
         )
 
+    @overload
+    def pee_posto(
+        self,
+        codigo_pee: Optional[int] = None,
+        codigo_posto: Optional[int] = None,
+        *,
+        df: Literal[True],
+    ) -> pd.DataFrame: ...
+    @overload
+    def pee_posto(
+        self,
+        codigo_pee: Optional[int] = None,
+        codigo_posto: Optional[int] = None,
+        df: Literal[False] = False,
+    ) -> Optional[
+        Union[RegistroPEEPostoVento, List[RegistroPEEPostoVento]]
+    ]: ...
+    @overload
+    def pee_posto(
+        self,
+        codigo_pee: Optional[int] = None,
+        codigo_posto: Optional[int] = None,
+        df: bool = False,
+    ) -> Optional[
+        Union[RegistroPEEPostoVento, List[RegistroPEEPostoVento], pd.DataFrame]
+    ]: ...
     def pee_posto(
         self,
         codigo_pee: Optional[int] = None,
@@ -360,6 +659,32 @@ class Eolica(RegisterFile):
             df=df,
         )
 
+    @overload
+    def pee_subm(
+        self,
+        codigo_pee: Optional[int] = None,
+        codigo_submercado: Optional[int] = None,
+        *,
+        df: Literal[True],
+    ) -> pd.DataFrame: ...
+    @overload
+    def pee_subm(
+        self,
+        codigo_pee: Optional[int] = None,
+        codigo_submercado: Optional[int] = None,
+        df: Literal[False] = False,
+    ) -> Optional[
+        Union[RegistroPEESubmercado, List[RegistroPEESubmercado]]
+    ]: ...
+    @overload
+    def pee_subm(
+        self,
+        codigo_pee: Optional[int] = None,
+        codigo_submercado: Optional[int] = None,
+        df: bool = False,
+    ) -> Optional[
+        Union[RegistroPEESubmercado, List[RegistroPEESubmercado], pd.DataFrame]
+    ]: ...
     def pee_subm(
         self,
         codigo_pee: Optional[int] = None,
