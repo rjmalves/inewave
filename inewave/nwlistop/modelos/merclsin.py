@@ -10,7 +10,7 @@ from inewave.nwlistop.modelos.blocos.tabela_serie_anual import (
 
 class MerclAnos(TabelaSerieAnual):
     """
-    Bloco com as informações das tabelas de custos de déficit.
+    Bloco com as informações das tabelas de mercado líquido.
     """
 
     __slots__ = []

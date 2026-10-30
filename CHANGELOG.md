@@ -17,6 +17,8 @@ e este projeto adere ao [Versionamento Semantico](https://semver.org/lang/pt-BR/
 
 - Documentação: a docstring de `Modif` passa a registrar que as palavras-chave do `modif.dat` só são reconhecidas em maiúsculas: uma linha em minúsculas, que o manual também aceita, é mantida como texto e reescrita sem alterações. Também registra que um valor que não pode ser lido como número é lido como `None`, da mesma forma que um valor opcional não informado, como a vazão máxima do `CDESVIO`. Os dois comportamentos ficam cobertos por teste.
 
+- Documentação: a FAQ explica por que um arquivo com os valores fora das colunas fixas, como um `mercl001.out` editado à mão, é lido sem erro, com valores `None`, truncados ou na coluna vizinha.
+
 ### Corrigido
 
 - LIBS: uma linha com menos campos que o seu registro recebia, nos campos que faltavam, os valores da linha anterior do mesmo registro. No `indices.csv`, uma linha como `RESTRICAO-ELETRICA-ESPECIAL;Restricoes`, sem o arquivo, apontava para o arquivo da linha anterior, e uma linha `RE-LIM-FORM-PER-PAT` sem o limite superior ficava com o limite da linha anterior. Esses campos passam a ser lidos como `None`.

@@ -219,7 +219,7 @@ que implementa o mecanismo de suporte a múltiplas versões de arquivo. O atribu
 ``VERSIONS`` e o argumento ``version=`` no ``read`` só estão disponíveis a partir da
 versão 1.9.0 do cfinterface.
 
-O *inewave* declara a dependência ``cfinterface>=1.9.0`` para garantir que essa
+O *inewave* exige uma versão do cfinterface a partir da 1.9.0 para garantir que essa
 funcionalidade esteja sempre disponível. Se você vir erros relacionados ao atributo
 ``VERSIONS`` ou ao argumento ``version=``, verifique a versão instalada do cfinterface:
 
@@ -248,7 +248,8 @@ versão instalada do cfinterface:
 
    pip show cfinterface
 
-A versão instalada deve satisfazer ``cfinterface>=1.9.0``. Se for menor, atualize com:
+O comando ``pip check`` aponta se a versão instalada é menor que a exigida pelo
+*inewave*. Nesse caso, atualize com:
 
 .. code-block:: bash
 
@@ -307,6 +308,19 @@ Uma prática recomendada é usar caminhos absolutos ou construir caminhos com
 
    caminho = Path("/home/usuario/casos/pmo_abril_2024/dger.dat")
    arq = Dger.read(caminho)
+
+
+**Por que alguns valores são lidos como None, sem erro?**
+
+Muitos arquivos, como as saídas do NWLISTOP, são lidos em colunas fixas: cada valor é
+lido nas posições em que o modelo o escreve. Um valor ausente, ou um texto que não pode
+ser lido como número, é lido como ``None`` (``NaN`` em um DataFrame), sem erro.
+
+Por isso, um arquivo com os valores fora de suas colunas, por exemplo após uma edição
+manual, também não gera erro. Conforme o deslocamento, os valores são lidos como
+``None``, como números truncados ou na coluna vizinha. Se uma tabela vier com valores
+``None`` inesperados, compare o alinhamento do arquivo com o de um arquivo gerado pelo
+próprio modelo.
 
 
 Desempenho
