@@ -4,6 +4,7 @@ import importlib
 from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
+    from .arquivo_com_valores import ArquivoComValores as ArquivoComValores
     from .c_v_rhq import CVRHQ as CVRHQ
     from .c_v_rhq_s import CVRHQs as CVRHQs
     from .c_v_rhv import CVRHV as CVRHV
@@ -177,6 +178,7 @@ if TYPE_CHECKING:
     from .vturuh import Vturuh as Vturuh
 
 _LAZY_IMPORTS: dict[str, str] = {
+    "ArquivoComValores": "arquivo_com_valores",
     # Deprecated
     "CVRHQs": "c_v_rhq_s",
     "CVRHQ": "c_v_rhq",

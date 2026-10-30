@@ -123,3 +123,22 @@ def test_nomes_lazy_resolvem_para_as_classes(pacote: str) -> None:
         classe = getattr(modulo, nome)
         assert inspect.isclass(classe), nome
         assert classe.__module__ == f"{pacote}.{submodulo}", nome
+
+
+def test_arquivos_nwlistop_satisfazem_arquivo_com_valores() -> None:
+    import inewave.nwlistop as nwlistop
+
+    esperado = inspect.signature(
+        nwlistop.ArquivoComValores.valores.fget
+    ).return_annotation
+    assert not hasattr(nwlistop.Nwlistopdat, "valores")
+    for nome in nwlistop.__all__:
+        if nome in ("ArquivoComValores", "Nwlistopdat"):
+            continue
+        propriedade = inspect.getattr_static(
+            getattr(nwlistop, nome), "valores", None
+        )
+        assert isinstance(propriedade, property), nome
+        assert (
+            inspect.signature(propriedade.fget).return_annotation == esperado
+        ), nome

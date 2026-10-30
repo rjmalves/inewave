@@ -10,6 +10,13 @@ elétrico gerados pelo modelo NEWAVE.
 
 .. currentmodule:: inewave.nwlistop
 
+Os arquivos que expõem os seus dados na propriedade ``valores`` satisfazem
+a interface :class:`ArquivoComValores`, que permite tratá-los da mesma forma
+em código tipado:
+
+.. autoclass:: ArquivoComValores
+   :members:
+
 .. autosummary::
    :nosignatures:
 
@@ -64,6 +71,7 @@ elétrico gerados pelo modelo NEWAVE.
    Ghidr
    Ghidrm
    Ghidrsin
+   GhFphexat
    Ghiduh
    Ghmax
    GhmaxFpha
