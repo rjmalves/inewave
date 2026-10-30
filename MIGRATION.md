@@ -1,3 +1,47 @@
+# Guia de Migração: mudanças ainda não lançadas
+
+Mudanças da próxima versão que pedem ajuste em projetos que consomem o
+_inewave_. O detalhamento de cada uma está no `CHANGELOG.md`.
+
+## 1. `sistema.dat`: `sentido` passa a ser a direção do intercâmbio
+
+A coluna `sentido` de `Sistema.limites_intercambio` passa a ser a direção do
+intercâmbio, dada pela posição no arquivo (manual do NEWAVE, seção 3.7,
+Bloco 3):
+
+| `sentido` | Grupo do registro                                       |
+| --------- | ------------------------------------------------------- |
+| `0`       | `submercado_de` -> `submercado_para` (registros tipo 2) |
+| `1`       | `submercado_para` -> `submercado_de` (registros tipo 3) |
+
+A coluna `flag` continua sendo o campo 3 do registro tipo 1 (`0` = limite,
+`1` = intercâmbio mínimo obrigatório), constante nos dois sentidos.
+
+Até aqui, `sentido` guardava `flag XOR direção`. A mudança só altera os
+registros de intercâmbio mínimo obrigatório (`flag = 1`): neles, o grupo A->B
+tinha `sentido = 1` e passa a ter `sentido = 0`. Nos registros de limite
+(`flag = 0`), os únicos dos decks conhecidos, a leitura e a escrita ficam
+iguais.
+
+```python
+from inewave.newave import Sistema
+
+df = Sistema.read("./sistema.dat").limites_intercambio
+
+# Antes: a direção precisava ser recalculada a partir do flag
+direcao = df["sentido"] ^ df["flag"]
+
+# Agora: a direção é a própria coluna sentido
+direcao = df["sentido"]
+```
+
+Código que já tratava `sentido == 0` como o grupo A->B, sem olhar o `flag`,
+passa a acertar também os registros de intercâmbio mínimo obrigatório. Ao
+atribuir um DataFrame a `limites_intercambio` para escrita, as linhas com
+`flag = 1` devem trazer em `sentido` a direção, como as demais.
+
+---
+
 # Guia de Migração para v1.13.x
 
 Este documento descreve as mudanças introduzidas no _inewave_ v1.13.x e orienta
