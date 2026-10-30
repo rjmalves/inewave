@@ -19,6 +19,8 @@ e este projeto adere ao [Versionamento Semantico](https://semver.org/lang/pt-BR/
 
 - LIBS (`tratamento-fpha.csv`): registros `HidreletricaFphaMetodoReducaoCortesAnguloPadrao` (`angulo_tolerancia`, em graus) e `HidreletricaFphaMetodoReducaoCortesDistanciaPadrao` (`distancia_tolerancia`, em %) para os cards que escolhem o método de redução dos cortes da FPHA, com os métodos `hidreletrica_fpha_metodo_reducao_cortes_angulo_padrao` e `hidreletrica_fpha_metodo_reducao_cortes_distancia_padrao` em `UsinasHidreletricas`. Uma linha comentada com `&`, como o arquivo desativa o método que não está em uso, não é lida como card.
 
+- `newave.tim`: propriedade `Newavetim.tempos_iteracoes`, com uma linha por iteração do cálculo da política e as colunas `iteracao`, `backward`, `forward` e `total` (`timedelta`). Os tempos são os escritos pelo NEWAVE, inclusive os valores sem sentido que ele às vezes escreve na primeira iteração.
+
 ### Modificado
 
 - `modif.dat`: a documentação de `Modif.modificacoes_usina` passa a registrar a regra do manual do NEWAVE (seção 3.12) de no máximo um bloco de modificações por usina. Em um arquivo com mais de um bloco para a mesma usina, apenas o primeiro bloco é retornado, comportamento agora coberto por teste.

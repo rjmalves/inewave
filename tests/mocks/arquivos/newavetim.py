@@ -7,6 +7,27 @@ MockBlocoTemposEtapas = [
     "\n",
 ]
 
+# Na primeira iteração o NEWAVE escreve tempos sem sentido no backward e
+# no forward; segundos com fração aparecem em algumas versões.
+MockBlocoTemposIteracoes = [
+    "Iteracao   1 - Backward: 110h 46min 23s\n",
+    "               Forward:  633h 13min 39s\n",
+    "               Total:    000h 00min 02s\n",
+    "Iteracao   2 - Backward: 000h 00min 01.5s\n",
+    "               Forward:  000h 00min 03s\n",
+    "               Total:    000h 00min 04.5s\n",
+    "\n",
+    "---------------------------------------\n",
+]
+
+MockBlocoTemposIteracoesIncompleto = [
+    "Iteracao   1 - Backward: 000h 00min 14s\n",
+    "               Forward:  000h 00min 08s\n",
+    "               Total:    000h 00min 22s\n",
+    "Iteracao   2 - Backward: 000h 00min 21s\n",
+    "               Forward:  000h 00min 10s\n",
+]
+
 MockBlocoVersaoModelo = [
     "Programa Newave                                                        Versao 28.6.3_CPAMP      \n"
 ]
