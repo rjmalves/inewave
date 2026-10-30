@@ -46,6 +46,23 @@ MockTURBMAXT = " TURBMAXT  1 2020    0.00"
 
 MockTURBMINT = " TURBMINT  1 2020    0.00"
 
+MockPRODESP = " PRODESP   0.008829\n"
+
+MockTEIF = " TEIF      2.851\n"
+
+MockIP = " IP        5.3\n"
+
+MockPERDHIDR = " PERDHIDR  0.65\n"
+
+MockCOEFEVAP = " COEFEVAP  -12 7\n"
+
+MockNUMBAS = " NUMBAS    2\n"
+
+MockCDESVIO = " CDESVIO   66   1500.5\n"
+
+# A vazão máxima do canal de desvio é opcional no CDESVIO.
+MockCDESVIO_SEM_VAZAO = " CDESVIO   66\n"
+
 # PDE deck format mocks (different column spacing than NEWAVE)
 MockUSINA_PDE_3DIGIT = " USINA     228                 COLIDER\n"
 MockUSINA_PDE_MULTIWORD = " USINA     4                   FUNIL GRANDE\n"
@@ -1495,4 +1512,21 @@ MockModif_USINA_DOIS_BLOCOS = [
     " CMONT    11 2026   96.01\n",
     " USINA    1                                 CAMARGOS    \n",
     " CFUGA     1 2026  900.00\n",
+]
+
+# Um bloco com cada palavra-chave do manual que não aparece em MockModif.
+MockModif_REGISTROS_MANUAL = [
+    " P.CHAVE  MODIFICACOES E INDICES\n",
+    " XXXXXXXX XXXXXXXXXXXXXXXXXXXXX\n",
+    " USINA    1                                 CAMARGOS    \n",
+    " PRODESP   0.008829\n",
+    " TEIF      2.851\n",
+    " IP        5.3\n",
+    " PERDHIDR  0.65\n",
+    " COEFEVAP  -12 7\n",
+    " COEFEVAP  -10 8\n",
+    " NUMBAS    2\n",
+    " CDESVIO   66   1500.5\n",
+    " USINA    2                                 ITUTINGA    \n",
+    " CDESVIO   1\n",
 ]

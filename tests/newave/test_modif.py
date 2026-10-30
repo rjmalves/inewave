@@ -10,13 +10,20 @@ from cfinterface.components.register import Register
 
 from inewave.newave import Modif
 from inewave.newave.modelos.modif import (
+    CDESVIO,
     CFUGA,
+    COEFEVAP,
+    IP,
     ModifRegister,
     CMONT,
     COTAREA,
+    NUMBAS,
     NUMCNJ,
     NUMMAQ,
+    PERDHIDR,
     POTEFE,
+    PRODESP,
+    TEIF,
     TURBMAXT,
     TURBMINT,
     USINA,
@@ -31,19 +38,28 @@ from inewave.newave.modelos.modif import (
     VOLMIN,
 )
 from tests.mocks.arquivos.modif import (
+    MockCDESVIO,
+    MockCDESVIO_SEM_VAZAO,
     MockCFUGA,
+    MockCOEFEVAP,
+    MockIP,
     MockCMONT,
     MockCOTAREA,
     MockCOTAREA_E,
     MockModif,
+    MockModif_REGISTROS_MANUAL,
     MockModif_SEM_USINA,
     MockModif_ULTIMA_USINA_FIM_ARQUIVO,
     MockModif_USINA_UNICA,
     MockModif_USINA_UNICA_SEM_REGISTROS,
     MockModif_USINA_DOIS_BLOCOS,
+    MockNUMBAS,
     MockNUMCNJ,
     MockNUMMAQ,
+    MockPERDHIDR,
     MockPOTEFE,
+    MockPRODESP,
+    MockTEIF,
     MockTURBMAXT,
     MockTURBMINT,
     MockUSINA,
@@ -425,6 +441,131 @@ def test_registro_turbmint_modif():
     assert r.turbinamento == 5.0
 
 
+def _le_registro(registro: Type[ModifRegister], conteudo: str) -> ModifRegister:
+    r = registro()
+    r.read(io.StringIO(conteudo))
+    return r
+
+
+def test_registro_prodesp_modif():
+    r = _le_registro(PRODESP, MockPRODESP)
+    assert isinstance(r, PRODESP)
+    assert r.data == [0.008829]
+    assert r.produtibilidade == 0.008829
+    r.produtibilidade = 0.0091
+    assert r.produtibilidade == 0.0091
+
+
+def test_registro_teif_modif():
+    r = _le_registro(TEIF, MockTEIF)
+    assert isinstance(r, TEIF)
+    assert r.data == [2.851]
+    assert r.teif == 2.851
+    r.teif = 3.0
+    assert r.teif == 3.0
+
+
+def test_registro_ip_modif():
+    r = _le_registro(IP, MockIP)
+    assert isinstance(r, IP)
+    assert r.data == [5.3]
+    assert r.ip == 5.3
+    r.ip = 4.0
+    assert r.ip == 4.0
+
+
+def test_registro_perdhidr_modif():
+    r = _le_registro(PERDHIDR, MockPERDHIDR)
+    assert isinstance(r, PERDHIDR)
+    assert r.data == [0.65]
+    assert r.perdas == 0.65
+    r.perdas = 1.2
+    assert r.perdas == 1.2
+
+
+def test_registro_coefevap_modif():
+    r = _le_registro(COEFEVAP, MockCOEFEVAP)
+    assert isinstance(r, COEFEVAP)
+    assert r.data == [-12, 7]
+    assert r.coeficiente == -12
+    assert r.mes == 7
+    r.coeficiente = 5
+    r.mes = 12
+    assert r.coeficiente == 5
+    assert r.mes == 12
+
+
+def test_registro_numbas_modif():
+    r = _le_registro(NUMBAS, MockNUMBAS)
+    assert isinstance(r, NUMBAS)
+    assert r.data == [2]
+    assert r.numero == 2
+    r.numero = 3
+    assert r.numero == 3
+
+
+def test_registro_cdesvio_modif():
+    r = _le_registro(CDESVIO, MockCDESVIO)
+    assert isinstance(r, CDESVIO)
+    assert r.data == [66, 1500.5]
+    assert r.codigo_usina_jusante == 66
+    assert r.limite_vazao == 1500.5
+    r.codigo_usina_jusante = 67
+    r.limite_vazao = None
+    assert r.codigo_usina_jusante == 67
+    assert r.limite_vazao is None
+
+
+def test_registro_cdesvio_sem_vazao_modif():
+    r = _le_registro(CDESVIO, MockCDESVIO_SEM_VAZAO)
+    assert isinstance(r, CDESVIO)
+    assert r.codigo_usina_jusante == 66
+    assert r.limite_vazao is None
+
+
+@pytest.mark.parametrize(
+    "registro, conteudo",
+    [
+        (PRODESP, MockPRODESP),
+        (TEIF, MockTEIF),
+        (IP, MockIP),
+        (PERDHIDR, MockPERDHIDR),
+        (COEFEVAP, MockCOEFEVAP),
+        (NUMBAS, MockNUMBAS),
+        (CDESVIO, MockCDESVIO),
+        (CDESVIO, MockCDESVIO_SEM_VAZAO),
+    ],
+)
+def test_registros_do_manual_escrita_e_releitura(
+    registro: Type[ModifRegister], conteudo: str
+):
+    r = _le_registro(registro, conteudo)
+    saida = io.StringIO()
+    r.write(saida)
+    escrito = saida.getvalue()
+    assert registro.matches(escrito)
+    assert _le_registro(registro, escrito).data == r.data
+
+
+@pytest.mark.parametrize(
+    "registro, completo, sem_opcional",
+    [
+        (CDESVIO, MockCDESVIO, MockCDESVIO_SEM_VAZAO),
+        (VOLMIN, MockVOLMIN, " VOLMIN   10.0\n"),
+    ],
+)
+def test_campo_opcional_ausente_nao_herda_valor_de_escrita_anterior(
+    registro: Type[ModifRegister], completo: str, sem_opcional: str
+):
+    _le_registro(registro, completo).write(io.StringIO())
+    assert _le_registro(registro, sem_opcional).data[-1] is None
+
+
+def test_identificadores_curtos_nao_casam_com_prefixos():
+    assert not IP.matches(" IPXXX    5.3\n")
+    assert not TEIF.matches(" TEIFX    2.0\n")
+
+
 def test_atributos_encontrados_modif():
     m: MagicMock = mock_open(read_data="".join(MockModif))
     with patch("builtins.open", m):
@@ -649,3 +790,75 @@ def test_unidade_sem_aspas_no_dataframe_e_no_filtro():
     assert set(modif.vmaxt(df=True)["unidade"]) == {"%"}
     filtrados = modif.vmaxt(unidade="%")
     assert isinstance(filtrados, list) and len(filtrados) > 0
+
+
+def test_registros_do_manual_no_arquivo():
+    m: MagicMock = mock_open(read_data="".join(MockModif_REGISTROS_MANUAL))
+    with patch("builtins.open", m):
+        ad = Modif.read(ARQ_TESTE)
+    assert isinstance(ad.prodesp(), PRODESP)
+    assert isinstance(ad.teif(), TEIF)
+    assert isinstance(ad.ip(), IP)
+    assert isinstance(ad.perdhidr(), PERDHIDR)
+    assert isinstance(ad.numbas(), NUMBAS)
+    assert len(ad.coefevap()) == 2
+    assert ad.coefevap(mes=8).coeficiente == -10
+    desvios = ad.cdesvio()
+    assert [d.codigo_usina_jusante for d in desvios] == [66, 1]
+    assert [d.limite_vazao for d in desvios] == [1500.5, None]
+    assert ad.cdesvio(codigo_usina_jusante=1).limite_vazao is None
+
+    bloco = ad.modificacoes_usina(1)
+    assert [type(r) for r in bloco] == [
+        PRODESP,
+        TEIF,
+        IP,
+        PERDHIDR,
+        COEFEVAP,
+        COEFEVAP,
+        NUMBAS,
+        CDESVIO,
+    ]
+    assert [type(r) for r in ad.modificacoes_usina(2)] == [CDESVIO]
+
+
+def test_registros_do_manual_dataframe():
+    m: MagicMock = mock_open(read_data="".join(MockModif_REGISTROS_MANUAL))
+    with patch("builtins.open", m):
+        ad = Modif.read(ARQ_TESTE)
+    acessores = {
+        ad.prodesp: PRODESP,
+        ad.teif: TEIF,
+        ad.ip: IP,
+        ad.perdhidr: PERDHIDR,
+        ad.coefevap: COEFEVAP,
+        ad.numbas: NUMBAS,
+        ad.cdesvio: CDESVIO,
+    }
+    for acessor, tipo in acessores.items():
+        registros = list(ad.data.of_type(tipo))
+        df = acessor(df=True)
+        assert list(df.columns) == registros[0].custom_properties, tipo
+        assert len(df) == len(registros), tipo
+    df = ad.cdesvio(df=True)
+    assert df["codigo_usina_jusante"].tolist() == [66, 1]
+
+
+def test_registros_do_manual_leitura_escrita():
+    m_leitura: MagicMock = mock_open(
+        read_data="".join(MockModif_REGISTROS_MANUAL)
+    )
+    with patch("builtins.open", m_leitura):
+        cf1 = Modif.read(ARQ_TESTE)
+    m_escrita: MagicMock = mock_open(read_data="")
+    with patch("builtins.open", m_escrita):
+        cf1.write(ARQ_TESTE)
+        chamadas = m_escrita.mock_calls
+        linhas_escritas = [
+            chamadas[i].args[0] for i in range(1, len(chamadas) - 1)
+        ]
+    m_releitura: MagicMock = mock_open(read_data="".join(linhas_escritas))
+    with patch("builtins.open", m_releitura):
+        cf2 = Modif.read(ARQ_TESTE)
+    assert cf1 == cf2
+    assert len(cf2.cdesvio()) == 2

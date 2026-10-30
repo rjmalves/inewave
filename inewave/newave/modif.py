@@ -7,18 +7,25 @@ from inewave.newave.modelos.modif import (
     NUMCNJ,
     NUMMAQ,
     POTEFE,
+    PRODESP,
+    TEIF,
+    IP,
+    PERDHIDR,
     VOLCOTA,
     COTAREA,
     VAZMIN,
+    COEFEVAP,
     CFUGA,
     CMONT,
     VMAXT,
     VMINT,
+    NUMBAS,
     VMINP,
     VAZMINT,
     VAZMAXT,
     TURBMAXT,
     TURBMINT,
+    CDESVIO,
 )
 
 from datetime import datetime
@@ -43,18 +50,25 @@ class Modif(RegisterFile):
         NUMCNJ,
         NUMMAQ,
         POTEFE,
+        PRODESP,
+        TEIF,
+        IP,
+        PERDHIDR,
         VOLCOTA,
         COTAREA,
         VAZMIN,
+        COEFEVAP,
         CFUGA,
         CMONT,
         VMAXT,
         VMINT,
+        NUMBAS,
         VMINP,
         VAZMINT,
         VAZMAXT,
         TURBMAXT,
         TURBMINT,
+        CDESVIO,
     ]
 
     def usina(
@@ -192,6 +206,81 @@ class Modif(RegisterFile):
                 POTEFE, potencia=potencia, conjunto=conjunto
             )
 
+    def prodesp(
+        self,
+        produtibilidade: Optional[float] = None,
+        df: bool = False,
+    ) -> Optional[Union[PRODESP, List[PRODESP], pd.DataFrame]]:
+        """
+        Obtém um registro que define a produtibilidade específica.
+
+        :param produtibilidade: a produtibilidade específica em MW/m3/s/m
+        :type produtibilidade: float | None
+        :return: Um ou mais registros, se existirem.
+        :rtype: :class:`PRODESP` | list[:class:`PRODESP`] | :class:`pd.DataFrame` | None
+        """
+        if df:
+            return self._as_df(PRODESP)
+        else:
+            return self.data.get_registers_of_type(
+                PRODESP, produtibilidade=produtibilidade
+            )
+
+    def teif(
+        self,
+        teif: Optional[float] = None,
+        df: bool = False,
+    ) -> Optional[Union[TEIF, List[TEIF], pd.DataFrame]]:
+        """
+        Obtém um registro que define a taxa esperada de indisponibilidade
+            forçada.
+
+        :param teif: a taxa esperada de indisponibilidade forçada em %
+        :type teif: float | None
+        :return: Um ou mais registros, se existirem.
+        :rtype: :class:`TEIF` | list[:class:`TEIF`] | :class:`pd.DataFrame` | None
+        """
+        if df:
+            return self._as_df(TEIF)
+        else:
+            return self.data.get_registers_of_type(TEIF, teif=teif)
+
+    def ip(
+        self,
+        ip: Optional[float] = None,
+        df: bool = False,
+    ) -> Optional[Union[IP, List[IP], pd.DataFrame]]:
+        """
+        Obtém um registro que define a indisponibilidade programada.
+
+        :param ip: a indisponibilidade programada em %
+        :type ip: float | None
+        :return: Um ou mais registros, se existirem.
+        :rtype: :class:`IP` | list[:class:`IP`] | :class:`pd.DataFrame` | None
+        """
+        if df:
+            return self._as_df(IP)
+        else:
+            return self.data.get_registers_of_type(IP, ip=ip)
+
+    def perdhidr(
+        self,
+        perdas: Optional[float] = None,
+        df: bool = False,
+    ) -> Optional[Union[PERDHIDR, List[PERDHIDR], pd.DataFrame]]:
+        """
+        Obtém um registro que define a perda hidráulica.
+
+        :param perdas: a perda hidráulica, na unidade do cadastro
+        :type perdas: float | None
+        :return: Um ou mais registros, se existirem.
+        :rtype: :class:`PERDHIDR` | list[:class:`PERDHIDR`] | :class:`pd.DataFrame` | None
+        """
+        if df:
+            return self._as_df(PERDHIDR)
+        else:
+            return self.data.get_registers_of_type(PERDHIDR, perdas=perdas)
+
     def volcota(
         self,
         polinomio_volume_cota: Optional[List[float]] = None,
@@ -249,6 +338,30 @@ class Modif(RegisterFile):
             return self._as_df(VAZMIN)
         else:
             return self.data.get_registers_of_type(VAZMIN, vazao=vazao)
+
+    def coefevap(
+        self,
+        coeficiente: Optional[int] = None,
+        mes: Optional[int] = None,
+        df: bool = False,
+    ) -> Optional[Union[COEFEVAP, List[COEFEVAP], pd.DataFrame]]:
+        """
+        Obtém um registro que define o coeficiente de evaporação de um
+            mês.
+
+        :param coeficiente: o coeficiente de evaporação em mm/mês
+        :type coeficiente: int | None
+        :param mes: o mês do coeficiente (1 a 12)
+        :type mes: int | None
+        :return: Um ou mais registros, se existirem.
+        :rtype: :class:`COEFEVAP` | list[:class:`COEFEVAP`] | :class:`pd.DataFrame` | None
+        """
+        if df:
+            return self._as_df(COEFEVAP)
+        else:
+            return self.data.get_registers_of_type(
+                COEFEVAP, coeficiente=coeficiente, mes=mes
+            )
 
     def cfuga(
         self,
@@ -347,6 +460,24 @@ class Modif(RegisterFile):
             return self.data.get_registers_of_type(
                 VMINT, data_inicio=data_inicio, volume=volume, unidade=unidade
             )
+
+    def numbas(
+        self,
+        numero: Optional[int] = None,
+        df: bool = False,
+    ) -> Optional[Union[NUMBAS, List[NUMBAS], pd.DataFrame]]:
+        """
+        Obtém um registro que define o número de unidades de base.
+
+        :param numero: o número de unidades de base
+        :type numero: int | None
+        :return: Um ou mais registros, se existirem.
+        :rtype: :class:`NUMBAS` | list[:class:`NUMBAS`] | :class:`pd.DataFrame` | None
+        """
+        if df:
+            return self._as_df(NUMBAS)
+        else:
+            return self.data.get_registers_of_type(NUMBAS, numero=numero)
 
     def vminp(
         self,
@@ -464,6 +595,31 @@ class Modif(RegisterFile):
         else:
             return self.data.get_registers_of_type(
                 TURBMINT, data_inicio=data_inicio, turbinamento=turbinamento
+            )
+
+    def cdesvio(
+        self,
+        codigo_usina_jusante: Optional[int] = None,
+        limite_vazao: Optional[float] = None,
+        df: bool = False,
+    ) -> Optional[Union[CDESVIO, List[CDESVIO], pd.DataFrame]]:
+        """
+        Obtém um registro que define o canal de desvio da usina.
+
+        :param codigo_usina_jusante: a usina a jusante no canal de desvio
+        :type codigo_usina_jusante: int | None
+        :param limite_vazao: a vazão máxima do canal de desvio em m3/s
+        :type limite_vazao: float | None
+        :return: Um ou mais registros, se existirem.
+        :rtype: :class:`CDESVIO` | list[:class:`CDESVIO`] | :class:`pd.DataFrame` | None
+        """
+        if df:
+            return self._as_df(CDESVIO)
+        else:
+            return self.data.get_registers_of_type(
+                CDESVIO,
+                codigo_usina_jusante=codigo_usina_jusante,
+                limite_vazao=limite_vazao,
             )
 
     def modificacoes_usina(self, codigo: int) -> Optional[List[Register]]:
