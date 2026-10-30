@@ -1,4 +1,4 @@
-from typing import Any, IO, List, Optional
+from typing import Any, IO, List, Optional, Tuple
 
 import numpy as np
 import pandas as pd  # type: ignore[import-untyped]  # no pandas-stubs package
@@ -276,7 +276,7 @@ class BlocoIntercambioSubsistema(Section):
             return compara_dataframes_sem_ordem(
                 self.data,
                 bloco.data,
-                ["submercado_de", "submercado_para", "sentido", "data"],
+                ["submercado_de", "submercado_para", "flag", "sentido", "data"],
             )
 
     # Override
@@ -301,12 +301,14 @@ class BlocoIntercambioSubsistema(Section):
         i = 0
         subsis_de_atual = 0
         subsis_para_atual = 0
-        sentido_atual = -1
         # Campo 3 do registro tipo 1 (0 = limite, 1 = intercâmbio mínimo
-        # obrigatório). É uma propriedade do PAR (A, B), constante nos dois
+        # obrigatório). É uma propriedade do registro, constante nos dois
         # grupos de sentido. `sentido` guarda `flag XOR direção` por razões
         # históricas; expor `flag` separadamente torna o par sem perdas.
         flag_atual = 0
+        # Direção posicional: 0 no grupo A->B (registros tipo 2), 1 no grupo
+        # B->A (registros tipo 3), depois do separador.
+        direcao_atual = 0
         ano_atual = 0
         subsistemas_de: List[int] = []
         subsistemas_para: List[int] = []
@@ -332,32 +334,39 @@ class BlocoIntercambioSubsistema(Section):
                 break
             # Distingue cabeçalho de subsistemas de linha de tabela pelo
             # conteúdo: a linha de tabela possui valores nas colunas mensais,
-            # enquanto a linha de cabeçalho (submercados/sentido) não.
+            # enquanto o registro tipo 1 e o separador dos sentidos não.
             dados = self.__linha.read(linha)
             if all(valor is None for valor in dados[1:]):
-                cabecalho = self.__linha_subsis.read(linha)
-                subsis_de_atual = (
-                    subsis_de_atual if cabecalho[0] is None else cabecalho[0]
-                )
-                subsis_para_atual = (
-                    subsis_para_atual if cabecalho[1] is None else cabecalho[1]
-                )
-                # O campo 3 só existe no registro tipo 1 (cabeçalho do par);
-                # no registro em branco que separa os sentidos ele vem vazio,
-                # e aí o sentido apenas alterna, preservando o comportamento
-                # histórico. O flag do par é mantido nesse intervalo.
-                if cabecalho[2] is not None:
-                    sentido_atual = cabecalho[2]
-                    flag_atual = cabecalho[2]
+                de, para, flag = self.__linha_subsis.read(linha)
+                if de is None and para is None:
+                    # Registro em branco que separa os grupos A->B e B->A.
+                    direcao_atual = 1
+                elif direcao_atual == 0 and (de, para) == (
+                    subsis_de_atual,
+                    subsis_para_atual,
+                ):
+                    # No lugar do registro em branco, arquivos mais antigos,
+                    # como os escritos pelo inewave até a v1.14, repetem o
+                    # registro tipo 1 do par com o campo 3 igual a 1. Nessa
+                    # repetição, o campo 3 não é o flag.
+                    direcao_atual = 1
                 else:
-                    sentido_atual = int(not sentido_atual)
+                    # Início de um novo registro. Um mesmo par pode ter dois
+                    # registros completos, um de limite e outro de
+                    # intercâmbio mínimo obrigatório.
+                    subsis_de_atual = subsis_de_atual if de is None else de
+                    subsis_para_atual = (
+                        subsis_para_atual if para is None else para
+                    )
+                    flag_atual = 0 if flag is None else flag
+                    direcao_atual = 0
             else:
                 if isinstance(dados[0], int) and dados[0] != ano_atual:
                     ano_atual = dados[0]
                 anos.append(ano_atual)
                 subsistemas_de.append(subsis_de_atual)
                 subsistemas_para.append(subsis_para_atual)
-                sentidos.append(sentido_atual)
+                sentidos.append(flag_atual ^ direcao_atual)
                 flags.append(flag_atual)
                 tabela[i, :] = dados[1:]
                 i += 1
@@ -369,11 +378,10 @@ class BlocoIntercambioSubsistema(Section):
         if not isinstance(self.data, pd.DataFrame):
             raise ValueError("Dados do sistema.dat não foram lidos com sucesso")
 
-        ultimo_subsistema_de = 0
-        ultimo_subsistema_para = 0
+        ultimo_registro: Optional[Tuple[int, int, int]] = None
         ultima_direcao = -1
 
-        # Separa os valores de cada submercado, sentido, ano
+        # Separa os valores de cada registro (par e flag), direção e ano
         df = self.data.copy()
         df["ano"] = df.apply(lambda linha: linha["data"].year, axis=1)
         # Direção A->B (0) / B->A (1): posicional no arquivo (grupo antes /
@@ -385,32 +393,22 @@ class BlocoIntercambioSubsistema(Section):
         # Ordena pelas chaves de agrupamento para que a escrita do cabeçalho
         # (emitido quando a chave muda) independa da ordem das linhas no
         # DataFrame de entrada.
-        df = df.sort_values(
-            ["submercado_de", "submercado_para", "direcao", "ano", "data"]
-        )
-        for _, chave in (
-            df[["submercado_de", "submercado_para", "flag", "direcao", "ano"]]
-            .drop_duplicates()
-            .iterrows()
-        ):
+        chaves = ["submercado_de", "submercado_para", "flag", "direcao", "ano"]
+        df = df.sort_values(chaves + ["data"])
+        for _, chave in df[chaves].drop_duplicates().iterrows():
             df_interc = df.loc[
-                (df["submercado_de"] == chave["submercado_de"])
-                & (df["submercado_para"] == chave["submercado_para"])
-                & (df["direcao"] == chave["direcao"])
-                & (df["ano"] == chave["ano"])
+                (df[chaves] == chave[chaves]).all(axis=1)
             ].sort_values(["data"])
-            mudou_par = any(
-                [
-                    chave["submercado_de"] != ultimo_subsistema_de,
-                    chave["submercado_para"] != ultimo_subsistema_para,
-                ]
+            registro = (
+                chave["submercado_de"],
+                chave["submercado_para"],
+                chave["flag"],
             )
             mudou_direcao = chave["direcao"] != ultima_direcao
-            if mudou_par:
-                ultimo_subsistema_de = chave["submercado_de"]
-                ultimo_subsistema_para = chave["submercado_para"]
+            if registro != ultimo_registro:
+                ultimo_registro = registro
                 ultima_direcao = chave["direcao"]
-                # Campo 3 do registro tipo 1 = flag do par (limite / mínimo).
+                # Campo 3 do registro tipo 1: flag (limite / mínimo).
                 file.write(
                     self.__linha_subsis.write(
                         chave[
