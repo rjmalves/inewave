@@ -7,6 +7,10 @@ e este projeto adere ao [Versionamento Semantico](https://semver.org/lang/pt-BR/
 
 ## [Não lançado]
 
+### Adicionado
+
+- `modif.dat`: registros para as palavras-chave do manual do NEWAVE (seção 3.12) que eram lidas como linhas não interpretadas: `PRODESP` (`produtibilidade`), `TEIF` (`teif`), `IP` (`ip`), `PERDHIDR` (`perdas`), `COEFEVAP` (`coeficiente` e `mes`), `NUMBAS` (`numero`) e `CDESVIO` (`codigo_usina_jusante` e `limite_vazao`, este `None` quando o arquivo não informa a vazão máxima do canal de desvio). `Modif` ganha os métodos `prodesp`, `teif`, `ip`, `perdhidr`, `coefevap`, `numbas` e `cdesvio`, com filtros por propriedade e `df=True`. As palavras-chave em minúsculas, que o manual também aceita, continuam sem suporte em todos os registros do arquivo.
+
 ### Modificado
 
 - `modif.dat`: a documentação de `Modif.modificacoes_usina` passa a registrar a regra do manual do NEWAVE (seção 3.12) de no máximo um bloco de modificações por usina. Em um arquivo com mais de um bloco para a mesma usina, apenas o primeiro bloco é retornado, comportamento agora coberto por teste.
@@ -16,6 +20,8 @@ e este projeto adere ao [Versionamento Semantico](https://semver.org/lang/pt-BR/
 - `pmo.dat`: `Pmo.convergencia` lia o relatório de convergência da versão 30 com colunas fixas que não correspondem ao leiaute dessa versão, cortando os números nas fronteiras das colunas (o `zinf` recebia parte do `LIM.INF.`, a maior parte dos valores virava `NaN`) e deixando `tempo` sempre vazio. Agora o leiaute da versão 30 (duas linhas por iteração) é lido separando cada linha por espaços e retorna uma linha por iteração, com os valores da linha de `DZINF`/`ZSUP ITER.` e o `tempo` da outra linha. O leiaute das versões anteriores (três linhas por iteração, com valores diferentes) continua sendo lido como antes.
 
 - `modif.dat`: a propriedade `unidade` dos registros `VOLMIN`, `VOLMAX`, `VMAXT`, `VMINT` e `VMINP` retornava o texto com as aspas do arquivo (`"'%'"`). Agora retorna a unidade sem aspas (`"%"`, `"h"`), também nos `DataFrame` obtidos com `df=True` e nos filtros por `unidade`. A escrita continua emitindo a unidade entre aspas, e uma unidade atribuída sem aspas passa a ser escrita entre aspas.
+
+- `modif.dat`: depois de qualquer escrita de um registro, a leitura de uma linha do mesmo tipo que omitia um campo opcional (por exemplo, `VOLMIN` sem a unidade) retornava nesse campo o valor da escrita anterior, em vez de `None`. A leitura agora sempre parte de campos vazios.
 
 ## [1.16.2] - 2026-10-19
 

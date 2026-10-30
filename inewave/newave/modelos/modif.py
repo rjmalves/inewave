@@ -32,8 +32,6 @@ class ModifRegister(Register):
         de espaços.
     - Capacidade de escrever uma linha assumindo uma formatação
         constante para melhor visualização.
-
-    OBS: Atualmente só utilizados para registros VOLMIN e VOLMAX.
     """
 
     __slots__ = ["__identifier_field", "__previous", "__next", "__data"]
@@ -59,6 +57,11 @@ class ModifRegister(Register):
         self, file: IO[Any], storage: str = "", *args: Any, **kwargs: Any
     ) -> bool:
         delimited_fields = [deepcopy(f) for f in self.__class__.LINE.fields]
+        # Um campo opcional ausente na linha não é lido: sem zerar a cópia,
+        # ele herdaria o valor que uma escrita anterior deixou no campo da
+        # classe.
+        for f in delimited_fields:
+            f.value = None
         line = Line(
             [self.__identifier_field] + delimited_fields,
             delimiter=" ",
@@ -414,6 +417,115 @@ class POTEFE(ModifRegister):
         self.data[1] = t
 
 
+class PRODESP(ModifRegister):
+    """
+    Registro que contém uma modificação da produtibilidade específica
+    da usina (MW/m3/s/m).
+    """
+
+    __slots__ = []
+
+    IDENTIFIER = " PRODESP"
+    IDENTIFIER_DIGITS = 8
+    LINE = Line([FloatField(10, 10, 6)])
+
+    @property
+    def produtibilidade(self) -> Optional[float]:
+        """
+        O novo valor da produtibilidade específica
+
+        :return: A produtibilidade específica em MW/m3/s/m
+        :rtype: Optional[float]
+        """
+        return self.data[0]
+
+    @produtibilidade.setter
+    def produtibilidade(self, p: float) -> None:
+        self.data[0] = p
+
+
+class TEIF(ModifRegister):
+    """
+    Registro que contém uma modificação da taxa esperada de
+    indisponibilidade forçada da usina (%).
+    """
+
+    __slots__ = []
+
+    IDENTIFIER = " TEIF "
+    IDENTIFIER_DIGITS = 8
+    LINE = Line([FloatField(8, 10, 3)])
+
+    @property
+    def teif(self) -> Optional[float]:
+        """
+        O novo valor da taxa esperada de indisponibilidade forçada
+
+        :return: A TEIF em %
+        :rtype: Optional[float]
+        """
+        return self.data[0]
+
+    @teif.setter
+    def teif(self, t: float) -> None:
+        self.data[0] = t
+
+
+class IP(ModifRegister):
+    """
+    Registro que contém uma modificação da indisponibilidade
+    programada da usina (%).
+    """
+
+    __slots__ = []
+
+    IDENTIFIER = " IP "
+    IDENTIFIER_DIGITS = 8
+    LINE = Line([FloatField(8, 10, 3)])
+
+    @property
+    def ip(self) -> Optional[float]:
+        """
+        O novo valor da indisponibilidade programada
+
+        :return: A IP em %
+        :rtype: Optional[float]
+        """
+        return self.data[0]
+
+    @ip.setter
+    def ip(self, t: float) -> None:
+        self.data[0] = t
+
+
+class PERDHIDR(ModifRegister):
+    """
+    Registro que contém uma modificação da perda hidráulica da usina,
+    na mesma unidade do cadastro de usinas hidroelétricas.
+    """
+
+    __slots__ = []
+
+    IDENTIFIER = " PERDHIDR"
+    IDENTIFIER_DIGITS = 9
+    LINE = Line([FloatField(8, 10, 3)])
+
+    @property
+    def perdas(self) -> Optional[float]:
+        """
+        O novo valor da perda hidráulica, na unidade do cadastro
+        (``hidr.dat``)
+
+        :return: A perda hidráulica
+        :rtype: Optional[float]
+        """
+        return self.data[0]
+
+    @perdas.setter
+    def perdas(self, t: float) -> None:
+        self.data[0] = t
+
+
 class VOLCOTA(ModifRegister):
     """
     Registro que contém uma modificação do polinômio volume-cota.
@@ -506,6 +618,47 @@ class VAZMIN(ModifRegister):
     @vazao.setter
     def vazao(self, t: float) -> None:
         self.data[0] = t
+
+
+class COEFEVAP(ModifRegister):
+    """
+    Registro que contém uma modificação do coeficiente de evaporação
+    de um mês (mm/mês).
+    """
+
+    __slots__ = []
+
+    IDENTIFIER = " COEFEVAP"
+    IDENTIFIER_DIGITS = 9
+    LINE = Line([IntegerField(5, 10), IntegerField(2, 16)])
+
+    @property
+    def coeficiente(self) -> Optional[int]:
+        """
+        O novo valor do coeficiente de evaporação
+
+        :return: O coeficiente de evaporação em mm/mês
+        :rtype: Optional[int]
+        """
+        return self.data[0]
+
+    @coeficiente.setter
+    def coeficiente(self, c: int) -> None:
+        self.data[0] = c
+
+    @property
+    def mes(self) -> Optional[int]:
+        """
+        O mês do ano (1 a 12) cujo coeficiente é alterado
+
+        :return: O mês
+        :rtype: Optional[int]
+        """
+        return self.data[1]
+
+    @mes.setter
+    def mes(self, m: int) -> None:
+        self.data[1] = m
 
 
 class CFUGA(ModifRegister):
@@ -726,6 +879,33 @@ class VMINT(ModifRegister):
     @unidade.setter
     def unidade(self, t: str) -> None:
         self.data[3] = _adiciona_aspas(t)
+
+
+class NUMBAS(ModifRegister):
+    """
+    Registro que contém uma modificação do número de unidades de base
+    da usina.
+    """
+
+    __slots__ = []
+
+    IDENTIFIER = " NUMBAS"
+    IDENTIFIER_DIGITS = 8
+    LINE = Line([IntegerField(3, 10)])
+
+    @property
+    def numero(self) -> Optional[int]:
+        """
+        O novo valor do número de unidades de base
+
+        :return: O número de unidades de base
+        :rtype: Optional[int]
+        """
+        return self.data[0]
+
+    @numero.setter
+    def numero(self, n: int) -> None:
+        self.data[0] = n
 
 
 class VMINP(ModifRegister):
@@ -974,3 +1154,45 @@ class TURBMINT(ModifRegister):
     @turbinamento.setter
     def turbinamento(self, t: float) -> None:
         self.data[2] = t
+
+
+class CDESVIO(ModifRegister):
+    """
+    Registro que contém uma modificação do canal de desvio da usina:
+    a usina a jusante no canal e, opcionalmente, a vazão máxima do
+    canal (m3/s).
+    """
+
+    __slots__ = []
+
+    IDENTIFIER = " CDESVIO"
+    IDENTIFIER_DIGITS = 8
+    LINE = Line([IntegerField(4, 10), FloatField(10, 15, 2)])
+
+    @property
+    def codigo_usina_jusante(self) -> Optional[int]:
+        """
+        O código da usina a jusante no canal de desvio
+
+        :return: O código da usina
+        :rtype: Optional[int]
+        """
+        return self.data[0]
+
+    @codigo_usina_jusante.setter
+    def codigo_usina_jusante(self, c: int) -> None:
+        self.data[0] = c
+
+    @property
+    def limite_vazao(self) -> Optional[float]:
+        """
+        A vazão máxima do canal de desvio, de uso opcional no arquivo
+
+        :return: A vazão máxima em m3/s, ou ``None`` se não informada
+        :rtype: Optional[float]
+        """
+        return self.data[1]
+
+    @limite_vazao.setter
+    def limite_vazao(self, v: Optional[float]) -> None:
+        self.data[1] = v
