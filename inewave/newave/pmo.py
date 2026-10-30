@@ -263,12 +263,14 @@ class Pmo(BlockFile):
         - zsup_iteracao (`float`)
         - tempo (`timedelta`)
 
-        A partir da versão 30 do NEWAVE cada iteração é uma linha da
-        tabela: os valores vêm da linha impressa com ``DZINF`` e
-        ``ZSUP ITER.`` e o ``tempo`` da linha impressa com o tempo da
-        iteração. Nas versões anteriores cada iteração ocupa três linhas
-        impressas com valores diferentes, e cada uma delas é mantida como
-        uma linha da tabela (``tempo`` só é preenchido na primeira).
+        Quando o NEWAVE imprime duas linhas por iteração (versão 30),
+        cada iteração é uma linha da tabela: os valores vêm da linha
+        impressa com ``DZINF`` e ``ZSUP ITER.`` e o ``tempo`` da linha
+        impressa com o tempo da iteração. Quando imprime três linhas por
+        iteração, com valores diferentes (versões anteriores à 30 e também
+        a 30), cada uma delas é mantida como uma linha da tabela (``tempo``
+        só é preenchido na primeira, e ``DZINF`` e ``ZSUP ITER.`` só na
+        última).
 
         :return: As convergência em um DataFrame.
         :rtype: pd.DataFrame | None
