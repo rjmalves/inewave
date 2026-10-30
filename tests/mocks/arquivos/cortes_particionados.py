@@ -15,7 +15,9 @@ real do NEWAVE (verificado byte a byte com `nwlistcf.rel`/`estados.rel`):
                    reservado(1) · PIMX_SAR(R)          (agregado em REE)
 
 - partição por estágio: ``N`` cortes reais (lista ligada ``rec_k.next = k-1``,
-  ``rec_1.next = 0``) seguidos de UM registro sentinela (``rhs == 0``).
+  ``rec_1.next = 0``) seguidos de UM registro sentinela (``rhs == 0``), cujos
+  quatro inteiros são ``[mes_inicio_estudo, ano_inicio_estudo, mes_estagio,
+  ano_estagio]``.
 
 - registro de estado::
 
@@ -23,7 +25,7 @@ real do NEWAVE (verificado byte a byte com `nwlistcf.rel`/`estados.rel`):
       float64[m] = funcao_objetivo · EARM(R) · VARM(U) · SGT(...) · reservado
 """
 
-from typing import List
+from typing import List, Tuple
 import struct
 
 
@@ -116,14 +118,15 @@ def gera_particao_cortes(
     registros: List[List[float]],
     tamanho_registro: int,
     com_sentinela: bool = True,
+    datas_sentinela: Tuple[int, int, int, int] = (9, 2024, 10, 2024),
 ) -> bytes:
     """
     Gera o conteúdo binário de uma partição de cortes a partir dos vetores de
     coeficientes ``registros`` (do mais antigo para o mais novo). Encadeia a
     lista ligada de trás para frente (``rec_1.next = 0``) e acrescenta o
-    registro sentinela final quando ``com_sentinela``.
+    registro sentinela final quando ``com_sentinela``, com as datas
+    ``datas_sentinela`` nos quatro inteiros.
     """
-    n = len(registros)
     conteudo = b""
     for k, coefs in enumerate(registros, start=1):
         if len(coefs) * 8 + 16 != tamanho_registro:
@@ -140,11 +143,12 @@ def gera_particao_cortes(
         )
     if com_sentinela:
         sentinela = [0.0] * (len(registros[0]) if registros else 0)
+        mes_inicio, ano_inicio, mes_estagio, ano_estagio = datas_sentinela
         conteudo += _pack_registro_corte(
-            indice_proximo=1,
-            iteracao_construcao=2024,
-            indice_forward=n,
-            iteracao_desativacao=2024,
+            indice_proximo=mes_inicio,
+            iteracao_construcao=ano_inicio,
+            indice_forward=mes_estagio,
+            iteracao_desativacao=ano_estagio,
             coeficientes=sentinela,
         )
     return conteudo

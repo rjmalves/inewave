@@ -1,5 +1,5 @@
 from cfinterface.components.section import Section
-from typing import Any, IO, List, Tuple
+from typing import Any, IO, List, Optional, Tuple
 import numpy as np
 import pandas as pd  # type: ignore[import-untyped]  # no pandas-stubs package
 
@@ -41,6 +41,10 @@ class SecaoDadosCortes(Section):
     índices LOCAIS. O número de cortes é derivado do próprio arquivo
     (``file_size // tamanho_registro``), descontando o registro sentinela
     final (``rhs == 0``) que a partição sempre carrega.
+
+    Os quatro inteiros iniciais desse registro final não formam um corte:
+    são o mês e o ano de início do estudo e o mês e o ano do estágio dos
+    cortes, disponíveis em :attr:`datas_particao`.
     """
 
     __slots__ = [
@@ -55,6 +59,7 @@ class SecaoDadosCortes(Section):
         "__ordem_maxima_parp",
         "__numero_patamares_carga",
         "__lag_maximo_gnl",
+        "__datas_particao",
     ]
 
     def __eq__(self, o: object) -> bool:
@@ -135,7 +140,7 @@ class SecaoDadosCortes(Section):
                 f"(tamanho {tamanho_arquivo})."
             )
         numero_total_cortes = numero_posicoes
-        if self.__possui_sentinela(file, numero_posicoes):
+        if self.__le_registro_final(file, tamanho_arquivo) is not None:
             numero_total_cortes = numero_posicoes - 1
         if numero_total_cortes <= 0:
             raise ValueError(
@@ -144,15 +149,31 @@ class SecaoDadosCortes(Section):
             )
         return numero_total_cortes, numero_total_cortes
 
-    def __possui_sentinela(self, file: IO[Any], numero_posicoes: int) -> bool:
+    def __le_registro_final(
+        self, file: IO[Any], tamanho_arquivo: int
+    ) -> Optional[Tuple[int, int, int, int]]:
         """
-        Verifica se a última posição é o registro sentinela que a partição
-        carrega (``rhs == 0.0``). Um corte real tem sempre RHS não-nulo.
+        Retorna os quatro inteiros do registro sentinela que a partição
+        carrega na última posição (``rhs == 0.0``), ou ``None`` se a última
+        posição é um corte real, que tem sempre RHS não-nulo, ou se o
+        arquivo não tem um número inteiro e positivo de registros.
         """
-        offset = (numero_posicoes - 1) * self.__tamanho_registro
-        file.seek(offset + 4 * 4)
+        if (
+            self.__tamanho_registro <= 0
+            or tamanho_arquivo < self.__tamanho_registro
+            or tamanho_arquivo % self.__tamanho_registro != 0
+        ):
+            return None
+        numero_posicoes = tamanho_arquivo // self.__tamanho_registro
+        file.seek((numero_posicoes - 1) * self.__tamanho_registro)
+        inteiros = np.frombuffer(file.read(4 * 4), dtype=np.int32, count=4)
         rhs = np.frombuffer(file.read(8), dtype=np.float64, count=1)[0]
-        return bool(rhs == 0.0)
+        if rhs != 0.0:
+            return None
+        mes_inicio, ano_inicio, mes_estagio, ano_estagio = (
+            int(v) for v in inteiros
+        )
+        return mes_inicio, ano_inicio, mes_estagio, ano_estagio
 
     def __valida_indice_entrada(
         self, indice: int, tamanho_arquivo: int
@@ -403,6 +424,7 @@ class SecaoDadosCortes(Section):
         self.__lag_maximo_gnl = lag_maximo_gnl
 
         tamanho_arquivo = self.__tamanho_arquivo(file)
+        self.__datas_particao = self.__le_registro_final(file, tamanho_arquivo)
         # Numa partição por estágio os índices locais são derivados do arquivo,
         # ignorando o índice global (do estudo completo) do cabeçalho.
         if por_estagio:
@@ -431,3 +453,15 @@ class SecaoDadosCortes(Section):
             )
             cortes_lidos += 1
         self.__converte_array_em_dataframe(cortes_lidos)
+
+    @property
+    def datas_particao(self) -> Optional[Tuple[int, int, int, int]]:
+        """
+        As datas do registro final de uma partição por estágio:
+        ``(mes_inicio_estudo, ano_inicio_estudo, mes_estagio, ano_estagio)``.
+
+        :return: As quatro datas, ou ``None`` se a última posição do arquivo
+            é um corte real, como no arquivo consolidado.
+        :rtype: tuple[int, int, int, int] | None
+        """
+        return self.__datas_particao

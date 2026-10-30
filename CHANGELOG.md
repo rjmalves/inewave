@@ -13,6 +13,8 @@ e este projeto adere ao [Versionamento Semantico](https://semver.org/lang/pt-BR/
 
 - `MEDIAS-*.CSV` (NWLISTOP): a propriedade `valores` de `Mediasmerc`, `Mediasree`, `Mediasrep`, `Mediasrhq`, `Mediasrhv`, `Mediassin`, `Mediasusie`, `Mediasusih` e `Mediasusit` ganha a coluna `indice_mes`, logo após `estagio`, com o número do estágio como o arquivo o escreve (os meses contados a partir de janeiro do primeiro ano do estudo; um estudo que começa em setembro tem estágios de 9 em diante). A coluna `estagio` continua numerada a partir de 1, e o `indice_mes` permite alinhar os valores ao calendário.
 
+- `cortes.dat`: propriedade `Cortes.datas_particao` com as datas que uma partição por estágio (`cortes-<estagio>.dat`) grava no seu registro final, que não é um corte: `(mes_inicio_estudo, ano_inicio_estudo, mes_estagio, ano_estagio)`. O registro final é reconhecido pelo RHS nulo em qualquer modo de leitura, e a propriedade retorna `None` quando o arquivo termina em um corte real, como no consolidado (`cortes.dat`).
+
 ### Modificado
 
 - `modif.dat`: a documentação de `Modif.modificacoes_usina` passa a registrar a regra do manual do NEWAVE (seção 3.12) de no máximo um bloco de modificações por usina. Em um arquivo com mais de um bloco para a mesma usina, apenas o primeiro bloco é retornado, comportamento agora coberto por teste.
