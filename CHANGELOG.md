@@ -15,6 +15,8 @@ e este projeto adere ao [Versionamento Semantico](https://semver.org/lang/pt-BR/
 
 - `cortes.dat`: propriedade `Cortes.datas_particao` com as datas que uma partição por estágio (`cortes-<estagio>.dat`) grava no seu registro final, que não é um corte: `(mes_inicio_estudo, ano_inicio_estudo, mes_estagio, ano_estagio)`. O registro final é reconhecido pelo RHS nulo em qualquer modo de leitura, e a propriedade retorna `None` quando o arquivo termina em um corte real, como no consolidado (`cortes.dat`).
 
+- `cortesh.dat`: propriedades `duracoes_patamares`, `usa_cvar`, `alfa_cvar` e `lambda_cvar` em `Cortesh`, que antes só existiam na seção interna `SecaoDadosCortesh`.
+
 ### Modificado
 
 - `modif.dat`: a documentação de `Modif.modificacoes_usina` passa a registrar a regra do manual do NEWAVE (seção 3.12) de no máximo um bloco de modificações por usina. Em um arquivo com mais de um bloco para a mesma usina, apenas o primeiro bloco é retornado, comportamento agora coberto por teste.

@@ -122,6 +122,27 @@ def test_atributos_cortesh():
     assert h1.ultimo_registro_cortes_estagio.shape == (120, 3)
     assert h1.dados_uhes.shape == (164, 10)
     assert h1.dados_submercados.shape == (5, 3)
+    # 60 estágios x 3 patamares; as durações de cada estágio somam 1
+    duracoes = h1.duracoes_patamares
+    assert len(duracoes) == 180
+    assert duracoes[:3] == pytest.approx([0.2258, 0.2796, 0.4946])
+    for i in range(0, len(duracoes), 3):
+        assert sum(duracoes[i : i + 3]) == pytest.approx(1.0, abs=1e-3)
+    assert h1.usa_cvar == 1
+    # 60 estágios do estudo + 2 anos de 12 estágios
+    assert len(h1.alfa_cvar) == 84
+    assert len(h1.lambda_cvar) == 84
+    # Neste caso, os 12 últimos valores vêm zerados
+    assert h1.alfa_cvar == [0.25] * 72 + [0.0] * 12
+    assert h1.lambda_cvar == [0.35] * 72 + [0.0] * 12
+
+
+def test_cvar_desligado_retorna_listas_vazias():
+    h = Cortesh.read(bytes_gz(ARQ_TESTE))
+    h.usa_cvar = 0
+    assert h.usa_cvar == 0
+    assert h.alfa_cvar == []
+    assert h.lambda_cvar == []
 
 
 # NOTE: Binary file with parametrized read, round-trip requires external dimensions
