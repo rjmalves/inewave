@@ -7,6 +7,10 @@ e este projeto adere ao [Versionamento Semantico](https://semver.org/lang/pt-BR/
 
 ## [Não lançado]
 
+### Modificado
+
+- Atualização da dependência mínima para `cfinterface >= 1.10.4`, versão em que a leitura dos arquivos de seções e de blocos descarta os dados da leitura anterior antes de ler. Um arquivo Latin-1 cujo primeiro byte fora do ASCII vinha depois dos primeiros 8 KiB era lido em parte antes do erro de decodificação e relido inteiro em Latin-1, e as seções ou os blocos lidos antes do erro apareciam duas vezes. No `dger.dat` com os registros completados até 500 colunas, como o dos decks do NEWAVE da CCEE, isso fazia `Dger.ano_inicio_estudo` retornar `None`.
+
 ### Corrigido
 
 - `curva.dat`: a leitura de `Curva.curva_seguranca` separava as linhas de código do REE das linhas de ano pelo tamanho bruto da linha. Nos decks oficiais recentes, que completam as linhas com espaços até a largura fixa, as linhas de REE eram lidas como anos, e a tabela inteira vinha com `codigo_ree = 0` e datas a partir de 0001-01-01. A linha passa a ser classificada pelo conteúdo: até 3 caracteres além dos espaços é o código do REE, e a partir de 4 é o ano. Os arquivos sem espaços à direita são lidos como antes, exceto uma linha de ano sem nenhum mês preenchido, como `2027`, que era tomada pelo REE 27 e passa a ser lida como um ano de valores `NaN`.
