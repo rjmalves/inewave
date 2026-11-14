@@ -7,6 +7,8 @@ e este projeto adere ao [Versionamento Semantico](https://semver.org/lang/pt-BR/
 
 ## [Não lançado]
 
+## [1.17.2] - 2026-11-14
+
 ### Modificado
 
 - Atualização da dependência mínima para `cfinterface >= 1.10.4`, versão em que a leitura dos arquivos de seções e de blocos descarta os dados da leitura anterior antes de ler. Um arquivo Latin-1 cujo primeiro byte fora do ASCII vinha depois dos primeiros 8 KiB era lido em parte antes do erro de decodificação e relido inteiro em Latin-1, e as seções ou os blocos lidos antes do erro apareciam duas vezes. No `dger.dat` com os registros completados até 500 colunas, como o dos decks do NEWAVE da CCEE, isso fazia `Dger.ano_inicio_estudo` retornar `None`.
@@ -569,6 +571,7 @@ e este projeto adere ao [Versionamento Semantico](https://semver.org/lang/pt-BR/
 - Arquivos do NWLISTOP processados para formato normal de séries temporais
 - Dependência da cfinterface atualizada para [v1.5.2](https://github.com/rjmalves/cfi/releases/tag/v1.5.2)
 
+[1.17.2]: https://github.com/rjmalves/inewave/compare/v1.17.1...v1.17.2
 [1.17.1]: https://github.com/rjmalves/inewave/compare/v1.17.0...v1.17.1
 [1.17.0]: https://github.com/rjmalves/inewave/compare/v1.16.2...v1.17.0
 [1.16.2]: https://github.com/rjmalves/inewave/compare/v1.16.1...v1.16.2
