@@ -78,3 +78,52 @@ MockCurva = (
     + MockToleranciaProcessoIterativoEtapa2
     + MockImpressaoRelatorioProcessoIterativoEtapa2
 )
+
+# Leiaute dos decks oficiais recentes: as linhas vêm preenchidas com espaços
+# à direita até a largura fixa, e o primeiro ano só tem os meses a partir do
+# início do estudo.
+
+MockBlocoCurvaSegurancaComEspacos = [
+    " CURVA DE SEGURANCA (EM % DE EARMX) \n",
+    " XXX                                \n",
+    "      JAN.X FEV.X MAR.X ABR.X MAI.X JUN.X JUL.X AGO.X SET.X OUT.X NOV.X DEZ.X\n",
+    "   1                                                                         \n",
+    "2026                                                               20.0  20.0\n",
+    "2027   20.0  20.0  20.0  20.0  20.0  20.0  20.0  20.0  20.0  20.0  20.0  20.0\n",
+    "   2                                                                         \n",
+    "2026                                                               30.0  30.0\n",
+    "2027   30.0  30.0  30.0  30.0  30.0  30.0  30.0  30.0  30.0  30.0  30.0  30.0\n",
+    "  12                                                                         \n",
+    "2026                                                               25.5  25.5\n",
+    "2027   25.5  25.5  25.5  25.5  25.5  25.5  25.5  25.5  25.5  25.5  25.5  25.5\n",
+    "9999                                                                         \n",
+]
+
+MockBlocoTipoPenalizacaoComEspacos = [
+    " XXX XXX XXX      (TIPO DE PENALIZACAO: 0-FIXA 1-MAXPEN; MES PENALIZACAO: 1 A 12;  VMINOP SAZONAL NO PRE/POS: 0-NAO CONSIDERA 1-CONSIDERA)\n",
+    " 001 011 001                                                                                                                           \n",
+]
+
+MockBlocoCustoPorSistemaComEspacos = [
+    " SISTEMA     CUSTO\n",
+    " XXX       XXXX.XX\n",
+    " 001       5192.04\n",
+    " 002       5192.04\n",
+    " 012       5192.04\n",
+    " 999              \n",
+]
+
+MockCaudaProcessoIterativoComEspacos = [
+    "PROCESSO ITERATIVO DA ETAPA 2 DO MECANISMO DE AVERSAO AO RISCO                            \n",
+    "NUM. MAXIMO DE ITERACOES         0     (SE = 0 -> NAO USA PROC. ITERATIVO DA ETAPA 2)     \n",
+    "ITERACAO A PARTIR               10                                                        \n",
+    "TOLERANCIA P/ PROCESSO       0.010     (EM % DA PENALIDADE DE REFERENCIA)                 \n",
+    "IMPRESSAO DE RELATORIO           0     (=0 NAO IMPRIME; =1 IMPRIME)                       \n",
+]
+
+MockCurvaComEspacos = (
+    MockBlocoTipoPenalizacaoComEspacos
+    + MockBlocoCustoPorSistemaComEspacos
+    + MockBlocoCurvaSegurancaComEspacos
+    + MockCaudaProcessoIterativoComEspacos
+)

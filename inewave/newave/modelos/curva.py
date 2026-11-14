@@ -217,8 +217,11 @@ class BlocoCurvaSegurancaREE(Section):
                     tabela = tabela[:i, :]
                     self.data = converte_tabela_em_df()
                 break
-            # Confere se é uma linha de ree ou tabela
-            if len(linha) < 10:
+            # Confere se é uma linha de ree ou tabela. O código do REE tem
+            # até 3 dígitos e a linha da tabela começa pelo ano, com 4. O
+            # tamanho bruto não serve: os decks oficiais completam as linhas
+            # com espaços até a largura fixa.
+            if len(linha.strip()) <= 3:
                 ree_atual = self.__linha_ree.read(linha)[0]
             else:
                 codigo_ree.append(ree_atual)

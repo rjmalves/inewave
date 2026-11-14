@@ -7,6 +7,10 @@ e este projeto adere ao [Versionamento Semantico](https://semver.org/lang/pt-BR/
 
 ## [Não lançado]
 
+### Corrigido
+
+- `curva.dat`: a leitura de `Curva.curva_seguranca` separava as linhas de código do REE das linhas de ano pelo tamanho bruto da linha. Nos decks oficiais recentes, que completam as linhas com espaços até a largura fixa, as linhas de REE eram lidas como anos, e a tabela inteira vinha com `codigo_ree = 0` e datas a partir de 0001-01-01. A linha passa a ser classificada pelo conteúdo: até 3 caracteres além dos espaços é o código do REE, e a partir de 4 é o ano. Os arquivos sem espaços à direita são lidos como antes, exceto uma linha de ano sem nenhum mês preenchido, como `2027`, que era tomada pelo REE 27 e passa a ser lida como um ano de valores `NaN`.
+
 ## [1.17.1] - 2026-10-30
 
 ### Modificado
