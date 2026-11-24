@@ -3,9 +3,9 @@ from cfinterface.components.block import Block
 from cfinterface.components.line import Line
 from cfinterface.components.field import Field
 from cfinterface.components.literalfield import LiteralField
-from datetime import timedelta
+from datetime import datetime, timedelta
 import pandas as pd  # type: ignore[import-untyped]  # no pandas-stubs package
-from typing import Any, IO, List, Optional
+from typing import Any, IO, List, Optional, Tuple
 import re
 
 
@@ -77,10 +77,12 @@ class BlocoVersaoModeloTim(Block):
     arquivo `newave.tim`.
     """
 
-    __slots__ = ["__linha"]
+    __slots__ = ["__linha", "__biblioteca_pl"]
 
     BEGIN_PATTERN = r"            Versao "
     END_PATTERN = ""
+
+    __BIBLIOTECA = re.compile(r"Biblioteca Solucao PLs:?\s*(.*?)\s*$")
 
     def __init__(
         self,
@@ -90,6 +92,7 @@ class BlocoVersaoModeloTim(Block):
     ) -> None:
         super().__init__(previous, next, data)
         self.__linha = Line([LiteralField(16, 78)])
+        self.__biblioteca_pl: Optional[str] = None
 
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, BlocoVersaoModeloTim):
@@ -103,11 +106,25 @@ class BlocoVersaoModeloTim(Block):
         ):
             return False
         else:
-            return self.data == bloco.data
+            return (
+                self.data == bloco.data
+                and self.biblioteca_pl == bloco.biblioteca_pl
+            )
+
+    @property
+    def biblioteca_pl(self) -> Optional[str]:
+        """
+        O texto da biblioteca de PLs escrito na linha da versão, nas
+        versões do NEWAVE que a escrevem nessa linha, ou `None`.
+        """
+        return self.__biblioteca_pl
 
     # Override
     def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
-        self.data = self.__linha.read(file.readline())[0]
+        linha = file.readline()
+        self.data = self.__linha.read(linha)[0]
+        m = self.__BIBLIOTECA.search(linha)
+        self.__biblioteca_pl = m.group(1) if m is not None else None
 
 
 class BlocoTemposIteracoesTim(Block):
@@ -180,3 +197,169 @@ class BlocoTemposIteracoesTim(Block):
                 "total": total,
             }
         )
+
+
+class _BlocoLinhaTim(Block):
+    """
+    Bloco de uma única linha do cabeçalho do arquivo `newave.tim`.
+    As subclasses definem `BEGIN_PATTERN` e `_converte`.
+    """
+
+    __slots__: List[str] = []
+
+    def __eq__(self, o: object) -> bool:
+        return (
+            isinstance(o, _BlocoLinhaTim)
+            and type(o) is type(self)
+            and bool(self.data == o.data)
+        )
+
+    def _converte(self, linha: str) -> Any:
+        raise NotImplementedError
+
+    @staticmethod
+    def _casa(
+        padrao: "re.Pattern[str]", linha: str, propriedade: str
+    ) -> "re.Match[str]":
+        m = padrao.match(linha)
+        if m is None:
+            raise ValueError(
+                f"{propriedade}: linha ilegível: {linha.strip()!r}"
+            )
+        return m
+
+    # Override
+    def read(self, file: IO[Any], *args: Any, **kwargs: Any) -> None:  # type: ignore[override]  # signature extends base class
+        self.data = self._converte(file.readline())
+
+
+class BlocoBibliotecaPLTim(_BlocoLinhaTim):
+    """
+    Bloco com a biblioteca de PLs do NEWAVE, escrita em uma linha
+    própria no cabeçalho do arquivo `newave.tim`.
+    """
+
+    __slots__: List[str] = []
+
+    BEGIN_PATTERN = r"^Biblioteca Solucao PLs:"
+
+    def _converte(self, linha: str) -> str:
+        return linha.split(":", 1)[1].strip()
+
+
+class BlocoCasoTim(_BlocoLinhaTim):
+    """
+    Bloco com o nome do caso obtido no arquivo `newave.tim`.
+    """
+
+    __slots__: List[str] = []
+
+    BEGIN_PATTERN = r"^Caso:"
+
+    def _converte(self, linha: str) -> str:
+        return linha.split(":", 1)[1].strip()
+
+
+class BlocoDataHoraTim(_BlocoLinhaTim):
+    """
+    Bloco com uma data e hora do arquivo `newave.tim`, como
+    `Data: 03-11-2026    Hora: 01h 15min 40.046sec`.
+    """
+
+    __slots__: List[str] = []
+
+    BEGIN_PATTERN = r"^Data:"
+
+    __PROPRIEDADES = "data_hora_inicio ou data_hora_inicio_politica"
+    __DATA_HORA = re.compile(
+        r"Data:\s*(\d{2})-(\d{2})-(\d{4})"
+        r"\s+Hora:\s*(\d+)h\s*(\d+)min\s*(\d+)\.(\d+)sec"
+    )
+
+    def _converte(self, linha: str) -> datetime:
+        dia, mes, ano, hora, minuto, segundo, fracao = self._casa(
+            self.__DATA_HORA, linha, self.__PROPRIEDADES
+        ).groups()
+        try:
+            return datetime(
+                int(ano),
+                int(mes),
+                int(dia),
+                int(hora),
+                int(minuto),
+                int(segundo),
+                int(fracao.ljust(6, "0")),
+            )
+        except ValueError as e:
+            raise ValueError(
+                f"{self.__PROPRIEDADES}: data ilegível: {linha.strip()!r}"
+            ) from e
+
+
+class BlocoInicioPoliticaTim(_BlocoLinhaTim):
+    """
+    Bloco com a linha que antecede a data e hora do início do
+    processo iterativo do cálculo da política, escrita por
+    algumas versões do NEWAVE no arquivo `newave.tim`.
+    """
+
+    __slots__: List[str] = []
+
+    BEGIN_PATTERN = r"^Inicio do processo iterativo"
+
+    def _converte(self, linha: str) -> str:
+        return linha.strip()
+
+
+class BlocoNumeroProcessosTim(_BlocoLinhaTim):
+    """
+    Bloco com o número de processos e de nós do NEWAVE, como
+    `Numero de Processos:  200 (    3 no(s) )`, obtidos no
+    arquivo `newave.tim`. O dado é a tupla (processos, nós).
+    """
+
+    __slots__: List[str] = []
+
+    BEGIN_PATTERN = r"^Numero de Processos:"
+
+    __PROPRIEDADES = "numero_processos e numero_nos"
+    __PROCESSOS = re.compile(
+        r"^Numero de Processos:\s*(\d+)\s*\(\s*(\d+)\s*no\(s\)\s*\)"
+    )
+
+    def _converte(self, linha: str) -> Tuple[int, int]:
+        m = self._casa(self.__PROCESSOS, linha, self.__PROPRIEDADES)
+        return int(m.group(1)), int(m.group(2))
+
+
+class BlocoTipoExecucaoTim(_BlocoLinhaTim):
+    """
+    Bloco com o tipo de execução do NEWAVE obtido no
+    arquivo `newave.tim`.
+    """
+
+    __slots__: List[str] = []
+
+    BEGIN_PATTERN = r"^Tipo de Execucao:"
+
+    def _converte(self, linha: str) -> str:
+        return linha.split(":", 1)[1].strip()
+
+
+class BlocoIteracoesMinMaxTim(_BlocoLinhaTim):
+    """
+    Bloco com os números mínimo e máximo de iterações da política,
+    como `Iteracoes:   50  50     ( Min/Max )`, obtidos no
+    arquivo `newave.tim`. O dado é a tupla (mínimo, máximo).
+    """
+
+    __slots__: List[str] = []
+
+    BEGIN_PATTERN = r"^\s+Iteracoes:\s+\d+\s+\d+\s+\(\s*Min/Max"
+
+    __PROPRIEDADES = "iteracoes_minimo e iteracoes_maximo"
+    __ITERACOES = re.compile(r"^\s+Iteracoes:\s+(\d+)\s+(\d+)\s+\(\s*Min/Max")
+
+    def _converte(self, linha: str) -> Tuple[int, int]:
+        m = self._casa(self.__ITERACOES, linha, self.__PROPRIEDADES)
+        return int(m.group(1)), int(m.group(2))
