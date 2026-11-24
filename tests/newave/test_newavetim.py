@@ -13,6 +13,9 @@ from tests.mocks.arquivos.newavetim import (
     MockBlocoTemposIteracoesIncompleto,
     MockBlocoVersaoModelo,
     MockNewaveTim,
+    MockNewaveTim315,
+    MockNewaveTim3004,
+    MockNewaveTim3102,
 )
 from tests.mocks.mock_open import mock_open
 
@@ -116,6 +119,35 @@ def test_neq_newavetim():
         nt2 = Newavetim.read(ARQ_TESTE)
         nt2.tempos_etapas.iloc[0, 0] = ""
         assert nt1 != nt2
+
+
+def _verifica_tempos_completos(linhas: list[str], versao: str):
+    m: MagicMock = mock_open(read_data="".join(linhas))
+    with patch("builtins.open", m):
+        nt = Newavetim.read(ARQ_TESTE)
+
+    etapas = nt.tempos_etapas
+    assert etapas is not None
+    assert etapas.shape[0] == 5
+    tempos = nt.tempos_iteracoes
+    assert tempos is not None
+    assert tempos["iteracao"].tolist() == list(range(1, 51))
+    politica = etapas.loc[etapas["etapa"] == "Calculo da Politica", "tempo"]
+    assert tempos["total"].sum() == politica.iloc[0]
+    assert (tempos["backward"] + tempos["forward"] == tempos["total"]).all()
+    assert nt.versao_modelo == versao
+
+
+def test_tempos_3004():
+    _verifica_tempos_completos(MockNewaveTim3004, "30.0.4")
+
+
+def test_tempos_3102():
+    _verifica_tempos_completos(MockNewaveTim3102, "31.0.2_centos")
+
+
+def test_tempos_315():
+    _verifica_tempos_completos(MockNewaveTim315, "31.5_COIN_FT")
 
 
 # NOTE: Output-only file, round-trip test not applicable
