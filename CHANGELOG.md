@@ -7,6 +7,10 @@ e este projeto adere ao [Versionamento Semantico](https://semver.org/lang/pt-BR/
 
 ## [Não lançado]
 
+### Adicionado
+
+- `newave.tim`: propriedades do cabeçalho em `Newavetim`: `biblioteca_pl`, `caso`, `data_hora_inicio`, `data_hora_inicio_politica`, `numero_processos`, `numero_nos`, `tipo_execucao`, `iteracoes_minimo` e `iteracoes_maximo`, cada uma `None` quando a linha não existe no arquivo. As datas são lidas como escritas, sem fuso. `data_hora_inicio_politica` só existe nas versões que escrevem o início do processo iterativo, como a 31.5. Os testes leem arquivos completos das versões 30.0.4, 31.0.2 e 31.5. [#NNN](https://github.com/rjmalves/inewave/pull/NNN) (@renanmaciel-84).
+
 ## [1.17.2] - 2026-11-14
 
 ### Modificado
